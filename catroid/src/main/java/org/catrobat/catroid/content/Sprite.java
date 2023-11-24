@@ -23,6 +23,10 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
@@ -31,21 +35,27 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.defaultprojectcreators.BitmapWithRotationInfo;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
@@ -72,6 +82,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -99,6 +110,7 @@ public class Sprite implements Nameable, Serializable {
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 	private transient Color embroideryThreadColor = Color.BLACK;
+	private transient ProjectManager projectManager = ProjectManager.getInstance();
 
 	@XStreamAsAttribute
 	private String name;
@@ -344,7 +356,7 @@ public class Sprite implements Nameable, Serializable {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
 		if (resourcesSet.contains(Brick.PHYSICS)) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+			PhysicsWorld physicsWorld = projectManager.getCurrentlyPlayingScene().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
@@ -576,7 +588,7 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public void rename(String newSpriteName) {
-		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Scene scene = projectManager.getCurrentlyEditedScene();
 		renameSpriteAndUpdateCollisionFormulas(newSpriteName, scene);
 	}
 
@@ -830,12 +842,12 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
-		for (UserVariable userVariable: sprite.userVariables) {
+		for (UserVariable userVariable : sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
+		for (UserList userlist : sprite.userLists) {
 			if (!this.userLists.contains(userlist)) {
 				this.userLists.add(userlist);
 			}
@@ -856,6 +868,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
+
 	public boolean isGliding() {
 		return isGliding;
 	}
@@ -863,6 +876,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGlidingVelocityX(float velocity) {
 		glidingVelocityX = velocity;
 	}
+
 	public void setGlidingVelocityY(float velocity) {
 		glidingVelocityY = velocity;
 	}
@@ -870,7 +884,70 @@ public class Sprite implements Nameable, Serializable {
 	public float getGlidingVelocityX() {
 		return glidingVelocityX;
 	}
+
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
+	}
+
+	private @NonNull List<Script> getStartingScripts() {
+		ArrayList<Script> startingScripts = new ArrayList<>();
+
+		for (Script script : getScriptList()) {
+			if (script instanceof StartScript) {
+				startingScripts.add(script);
+			}
+		}
+
+		return startingScripts;
+	}
+
+	// Rules:
+	// - MoveToBrick in a StartingScript
+	// - Before the first "Complex" Invocation (only in linear execution)
+	//   - no for-loops, etc.
+	//   - no if, etc.
+	//   - no delays
+	public Position getInitialPosition() {
+		for (Script startingScript : getStartingScripts()) {
+			for (Brick brick : startingScript.brickList) {
+
+				if (brick instanceof CompositeBrick || brick instanceof WaitBrick) {
+					break;
+				}
+
+				if (brick instanceof PlaceAtBrick) {
+					PlaceAtBrick placeAtBrick = (PlaceAtBrick) brick;
+					Pair<Integer, Integer> coordinates = placeAtBrick.getCoordinates();
+					return new Position(coordinates.getLeft(), coordinates.getRight());
+				}
+			}
+		}
+		return new Position(0, 0);
+	}
+
+	public BitmapWithRotationInfo getSpriteBitmap() {
+		if (!look.getImagePath().isEmpty()) {
+			return new BitmapWithRotationInfo(
+					BitmapFactory.decodeFile(look.getImagePath(), null),
+					look.getRotationMode(),
+					(int) look.getMotionDirectionInUserInterfaceDimensionUnit());
+		} else if (!lookList.isEmpty()) {
+			return new BitmapWithRotationInfo(
+					BitmapFactory.decodeFile(
+							lookList.get(0).getFile().getAbsolutePath(),
+							null));
+		} else {
+			Drawable drawable = ContextCompat.getDrawable(
+					projectManager.getApplicationContext(),
+					R.drawable.pc_toolbar_icon);
+			Bitmap bitmap = Bitmap.createBitmap(
+					drawable.getIntrinsicWidth(),
+					drawable.getIntrinsicHeight(),
+					Bitmap.Config.ARGB_8888);
+			Canvas canvas = new Canvas(bitmap);
+			drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+			drawable.draw(canvas);
+			return new BitmapWithRotationInfo(bitmap);
+		}
 	}
 }

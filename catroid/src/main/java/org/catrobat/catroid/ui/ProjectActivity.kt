@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.setVisibleOrGone
-import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.catrobat.catroid.visualplacement.VisualPlacementViewModel
 import org.koin.android.ext.android.inject
 import java.io.File
 
@@ -257,9 +257,9 @@ class ProjectActivity : BaseCastActivity() {
             SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT -> {
                 val extras = data?.extras ?: return
                 val xCoordinate =
-                    extras.getInt(VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT)
+                    extras.getInt(VisualPlacementViewModel.EXTRA_X_COORDINATE)
                 val yCoordinate =
-                    extras.getInt(VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT)
+                    extras.getInt(VisualPlacementViewModel.EXTRA_Y_COORDINATE)
                 val placeAtBrick = PlaceAtBrick(xCoordinate, yCoordinate)
                 val currentSprite = projectManager.currentSprite
                 val startScript = StartScript()

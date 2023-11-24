@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,9 @@
 package org.catrobat.catroid.test.content.actions
 
 import android.content.Context
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.SpeakAction
@@ -41,7 +38,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.Functions.JOIN
 import org.catrobat.catroid.stage.SpeechSynthesizer
-import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.PowerMockUtil.Companion.mockStaticAppContextAndInitializeStaticSingletons
 import org.catrobat.catroid.test.utils.Reflection.getPrivateField
 import org.catrobat.catroid.utils.MobileServiceAvailability
@@ -52,7 +48,10 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import org.powermock.modules.junit4.PowerMockRunnerDelegate
@@ -104,6 +103,7 @@ class SpeakActionTest(
     @Throws(Exception::class)
     fun setUp() {
         contextMock = mockStaticAppContextAndInitializeStaticSingletons()
+        whenever(contextMock.getString(anyInt())).thenReturn("")
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir)
@@ -111,9 +111,7 @@ class SpeakActionTest(
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
-        scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        scope = mock<Scope>()
     }
 
     @Test

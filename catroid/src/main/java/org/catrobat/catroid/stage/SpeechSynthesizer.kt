@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.utils.PcmToWavConverter.convertPcmToWav
 import org.catrobat.catroid.utils.PcmToWavConverter.writePcmToFile
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
+import org.catrobat.catroid.utils.AndroidStringProvider
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 

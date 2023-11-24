@@ -20,38 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.utils.AndroidStringProvider;
+package org.catrobat.catroid.visualplacement.model
 
-import static org.catrobat.catroid.common.Constants.SAY_BRICK;
+import android.graphics.Color
+import androidx.lifecycle.SavedStateHandle
+import org.catrobat.catroid.utils.ShowTextUtils
+import org.catrobat.catroid.visualplacement.VisualPlacementViewModel
 
-public class SayBubbleBrick extends ThinkBubbleBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public SayBubbleBrick() {
-		super();
-	}
-
-	public SayBubbleBrick(String text) {
-		super(text);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_say_bubble;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
-				new AndroidStringProvider(CatroidApplication.getAppContext()),
-				getFormulaWithBrickField(BrickField.STRING),
-				SAY_BRICK));
-	}
+data class TextConfiguration(
+    val text: String,
+    val color: String,
+    val alignment: Int,
+    val relativeSize: Float
+) {
+    constructor(savedState: SavedStateHandle) : this(
+        text = savedState[VisualPlacementViewModel.EXTRA_TEXT] ?: "",
+        color = savedState[VisualPlacementViewModel.EXTRA_TEXT_COLOR] ?: Color.BLACK.toString(),
+        alignment = savedState[VisualPlacementViewModel.EXTRA_TEXT_ALIGNMENT]
+            ?: ShowTextUtils.ALIGNMENT_STYLE_CENTERED,
+        relativeSize = savedState[VisualPlacementViewModel.EXTRA_TEXT_SIZE] ?: 1.0f
+    )
 }
