@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaElementVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ArgumentBaseVisitResult
+import org.catrobat.catroid.io.catlang.parser.parameter.context.OperatorVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownFunctionException
@@ -46,35 +47,43 @@ import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterPar
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.Stack
 
-class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<ArgumentBaseVisitResult> {
+class ArgumentVisitor(
+    private val context: Context,
+    private val userVariables: List<String>,
+    private val userLists: List<String>,
+    private val userDefinedBrickParameters: List<String>
+    ) : CatrobatParameterParserVisitor<ArgumentBaseVisitResult> {
 
-    private val _formulaElementStack = Stack<FormulaElement>()
+    private val formulaElementStack = Stack<FormulaElement>()
 
-    private var externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
+    private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
+
+    private fun tryGetParentFormulaElement(): FormulaElement? {
+        return if (formulaElementStack.empty()) {
+            null
+        } else formulaElementStack.peek()
+    }
 
     override fun visit(tree: ParseTree?): ArgumentBaseVisitResult {
-        return ArgumentBaseVisitResult()
+        TODO("Not yet implemented")
     }
 
     override fun visitChildren(node: RuleNode?): ArgumentBaseVisitResult {
-        return ArgumentBaseVisitResult()
+        TODO("Not yet implemented")
     }
 
     override fun visitTerminal(node: TerminalNode?): ArgumentBaseVisitResult {
-        return ArgumentBaseVisitResult()
+        TODO("Not yet implemented")
     }
 
     override fun visitErrorNode(node: ErrorNode?): ArgumentBaseVisitResult {
-        return ArgumentBaseVisitResult()
+        TODO("Not yet implemented")
     }
 
     override fun visitArgument(ctx: CatrobatParameterParser.ArgumentContext?): ArgumentBaseVisitResult {
-        var result = visitExpression(ctx?.expression())
-        if (result is FormulaElementVisitResult) {
-            val result = FormulaVisitResult(Formula(result.formulaElement))
-            return result
-        }
-        return ArgumentBaseVisitResult()
+        val response = visitExpression(ctx?.expression())
+        val formulaElement = (response as FormulaElementVisitResult).formulaElement
+        return FormulaVisitResult(Formula(formulaElement))
     }
 
     override fun visitExpression(ctx: CatrobatParameterParser.ExpressionContext?): ArgumentBaseVisitResult {
@@ -82,20 +91,12 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
             throw ArgumentParsingException("Cannot parse empty expression")
         }
 
+        if (ctx.additiveExpression() != null) {
+            return visitAdditiveExpression(ctx.additiveExpression())
+        }
+
         var operator: Operators? = null
-        if (ctx.OPERATOR_NUMERIC_ADD() != null) {
-            operator = Operators.PLUS
-        } else if (ctx.OPERATOR_NUMERIC_MINUS() != null) {
-            operator = Operators.MINUS
-        } else if (ctx.OPERATOR_NUMERIC_DIVIDE() != null) {
-            operator = Operators.DIVIDE
-        } else if (ctx.OPERATOR_NUMERIC_MULTIPLY() != null) {
-            operator = Operators.MULT
-        } else if (ctx.OPERATOR_LOGIC_AND() != null) {
-            operator = Operators.LOGICAL_AND
-        } else if (ctx.OPERATOR_LOGIC_OR() != null) {
-            operator = Operators.LOGICAL_OR
-        } else if (ctx.OPERATOR_LOGIC_EQUAL() != null) {
+        if (ctx.OPERATOR_LOGIC_EQUAL() != null) {
             operator = Operators.EQUAL
         } else if (ctx.OPERATOR_LOGIC_NOT_EQUAL() != null) {
             operator = Operators.NOT_EQUAL
@@ -112,22 +113,109 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
         if (operator != null) {
             val parentElement = tryGetParentFormulaElement()
             val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, parentElement)
-            _formulaElementStack.push(formulaElement)
+            formulaElementStack.push(formulaElement)
             val leftResult = visitExpression(ctx.expression(0))
             val rightResult = visitExpression(ctx.expression(1))
             formulaElement.setLeftChild((leftResult as FormulaElementVisitResult).formulaElement)
             formulaElement.setRightChild((rightResult as FormulaElementVisitResult).formulaElement)
-            _formulaElementStack.pop()
+            formulaElementStack.pop()
             return FormulaElementVisitResult(formulaElement)
-        } else if (ctx.simple_expression() != null) {
-            return visitSimple_expression(ctx.simple_expression())
         }
 
-        return ArgumentBaseVisitResult()
+        throw ArgumentParsingException("No comparison operator found")
+    }
+
+    override fun visitAdditiveExpression(ctx: CatrobatParameterParser.AdditiveExpressionContext?): ArgumentBaseVisitResult {
+        if (ctx == null) {
+            throw ArgumentParsingException("No additive expression found")
+        }
+        if (ctx.multiplicativeExpression().count() == 1) {
+            return visitMultiplicativeExpression(ctx.multiplicativeExpression(0))
+        }
+
+        var additiveExpressionStack = Stack<FormulaElement>()
+
+        for (i in ctx.additiveOperator().indices.reversed()) {
+            val operator = (visitAdditiveOperator(ctx.additiveOperator(i)) as OperatorVisitResult).operator
+            val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, tryGetParentFormulaElement())
+            formulaElementStack.push(formulaElement)
+            if (additiveExpressionStack.isNotEmpty()) {
+                additiveExpressionStack.peek().setLeftChild(formulaElement)
+            }
+            val rightMultiplicativeExpression = (visitMultiplicativeExpression(ctx.multiplicativeExpression(i+1)) as FormulaElementVisitResult).formulaElement
+            formulaElement.setRightChild(rightMultiplicativeExpression)
+            if (i == 0) {
+                val firstMultiplicativeExpression = (visitMultiplicativeExpression(ctx.multiplicativeExpression(i)) as FormulaElementVisitResult).formulaElement
+                formulaElement.setLeftChild(firstMultiplicativeExpression)
+            }
+            additiveExpressionStack.push(formulaElement)
+            formulaElementStack.pop()
+        }
+        return FormulaElementVisitResult(additiveExpressionStack.elementAt(0))
+    }
+
+    override fun visitMultiplicativeExpression(ctx: CatrobatParameterParser.MultiplicativeExpressionContext?): ArgumentBaseVisitResult {
+        if (ctx == null) {
+            throw ArgumentParsingException("No multiplicative expression found")
+        }
+        if (ctx.simple_expression().count() == 1) {
+            return visitSimple_expression(ctx.simple_expression(0))
+        }
+
+        var multiplicativeExpressionStack = Stack<FormulaElement>()
+
+        for (i in ctx.multiplicativeOperator().indices.reversed()) {
+            val operator = (visitMultiplicativeOperator(ctx.multiplicativeOperator(i)) as OperatorVisitResult).operator
+            val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, tryGetParentFormulaElement())
+            formulaElementStack.push(formulaElement)
+            if (multiplicativeExpressionStack.isNotEmpty()) {
+                multiplicativeExpressionStack.peek().setLeftChild(formulaElement)
+            }
+            val rightSimpleExpression = (visitSimple_expression(ctx.simple_expression(i+1)) as FormulaElementVisitResult).formulaElement
+            formulaElement.setRightChild(rightSimpleExpression)
+            if (i == 0) {
+                val firstSimpleExpression = (visitSimple_expression(ctx.simple_expression(i)) as FormulaElementVisitResult).formulaElement
+                formulaElement.setLeftChild(firstSimpleExpression)
+            }
+            multiplicativeExpressionStack.push(formulaElement)
+            formulaElementStack.pop()
+        }
+        return FormulaElementVisitResult(multiplicativeExpressionStack.elementAt(0))
+    }
+
+    override fun visitAdditiveOperator(ctx: CatrobatParameterParser.AdditiveOperatorContext?): ArgumentBaseVisitResult {
+        if (ctx == null) {
+            throw ArgumentParsingException("No additive operator found")
+        }
+        if (ctx.OPERATOR_NUMERIC_ADD() != null) {
+            return OperatorVisitResult(Operators.PLUS)
+        }
+        if (ctx.OPERATOR_NUMERIC_MINUS() != null) {
+            return OperatorVisitResult(Operators.MINUS)
+        }
+        if (ctx.OPERATOR_LOGIC_OR() != null) {
+            return OperatorVisitResult(Operators.LOGICAL_OR)
+        }
+        throw ArgumentParsingException("No additive operator found")
+    }
+
+    override fun visitMultiplicativeOperator(ctx: CatrobatParameterParser.MultiplicativeOperatorContext?): ArgumentBaseVisitResult {
+        if (ctx == null) {
+            throw ArgumentParsingException("No multiplicative operator found")
+        }
+        if (ctx.OPERATOR_NUMERIC_MULTIPLY() != null) {
+            return OperatorVisitResult(Operators.MULT)
+        }
+        if (ctx.OPERATOR_NUMERIC_DIVIDE() != null) {
+            return OperatorVisitResult(Operators.DIVIDE)
+        }
+        if (ctx.OPERATOR_LOGIC_AND() != null) {
+            return OperatorVisitResult(Operators.LOGICAL_AND)
+        }
+        throw ArgumentParsingException("No multiplicative operator found")
     }
 
     override fun visitSimple_expression(ctx: CatrobatParameterParser.Simple_expressionContext?): ArgumentBaseVisitResult {
-
         if (ctx != null) {
             if (ctx.literal() != null) {
                 return visitLiteral(ctx.literal())
@@ -144,14 +232,13 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
             if (ctx.expression() != null) {
                 val parentElement = tryGetParentFormulaElement()
                 val braceElement = FormulaElement(FormulaElement.ElementType.BRACKET, "", parentElement)
-                _formulaElementStack.push(braceElement)
+                formulaElementStack.push(braceElement)
                 val bracedExpression = visitExpression(ctx.expression())
                 braceElement.setRightChild((bracedExpression as FormulaElementVisitResult).formulaElement)
-                _formulaElementStack.pop()
+                formulaElementStack.pop()
                 return FormulaElementVisitResult(braceElement)
             }
         }
-
         return ArgumentBaseVisitResult()
     }
 
@@ -186,7 +273,7 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
                     }
                 }
                 if (functionElement != null) {
-                    _formulaElementStack.push(functionElement)
+                    formulaElementStack.push(functionElement)
                     val paramReply = visitParameters(ctx.parameters())
                     if (paramReply is ParameterVisitResult) {
                         val parameters = paramReply
@@ -200,7 +287,7 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
                             functionElement.additionalChildren = parameters.additionalChildren
                         }
                     }
-                    _formulaElementStack.pop()
+                    formulaElementStack.pop()
                     return FormulaElementVisitResult(functionElement)
                 } else {
                     throw UnkownFunctionException(functionName!!)
@@ -251,14 +338,13 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
             }
 
             if (unaryFormulaElement != null) {
-                _formulaElementStack.push(unaryFormulaElement)
+                formulaElementStack.push(unaryFormulaElement)
                 val result = visitExpression(ctx.expression())
                 unaryFormulaElement.setRightChild((result as FormulaElementVisitResult).formulaElement)
-                _formulaElementStack.pop()
+                formulaElementStack.pop()
                 return FormulaElementVisitResult(unaryFormulaElement)
             }
         }
-
         return ArgumentBaseVisitResult()
     }
 
@@ -275,23 +361,26 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
             }
             if (ctx.UDB_PARAMETER() != null) {
                 val trimmedUDBParameter = ctx.UDB_PARAMETER().text.trimStart('[').trimEnd(']')
+                if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
+                    throw ArgumentParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
+                }
                 return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, parentElement))
             }
             if (ctx.LIST() != null) {
                 val trimmedListParameter = ctx.LIST().text.trim('*')
+                if (!userLists.contains(trimmedListParameter)) {
+                    throw ArgumentParsingException("Unknown list: $trimmedListParameter")
+                }
                 return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, parentElement))
             }
             if (ctx.VARIABLE() != null) {
                 val trimmedVariableParameter = ctx.VARIABLE().text.trim('"')
+                if (!userVariables.contains(trimmedVariableParameter)) {
+                    throw ArgumentParsingException("Unknown variable: $trimmedVariableParameter")
+                }
                 return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, parentElement))
             }
         }
         return ArgumentBaseVisitResult()
-    }
-
-    private fun tryGetParentFormulaElement(): FormulaElement? {
-        return if (_formulaElementStack.empty()) {
-            null
-        } else _formulaElementStack.peek()
     }
 }

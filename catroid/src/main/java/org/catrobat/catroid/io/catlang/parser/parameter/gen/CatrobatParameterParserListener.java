@@ -28,6 +28,46 @@ public interface CatrobatParameterParserListener extends ParseTreeListener {
 	 */
 	void exitExpression(CatrobatParameterParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#additiveExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdditiveExpression(CatrobatParameterParser.AdditiveExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#additiveExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdditiveExpression(CatrobatParameterParser.AdditiveExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatParameterParser#simple_expression}.
 	 * @param ctx the parse tree
 	 */

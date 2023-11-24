@@ -69,7 +69,7 @@ class ArgumentParserHelper(private val context: Context) {
         parser.removeErrorListeners()
         parser.addErrorListener(parserErrorListener)
 
-        val visitor = ArgumentVisitor(context)
+        val visitor = ArgumentVisitor(context, arrayListOf(), arrayListOf(), arrayListOf())
 
         val argument = parser.argument()
 
