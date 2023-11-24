@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -81,6 +81,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -106,6 +107,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectOptionsTest {
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private static final String PROJECT_NAME = "projectName";
 	private static final String NEW_PROJECT_NAME = "newProjectName";
@@ -165,7 +168,7 @@ public class ProjectOptionsTest {
 
 		assertFalse(projectFile.exists());
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		onView(withText(NEW_PROJECT_NAME))
 				.check(matches(isDisplayed()));
 		assertEquals(NEW_PROJECT_NAME, project.getName());
@@ -240,7 +243,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		assertEquals(DESCRIPTION, project.getDescription());
 	}
 
@@ -253,7 +256,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
 	}
 
@@ -267,7 +270,7 @@ public class ProjectOptionsTest {
 		List<String> tagsList =
 				new ArrayList<>(Arrays.asList("Game", "Animation", "Tutorial"));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		project.setTags(tagsList);
 
 		openContextualActionModeOverflowMenu();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class NewSpriteVisuallyPlaceDialogTest {
@@ -172,8 +173,9 @@ class NewSpriteVisuallyPlaceDialogTest {
 
     private fun createProject(projectName: String) {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentlyEditedScene = project.defaultScene
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentlyEditedScene = project.defaultScene
         XstreamSerializer.getInstance().saveProject(project)
     }
 }

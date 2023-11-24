@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertNotNull;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PhysicsTestRule extends ExternalResource {
 
@@ -67,7 +68,7 @@ public class PhysicsTestRule extends ExternalResource {
 		project.getDefaultScene().addSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),

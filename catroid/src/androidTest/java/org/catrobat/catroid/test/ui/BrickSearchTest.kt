@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,6 +67,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 class BrickSearchTest {
     var projectName = "searchTestProject"
@@ -285,9 +286,11 @@ class BrickSearchTest {
         val sprite1 = Sprite("testSprite1")
         project.addScene(scene1)
         project.getSceneByName(sceneName1).addSprite(sprite1)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().setCurrentSceneAndSprite(sceneName1, sprite1.name)
-        ProjectManager.getInstance().currentlyEditedScene = scene1
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.setCurrentSceneAndSprite(sceneName1, sprite1.name)
+        projectManager.currentlyEditedScene = scene1
     }
 
     @After

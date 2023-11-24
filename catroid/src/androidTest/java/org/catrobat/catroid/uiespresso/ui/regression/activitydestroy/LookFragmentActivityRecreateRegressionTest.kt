@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.koin.java.KoinJavaComponent.inject
 
 import org.junit.Before
 import org.junit.Rule
@@ -120,8 +121,10 @@ class LookFragmentActivityRecreateRegressionTest {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
         val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
             InstrumentationRegistry.getInstrumentation().context.resources,
@@ -129,7 +132,7 @@ class LookFragmentActivityRecreateRegressionTest {
             File(project.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
             "catroid_sunglasses.png", 1.0
         )
-        val lookDataList = ProjectManager.getInstance().currentSprite.lookList
+        val lookDataList = projectManager.currentSprite.lookList
         val lookData = LookData(lookName, imageFile)
         lookDataList.add(lookData)
     }

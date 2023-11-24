@@ -101,16 +101,6 @@ public final class ProjectManager {
 		}
 	}
 
-	/**
-	 * Replaced with dependency injection
-	 *
-	 * @deprecated use dependency injection with koin instead.
-	 */
-	@Deprecated
-	public static ProjectManager getInstance() {
-		return instance;
-	}
-
 	public void loadProject(File projectDir) throws ProjectException {
 
 		Project previousProject = project;
@@ -664,7 +654,7 @@ public final class ProjectManager {
 	public void loadDownloadedProjects() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 		Gson gson = new Gson();
-		String json = null;
+		String json;
 		if (sharedPreferences != null) {
 			json = sharedPreferences.getString(downloadedProjectsName, null);
 			if (json != null) {

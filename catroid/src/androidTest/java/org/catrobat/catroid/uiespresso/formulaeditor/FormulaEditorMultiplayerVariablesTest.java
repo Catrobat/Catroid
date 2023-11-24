@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.CoreMatchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -93,7 +94,8 @@ public class FormulaEditorMultiplayerVariablesTest {
 	public void testMultiplayerScopeIsVisibleWithDisabledPreference() {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
 
-		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+		inject(ProjectManager.class).getValue().getCurrentProject()
+				.addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
 
 		onView(withId(R.id.button_add))
 				.perform(click());

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class SoundFragmentActivityRecreateRegressionTest {
@@ -130,8 +131,9 @@ public class SoundFragmentActivityRecreateRegressionTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
@@ -140,7 +142,7 @@ public class SoundFragmentActivityRecreateRegressionTest {
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);

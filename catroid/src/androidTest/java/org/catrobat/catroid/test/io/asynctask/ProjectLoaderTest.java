@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -195,7 +195,7 @@ public class ProjectLoaderTest {
 		assertTrue(XstreamSerializer.getInstance().saveProject(project));
 
 		assertNotNull(directory);
-		assertTrue(loadProject(directory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(directory));
 
 		// Check if User Variables are removed
 		Map<UUID, Object> variableMap = variableAccessor.readMapFromJson();
@@ -217,6 +217,6 @@ public class ProjectLoaderTest {
 	public void projectInvalidLoadTaskTest() throws IOException {
 		File directory = new File("");
 		assertNotNull(directory);
-		assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()));
+		assertFalse(loadProject(directory));
 	}
 }

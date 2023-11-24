@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,11 +51,11 @@ import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class WaitForSoundActionTest {
 
-	private static ProjectManager projectManager;
 	private static Project project;
 	private WaitForSoundAction action;
 	private static final float SOUND_DURATION = 2.0f;
@@ -65,7 +65,6 @@ public class WaitForSoundActionTest {
 	@BeforeClass
 	public static void setUpProjectManager() {
 		project = new Project(ApplicationProvider.getApplicationContext(), "projectName");
-		projectManager = ProjectManager.getInstance();
 	}
 
 	@Before
@@ -105,6 +104,7 @@ public class WaitForSoundActionTest {
 
 	private void createProject(String projectName) {
 		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		projectManager.setCurrentProject(project);
 		projectManager.setCurrentSprite(project.getDefaultScene().getBackgroundSprite());
 	}

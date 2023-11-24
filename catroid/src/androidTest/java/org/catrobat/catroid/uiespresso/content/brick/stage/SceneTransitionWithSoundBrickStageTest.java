@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
@@ -69,19 +70,12 @@ public class SceneTransitionWithSoundBrickStageTest {
 
 	private String firstSceneName;
 	private Script secondScript;
-
-	private static ProjectManager projectManager;
 	private File soundFile;
 
 	@Rule
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(StageActivity.class, false,
 			false);
-
-	@BeforeClass
-	public static void setUpProjectManager() {
-		projectManager = ProjectManager.getInstance();
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -149,7 +143,7 @@ public class SceneTransitionWithSoundBrickStageTest {
 		script.addBrick(soundBrick);
 		script.addBrick(new WaitBrick(500));
 		script.addBrick(new SceneTransitionBrick(secondScene.getName()));
-		projectManager.getCurrentSprite().getSoundList().add(soundInfo);
+		inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList().add(soundInfo);
 
 		secondScript = new StartScript();
 		Sprite secondSprite = new Sprite("Sprite2");

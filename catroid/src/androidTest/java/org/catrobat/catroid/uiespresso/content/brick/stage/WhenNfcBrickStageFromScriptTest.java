@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import java.util.List;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
@@ -170,7 +171,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1), numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
 
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		tagDataList = inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
 		firstTagData.setName(TAG_NAME_TEST1);

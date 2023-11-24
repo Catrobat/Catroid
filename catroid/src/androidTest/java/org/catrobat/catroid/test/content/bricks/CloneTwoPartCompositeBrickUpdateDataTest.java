@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CloneTwoPartCompositeBrickUpdateDataTest {
@@ -87,7 +88,7 @@ public class CloneTwoPartCompositeBrickUpdateDataTest {
 		compositeBrick = compositeBrickClass.newInstance();
 		script.addBrick(compositeBrick);
 		project.addScene(scene);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

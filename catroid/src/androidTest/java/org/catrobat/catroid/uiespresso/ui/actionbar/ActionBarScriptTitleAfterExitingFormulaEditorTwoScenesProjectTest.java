@@ -40,6 +40,7 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -75,8 +76,9 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorTwoScenesProjectTest {
 
 	@Test
 	public void actionBarScriptTitleTwoScenesProjectTest() {
-		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
-		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		String currentSceneName = projectManager.getCurrentlyEditedScene().getName();
+		String currentSpriteName = projectManager.getCurrentSprite().getName();
 		String scriptsTitle = currentSceneName + ": " + currentSpriteName;
 
 		onActionBar().checkTitleMatches(scriptsTitle);

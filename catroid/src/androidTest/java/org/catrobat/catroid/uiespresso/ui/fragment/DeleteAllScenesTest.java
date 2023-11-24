@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,12 +59,15 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteAllScenesTest {
 	private String secondSceneName = "Scene2";
 	private String thirdSceneName = "Scene3";
 	private String projectName = "DeleteScenesTest";
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public BaseActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -111,7 +114,7 @@ public class DeleteAllScenesTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		assertEquals(1, ProjectManager.getInstance().getCurrentProject().getSceneList().size());
+		assertEquals(1, projectManager.getCurrentProject().getSceneList().size());
 
 		onView(withText(secondSceneName))
 				.check(doesNotExist());
@@ -131,7 +134,7 @@ public class DeleteAllScenesTest {
 		Scene scene3 = new Scene(thirdSceneName, project);
 		project.addScene(scene2);
 		project.addScene(scene3);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

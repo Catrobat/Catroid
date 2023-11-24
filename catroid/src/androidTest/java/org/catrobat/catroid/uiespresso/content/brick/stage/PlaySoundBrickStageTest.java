@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -127,7 +128,7 @@ public class PlaySoundBrickStageTest {
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 	}
 
