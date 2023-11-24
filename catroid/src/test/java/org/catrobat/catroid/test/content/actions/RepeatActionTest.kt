@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.utils.Reflection
 import org.junit.Assert
 import org.junit.Before
@@ -40,6 +40,12 @@ import org.mockito.Mockito
 import org.mockito.Mockito.anyFloat
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class RepeatActionTest(
@@ -55,6 +61,8 @@ class RepeatActionTest(
     private val deltaDelayByContract = 0.005f
     private val iterations = 4
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}")
@@ -69,15 +77,21 @@ class RepeatActionTest(
 
     @Before
     fun setUp() {
-        initializeStaticSingletonMethods()
+        MockUtil.mockContextForProject(dependencyModules)
         sprite = Sprite("testSprite")
         project = Mockito.mock(Project::class.java)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
         Mockito.doReturn(null).`when`(project).spriteListWithClones
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
         repeatAction = sprite.actionFactory.createRepeatAction(
             sprite, SequenceAction(), loopCondition, innerLoopAction, true
         ) as RepeatAction
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

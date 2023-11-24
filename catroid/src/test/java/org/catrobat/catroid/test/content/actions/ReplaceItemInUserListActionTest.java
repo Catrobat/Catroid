@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 @RunWith(JUnit4.class)
 public class ReplaceItemInUserListActionTest {
@@ -54,12 +60,16 @@ public class ReplaceItemInUserListActionTest {
 
 	private ActionFactory actionFactory;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "testProject");
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);
@@ -67,6 +77,11 @@ public class ReplaceItemInUserListActionTest {
 		INITIALIZED_LIST_VALUES.add(3.0);
 		userList = new UserList(TEST_USERLIST_NAME, INITIALIZED_LIST_VALUES);
 		project.addUserList(userList);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,12 @@ import org.powermock.api.mockito.PowerMockito.verifyNew
 import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
@@ -70,6 +76,8 @@ class WebRequestActionTest {
     private lateinit var userVariable: UserVariable
     private lateinit var webConnection: WebConnection
     private lateinit var response: Response
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
@@ -96,8 +104,17 @@ class WebRequestActionTest {
         doReturn(responseBody).`when`(response).body()
         doReturn(RESPONSE_STRING).`when`(responseBody).string()
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
+        StageActivity.stageListener.webConnectionHolder = null
+        StageActivity.stageListener = null
     }
 
     @Test
@@ -253,11 +270,5 @@ class WebRequestActionTest {
         val action = setupTestSuccessfulResponseWithInputVariable()
         assertTrue(action.act(0f))
         assertEquals(RESPONSE_STRING, userVariable.value)
-    }
-
-    @After
-    fun tearDown() {
-        StageActivity.stageListener.webConnectionHolder = null
-        StageActivity.stageListener = null
     }
 }

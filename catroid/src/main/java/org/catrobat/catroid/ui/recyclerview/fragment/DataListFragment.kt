@@ -519,10 +519,9 @@ class DataListFragment : Fragment(),
         private const val NONE = 0
         private const val DELETE = 1
 
-        private val projectManager: ProjectManager by inject(ProjectManager::class.java)
-
         @JvmStatic
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
             projectManager.currentProject.updateUserDataReferences(oldName, newName, item)
         }
 

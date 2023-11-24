@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,21 +33,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class ForeverActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 
+	final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Test
 	public void testLoopDelay() {
-		initializeStaticSingletonMethods();
+		initializeStaticSingletonMethods(dependencyModules);
 		Project project = Mockito.mock(Project.class);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		Mockito.doReturn(null).when(project).getSpriteListWithClones();
 		int deltaY = -10;
 

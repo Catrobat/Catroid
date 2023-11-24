@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,12 @@ import java.lang.Math.max
 import java.lang.Math.min
 import java.lang.Math.toDegrees
 import kotlin.math.atan2
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class TwoParametersFunctionParserTest(
@@ -76,16 +82,22 @@ class TwoParametersFunctionParserTest(
     private var sprite: Sprite? = null
     private var scope: Scope? = null
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
         sprite = Sprite("sprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

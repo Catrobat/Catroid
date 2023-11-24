@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class FormulaEditorDataListAdapterArraysValueTest {
@@ -52,6 +58,9 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	private final String userVarName = "userVar";
 	private final String userListName = "LIST";
 	private final String multiplayerVarName = "multiplayerVar";
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws Exception {
@@ -68,6 +77,11 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 		project.addUserList(userList);
 		project.addUserVariable(userVariable);
 		project.addMultiplayerVariable(multiplayerVariable);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -93,7 +107,8 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	}
 
 	private void createProject() {
-		project = new Project(MockUtil.mockContextForProject(), "Pro");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "Pro");
 
 		Sprite firstSprite = new Sprite("firstSprite");
 
@@ -118,7 +133,8 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 		project.getDefaultScene().addSprite(firstSprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(firstSprite);
 	}
 }

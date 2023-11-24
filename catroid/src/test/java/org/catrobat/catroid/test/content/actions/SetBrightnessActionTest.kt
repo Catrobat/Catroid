@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,9 +33,13 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.MockUtil
 import org.junit.Assert
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import kotlin.NullPointerException
+import org.koin.java.KoinJavaComponent.inject
+import android.content.Context
+import org.koin.dsl.module
 
 @RunWith(JUnit4::class)
 class SetBrightnessActionTest {
@@ -49,10 +53,11 @@ class SetBrightnessActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(mockContext, "Project")
         sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
     }
 
     @Test
@@ -106,5 +111,16 @@ class SetBrightnessActionTest {
     companion object {
         private const val BRIGHTNESS = 91f
         private const val NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING"
+        private lateinit var mockContext: Context
+
+        @BeforeClass
+        @JvmStatic
+        fun setUpClass() {
+            val testModule = module {
+                single { ProjectManager(mockContext) }
+            }
+
+            mockContext = MockUtil.mockContextForProject(listOf(testModule))
+        }
     }
 }

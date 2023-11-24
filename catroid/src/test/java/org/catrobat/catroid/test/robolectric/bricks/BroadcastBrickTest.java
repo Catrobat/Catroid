@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,6 +57,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -66,6 +67,8 @@ public class BroadcastBrickTest {
 	private int spinnerId = R.id.brick_broadcast_spinner;
 
 	private AppCompatActivity activity;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -97,7 +100,7 @@ public class BroadcastBrickTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	private Spinner getBrickSpinner() {
@@ -137,9 +140,9 @@ public class BroadcastBrickTest {
 		Project project = new Project(activity, getClass().getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 		project.getBroadcastMessageContainer().addBroadcastMessage("unusedMessage");
 		project.getBroadcastMessageContainer().addBroadcastMessage("initialMessage");
 	}

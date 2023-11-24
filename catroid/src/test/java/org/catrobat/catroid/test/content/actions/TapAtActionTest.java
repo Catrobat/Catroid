@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,13 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.koin.java.KoinJavaComponent.inject;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -66,6 +73,9 @@ public class TapAtActionTest {
 
 	Stage stageMock;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
 		mockStatic(GdxNativesLoader.class);
@@ -75,8 +85,14 @@ public class TapAtActionTest {
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		Mockito.when(StageActivity.stageListener.getStage()).thenReturn(stageMock);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "Project");
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

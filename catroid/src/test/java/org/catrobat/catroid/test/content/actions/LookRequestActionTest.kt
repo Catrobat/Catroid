@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,10 @@ import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnectionHolder
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,6 +59,11 @@ import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.InputStream
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.koin.core.module.Module
+import java.util.Collections
+
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
@@ -70,6 +75,8 @@ class LookRequestActionTest {
     private lateinit var webConnection: WebConnection
     private lateinit var response: Response
     private lateinit var responseStream: InputStream
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
@@ -96,11 +103,11 @@ class LookRequestActionTest {
         doReturn(responseBody).`when`(response).body()
         doReturn(responseStream).`when`(responseBody).byteStream()
 
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
     }
 
     @Test(expected = NullPointerException::class)

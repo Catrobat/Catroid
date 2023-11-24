@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,12 +45,19 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.io.File;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -61,12 +68,16 @@ public class WhenBackgroundChangesScriptTest {
 	private LookData bg1;
 	private LookData bg2;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "TestProject");
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
@@ -74,6 +85,11 @@ public class WhenBackgroundChangesScriptTest {
 		initScripts();
 
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	private void initBackground(Scene scene) {

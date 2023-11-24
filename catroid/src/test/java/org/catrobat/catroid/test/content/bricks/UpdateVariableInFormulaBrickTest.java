@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,15 +40,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import kotlin.Lazy;
+
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClassesOf;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class UpdateVariableInFormulaBrickTest {
@@ -63,6 +71,11 @@ public class UpdateVariableInFormulaBrickTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String NEW_VARIABLE_USERVARIABLE_FORMAT = "\"NewName\" ";
 	private static final String NEW_VARIABLE_USERLIST_FORMAT = "*NewName* ";
+
+	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -85,7 +98,8 @@ public class UpdateVariableInFormulaBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
 		userVariable = new UserVariable();
 		userList = new UserList();
 		Scene scene = new Scene();
@@ -103,7 +117,12 @@ public class UpdateVariableInFormulaBrickTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -116,7 +135,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
+		projectManager.getValue().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
 				NEW_VARIABLE_NAME,
 				userVariable);
 
@@ -136,7 +155,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
 		map.forEach((k, v) -> {
@@ -155,7 +174,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {
@@ -174,7 +193,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {

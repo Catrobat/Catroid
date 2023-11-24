@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mockito
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 internal class ColorCollisionParameterTest(
@@ -45,18 +51,28 @@ internal class ColorCollisionParameterTest(
 ) {
     private lateinit var colorCollisionDetection: ColorCollisionDetection
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
         val sprite = Sprite("testSprite")
         val sequence = SequenceAction()
         val stageListener = Mockito.mock(StageListener::class.java)
-        val project = Project(MockUtil.mockContextForProject(), "testProject")
-        ProjectManager.getInstance().currentProject = project
+
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "testProject")
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
         colorCollisionDetection = ColorCollisionDetection(
             Scope(project, sprite, sequence),
             stageListener
         )
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     companion object {

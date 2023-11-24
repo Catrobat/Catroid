@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,11 +47,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickVariableUpdateTest {
@@ -69,6 +75,9 @@ public class CompositeBrickVariableUpdateTest {
 
 	private static final String VARIABLE_VALUE = "Value";
 	private static final String NEW_VARIABLE_VALUE = "NewValue";
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -88,7 +97,7 @@ public class CompositeBrickVariableUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		initializeStaticSingletonMethods();
+		initializeStaticSingletonMethods(dependencyModules);
 		Project project = new Project();
 		userVariable = new UserVariable();
 		userList = new UserList();
@@ -110,7 +119,12 @@ public class CompositeBrickVariableUpdateTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -137,10 +151,8 @@ public class CompositeBrickVariableUpdateTest {
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERVARIABLE_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -155,10 +167,8 @@ public class CompositeBrickVariableUpdateTest {
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERVARIABLE_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -173,10 +183,8 @@ public class CompositeBrickVariableUpdateTest {
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERLIST_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERLIST_FORMAT));
 	}
 
 	@Test
@@ -191,9 +199,7 @@ public class CompositeBrickVariableUpdateTest {
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERLIST_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERLIST_FORMAT));
 	}
 }

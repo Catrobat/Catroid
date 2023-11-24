@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GdxNativesLoader.class})
@@ -60,13 +65,16 @@ public class SetCameraFocusPointActionTest {
 	private Project project;
 	private Sprite sprite;
 
+	final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(), projectName);
+		project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		sprite = new Sprite("sprite");
 		sprite.addScript(new WhenScript());
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);

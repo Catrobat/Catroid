@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,11 +42,19 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.io.File;
 import java.util.List;
 
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -55,15 +63,21 @@ public class SetBackgroundByIndexBrickTest {
 	private final double backgroundIndex = 2.0;
 	private String localUserVariableBackgroundIndex = "BGI";
 
+	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
 		sprite = new Sprite("Sprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
 
 		sprite.addUserVariable(new UserVariable(localUserVariableBackgroundIndex, backgroundIndex));
 
@@ -81,6 +95,11 @@ public class SetBackgroundByIndexBrickTest {
 		project.getDefaultScene().getBackgroundSprite().look.setLookData(lookData);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
 	public void testSetBackgroundByIndex() {
 		ActionFactory actionFactory = new ActionFactory();
@@ -91,8 +110,10 @@ public class SetBackgroundByIndexBrickTest {
 				true
 		).act(1f);
 
-		LookData backgroundLookData = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().look.getLookData();
-		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().getLookList();
+		LookData backgroundLookData =
+				projectManager.getValue().getCurrentlyPlayingScene().getBackgroundSprite().look.getLookData();
+		List<LookData> backgroundLookDataList =
+				projectManager.getValue().getCurrentlyPlayingScene().getBackgroundSprite().getLookList();
 
 		assertEquals(backgroundLookData, backgroundLookDataList.get((int) backgroundIndex - 1));
 	}
