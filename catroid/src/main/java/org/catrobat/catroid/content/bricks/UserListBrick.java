@@ -54,8 +54,6 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 
 	private transient BrickSpinner<UserList> spinner;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
-
 	public UserList getUserList() {
 		return userList;
 	}
@@ -78,6 +76,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	public View getView(Context context) {
 		super.getView(context);
 
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Sprite sprite = projectManager.getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
@@ -98,6 +97,8 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		if (activity == null) {
 			return;
 		}
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		final List<UserList> projectUserList =
 				projectManager.getCurrentProject().getUserLists();

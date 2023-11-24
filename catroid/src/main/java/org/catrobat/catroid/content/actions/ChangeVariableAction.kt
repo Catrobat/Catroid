@@ -54,7 +54,7 @@ class ChangeVariableAction : Action() {
 
         val projectManager: ProjectManager by inject(ProjectManager::class.java)
         val multiplayerVariable =
-            projectManager.currentProject.getMultiplayerVariable(userVariable?.name)
+            projectManager.currentProject?.getMultiplayerVariable(userVariable?.name)
         multiplayerVariable?.let {
             val multiplayerDevice = getMultiplayerDevice()
             multiplayerDevice?.sendChangedMultiplayerVariables(userVariable)

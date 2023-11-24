@@ -56,8 +56,6 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 	private transient BrickSpinner<Scene> spinner;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
-
 	public SceneStartBrick() {
 		sceneToStart = "";
 	}
@@ -92,6 +90,8 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		items.addAll(projectManager.getCurrentProject().getSceneList());
 		spinner = new BrickSpinner<>(R.id.brick_scene_start_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -107,7 +107,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 			return;
 		}
 
-		Project currentProject = projectManager.getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		List<Scene> currentSceneList = currentProject.getSceneList();
 
 		String defaultSceneName =
