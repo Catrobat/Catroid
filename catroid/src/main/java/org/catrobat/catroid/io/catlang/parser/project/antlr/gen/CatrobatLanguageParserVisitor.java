@@ -167,6 +167,12 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

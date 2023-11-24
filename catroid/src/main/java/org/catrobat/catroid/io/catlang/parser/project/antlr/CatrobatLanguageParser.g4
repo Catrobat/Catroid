@@ -118,11 +118,16 @@ scripts
 	  CURLY_BRACKET_CLOSE
 	;
 
+brick_defintion
+	: brick_invocation
+	| brick_with_body
+	;
+
 brick_with_body
 	: BRICK_NAME
 	  brick_condition?
 	  BRICK_BODY_OPEN
-	  (brick_invocation | brick_with_body)*
+	  brick_defintion*
 	  CURLY_BRACKET_CLOSE
 	;
 

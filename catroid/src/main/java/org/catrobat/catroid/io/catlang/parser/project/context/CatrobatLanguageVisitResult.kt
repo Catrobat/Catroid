@@ -21,30 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang.parser.project
+package org.catrobat.catroid.io.catlang.parser.project.context
 
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageLexer
-import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
-import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVisitResult
 
-class CatrobatLanguageParser {
-    companion object {
-        fun parseProgramFromString(program: String): Project? {
-            val lexer = CatrobatLanguageLexer(CharStreams.fromString(program))
-            val parser = CatrobatLanguageParser(CommonTokenStream(lexer))
-            val programContext = parser.program()
-
-            val visitor = CatrobatLanguageParserVisitor()
-            val result = visitor.visitProgram(programContext)
-
-            return if (result is CatrobatLanguageVisitResult) {
-                result.project
-            } else {
-                null
-            }
-        }
-    }
+class CatrobatLanguageVisitResult(val project: Project) : CatrobatLanguageBaseResult() {
 }

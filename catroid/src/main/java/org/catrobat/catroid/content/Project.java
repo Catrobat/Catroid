@@ -390,6 +390,30 @@ public class Project implements Serializable {
 		xmlHeader.setDescription(description);
 	}
 
+	public boolean isLandscapeMode() {
+		return xmlHeader.islandscapeMode();
+	}
+
+	public void setlandscapeMode(boolean landscapeMode) {
+		xmlHeader.setlandscapeMode(landscapeMode);
+	}
+
+	public String getApplicationVersion() {
+		return xmlHeader.getApplicationVersion();
+	}
+
+	public void setApplicationVersion(String applicationVersion) {
+		xmlHeader.setApplicationVersion(applicationVersion);
+	}
+
+	public void setScreenHeight(int screenHeight) {
+		xmlHeader.virtualScreenHeight = screenHeight;
+	}
+
+	public void setScreenWidth(int screenWidth) {
+		xmlHeader.virtualScreenWidth = screenWidth;
+	}
+
 	public String getNotesAndCredits() {
 		return xmlHeader.getNotesAndCredits();
 	}
