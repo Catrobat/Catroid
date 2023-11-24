@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +39,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import android.content.Context;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 public class ChangeBrightnessByNActionTest {
@@ -51,12 +58,22 @@ public class ChangeBrightnessByNActionTest {
 	private static final float DIMMER_VALUE = -20.8f;
 	private Sprite sprite;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "Project");
+
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

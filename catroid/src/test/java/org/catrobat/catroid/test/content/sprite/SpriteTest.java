@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -51,6 +56,7 @@ import java.util.Set;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class SpriteTest {
@@ -64,10 +70,14 @@ public class SpriteTest {
 	private Project project;
 	private Sprite sprite;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
 		sprite.getUserVariable(LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
@@ -75,7 +85,12 @@ public class SpriteTest {
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
 		project.addUserVariable(globalVariable);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

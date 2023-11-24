@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,11 +52,21 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 
 import static org.junit.Assert.assertSame;
+import static org.koin.java.KoinJavaComponent.inject;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(Parameterized.class)
 public class CloneBrickUpdateVariableTest {
 	private static final String VARIABLE_NAME = "test_variable";
 	private static final UserVariable USER_VARIABLE = new UserVariable(VARIABLE_NAME);
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -85,8 +95,9 @@ public class CloneBrickUpdateVariableTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
@@ -96,6 +107,11 @@ public class CloneBrickUpdateVariableTest {
 		script.addBrick(brick);
 		brick.setUserVariable(USER_VARIABLE);
 		clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

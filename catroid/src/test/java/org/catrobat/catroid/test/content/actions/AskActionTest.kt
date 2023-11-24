@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,12 @@ import org.junit.runner.RunWith
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -45,6 +51,8 @@ class AskActionTest {
     private lateinit var testSprite: Sprite
     private lateinit var testSequence: SequenceAction
     private lateinit var userVariableForAnswer: UserVariable
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     @Throws(Exception::class)
@@ -54,8 +62,16 @@ class AskActionTest {
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

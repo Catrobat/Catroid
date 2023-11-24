@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,12 @@ import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -48,6 +54,8 @@ class SetNextLookActionTest {
     private lateinit var lookData1: LookData
     private lateinit var lookData2: LookData
     private lateinit var lookData3: LookData
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     fun setUp() {
@@ -63,9 +71,16 @@ class SetNextLookActionTest {
         }
         sequence = SequenceAction()
 
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").also { project ->
+            projectManager.currentProject = project
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

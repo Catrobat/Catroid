@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,10 +38,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class LayerPropertyTest {
@@ -49,9 +56,13 @@ public class LayerPropertyTest {
 	Scope firstScope;
 	Scope secondScope;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "Project");
 		Sprite background = project.getDefaultScene().getBackgroundSprite();
 		Sprite firstSprite = new Sprite("firstSprite");
 		Sprite secondSprite = new Sprite("secondSprite");
@@ -63,8 +74,14 @@ public class LayerPropertyTest {
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -49,9 +54,17 @@ public class ProjectTest {
 	private static final String OLD_PLATFORM = "iOS";
 	private static final String OLD_PLATFORM_VERSION = "1.0.0 beta";
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
 	public void testVersionName() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), "testProject");
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
 		assertEquals("testStub", projectXmlHeader.getApplicationVersion());
@@ -59,7 +72,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveSprite() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), "testProject");
 		Scene scene = project.getDefaultScene();
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
@@ -80,7 +93,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveScene() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), "testProject");
 		Scene sceneOne = new Scene("test1", project);
 		Scene sceneTwo = new Scene("test2", project);
 
@@ -110,7 +123,7 @@ public class ProjectTest {
 		header.setPlatform(OLD_PLATFORM);
 		header.setPlatformVersion(OLD_PLATFORM_VERSION);
 
-		project.setDeviceData(MockUtil.mockContextForProject());
+		project.setDeviceData(MockUtil.mockContextForProject(dependencyModules));
 
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, header.getCatrobatLanguageVersion());
 		assertEquals(Mockito.mock(Context.class).getString(R.string.app_name), header.getApplicationName());

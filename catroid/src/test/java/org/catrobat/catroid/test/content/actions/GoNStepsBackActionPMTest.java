@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,8 +39,17 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import android.content.Context;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -59,9 +68,15 @@ public class GoNStepsBackActionPMTest {
 	private Sprite embroideryActorSprite;
 	private Sprite realSprite;
 
+	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "testProject");
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");
@@ -78,12 +93,17 @@ public class GoNStepsBackActionPMTest {
 		parentGroup.addActor(embroideryActorSprite.look);
 		parentGroup.addActor(realSprite.look);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
-	public void testBoudaryForeground() {
+	public void testBoundaryForeground() {
 		final int expectedLayer = 4;
 		Sprite sprite1 = new Sprite("TestSprite1");
 		Sprite sprite2 = new Sprite("TestSprite2");
@@ -97,7 +117,7 @@ public class GoNStepsBackActionPMTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
 		assertEquals(backgroundLayer, background.look.getZIndex());

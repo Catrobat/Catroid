@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,10 +47,16 @@ import org.junit.runners.Parameterized;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.koin.core.module.Module;
+import java.util.Collections;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -65,6 +71,9 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -83,7 +92,7 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
+		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons(dependencyModules);
 
 		Project project = new Project();
 		Scene scene = new Scene();
@@ -100,8 +109,14 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		compositeBrick.getNestedBricks().add(primaryFormulaBrick);
 		compositeBrick.getSecondaryNestedBricks().add(secondaryFormulaBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(scene);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

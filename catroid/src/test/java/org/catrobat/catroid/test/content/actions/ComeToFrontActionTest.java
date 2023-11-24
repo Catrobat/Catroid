@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,12 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
+import java.util.Collections;
+
+import kotlin.Lazy;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -54,6 +60,11 @@ public class ComeToFrontActionTest {
 
 	private String projectName = "testProject";
 
+	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
@@ -61,7 +72,8 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testComeToFront() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new Sprite("catroid");
@@ -79,7 +91,7 @@ public class ComeToFrontActionTest {
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
 		project.getDefaultScene().addSprite(topSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 
@@ -133,7 +145,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testBoundaries() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new Sprite("firstSprite");
@@ -147,7 +159,7 @@ public class ComeToFrontActionTest {
 			project.getDefaultScene().addSprite(sprite);
 		}
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 
 		ActionFactory factory = firstSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(firstSprite);
