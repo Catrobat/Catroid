@@ -176,6 +176,15 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return formulaMap;
 	}
 
+	public void updateTextView(FormulaField formulaField, String newString) {
+		TextView formulaFieldView = view.findViewById(brickFieldToTextViewIdMap.get(formulaField));
+		formulaFieldView.setText(newString);
+		if (isColorString(newString)) {
+			addColoredSquareToColorString(newString, formulaFieldView);
+		}
+
+	}
+
 	public TextView getTextView(FormulaField formulaField) {
 		return view.findViewById(brickFieldToTextViewIdMap.get(formulaField));
 	}

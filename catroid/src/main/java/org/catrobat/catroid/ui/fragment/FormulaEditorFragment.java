@@ -941,7 +941,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void refreshFormulaPreviewString(String newString) {
 		updateBrickView();
-		formulaBrick.getTextView(currentFormulaField).setText(newString);
+		formulaBrick.updateTextView(currentFormulaField, newString);
+		//formulaBrick.getTextView(currentFormulaField).setText(newString);
 	}
 
 	private void showCategoryListFragment(String tag, int actionbarResId) {
