@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import java.util.Collection;
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -60,6 +61,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class UndoTest {
 
 	private final long waitThreshold = 5000;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -137,7 +140,7 @@ public class UndoTest {
 	}
 
 	public String getProjectAsXmlString() {
-		return XstreamSerializer.getInstance().getXmlAsStringFromProject(ProjectManager.getInstance().getCurrentProject());
+		return XstreamSerializer.getInstance().getXmlAsStringFromProject(projectManager.getCurrentProject());
 	}
 
 	private void createProject() {
@@ -147,7 +150,7 @@ public class UndoTest {
 		compositeBrick.addBrickToElseBranch(new SetXBrick());
 		script.addBrick(compositeBrick);
 
-		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		XstreamSerializer.getInstance().saveProject(projectManager.getCurrentProject());
 		initialProject = getProjectAsXmlString();
 	}
 }

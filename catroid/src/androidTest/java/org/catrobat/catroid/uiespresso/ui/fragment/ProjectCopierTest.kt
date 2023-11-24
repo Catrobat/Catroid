@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
+import org.koin.java.KoinJavaComponent.inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -129,8 +130,10 @@ class ProjectCopierTest {
         script.addBrick(SetXBrick(Formula(BrickValues.X_POSITION)))
         sprite.addScript(script)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
         val soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
             getInstrumentation().context.resources,

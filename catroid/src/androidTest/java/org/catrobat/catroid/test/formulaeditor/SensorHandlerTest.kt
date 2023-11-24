@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.koin.java.KoinJavaComponent.inject
 
 class SensorHandlerTest {
     @get:Rule
@@ -55,7 +56,8 @@ class SensorHandlerTest {
 
     @Before
     fun setUp() {
-        ProjectManager.getInstance().currentProject = Project(
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = Project(
             ApplicationProvider.getApplicationContext(),
             TestUtils.DEFAULT_TEST_PROJECT_NAME
         )

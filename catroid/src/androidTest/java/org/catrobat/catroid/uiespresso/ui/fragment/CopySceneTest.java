@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ import static junit.framework.TestCase.assertEquals;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -79,6 +80,8 @@ public class CopySceneTest {
 
 	private String projectName = "CopySceneTest";
 	private String toBeCopiedSceneName = "Scene";
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
@@ -110,11 +113,11 @@ public class CopySceneTest {
 		onView(withText(toBeCopiedSceneName + " (2)"))
 				.check(matches(isDisplayed()));
 		int copiedSceneSpritesCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().size();
+				projectManager.getCurrentProject().getSceneList().get(2).getSpriteList().size();
 		int copiedSceneLooksCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getLookList().size();
+				projectManager.getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getLookList().size();
 		int copiedSceneSoundFilesCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getSoundList().size();
+				projectManager.getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getSoundList().size();
 
 		assertEquals(2, copiedSceneSpritesCount);
 		assertEquals(1, copiedSceneLooksCount);
@@ -139,8 +142,8 @@ public class CopySceneTest {
 		Scene scene2 = new Scene("Scene (1)", project);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		Script script = new StartScript();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,6 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,21 +56,17 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundAndWaitStageTest {
 
-	private static ProjectManager projectManager;
+	private static ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private SoundInfo soundInfo;
 	private ScriptEvaluationGateBrick scriptEvaluationGateBrick;
 	private Project project;
 	private UserVariable userVariable;
 	private RepeatBrick repeatBrick;
-
-	@BeforeClass
-	public static void setUpProjectManager() {
-		projectManager = ProjectManager.getInstance();
-	}
 
 	@Rule
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new

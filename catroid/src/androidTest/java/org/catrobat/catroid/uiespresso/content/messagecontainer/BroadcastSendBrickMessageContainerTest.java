@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,6 +54,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -112,9 +113,9 @@ public class BroadcastSendBrickMessageContainerTest {
 
 		baseActivityTestRule.finishActivity();
 
-		assertTrue(loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(project.getDirectory()));
 
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		baseActivityTestRule.launchActivity();
 

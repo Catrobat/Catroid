@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -63,13 +64,15 @@ public class FormulaEditorLocaleVariableComputeTest {
 	private Scene firstScene;
 	private Scene secondScene;
 
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Test
 	public void testComputingLocaleVariableFromSecondScene() {
 		onView(withId(R.id.brick_set_x_edit_text))
 				.perform(click());
 		onFormulaEditor()
 				.performCompute();
-		ProjectManager.getInstance().setCurrentlyPlayingScene(firstScene);
+		projectManager.setCurrentlyPlayingScene(firstScene);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText("0")));
 		pressBack();
@@ -101,9 +104,9 @@ public class FormulaEditorLocaleVariableComputeTest {
 		sprite.addScript(script);
 		project.addScene(secondScene);
 		secondScene.addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(secondScene);
+		projectManager.setCurrentSprite(sprite);
 
 		return project;
 	}

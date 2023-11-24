@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@ import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class DrawAxesTest {
@@ -82,7 +83,7 @@ public class DrawAxesTest {
 	@Before
 	public void setUp() throws Exception {
 		project = new Project(ApplicationProvider.getApplicationContext(), "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getXmlHeader().setVirtualScreenHeight(projectLayoutHeight);
 		project.getXmlHeader().setVirtualScreenWidth(projectLayoutWidth);
 		project.getXmlHeader().setlandscapeMode(projectLandscapeMode);

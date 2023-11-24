@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -55,6 +57,8 @@ public class PlaySceneDialogTest {
 
 	private Scene firstScene;
 	private Scene secondScene;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -80,20 +84,20 @@ public class PlaySceneDialogTest {
 		onView(withText(firstSceneRadioButton))
 				.check(matches(isChecked()));
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(firstScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(firstScene, projectManager.getStartScene());
 
 		onView(withText(secondSceneRadioButton))
 				.perform(click());
 
-		assertEquals(secondScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(secondScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(secondScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(secondScene, projectManager.getStartScene());
 
 		onView(withText(firstSceneRadioButton))
 				.perform(click());
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(firstScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(firstScene, projectManager.getStartScene());
 	}
 
 	private void createProject(String projectName) {
@@ -102,7 +106,7 @@ public class PlaySceneDialogTest {
 		secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(secondScene);
 	}
 }

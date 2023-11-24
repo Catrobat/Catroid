@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -151,8 +152,9 @@ public class ActionBarUndoSpinnerTest {
 
 	private void createProject() {
 		Script script = UiTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
 
 		currentProject.addUserVariable(new UserVariable(firstItem));
 		currentProject.addUserVariable(new UserVariable(secondItem));

@@ -26,6 +26,7 @@ package org.catrobat.catroid.koin
 import android.app.Application
 import com.google.android.gms.common.GoogleApiAvailability
 import com.huawei.hms.api.HuaweiApiAvailability
+import android.content.Context
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
@@ -58,6 +59,9 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.koin.core.context.KoinContextHandler
+import org.koin.core.context.stopKoin
+import org.koin.core.context.unloadKoinModules
 
 val componentsModules = module(createdAtStart = true, override = false) {
     single {
@@ -127,14 +131,45 @@ val speechModules = module {
     }
 }
 
+val projectManagerModule = module {
+    single {
+        ProjectManager(androidContext())
+    }
+}
+
 val myModules = listOf(
     componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
 )
 
 fun start(application: Application, modules: List<Module>) {
-    startKoin {
-        androidContext(application.applicationContext)
-        androidLogger(Level.ERROR)
-        modules(modules)
+    if (KoinContextHandler.getOrNull() == null) {
+        startKoin {
+            androidContext(application.applicationContext)
+            androidLogger(Level.ERROR)
+            modules(modules)
+        }
+    } else {
+        stop(modules)
+        start(application, modules)
+    }
+}
+
+fun startWithContext(context: Context, modules: List<Module>) {
+    if (KoinContextHandler.getOrNull() == null) {
+        startKoin {
+            androidContext(context)
+            androidLogger(Level.ERROR)
+            modules(modules)
+        }
+    } else {
+        stop(modules)
+        startWithContext(context, modules)
+    }
+}
+
+fun stop(modules: List<Module>) {
+    if (KoinContextHandler.getOrNull() != null) {
+        unloadKoinModules(modules)
+        stopKoin()
     }
 }

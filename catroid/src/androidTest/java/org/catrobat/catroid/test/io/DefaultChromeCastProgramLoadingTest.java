@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DefaultChromeCastProgramLoadingTest {
@@ -52,9 +53,11 @@ public class DefaultChromeCastProgramLoadingTest {
 	private Project currentProjectBuffer;
 	private Project project;
 
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Before
 	public void setUp() throws Exception {
-		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
+		currentProjectBuffer = projectManager.getCurrentProject();
 		projectName = ApplicationProvider.getApplicationContext().getString(R.string.default_cast_project_name);
 		project = new ChromeCastProjectCreator()
 				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true);
@@ -62,7 +65,7 @@ public class DefaultChromeCastProgramLoadingTest {
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
+		projectManager.setCurrentProject(currentProjectBuffer);
 		TestUtils.deleteProjects(projectName);
 	}
 

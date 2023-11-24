@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,17 +59,17 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionFormulaConversionTest {
 
 	private static final String COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT";
-	private ProjectManager projectManager;
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
-		projectManager = ProjectManager.getInstance();
 	}
 
 	@After
@@ -168,7 +168,6 @@ public class CollisionFormulaConversionTest {
 		project.getDefaultScene().addSprite(sprite2);
 		project.getDefaultScene().addSprite(sprite3);
 
-		ProjectManager projectManager = ProjectManager.getInstance();
 		projectManager.setCurrentProject(project);
 		return project;
 	}

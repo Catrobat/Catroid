@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.formulaeditor.Functions.NUMBER_OF_ITEMS
 import org.catrobat.catroid.formulaeditor.Functions.SQRT
 import org.catrobat.catroid.formulaeditor.Operators.PLUS
 import org.catrobat.catroid.test.utils.TestUtils.deleteProjects
+import org.koin.java.KoinJavaComponent.inject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -65,7 +66,7 @@ class FlattenListTest(
     private val rightChildrenFormulaElementList: List<FormulaElement>?,
     private val expectedValue: String?
 ) {
-    private var projectManager: ProjectManager? = null
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
     private lateinit var project: Project
     private lateinit var brick: Brick
     private lateinit var context: Context
@@ -74,14 +75,13 @@ class FlattenListTest(
     @Throws(Exception::class)
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        projectManager = ProjectManager.getInstance()
         createProject()
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        projectManager?.currentProject = null
+        projectManager.currentProject = null
         deleteProjects(PROJECT_NAME)
     }
 
@@ -101,8 +101,8 @@ class FlattenListTest(
         sprite.addScript(script)
         project = Project(context, PROJECT_NAME)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
     }
 
     private fun buildFormula(): Formula {

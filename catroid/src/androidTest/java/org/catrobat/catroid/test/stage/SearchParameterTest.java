@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,6 +67,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -248,9 +249,10 @@ public class SearchParameterTest {
 		project.getSceneByName(sceneName2).addSprite(sprite2);
 		project.getSceneByName(sceneName3).addSprite(sprite3);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSceneAndSprite(sceneName1, sprite1.getName());
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene1);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSceneAndSprite(sceneName1, sprite1.getName());
+		projectManager.setCurrentlyEditedScene(scene1);
 	}
 
 	@After

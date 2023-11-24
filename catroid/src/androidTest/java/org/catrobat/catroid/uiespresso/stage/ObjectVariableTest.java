@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class ObjectVariableTest {
@@ -113,12 +114,14 @@ public class ObjectVariableTest {
 
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite1"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite2"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite3"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite4"));
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getCurrentlyEditedScene().addSprite(new Sprite("sprite1"));
+		projectManager.getCurrentlyEditedScene().addSprite(new Sprite("sprite2"));
+		projectManager.getCurrentlyEditedScene().addSprite(new Sprite("sprite3"));
+		projectManager.getCurrentlyEditedScene().addSprite(new Sprite("sprite4"));
 
 		Sprite sprite = new Sprite("sprite5");
 		StartScript startScript = new StartScript();
@@ -147,8 +150,8 @@ public class ObjectVariableTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.getCurrentlyEditedScene().addSprite(sprite);
+		projectManager.setCurrentSprite(sprite);
 
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(startScript);
 	}

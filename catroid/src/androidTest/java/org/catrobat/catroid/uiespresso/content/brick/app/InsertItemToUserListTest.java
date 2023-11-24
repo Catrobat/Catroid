@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -127,7 +128,8 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
 				.performEnterNumber(indexToInsert + 1);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		UserList userList = projectManager.getCurrentProject().getUserList(userListName);
 
 		assertEquals(0, userList.getValue().size());
 	}

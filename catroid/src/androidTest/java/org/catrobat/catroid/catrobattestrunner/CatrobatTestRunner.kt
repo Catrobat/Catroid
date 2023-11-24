@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.catrobattestrunner
 
 import android.Manifest.permission
 import android.app.Instrumentation.ActivityResult
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
@@ -114,7 +113,7 @@ class CatrobatTestRunner {
         Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
         Assert.assertTrue(
-            loadProject(projectDir, ApplicationProvider.getApplicationContext())
+            loadProject(projectDir)
         )
     }
 
