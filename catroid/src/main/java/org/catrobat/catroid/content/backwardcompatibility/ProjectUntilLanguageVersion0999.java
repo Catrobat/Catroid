@@ -65,8 +65,8 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 			Scene scene = new Scene(legacyScene.getName(), project);
 
 			for (Sprite sprite : legacyScene.getSpriteList()) {
-				sprite.getUserVariables().addAll(legacyScene.getSpriteUserVariables(sprite));
-				sprite.getUserLists().addAll(legacyScene.getSpriteUserLists(sprite));
+				sprite.getUserVariableList().addAll(legacyScene.getSpriteUserVariables(sprite));
+				sprite.getUserVariableList().addAll(legacyScene.getSpriteUserLists(sprite));
 				scene.addSprite(sprite);
 			}
 

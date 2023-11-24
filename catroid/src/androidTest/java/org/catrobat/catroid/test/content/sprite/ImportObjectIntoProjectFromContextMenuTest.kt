@@ -121,7 +121,6 @@ class ImportObjectIntoProjectFromContextMenuTest {
         importedProject!!.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject!!.addUserVariable(UserVariable("globalVariable2", 2))
 
-        // TODO: It seems that, when the list is stored, the 'isList' value is set to false.
         importedProject!!.addUserVariable(UserVariable("globalList1", true))
         importedProject!!.addUserVariable(UserVariable("globalList2", true))
 
@@ -191,7 +190,6 @@ class ImportObjectIntoProjectFromContextMenuTest {
             importedLocalListList + oldLocalListList
         )
 
-        // TODO: failed because assert(2, 4); only test that fails
         Assert.assertEquals(
             project!!.userLists.size,
             importedGlobalListList + oldGlobalListList

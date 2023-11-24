@@ -70,8 +70,8 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		project.getUserVariableList().addAll(getProjectUserLists());
 
 		for (Sprite sprite : getSpriteList()) {
-			sprite.getUserVariables().addAll(getSpriteUserVariables(sprite));
-			sprite.getUserLists().addAll(getSpriteUserLists(sprite));
+			sprite.getUserVariableList().addAll(getSpriteUserVariables(sprite));
+			sprite.getUserVariableList().addAll(getSpriteUserLists(sprite));
 		}
 
 		Scene scene = new Scene(context.getString(R.string.default_scene_name), project);

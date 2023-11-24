@@ -249,9 +249,11 @@ class OldUserListInterpreter(
         val userVariableList =
             NodeOperatorExtension.getNodeByName(program, "programVariableList")
 
-        if (programUserLists == null || userVariableList == null) {
+        if (programUserLists == null && userVariableList != null) {
+            return
+        } else if (programUserLists == null || userVariableList == null) {
             throw OldUserListInterpretationException(
-                "No 'programListOfLists' nor 'programVariableList' found"
+                "No 'programVariableList' found"
             )
         } else {
             repeat(programUserLists.childNodes.length) {
@@ -262,7 +264,8 @@ class OldUserListInterpreter(
     }
 
     private fun moveSpritesLists() {
-        val scenes = NodeOperatorExtension.getNodeByName(outcomeDocument.firstChild, "scenes") ?: return
+        val scenes =
+            NodeOperatorExtension.getNodeByName(outcomeDocument.firstChild, "scenes") ?: return
 
         for (i in 0 until scenes.childNodes.length) {
             val objectList = scenes.childNodes.item(i).lastChild

@@ -69,21 +69,13 @@ class ImportProjectHelper(
             spriteToAddTo.mergeSprites(spriteToAdd, currentScene)
         }
         newProject?.let {
-            for (userList in it.userLists) {
-                if (!currentScene?.project?.userLists!!.contains(userList)) {
-                    currentScene?.project?.userLists?.add(userList)
-                }
-            }
-        }
-        newProject?.let {
-            for (userVariable in it.userVariables) {
-                if (!currentScene?.project?.userVariables!!.contains(userVariable)) {
+            for (userVariable in it.userVariableList) {
+                if (!currentScene?.project?.userVariableList!!.contains(userVariable)) {
                     currentScene?.project?.userVariableList?.add(userVariable)
                 }
             }
         }
-        addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
-        addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
+        addGlobalsToProject(newProject!!.userVariableList, currentScene!!.project.userVariableList)
         addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
                             currentScene!!.project.broadcastMessageContainer.broadcastMessages)
 
@@ -107,15 +99,8 @@ class ImportProjectHelper(
         }
 
         checkForVariablesConflicts(
-            currentScene?.project?.userLists as List<Any>?,
-            spriteToAdd?.userLists as List<Any>?
-        ).forEach { elem ->
-            conflicts.add((elem as UserVariable).name)
-        }
-
-        checkForVariablesConflicts(
-            currentScene?.project?.userVariables as List<Any>?,
-            spriteToAdd?.userVariables as List<Any>?
+            currentScene?.project?.userVariableList as List<Any>?,
+            spriteToAdd?.userVariableList as List<Any>?
         ).forEach { elem ->
             conflicts.add((elem as UserVariable).name)
         }
@@ -123,12 +108,8 @@ class ImportProjectHelper(
         currentScene?.project?.sceneList?.forEach { scene ->
             scene.spriteList?.forEach { sprite ->
                 checkForVariablesConflicts(
-                    newProject?.userLists as List<Any>?,
-                    sprite.userLists as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
-                checkForVariablesConflicts(
-                    newProject?.userVariables as List<Any>?,
-                    sprite.userVariables as List<Any>?
+                    newProject?.userVariableList as List<Any>?,
+                    sprite.userVariableList as List<Any>?
                 ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
             }
         }
