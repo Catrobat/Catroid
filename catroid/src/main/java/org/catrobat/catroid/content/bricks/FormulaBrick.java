@@ -114,20 +114,30 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		super.getView(context);
 		for (BiMap.Entry<FormulaField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
 			TextView formulaFieldView = view.findViewById(entry.getValue());
-			formulaFieldView.setText(getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context));
-			if (entry.getKey().toString().equals("COLOR")) {
-				int color = getColorValueFromBrickField((BrickField) entry.getKey());
-				Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
-				squareBitmap.setPixel(0, 0, color);
-				RoundedBitmapDrawable roundedSquareDrawable =
-						RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
-								180, 180, false));
-				roundedSquareDrawable.setCornerRadius(20);
-				formulaFieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, roundedSquareDrawable,
-						null);
+			String text =
+					getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context);
+			formulaFieldView.setText(text);
+			if (isColorString(text)) {
+				addColoredSquareToColorString(text, formulaFieldView);
 			}
 		}
 		return view;
+	}
+
+	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
+		int color = getColorValueFromColorString(colorString);
+		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+		squareBitmap.setPixel(0, 0, color);
+		RoundedBitmapDrawable roundedSquareDrawable =
+				RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
+						180, 180, false));
+		roundedSquareDrawable.setCornerRadius(20);
+		formulaFieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, roundedSquareDrawable,
+				null);
+	}
+
+	private boolean isColorString(String colorString) {
+		return colorString.matches("^'#.{6}'\\s$");
 	}
 
 	private int getColorValueFromBrickField(BrickField brickField) {
@@ -136,6 +146,16 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			String value = formula.interpretString(null);
 			return Integer.decode(value);
 		} catch (InterpretationException e) {
+			return 0;
+		}
+	}
+
+	private int getColorValueFromColorString(String colorString) {
+		String newString = colorString.replaceAll("[^A-Za-z0-9]", "");
+		try {
+			int val = Integer.parseInt(newString,16);
+			return val;
+		} catch (Exception e) {
 			return 0;
 		}
 	}
