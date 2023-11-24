@@ -65,6 +65,7 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteFirstSceneTest {
@@ -73,6 +74,8 @@ public class DeleteFirstSceneTest {
 	private final String backgroundName = "BACKGROUND2";
 
 	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public BaseActivityTestRule<ProjectActivity> baseActivityTestRule = new
