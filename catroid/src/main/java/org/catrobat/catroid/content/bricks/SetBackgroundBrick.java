@@ -45,7 +45,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData> {
+		NewItemInterface<LookData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -121,5 +121,12 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable LookData item) {
 		look = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

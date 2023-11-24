@@ -83,7 +83,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
                     as UserDefinedBrickDataType
         }
         userDefinedBrick?.let {
-            val userBrickView = userDefinedBrick?.getView(requireActivity())
+            val userBrickView = userDefinedBrick?.getView(getActivity())
             userBrickSpace.addView(userBrickView)
             userBrickTextView = userDefinedBrick?.currentUserDefinedDataTextView
         }

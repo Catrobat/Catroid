@@ -44,7 +44,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
+public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -157,5 +157,15 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemName.equals(context.getString(R.string.brick_user_defined_with_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH;
+		}
+		if (itemName.equals(context.getString(R.string.brick_user_defined_without_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH;
+		}
 	}
 }

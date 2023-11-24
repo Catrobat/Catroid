@@ -44,7 +44,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface {
+public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface, UpdateableSpinnerBrick {
 
 	protected UserVariable userVariable;
 
@@ -115,5 +115,12 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId() && spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

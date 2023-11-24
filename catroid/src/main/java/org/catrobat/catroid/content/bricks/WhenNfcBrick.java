@@ -45,11 +45,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData> {
+public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private WhenNfcScript script;
+
+	private transient BrickSpinner<NfcTagData> spinner;
 
 	public WhenNfcBrick() {
 		this(new WhenNfcScript());
@@ -88,7 +90,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));
 		items.add(new StringOption(context.getString(R.string.brick_when_nfc_default_all)));
 		items.addAll(currentSprite.getNfcTagList());
-		BrickSpinner<NfcTagData> spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getNfcTag());
 
@@ -129,5 +131,12 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }
