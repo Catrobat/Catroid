@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import androidx.test.core.app.ApplicationProvider;
 
