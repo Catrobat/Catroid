@@ -42,6 +42,54 @@ public class CatrobatParameterParserBaseListener implements CatrobatParameterPar
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAdditiveExpression(CatrobatParameterParser.AdditiveExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdditiveExpression(CatrobatParameterParser.AdditiveExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimple_expression(CatrobatParameterParser.Simple_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

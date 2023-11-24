@@ -23,6 +23,30 @@ public interface CatrobatParameterParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(CatrobatParameterParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatParameterParser#additiveExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdditiveExpression(CatrobatParameterParser.AdditiveExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatParameterParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatParameterParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatParameterParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatParameterParser#simple_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

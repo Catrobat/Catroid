@@ -7,13 +7,7 @@ options {
 argument: expression EOF;
 
 expression
-	: simple_expression
-	| expression OPERATOR_NUMERIC_DIVIDE expression
-	| expression OPERATOR_NUMERIC_MULTIPLY expression
-	| expression OPERATOR_NUMERIC_ADD expression
-	| expression OPERATOR_NUMERIC_MINUS expression
-	| expression OPERATOR_LOGIC_AND expression
-	| expression OPERATOR_LOGIC_OR expression
+	: additiveExpression
 	| expression OPERATOR_LOGIC_EQUAL expression
 	| expression OPERATOR_LOGIC_NOT_EQUAL expression
 	| expression OPERATOR_LOGIC_LOWER expression
@@ -21,6 +15,18 @@ expression
 	| expression OPERATOR_LOGIC_LOWER_EQUAL expression
 	| expression OPERATOR_LOGIC_GREATER_EQUAL expression
 	;
+
+additiveExpression
+    :   multiplicativeExpression (additiveOperator multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    :   simple_expression (multiplicativeOperator simple_expression)*
+    ;
+
+additiveOperator: OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_OR;
+
+multiplicativeOperator: OPERATOR_NUMERIC_MULTIPLY | OPERATOR_NUMERIC_DIVIDE | OPERATOR_LOGIC_AND;
 
 simple_expression
 	: literal

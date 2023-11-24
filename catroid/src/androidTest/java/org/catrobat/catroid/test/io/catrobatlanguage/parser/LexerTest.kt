@@ -36,7 +36,13 @@ class LexerTest {
     fun basicLexerTest() {
         val param = ArgumentParserHelper(CatroidApplication.getAppContext())
 //        param.parseArgument("join('hello', 'world', '!')")
-        param.parseArgument("1-3/9×7-6×2/4+8")
+        try {
+//            param.parseArgument("1&&2")
+//            param.parseArgument("1×3+7/8-(9+6)×2")
+            param.parseArgument("1×3+7/8-9||2&&9")
+        } catch (ex: Throwable) {
+            println(ex.message)
+        }
     }
 
     @Test
