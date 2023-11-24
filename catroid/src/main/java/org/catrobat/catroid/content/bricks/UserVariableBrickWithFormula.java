@@ -52,8 +52,6 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 
 	private transient BrickSpinner<UserVariable> spinner;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
-
 	@Override
 	public UserVariable getUserVariable() {
 		return userVariable;
@@ -78,6 +76,8 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	public View getView(Context context) {
 		super.getView(context);
 
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 		Sprite sprite = projectManager.getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
@@ -98,6 +98,8 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		if (activity == null) {
 			return;
 		}
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		final Project currentProject = projectManager.getCurrentProject();
 		final Sprite currentSprite = projectManager.getCurrentSprite();
