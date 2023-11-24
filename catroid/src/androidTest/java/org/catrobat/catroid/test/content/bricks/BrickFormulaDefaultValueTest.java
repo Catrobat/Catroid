@@ -115,6 +115,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
