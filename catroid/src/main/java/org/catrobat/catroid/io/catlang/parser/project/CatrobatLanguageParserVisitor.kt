@@ -107,7 +107,9 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitDescription(ctx: CatrobatLanguageParser.DescriptionContext?): CatrobatLanguageBaseResult {
-        currentProject.description = ctx.toString()
+        ctx?.STRING()?.let {
+            currentProject.description = it.text
+        }
         return CatrobatLanguageBaseResult()
     }
 
@@ -283,6 +285,7 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
             val stop = ctx.stop.stopIndex
             val tokenStream = ctx.start.tokenSource.inputStream
             val textInterval = Interval(start, stop)
+            visitFormula(ctx.formula())
             try {
                 val parameterPlusValue = tokenStream.getText(textInterval)
                 val startIndexOfParameterValue = parameterPlusValue.indexOf('(') + 1
