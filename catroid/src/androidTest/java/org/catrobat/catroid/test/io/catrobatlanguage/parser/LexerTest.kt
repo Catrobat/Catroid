@@ -47,7 +47,8 @@ class LexerTest {
 
     @Test
     fun basicProgramParserTest() {
-        CatrobatLanguageParser.parseProgramFromString(getTestProgramString())
+        val project = CatrobatLanguageParser.parseProgramFromString(getTestProgramString())
+        assert(project != null)
     }
 
     fun getTestProgramString(): String {

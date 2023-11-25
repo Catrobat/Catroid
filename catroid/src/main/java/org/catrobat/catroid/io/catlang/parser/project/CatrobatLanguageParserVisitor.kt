@@ -28,218 +28,256 @@ import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.tree.TerminalNode
+import org.catrobat.catroid.common.ScreenModes
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringContent
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToBoolean
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToDouble
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToInt
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBaseResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVisitResult
+import org.catrobat.catroid.io.catlang.parser.project.error.CatribatLanguageParsingException
 
-class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<Unit> {
-    override fun visit(tree: ParseTree?) {
-        this.visitProgram(tree as CatrobatLanguageParser.ProgramContext)
+class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLanguageBaseResult> {
+    private val currentProject: Project = Project()
+    private val CatrobatLanguageParserHelper = CatrobatLanguageParserHelper()
+    private val brickList: ArrayList<Brick> = arrayListOf()
+
+    override fun visit(tree: ParseTree?): CatrobatLanguageBaseResult {
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitChildren(node: RuleNode?) {
-        TODO("Not yet implemented")
+    override fun visitChildren(node: RuleNode?): CatrobatLanguageBaseResult {
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitTerminal(node: TerminalNode?) {
-        TODO("Not yet implemented")
+    override fun visitTerminal(node: TerminalNode?): CatrobatLanguageBaseResult {
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitErrorNode(node: ErrorNode?) {
-        TODO("Not yet implemented")
+    override fun visitErrorNode(node: ErrorNode?): CatrobatLanguageBaseResult {
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitProgram(ctx: CatrobatLanguageParser.ProgramContext?) {
-        if (ctx != null) {
-            ctx.programHeader()?.let { visitProgramHeader(it) }
-            ctx.programBody()?.let { visitProgramBody(it) }
+    override fun visitProgram(ctx: CatrobatLanguageParser.ProgramContext?): CatrobatLanguageBaseResult {
+        ctx?.programHeader()?.let { visitProgramHeader(it) }
+        val programBody = ctx?.programBody()
+        if (programBody != null) {
+            return visitProgramBody(programBody)
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitProgramHeader(ctx: CatrobatLanguageParser.ProgramHeaderContext?) {
-        if (ctx != null) {
-            ctx.PROGRAM_START()?.let { println(it.text) }
+    override fun visitProgramHeader(ctx: CatrobatLanguageParser.ProgramHeaderContext?): CatrobatLanguageBaseResult {
+        if (ctx?.PROGRAM_START() != null) {
+            println("Program start: " + ctx.PROGRAM_START().text)
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitProgramBody(ctx: CatrobatLanguageParser.ProgramBodyContext?) {
-        if (ctx != null) {
-//            ctx.metadata()?.let { visitMetadata(it) }
-//            ctx.stage()?.let { visitStage(it) }
-//            ctx.globals()?.let { visitGlobals(it) }
-            ctx.scene()?.let {
-                for (scene in it) {
-                    visitScene(scene)
-                }
+    override fun visitProgramBody(ctx: CatrobatLanguageParser.ProgramBodyContext?): CatrobatLanguageBaseResult {
+        ctx?.metadata()?.let { visitMetadata(it) }
+        ctx?.stage()?.let { visitStage(it) }
+
+        ctx?.scene()?.let {
+            it.forEach {
+                visitScene(it)
             }
         }
+        return CatrobatLanguageVisitResult(currentProject)
     }
 
-    override fun visitMetadata(ctx: CatrobatLanguageParser.MetadataContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitMetadataContent(ctx: CatrobatLanguageParser.MetadataContentContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitDescription(ctx: CatrobatLanguageParser.DescriptionContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitCatrobatVersion(ctx: CatrobatLanguageParser.CatrobatVersionContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitCatrobatAppVersion(ctx: CatrobatLanguageParser.CatrobatAppVersionContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitStage(ctx: CatrobatLanguageParser.StageContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitStageContent(ctx: CatrobatLanguageParser.StageContentContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitLandscapeMode(ctx: CatrobatLanguageParser.LandscapeModeContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitHeight(ctx: CatrobatLanguageParser.HeightContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitWidth(ctx: CatrobatLanguageParser.WidthContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitDisplayMode(ctx: CatrobatLanguageParser.DisplayModeContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitGlobals(ctx: CatrobatLanguageParser.GlobalsContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitMultiplayerVariables(ctx: CatrobatLanguageParser.MultiplayerVariablesContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitVariableDeclaration(ctx: CatrobatLanguageParser.VariableDeclarationContext?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitScene(ctx: CatrobatLanguageParser.SceneContext?) {
-        if (ctx != null) {
-//            ctx.background()?.let { visitBackground(it) }
-            ctx.actor()?.let {
-                for (actor in it) {
-                    visitActor(actor)
-                }
+    override fun visitMetadata(ctx: CatrobatLanguageParser.MetadataContext?): CatrobatLanguageBaseResult {
+        if (ctx?.metadataContent() != null) {
+            ctx.metadataContent().forEach {
+                visitMetadataContent(it)
             }
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitBackground(ctx: CatrobatLanguageParser.BackgroundContext?) {
+    override fun visitMetadataContent(ctx: CatrobatLanguageParser.MetadataContentContext?): CatrobatLanguageBaseResult {
+        ctx?.description()?.let { visitDescription(it) }
+        ctx?.catrobatVersion()?.let { visitCatrobatVersion(it) }
+        ctx?.catrobatAppVersion()?.let { visitCatrobatAppVersion(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitDescription(ctx: CatrobatLanguageParser.DescriptionContext?): CatrobatLanguageBaseResult {
+        currentProject.description = ctx.toString()
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitCatrobatVersion(ctx: CatrobatLanguageParser.CatrobatVersionContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            currentProject.catrobatLanguageVersion = getStringToDouble(it.text)
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitCatrobatAppVersion(ctx: CatrobatLanguageParser.CatrobatAppVersionContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            currentProject.applicationVersion = it.text
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitStage(ctx: CatrobatLanguageParser.StageContext?): CatrobatLanguageBaseResult {
+        if (ctx?.stageContent() != null) {
+            ctx.stageContent().forEach {
+                visitStageContent(it)
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitStageContent(ctx: CatrobatLanguageParser.StageContentContext?): CatrobatLanguageBaseResult {
+        ctx?.landscapeMode()?.let { visitLandscapeMode(it) }
+        ctx?.height()?.let { visitHeight(it) }
+        ctx?.width()?.let { visitWidth(it) }
+        ctx?.displayMode()?.let { visitDisplayMode(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitLandscapeMode(ctx: CatrobatLanguageParser.LandscapeModeContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            currentProject.setlandscapeMode(getStringToBoolean(it.text))
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitHeight(ctx: CatrobatLanguageParser.HeightContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            currentProject.setScreenHeight(getStringToInt(it.text))
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitWidth(ctx: CatrobatLanguageParser.WidthContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            currentProject.setScreenWidth(getStringToInt(it.text))
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitDisplayMode(ctx: CatrobatLanguageParser.DisplayModeContext?): CatrobatLanguageBaseResult {
+        ctx?.STRING()?.let {
+            try {
+                currentProject.screenMode = ScreenModes.valueOf(getStringContent(it.text).toUpperCase())
+            } catch (e: IllegalArgumentException) {
+                throw CatribatLanguageParsingException("Unknown screen mode: ${it.text}")
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitGlobals(ctx: CatrobatLanguageParser.GlobalsContext?): CatrobatLanguageBaseResult {
         TODO("Not yet implemented")
     }
 
-    override fun visitActor(ctx: CatrobatLanguageParser.ActorContext?) {
-        if (ctx != null) {
-            ctx.STRING(0).let { println("Actor name: " + it.text) }
-            ctx.actorContent()?.let { visitActorContent(it) }
-        }
-    }
-
-    override fun visitActorContent(ctx: CatrobatLanguageParser.ActorContentContext?) {
-        if (ctx != null) {
-//            ctx.looks()?.let {
-//                for (looks in it) {
-//                    visitLooks(looks)
-//                }
-//            }
-//            ctx.sounds()?.let {
-//                for (sounds in it) {
-//                    visitSounds(sounds)
-//                }
-//            }
-            ctx.scripts()?.let {
-                for (scripts in it) {
-                    visitScripts(scripts)
-                }
-            }
-        }
-    }
-
-    override fun visitLocalVariables(ctx: CatrobatLanguageParser.LocalVariablesContext?) {
+    override fun visitMultiplayerVariables(ctx: CatrobatLanguageParser.MultiplayerVariablesContext?): CatrobatLanguageBaseResult {
         TODO("Not yet implemented")
     }
 
-    override fun visitLooks(ctx: CatrobatLanguageParser.LooksContext?) {
+    override fun visitVariableDeclaration(ctx: CatrobatLanguageParser.VariableDeclarationContext?): CatrobatLanguageBaseResult {
         TODO("Not yet implemented")
     }
 
-    override fun visitSounds(ctx: CatrobatLanguageParser.SoundsContext?) {
+    override fun visitScene(ctx: CatrobatLanguageParser.SceneContext?): CatrobatLanguageBaseResult {
+        ctx?.background()?.let { visitBackground(it) }
+        ctx?.actor()?.let {
+            it.forEach() {
+                visitActor(it)
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitBackground(ctx: CatrobatLanguageParser.BackgroundContext?): CatrobatLanguageBaseResult {
+        ctx?.actorContent()?.let { visitActorContent(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitActor(ctx: CatrobatLanguageParser.ActorContext?): CatrobatLanguageBaseResult {
+        ctx?.actorContent()?.let { visitActorContent(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitActorContent(ctx: CatrobatLanguageParser.ActorContentContext?): CatrobatLanguageBaseResult {
+
+        ctx?.scripts()?.let {
+            it.forEach() {
+                visitScripts(it)
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitLocalVariables(ctx: CatrobatLanguageParser.LocalVariablesContext?): CatrobatLanguageBaseResult {
         TODO("Not yet implemented")
     }
 
-    override fun visitLooksAndSoundsContent(ctx: CatrobatLanguageParser.LooksAndSoundsContentContext?) {
+    override fun visitLooks(ctx: CatrobatLanguageParser.LooksContext?): CatrobatLanguageBaseResult {
         TODO("Not yet implemented")
     }
 
-    override fun visitScripts(ctx: CatrobatLanguageParser.ScriptsContext?) {
-        if (ctx != null) {
-            ctx.brick_with_body()?.let {
-                for (brick in it) {
-                    visitBrick_with_body(brick)
-                }
+    override fun visitSounds(ctx: CatrobatLanguageParser.SoundsContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
+    }
+
+    override fun visitLooksAndSoundsContent(ctx: CatrobatLanguageParser.LooksAndSoundsContentContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
+    }
+
+    override fun visitScripts(ctx: CatrobatLanguageParser.ScriptsContext?): CatrobatLanguageBaseResult {
+        ctx?.brick_with_body()?.let {
+            it.forEach() {
+                visitBrick_with_body(it)
             }
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitBrick_with_body(ctx: CatrobatLanguageParser.Brick_with_bodyContext?) {
-        if (ctx != null) {
-            ctx.BRICK_NAME().let { println("Brick name: " + it.text) }
-            ctx.brick_condition()?.let { visitBrick_condition(it) }
-            ctx.brick_invocation()?.let {
-                for (invocation in it) {
-                    visitBrick_invocation(invocation)
-                }
-            }
-            ctx.brick_with_body()?.let {
-                for (brick in it) {
-                    visitBrick_with_body(brick)
-                }
-            }
-        }
+    override fun visitBrick_defintion(ctx: CatrobatLanguageParser.Brick_defintionContext?): CatrobatLanguageBaseResult {
+        ctx?.brick_with_body()?.let { visitBrick_with_body(it) }
+        ctx?.brick_invocation()?.let { visitBrick_invocation(it) }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitBrick_invocation(ctx: CatrobatLanguageParser.Brick_invocationContext?) {
-        if (ctx != null) {
-            ctx.BRICK_NAME().let { println("Brick name: " + it.text) }
-            ctx.brick_condition()?.let { visitBrick_condition(it) }
-        }
-    }
-
-    override fun visitBrick_condition(ctx: CatrobatLanguageParser.Brick_conditionContext?) {
-        if (ctx != null) {
-            ctx.arg_list()?.let { visitArg_list(it) }
-        }
-    }
-
-    override fun visitArg_list(ctx: CatrobatLanguageParser.Arg_listContext?) {
-        if (ctx != null) {
-            ctx.argument()?.let {
-                for (argument in it) {
-                    visitArgument(argument)
-                }
+    override fun visitBrick_with_body(ctx: CatrobatLanguageParser.Brick_with_bodyContext?): CatrobatLanguageBaseResult {
+        ctx?.brick_condition()?.let { visitBrick_condition(it) }
+        ctx?.brick_defintion()?.let {
+            it.forEach() {
+                visitBrick_defintion(it)
             }
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitArgument(ctx: CatrobatLanguageParser.ArgumentContext?) {
-        if (ctx != null) {
+    override fun visitBrick_invocation(ctx: CatrobatLanguageParser.Brick_invocationContext?): CatrobatLanguageBaseResult {
+        ctx?.brick_condition()?.let { visitBrick_condition(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitBrick_condition(ctx: CatrobatLanguageParser.Brick_conditionContext?): CatrobatLanguageBaseResult {
+        ctx?.arg_list()?.let { visitArg_list(it) }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitArg_list(ctx: CatrobatLanguageParser.Arg_listContext?): CatrobatLanguageBaseResult {
+        ctx?.argument()?.let {
+            it.forEach() {
+                visitArgument(it)
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitArgument(ctx: CatrobatLanguageParser.ArgumentContext?): CatrobatLanguageBaseResult {
+        if (ctx?.formula() != null) {
             ctx.PARAM_MODE_NAME().let { println("Param name: " + it.text) }
             val start = ctx.start.startIndex
             val stop = ctx.stop.stopIndex
@@ -253,29 +291,11 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<Unit> {
             } catch (e: Exception) {
                 println("Error with Interval $textInterval")
             }
-            // skip visitFormula
-//            ctx.formula()?.let { visitFormula(it) }
         }
+        return CatrobatLanguageBaseResult()
     }
 
-    override fun visitFormula(ctx: CatrobatLanguageParser.FormulaContext?) {
-        if (ctx != null) {
-            val start = ctx.start
-            val end = ctx.stop
-
-            if (start.startIndex > end.stopIndex) {
-                // TODO: Error handling
-                return
-            }
-
-            val tokenStream = ctx.start.tokenSource.inputStream
-            val textInterval = Interval(start.startIndex, end.stopIndex)
-            try {
-                val text = tokenStream.getText(textInterval)
-                println(text)
-            } catch (e: Exception) {
-                println("Error with Interval $textInterval")
-            }
-        }
+    override fun visitFormula(ctx: CatrobatLanguageParser.FormulaContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
     }
 }
