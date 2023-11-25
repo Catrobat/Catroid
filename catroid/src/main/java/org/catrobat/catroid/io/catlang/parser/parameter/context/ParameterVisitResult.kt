@@ -25,5 +25,5 @@ package org.catrobat.catroid.io.catlang.parser.parameter.context
 
 import org.catrobat.catroid.formulaeditor.FormulaElement
 
-class ParameterVisitResult(val leftChild: FormulaElement?, val rightChild: FormulaElement? = null, val additionalChildren: List<FormulaElement>? = null) : ArgumentBaseVisitResult() {
+class ParameterVisitResult(val leftChild: FormulaElement?, val rightChild: FormulaElement? = null, val additionalChildren: List<FormulaElement>? = null, val numberOfParameters: Int) : ArgumentBaseVisitResult() {
 }

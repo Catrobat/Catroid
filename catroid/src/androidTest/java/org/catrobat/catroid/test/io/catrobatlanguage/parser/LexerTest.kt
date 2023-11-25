@@ -39,7 +39,10 @@ class LexerTest {
         try {
 //            param.parseArgument("1&&2")
 //            param.parseArgument("1×3+7/8-(9+6)×2")
-            param.parseArgument("1×3+7/8-9||2&&9")
+//            param.parseArgument("1×3+7/8-9||2&&9")
+//            param.parseArgument("index of current touch (1)")
+//            param.parseArgument("14+-7")
+            param.parseArgument("colour equals colour with % tolerance('#ff0000', '#ff0000', 1.0)")
         } catch (ex: Throwable) {
             println(ex.message)
         }

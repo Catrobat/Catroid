@@ -54,6 +54,63 @@ class ArgumentVisitor(
     private val userDefinedBrickParameters: List<String>
     ) : CatrobatParameterParserVisitor<ArgumentBaseVisitResult> {
 
+    companion object {
+        val FUNCTION_TO_NUMBER_OF_PARAMETER_MAP = mapOf(
+            Functions.SIN to 1,
+            Functions.COS to 1,
+            Functions.TAN to 1,
+            Functions.LN to 1,
+            Functions.LOG to 1,
+            Functions.PI to 0,
+            Functions.SQRT to 1,
+            Functions.RAND to 2,
+            Functions.ABS to 1,
+            Functions.ROUND to 1,
+            Functions.MOD to 2,
+            Functions.ARCSIN to 1,
+            Functions.ARCCOS to 1,
+            Functions.ARCTAN to 1,
+            Functions.ARCTAN2 to 2,
+            Functions.EXP to 1,
+            Functions.POWER to 2,
+            Functions.FLOOR to 1,
+            Functions.CEIL to 1,
+            Functions.MAX to 2,
+            Functions.MIN to 2,
+            Functions.IF_THEN_ELSE to 3,
+            Functions.TRUE to 0,
+            Functions.FALSE to 0,
+            Functions.LENGTH to 1,
+            Functions.NUMBER_OF_ITEMS to 1,
+            Functions.LETTER to 2,
+            Functions.JOIN to 2,
+            Functions.JOIN3 to 3,
+            Functions.REGEX to 2,
+            Functions.FLATTEN to 1,
+            Functions.ARDUINODIGITAL to 1,
+            Functions.ARDUINOANALOG to 1,
+            Functions.RASPIDIGITAL to 1,
+            Functions.MULTI_FINGER_X to 1,
+            Functions.MULTI_FINGER_Y to 1,
+            Functions.MULTI_FINGER_TOUCHED to 0,
+            Functions.INDEX_CURRENT_TOUCH to 1,
+            Functions.LIST_ITEM to 2,
+            Functions.CONTAINS to 2,
+            Functions.INDEX_OF_ITEM to 2,
+            Functions.COLOR_AT_XY to 2,
+            Functions.COLOR_EQUALS_COLOR to 3,
+            Functions.COLLIDES_WITH_COLOR to 1,
+            Functions.COLOR_TOUCHES_COLOR to 2,
+            Functions.OBJECT_WITH_ID_VISIBLE to 1,
+            Functions.ID_OF_DETECTED_OBJECT to 1,
+            Functions.TEXT_BLOCK_X to 1,
+            Functions.TEXT_BLOCK_Y to 1,
+            Functions.TEXT_BLOCK_SIZE to 1,
+            Functions.TEXT_BLOCK_FROM_CAMERA to 1,
+            Functions.TEXT_BLOCK_LANGUAGE_FROM_CAMERA to 1
+        )
+    }
+
     private val formulaElementStack = Stack<FormulaElement>()
 
     private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
@@ -158,8 +215,8 @@ class ArgumentVisitor(
         if (ctx == null) {
             throw ArgumentParsingException("No multiplicative expression found")
         }
-        if (ctx.simple_expression().count() == 1) {
-            return visitSimple_expression(ctx.simple_expression(0))
+        if (ctx.simpleExpression().count() == 1) {
+            return visitSimpleExpression(ctx.simpleExpression(0))
         }
 
         var multiplicativeExpressionStack = Stack<FormulaElement>()
@@ -171,10 +228,10 @@ class ArgumentVisitor(
             if (multiplicativeExpressionStack.isNotEmpty()) {
                 multiplicativeExpressionStack.peek().setLeftChild(formulaElement)
             }
-            val rightSimpleExpression = (visitSimple_expression(ctx.simple_expression(i+1)) as FormulaElementVisitResult).formulaElement
+            val rightSimpleExpression = (visitSimpleExpression(ctx.simpleExpression(i+1)) as FormulaElementVisitResult).formulaElement
             formulaElement.setRightChild(rightSimpleExpression)
             if (i == 0) {
-                val firstSimpleExpression = (visitSimple_expression(ctx.simple_expression(i)) as FormulaElementVisitResult).formulaElement
+                val firstSimpleExpression = (visitSimpleExpression(ctx.simpleExpression(i)) as FormulaElementVisitResult).formulaElement
                 formulaElement.setLeftChild(firstSimpleExpression)
             }
             multiplicativeExpressionStack.push(formulaElement)
@@ -215,19 +272,16 @@ class ArgumentVisitor(
         throw ArgumentParsingException("No multiplicative operator found")
     }
 
-    override fun visitSimple_expression(ctx: CatrobatParameterParser.Simple_expressionContext?): ArgumentBaseVisitResult {
+    override fun visitSimpleExpression(ctx: CatrobatParameterParser.SimpleExpressionContext?): ArgumentBaseVisitResult {
         if (ctx != null) {
             if (ctx.literal() != null) {
                 return visitLiteral(ctx.literal())
             }
-            if (ctx.unary_expression() != null) {
-                return visitUnary_expression(ctx.unary_expression())
+            if (ctx.unaryExpression() != null) {
+                return visitUnaryExpression(ctx.unaryExpression())
             }
-            if (ctx.sensor_reference() != null) {
-                return visitSensor_reference(ctx.sensor_reference())
-            }
-            if (ctx.method_invoaction() != null) {
-                return visitMethod_invoaction(ctx.method_invoaction())
+            if (ctx.sensorPropertyOrMethodInvocation() != null) {
+                return visitSensorPropertyOrMethodInvocation(ctx.sensorPropertyOrMethodInvocation())
             }
             if (ctx.expression() != null) {
                 val parentElement = tryGetParentFormulaElement()
@@ -242,89 +296,130 @@ class ArgumentVisitor(
         return ArgumentBaseVisitResult()
     }
 
-    override fun visitSensor_reference(ctx: CatrobatParameterParser.Sensor_referenceContext?): ArgumentBaseVisitResult {
-        if (ctx?.FUNCTION_OR_SENSOR() != null) {
-            val sensorName = ctx.FUNCTION_OR_SENSOR().text
-            if (externToInternValues.containsKey(sensorName)) {
-                val sensorID = externToInternValues[sensorName]
-
-                val allSensors = enumValues<Sensors>()
-                for (sensor in allSensors) {
-                    if (sensor.name == sensorID) {
-                        return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.SENSOR, sensorID, tryGetParentFormulaElement()))
-                    }
-                }
-            }
-            throw UnkownSensorException(sensorName!!)
+    override fun visitSensorPropertyOrMethodInvocation(ctx: CatrobatParameterParser.SensorPropertyOrMethodInvocationContext?): ArgumentBaseVisitResult {
+        if (ctx == null) {
+            throw ArgumentParsingException("No sensor property or method invocation found")
         }
-        return ArgumentBaseVisitResult()
+
+        val sensorPropertyOrMethod = ctx.SENSOR_OR_PROPERTY_OR_METHOD().text.trim()
+
+        if (!externToInternValues.containsKey(sensorPropertyOrMethod)) {
+            throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
+        }
+
+        val sensorPropertyOrMethodIntern = externToInternValues[sensorPropertyOrMethod] ?: throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
+
+        val sensor = tryParseSensor(sensorPropertyOrMethodIntern)
+        if (sensor != null) {
+            if (ctx.methodParameters() != null) {
+                throw UnkownSensorException("Referencing sensor $sensorPropertyOrMethod with parameters is not possible.")
+            }
+            val sensorFormulaElement = FormulaElement(FormulaElement.ElementType.SENSOR, sensor.name, tryGetParentFormulaElement())
+            return FormulaElementVisitResult(sensorFormulaElement)
+        }
+
+        val function = tryParseFunction(sensorPropertyOrMethodIntern)
+        if (function != null) {
+            val functionFormulaElement = parseFunction(sensorPropertyOrMethod, function, ctx)
+            return FormulaElementVisitResult(functionFormulaElement)
+        }
+        throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
     }
 
-    override fun visitMethod_invoaction(ctx: CatrobatParameterParser.Method_invoactionContext?): ArgumentBaseVisitResult {
-        if (ctx?.FUNCTION_OR_SENSOR() != null) {
-            if (externToInternValues.containsKey(ctx.FUNCTION_OR_SENSOR().text)) {
-                val functionName = externToInternValues[ctx.FUNCTION_OR_SENSOR().text]
+    private fun parseFunction(functionText: String, function: Functions, ctx: CatrobatParameterParser.SensorPropertyOrMethodInvocationContext): FormulaElement {
+        val functionFormulaElement = FormulaElement(FormulaElement.ElementType.FUNCTION, function.name, tryGetParentFormulaElement())
+        formulaElementStack.push(functionFormulaElement)
 
-                var functionElement: FormulaElement? = null
-                val allFunctions = enumValues<Functions>()
-                for (sensor in allFunctions) {
-                    if (sensor.name == functionName) {
-                        functionElement = FormulaElement(FormulaElement.ElementType.FUNCTION, functionName, tryGetParentFormulaElement())
-                    }
-                }
-                if (functionElement != null) {
-                    formulaElementStack.push(functionElement)
-                    val paramReply = visitParameters(ctx.parameters())
-                    if (paramReply is ParameterVisitResult) {
-                        val parameters = paramReply
-                        if (parameters.leftChild != null) {
-                            functionElement.setLeftChild(parameters.leftChild)
-                        }
-                        if (parameters.rightChild != null) {
-                            functionElement.setRightChild(parameters.rightChild)
-                        }
-                        if (parameters.additionalChildren != null) {
-                            functionElement.additionalChildren = parameters.additionalChildren
-                        }
-                    }
-                    formulaElementStack.pop()
-                    return FormulaElementVisitResult(functionElement)
+        if (!FUNCTION_TO_NUMBER_OF_PARAMETER_MAP.containsKey(function)) {
+            throw UnkownFunctionException("Unknown number of parameters for function: $functionText")
+        }
+        val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function] ?: throw UnkownFunctionException("Unknown function: $function")
+
+        if (numberOfParametersExpected == 0 && ctx.methodParameters() != null) {
+            throw ArgumentParsingException("No parameters allowed for function $functionText.")
+        }
+
+        val parameters = visitMethodParameters(ctx.methodParameters()) as ParameterVisitResult
+
+        if (numberOfParametersExpected != parameters.numberOfParameters) {
+            if (function == Functions.JOIN || function == Functions.JOIN3) {
+                if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]) {
+                    functionFormulaElement.value = Functions.JOIN.name
+                } else if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]) {
+                    functionFormulaElement.value = Functions.JOIN3.name
                 } else {
-                    throw UnkownFunctionException(functionName!!)
+                    throw ArgumentParsingException("Wrong number of parameters for function $functionText. Expected ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]} or ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]}, but got ${parameters.numberOfParameters}")
                 }
+            } else {
+                throw ArgumentParsingException("Wrong number of parameters for function $functionText. Expected $numberOfParametersExpected, but got ${parameters.numberOfParameters}")
             }
         }
-        return ArgumentBaseVisitResult()
-    }
 
-    override fun visitParameters(ctx: CatrobatParameterParser.ParametersContext?): ArgumentBaseVisitResult {
-        return visitParam_list(ctx?.param_list())
-    }
+        val leftChild = parameters.leftChild
+        val rightChild = parameters.rightChild
+        val additionalChildren = parameters.additionalChildren
 
-    override fun visitParam_list(ctx: CatrobatParameterParser.Param_listContext?): ArgumentBaseVisitResult {
-        if (ctx?.expression() != null) {
-            val parameters = arrayListOf<FormulaElement>()
-            for (expression in ctx.expression()) {
-                val result = visitExpression(expression)
-                parameters.add((result as FormulaElementVisitResult).formulaElement)
-            }
-            var leftParameter: FormulaElement? = null
-            var rightParameter: FormulaElement? = null
-
-            if (parameters.isNotEmpty()) {
-                leftParameter = parameters.first()
-                parameters.remove(leftParameter)
-            }
-            if (parameters.isNotEmpty()) {
-                rightParameter = parameters.first()
-                parameters.remove(rightParameter)
-            }
-            return ParameterVisitResult(leftParameter, rightParameter, parameters)
+        if (leftChild != null) {
+            functionFormulaElement.setLeftChild(leftChild)
         }
-        return ArgumentBaseVisitResult()
+        if (rightChild != null) {
+            functionFormulaElement.setRightChild(rightChild)
+        }
+        if (!additionalChildren.isNullOrEmpty()) {
+            functionFormulaElement.additionalChildren = additionalChildren
+        }
+
+        formulaElementStack.pop()
+        return functionFormulaElement
     }
 
-    override fun visitUnary_expression(ctx: CatrobatParameterParser.Unary_expressionContext?): ArgumentBaseVisitResult {
+    private fun tryParseSensor(sensor: String): Sensors? {
+        return try {
+            Sensors.valueOf(sensor)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+    }
+
+    private fun tryParseFunction(function: String): Functions? {
+        return try {
+            Functions.valueOf(function)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+    }
+
+    override fun visitMethodParameters(ctx: CatrobatParameterParser.MethodParametersContext?): ArgumentBaseVisitResult {
+        return visitParameterList(ctx?.parameterList())
+    }
+
+    override fun visitParameterList(ctx: CatrobatParameterParser.ParameterListContext?): ArgumentBaseVisitResult {
+        if (ctx?.expression() == null) {
+            return ParameterVisitResult(null, null, arrayListOf(), 0)
+        }
+        val parameters = arrayListOf<FormulaElement>()
+        for (expression in ctx.expression()) {
+            val result = visitExpression(expression)
+            parameters.add((result as FormulaElementVisitResult).formulaElement)
+        }
+        val numberOfParameters = parameters.size
+
+        var leftParameter: FormulaElement? = null
+        var rightParameter: FormulaElement? = null
+
+        if (parameters.isNotEmpty()) {
+            leftParameter = parameters.first()
+            parameters.remove(leftParameter)
+        }
+        if (parameters.isNotEmpty()) {
+            rightParameter = parameters.first()
+            parameters.remove(rightParameter)
+        }
+
+        return ParameterVisitResult(leftParameter, rightParameter, parameters, numberOfParameters)
+    }
+
+    override fun visitUnaryExpression(ctx: CatrobatParameterParser.UnaryExpressionContext?): ArgumentBaseVisitResult {
         val parentElement = tryGetParentFormulaElement()
         if (ctx != null) {
             var unaryFormulaElement: FormulaElement? = null
@@ -349,38 +444,40 @@ class ArgumentVisitor(
     }
 
     override fun visitLiteral(ctx: CatrobatParameterParser.LiteralContext?): ArgumentBaseVisitResult {
-        if (ctx != null) {
-            var parentElement = tryGetParentFormulaElement()
-
-            if (ctx.NUMBER() != null) {
-                return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, ctx.NUMBER().text, parentElement))
-            }
-            if (ctx.STRING() != null) {
-                val trimmedString = ctx.STRING().text.trim('\'');
-                return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, parentElement))
-            }
-            if (ctx.UDB_PARAMETER() != null) {
-                val trimmedUDBParameter = ctx.UDB_PARAMETER().text.trimStart('[').trimEnd(']')
-                if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
-                    throw ArgumentParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
-                }
-                return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, parentElement))
-            }
-            if (ctx.LIST() != null) {
-                val trimmedListParameter = ctx.LIST().text.trim('*')
-                if (!userLists.contains(trimmedListParameter)) {
-                    throw ArgumentParsingException("Unknown list: $trimmedListParameter")
-                }
-                return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, parentElement))
-            }
-            if (ctx.VARIABLE() != null) {
-                val trimmedVariableParameter = ctx.VARIABLE().text.trim('"')
-                if (!userVariables.contains(trimmedVariableParameter)) {
-                    throw ArgumentParsingException("Unknown variable: $trimmedVariableParameter")
-                }
-                return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, parentElement))
-            }
+        if (ctx == null) {
+            throw ArgumentParsingException("No literal found")
         }
-        return ArgumentBaseVisitResult()
+        var parentElement = tryGetParentFormulaElement()
+
+        if (ctx.NUMBER() != null) {
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, ctx.NUMBER().text, parentElement))
+        }
+        if (ctx.STRING() != null) {
+            val trimmedString = ctx.STRING().text.trim('\'');
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, parentElement))
+        }
+        if (ctx.UDB_PARAMETER() != null) {
+            val trimmedUDBParameter = ctx.UDB_PARAMETER().text.trimStart('[').trimEnd(']')
+            if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
+                throw ArgumentParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
+            }
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, parentElement))
+        }
+        if (ctx.LIST() != null) {
+            val trimmedListParameter = ctx.LIST().text.trim('*')
+            if (!userLists.contains(trimmedListParameter)) {
+                throw ArgumentParsingException("Unknown list: $trimmedListParameter")
+            }
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, parentElement))
+        }
+        if (ctx.VARIABLE() != null) {
+            val trimmedVariableParameter = ctx.VARIABLE().text.trim('"')
+            if (!userVariables.contains(trimmedVariableParameter)) {
+                throw ArgumentParsingException("Unknown variable: $trimmedVariableParameter")
+            }
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, parentElement))
+        }
+
+        throw ArgumentParsingException("No literal found")
     }
 }

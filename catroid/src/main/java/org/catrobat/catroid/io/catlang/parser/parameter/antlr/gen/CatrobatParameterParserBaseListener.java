@@ -1,26 +1,3 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * An additional term exception under section 7 of the GNU Affero
- * General Public License, version 3, is available at
- * http://developer.catrobat.org/license_additional_term
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 // Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/CatrobatParameterParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen;
 
@@ -112,73 +89,61 @@ public class CatrobatParameterParserBaseListener implements CatrobatParameterPar
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimple_expression(CatrobatParameterParser.Simple_expressionContext ctx) { }
+	@Override public void enterSimpleExpression(CatrobatParameterParser.SimpleExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimple_expression(CatrobatParameterParser.Simple_expressionContext ctx) { }
+	@Override public void exitSimpleExpression(CatrobatParameterParser.SimpleExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSensor_reference(CatrobatParameterParser.Sensor_referenceContext ctx) { }
+	@Override public void enterSensorPropertyOrMethodInvocation(CatrobatParameterParser.SensorPropertyOrMethodInvocationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSensor_reference(CatrobatParameterParser.Sensor_referenceContext ctx) { }
+	@Override public void exitSensorPropertyOrMethodInvocation(CatrobatParameterParser.SensorPropertyOrMethodInvocationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethod_invoaction(CatrobatParameterParser.Method_invoactionContext ctx) { }
+	@Override public void enterMethodParameters(CatrobatParameterParser.MethodParametersContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMethod_invoaction(CatrobatParameterParser.Method_invoactionContext ctx) { }
+	@Override public void exitMethodParameters(CatrobatParameterParser.MethodParametersContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameters(CatrobatParameterParser.ParametersContext ctx) { }
+	@Override public void enterParameterList(CatrobatParameterParser.ParameterListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameters(CatrobatParameterParser.ParametersContext ctx) { }
+	@Override public void exitParameterList(CatrobatParameterParser.ParameterListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam_list(CatrobatParameterParser.Param_listContext ctx) { }
+	@Override public void enterUnaryExpression(CatrobatParameterParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam_list(CatrobatParameterParser.Param_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUnary_expression(CatrobatParameterParser.Unary_expressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUnary_expression(CatrobatParameterParser.Unary_expressionContext ctx) { }
+	@Override public void exitUnaryExpression(CatrobatParameterParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

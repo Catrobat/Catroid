@@ -21,29 +21,27 @@ additiveExpression
     ;
 
 multiplicativeExpression
-    :   simple_expression (multiplicativeOperator simple_expression)*
+    :   simpleExpression (multiplicativeOperator simpleExpression)*
     ;
 
 additiveOperator: OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_OR;
 
 multiplicativeOperator: OPERATOR_NUMERIC_MULTIPLY | OPERATOR_NUMERIC_DIVIDE | OPERATOR_LOGIC_AND;
 
-simple_expression
+simpleExpression
 	: literal
-	| sensor_reference
-	| method_invoaction
-	| unary_expression
+	| sensorPropertyOrMethodInvocation
+	| unaryExpression
 	| BRACE_OPEN expression BRACE_CLOSE
 	;
 
-sensor_reference: FUNCTION_OR_SENSOR;
+sensorPropertyOrMethodInvocation: SENSOR_OR_PROPERTY_OR_METHOD methodParameters?;
 
-method_invoaction: FUNCTION_OR_SENSOR parameters?;
 
-parameters: BRACE_OPEN param_list BRACE_CLOSE;
-param_list: expression (COMMA expression)*;
+methodParameters: BRACE_OPEN parameterList BRACE_CLOSE;
+parameterList: expression (COMMA expression)*;
 
-unary_expression: (OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_NOT) expression;
+unaryExpression: (OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_NOT) expression;
 
 literal
 	: NUMBER
@@ -52,21 +50,3 @@ literal
 	| UDB_PARAMETER
 	| STRING
 	;
-
-//options {
-//	tokenVocab = CatrobatFormulaLexer;
-//}
-//
-//formula
-//	: BRACKET_OPEN formula BRACKET_CLOSE 		#parenthesis
-//	| formula_element (OPERATOR formula)*       #operators
-//	;
-//
-//formula_element
-//	: NUMBER										    #number
-//	| STRING											#string
-//	| VARIABLE_REF										#variable
-//	| LIST_REF											#list
-//	| UDB_PARAMETER										#udbParameter
-//	| FUNCTION_NAME	(FORMULA_BRACKET_OPEN FORMULA_BRACKET_CLOSE)?	#functionCall
-//	;
