@@ -20,36 +20,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import android.util.Log
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.InterpretationException
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class ChangeSizeByNAction : TemporalAction() {
+    private lateinit var scope: Scope
+    private lateinit var size: Formula
+    override fun update(percent: Float) {
+        try {
+            val newSize =
+                if (size == null) java.lang.Float.valueOf(0f) else size!!.interpretFloat(scope)
+            scope!!.sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize)
+        } catch (interpretationException: InterpretationException) {
+            Log.d(
+                javaClass.simpleName,
+                "Formula interpretation for this specific Brick failed.",
+                interpretationException
+            )
+        }
+    }
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+    fun setScope(scope: Scope) {
+        this.scope = scope
+    }
 
-public class ChangeSizeByNAction extends TemporalAction {
-
-	private Scope scope;
-	private Formula size;
-
-	@Override
-	protected void update(float percent) {
-		try {
-			Float newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(scope);
-			scope.getSprite().look.changeSizeInUserInterfaceDimensionUnit(newSize);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setSize(Formula size) {
-		this.size = size;
-	}
+    fun setSize(size: Formula?) {
+        this.size = size ?: Formula(0f)
+    }
 }

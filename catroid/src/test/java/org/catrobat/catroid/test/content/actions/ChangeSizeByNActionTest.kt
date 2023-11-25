@@ -20,84 +20,114 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.actions;
+package org.catrobat.catroid.test.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.ExpectedException
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class ChangeSizeByNActionTest {
+    @JvmField
+    @Rule
+    val exception: ExpectedException = ExpectedException.none()
+    private var sprite: Sprite? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        initializeStaticSingletonMethods()
+        sprite = Sprite("testSprite")
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testSize() {
+        Assert.assertEquals(INITIALIZED_VALUE, sprite!!.look.sizeInUserInterfaceDimensionUnit)
+        sprite!!.actionFactory.createChangeSizeByNAction(
+            sprite,
+            SequenceAction(), Formula(CHANGE_SIZE)
+        ).act(1.0f)
+        Assert.assertEquals(
+            INITIALIZED_VALUE + CHANGE_SIZE,
+            sprite!!.look.sizeInUserInterfaceDimensionUnit,
+            DELTA
+        )
+        sprite!!.actionFactory.createChangeSizeByNAction(
+            sprite, SequenceAction(),
+            Formula(-CHANGE_SIZE)
+        ).act(1.0f)
+        Assert.assertEquals(
+            INITIALIZED_VALUE,
+            sprite!!.look.sizeInUserInterfaceDimensionUnit,
+            DELTA
+        )
+    }
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+    @Test(expected = NullPointerException::class)
+    fun testNullSprite() {
+        val factory = ActionFactory()
+        val action = factory.createChangeSizeByNAction(
+            null,
+            SequenceAction(),
+            Formula(
+                CHANGE_SIZE
+            )
+        )
+        action.act(1.0f)
+    }
 
-@RunWith(JUnit4.class)
-public class ChangeSizeByNActionTest {
+    @Test
+    fun testBrickWithStringFormula() {
+        sprite!!.actionFactory.createChangeSizeByNAction(
+            sprite, SequenceAction(), Formula(
+                CHANGE_VALUE.toString()
+            )
+        )
+            .act(1.0f)
+        Assert.assertEquals(
+            INITIALIZED_VALUE + CHANGE_VALUE,
+            sprite!!.look.sizeInUserInterfaceDimensionUnit
+        )
+        sprite!!.actionFactory.createChangeSizeByNAction(
+            sprite, SequenceAction(), Formula(
+                NOT_NUMERICAL_STRING
+            )
+        ).act(1.0f)
+        Assert.assertEquals(
+            INITIALIZED_VALUE + CHANGE_VALUE,
+            sprite!!.look.sizeInUserInterfaceDimensionUnit
+        )
+    }
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+    @Test
+    fun testNullFormula() {
+        sprite!!.actionFactory.createChangeSizeByNAction(sprite, SequenceAction(), null).act(1.0f)
+        Assert.assertEquals(INITIALIZED_VALUE, sprite!!.look.sizeInUserInterfaceDimensionUnit)
+    }
 
-	private static final float INITIALIZED_VALUE = 100f;
-	private static final float CHANGE_VALUE = 44.4f;
-	private static final String NOT_NUMERICAL_STRING = "size";
-	private static final float CHANGE_SIZE = 20f;
-	private static final float DELTA = 0.0001f;
-	private Sprite sprite;
+    @Test
+    fun testNotANumberFormula() {
+        sprite!!.actionFactory.createChangeSizeByNAction(
+            sprite,
+            SequenceAction(),
+            Formula(Double.NaN)
+        ).act(1.0f)
+        Assert.assertEquals(INITIALIZED_VALUE, sprite!!.look.sizeInUserInterfaceDimensionUnit)
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		initializeStaticSingletonMethods();
-		sprite = new Sprite("testSprite");
-	}
-
-	@Test
-	public void testSize() {
-		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createChangeSizeByNAction(sprite,
-				new SequenceAction(), new Formula(CHANGE_SIZE)).act(1.0f);
-		assertEquals(INITIALIZED_VALUE + CHANGE_SIZE, sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
-
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(),
-				new Formula(-CHANGE_SIZE)).act(1.0f);
-		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void testNullSprite() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createChangeSizeByNAction(null, new SequenceAction(),
-				new Formula(CHANGE_SIZE));
-		action.act(1.0f);
-	}
-
-	@Test
-	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(String.valueOf(CHANGE_VALUE)))
-				.act(1.0f);
-		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testNullFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), null).act(1.0f);
-		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testNotANumberFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
-		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
-	}
+    companion object {
+        private const val INITIALIZED_VALUE = 100f
+        private const val CHANGE_VALUE = 44.4f
+        private const val NOT_NUMERICAL_STRING = "size"
+        private const val CHANGE_SIZE = 20f
+        private const val DELTA = 0.0001f
+    }
 }
