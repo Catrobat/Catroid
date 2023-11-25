@@ -24,17 +24,21 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
@@ -42,6 +46,9 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 @SuppressLint("AppCompatCustomView")
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
@@ -351,6 +358,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(newExternFormulaString);
+		if (isColorString(newExternFormulaString)) {
+			addColoredSquareToColorString(newExternFormulaString,this);
+		}
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
@@ -359,6 +369,41 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		highlightSelection();
 
 		return newExternFormulaString;
+	}
+
+	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
+		int color = getColorValueFromColorString(colorString);
+		String colorStringCut = colorString.substring(0,colorString.length() - 2);
+		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+		squareBitmap.setPixel(0, 0, color);
+		RoundedBitmapDrawable roundedSquareDrawable =
+				RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
+						180, 180, false));
+		roundedSquareDrawable.setCornerRadius(20);
+		SpannableStringBuilder builder = new SpannableStringBuilder();
+		builder.append(colorStringCut);
+		roundedSquareDrawable.setBounds(0, 0, roundedSquareDrawable.getIntrinsicWidth(),
+				roundedSquareDrawable.getIntrinsicHeight());
+		ImageSpan span = new ImageSpan(roundedSquareDrawable, ImageSpan.ALIGN_BOTTOM);
+		builder.append(" ");
+		builder.setSpan(span, colorStringCut.length() ,
+				colorStringCut.length() + 1, 0);
+		builder.append(" ' ");
+		formulaFieldView.setText(builder);
+	}
+
+	private int getColorValueFromColorString(String colorString) {
+		String newString = colorString.replaceAll("[^A-Za-z0-9]", "");
+		try {
+			int val = Integer.parseInt(newString,16);
+			return val;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	private boolean isColorString(String colorString) {
+		return colorString.matches("^'#.{6}'\\s$");
 	}
 
 	@Override

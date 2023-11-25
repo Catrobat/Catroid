@@ -25,6 +25,10 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -124,7 +128,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return view;
 	}
 
-	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
+/*	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
 		int color = getColorValueFromColorString(colorString);
 		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
 		squareBitmap.setPixel(0, 0, color);
@@ -134,20 +138,31 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		roundedSquareDrawable.setCornerRadius(20);
 		formulaFieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, roundedSquareDrawable,
 				null);
+	}*/
+
+	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
+		int color = getColorValueFromColorString(colorString);
+		String colorStringCut = colorString.substring(0,colorString.length() - 2);
+		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+		squareBitmap.setPixel(0, 0, color);
+		RoundedBitmapDrawable roundedSquareDrawable =
+				RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
+						180, 180, false));
+		roundedSquareDrawable.setCornerRadius(20);
+		SpannableStringBuilder builder = new SpannableStringBuilder();
+		builder.append(colorStringCut);
+		roundedSquareDrawable.setBounds(0, 0, roundedSquareDrawable.getIntrinsicWidth(),
+				roundedSquareDrawable.getIntrinsicHeight());
+		ImageSpan span = new ImageSpan(roundedSquareDrawable, ImageSpan.ALIGN_BOTTOM);
+		builder.append(" ");
+		builder.setSpan(span, colorStringCut.length() ,
+				colorStringCut.length() + 1, 0);
+		builder.append(" ' ");
+		formulaFieldView.setText(builder);
 	}
 
 	private boolean isColorString(String colorString) {
 		return colorString.matches("^'#.{6}'\\s$");
-	}
-
-	private int getColorValueFromBrickField(BrickField brickField) {
-		Formula formula = getFormulaWithBrickField(brickField);
-		try {
-			String value = formula.interpretString(null);
-			return Integer.decode(value);
-		} catch (InterpretationException e) {
-			return 0;
-		}
 	}
 
 	private int getColorValueFromColorString(String colorString) {
@@ -182,7 +197,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		if (isColorString(newString)) {
 			addColoredSquareToColorString(newString, formulaFieldView);
 		}
-
 	}
 
 	public TextView getTextView(FormulaField formulaField) {
