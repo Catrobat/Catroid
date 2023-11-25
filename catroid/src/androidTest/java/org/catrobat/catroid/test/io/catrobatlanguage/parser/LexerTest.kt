@@ -95,13 +95,14 @@ class LexerTest {
 
                         Scripts {
                             Whene scene starts {
-                                Place at (x: (0), y: (0));
-                                Glide to (x: (-1080), y: (0), seconds: (5));
-                                Place at (x: (1080), y: (0));
-                                Forever {
+                                # Place at (x: (0), y: (0));
+                                // # disabled note brick
+                                # simple Note brick Glide to (x: (-1080), y: (0), seconds: (5));
+                                // Place at (x: (1080), y: (0));
+                                // Forever {
                                     Glide to (x: (-1080), y: (0), seconds: (10));
                                     Place at (x: (1080), y: (0));
-                                }
+                                // }
                             }
                         }
                     }
@@ -118,6 +119,10 @@ class LexerTest {
                                     Glide to (x: (-1080), y: (0), seconds: (10));
                                     Place at (x: (1080), y: (0));
                                 }
+                                // Forever {
+                                    // Glide to (x: (-1080), y: (0), seconds: (10));
+                                    // Place at (x: (1080), y: (0));
+                                // }
                             }
                         }
                     }

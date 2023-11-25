@@ -28,21 +28,35 @@ import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.tree.TerminalNode
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.NoteBrick
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringContent
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToBoolean
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToDouble
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserHelper.Companion.getStringToInt
-import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
+import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageArgumentResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBaseResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageKeyValueResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageListResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageStringResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVariableResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVisitResult
-import org.catrobat.catroid.io.catlang.parser.project.error.CatribatLanguageParsingException
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageDoubleDefinitionException
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLanguageBaseResult> {
     private val currentProject: Project = Project()
+    private var currentScene: Scene? = null
+    private var currentSprite: Sprite? = null
     private val CatrobatLanguageParserHelper = CatrobatLanguageParserHelper()
     private val brickList: ArrayList<Brick> = arrayListOf()
 
@@ -79,11 +93,38 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitProgramBody(ctx: CatrobatLanguageParser.ProgramBodyContext?): CatrobatLanguageBaseResult {
-        ctx?.metadata()?.let { visitMetadata(it) }
-        ctx?.stage()?.let { visitStage(it) }
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Program body is null")
+        }
 
-        ctx?.scene()?.let {
-            it.forEach {
+        if (ctx.metadata() == null || ctx.metadata().size != 1) {
+            throw CatrobatLanguageParsingException("Metadata must occur exactly once")
+        } else {
+            visitMetadata(ctx.metadata()[0])
+        }
+
+        if (ctx.stage() == null || ctx.stage().size != 1) {
+            throw CatrobatLanguageParsingException("Stage must occur exactly once")
+        } else {
+            visitStage(ctx.stage()[0])
+        }
+
+        if (ctx.globals() == null || ctx.globals().size != 1) {
+            throw CatrobatLanguageParsingException("Globals must occur exactly once")
+        } else {
+            visitGlobals(ctx.globals()[0])
+        }
+
+        if (ctx.multiplayerVariables() != null && ctx.multiplayerVariables().size > 1) {
+            throw CatrobatLanguageParsingException("Multiplayer variables must occur at most once")
+        } else if (ctx.multiplayerVariables() != null && ctx.multiplayerVariables().size == 1) {
+            visitMultiplayerVariables(ctx.multiplayerVariables()[0])
+        }
+
+        if (ctx.scene() == null || ctx.scene().size == 0) {
+            throw CatrobatLanguageParsingException("Scene must occur at least once")
+        } else {
+            ctx.scene().forEach {
                 visitScene(it)
             }
         }
@@ -166,30 +207,98 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitDisplayMode(ctx: CatrobatLanguageParser.DisplayModeContext?): CatrobatLanguageBaseResult {
-        ctx?.STRING()?.let {
-            try {
-                currentProject.screenMode = ScreenModes.valueOf(getStringContent(it.text).toUpperCase())
-            } catch (e: IllegalArgumentException) {
-                throw CatribatLanguageParsingException("Unknown screen mode: ${it.text}")
-            }
+        if (ctx?.STRING() == null) {
+            throw CatrobatLanguageParsingException("Display mode is null")
+        }
+        try {
+            currentProject.screenMode = ScreenModes.valueOf(getStringContent(ctx.STRING().text).toUpperCase())
+        } catch (e: IllegalArgumentException) {
+            throw CatrobatLanguageParsingException("Unknown Display mode: ${ctx.STRING().text}")
         }
         return CatrobatLanguageBaseResult()
     }
 
     override fun visitGlobals(ctx: CatrobatLanguageParser.GlobalsContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.variableOrListDeclaration() == null) {
+            throw CatrobatLanguageParsingException("Globals is null")
+        }
+
+        ctx.variableOrListDeclaration().forEach {
+            val result = visitVariableOrListDeclaration(it)
+            if (result is CatrobatLanguageVariableResult) {
+                if (currentProject.getMultiplayerVariable(result.variableName) != null ||
+                    currentProject.getUserVariable(result.variableName) != null
+                ) {
+                    throw CatrobatLanguageDoubleDefinitionException(result.variableName)
+                }
+                currentProject.addUserVariable(UserVariable(result.variableName))
+            } else if (result is CatrobatLanguageListResult) {
+                if (currentProject.getUserList(result.listName) != null) {
+                    throw CatrobatLanguageParsingException("User list already exists: ${result.listName}")
+                }
+                currentProject.addUserList(UserList(result.listName))
+            }
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitMultiplayerVariables(ctx: CatrobatLanguageParser.MultiplayerVariablesContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.variableDeclaration() == null) {
+            throw CatrobatLanguageParsingException("Multiplayer variables is null")
+        }
+
+        ctx.variableDeclaration().forEach {
+            val result = visitVariableDeclaration(it)
+            if (result is CatrobatLanguageVariableResult) {
+                if (currentProject.getMultiplayerVariable(result.variableName) != null ||
+                    currentProject.getUserVariable(result.variableName) != null
+                ) {
+                    throw CatrobatLanguageDoubleDefinitionException(result.variableName)
+                }
+                currentProject.addMultiplayerVariable(UserVariable(result.variableName))
+            }
+        }
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitVariableOrListDeclaration(ctx: CatrobatLanguageParser.VariableOrListDeclarationContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Variable or list declaration is null")
+        }
+
+        if (ctx.LIST_REF() != null) {
+            val listName = ctx.LIST_REF().text
+            return CatrobatLanguageListResult(getStringContent(listName))
+        } else if (ctx.variableDeclaration() != null) {
+            return visitVariableDeclaration(ctx.variableDeclaration())
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitVariableDeclaration(ctx: CatrobatLanguageParser.VariableDeclarationContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Variable declaration is null")
+        }
+
+        if (ctx.VARIABLE_REF() != null) {
+            val variableName = ctx.VARIABLE_REF().text
+            return CatrobatLanguageVariableResult(getStringContent(variableName))
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitScene(ctx: CatrobatLanguageParser.SceneContext?): CatrobatLanguageBaseResult {
-        ctx?.background()?.let { visitBackground(it) }
+        if (ctx?.SCENE() == null) {
+            throw CatrobatLanguageParsingException("Scene is null")
+        }
+        currentScene = Scene(getStringContent(ctx.SCENE().text), currentProject)
+        currentProject.addScene(currentScene)
+
+        if (ctx?.background() == null) {
+            throw CatrobatLanguageParsingException("Background Scene is mandatory")
+        }
+        visitBackground(ctx.background())
+
         ctx?.actor()?.let {
             it.forEach() {
                 visitActor(it)
@@ -199,39 +308,119 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitBackground(ctx: CatrobatLanguageParser.BackgroundContext?): CatrobatLanguageBaseResult {
-        ctx?.actorContent()?.let { visitActorContent(it) }
-        return CatrobatLanguageBaseResult()
+        if (ctx?.actorContent() == null) {
+            throw CatrobatLanguageParsingException("Actor content is null")
+        }
+        currentSprite = Sprite(ctx.BACKGROUND().text)
+        currentSprite!!.look.setZIndex(Constants.Z_INDEX_BACKGROUND)
+        currentScene!!.addSprite(currentSprite!!)
+        // TODO: is not background sprite
+        val backgroundSprite = currentSprite!!.isBackgroundSprite()
+        return visitActorContent(ctx.actorContent())
     }
 
     override fun visitActor(ctx: CatrobatLanguageParser.ActorContext?): CatrobatLanguageBaseResult {
-        ctx?.actorContent()?.let { visitActorContent(it) }
-        return CatrobatLanguageBaseResult()
+        if (ctx?.actorContent() == null) {
+            throw CatrobatLanguageParsingException("Actor content is null")
+        }
+        currentSprite = Sprite(ctx.STRING()[0].text)
+        currentScene!!.addSprite(currentSprite!!)
+        return visitActorContent(ctx.actorContent())
     }
 
     override fun visitActorContent(ctx: CatrobatLanguageParser.ActorContentContext?): CatrobatLanguageBaseResult {
+        if (ctx?.localVariables() != null && ctx.localVariables().size > 1) {
+            throw CatrobatLanguageParsingException("Local variables must occur at most once")
+        } else if (ctx?.localVariables()?.size == 1) {
+            visitLocalVariables(ctx.localVariables()[0])
+        }
 
-        ctx?.scripts()?.let {
-            it.forEach() {
-                visitScripts(it)
-            }
+        if (ctx?.looks() != null && ctx.looks().size > 1) {
+            throw CatrobatLanguageParsingException("Looks must occur at most once")
+        } else if (ctx?.looks()?.size == 1) {
+            visitLooks(ctx.looks()[0])
+        }
+
+        if (ctx?.sounds() != null && ctx.sounds().size > 1) {
+            throw CatrobatLanguageParsingException("Sounds must occur at most once")
+        } else if (ctx?.sounds()?.size == 1) {
+            visitSounds(ctx.sounds()[0])
+        }
+
+        ctx?.scripts()?.forEach() {
+            visitScripts(it)
         }
         return CatrobatLanguageBaseResult()
     }
 
     override fun visitLocalVariables(ctx: CatrobatLanguageParser.LocalVariablesContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.variableOrListDeclaration() == null) {
+            throw CatrobatLanguageParsingException("Local variables is null")
+        }
+        if (currentSprite == null) {
+            throw CatrobatLanguageParsingException("Local variables must be in a sprite")
+        }
+
+        ctx.variableOrListDeclaration().forEach {
+            val result = visitVariableOrListDeclaration(it)
+            if (result is CatrobatLanguageVariableResult) {
+                if (currentSprite!!.getUserVariable(result.variableName) != null) {
+                    throw CatrobatLanguageDoubleDefinitionException(result.variableName)
+                }
+                currentSprite!!.addUserVariable(UserVariable(result.variableName))
+            } else if (result is CatrobatLanguageListResult) {
+                if (currentSprite!!.getUserList(result.listName) != null) {
+                    throw CatrobatLanguageDoubleDefinitionException(result.listName)
+                }
+                currentSprite!!.addUserList(UserList(result.listName))
+            }
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitLooks(ctx: CatrobatLanguageParser.LooksContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.looksAndSoundsContent() == null) {
+            throw CatrobatLanguageParsingException("Looks content is null")
+        }
+        if (currentSprite == null) {
+            throw CatrobatLanguageParsingException("Looks must be in a sprite")
+        }
+        ctx.looksAndSoundsContent().forEach() {
+            val result = visitLooksAndSoundsContent(it)
+            if (result is CatrobatLanguageKeyValueResult) {
+                val lookName = result.key
+                val fileName = result.value
+                // TODO: Where to get Files from?
+//                currentSprite.lookList.add(LookData(lookName, null))
+            }
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitSounds(ctx: CatrobatLanguageParser.SoundsContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.looksAndSoundsContent() == null) {
+            throw CatrobatLanguageParsingException("Sounds content is null")
+        }
+        if (currentSprite == null) {
+            throw CatrobatLanguageParsingException("Sounds must be in a sprite")
+        }
+        ctx.looksAndSoundsContent().forEach() {
+            val result = visitLooksAndSoundsContent(it)
+            if (result is CatrobatLanguageKeyValueResult) {
+                val soundName = result.key
+                val fileName = result.value
+                // TODO: Where to get Files from?
+//                currentSprite.soundList.add(SoundInfo(soundName, File(???)))
+            }
+        }
+        return CatrobatLanguageBaseResult()
     }
 
     override fun visitLooksAndSoundsContent(ctx: CatrobatLanguageParser.LooksAndSoundsContentContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx?.STRING() == null || ctx?.STRING().size != 2) {
+            throw CatrobatLanguageParsingException("Looks or sounds content is null")
+        }
+        return CatrobatLanguageKeyValueResult(getStringContent(ctx.STRING()[0].text), getStringContent(ctx.STRING()[1].text))
     }
 
     override fun visitScripts(ctx: CatrobatLanguageParser.ScriptsContext?): CatrobatLanguageBaseResult {
@@ -244,15 +433,43 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitBrick_defintion(ctx: CatrobatLanguageParser.Brick_defintionContext?): CatrobatLanguageBaseResult {
-        ctx?.brick_with_body()?.let { visitBrick_with_body(it) }
-        ctx?.brick_invocation()?.let { visitBrick_invocation(it) }
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Brick definition is null")
+        }
+
+        // TODO: return results
+        if (ctx.NOTE_BRICK() != null) {
+            val noteBrick = NoteBrick(ctx.NOTE_BRICK().text)
+            if (ctx.DISABLED_BRICK_INDICATION() != null) {
+                noteBrick.setCommentedOut(true)
+            }
+        } else if (ctx.brick_invocation() != null) {
+            visitBrick_invocation(ctx.brick_invocation())
+        } else if (ctx.brick_with_body() != null) {
+            visitBrick_with_body(ctx.brick_with_body())
+        }
         return CatrobatLanguageBaseResult()
     }
 
     override fun visitBrick_with_body(ctx: CatrobatLanguageParser.Brick_with_bodyContext?): CatrobatLanguageBaseResult {
-        ctx?.brick_condition()?.let { visitBrick_condition(it) }
-        ctx?.brick_defintion()?.let {
-            it.forEach() {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Brick with body is null")
+        }
+
+        val brickName = ctx.BRICK_NAME().text
+        val brickDisabled = ctx.DISABLED_BRICK_INDICATION().size == 2
+        val brickArguments = if (ctx.brick_condition() != null) {
+            visitBrick_condition(ctx.brick_condition()) as CatrobatLanguageArgumentResult
+        } else {
+            null
+        }
+
+        val hasChildren = ctx.brick_defintion()?.let {
+            it.size > 0
+        } ?: false
+        if (hasChildren) {
+            ctx.brick_defintion().forEach {
+                // TODO: store child bricks in current brick script
                 visitBrick_defintion(it)
             }
         }
@@ -260,45 +477,69 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
     }
 
     override fun visitBrick_invocation(ctx: CatrobatLanguageParser.Brick_invocationContext?): CatrobatLanguageBaseResult {
-        ctx?.brick_condition()?.let { visitBrick_condition(it) }
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Brick invocation is null")
+        }
+
+        val brickName = ctx.BRICK_NAME().text
+        val brickDisabled = ctx.DISABLED_BRICK_INDICATION() != null
+        val brickArguments = if (ctx.brick_condition() != null) {
+            visitBrick_condition(ctx.brick_condition()) as CatrobatLanguageArgumentResult
+        } else {
+            null
+        }
+
         return CatrobatLanguageBaseResult()
     }
 
     override fun visitBrick_condition(ctx: CatrobatLanguageParser.Brick_conditionContext?): CatrobatLanguageBaseResult {
-        ctx?.arg_list()?.let { visitArg_list(it) }
-        return CatrobatLanguageBaseResult()
+        if (ctx?.arg_list() == null) {
+            throw CatrobatLanguageParsingException("Argument list is null")
+        }
+        return visitArg_list(ctx.arg_list())
     }
 
     override fun visitArg_list(ctx: CatrobatLanguageParser.Arg_listContext?): CatrobatLanguageBaseResult {
-        ctx?.argument()?.let {
-            it.forEach() {
-                visitArgument(it)
-            }
+        if (ctx?.argument() == null) {
+            throw CatrobatLanguageParsingException("Argument is null")
         }
-        return CatrobatLanguageBaseResult()
+
+        val arguments = arrayListOf<CatrobatLanguageKeyValueResult>()
+        ctx.argument().forEach {
+            arguments.add(visitArgument(it) as CatrobatLanguageKeyValueResult)
+        }
+
+        return CatrobatLanguageArgumentResult(arguments)
     }
 
     override fun visitArgument(ctx: CatrobatLanguageParser.ArgumentContext?): CatrobatLanguageBaseResult {
-        if (ctx?.formula() != null) {
-            ctx.PARAM_MODE_NAME().let { println("Param name: " + it.text) }
-            val start = ctx.start.startIndex
-            val stop = ctx.stop.stopIndex
-            val tokenStream = ctx.start.tokenSource.inputStream
-            val textInterval = Interval(start, stop)
-            visitFormula(ctx.formula())
-            try {
-                val parameterPlusValue = tokenStream.getText(textInterval)
-                val startIndexOfParameterValue = parameterPlusValue.indexOf('(') + 1
-                val valueWithoutParentheses = parameterPlusValue.substring(startIndexOfParameterValue, parameterPlusValue.length - 1)
-                println("Param value: " + valueWithoutParentheses)
-            } catch (e: Exception) {
-                println("Error with Interval $textInterval")
-            }
+        if (ctx?.formula() == null || ctx?.PARAM_MODE_NAME() == null) {
+            throw CatrobatLanguageParsingException("Argument is null")
         }
-        return CatrobatLanguageBaseResult()
+
+        val formulaResult = visitFormula(ctx.formula())
+        val formula = (formulaResult as CatrobatLanguageStringResult).string
+
+        return CatrobatLanguageKeyValueResult(ctx.PARAM_MODE_NAME().text, formula)
     }
 
     override fun visitFormula(ctx: CatrobatLanguageParser.FormulaContext?): CatrobatLanguageBaseResult {
-        TODO("Not yet implemented")
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("Formula is null")
+        }
+
+        var start = ctx.start.startIndex
+        var stop = ctx.stop.stopIndex
+
+        val textInterval = if (stop < start) {
+            Interval(stop, start)
+        } else {
+            Interval(start, stop)
+        }
+
+        val tokenStream = ctx.start.tokenSource.inputStream
+        val formulaWithBracket = tokenStream.getText(textInterval)
+        val formula = getStringContent(formulaWithBracket)
+        return CatrobatLanguageStringResult(formula)
     }
 }

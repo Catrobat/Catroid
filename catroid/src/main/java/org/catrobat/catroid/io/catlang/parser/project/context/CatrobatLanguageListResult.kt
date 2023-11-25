@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang.parser.project.error
+package org.catrobat.catroid.io.catlang.parser.project.context
 
-open class CatribatLanguageParsingException(message: String) : Exception(message) {
+class CatrobatLanguageListResult(val listName: String) : CatrobatLanguageStringResult(listName) {
 }
