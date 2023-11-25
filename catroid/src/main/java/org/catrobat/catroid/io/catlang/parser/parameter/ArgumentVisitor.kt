@@ -42,8 +42,8 @@ import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterVisitRe
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownFunctionException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorException
-import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParser
-import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParserVisitor
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserVisitor
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.Stack
 

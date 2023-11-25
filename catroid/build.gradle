@@ -480,6 +480,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
 
+    // Catrobat Language
     implementation 'org.antlr:antlr4-runtime:4.13.1'
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {

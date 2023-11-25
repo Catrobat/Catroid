@@ -29,14 +29,13 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.RecognitionException
 import org.antlr.v4.runtime.Recognizer
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
-import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterLexer
-import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParser
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterLexer
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
 
 class ArgumentParserHelper(private val context: Context) {
 
