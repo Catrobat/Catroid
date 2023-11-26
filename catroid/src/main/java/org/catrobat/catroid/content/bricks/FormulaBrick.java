@@ -23,12 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -41,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaSpannableStringBuilder;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -55,8 +51,6 @@ import java.util.List;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -120,59 +114,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			TextView formulaFieldView = view.findViewById(entry.getValue());
 			String text =
 					getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context);
-			formulaFieldView.setText(text);
-			if (isColorString(text)) {
-				addColoredSquareToColorString(text, formulaFieldView);
-			}
+			formulaFieldView.setText(
+					FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), text));
 		}
 		return view;
-	}
-
-/*	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
-		int color = getColorValueFromColorString(colorString);
-		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
-		squareBitmap.setPixel(0, 0, color);
-		RoundedBitmapDrawable roundedSquareDrawable =
-				RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
-						180, 180, false));
-		roundedSquareDrawable.setCornerRadius(20);
-		formulaFieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, roundedSquareDrawable,
-				null);
-	}*/
-
-	private void addColoredSquareToColorString(String colorString, TextView formulaFieldView) {
-		int color = getColorValueFromColorString(colorString);
-		String colorStringCut = colorString.substring(0,colorString.length() - 2);
-		Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
-		squareBitmap.setPixel(0, 0, color);
-		RoundedBitmapDrawable roundedSquareDrawable =
-				RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
-						180, 180, false));
-		roundedSquareDrawable.setCornerRadius(20);
-		SpannableStringBuilder builder = new SpannableStringBuilder();
-		builder.append(colorStringCut);
-		roundedSquareDrawable.setBounds(0, 0, roundedSquareDrawable.getIntrinsicWidth(),
-				roundedSquareDrawable.getIntrinsicHeight());
-		ImageSpan span = new ImageSpan(roundedSquareDrawable, ImageSpan.ALIGN_BOTTOM);
-		builder.append(" ");
-		builder.setSpan(span, colorStringCut.length() ,
-				colorStringCut.length() + 1, 0);
-		builder.append(" ' ");
-		formulaFieldView.setText(builder);
-	}
-
-	private boolean isColorString(String colorString) {
-		return colorString.matches("^'#.{6}'\\s$");
-	}
-
-	private int getColorValueFromColorString(String colorString) {
-		String newString = colorString.replaceAll("[^A-Za-z0-9]", "");
-		try {
-			int val = Integer.parseInt(newString,16);
-			return val;
-		} catch (Exception e) {
-			return 0;
-		}
 	}
 
 	public void setClickListeners() {
@@ -193,10 +138,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public void updateTextView(FormulaField formulaField, String newString) {
 		TextView formulaFieldView = view.findViewById(brickFieldToTextViewIdMap.get(formulaField));
-		formulaFieldView.setText(newString);
-		if (isColorString(newString)) {
-			addColoredSquareToColorString(newString, formulaFieldView);
-		}
+		formulaFieldView.setText(
+				FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), newString));
 	}
 
 	public TextView getTextView(FormulaField formulaField) {
