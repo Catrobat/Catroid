@@ -184,7 +184,7 @@ public class FormulaEditorKeyboardTest {
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 
-		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD' ")));
+		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD ' ")));
 	}
 
 	@After
