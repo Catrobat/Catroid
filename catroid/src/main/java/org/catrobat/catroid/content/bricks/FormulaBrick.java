@@ -115,7 +115,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			String text =
 					getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context);
 			formulaFieldView.setText(
-					FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), text));
+					FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), text,
+							formulaFieldView.getTextSize()));
 		}
 		return view;
 	}
@@ -134,12 +135,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@VisibleForTesting
 	public ConcurrentFormulaHashMap getFormulaMap() {
 		return formulaMap;
-	}
-
-	public void updateTextView(FormulaField formulaField, String newString) {
-		TextView formulaFieldView = view.findViewById(brickFieldToTextViewIdMap.get(formulaField));
-		formulaFieldView.setText(
-				FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), newString));
 	}
 
 	public TextView getTextView(FormulaField formulaField) {

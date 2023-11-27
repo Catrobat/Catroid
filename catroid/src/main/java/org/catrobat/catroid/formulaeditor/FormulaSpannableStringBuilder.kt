@@ -25,17 +25,25 @@ package org.catrobat.catroid.formulaeditor
 import android.content.Context
 import android.graphics.Bitmap
 import android.text.SpannableStringBuilder
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.ImageSpan
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 
 object FormulaSpannableStringBuilder {
 
-    fun buildSpannableFormulaString(context: Context, formulaString: String): SpannableStringBuilder {
+    private const val BITMAP_SIZE_MULTIPLIER = 1.25f
+    private const val COLOR_SQUARE_PADDING_LEFT = 15
+    private const val COLOR_SQUARE_PADDING_TOP = 0
+    private const val COLOR_STRING_CONVERSION_CONSTANT = 16
+
+    fun buildSpannableFormulaString(context: Context, formulaString: String, textSize: Float):
+        SpannableStringBuilder {
         val stringBuilder = SpannableStringBuilder()
         val formulaStringList = formulaString.split(" ")
         for (variable in formulaStringList) {
             if (isColorString(variable)) {
-                addColoredSquareToColorString(context, variable, stringBuilder)
+                addColoredSquareToColorString(context, variable, textSize*BITMAP_SIZE_MULTIPLIER,
+                                              stringBuilder)
             } else if (variable.isEmpty()) {
                 continue
             } else {
@@ -50,13 +58,15 @@ object FormulaSpannableStringBuilder {
     private fun getColorValueFromColorString(colorString: String): Int {
         val newString = colorString.replace(Regex("[^A-Za-z0-9]"), "")
         return try {
-            newString.toInt(16)
+            newString.toInt(COLOR_STRING_CONVERSION_CONSTANT)
         } catch (nfe: NumberFormatException) {
             0
         }
     }
 
-    private fun addColoredSquareToColorString(context: Context, colorString: String,
+    private fun addColoredSquareToColorString(context: Context,
+        colorString: String,
+        bitmapSize: Float,
         stringBuilder: SpannableStringBuilder) {
         val color = getColorValueFromColorString(colorString)
         val colorStringCut = colorString.substring(0, colorString.length - 1)
@@ -65,19 +75,20 @@ object FormulaSpannableStringBuilder {
         val roundedSquareDrawable = RoundedBitmapDrawableFactory.create(
             context.resources, Bitmap.createScaledBitmap(
                 squareBitmap,
-                60,
-                60,
+                bitmapSize.toInt(),
+                bitmapSize.toInt(),
                 false
             )
         )
-        roundedSquareDrawable.cornerRadius = 20f
+        roundedSquareDrawable.cornerRadius = bitmapSize / 4
         stringBuilder.append("$colorStringCut ")
         roundedSquareDrawable.setBounds(
-            15, 5, roundedSquareDrawable.intrinsicWidth + 15,
-            roundedSquareDrawable.intrinsicHeight + 5
+            COLOR_SQUARE_PADDING_LEFT, COLOR_SQUARE_PADDING_TOP, roundedSquareDrawable.intrinsicWidth +
+                COLOR_SQUARE_PADDING_LEFT,
+            roundedSquareDrawable.intrinsicHeight + COLOR_SQUARE_PADDING_TOP
         )
         val span = ImageSpan(roundedSquareDrawable, ImageSpan.ALIGN_BOTTOM)
-        stringBuilder.setSpan(span, stringBuilder.length - 1 , stringBuilder.length, 0)
+        stringBuilder.setSpan(span, stringBuilder.length - 1 , stringBuilder.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         stringBuilder.append("' ")
     }
 }
