@@ -51,6 +51,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import java.util.Arrays;
@@ -72,7 +73,7 @@ public class CompositeBrickCollisionUpdateTest {
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
@@ -123,16 +124,12 @@ public class CompositeBrickCollisionUpdateTest {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				VARIABLE_NAME, null));
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				REPLACED_VARIABLE));
 	}
 
 	@Test
@@ -146,9 +143,7 @@ public class CompositeBrickCollisionUpdateTest {
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NO_CHANGE_VARIABLE));
 	}
 }

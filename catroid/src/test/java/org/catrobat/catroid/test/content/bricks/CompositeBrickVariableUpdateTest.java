@@ -50,6 +50,7 @@ import org.junit.runners.Parameterized;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import java.util.Arrays;
@@ -76,7 +77,7 @@ public class CompositeBrickVariableUpdateTest {
 	private static final String VARIABLE_VALUE = "Value";
 	private static final String NEW_VARIABLE_VALUE = "NewValue";
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
@@ -145,9 +146,7 @@ public class CompositeBrickVariableUpdateTest {
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
 
@@ -161,9 +160,7 @@ public class CompositeBrickVariableUpdateTest {
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
@@ -177,9 +174,7 @@ public class CompositeBrickVariableUpdateTest {
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
@@ -193,9 +188,7 @@ public class CompositeBrickVariableUpdateTest {
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 

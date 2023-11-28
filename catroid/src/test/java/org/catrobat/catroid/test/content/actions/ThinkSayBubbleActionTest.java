@@ -64,8 +64,7 @@ import java.util.List;
 @PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
 public class ThinkSayBubbleActionTest {
 
-
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 	Context contextMock = MockUtil.mockContextForProject(dependencyModules);
 	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);

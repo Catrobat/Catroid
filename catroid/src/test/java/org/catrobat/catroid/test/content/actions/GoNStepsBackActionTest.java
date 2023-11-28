@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static org.koin.java.KoinJavaComponent.inject;
 import android.content.Context;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
@@ -74,9 +73,9 @@ public class GoNStepsBackActionTest {
 	private Sprite embroideryActorSprite;
 	private Sprite realSprite;
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	private Group parentGroup;
@@ -192,7 +191,7 @@ public class GoNStepsBackActionTest {
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 
-		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new SequenceAction(), new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());

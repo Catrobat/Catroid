@@ -64,7 +64,6 @@ import org.catrobat.catroid.koin.projectManagerModule
 import org.koin.core.module.Module
 import java.util.Collections
 
-
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
 class LookRequestActionTest {

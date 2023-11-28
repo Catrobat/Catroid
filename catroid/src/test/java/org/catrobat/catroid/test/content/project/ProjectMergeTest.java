@@ -34,16 +34,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
-import java.util.Collections;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -53,7 +55,7 @@ public class ProjectMergeTest {
 
 	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -62,14 +64,12 @@ public class ProjectMergeTest {
 		project1 = new Project(mockContext, "testProject");
 		project2 = new Project(mockContext, "testProject2");
 
-		List<Object> initializedList1 = new ArrayList<Object>();
-		List<Object> initializedList2 = new ArrayList<Object>();
+		List<Object> initializedList1 = new ArrayList<>();
+		List<Object> initializedList2 = new ArrayList<>();
 
-		initializedList1.clear();
 		initializedList1.add(1.0);
 		initializedList1.add(2.0);
 
-		initializedList2.clear();
 		initializedList2.add(1.0);
 		initializedList2.add(2.0);
 

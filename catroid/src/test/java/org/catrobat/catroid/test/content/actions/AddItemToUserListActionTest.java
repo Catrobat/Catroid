@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
@@ -45,6 +46,7 @@ import java.util.List;
 import java.util.Collections;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -54,12 +56,11 @@ public class AddItemToUserListActionTest {
 	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
 
 	private Sprite testSprite;
-	private Project project;
 	private UserList userList;
 
 	private ActionFactory actionFactory;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -68,7 +69,7 @@ public class AddItemToUserListActionTest {
 		testSprite = new Sprite("testSprite");
 
 		Context context = MockUtil.mockContextForProject(dependencyModules);
-		project = new Project(context, "testProject");
+		Project project = new Project(context, "testProject");
 		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		projectManager.setCurrentProject(project);
 		projectManager.setCurrentlyEditedScene(project.getDefaultScene());

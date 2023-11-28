@@ -39,10 +39,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+
 import android.content.Context;
+
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -58,7 +63,7 @@ public class ChangeBrightnessByNActionTest {
 	private static final float DIMMER_VALUE = -20.8f;
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

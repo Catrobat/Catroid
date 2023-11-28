@@ -38,6 +38,7 @@ import org.junit.runners.JUnit4;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class ChangeSizeByNActionTest {
 	private static final float DELTA = 0.0001f;
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
