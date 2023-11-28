@@ -171,7 +171,6 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
-		projectManager = projectManager;
 		currentProject = projectManager.getCurrentProject();
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
