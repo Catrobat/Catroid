@@ -29,38 +29,37 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.RecognitionException
 import org.antlr.v4.runtime.Recognizer
-import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.UserDefinedScript
+import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterLexer
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 
-class ArgumentParserHelper(private val context: Context) {
-
+class ParameterParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
     class LexerErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
-
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
-            //super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e)
             errors.add("Error at argument position $charPositionInLine: $msg")
         }
     }
 
     class ParserErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
-
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
             errors.add("Error at argument position $charPositionInLine: $msg")
         }
     }
 
-    fun parseArgument(parameter: String): Formula {
+    fun parseArgument(argument: String): Formula {
         val lexerErrorListener = LexerErrorListener()
         val parserErrorListener = ParserErrorListener()
 
-        val lexer = CatrobatParameterLexer(CharStreams.fromString(parameter))
+        val lexer = CatrobatParameterLexer(CharStreams.fromString(argument))
         lexer.removeErrorListeners()
         lexer.addErrorListener(lexerErrorListener)
 
@@ -68,23 +67,35 @@ class ArgumentParserHelper(private val context: Context) {
         parser.removeErrorListeners()
         parser.addErrorListener(parserErrorListener)
 
-        val visitor = ArgumentVisitor(context, arrayListOf(), arrayListOf(), arrayListOf())
-
         val argument = parser.argument()
-
         throwArgumentParsingException(lexerErrorListener.errors)
         throwArgumentParsingException(parserErrorListener.errors)
 
-        var result = visitor.visitArgument(argument)
-        if (result is FormulaVisitResult) {
-            val internFormula = result.formula.getTrimmedFormulaStringForCatrobatLanguage(context)
+        val visitor = ParameterParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters())
+        return (visitor.visitArgument(argument) as FormulaVisitResult).formula
+    }
 
-            val scope = Scope(null, Sprite(), null)
-            val computed = result.formula.getUserFriendlyString(null, scope)
+    private fun getLists(): List<String> {
+        val lists = arrayListOf<String>()
+        lists.addAll(project.userLists.map { it.name })
+        lists.addAll(sprite.userLists.map { it.name })
+        return lists
+    }
 
-            return result.formula
+    private fun getVariables(): List<String> {
+        val variables = arrayListOf<String>()
+        variables.addAll(project.userVariables.map { it.name })
+        variables.addAll(sprite.userVariables.map { it.name })
+        variables.addAll(project.multiplayerVariables.map { it.name })
+        return variables
+    }
+
+    private fun getUserDefinedBrickParameters(): List<String> {
+        val script = brick.script
+        if (script is UserDefinedScript) {
+            return script.allUserDefinedBrickInputs.map { it.name  }
         }
-        return Formula(1)
+        return emptyList()
     }
 
     private fun throwArgumentParsingException(errors: List<String>) {

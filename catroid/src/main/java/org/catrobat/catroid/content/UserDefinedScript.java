@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
 import org.catrobat.catroid.formulaeditor.UserData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,6 +74,16 @@ public class UserDefinedScript extends Script {
 			}
 		}
 		return null;
+	}
+
+	public List<UserData> getAllUserDefinedBrickInputs() {
+		List<UserData> userDefinedBrickInputs = new ArrayList<>();
+		for (Object variable : userDefinedBrickInputs) {
+			if (variable instanceof UserData) {
+				userDefinedBrickInputs.add((UserData) variable);
+			}
+		}
+		return userDefinedBrickInputs;
 	}
 
 	public UUID getUserDefinedBrickID() {

@@ -25,29 +25,13 @@ package org.catrobat.catroid.test.io.catrobatlanguage.parser
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.io.catlang.parser.parameter.ArgumentParserHelper
+import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class LexerTest {
-    @Test
-    fun basicLexerTest() {
-        val param = ArgumentParserHelper(CatroidApplication.getAppContext())
-//        param.parseArgument("join('hello', 'world', '!')")
-        try {
-//            param.parseArgument("1&&2")
-//            param.parseArgument("1×3+7/8-(9+6)×2")
-//            param.parseArgument("1×3+7/8-9||2&&9")
-//            param.parseArgument("index of current touch (1)")
-//            param.parseArgument("14+-7")
-            param.parseArgument("colour equals colour with % tolerance('#ff0000', '#ff0000', 1.0)")
-        } catch (ex: Throwable) {
-            println(ex.message)
-        }
-    }
-
+class ParserTest {
     @Test
     fun basicProgramParserTest() {
         val project = CatrobatLanguageParser.parseProgramFromString(getTestProgramString())
