@@ -51,6 +51,9 @@ class OldUserListInterpreter(
         DataContainerInterpreter(outcomeDocument)
 
     fun interpret(): Document {
+        if (outcomeDocument.firstChild.childNodes.length < 5) {
+            return outcomeDocument
+        }
         dataContainerInterpreter.interpret()
         moveUserListReferencesToVariableReferences()
         val userListNodes = getProgramsUserLists() ?: return outcomeDocument
@@ -106,9 +109,9 @@ class OldUserListInterpreter(
 
     private fun isNewUserList(userList: Node): Boolean {
         if (listOf(NAME, DEVICE_VALUE_KEY, INITIAL_INDEX, IS_LIST).all { userListAttribute ->
-                NodeOperatorExtension.getNodeByName(userList, userListAttribute) != null
+                NodeOperatorExtension.getChildNodeByName(userList, userListAttribute) != null
             }) {
-            if (NodeOperatorExtension.getNodeByName(userList, VALUE) == null) {
+            if (NodeOperatorExtension.getChildNodeByName(userList, VALUE) == null) {
                 val value = userList.firstChild.cloneNode(true)
                 value.firstChild.textContent = ""
                 userList.appendChild(value)
@@ -117,9 +120,9 @@ class OldUserListInterpreter(
             return true
         }
 
-        if (NodeOperatorExtension.getNodeByName(userList, USER_VARIABLE_STRING) != null ||
-            NodeOperatorExtension.getNodeByName(userList, USER_LIST_STRING) != null ||
-            NodeOperatorExtension.getNodeByName(userList, DEFAULT) != null
+        if (NodeOperatorExtension.getChildNodeByName(userList, USER_VARIABLE_STRING) != null ||
+            NodeOperatorExtension.getChildNodeByName(userList, USER_LIST_STRING) != null ||
+            NodeOperatorExtension.getChildNodeByName(userList, DEFAULT) != null
         ) {
             return isNewUserList(userList.firstChild)
         }
@@ -132,8 +135,8 @@ class OldUserListInterpreter(
         userList.setAttribute("serialization", "custom")
 
         clearUserListNode(userList)
-        val name: Node = NodeOperatorExtension.getNodeByName(userList, NAME) ?: return
-        val deviceValueKey: Node = NodeOperatorExtension.getNodeByName(
+        val name: Node = NodeOperatorExtension.getChildNodeByName(userList, NAME) ?: return
+        val deviceValueKey: Node = NodeOperatorExtension.getChildNodeByName(
             userList, DEVICE_LIST_KEY
         ) ?: return
         outcomeDocument.renameNode(deviceValueKey, null, DEVICE_VALUE_KEY)
@@ -216,10 +219,10 @@ class OldUserListInterpreter(
         val secondChild = firstChild.cloneNode(true)
         firstChild.appendChild(secondChild)
 
-        if (NodeOperatorExtension.getNodeByName(userList, INITIAL_INDEX) == null) {
+        if (NodeOperatorExtension.getChildNodeByName(userList, INITIAL_INDEX) == null) {
             secondChild.appendChild(initialIndex)
         }
-        if (NodeOperatorExtension.getNodeByName(userList, IS_LIST) == null) {
+        if (NodeOperatorExtension.getChildNodeByName(userList, IS_LIST) == null) {
             val isListNode = name.cloneNode(true)
             isListNode.firstChild.textContent = "true"
             secondChild.appendChild(isListNode)
@@ -245,9 +248,9 @@ class OldUserListInterpreter(
     private fun moveProjectsLists() {
         val program = outcomeDocument.firstChild
         val programUserLists =
-            NodeOperatorExtension.getNodeByName(program, "programListOfLists")
+            NodeOperatorExtension.getChildNodeByName(program, "programListOfLists")
         val userVariableList =
-            NodeOperatorExtension.getNodeByName(program, "programVariableList")
+            NodeOperatorExtension.getChildNodeByName(program, "programVariableList")
 
         if (programUserLists == null && userVariableList != null) {
             return
@@ -265,7 +268,7 @@ class OldUserListInterpreter(
 
     private fun moveSpritesLists() {
         val scenes =
-            NodeOperatorExtension.getNodeByName(outcomeDocument.firstChild, "scenes") ?: return
+            NodeOperatorExtension.getChildNodeByName(outcomeDocument.firstChild, "scenes") ?: return
 
         for (i in 0 until scenes.childNodes.length) {
             val objectList = scenes.childNodes.item(i).lastChild
@@ -279,9 +282,9 @@ class OldUserListInterpreter(
         correctCloneBricks(objectNode)
 
         val objectsUserListList =
-            NodeOperatorExtension.getNodeByName(objectNode, USER_LISTS_STRING) ?: return
+            NodeOperatorExtension.getChildNodeByName(objectNode, USER_LISTS_STRING) ?: return
         val objectsUserVariableList =
-            NodeOperatorExtension.getNodeByName(objectNode, USER_VARIABLES_STRING)
+            NodeOperatorExtension.getChildNodeByName(objectNode, USER_VARIABLES_STRING)
         if (objectsUserVariableList != null) {
             repeat(objectsUserListList.childNodes.length) {
                 objectsUserVariableList.appendChild(objectsUserListList.firstChild)
@@ -292,11 +295,11 @@ class OldUserListInterpreter(
 
     private fun correctCloneBricks(objectNode: Node) {
         val scriptList =
-            NodeOperatorExtension.getNodeByName(objectNode, "scriptList") ?: return
+            NodeOperatorExtension.getChildNodeByName(objectNode, "scriptList") ?: return
         for (k in 0 until scriptList.childNodes.length) {
             val script = scriptList.childNodes.item(k)
             val brickList =
-                NodeOperatorExtension.getNodeByName(script, "brickList") ?: continue
+                NodeOperatorExtension.getChildNodeByName(script, "brickList") ?: continue
 
             for (l in 0 until brickList.childNodes.length) {
                 correctCloneBrick(brickList.childNodes.item(l))
@@ -308,11 +311,11 @@ class OldUserListInterpreter(
         val brickType = brick.attributes.getNamedItem("type")
         if (brickType.textContent == "CloneBrick") {
             val objectToClone =
-                NodeOperatorExtension.getNodeByName(brick, "objectToClone") ?: return
+                NodeOperatorExtension.getChildNodeByName(brick, "objectToClone") ?: return
             val objectToClonesUserListList =
-                NodeOperatorExtension.getNodeByName(objectToClone, USER_LISTS_STRING) ?: return
+                NodeOperatorExtension.getChildNodeByName(objectToClone, USER_LISTS_STRING) ?: return
             val objectToClonesUserVariableList =
-                NodeOperatorExtension.getNodeByName(objectToClone, USER_VARIABLES_STRING)
+                NodeOperatorExtension.getChildNodeByName(objectToClone, USER_VARIABLES_STRING)
 
             if (objectToClonesUserVariableList != null) {
                 repeat(objectToClonesUserListList.childNodes.length) {
@@ -322,7 +325,7 @@ class OldUserListInterpreter(
             objectToClone.removeChild(objectToClonesUserListList)
         } else if (brickType.textContent == "RepeatBrick") {
             val loopBricks =
-                NodeOperatorExtension.getNodeByName(brick, "loopBricks") ?: return
+                NodeOperatorExtension.getChildNodeByName(brick, "loopBricks") ?: return
 
             for (i in 0 until loopBricks.childNodes.length) {
                 correctCloneBrick(loopBricks.childNodes.item(i))

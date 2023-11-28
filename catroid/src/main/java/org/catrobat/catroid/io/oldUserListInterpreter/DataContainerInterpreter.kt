@@ -36,23 +36,41 @@ class DataContainerInterpreter(
 ) {
     fun interpret() {
         val program = outcomeDocument.firstChild
-        val scenes = NodeOperatorExtension.getNodeByName(program, "scenes") ?: return
+        val scenes = NodeOperatorExtension.getChildNodeByName(program, "scenes") ?: return
 
         for (i in 0 until scenes.childNodes.length) {
             val scene = scenes.childNodes.item(i)
-            val dataList = NodeOperatorExtension.getNodeByName(scene, "data") ?: return
+            val dataContainer = NodeOperatorExtension.getChildNodeByName(scene, "data") ?: return
             val objectList =
-                NodeOperatorExtension.getNodeByName(scene, "objectList") ?: return
-            val userVariableReferences = getElementsFromDataList(dataList)
+                NodeOperatorExtension.getChildNodeByName(scene, "objectList") ?: return
+            val userVariableReferences = getElementsFromDataContainer(dataContainer)
 
             userVariableReferences.forEach { userVariableReference ->
                 moveVariablesFromDataContainerIntoLocalVariableList(userVariableReference, objectList)
             }
         }
 
-        if (NodeOperatorExtension.getNodeByName(program, MULTIPLAYER_VARIABLE_LIST_STRING) == null) {
+        if (NodeOperatorExtension.getChildNodeByName(program, MULTIPLAYER_VARIABLE_LIST_STRING) == null) {
             addMultiplayerVariableList()
         }
+    }
+
+    private fun getElementsFromDataContainer(dataContainer: Node): ArrayList<Node> {
+        val userVariableReferences = ArrayList<Node>()
+
+        for (i in 0 until dataContainer.childNodes.length) {
+            val objectList = dataContainer.childNodes.item(i)
+
+            for (j in 0 until objectList.childNodes.length) {
+                val entry = objectList.childNodes.item(j)
+                val list = NodeOperatorExtension.getChildNodeByName(entry, "list") ?: continue
+
+                for (k in 0 until list.childNodes.length) {
+                    userVariableReferences.add(list.childNodes.item(k))
+                }
+            }
+        }
+        return userVariableReferences
     }
 
     private fun moveVariablesFromDataContainerIntoLocalVariableList(
@@ -65,11 +83,12 @@ class DataContainerInterpreter(
             throw OldUserListInterpretationException("correctOldListFor")
         }
         var localVariableList =
-            NodeOperatorExtension.getNodeByName(spriteObject, USER_VARIABLES_STRING)
+            NodeOperatorExtension.getChildNodeByName(spriteObject, USER_VARIABLES_STRING)
         if (localVariableList == null) {
-            localVariableList = createLocalVariableList(
-                spriteObject.firstChild.cloneNode(true), spriteObject
+            localVariableList = NodeOperatorExtension.createNode(
+                outcomeDocument, spriteObject.firstChild, USER_VARIABLES_STRING
             )
+            insertLocalVariableListInRightOrder(spriteObject, localVariableList)
         }
         localVariableList.appendChild(userVariableReference)
     }
@@ -87,24 +106,15 @@ class DataContainerInterpreter(
         referenceParts.removeAt(0)
         referenceParts.removeAt(2)
         referenceParts.removeAt(2)
+
         userVariableReference.removeAttribute(REFERENCE)
         userVariableReference.setAttribute(REFERENCE, referenceParts.joinToString("/"))
         return objectIndex
     }
 
-    private fun createLocalVariableList(localVariableList: Node, spriteObject: Node): Node {
-        val childNodes = localVariableList.childNodes
-        repeat(childNodes.length) {
-            localVariableList.removeChild(childNodes.item(0))
-        }
-        outcomeDocument.renameNode(localVariableList, null, USER_VARIABLES_STRING)
-        insertLocalVariableListInRightOrder(spriteObject, localVariableList)
-        return localVariableList
-    }
-
     private fun insertLocalVariableListInRightOrder(spriteObject: Node, localVariableList: Node) {
         val userDefinedBrickListNode =
-            NodeOperatorExtension.getNodeByName(spriteObject, "userDefinedBrickList")
+            NodeOperatorExtension.getChildNodeByName(spriteObject, "userDefinedBrickList")
         if (userDefinedBrickListNode != null) {
             spriteObject.removeChild(userDefinedBrickListNode)
             spriteObject.appendChild(localVariableList)
@@ -114,33 +124,12 @@ class DataContainerInterpreter(
         }
     }
 
-    private fun getElementsFromDataList(dataList: Node): ArrayList<Node> {
-        val userVariableReferences = ArrayList<Node>()
-
-        for (i in 0 until dataList.childNodes.length) {
-            val dataListElement = dataList.childNodes.item(i)
-
-            for (j in 0 until dataListElement.childNodes.length) {
-                val entry = dataListElement.childNodes.item(j)
-                val list = NodeOperatorExtension.getNodeByName(entry, "list") ?: continue
-
-                for (k in 0 until list.childNodes.length) {
-                    userVariableReferences.add(list.childNodes.item(k))
-                }
-            }
-        }
-        return userVariableReferences
-    }
-
     private fun addMultiplayerVariableList() {
         val program = outcomeDocument.firstChild
-        val multiplayerVariableList = program.childNodes
-            .item(program.childNodes.length - 1).cloneNode(true)
-        repeat(multiplayerVariableList.childNodes.length) {
-            multiplayerVariableList.removeChild(multiplayerVariableList.firstChild)
-        }
-        outcomeDocument.renameNode(
-            multiplayerVariableList, null, MULTIPLAYER_VARIABLE_LIST_STRING
+        val multiplayerVariableList = NodeOperatorExtension.createNode(
+            outcomeDocument,
+            program.childNodes.item(program.childNodes.length - 1),
+            MULTIPLAYER_VARIABLE_LIST_STRING
         )
         program.appendChild(multiplayerVariableList)
     }

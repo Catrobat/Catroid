@@ -826,7 +826,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	private void renameScriptChildNodeByName(Document originalDocument, String scriptName, String oldChildNodeName,
 			String newChildNodeName) {
 		for (Node script : getScriptsOfType(originalDocument, scriptName)) {
-			Element message = (Element) NodeOperatorExtension.getNodeByName(script, oldChildNodeName);
+			Element message = (Element) NodeOperatorExtension.getChildNodeByName(script, oldChildNodeName);
 			if (message != null) {
 				originalDocument.renameNode(message, null, newChildNodeName);
 			}
@@ -906,7 +906,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			String brickType = brick.first;
 			String newNodeName = brick.second;
 			for (Node node : getBricksOfType(originalDocument, brickType)) {
-				Node childNode = NodeOperatorExtension.getNodeByName(node, "spinnerSelectionID");
+				Node childNode = NodeOperatorExtension.getChildNodeByName(node, "spinnerSelectionID");
 				if (childNode == null) {
 					continue;
 				}
@@ -966,7 +966,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	}
 
 	private void deleteChildNodeByName(Node parentNode, String childNodeName) {
-		Node node = NodeOperatorExtension.getNodeByName(parentNode, childNodeName);
+		Node node = NodeOperatorExtension.getChildNodeByName(parentNode, childNodeName);
 		if (node != null) {
 			parentNode.removeChild(node);
 		}
@@ -1002,7 +1002,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		NodeList nodeList = originalDocument.getElementsByTagName(parentNodeName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			Node childNode = NodeOperatorExtension.getNodeByName(node, childNodeName);
+			Node childNode = NodeOperatorExtension.getChildNodeByName(node, childNodeName);
 			if (childNode != null && node instanceof Element) {
 				Element elem = (Element) node;
 				elem.setAttribute(childNodeName, childNode.getTextContent());
@@ -1096,13 +1096,13 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	}
 
 	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element newParentNode, Element oldNode) {
-		Node formulaListNode = NodeOperatorExtension.getNodeByName(newParentNode, "formulaList");
+		Node formulaListNode = NodeOperatorExtension.getChildNodeByName(newParentNode, "formulaList");
 		if (formulaListNode == null) {
 			formulaListNode = doc.createElement("formulaList");
 			newParentNode.appendChild(formulaListNode);
 		}
 
-		Element formulaNode = (Element) NodeOperatorExtension.getNodeByName(oldNode, "formulaTree");
+		Element formulaNode = (Element) NodeOperatorExtension.getChildNodeByName(oldNode, "formulaTree");
 		if (formulaNode == null) {
 			formulaNode = doc.createElement("formula");
 		} else {
@@ -1125,7 +1125,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 	private void handleUserVariableNode(Element parentNode, Element userVariableNode) {
 		if (!userVariableNode.hasAttribute("reference")) {
-			Node nameNode = NodeOperatorExtension.getNodeByName(userVariableNode, "name");
+			Node nameNode = NodeOperatorExtension.getChildNodeByName(userVariableNode, "name");
 			if (nameNode != null) {
 				String userVariable = nameNode.getTextContent();
 				userVariableNode.removeChild(nameNode);

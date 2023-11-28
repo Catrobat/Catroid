@@ -23,11 +23,12 @@
 
 package org.catrobat.catroid.io
 
+import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 object NodeOperatorExtension {
     @JvmStatic
-    fun getNodeByName(node: Node?, nodeName: String): Node? {
+    fun getChildNodeByName(node: Node?, nodeName: String): Node? {
         if (node == null) return null
         val nodeList = node.childNodes
         for (i in 0 until nodeList.length) {
@@ -36,5 +37,15 @@ object NodeOperatorExtension {
             }
         }
         return null
+    }
+
+    @JvmStatic
+    fun createNode(outcomeDocument: Document, clonedNode: Node, nodeName: String): Node {
+        val newNode = clonedNode.cloneNode(true)
+        repeat(newNode.childNodes.length) {
+            newNode.removeChild(newNode.firstChild)
+        }
+        outcomeDocument.renameNode(newNode, null, nodeName)
+        return newNode
     }
 }
