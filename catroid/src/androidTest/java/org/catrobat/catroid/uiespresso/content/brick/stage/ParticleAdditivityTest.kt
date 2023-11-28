@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -119,7 +119,6 @@ class ParticleAdditivityTest {
 
         onView(ViewMatchers.withId(R.id.button_play)).perform(click())
 
-        val projectManager = projectManager
         val look = projectManager.currentSprite.look
 
         assertFalse(look.isAdditive)

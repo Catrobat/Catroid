@@ -28,7 +28,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
@@ -53,11 +52,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent.inject
 
 class FadeParticleEffectTest {
-
-    val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     companion object {
         private const val PROJECT_NAME = "particleTestProject"
