@@ -209,6 +209,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVariableOrListDeclaration(CatrobatLanguageParser.VariableOrListDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariableOrListDeclaration(CatrobatLanguageParser.VariableOrListDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableDeclaration(CatrobatLanguageParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}

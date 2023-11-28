@@ -48,6 +48,9 @@ SCENE: 'Scene';
 BACKGROUND: 'Background';
 SCRIPTS: 'Scripts';
 
+NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
+fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];
+DISABLED_BRICK_INDICATION: '//';
 BRICK_NAME: LETTER+ (' ' LETTER+)* -> mode(BRICK_MODE);
 
 mode BRICK_MODE;

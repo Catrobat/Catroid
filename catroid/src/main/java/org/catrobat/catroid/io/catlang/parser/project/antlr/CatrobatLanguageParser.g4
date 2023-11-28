@@ -10,10 +10,7 @@ programBody
 	: PROGRAM
 	  STRING
 	  CURLY_BRACKET_OPEN
-	  metadata
-	  stage
-	  globals
-	  multiplayerVariables?
+	  ( metadata | stage | globals | multiplayerVariables )*
 	  scene+
 	  CURLY_BRACKET_CLOSE
 	;
@@ -46,7 +43,7 @@ displayMode: DISPLAY_MODE COLON STRING;
 globals
 	: GLOBALS
 	  CURLY_BRACKET_OPEN
-	  variableDeclaration? (SEPARATOR variableDeclaration)*
+	  variableOrListDeclaration? (SEPARATOR variableOrListDeclaration)*
 	  CURLY_BRACKET_CLOSE
 	;
 
@@ -57,7 +54,8 @@ multiplayerVariables
 	  CURLY_BRACKET_CLOSE
     ;
 
-variableDeclaration: VARIABLE_REF | LIST_REF;
+variableOrListDeclaration: variableDeclaration | LIST_REF;
+variableDeclaration: VARIABLE_REF;
 
 scene
 	: SCENE
@@ -90,7 +88,7 @@ actorContent: (localVariables | looks | sounds | scripts)+;
 localVariables
 	: LOCAL_VARIABLES
 	  CURLY_BRACKET_OPEN
-	  variableDeclaration? (SEPARATOR variableDeclaration)*
+	  variableOrListDeclaration? (SEPARATOR variableOrListDeclaration)*
 	  CURLY_BRACKET_CLOSE
 	;
 
@@ -110,7 +108,6 @@ sounds
 
 looksAndSoundsContent: STRING COLON STRING;
 
-//actorContent: scripts*;
 scripts
 	: SCRIPTS
 	  CURLY_BRACKET_OPEN
@@ -119,7 +116,8 @@ scripts
 	;
 
 brick_defintion
-	: brick_invocation
+	: DISABLED_BRICK_INDICATION? NOTE_BRICK
+	| brick_invocation
 	| brick_with_body
 	;
 
@@ -129,11 +127,18 @@ brick_with_body
 	  BRICK_BODY_OPEN
 	  brick_defintion*
 	  CURLY_BRACKET_CLOSE
+	| DISABLED_BRICK_INDICATION
+	  BRICK_NAME
+	  brick_condition?
+	  BRICK_BODY_OPEN
+	  brick_defintion*
+	  DISABLED_BRICK_INDICATION
+	  CURLY_BRACKET_CLOSE
 	;
 
-//script: BRICK_NAME (SEMICOLON | conditional_brick);
 brick_invocation
-	: BRICK_NAME
+	: DISABLED_BRICK_INDICATION?
+	  BRICK_NAME
 	  brick_condition?
 	  SEMICOLON
 	;
@@ -142,7 +147,6 @@ brick_condition
 	: BRICK_MODE_BRACKET_OPEN
 	  arg_list
 	  PARAM_MODE_BRACKET_CLOSE
-//	  SEMICOLON
 	;
 
 arg_list: argument (PARAM_SEPARATOR argument)* ;

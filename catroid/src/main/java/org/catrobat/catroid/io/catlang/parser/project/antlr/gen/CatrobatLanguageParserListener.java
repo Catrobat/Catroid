@@ -168,6 +168,16 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitMultiplayerVariables(CatrobatLanguageParser.MultiplayerVariablesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#variableOrListDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableOrListDeclaration(CatrobatLanguageParser.VariableOrListDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#variableOrListDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableOrListDeclaration(CatrobatLanguageParser.VariableOrListDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */

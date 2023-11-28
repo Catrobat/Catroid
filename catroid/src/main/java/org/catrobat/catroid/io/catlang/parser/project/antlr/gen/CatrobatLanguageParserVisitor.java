@@ -107,6 +107,12 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMultiplayerVariables(CatrobatLanguageParser.MultiplayerVariablesContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#variableOrListDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableOrListDeclaration(CatrobatLanguageParser.VariableOrListDeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
