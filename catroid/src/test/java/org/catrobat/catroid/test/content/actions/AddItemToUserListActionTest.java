@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import android.content.Context;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -39,6 +38,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.koin.core.module.Module;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.ArrayList;

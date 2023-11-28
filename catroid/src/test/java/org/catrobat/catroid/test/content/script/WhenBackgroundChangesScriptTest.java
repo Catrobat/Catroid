@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.content.script;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -38,6 +40,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,16 +49,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import android.content.Context;
-
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
-
-import java.util.Collections;
 
 import java.io.File;
 import java.util.List;
+import java.util.Collections;
 
 import static junit.framework.Assert.assertEquals;
 

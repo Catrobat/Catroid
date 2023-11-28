@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,16 +40,19 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
 import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
@@ -58,19 +62,14 @@ public class GoNStepsBackActionPMTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private final int realSpriteMinLayer = 3;
-	private final int backgroundLayer = 0;
-	private final int penActorLayer = 1;
-	private final int embroideryActorLayer = 2;
 	private Project project;
 	private Sprite background;
 	private Sprite penActorSprite;
 	private Sprite embroideryActorSprite;
-	private Sprite realSprite;
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -81,7 +80,7 @@ public class GoNStepsBackActionPMTest {
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");
 		embroideryActorSprite = new Sprite("embroideryActor");
-		realSprite = new Sprite("testSprite");
+		Sprite realSprite = new Sprite("testSprite");
 
 		project.getDefaultScene().addSprite(penActorSprite);
 		project.getDefaultScene().addSprite(embroideryActorSprite);
@@ -119,9 +118,13 @@ public class GoNStepsBackActionPMTest {
 		project.getDefaultScene().addSprite(sprite2);
 		projectManager.getValue().setCurrentProject(project);
 
+		int realSpriteMinLayer = 3;
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
+		int backgroundLayer = 0;
 		assertEquals(backgroundLayer, background.look.getZIndex());
+		int penActorLayer = 1;
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		int embroideryActorLayer = 2;
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 
 		sprite1.getActionFactory().createGoNStepsBackAction(sprite1, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);

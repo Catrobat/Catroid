@@ -34,16 +34,17 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.test.MockUtil;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+
 import android.content.Context;
 
-import org.junit.After;
 import org.koin.core.module.Module;
 
 import java.util.Collections;

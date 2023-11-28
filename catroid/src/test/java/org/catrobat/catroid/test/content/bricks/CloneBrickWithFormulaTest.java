@@ -71,16 +71,15 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
 
 import java.util.Collections;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -158,7 +157,7 @@ public class CloneBrickWithFormulaTest {
 	@Parameterized.Parameter(2)
 	public Brick.BrickField brickField;
 
-	private Sprite sprite = new Sprite("testSprite");
+	private final Sprite sprite = new Sprite("testSprite");
 	private Formula brickFormula;
 	private Formula cloneBrickFormula;
 	private Scope scope;

@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,16 +44,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-
-import static junit.framework.Assert.assertEquals;
-import static org.koin.java.KoinJavaComponent.inject;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
-import org.koin.core.module.Module;
 import java.util.Collections;
 
+import android.content.Context;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+
+import org.koin.core.module.Module;
+
 import kotlin.Lazy;
+
+import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class GoNStepsBackActionTest {

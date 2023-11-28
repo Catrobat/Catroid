@@ -47,12 +47,15 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.assertEquals;
-import static org.koin.java.KoinJavaComponent.inject;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GdxNativesLoader.class})
@@ -61,8 +64,6 @@ public class SetCameraFocusPointActionTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private String projectName = "testProject";
-	private Project project;
 	private Sprite sprite;
 
 	final List<Module> dependencyModules =
@@ -70,7 +71,8 @@ public class SetCameraFocusPointActionTest {
 
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
+		String projectName = "testProject";
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		sprite = new Sprite("sprite");
 		sprite.addScript(new WhenScript());
 		project.getDefaultScene().addSprite(sprite);
@@ -86,8 +88,7 @@ public class SetCameraFocusPointActionTest {
 		int virtualHeightHalf = virtualHeight / 2;
 
 		OrthographicCamera camera = new OrthographicCamera();
-		CameraPositioner cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
-		StageActivity.stageListener.cameraPositioner = cameraPositioner;
+		StageActivity.stageListener.cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
 	}
 
 	@Test

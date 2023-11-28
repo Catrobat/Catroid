@@ -29,13 +29,14 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -43,7 +44,6 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class MoveNStepsActionTest {
-	private final float delta = 0.0001f;
 
 	private Sprite sprite;
 	private final float steps = 10f;
@@ -51,7 +51,7 @@ public class MoveNStepsActionTest {
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private ActionFactory factory;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -176,6 +176,7 @@ public class MoveNStepsActionTest {
 	}
 
 	private void checkPosition(float expectedX, float expectedY) {
+		float delta = 0.0001f;
 		assertEquals(expectedX, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
 		assertEquals(expectedY, sprite.look.getYInUserInterfaceDimensionUnit(), delta);
 	}
