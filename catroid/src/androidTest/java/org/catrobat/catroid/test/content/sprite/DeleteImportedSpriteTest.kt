@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,14 +56,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
 class DeleteImportedSpriteTest {
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var expectedIntent: Matcher<Intent>? = null
-    private var projectManager = KoinJavaComponent.inject(ProjectManager::class.java).value
+    private var projectManager = inject(ProjectManager::class.java).value
 
     private val projectName = javaClass.simpleName
     private val tmpPath = File(
