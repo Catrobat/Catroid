@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -629,7 +629,8 @@ public class ActionFactory extends Actions {
 
 	public Action createPointInDirectionAction(Sprite sprite, SequenceAction sequence, Formula degrees) {
 		PointInDirectionAction action = Actions.action(PointInDirectionAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite,
+				sequence);
 		action.setScope(scope);
 		action.setDegreesInUserInterfaceDimensionUnit(degrees);
 		return action;
