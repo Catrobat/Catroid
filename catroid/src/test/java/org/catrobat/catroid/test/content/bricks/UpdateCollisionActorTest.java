@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.test.PowerMockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,10 +44,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
-import java.util.Collections;
 
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -70,7 +70,7 @@ public class UpdateCollisionActorTest {
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
@@ -122,16 +122,12 @@ public class UpdateCollisionActorTest {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				VARIABLE_NAME, null));
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				REPLACED_VARIABLE));
 	}
 
 	@Test
@@ -139,15 +135,11 @@ public class UpdateCollisionActorTest {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				DIFFERENT_VARIABLE_NAME, null));
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NO_CHANGE_VARIABLE));
 	}
 }

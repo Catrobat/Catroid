@@ -29,14 +29,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.koin.core.module.Module;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class ProjectMergeTest {
 	Project project1;
 	Project project2;
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());

@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,8 +34,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -50,13 +51,13 @@ public class PlaceAtBrickTest {
 
 	private static final int Y_POSITION_VALUE = 200;
 	private static final int X_POSITION_VALUE = 100;
-	private Formula xPosition = new Formula(X_POSITION_VALUE);
-	private Formula yPosition = new Formula(Y_POSITION_VALUE);
+	private final Formula xPosition = new Formula(X_POSITION_VALUE);
+	private final Formula yPosition = new Formula(Y_POSITION_VALUE);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -112,7 +113,7 @@ public class PlaceAtBrickTest {
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),
 				new Formula(NOT_NUMERICAL_STRING),
-				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
+				new Formula(NOT_NUMERICAL_STRING2)).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

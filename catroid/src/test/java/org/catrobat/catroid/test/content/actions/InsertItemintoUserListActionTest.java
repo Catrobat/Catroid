@@ -31,20 +31,23 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
-import java.util.Collections;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -52,15 +55,14 @@ public class InsertItemintoUserListActionTest {
 
 	private static final String TEST_USERLIST_NAME = "testUserList";
 	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
-	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
+	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
 
 	private Sprite testSprite;
-	private Project project;
 	private UserList userList;
 
 	private ActionFactory actionFactory;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -68,7 +70,7 @@ public class InsertItemintoUserListActionTest {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
 		Context context = MockUtil.mockContextForProject(dependencyModules);
-		project = new Project(context, "testProject");
+		Project project = new Project(context, "testProject");
 		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		INITIALIZED_LIST_VALUES.clear();

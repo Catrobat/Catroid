@@ -41,19 +41,23 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static junit.framework.Assert.assertEquals;
-import static org.koin.java.KoinJavaComponent.inject;
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class RepeatUntilActionTest {
@@ -71,7 +75,7 @@ public class RepeatUntilActionTest {
 	private UserVariable userVariable;
 	private UserVariable userVariable2;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -147,7 +151,7 @@ public class RepeatUntilActionTest {
 
 	@Test
 	public void testBrickWithInValidStringFormula() {
-		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
+		Formula stringFormula = new Formula(NOT_NUMERICAL_STRING);
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 

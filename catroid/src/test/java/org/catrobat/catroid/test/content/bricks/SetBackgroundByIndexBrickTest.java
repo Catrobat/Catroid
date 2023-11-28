@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,18 +43,20 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
-import org.koin.core.module.Module;
-import java.util.Collections;
 
+import android.content.Context;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
+
+import java.util.Collections;
 import java.io.File;
 import java.util.List;
 
 import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
@@ -61,11 +64,11 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class SetBackgroundByIndexBrickTest {
 	private Sprite sprite;
 	private final double backgroundIndex = 2.0;
-	private String localUserVariableBackgroundIndex = "BGI";
+	private final String localUserVariableBackgroundIndex = "BGI";
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

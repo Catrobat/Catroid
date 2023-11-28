@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scope;
@@ -40,8 +42,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import android.content.Context;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;

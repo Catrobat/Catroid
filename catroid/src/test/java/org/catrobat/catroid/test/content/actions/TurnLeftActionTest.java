@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,29 +42,32 @@ import org.mockito.Mockito;
 
 import java.io.File;
 
-import static junit.framework.Assert.assertEquals;
-import static org.koin.java.KoinJavaComponent.inject;
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class TurnLeftActionTest {
 
-	private final String projectName = "testProject";
 	private LookData lookData;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final float VALUE = 33;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws Exception {
 		Context context = MockUtil.mockContextForProject(dependencyModules);
+		String projectName = "testProject";
 		Project project = new Project(context, projectName);
 		inject(ProjectManager.class).getValue().setCurrentProject(project);
 

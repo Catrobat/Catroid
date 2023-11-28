@@ -39,19 +39,23 @@ import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -68,7 +72,7 @@ public class IfLogicActionTest {
 	private StartScript testScript;
 	private UserVariable userVariable;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -161,12 +165,12 @@ public class IfLogicActionTest {
 
 	@Test
 	public void testBrickWithValidStringFormula() {
-		testFormula(new Formula(String.valueOf(TRUE)), (double) IF_TRUE_VALUE);
+		testFormula(new Formula(TRUE), (double) IF_TRUE_VALUE);
 	}
 
 	@Test
 	public void testBrickWithInValidStringFormula() {
-		testFormula(new Formula(String.valueOf(NOT_NUMERICAL_STRING)), 0.0);
+		testFormula(new Formula(NOT_NUMERICAL_STRING), 0.0);
 	}
 
 	@Test
