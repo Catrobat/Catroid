@@ -40,6 +40,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotEquals;
 import static org.koin.java.KoinJavaComponent.inject;
 

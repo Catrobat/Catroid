@@ -60,6 +60,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
@@ -69,7 +70,7 @@ public class FormulaEditorComputeDialogTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
-	private Integer someIntegerVaule = 911;
+	private final Integer someIntegerValue = 911;
 
 	@Before
 	public void setUp() throws Exception {
@@ -90,7 +91,7 @@ public class FormulaEditorComputeDialogTest {
 	public void dialogCreationTest() {
 		openComputeDialog();
 
-		String computedValueText = Integer.toString(someIntegerVaule);
+		String computedValueText = Integer.toString(someIntegerValue);
 
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText(computedValueText)));
@@ -136,7 +137,7 @@ public class FormulaEditorComputeDialogTest {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
-		Formula noteFormula = new Formula(someIntegerVaule);
+		Formula noteFormula = new Formula(someIntegerValue);
 		script.addBrick(new NoteBrick(noteFormula));
 
 		sprite.addScript(script);
@@ -157,8 +158,7 @@ public class FormulaEditorComputeDialogTest {
 					final int[] viewsCoordinates = new int[2];
 					view.getLocationOnScreen(viewsCoordinates);
 
-					float[] clickCoordinates = {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
-					return clickCoordinates;
+					return new float[] {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
 				}
 			},
 			Press.FINGER);

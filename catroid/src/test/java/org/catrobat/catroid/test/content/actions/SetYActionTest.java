@@ -34,11 +34,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -51,11 +53,11 @@ public class SetYActionTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float Y_POSITION = 73.3f;
-	private Formula yPosition = new Formula(Y_POSITION);
+	private final Formula yPosition = new Formula(Y_POSITION);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

@@ -58,6 +58,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
@@ -68,7 +69,7 @@ public class CopySoundTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SOUNDS);
 
-	private String toBeCopiedSoundName = "testSound";
+	private final String toBeCopiedSoundName = "testSound";
 
 	@Before
 	public void setUp() throws Exception {

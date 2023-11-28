@@ -56,12 +56,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundAndWaitStageTest {
 
-	private static ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private static final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private SoundInfo soundInfo;
 	private ScriptEvaluationGateBrick scriptEvaluationGateBrick;
 	private Project project;

@@ -62,6 +62,7 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
@@ -72,7 +73,7 @@ public class DeleteSoundTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SOUNDS);
 
-	private String toBeDeletedSoundName = "testSound2";
+	private final String toBeDeletedSoundName = "testSound2";
 
 	@Before
 	public void setUp() throws Exception {

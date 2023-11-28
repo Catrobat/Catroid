@@ -54,6 +54,7 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
@@ -66,8 +67,6 @@ public class SceneFragmentActivityRecreateRegressionTest {
 
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
-	private String sceneName = "secondScene";
 
 	@Before
 	public void setUp() throws Exception {
@@ -88,12 +87,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
@@ -102,6 +96,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
+		String sceneName = "secondScene";
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
 				.check(matches(withText(sceneName)));
 		onView(withId(R.id.button_add))
@@ -109,12 +104,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.new_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 

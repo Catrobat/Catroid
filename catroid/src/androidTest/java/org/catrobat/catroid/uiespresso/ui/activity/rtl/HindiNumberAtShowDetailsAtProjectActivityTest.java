@@ -63,6 +63,7 @@ import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMe
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
@@ -70,7 +71,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-	private Locale arLocale = new Locale("ar");
+	private final Locale arLocale = new Locale("ar");
 
 	@Before
 	public void setUp() {
@@ -91,7 +92,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void hindiNumbers() throws Exception {
+	public void hindiNumbers() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
