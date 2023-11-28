@@ -43,8 +43,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.List;
 import java.util.Collections;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import kotlin.Lazy;
 

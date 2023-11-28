@@ -48,6 +48,7 @@ import java.util.List;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -73,7 +74,7 @@ public class DeleteLookDialogTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_LOOKS);
 
-	private String toBeDeletedLookName = "testLook2";
+	private final String toBeDeletedLookName = "testLook2";
 
 	@Before
 	public void setUp() throws Exception {

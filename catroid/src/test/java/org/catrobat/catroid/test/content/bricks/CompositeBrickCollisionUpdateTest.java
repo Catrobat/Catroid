@@ -49,12 +49,13 @@ import org.junit.runners.Parameterized;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
 
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
 
 import static org.junit.Assert.assertEquals;
 import static org.koin.java.KoinJavaComponent.inject;

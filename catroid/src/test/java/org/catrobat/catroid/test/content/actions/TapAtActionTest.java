@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -45,8 +47,6 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import android.content.Context;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;

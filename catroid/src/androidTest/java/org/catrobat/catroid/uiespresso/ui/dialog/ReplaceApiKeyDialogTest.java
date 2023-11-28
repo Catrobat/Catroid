@@ -62,6 +62,7 @@ import static org.junit.Assert.assertTrue;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReplaceApiKeyDialogTest {
@@ -74,7 +75,7 @@ public class ReplaceApiKeyDialogTest {
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	Project dummyProject;
 	String apikey = "AIzaas98d7f9a0sdf07ad0sf8a7sd09fASDf97asd9f";

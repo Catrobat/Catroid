@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -37,12 +38,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -62,7 +64,7 @@ public class WaitActionTest {
 	private static final float DELTA = 0.1f;
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

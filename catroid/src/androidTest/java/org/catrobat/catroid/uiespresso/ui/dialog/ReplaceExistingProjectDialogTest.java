@@ -54,6 +54,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
@@ -68,14 +69,12 @@ public class ReplaceExistingProjectDialogTest {
 
 	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
 
-	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
-
 	@Before
 	public void setUp() throws Exception {
 		createProjects();
 		baseActivityTestRule.launchActivity(null);
 
-		queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
+		ProjectDownloader.ProjectDownloadQueue queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
 
 		ReplaceExistingProjectDialogFragment dialog =
 				ReplaceExistingProjectDialogFragment.newInstance(projectNames[0],

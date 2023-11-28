@@ -49,6 +49,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -59,9 +61,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
-
-import java.util.Collections;
-import java.util.List;
 
 @RunWith(Parameterized.class)
 public class CloneBrickUpdateVariableTest {

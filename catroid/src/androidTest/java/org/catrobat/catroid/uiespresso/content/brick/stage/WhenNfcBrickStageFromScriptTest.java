@@ -55,6 +55,7 @@ import java.util.List;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -81,7 +82,6 @@ public class WhenNfcBrickStageFromScriptTest {
 	private NdefMessage ndefMessage1;
 	private UserVariable readTagId;
 	private UserVariable readTagMessage;
-	private UserVariable numDetectedTags;
 	private List<NfcTagData> tagDataList;
 	private Script scriptUnderTest;
 	private int nfcBrickPosition;
@@ -152,7 +152,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		Project project = UiTestUtils.createProjectWithCustomScript("nfcTestProject", new WhenNfcScript());
 		Script script = UiTestUtils.getDefaultTestScript(project);
 
-		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		UserVariable numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
 		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
 

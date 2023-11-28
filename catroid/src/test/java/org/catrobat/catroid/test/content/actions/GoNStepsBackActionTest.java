@@ -46,13 +46,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 
+import kotlin.Lazy;
+
 import android.content.Context;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-
 import org.koin.core.module.Module;
-
-import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 

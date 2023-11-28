@@ -41,11 +41,11 @@ import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class DrawAxesTest {
-	private StageListener stageListener;
 	private static Project project;
 
 	@Parameterized.Parameters(name = "{0}")
@@ -91,7 +91,7 @@ public class DrawAxesTest {
 
 	@Test
 	public void testAxisFontSize() {
-		stageListener = new StageListener();
+		StageListener stageListener = new StageListener();
 
 		BitmapFont font = Mockito.mock(BitmapFont.class);
 		GlyphLayout layout = Mockito.mock(GlyphLayout.class);

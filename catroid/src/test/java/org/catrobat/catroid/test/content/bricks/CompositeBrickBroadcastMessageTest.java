@@ -43,12 +43,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.koin.core.module.Module;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.koin.java.KoinJavaComponent.inject;

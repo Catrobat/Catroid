@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -33,22 +34,24 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.koin.java.KoinJavaComponent.inject;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
-import org.koin.core.module.Module;
 import java.util.Collections;
 import java.util.List;
 
 import kotlin.Lazy;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class WaitUntilActionTest {
@@ -57,8 +60,8 @@ public class WaitUntilActionTest {
 	private Project project;
 	private static final String TEST_USERVARIABLE = "testUservariable";
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
-	private List<Module> dependencyModules =
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

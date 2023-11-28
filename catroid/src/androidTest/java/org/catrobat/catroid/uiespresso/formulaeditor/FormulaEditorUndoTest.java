@@ -44,6 +44,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -75,7 +76,7 @@ public class FormulaEditorUndoTest {
 	private static final String NEW_VARIABLE_VALUE = "10";
 	UserVariable userVariable;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
