@@ -48,6 +48,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
@@ -56,10 +57,10 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 public class ArduinoSettingsTest {
 
 	private boolean sharedPreferenceBuffer;
-	private String projectName = ArduinoSettingsTest.class.getSimpleName();
+	private final String projectName = ArduinoSettingsTest.class.getSimpleName();
 	private Project project;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {

@@ -41,6 +41,7 @@ import org.junit.runners.Parameterized;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import java.util.Arrays;
@@ -76,7 +77,7 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 
 	private Scene scene;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

@@ -43,6 +43,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import java.util.Arrays;
@@ -75,7 +76,7 @@ public class CompositeBrickBroadcastMessageTest {
 
 	private Scene scene;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

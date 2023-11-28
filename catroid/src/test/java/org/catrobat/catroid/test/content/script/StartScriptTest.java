@@ -33,28 +33,31 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
+import android.content.Context;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class StartScriptTest {
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

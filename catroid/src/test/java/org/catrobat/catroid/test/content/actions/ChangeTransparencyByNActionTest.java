@@ -36,6 +36,7 @@ import org.junit.runners.JUnit4;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class ChangeTransparencyByNActionTest {
 	private static final String NOT_NUMERICAL_STRING = "ghosts";
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

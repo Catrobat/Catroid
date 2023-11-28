@@ -40,17 +40,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
-
-
 import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -65,7 +67,7 @@ public class LookSensorValuesInterpretationTest {
 	private static final float DELTA = 0.01f;
 	private Scope testScope;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -91,7 +93,7 @@ public class LookSensorValuesInterpretationTest {
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula(testScope);

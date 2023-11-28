@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +37,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,7 +84,7 @@ public final class TextInputDialog extends AlertDialog {
 		public Builder setPositiveButton(String buttonText, final OnClickListener listener) {
 			setPositiveButton(buttonText, (DialogInterface.OnClickListener) (dialog, which) -> {
 				TextInputLayout textInputLayout = ((Dialog) dialog).findViewById(R.id.input);
-				String text = textInputLayout.getEditText().getText().toString();
+				String text = Objects.requireNonNull(textInputLayout.getEditText()).getText().toString();
 				listener.onPositiveButtonClick(dialog, text);
 			});
 			return this;
@@ -118,8 +121,8 @@ public final class TextInputDialog extends AlertDialog {
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == projectManager.getCurrentProject().getUserList(newName) &&
-									null == projectManager.getCurrentSprite().getUserList(newName);
+							return null == projectManager.getCurrentProject().getUserList(newName)
+									&& null == projectManager.getCurrentSprite().getUserList(newName);
 						}
 					};
 					break;
@@ -127,9 +130,9 @@ public final class TextInputDialog extends AlertDialog {
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == projectManager.getCurrentProject().getUserVariable(newName) &&
-									null == projectManager.getCurrentProject().getMultiplayerVariable(newName) &&
-									null == projectManager.getCurrentSprite().getUserVariable(newName);
+							return null == projectManager.getCurrentProject().getUserVariable(newName)
+									&& null == projectManager.getCurrentProject().getMultiplayerVariable(newName)
+									&& null == projectManager.getCurrentSprite().getUserVariable(newName);
 						}
 					};
 					break;

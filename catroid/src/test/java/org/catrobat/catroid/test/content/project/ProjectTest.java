@@ -36,11 +36,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -54,7 +56,7 @@ public class ProjectTest {
 	private static final String OLD_PLATFORM = "iOS";
 	private static final String OLD_PLATFORM_VERSION = "1.0.0 beta";
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@After

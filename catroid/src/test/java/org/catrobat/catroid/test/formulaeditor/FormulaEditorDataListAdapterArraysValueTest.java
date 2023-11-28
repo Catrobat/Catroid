@@ -40,10 +40,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import android.content.Context;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import java.util.List;
@@ -59,7 +62,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	private final String userListName = "LIST";
 	private final String multiplayerVarName = "multiplayerVar";
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before

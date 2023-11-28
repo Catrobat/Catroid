@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class BroadcastMessageContainer {

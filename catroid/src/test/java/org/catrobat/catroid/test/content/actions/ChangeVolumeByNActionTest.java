@@ -34,6 +34,7 @@ import org.junit.runners.JUnit4;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -47,11 +48,9 @@ public class ChangeVolumeByNActionTest {
 	private static final float INITIALIZED_VALUE = 70f;
 	private static final float CHANGE_VALUE = 12.3f;
 	private static final String NOT_NUMERICAL_STRING = "volume";
-	private final float louderValue = 10.6f;
-	private final float softerValue = -20.3f;
 	private Sprite sprite;
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
@@ -70,12 +69,14 @@ public class ChangeVolumeByNActionTest {
 	public void testVolume() {
 		float expectedVolume = SoundManager.getInstance().getVolume();
 
+		float louderValue = 10.6f;
 		expectedVolume += louderValue;
 		Formula louder = new Formula(louderValue);
 
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new SequenceAction(), louder).act(1.0f);
 		assertEquals(expectedVolume, SoundManager.getInstance().getVolume());
 
+		float softerValue = -20.3f;
 		expectedVolume += softerValue;
 		Formula softer = new Formula(softerValue);
 

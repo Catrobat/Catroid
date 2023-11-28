@@ -45,7 +45,6 @@ import org.junit.After
 import org.koin.core.module.Module
 import java.util.Collections
 
-
 class ParameterizedBrickTest {
     private var userList: UserList? = null
     private var userVariable: UserVariable? = null

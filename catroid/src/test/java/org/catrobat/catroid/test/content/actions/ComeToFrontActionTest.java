@@ -44,9 +44,12 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
 import static org.koin.java.KoinJavaComponent.inject;
+
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+
 import java.util.Collections;
 
 import kotlin.Lazy;
@@ -58,11 +61,11 @@ public class ComeToFrontActionTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private String projectName = "testProject";
+	private final String projectName = "testProject";
 
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
-	private List<Module> dependencyModules =
+	private final List<Module> dependencyModules =
 			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
