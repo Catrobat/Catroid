@@ -22,9 +22,8 @@
  */
 package org.catrobat.catroid.test.content.script;
 
-import com.badlogic.gdx.utils.GdxNativesLoader;
-
 import android.content.Context;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -35,7 +34,6 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.MockUtil;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,9 +46,10 @@ import org.koin.core.module.Module;
 import java.util.Collections;
 import java.util.List;
 
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static org.koin.java.KoinJavaComponent.inject;
 

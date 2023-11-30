@@ -38,17 +38,18 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.utils.NumberFormats;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.junit.After;
-import org.koin.core.module.Module;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.koin.core.module.Module;
 
 import static org.junit.Assert.assertEquals;
 import static org.koin.java.KoinJavaComponent.inject;

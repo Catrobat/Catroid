@@ -58,12 +58,11 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReplaceApiKeyDialogTest {
 

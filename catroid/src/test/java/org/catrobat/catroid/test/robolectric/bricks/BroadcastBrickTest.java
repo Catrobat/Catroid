@@ -57,6 +57,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
@@ -64,11 +65,10 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class BroadcastBrickTest {
 
 	private static final String INITAL_MESSAGE = "initialMessage";
-	private int spinnerId = R.id.brick_broadcast_spinner;
 
 	private AppCompatActivity activity;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -81,7 +81,7 @@ public class BroadcastBrickTest {
 
 	@SuppressWarnings("PMD.UnusedPrivateField")
 	public String name;
-	private BroadcastMessageBrick broadcastBrick;
+	private final BroadcastMessageBrick broadcastBrick;
 
 	public BroadcastBrickTest(String name, BroadcastMessageBrick broadcastBrick) {
 		this.name = name;
@@ -107,7 +107,8 @@ public class BroadcastBrickTest {
 		View brickView = broadcastBrick.getView(activity);
 		assertNotNull(brickView);
 
-		Spinner brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		int spinnerId = R.id.brick_broadcast_spinner;
+		Spinner brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 
 		return brickSpinner;

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import android.content.Context;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
@@ -43,11 +44,8 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import android.content.Context;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.Collections;
 import java.io.File;

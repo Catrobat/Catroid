@@ -97,22 +97,21 @@ import androidx.fragment.app.Fragment;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
+import static java.util.Arrays.asList;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
-import static java.util.Arrays.asList;
 import static org.koin.java.KoinJavaComponent.inject;
+
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerTest {
 
-	private SpriteActivity activity;
-
 	Spinner brickSpinner;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -151,19 +150,15 @@ public class BrickSpinnerTest {
 		});
 	}
 
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private String name;
-
-	private Brick brick;
+	private final Brick brick;
 
 	private @IdRes int spinnerId;
 
-	private String expectedSelection;
+	private final String expectedSelection;
 
-	private List<String> expectedContent;
+	private final List<String> expectedContent;
 
 	public BrickSpinnerTest(String name, Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
-		this.name = name;
 		this.brick = brick;
 		this.spinnerId = spinnerId;
 		this.expectedSelection = expectedSelection;
@@ -173,7 +168,7 @@ public class BrickSpinnerTest {
 	@Before
 	public void setUp() throws Exception {
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
-		activity = activityController.get();
+		SpriteActivity activity = activityController.get();
 		createProject(activity);
 		activityController.create().resume();
 

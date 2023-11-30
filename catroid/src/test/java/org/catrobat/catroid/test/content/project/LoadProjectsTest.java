@@ -31,7 +31,6 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.StaticSingletonInitializer;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,10 +41,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.koin.core.module.Module;
 
-import java.util.Collections;
-
 import java.io.File;
 import java.util.List;
+import java.util.Collections;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,6 +52,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.koin.java.KoinJavaComponent.inject;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({XstreamSerializer.class, ProjectManager.class})

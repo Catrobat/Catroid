@@ -62,7 +62,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundAndWaitStageTest {
 
-	private static final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private SoundInfo soundInfo;
 	private ScriptEvaluationGateBrick scriptEvaluationGateBrick;
 	private Project project;

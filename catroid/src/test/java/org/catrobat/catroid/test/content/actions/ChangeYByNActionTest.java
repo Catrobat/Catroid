@@ -39,11 +39,10 @@ import org.koin.core.module.Module;
 import java.util.Collections;
 import java.util.List;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 @RunWith(JUnit4.class)
 public class ChangeYByNActionTest {

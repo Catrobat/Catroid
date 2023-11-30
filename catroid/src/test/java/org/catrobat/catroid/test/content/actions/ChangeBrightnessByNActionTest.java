@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -37,14 +38,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.Collections;
 import java.util.List;
-
-import android.content.Context;
-
-import org.koin.core.module.Module;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 

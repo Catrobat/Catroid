@@ -43,13 +43,14 @@ import org.junit.runners.Parameterized;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
 
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
 
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClassesOf;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
