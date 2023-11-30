@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.script;
 
+import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scope;
@@ -43,12 +44,10 @@ import org.mockito.Mockito;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
-import android.content.Context;
-
-import org.koin.core.module.Module;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.koin.core.module.Module;
 
 import static junit.framework.Assert.assertEquals;
 

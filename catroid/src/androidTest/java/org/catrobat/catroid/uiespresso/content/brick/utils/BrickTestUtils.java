@@ -33,7 +33,6 @@ import androidx.test.core.app.ApplicationProvider;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-
 public final class BrickTestUtils {
 	private BrickTestUtils() {
 		throw new AssertionError();

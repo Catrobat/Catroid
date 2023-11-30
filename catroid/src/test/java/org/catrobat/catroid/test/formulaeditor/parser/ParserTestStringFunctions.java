@@ -44,14 +44,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.koin.core.module.Module;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static org.koin.java.KoinJavaComponent.inject;
 

@@ -63,7 +63,6 @@ import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
-import static org.koin.java.KoinJavaComponent.inject;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -71,16 +70,16 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickStringSpinnerDefaultValueTest {
 
 	private CategoryBricksFactory categoryBricksFactory;
-	private Sprite sprite;
 	private Activity activity;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -139,7 +138,7 @@ public class BrickStringSpinnerDefaultValueTest {
 
 	public void createProject(Context context) {
 		Project project = new Project(context, getClass().getSimpleName());
-		sprite = new Sprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);

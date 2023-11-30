@@ -32,9 +32,9 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.mockito.Mockito;
 
-import org.koin.core.module.Module;
-
 import java.util.List;
+
+import org.koin.core.module.Module;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;

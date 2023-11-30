@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -32,19 +33,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.After;
 import org.koin.core.module.Module;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.Collections;
 import java.util.List;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 

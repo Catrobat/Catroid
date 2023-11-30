@@ -32,21 +32,21 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
-import org.junit.After;
 import org.koin.core.module.Module;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 @RunWith(JUnit4.class)
 public class ProjectTest {

@@ -36,11 +36,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.koin.core.module.Module;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import java.util.Collections;
 import java.util.List;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -73,7 +72,7 @@ public class SetColorActionTest {
 
 	@Test
 	public void testColorEffect() {
-		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color);
@@ -83,7 +82,7 @@ public class SetColorActionTest {
 	public void testValueAboveMax() {
 		final float highColor = 1000;
 
-		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(highColor)).act(1.0f);
 		assertEquals((highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}

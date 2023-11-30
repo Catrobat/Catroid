@@ -47,6 +47,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,8 +61,6 @@ import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.koin.java.KoinJavaComponent.inject;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
 
 @RunWith(Parameterized.class)
 public class CloneBrickUpdateVariableTest {

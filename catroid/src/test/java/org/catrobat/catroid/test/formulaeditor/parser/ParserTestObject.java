@@ -22,9 +22,8 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import android.content.Context;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -46,12 +45,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
 
 import java.util.Collections;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import org.koin.core.module.Module;
 
 import static junit.framework.Assert.assertEquals;
 
