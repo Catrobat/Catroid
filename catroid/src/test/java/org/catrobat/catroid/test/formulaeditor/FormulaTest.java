@@ -47,6 +47,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,8 +60,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
-
-import java.util.Collections;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FormulaTest {

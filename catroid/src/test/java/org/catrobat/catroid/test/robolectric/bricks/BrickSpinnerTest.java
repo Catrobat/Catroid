@@ -102,7 +102,6 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
@@ -152,13 +151,13 @@ public class BrickSpinnerTest {
 
 	private final Brick brick;
 
-	private @IdRes int spinnerId;
+	private final @IdRes int spinnerId;
 
 	private final String expectedSelection;
 
 	private final List<String> expectedContent;
 
-	public BrickSpinnerTest(String name, Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
+	public BrickSpinnerTest(Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
 		this.brick = brick;
 		this.spinnerId = spinnerId;
 		this.expectedSelection = expectedSelection;

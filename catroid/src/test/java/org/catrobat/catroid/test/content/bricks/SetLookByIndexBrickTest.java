@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;

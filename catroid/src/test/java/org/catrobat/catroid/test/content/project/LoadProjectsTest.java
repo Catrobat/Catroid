@@ -52,7 +52,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
