@@ -47,8 +47,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClassesOf;

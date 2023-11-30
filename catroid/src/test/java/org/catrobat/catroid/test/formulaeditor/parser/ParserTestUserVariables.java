@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor.parser;
 
 import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;

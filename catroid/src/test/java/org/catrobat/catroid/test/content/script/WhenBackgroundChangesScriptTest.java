@@ -45,6 +45,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -53,8 +54,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-
-import org.koin.core.module.Module;
 
 import static junit.framework.Assert.assertEquals;
 
