@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
 import org.junit.After;
@@ -50,8 +51,6 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 import static org.koin.java.KoinJavaComponent.inject;
 

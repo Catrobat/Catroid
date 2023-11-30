@@ -30,20 +30,21 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.StaticSingletonInitializer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.koin.core.module.Module;
 
 import java.io.File;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,9 +52,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.koin.java.KoinJavaComponent.inject;
 
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({XstreamSerializer.class, ProjectManager.class})

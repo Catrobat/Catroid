@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +43,6 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
 @RunWith(JUnit4.class)
 public class ChangeYByNActionTest {

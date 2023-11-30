@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -42,10 +43,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.koin.core.module.Module;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 
-import java.util.Collections;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
