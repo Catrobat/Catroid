@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
@@ -49,7 +50,6 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
 
 import java.util.Collections;

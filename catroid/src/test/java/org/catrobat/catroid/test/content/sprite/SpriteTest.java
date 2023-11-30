@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
+import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -44,17 +45,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import android.content.Context;
-
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.koin.core.module.Module;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

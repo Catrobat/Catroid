@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import android.content.Context;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,6 +47,7 @@ import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
@@ -53,17 +56,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
 import static org.koin.java.KoinJavaComponent.inject;
-import android.content.Context;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
-import java.util.Collections;
-import java.util.List;
 
 @RunWith(JUnit4.class)
 public class PhysicsSpriteCloneTest {

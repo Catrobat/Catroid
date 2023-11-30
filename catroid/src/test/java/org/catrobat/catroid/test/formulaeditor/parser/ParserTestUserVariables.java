@@ -38,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
 import org.junit.After;
@@ -45,8 +46,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
 
 import java.util.Collections;

@@ -36,16 +36,15 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mockito;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 import java.util.List;

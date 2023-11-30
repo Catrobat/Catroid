@@ -56,7 +56,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-
 @RunWith(AndroidJUnit4.class)
 public class CurrentProjectTest {
 

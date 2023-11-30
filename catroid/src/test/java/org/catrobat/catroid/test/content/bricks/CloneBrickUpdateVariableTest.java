@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
@@ -47,7 +48,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.koin.core.module.Module;
 
 import java.util.Arrays;
@@ -60,7 +60,6 @@ import static junit.framework.Assert.assertNotSame;
 
 import static org.junit.Assert.assertSame;
 import static org.koin.java.KoinJavaComponent.inject;
-
 
 @RunWith(Parameterized.class)
 public class CloneBrickUpdateVariableTest {

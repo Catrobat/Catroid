@@ -44,7 +44,6 @@ import java.io.IOException;
 import androidx.test.core.app.ApplicationProvider;
 
 import static org.koin.java.KoinJavaComponent.inject;
-
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;

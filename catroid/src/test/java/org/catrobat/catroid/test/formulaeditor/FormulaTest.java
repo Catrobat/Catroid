@@ -37,10 +37,12 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -57,9 +59,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
-
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.koin.core.module.Module;
 
 import java.util.Collections;
 
