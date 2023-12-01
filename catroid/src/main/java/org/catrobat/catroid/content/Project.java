@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
@@ -537,15 +536,15 @@ public class Project implements Serializable {
 		return spriteNames;
 	}
 
-	public void checkIfSpriteNameEqualBackground(Activity activity) {
+	public void checkIfSpriteNameEqualBackground(Context context) {
 		List<Sprite> spriteList =
 				new ArrayList<>(this.getSpriteListWithClones());
 		List<String> spriteNames = getSpriteNames(spriteList);
 		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
-			if (spriteList.get(sprite).getName().matches("[\\s]*" + activity.getString(R.string.background)
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + context.getString(R.string.background)
 					+ "[\\s]*")) {
 				UniqueNameProvider name = new UniqueNameProvider();
-				String newSpriteName = name.getUniqueName(activity.getString(R.string.background), spriteNames);
+				String newSpriteName = name.getUniqueName(context.getString(R.string.background), spriteNames);
 				spriteList.get(sprite).setName(newSpriteName);
 				return;
 			}
