@@ -149,6 +149,9 @@ public class BrickSpinnerTest {
 		});
 	}
 
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private String name;
+
 	private final Brick brick;
 
 	private final @IdRes int spinnerId;
@@ -157,7 +160,10 @@ public class BrickSpinnerTest {
 
 	private final List<String> expectedContent;
 
-	public BrickSpinnerTest(Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
+	public BrickSpinnerTest(String name, Brick brick, @IdRes int spinnerId,
+			String expectedSelection,
+			List<String> expectedContent) {
+		this.name = name;
 		this.brick = brick;
 		this.spinnerId = spinnerId;
 		this.expectedSelection = expectedSelection;

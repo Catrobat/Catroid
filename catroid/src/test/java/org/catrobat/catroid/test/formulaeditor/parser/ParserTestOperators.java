@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
+import android.content.Context;
+
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -30,12 +32,18 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,6 +57,20 @@ public class ParserTestOperators {
 	private Scope scope;
 	private static final Double TRUE = 1d;
 	private static final Double FALSE = 0d;
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
+	@Before
+	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
 
 	@Test
 	public void testOperatorChain() {
@@ -79,7 +101,7 @@ public class ParserTestOperators {
 
 	@Test
 	public void testUnaryMinus() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 
@@ -290,7 +312,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.PLUS, second, Double.NaN, scope);
 	}
@@ -320,7 +342,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.DIVIDE, second, Double.NaN, scope);
 	}
@@ -350,7 +372,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MULT, second, Double.NaN, scope);
 	}
@@ -380,7 +402,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MINUS, second, Double.NaN, scope);
 	}

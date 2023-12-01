@@ -108,7 +108,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class ProjectOptionsTest {
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private static final String PROJECT_NAME = "projectName";
 	private static final String NEW_PROJECT_NAME = "newProjectName";

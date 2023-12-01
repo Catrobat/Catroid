@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -139,6 +141,8 @@ public class ComeToFrontActionTest {
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createComeToFrontAction(null);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		CatroidKoinHelperKt.startWithContext(context, dependencyModules);
 
 		exception.expect(NullPointerException.class);
 		action.act(1.0f);
