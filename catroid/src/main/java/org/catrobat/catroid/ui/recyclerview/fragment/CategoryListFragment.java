@@ -75,6 +75,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
@@ -483,7 +484,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private RecyclerView recyclerView;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -653,9 +654,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		FragmentActivity activity = getActivity();
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 		final List<UserList> projectUserList =
-				projectManager.getCurrentProject().getUserLists();
+				projectManager.getValue().getCurrentProject().getUserLists();
 		final List<UserList> spriteUserList =
-				projectManager.getCurrentSprite().getUserLists();
+				projectManager.getValue().getCurrentSprite().getUserLists();
 		insertLastUserListToActiveFormula(item, projectUserList, spriteUserList,
 				activity, builder);
 	}
@@ -775,8 +776,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private void showSelectSpriteDialog() {
-		final Sprite currentSprite = projectManager.getCurrentSprite();
-		List<Sprite> sprites = projectManager.getCurrentlyEditedScene().getSpriteList();
+		final Sprite currentSprite = projectManager.getValue().getCurrentSprite();
+		List<Sprite> sprites = projectManager.getValue().getCurrentlyEditedScene().getSpriteList();
 		final List<Sprite> selectableSprites = new ArrayList<>();
 
 		for (Sprite sprite : sprites) {
@@ -912,8 +913,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getObjectGeneralPropertiesItems() {
 		List<Integer> resIds = new ArrayList<>(OBJECT_GENERAL_PROPERTIES);
 
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Sprite currentSprite = projectManager.getCurrentSprite();
+		Scene currentScene = projectManager.getValue().getCurrentlyEditedScene();
+		Sprite currentSprite = projectManager.getValue().getCurrentSprite();
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			resIds.addAll(OBJECT_BACKGROUND);
@@ -976,7 +977,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getCastGamepadSensorItems() {
-		return projectManager.getCurrentProject().isCastProject()
+		return projectManager.getValue().getCurrentProject().isCastProject()
 				? addHeader(toCategoryListItems(SENSORS_CAST_GAMEPAD), getString(R.string.formula_editor_device_cast))
 				: Collections.emptyList();
 	}

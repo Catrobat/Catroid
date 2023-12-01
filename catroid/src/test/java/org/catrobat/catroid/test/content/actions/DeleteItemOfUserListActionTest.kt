@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,11 +30,17 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class DeleteItemOfUserListActionTest(
@@ -47,6 +53,8 @@ class DeleteItemOfUserListActionTest(
     private lateinit var userList: UserList
     private lateinit var actionFactory: ActionFactory
     private lateinit var deleteaction: DeleteItemOfUserListAction
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -67,6 +75,12 @@ class DeleteItemOfUserListActionTest(
         actionFactory = ActionFactory()
         userList = UserList(testName, initList)
         deleteaction = DeleteItemOfUserListAction()
+        MockUtil.mockContextForProject(dependencyModules)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

@@ -310,7 +310,7 @@ public final class XstreamSerializer {
 	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
-	private Lock loadSaveLock = new ReentrantLock();
+	private final Lock loadSaveLock = new ReentrantLock();
 
 	private XstreamSerializer() {
 		prepareXstream(Project.class, Scene.class);
@@ -774,10 +774,8 @@ public final class XstreamSerializer {
 		Matcher previousFormulaXMatcher = formulaXPattern.matcher(previousXml);
 		currentFormulaYMatcher.find();
 		previousFormulaXMatcher.find();
-		if (previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches() && (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)))) {
-			return true;
-		}
-		return false;
+		return previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches()
+				&& (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)));
 	}
 
 	public boolean saveProject(Project project) {

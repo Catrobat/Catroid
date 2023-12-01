@@ -31,10 +31,9 @@ import org.koin.java.KoinJavaComponent.inject
 
 object UserDataUtil {
 
-    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
-
     @JvmStatic
     fun containedInListSelector(dateName: String): Boolean {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
         return projectManager.currentProject.sceneList.any { scene ->
             scene.spriteList.any { sprite ->
                 sprite.scriptList.any { script ->
@@ -57,10 +56,11 @@ object UserDataUtil {
                     data.name = name
                 }
             }
-            projectManager.currentProject.userLists?.forEach(rename)
-            projectManager.currentSprite.userLists?.forEach(rename)
-            projectManager.currentProject.userVariables?.forEach(rename)
-            projectManager.currentSprite.userVariables?.forEach(rename)
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            projectManager.currentProject?.userLists?.forEach(rename)
+            projectManager.currentSprite?.userLists?.forEach(rename)
+            projectManager.currentProject?.userVariables?.forEach(rename)
+            projectManager.currentSprite?.userVariables?.forEach(rename)
         } else {
             item.name = name
         }

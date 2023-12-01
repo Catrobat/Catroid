@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,11 +32,17 @@ import org.catrobat.catroid.formulaeditor.Functions.ID_OF_DETECTED_OBJECT
 import org.catrobat.catroid.formulaeditor.Functions.OBJECT_WITH_ID_VISIBLE
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class ObjectDetectionFunctionTest(
@@ -45,6 +51,8 @@ class ObjectDetectionFunctionTest(
     private val parameterValue: Double,
     private val expectedReturnValue: Double
 ) {
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -79,6 +87,12 @@ class ObjectDetectionFunctionTest(
     @Before
     fun setUp() {
         successListener = ObjectDetectorOnSuccessListener()
+        MockUtil.mockContextForProject(dependencyModules)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test
