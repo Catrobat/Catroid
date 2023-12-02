@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,6 +54,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.updateLocale;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteTest {
@@ -82,7 +83,7 @@ public class SpriteTest {
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
 		project.addUserVariable(globalVariable);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		locale = ApplicationProvider.getApplicationContext()
 				.getResources().getConfiguration().locale;
 	}
@@ -112,7 +113,7 @@ public class SpriteTest {
 		UserVariable userVariable = sprite2.getUserVariable(variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
-		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(secondScene);
 
 		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2,
