@@ -57,7 +57,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
-import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.koin.java.KoinJavaComponent.inject;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;

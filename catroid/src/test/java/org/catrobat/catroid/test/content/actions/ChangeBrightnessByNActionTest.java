@@ -40,12 +40,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.koin.java.KoinJavaComponent.inject;
-
-import org.koin.core.module.Module;
 
 import java.util.Collections;
 import java.util.List;
