@@ -43,10 +43,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
-import static org.koin.java.KoinJavaComponent.inject;
-
 @RunWith(AndroidJUnit4.class)
 public class WhenTouchDownScriptTest {
 

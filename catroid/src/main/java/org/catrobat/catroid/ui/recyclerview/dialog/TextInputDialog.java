@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

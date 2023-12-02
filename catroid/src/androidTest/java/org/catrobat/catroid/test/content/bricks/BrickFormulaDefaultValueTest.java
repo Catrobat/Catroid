@@ -118,10 +118,6 @@ import static junit.framework.TestCase.assertNotNull;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
-import static org.koin.java.KoinJavaComponent.inject;
-
 @RunWith(Parameterized.class)
 public class BrickFormulaDefaultValueTest {
 

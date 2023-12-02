@@ -64,7 +64,6 @@ import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMe
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class HindiNumberAtShowDetailsAtProjectActivityTest {

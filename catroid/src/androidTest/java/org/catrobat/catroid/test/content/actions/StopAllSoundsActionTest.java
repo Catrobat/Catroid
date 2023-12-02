@@ -49,7 +49,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
