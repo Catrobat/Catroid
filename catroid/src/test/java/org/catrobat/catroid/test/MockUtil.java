@@ -30,8 +30,8 @@ import android.content.pm.PackageManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
-import org.mockito.Mockito;
 import org.koin.core.module.Module;
+import org.mockito.Mockito;
 
 import java.util.List;
 
