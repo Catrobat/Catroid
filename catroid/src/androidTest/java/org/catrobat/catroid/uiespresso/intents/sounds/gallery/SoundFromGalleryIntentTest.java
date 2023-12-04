@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -46,6 +45,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -79,8 +79,9 @@ public class SoundFromGalleryIntentTest {
 	private Matcher<Intent> expectedGetContentIntent;
 	private final String soundFileName = "longsound.mp3";
 	private final String projectName = getClass().getSimpleName();
-	private final File tmpPath = new File(
-			Constants.CACHE_DIRECTORY.getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -105,14 +106,10 @@ public class SoundFromGalleryIntentTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpPath.exists()) {
-			tmpPath.mkdirs();
-		}
-
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				tmpPath,
+				tmpFolder.getRoot(),
 				soundFileName);
 
 		Intent resultData = new Intent();
@@ -127,7 +124,6 @@ public class SoundFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {

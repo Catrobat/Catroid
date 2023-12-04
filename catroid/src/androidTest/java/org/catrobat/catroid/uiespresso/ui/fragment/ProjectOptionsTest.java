@@ -49,6 +49,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -120,6 +121,9 @@ public class ProjectOptionsTest {
 			new FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
 					ProjectActivity.FRAGMENT_SPRITES);
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() throws Exception {
 		context = ApplicationProvider.getApplicationContext();
@@ -186,7 +190,6 @@ public class ProjectOptionsTest {
 	}
 
 	private Matcher<Intent> createLookFromPaintroid() throws IOException {
-		File tmpDir = new File(Constants.CACHE_DIRECTORY.getAbsolutePath(), "Pocket Code Test Temp");
 		String lookFileName = "catroid_sunglasses.png";
 
 		Intents.init();
@@ -201,14 +204,10 @@ public class ProjectOptionsTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpDir.exists()) {
-			tmpDir.mkdirs();
-		}
-
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				tmpDir,
+				tmpFolder.getRoot(),
 				lookFileName,
 				1);
 
