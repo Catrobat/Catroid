@@ -23,11 +23,8 @@
 package org.catrobat.catroid.formulaeditor
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import android.text.style.ImageSpan
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 
 object FormulaSpannableStringBuilder {
 
@@ -68,6 +65,20 @@ object FormulaSpannableStringBuilder {
         colorString: String,
         bitmapSize: Float,
         stringBuilder: SpannableStringBuilder) {
+        val colorStringCut = colorString.substring(0, colorString.length - 1)
+        stringBuilder.append("$colorStringCut ")
+        var colorSquare = VisualizeColorString(context, colorString, bitmapSize)
+        stringBuilder.setSpan(colorSquare.imageSpan, stringBuilder.length - 1 , stringBuilder.length,
+                              SPAN_EXCLUSIVE_EXCLUSIVE)
+/*        stringBuilder.setSpan(colorSquare.getClickableSpan(), stringBuilder.length - 1 , stringBuilder.length,
+                              SPAN_EXCLUSIVE_EXCLUSIVE)*/
+        stringBuilder.append("' ")
+    }
+
+    /*private fun addColoredSquareToColorString(context: Context,
+        colorString: String,
+        bitmapSize: Float,
+        stringBuilder: SpannableStringBuilder) {
         val color = getColorValueFromColorString(colorString)
         val colorStringCut = colorString.substring(0, colorString.length - 1)
         val squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
@@ -90,5 +101,5 @@ object FormulaSpannableStringBuilder {
         val span = ImageSpan(roundedSquareDrawable, ImageSpan.ALIGN_BOTTOM)
         stringBuilder.setSpan(span, stringBuilder.length - 1 , stringBuilder.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         stringBuilder.append("' ")
-    }
+    }*/
 }
