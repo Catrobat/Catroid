@@ -56,7 +56,7 @@ public class SpriteController {
 	private LookController lookController = new LookController();
 	private SoundController soundController = new SoundController();
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public Sprite convert(Sprite spriteToConvert) {
 		return spriteToConvert.convert();

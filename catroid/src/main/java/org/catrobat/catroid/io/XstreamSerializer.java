@@ -816,10 +816,9 @@ public final class XstreamSerializer {
 						currentLanguageMatcher.find();
 						previousLanguageMatcher.find();
 
-						ProjectManager projectManager = inject(ProjectManager.class).getValue();
 						if (Objects.equals(currentLanguageMatcher.group(0),
 								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
-							projectManager.changedProject(project.getName());
+							inject(ProjectManager.class).getValue().changedProject(project.getName());
 						}
 					}
 				} catch (Exception e) {

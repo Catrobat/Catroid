@@ -56,8 +56,6 @@ public class SceneController {
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
-
 	public static Scene newSceneWithBackgroundSprite(String sceneName, String backgroundName, Project dstProject) {
 		Scene scene = new Scene(sceneName, dstProject);
 		Sprite backgroundSprite = new Sprite(backgroundName);
@@ -78,6 +76,7 @@ public class SceneController {
 
 		if (renamed) {
 			sceneToRename.setName(name);
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 				for (Sprite sprite : scene.getSpriteList()) {
 					for (Brick brick : sprite.getAllBricks()) {
@@ -136,7 +135,7 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
-		projectManager.getCurrentProject().removeScene(sceneToDelete);
+		inject(ProjectManager.class).getValue().getCurrentProject().removeScene(sceneToDelete);
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 

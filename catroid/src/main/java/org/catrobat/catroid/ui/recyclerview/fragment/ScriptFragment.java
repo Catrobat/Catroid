@@ -971,7 +971,7 @@ public class ScriptFragment extends ListFragment implements
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
+				new ProjectLoader(project.getDirectory()).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
 			}
