@@ -116,7 +116,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 					getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context);
 			formulaFieldView.setText(
 					FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(view.getContext(), text,
-							formulaFieldView.getTextSize()));
+							formulaFieldView.getTextSize()), TextView.BufferType.SPANNABLE);
 		}
 		return view;
 	}
