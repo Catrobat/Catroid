@@ -37,8 +37,7 @@ import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.lang.ref.WeakReference
 
-class ProjectLoader(private var projectDir: File, context: Context) {
-    private var weakContextReference: WeakReference<Context> = WeakReference(context)
+class ProjectLoader(private var projectDir: File) {
     private var weakListenerReference: WeakReference<ProjectLoadListener>? = null
 
     companion object {
@@ -52,7 +51,6 @@ class ProjectLoader(private var projectDir: File, context: Context) {
 
     @JvmOverloads
     fun loadProjectAsync(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
-        val context = weakContextReference.get() ?: return
         scope.launch {
             val projectSaved = loadProject(projectDir)
 

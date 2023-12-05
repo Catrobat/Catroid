@@ -231,7 +231,7 @@ class MainMenuFragment : Fragment(),
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
         )
-        ProjectLoader(projectDir, requireContext())
+        ProjectLoader(projectDir)
             .setListener(this)
             .loadProjectAsync()
     }
@@ -278,7 +278,7 @@ class MainMenuFragment : Fragment(),
             FileMetaDataExtractor
                 .encodeSpecialCharsForFileSystem(projectData!!.name)
         )
-        ProjectLoader(projectDir, requireContext())
+        ProjectLoader(projectDir)
             .setListener(this)
             .loadProjectAsync()
     }
@@ -297,7 +297,7 @@ class MainMenuFragment : Fragment(),
                     DEFAULT_ROOT_DIRECTORY,
                     FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
                 )
-                ProjectLoader(projectDir, requireContext())
+                ProjectLoader(projectDir)
                     .setListener(this)
                     .loadProjectAsync()
             }

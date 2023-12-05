@@ -49,7 +49,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-
 @RunWith(JUnit4.class)
 public class ChangeBrightnessByNActionTest {
 
