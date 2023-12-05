@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.io.asynctask
 
-import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
