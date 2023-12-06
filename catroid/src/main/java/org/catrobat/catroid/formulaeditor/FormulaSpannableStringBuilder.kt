@@ -36,8 +36,12 @@ object FormulaSpannableStringBuilder {
         val formulaStringList = formulaString.split(" ")
         for (variable in formulaStringList) {
             if (isColorString(variable)) {
-                addColoredSquareToColorString(context, variable, textSize*BITMAP_SIZE_MULTIPLIER,
-                                              stringBuilder)
+                addColoredSquareToColorString(
+                    context,
+                    variable,
+                    textSize * BITMAP_SIZE_MULTIPLIER,
+                    stringBuilder
+                )
             } else if (variable.isEmpty()) {
                 continue
             } else {
@@ -47,17 +51,24 @@ object FormulaSpannableStringBuilder {
         return stringBuilder
     }
 
-    private fun isColorString(colorString: String): Boolean = colorString.matches(Regex("^'#.{6}'$"))
+    private fun isColorString(colorString: String): Boolean =
+        colorString.matches(Regex("^'#.{6}'$"))
 
-    private fun addColoredSquareToColorString(context: Context,
+    private fun addColoredSquareToColorString(
+        context: Context,
         colorString: String,
         bitmapSize: Float,
-        stringBuilder: SpannableStringBuilder) {
+        stringBuilder: SpannableStringBuilder
+    ) {
         val colorStringCut = colorString.substring(0, colorString.length - 1)
         stringBuilder.append("$colorStringCut ")
-        var colorSquare = VisualizeColorString(context, colorString, bitmapSize)
-        stringBuilder.setSpan(colorSquare.imageSpan, stringBuilder.length - 1 , stringBuilder.length,
-                              SPAN_EXCLUSIVE_EXCLUSIVE)
+        val colorSquare = VisualizeColorString(context, colorString, bitmapSize)
+        stringBuilder.setSpan(
+            colorSquare.imageSpan,
+            stringBuilder.length - 1,
+            stringBuilder.length,
+            SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         stringBuilder.append("' ")
     }
 }

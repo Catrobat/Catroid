@@ -45,7 +45,6 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.createProjectA
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -87,8 +86,13 @@ class FormulaEditorColorVisualizeTest {
             .check(matches(ViewMatchers.withText("'#0074CD ' ")))
 
         onView(withId(R.id.brick_set_color_edit_text))
-            .check(matches(VisualizeColorMatcher(
-                arrayOf( getColorValueFromColorString("'#0074CD ' ")))))
+            .check(
+                matches(
+                    VisualizeColorMatcher(
+                        intArrayOf(getColorValueFromColorString("'#0074CD ' "))
+                    )
+                )
+            )
     }
 
     @Test
@@ -107,9 +111,16 @@ class FormulaEditorColorVisualizeTest {
             .check(matches(ViewMatchers.withText("'#0074CD ' or '#CA0186 ' ")))
 
         onView(withId(R.id.brick_set_color_edit_text))
-            .check(matches(VisualizeColorMatcher(
-                arrayOf( getColorValueFromColorString("'#0074CD ' "),
-                         getColorValueFromColorString("'#CA0186 ' ")))))
+            .check(
+                matches(
+                    VisualizeColorMatcher(
+                        intArrayOf(
+                            getColorValueFromColorString("'#0074CD ' "),
+                            getColorValueFromColorString("'#CA0186 ' ")
+                        )
+                    )
+                )
+            )
     }
 
     @Test
@@ -122,8 +133,13 @@ class FormulaEditorColorVisualizeTest {
         onFormulaEditor().checkShows("'#0074CD ' ")
 
         onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-            .check(matches(VisualizeColorMatcher(
-                arrayOf( getColorValueFromColorString("'#0074CD ' ")))))
+            .check(
+                matches(
+                    VisualizeColorMatcher(
+                        intArrayOf(getColorValueFromColorString("'#0074CD ' "))
+                    )
+                )
+            )
     }
 
     @Test
@@ -139,12 +155,19 @@ class FormulaEditorColorVisualizeTest {
         onFormulaEditor().checkShows("'#0074CD ' or '#CA0186 ' ")
 
         onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-            .check(matches(VisualizeColorMatcher(
-                arrayOf( getColorValueFromColorString("'#0074CD ' "),
-                         getColorValueFromColorString("'#CA0186 ' ")))))
+            .check(
+                matches(
+                    VisualizeColorMatcher(
+                        intArrayOf(
+                            getColorValueFromColorString("'#0074CD ' "),
+                            getColorValueFromColorString("'#CA0186 ' ")
+                        )
+                    )
+                )
+            )
     }
 
-    private fun setTestColorWithColorPicker(row : Int, column : Int) {
+    private fun setTestColorWithColorPicker(row: Int, column: Int) {
         onView(withId(R.id.formula_editor_keyboard_color_picker))
             .perform(click())
 
@@ -167,12 +190,12 @@ class FormulaEditorColorVisualizeTest {
     }
 }
 
-class VisualizeColorMatcher(private val expectedColors: Array<Int>) :
+class VisualizeColorMatcher(private val expectedColors: IntArray) :
     TypeSafeMatcher<View?>(View::class.java) {
 
     override fun matchesSafely(item: View?): Boolean {
-        var formulaTextView = item as TextView
-        var spannableString = formulaTextView.text as Spannable
+        val formulaTextView = item as TextView
+        val spannableString = formulaTextView.text as Spannable
         val spans: Array<VisualizeColorImageSpan> = spannableString.getSpans(
             0,
             spannableString.length,
@@ -189,6 +212,7 @@ class VisualizeColorMatcher(private val expectedColors: Array<Int>) :
         }
         return true
     }
+
     override fun describeTo(description: Description) {
         description.appendText("")
     }
