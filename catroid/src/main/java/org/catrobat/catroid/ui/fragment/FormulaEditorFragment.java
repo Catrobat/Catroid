@@ -945,8 +945,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateBrickView();
 		TextView formulaFieldView = formulaBrick.getTextView(currentFormulaField);
 		formulaFieldView.setText(
-				FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(this.getContext()
-						, newString,
+				FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(this.getContext(),
+						newString,
 						formulaFieldView.getTextSize()));
 	}
 

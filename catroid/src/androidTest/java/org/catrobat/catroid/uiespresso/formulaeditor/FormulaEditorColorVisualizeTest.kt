@@ -24,20 +24,23 @@
 package org.catrobat.catroid.uiespresso.formulaeditor
 
 import android.text.Spannable
-import android.text.SpannableString
 import android.view.View
 import android.widget.TextView
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.formulaeditor.VisualizeColorImageSpan
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper
-import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.LOGIC
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Description
@@ -74,56 +77,84 @@ class FormulaEditorColorVisualizeTest {
 
     @Test
     fun visualizeColorInScriptView() {
-        Espresso.onView(ViewMatchers.withId(R.id.brick_set_color_edit_text))
-            .perform(ViewActions.click())
+        onView(withId(R.id.brick_set_color_edit_text)).perform(click())
 
-        Espresso.onView(ViewMatchers.withId(R.id.formula_editor_keyboard_color_picker))
-            .perform(ViewActions.click())
-
-        ColorPickerInteractionWrapper.onColorPickerPresetButton(0, 0)
-            .perform(ViewActions.click())
-
-        Espresso.closeSoftKeyboard()
-
-        Espresso.onView(ViewMatchers.withText(R.string.color_picker_apply))
-            .perform(ViewActions.click())
+        setTestColorWithColorPicker(0, 0)
 
         Espresso.pressBack()
 
-        Espresso.onView(ViewMatchers.withId(R.id.brick_set_color_edit_text))
-            .check(ViewAssertions.matches(ViewMatchers.withText("'#0074CD ' ")))
+        onView(withId(R.id.brick_set_color_edit_text))
+            .check(matches(ViewMatchers.withText("'#0074CD ' ")))
 
-        Espresso.onView(ViewMatchers.withId(R.id.brick_set_color_edit_text))
-            .check(ViewAssertions.matches(VisualizeColorMatcher(
+        onView(withId(R.id.brick_set_color_edit_text))
+            .check(matches(VisualizeColorMatcher(
                 arrayOf( getColorValueFromColorString("'#0074CD ' ")))))
     }
 
     @Test
+    fun visualizeMultipleColorsInScriptView() {
+        onView(withId(R.id.brick_set_color_edit_text)).perform(click())
+
+        setTestColorWithColorPicker(0, 0)
+
+        onFormulaEditor().performOpenCategory(LOGIC).performSelect("or")
+
+        setTestColorWithColorPicker(2, 2)
+
+        Espresso.pressBack()
+
+        onView(withId(R.id.brick_set_color_edit_text))
+            .check(matches(ViewMatchers.withText("'#0074CD ' or '#CA0186 ' ")))
+
+        onView(withId(R.id.brick_set_color_edit_text))
+            .check(matches(VisualizeColorMatcher(
+                arrayOf( getColorValueFromColorString("'#0074CD ' "),
+                         getColorValueFromColorString("'#CA0186 ' ")))))
+    }
+
+    @Test
     fun visualizeColorInFormulaEditor() {
-        Espresso.onView(ViewMatchers.withId(R.id.brick_set_color_edit_text))
-            .perform(ViewActions.click())
+        onView(withId(R.id.brick_set_color_edit_text))
+            .perform(click())
 
-        Espresso.onView(ViewMatchers.withId(R.id.formula_editor_keyboard_color_picker))
-            .perform(ViewActions.click())
+        setTestColorWithColorPicker(0, 0)
 
-        ColorPickerInteractionWrapper.onColorPickerPresetButton(0, 0)
-            .perform(ViewActions.click())
+        onFormulaEditor().checkShows("'#0074CD ' ")
 
-        Espresso.closeSoftKeyboard()
-
-        Espresso.onView(ViewMatchers.withText(R.string.color_picker_apply))
-            .perform(ViewActions.click())
-
-        FormulaEditorWrapper.onFormulaEditor().checkShows("'#0074CD ' ")
-
-        Espresso.onView(FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-            .check(ViewAssertions.matches(VisualizeColorMatcher(
+        onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+            .check(matches(VisualizeColorMatcher(
                 arrayOf( getColorValueFromColorString("'#0074CD ' ")))))
     }
 
-    @After
-    fun tearDown() {
-        baseActivityTestRule.finishActivity()
+    @Test
+    fun visualizeMultipleColorsInFormulaEditor() {
+        onView(withId(R.id.brick_set_color_edit_text)).perform(click())
+
+        setTestColorWithColorPicker(0, 0)
+
+        onFormulaEditor().performOpenCategory(LOGIC).performSelect("or")
+
+        setTestColorWithColorPicker(2, 2)
+
+        onFormulaEditor().checkShows("'#0074CD ' or '#CA0186 ' ")
+
+        onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+            .check(matches(VisualizeColorMatcher(
+                arrayOf( getColorValueFromColorString("'#0074CD ' "),
+                         getColorValueFromColorString("'#CA0186 ' ")))))
+    }
+
+    private fun setTestColorWithColorPicker(row : Int, column : Int) {
+        onView(withId(R.id.formula_editor_keyboard_color_picker))
+            .perform(click())
+
+        ColorPickerInteractionWrapper.onColorPickerPresetButton(row, column)
+            .perform(click())
+
+        Espresso.closeSoftKeyboard()
+
+        onView(ViewMatchers.withText(R.string.color_picker_apply))
+            .perform(click())
     }
 
     private fun getColorValueFromColorString(colorString: String): Int {
@@ -138,7 +169,6 @@ class FormulaEditorColorVisualizeTest {
 
 class VisualizeColorMatcher(private val expectedColors: Array<Int>) :
     TypeSafeMatcher<View?>(View::class.java) {
-    var resourceName: String? = null
 
     override fun matchesSafely(item: View?): Boolean {
         var formulaTextView = item as TextView
@@ -159,10 +189,7 @@ class VisualizeColorMatcher(private val expectedColors: Array<Int>) :
         }
         return true
     }
-
     override fun describeTo(description: Description) {
-        description.appendText("test")
+        description.appendText("")
     }
-
-
 }
