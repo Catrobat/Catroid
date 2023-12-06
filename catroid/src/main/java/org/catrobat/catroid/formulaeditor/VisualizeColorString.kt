@@ -32,14 +32,15 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 private const val COLOR_SQUARE_PADDING_LEFT = 15
 private const val COLOR_SQUARE_PADDING_TOP = 0
 private const val COLOR_STRING_CONVERSION_CONSTANT = 16
+private const val COLOR_SQUARE_ROUNDED_CORNER_DIVIDER = 4
 
-class VisualizeColorString (
+class VisualizeColorString(
     context: Context,
-    colorString : String,
-    bitmapSize : Float
-    ) {
+    colorString: String,
+    bitmapSize: Float
+) {
 
-    var drawable : RoundedBitmapDrawable
+    var drawable: RoundedBitmapDrawable
     var imageSpan: VisualizeColorImageSpan
     var colorValue = 0
 
@@ -55,13 +56,13 @@ class VisualizeColorString (
                 false
             )
         )
-        drawable.cornerRadius = bitmapSize / 4
+        drawable.cornerRadius = bitmapSize / COLOR_SQUARE_ROUNDED_CORNER_DIVIDER
         drawable.setBounds(
             COLOR_SQUARE_PADDING_LEFT, COLOR_SQUARE_PADDING_TOP,
             drawable.intrinsicWidth + COLOR_SQUARE_PADDING_LEFT,
             drawable.intrinsicHeight + COLOR_SQUARE_PADDING_TOP
         )
-        imageSpan = VisualizeColorImageSpan(drawable, colorValue, this)
+        imageSpan = VisualizeColorImageSpan(drawable, colorValue)
     }
 
     private fun getColorValueFromColorString(colorString: String): Int {
@@ -74,11 +75,8 @@ class VisualizeColorString (
     }
 }
 
-class VisualizeColorImageSpan (
+class VisualizeColorImageSpan(
     drawable: RoundedBitmapDrawable,
-    colorValue: Int,
-    parent : VisualizeColorString
+    val colorValue: Int
 ) : ImageSpan(drawable, ALIGN_BOTTOM) {
-    var colorValue = colorValue
-    val parent = parent
 }
