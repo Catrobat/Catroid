@@ -25,19 +25,10 @@ package org.catrobat.catroid.formulaeditor
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.text.SpannableString
-import android.text.TextPaint
-import android.text.style.ClickableSpan
 import android.text.style.ImageSpan
-import android.view.View
-import android.widget.ImageView
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer.RoundedDrawable
 
-private const val BITMAP_SIZE_MULTIPLIER = 1.25f
 private const val COLOR_SQUARE_PADDING_LEFT = 15
 private const val COLOR_SQUARE_PADDING_TOP = 0
 private const val COLOR_STRING_CONVERSION_CONSTANT = 16
@@ -48,10 +39,9 @@ class VisualizeColorString (
     bitmapSize : Float
     ) {
 
-    lateinit var drawable : RoundedBitmapDrawable
-    lateinit var imageSpan: VisualizeColorImageSpan
+    var drawable : RoundedBitmapDrawable
+    var imageSpan: VisualizeColorImageSpan
     var colorValue = 0
-
 
     init {
         colorValue = getColorValueFromColorString(colorString)
@@ -74,17 +64,6 @@ class VisualizeColorString (
         imageSpan = VisualizeColorImageSpan(drawable, colorValue, this)
     }
 
-    fun getClickableSpan() : ClickableSpan = object : ClickableSpan() {
-        override fun onClick(widget: View) {
-            var i = 0
-            print(i)
-        }
-        override fun updateDrawState(ds: TextPaint) {
-            super.updateDrawState(ds)
-            ds.isUnderlineText = false
-        }
-    }
-
     private fun getColorValueFromColorString(colorString: String): Int {
         val newString = colorString.replace(Regex("[^A-Za-z0-9]"), "")
         return try {
@@ -99,10 +78,7 @@ class VisualizeColorImageSpan (
     drawable: RoundedBitmapDrawable,
     colorValue: Int,
     parent : VisualizeColorString
-) : ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM) {
-    var colorValue = 0
-
-    init {
-        this.colorValue = colorValue
-    }
+) : ImageSpan(drawable, ALIGN_BOTTOM) {
+    var colorValue = colorValue
+    val parent = parent
 }
