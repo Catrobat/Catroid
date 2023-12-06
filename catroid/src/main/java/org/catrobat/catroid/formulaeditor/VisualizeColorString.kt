@@ -78,5 +78,4 @@ class VisualizeColorString(
 class VisualizeColorImageSpan(
     drawable: RoundedBitmapDrawable,
     val colorValue: Int
-) : ImageSpan(drawable, ALIGN_BOTTOM) {
-}
+) : ImageSpan(drawable, ALIGN_BOTTOM)
