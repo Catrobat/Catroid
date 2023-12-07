@@ -36,9 +36,6 @@ import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.common.Constants.BASE_URL_API
 import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
-import org.catrobat.catroid.transfers.TokenTask
-import org.catrobat.catroid.transfers.LoginViewModel
-import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
@@ -56,7 +53,6 @@ import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
-import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesRepository

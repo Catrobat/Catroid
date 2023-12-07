@@ -58,12 +58,9 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.transfers.ProjectUploadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.utils.FileMetaDataExtractor
@@ -153,7 +150,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 projectUploadResponse?.let {
                     showSuccessDialog(projectUploadResponse)
                 } ?: run {
-                    showErrorDialog(projectUploadTask.getErrorMessage())
+                    showErrorDialog()
                 }
             }
 
@@ -469,7 +466,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
             if (projectZipped == null) {
                 // Maybe change error message on zipping error?
-                showErrorDialog("Could not pack project to zip file")
+                showErrorDialog()
                 Log.d(TAG, "Could not pack project to zip file")
                 return@launch
             }
@@ -522,7 +519,7 @@ open class ProjectUploadActivity : BaseActivity(),
         uploadProgressDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = false
     }
 
-    private fun showErrorDialog(errorMessage: String) {
+    private fun showErrorDialog() {
         uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
             View.GONE
         uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_message_failed)?.visibility =
@@ -645,23 +642,6 @@ open class ProjectUploadActivity : BaseActivity(),
         })
 
         tokenTask.refreshToken(token, refreshToken)
-    }
-
-    @Deprecated("Use new API call instead", ReplaceWith("checkRefreshToken(token, refreshToken)"))
-    private fun checkDeprecatedToken(token: String) {
-        tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
-            upgradeResponse?.let {
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, upgradeResponse.token)
-                    .putString(Constants.REFRESH_TOKEN, upgradeResponse.refresh_token)
-                    .apply()
-                onCreateView()
-            } ?: run {
-                verifyUserIdentityFailed()
-            }
-        })
-
-        tokenTask.upgradeToken(token)
     }
 
     private fun verifyUserIdentityFailed() {
