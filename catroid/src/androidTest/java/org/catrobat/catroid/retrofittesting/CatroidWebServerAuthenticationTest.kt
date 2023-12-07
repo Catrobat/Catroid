@@ -46,7 +46,9 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_RE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_USER_DELETED
+import org.junit.AfterClass
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
@@ -64,6 +66,19 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
     companion object {
         private const val STATUS_CODE_INVALID_CREDENTIALS = 401
+
+        @BeforeClass
+        @JvmStatic
+        fun initSetup() {
+            stopKoin()
+            startKoin { modules(testModules) }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun tearDown() {
+            stopKoin()
+        }
     }
 
     private lateinit var newEmail: String
@@ -80,9 +95,6 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
     @Before
     fun setUp() {
-        stopKoin()
-        startKoin { modules(testModules) }
-
         newUserName = "APIUser" + currentTimeMillis()
         newEmail = "$newUserName@api.at"
 
@@ -161,8 +173,8 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
     @Test
     fun testRegistrationOk() {
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register(RegisterUser(true, newEmail, newUserName, password)).execute()
+        val response = webServer.register(RegisterUser(true, newEmail, newUserName, password))
+            .execute()
 
         val responseBody = response.body()
         assertNotNull(responseBody)
@@ -175,7 +187,6 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
     @Test
     fun testRegisterWithNewUserButExistingEmail() {
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
         val response = webServer.register(RegisterUser(true, email, newUserName, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
@@ -187,7 +198,6 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
     @Test
     fun testRegisterWithExistingUserButNewEmail() {
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
         val response = webServer.register(RegisterUser(true, newEmail, username, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)

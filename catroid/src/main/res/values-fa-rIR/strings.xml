@@ -697,7 +697,6 @@
     <string name="play_scene_dialog_current">صحنه کنونی (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">ورود</string>
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>
     <string name="reset_password">تنظیم مجدد گذرواژه</string>
@@ -710,11 +709,6 @@
     <string name="register">ثبت نام</string>
     <string name="password_confirm">تایید رمز عبور</string>
     <string name="accountName">ایمیل</string>
-    <string name="signin_thanks">با تشکر از شما برای ثبت نام!</string>
-    <string name="signin_choose_username">لطفا نام کاربری خود را انتخاب کنید:</string>
-    <string name="signin_choose_username_empty">لطفا یک نام کاربری وارد کنید.</string>
-    <string name="signin_choose_username_hint">نام کاربری نباید نام واقعی شما باشد و همچنین نباید یک آدرس ایمیل باشد.</string>
-    <string name="oauth_username_taken">شخص دیگری قبلاً از این نام استفاده می کند. لطفاً یکی دیگر را انتخاب کنید!</string>
     <string name="show_password">نمایش رمز عبور</string>
     <string name="sign_in_error">هنگام ورود به سیستم مشکلی پیش آمد.</string>
     <string name="error_google_plus_sign_in">خطای ورود به سیستم Google وضعیت:%s</string>

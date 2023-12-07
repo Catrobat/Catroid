@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app
 
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
@@ -34,16 +33,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.base.Stopwatch
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.R
-import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
 import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.DeleteLookBrick
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick
 import org.catrobat.catroid.test.utils.TestUtils
@@ -60,16 +53,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
-import org.koin.java.KoinJavaComponent.inject
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 @Category(AppUi::class, Smoke::class)
 @RunWith(AndroidJUnit4::class)
 class DeleteLookBrickTest {
     private lateinit var sprite: Sprite
-    private lateinit var script: StartScript
     private val projectName = "DeleteLookBrickTest"
-    private val projectManager by inject(ProjectManager::class.java)
     private lateinit var script: Script
 
     @get:Rule

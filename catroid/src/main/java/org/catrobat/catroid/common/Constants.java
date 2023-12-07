@@ -128,7 +128,7 @@ public final class Constants {
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 	public static final String BASE_URL_API = MAIN_URL_HTTPS + "/api/";
-	public static final String TEST_URL_API = "https://develop-web.catrobat.ist.tugraz.at/api/";
+	public static final String TEST_URL_API = "https://web-test.catrob.at/api/";
 
 	// Default "flavor" in the web which equals "pocketcode"
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";

@@ -40,7 +40,6 @@ import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.retrofit.models.ProjectResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
 import org.catrobat.catroid.retrofit.models.RegisterUser
 import org.catrobat.catroid.retrofit.models.Tag
 import retrofit2.Call
