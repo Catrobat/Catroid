@@ -43,6 +43,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -288,9 +289,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		formulaEditorBrick = fragmentView.findViewById(R.id.formula_editor_brick_space);
 		formulaEditorEditText = fragmentView.findViewById(R.id.formula_editor_edit_field);
-		formulaEditorKeyboard = fragmentView.findViewById(R.id.formula_editor_keyboardview);
-		formulaEditorClipboard =
-				new FormulaEditorClipboard(formulaEditorEditText);
+		formulaEditorKeyboard = fragmentView.findViewById(R.id.formula_editor_keyboard_view);
+		formulaEditorClipboard = new FormulaEditorClipboard(formulaEditorEditText);
 
 		updateBrickView();
 
@@ -478,47 +478,54 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void toggleFunctionalButtons() {
-		View row1 = getActivity().findViewById(R.id.tableRow11);
-		View row2 = getActivity().findViewById(R.id.tableRow12);
-		View row3 = getActivity().findViewById(R.id.tableRow13);
+		View row1 = getActivity().findViewById(R.id.tableRow1);
+		View row3 = getActivity().findViewById(R.id.tableRow3);
+		View row4 = getActivity().findViewById(R.id.tableRow4);
+		View row5 = getActivity().findViewById(R.id.tableRow5);
+		Button keyboard_7 = getActivity().findViewById(R.id.formula_editor_keyboard_7);
+		Button keyboard_8 = getActivity().findViewById(R.id.formula_editor_keyboard_8);
+		Button keyboard_9 = getActivity().findViewById(R.id.formula_editor_keyboard_9);
+		ImageButton keyboard_delete = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
+
+		View rowFunctionButtons1 = getActivity().findViewById(R.id.tableRowFunctionButtons1);
+		View rowFunctionButtons2 = getActivity().findViewById(R.id.tableRowFunctionButtons2);
+		View rowFunctionButtons3 = getActivity().findViewById(R.id.tableRowFunctionButtons3);
 		ImageButton toggleButton = getActivity().findViewById(R.id.formula_editor_keyboard_functional_button_toggle);
 
-		boolean isVisible = row1.getVisibility() == View.VISIBLE;
-		row1.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-		row2.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-		row3.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ? R.drawable.ic_keyboard_toggle_caret_up : R.drawable.ic_keyboard_toggle_caret_down));
+		boolean isVisible = rowFunctionButtons1.getVisibility() == View.VISIBLE;
+
+		row1.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		row3.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		row4.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		row5.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard_7.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard_8.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard_9.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard_delete.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+
+		rowFunctionButtons1.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+		rowFunctionButtons2.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+		rowFunctionButtons3.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+
+		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ?
+				R.drawable.ic_keyboard_toggle_caret_left : R.drawable.ic_keyboard_toggle_caret_right));
 		toggleFormulaEditorSpace(isVisible);
 	}
 
 	private void toggleFormulaEditorSpace(boolean isVisible) {
-		View keyboard = getActivity().findViewById(R.id.formula_editor_keyboardview);
-		View brickAndFormula = getActivity().findViewById(R.id.formula_editor_brick_and_formula);
-
 		LinearLayout.LayoutParams keyboardLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				1
 		);
 
-		LinearLayout.LayoutParams formulaLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				1
-		);
-
 		if (isVisible) {
-			View row1 = getActivity().findViewById(R.id.tableRow11);
-			View row2 = getActivity().findViewById(R.id.tableRow12);
-			int rowsHeight = row1.getHeight() + row2.getHeight();
-			keyboardLayoutParams.topMargin = rowsHeight;
-			formulaLayoutParams.bottomMargin = -rowsHeight;
-		} else {
 			keyboardLayoutParams.topMargin = 0;
-			formulaLayoutParams.bottomMargin = 0;
+		} else {
+			keyboardLayoutParams.topMargin = getActivity().findViewById(R.id.tableRow1).getHeight();
 		}
-		brickAndFormula.setLayoutParams(formulaLayoutParams);
-		keyboard.setLayoutParams(keyboardLayoutParams);
+
+		formulaEditorKeyboard.setLayoutParams(keyboardLayoutParams);
 	}
 
 	@VisibleForTesting

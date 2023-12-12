@@ -50,7 +50,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public final class FormulaEditorWrapper extends ViewInteractionWrapper {
-	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER = withId(R.id.formula_editor_keyboardview);
+	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER =
+			withId(R.id.formula_editor_keyboard_view);
 	public static final Matcher<View> FORMULA_EDITOR_TEXT_FIELD_MATCHER = withId(R.id.formula_editor_edit_field);
 
 	private FormulaEditorWrapper() {
