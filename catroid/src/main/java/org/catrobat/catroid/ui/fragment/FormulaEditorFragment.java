@@ -513,18 +513,33 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void toggleFormulaEditorSpace(boolean isVisible) {
+		View brickAndFormula = getActivity().findViewById(R.id.formula_editor_brick_and_formula);
+
 		LinearLayout.LayoutParams keyboardLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				1
 		);
 
+		LinearLayout.LayoutParams formulaLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				1
+		);
+
+		int defaultMargin =
+				getResources().getDimensionPixelSize(R.dimen.formula_editor_keyboard_margin_top);
+
 		if (isVisible) {
-			keyboardLayoutParams.topMargin = 0;
+			keyboardLayoutParams.topMargin = defaultMargin;
+			formulaLayoutParams.bottomMargin = -defaultMargin;
 		} else {
-			keyboardLayoutParams.topMargin = getActivity().findViewById(R.id.tableRow1).getHeight();
+			int rowHeight = getActivity().findViewById(R.id.tableRow1).getHeight();
+			keyboardLayoutParams.topMargin = rowHeight + defaultMargin;
+			formulaLayoutParams.bottomMargin = -(rowHeight + defaultMargin);
 		}
 
+		brickAndFormula.setLayoutParams(formulaLayoutParams);
 		formulaEditorKeyboard.setLayoutParams(keyboardLayoutParams);
 	}
 

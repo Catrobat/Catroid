@@ -74,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/formula_editor_keyboard_margin_top"
         android:layout_gravity="bottom"
         layout="@layout/formula_editor_keyboard" />
 
