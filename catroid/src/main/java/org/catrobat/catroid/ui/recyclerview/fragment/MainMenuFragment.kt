@@ -333,7 +333,7 @@ class MainMenuFragment : Fragment(),
 
             R.id.playProject -> {
                 viewModel.setIsLoading(true)
-                StageActivity.handlePlayButton(projectManager,activity)
+                StageActivity.handlePlayButton(projectManager, activity)
             }
 
             R.id.myProjectsTextView -> {
