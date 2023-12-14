@@ -77,7 +77,7 @@
 
                     <ImageView
                         android:id="@+id/playProject"
-                        android:contentDescription="@string/main_menu_upload"
+                        android:contentDescription="@string/main_menu_play"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"

@@ -196,6 +196,17 @@ class MainMenuFragmentTest : KoinTest {
             .check(matches(isDisplayed()))
     }
 
+    @Test
+    fun testBackButtonAfterTappingOnPlayButton() {
+        syncBeforeLaunch(false)
+        onView(withId(R.id.playProject))
+            .perform(ViewActions.click())
+        pressBack()
+        pressBack()
+        onView(withId(R.id.projectImageView))
+            .check(matches(isDisplayed()))
+    }
+
     private fun createProject() {
         projectManager.createNewEmptyProject(
             javaClass.simpleName,
