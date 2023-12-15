@@ -25,9 +25,15 @@ package org.catrobat.catroid.io.catlang.parser.project
 
 class CatrobatLanguageParserHelper {
     companion object {
-        fun getStringContent(value: String): String = value.substring(1, value.length - 1)
+        fun getStringContent(value: String): String = value.substring(1, value.length - 1).replace("\\n", "\n").replace("\\r", "\r")
         fun getStringToDouble(value: String): Double = getStringContent(value).toDouble()
         fun getStringToBoolean(value: String): Boolean = getStringContent(value).toBoolean()
         fun getStringToInt(value: String): Int = getStringContent(value).toInt()
+
+        fun getVariableName(variableReference: String): String = variableReference.substring(1, variableReference.length - 1)
+            .replace("\\\"", "\"")
+
+        fun getListName(variableReference: String): String = variableReference.substring(1, variableReference.length - 1)
+            .replace("\\*", "*")
     }
 }

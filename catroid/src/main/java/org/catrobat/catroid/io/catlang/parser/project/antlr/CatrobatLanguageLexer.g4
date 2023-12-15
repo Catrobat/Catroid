@@ -47,24 +47,46 @@ OF_TYPE: 'of type';
 SCENE: 'Scene';
 BACKGROUND: 'Background';
 SCRIPTS: 'Scripts';
+USER_DEFINED_SCRIPTS: 'User Defined Bricks';
+UDB_DEFINE: 'Define';
 
 NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
 fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];
 DISABLED_BRICK_INDICATION: '//';
 BRICK_NAME: LETTER+ (' ' LETTER+)* -> mode(BRICK_MODE);
+//USER_DEFINED_BRICK: '`' ~('(' | '{')+ -> mode(USER_DEFINED_BRICK_MODE);
+UDB_START: '`' -> mode(UDB_MODE);
 
 mode BRICK_MODE;
 BRICK_MODE_WS: [ \t\r\n]+ -> skip;
-BRICK_MODE_BRACKET_OPEN: '(' -> mode(PARAM_MODE);
-//BRICK_BRACKET_CLOSE: ')' -> mode(DEFAULT_MODE);
+BRICK_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
 SEMICOLON: ';' -> mode(DEFAULT_MODE);
 BRICK_BODY_OPEN: '{' -> mode(DEFAULT_MODE);
+
+mode UDB_MODE;
+UDB_MODE_WS: [\t\r\n]+ -> skip;
+UDB_PARAM_START: '[' -> pushMode(UDB_PARAM_MODE);
+UDB_LABEL: ~('[' | '`' | ']')+;
+UDB_END: '`' -> mode(UDB_AFTER_MODE);
+
+mode UDB_PARAM_MODE;
+UDB_PARAM_MODE_WS: [\t\r\n]+ -> skip;
+UDB_PARAM_END: ']' -> popMode;
+UDB_PARAM_TEXT: ~(']')+;
+
+mode UDB_AFTER_MODE;
+UDB_AFTER_MODE_WS: [ \t\r\n]+ -> skip;
+UDB_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
+UDB_SEMICOLON: ';' -> mode(DEFAULT_MODE);
+UDB_DEFINITION_SCREEN_REFRESH: 'with screen refresh as';
+UDB_DEFINITION_NO_SCREEN_REFRESH: 'without screen refresh as';
+UDB_BODY_OPEN: '{' -> mode(DEFAULT_MODE);
 
 mode PARAM_MODE;
 PARAM_MODE_WS: [ \t\r\n]+ -> skip;
 PARAM_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
-PARAM_MODE_BRACKET_CLOSE: ')' -> mode(BRICK_MODE);
-PARAM_MODE_NAME: LETTER+ (' ' LETTER+)*;
+PARAM_MODE_BRACKET_CLOSE: ')' -> popMode;// mode(BRICK_MODE);
+PARAM_MODE_NAME: '[' LETTER+ (' ' LETTER+)* ']' | LETTER+ (' ' LETTER+)*;
 PARAM_MODE_COLON: ':';
 PARAM_SEPARATOR: ',';
 
@@ -92,3 +114,8 @@ ESCAPE_UDB_PARAM_MODE_ANYTHING: ~(']')+ -> skip;
 ESCAPE_UDB_PARAM_MODE_CHAR: ']' -> popMode;
 // end of >ignore everything<
 
+//mode USER_DEFINED_BRICK_PARAM_MODE;
+//USER_DEFINED_BRICK_PARAM_MODE_WS: [ \t\r\n]+ -> skip;
+//USER_DEFINED_BRICK_TEXT: ~[`]+;
+//USER_DEFINED_BRICK_PARAM_START: '`' -> pushMode(PARAM_MODE);
+//USER_DEFINED_BRICK_SEMICOLON: ';' -> mode(DEFAULT_MODE);

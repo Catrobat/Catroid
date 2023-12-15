@@ -1,6 +1,7 @@
-// Generated from ./CatrobatLanguageParser.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/project/antlr/CatrobatLanguageParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.project.antlr.gen;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor;
 
 /**
  * This class provides an empty implementation of {@link CatrobatLanguageParserVisitor},
@@ -207,7 +208,35 @@ public class CatrobatLanguageParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

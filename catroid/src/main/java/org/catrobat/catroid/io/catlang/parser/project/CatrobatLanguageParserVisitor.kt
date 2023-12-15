@@ -47,9 +47,9 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageAr
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBaseResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageKeyValueResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageListResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageProgramVisitResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageStringResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVariableResult
-import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVisitResult
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageDoubleDefinitionException
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
@@ -128,7 +128,7 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
                 visitScene(it)
             }
         }
-        return CatrobatLanguageVisitResult(currentProject)
+        return CatrobatLanguageProgramVisitResult(currentProject)
     }
 
     override fun visitMetadata(ctx: CatrobatLanguageParser.MetadataContext?): CatrobatLanguageBaseResult {

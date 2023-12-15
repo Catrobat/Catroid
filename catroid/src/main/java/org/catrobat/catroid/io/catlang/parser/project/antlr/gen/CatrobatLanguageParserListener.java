@@ -1,4 +1,4 @@
-// Generated from ./CatrobatLanguageParser.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/project/antlr/CatrobatLanguageParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.project.antlr.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -278,6 +278,26 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedScripts}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#userDefinedScripts}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedScript}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#userDefinedScript}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
 	 * @param ctx the parse tree
 	 */
@@ -287,6 +307,26 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrick}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrick}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrickPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrickPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
 	 * @param ctx the parse tree

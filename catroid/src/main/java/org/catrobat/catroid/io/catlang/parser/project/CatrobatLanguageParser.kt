@@ -23,27 +23,64 @@
 
 package org.catrobat.catroid.io.catlang.parser.project
 
+import android.content.Context
+import org.antlr.v4.runtime.BaseErrorListener
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.RecognitionException
+import org.antlr.v4.runtime.Recognizer
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageLexer
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
-import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVisitResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageProgramVisitResult
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 class CatrobatLanguageParser {
+
+    private class LexerErrorListener : BaseErrorListener() {
+        val errors: ArrayList<String> = arrayListOf()
+        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
+            errors.add("Error parsing catrobat program in line $line at position $charPositionInLine: $msg")
+        }
+    }
+
+    private class ParserErrorListener : BaseErrorListener() {
+        val errors: ArrayList<String> = arrayListOf()
+        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
+            errors.add("Error parsing catrobat program in line $line at position $charPositionInLine: $msg")
+        }
+    }
+
     companion object {
-        fun parseProgramFromString(program: String): Project? {
+        fun parseProgramFromString(program: String, context: Context): Project? {
             val lexer = CatrobatLanguageLexer(CharStreams.fromString(program))
+            val lexerErrorListener = LexerErrorListener()
+            lexer.removeErrorListeners()
+            lexer.addErrorListener(lexerErrorListener)
+
             val parser = CatrobatLanguageParser(CommonTokenStream(lexer))
+            val parserErrorListener = ParserErrorListener()
+            parser.removeErrorListeners()
+            parser.addErrorListener(parserErrorListener)
+
             val programContext = parser.program()
+
+            throwErrorIfErrorsPresent(lexerErrorListener.errors)
+            throwErrorIfErrorsPresent(parserErrorListener.errors)
 
             val visitor = CatrobatLanguageParserVisitor()
             val result = visitor.visitProgram(programContext)
 
-            return if (result is CatrobatLanguageVisitResult) {
+            return if (result is CatrobatLanguageProgramVisitResult) {
                 result.project
             } else {
                 null
+            }
+        }
+
+        private fun throwErrorIfErrorsPresent(errors: ArrayList<String>) {
+            if (errors.isNotEmpty()) {
+                throw CatrobatLanguageParsingException(errors.joinToString("\n") { it })
             }
         }
     }

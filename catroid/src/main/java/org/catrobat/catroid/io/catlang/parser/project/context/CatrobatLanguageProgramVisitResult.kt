@@ -25,5 +25,5 @@ package org.catrobat.catroid.io.catlang.parser.project.context
 
 import org.catrobat.catroid.content.Project
 
-class CatrobatLanguageVisitResult(val project: Project) : CatrobatLanguageBaseResult() {
+class CatrobatLanguageProgramVisitResult(val project: Project) : CatrobatLanguageBaseResult() {
 }

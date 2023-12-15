@@ -1,4 +1,4 @@
-// Generated from ./CatrobatLanguageParser.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/project/antlr/CatrobatLanguageParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.project.antlr.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -173,11 +173,35 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedScripts}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedScript}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrick}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrickPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
 	 * @param ctx the parse tree

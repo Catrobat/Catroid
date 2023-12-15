@@ -1,9 +1,10 @@
-// Generated from ./CatrobatLanguageParser.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/project/antlr/CatrobatLanguageParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.project.antlr.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserListener;
 
 /**
  * This class provides an empty implementation of {@link CatrobatLanguageParserListener},
@@ -341,6 +342,30 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -348,6 +373,30 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUserDefinedBrick(CatrobatLanguageParser.UserDefinedBrickContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

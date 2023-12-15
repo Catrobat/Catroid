@@ -83,7 +83,7 @@ actor
 	  CURLY_BRACKET_CLOSE
 	;
 
-actorContent: (localVariables | looks | sounds | scripts)+;
+actorContent: (localVariables | looks | sounds | scripts | userDefinedScripts)+;
 
 localVariables
 	: LOCAL_VARIABLES
@@ -115,10 +115,39 @@ scripts
 	  CURLY_BRACKET_CLOSE
 	;
 
+userDefinedScripts
+	: USER_DEFINED_SCRIPTS
+	  CURLY_BRACKET_OPEN
+	  userDefinedScript*
+	  CURLY_BRACKET_CLOSE
+	;
+
+userDefinedScript
+	: UDB_DEFINE userDefinedBrick (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH) UDB_BODY_OPEN
+	  brick_defintion*
+	  CURLY_BRACKET_CLOSE
+	| DISABLED_BRICK_INDICATION
+	  UDB_DEFINE userDefinedBrick (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH) UDB_BODY_OPEN
+	  brick_defintion*
+	  DISABLED_BRICK_INDICATION
+	  CURLY_BRACKET_CLOSE
+	  ;
+
 brick_defintion
 	: DISABLED_BRICK_INDICATION? NOTE_BRICK
 	| brick_invocation
 	| brick_with_body
+	;
+
+userDefinedBrick
+	: UDB_START
+	  userDefinedBrickPart+
+	  UDB_END
+	;
+
+userDefinedBrickPart
+	: UDB_PARAM_START UDB_PARAM_TEXT UDB_PARAM_END
+	| UDB_LABEL
 	;
 
 brick_with_body
@@ -138,13 +167,13 @@ brick_with_body
 
 brick_invocation
 	: DISABLED_BRICK_INDICATION?
-	  BRICK_NAME
+	  (BRICK_NAME | userDefinedBrick)
 	  brick_condition?
-	  SEMICOLON
+	  (SEMICOLON | UDB_SEMICOLON)
 	;
 
 brick_condition
-	: BRICK_MODE_BRACKET_OPEN
+	: (BRICK_MODE_BRACKET_OPEN | UDB_MODE_BRACKET_OPEN)
 	  arg_list
 	  PARAM_MODE_BRACKET_CLOSE
 	;

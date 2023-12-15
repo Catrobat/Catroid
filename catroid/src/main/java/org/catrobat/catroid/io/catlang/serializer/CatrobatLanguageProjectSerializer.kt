@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.catlang.serializer
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.UserDefinedScript
 
 class CatrobatLanguageProjectSerializer(private val project: Project) {
 
@@ -122,6 +123,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
         serializeSounds(sprite)
         serializeLocals(sprite)
         serializeScripts(sprite)
+        serializeUserDefinedScripts(sprite)
     }
 
     private fun serializeLooks(sprite: Sprite) {
@@ -184,7 +186,22 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
         }
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Scripts {")
         for (script in sprite.scriptList) {
-            programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
+            if (script !is UserDefinedScript) {
+                programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
+            }
+        }
+        programString.appendLine(level3IndentionLevelEnd)
+    }
+
+    private fun serializeUserDefinedScripts(sprite: Sprite) {
+        if (sprite.scriptList.isEmpty()) {
+            return
+        }
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}User Defined Bricks {")
+        for (script in sprite.scriptList) {
+            if (script is UserDefinedScript) {
+                programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
+            }
         }
         programString.appendLine(level3IndentionLevelEnd)
     }
