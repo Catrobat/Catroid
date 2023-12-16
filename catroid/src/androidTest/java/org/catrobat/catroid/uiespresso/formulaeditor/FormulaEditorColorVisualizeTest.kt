@@ -26,35 +26,36 @@ package org.catrobat.catroid.uiespresso.formulaeditor
 import android.text.Spannable
 import android.view.View
 import android.widget.TextView
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.formulaeditor.VisualizeColorImageSpan
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper
+import org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.LOGIC
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.koin.java.KoinJavaComponent.inject
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent
 
 class FormulaEditorColorVisualizeTest {
 
     private val COLOR_STRING_CONVERSION_CONSTANT = 16
 
-    val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     @JvmField
     @Rule
@@ -80,10 +81,10 @@ class FormulaEditorColorVisualizeTest {
 
         setTestColorWithColorPicker(0, 0)
 
-        Espresso.pressBack()
+        pressBack()
 
         onView(withId(R.id.brick_set_color_edit_text))
-            .check(matches(ViewMatchers.withText("'#0074CD ' ")))
+            .check(matches(withText("'#0074CD ' ")))
 
         onView(withId(R.id.brick_set_color_edit_text))
             .check(
@@ -105,10 +106,10 @@ class FormulaEditorColorVisualizeTest {
 
         setTestColorWithColorPicker(2, 2)
 
-        Espresso.pressBack()
+        pressBack()
 
         onView(withId(R.id.brick_set_color_edit_text))
-            .check(matches(ViewMatchers.withText("'#0074CD ' or '#CA0186 ' ")))
+            .check(matches(withText("'#0074CD ' or '#CA0186 ' ")))
 
         onView(withId(R.id.brick_set_color_edit_text))
             .check(
@@ -171,12 +172,12 @@ class FormulaEditorColorVisualizeTest {
         onView(withId(R.id.formula_editor_keyboard_color_picker))
             .perform(click())
 
-        ColorPickerInteractionWrapper.onColorPickerPresetButton(row, column)
+        onColorPickerPresetButton(row, column)
             .perform(click())
 
-        Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
 
-        onView(ViewMatchers.withText(R.string.color_picker_apply))
+        onView(withText(R.string.color_picker_apply))
             .perform(click())
     }
 
