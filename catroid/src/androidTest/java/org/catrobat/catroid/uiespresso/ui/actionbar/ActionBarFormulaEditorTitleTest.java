@@ -93,11 +93,29 @@ public class ActionBarFormulaEditorTitleTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void actionBarFunctionsTitleTest() {
+	public void actionBarMathematicsTitleTest() {
 		onFormulaEditor()
 				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS);
 		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_functions);
+				.checkTitleMatches(R.string.formula_editor_functions_maths);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void actionBarListsTitleTest() {
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.LISTS);
+		onActionBar()
+				.checkTitleMatches(R.string.formula_editor_functions_lists);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void actionBarTextTitleTest() {
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.TEXT);
+		onActionBar()
+				.checkTitleMatches(R.string.formula_editor_functions_strings);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

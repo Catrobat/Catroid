@@ -82,7 +82,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public FormulaEditorWrapper performEnterFormula(String formulaString) {
 		for (Character item : formulaString.toCharArray()) {
-			if (!charToButtonMapping.keySet().contains(item)) {
+			if (!charToButtonMapping.containsKey(item)) {
 				throw new IllegalArgumentException("Formula or Number contained illegal character: " + item
 						+ " contained in: " + formulaString);
 			}
@@ -127,9 +127,15 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public FormulaEditorCategoryListWrapper performOpenCategory(Matcher<View> category) {
+		pressFunctionalToggleButton();
 		onView(category)
 				.perform(click());
 		return onCategoryList();
+	}
+
+	public void pressFunctionalToggleButton() {
+		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
+				.perform(click());
 	}
 
 	public void performCloseFormulaStringWarning() {
@@ -147,6 +153,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public void performOpenDataFragment() {
+		pressFunctionalToggleButton();
 		onView(Control.DATA)
 				.perform(click());
 	}
@@ -180,7 +187,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 				.perform(click());
 	}
 
-	private static Map<Character, Matcher<View>> charToButtonMapping;
+	private static final Map<Character, Matcher<View>> charToButtonMapping;
 	static {
 		Map<Character, Matcher<View>> numpad = new HashMap<>();
 		numpad.put('0', NumPad.NUM0);

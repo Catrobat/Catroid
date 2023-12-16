@@ -1957,7 +1957,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_distance_to">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>
-    <string name="formula_editor_functions">Mathematics</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>

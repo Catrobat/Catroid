@@ -192,10 +192,12 @@ public class FormulaEditorEditTextTest {
 				.performEnterFormula("1+");
 
 		onFormulaEditor()
-				.performClickOn(MATHEMATICS);
+				.performOpenMathematics();
 
 		onView(withText("pi"))
 				.perform(click());
+
+		onFormulaEditor().pressFunctionalToggleButton();
 
 		onView(withId(R.id.brick_change_size_by_edit_text))
 				.check(matches(withText("1 + pi ")));

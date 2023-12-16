@@ -363,7 +363,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							return true;
 						case R.id.formula_editor_keyboard_mathematics:
 							showCategoryListFragment(CategoryListFragment.MATHEMATICS_TAG,
-									R.string.formula_editor_functions);
+									R.string.formula_editor_functions_maths);
 							return true;
 						case R.id.formula_editor_keyboard_text:
 							showCategoryListFragment(CategoryListFragment.TEXT_TAG,
