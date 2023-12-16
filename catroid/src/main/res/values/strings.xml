@@ -1960,7 +1960,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
-    <string name="formula_editor_functions_maths">Maths</string>
+    <string name="formula_editor_functions_maths">Mathematics</string>
     <string name="formula_editor_functions_strings">Text</string>
     <string name="formula_editor_logic_reporters">Reporters</string>
     <string name="formula_editor_functions_lists">Lists</string>
