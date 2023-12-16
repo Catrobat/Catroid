@@ -30,6 +30,7 @@ object FormulaSpannableStringBuilder {
 
     private const val BITMAP_SIZE_MULTIPLIER = 1.25f
 
+    @JvmStatic
     fun buildSpannableFormulaString(context: Context, formulaString: String, textSize: Float):
         SpannableStringBuilder {
         val stringBuilder = SpannableStringBuilder()

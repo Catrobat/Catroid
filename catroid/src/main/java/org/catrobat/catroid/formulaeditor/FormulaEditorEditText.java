@@ -351,7 +351,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(
-				FormulaSpannableStringBuilder.INSTANCE.buildSpannableFormulaString(context,
+				FormulaSpannableStringBuilder.buildSpannableFormulaString(context,
 						newExternFormulaString, getTextSize()));
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
