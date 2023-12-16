@@ -76,26 +76,26 @@
                         android:src="@drawable/ic_edit_circle" />
 
                     <ImageView
-                        android:id="@+id/playProject"
-                        android:contentDescription="@string/main_menu_play"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginBottom="70dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_play_circle" />
-
-                    <ImageView
                         android:id="@+id/uploadProject"
                         android:contentDescription="@string/main_menu_upload"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="75dp"
                         android:layout_marginEnd="12dp"
                         android:src="@drawable/ic_publish_circle" />
+
+                    <ImageView
+                        android:id="@+id/playProject"
+                        android:contentDescription="@string/main_menu_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_play_circle" />
 
                 </RelativeLayout>
 
