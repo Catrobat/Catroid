@@ -96,14 +96,22 @@
         <Button
             android:id="@+id/formula_editor_keyboard_mathematics"
             style="@style/FormulaEditorCategoryButton"
-            android:layout_span="3"
+            android:layout_span="2"
             android:text="@string/formula_editor_functions_maths" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_object"
             style="@style/FormulaEditorCategoryButton"
-            android:layout_span="3"
+            android:layout_span="2"
             android:text="@string/formula_editor_object" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_text"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_marginStart="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_span="2"
+            android:text="@string/formula_editor_functions_strings" />
 
     </TableRow>
 
@@ -114,27 +122,11 @@
         android:visibility="gone">
 
         <Button
-            android:id="@+id/formula_editor_keyboard_text"
-            style="@style/FormulaEditorCategoryButton"
-            android:layout_marginStart="@dimen/key_margin"
-            android:layout_marginTop="@dimen/key_margin"
-            android:layout_span="3"
-            android:text="@string/formula_editor_functions_strings" />
-
-        <Button
             android:id="@+id/formula_editor_keyboard_lists"
             style="@style/FormulaEditorCategoryButton"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_span="3"
+            android:layout_span="2"
             android:text="@string/formula_editor_functions_lists" />
-
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRowFunctionButtons3"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:visibility="gone">
 
         <Button
             android:id="@+id/formula_editor_keyboard_sensors"
@@ -149,6 +141,14 @@
             android:layout_marginBottom="@dimen/key_margin"
             android:layout_span="2"
             android:text="@string/formula_editor_logic" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRowFunctionButtons3"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/formula_editor_keyboard_data"
