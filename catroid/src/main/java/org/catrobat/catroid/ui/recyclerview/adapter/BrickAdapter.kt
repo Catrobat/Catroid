@@ -35,8 +35,12 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick.ElseBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
@@ -228,7 +232,8 @@ class BrickAdapter(private val sprite: Sprite) :
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (i > 0) {
+            if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
+                .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
