@@ -34,6 +34,7 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
@@ -232,8 +233,13 @@ class BrickAdapter(private val sprite: Sprite) :
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
-                .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
+            if (item is CompositeBrick) {
+                if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
+                    .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
+                    viewStateManager.setEnabled(!selected, adapterPosition)
+                }
+            }
+            else if(i > 0) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
@@ -284,8 +290,28 @@ class BrickAdapter(private val sprite: Sprite) :
         }
     }
 
+    private fun isChildBrickOfSelectedCompositeBrick(brickPosition: Int): Boolean {
+        val childBrick = items[brickPosition]
+        if (childBrick.parent is CompositeBrick) {
+            if (selectedItems.contains(childBrick.parent)) {
+                if ((childBrick.parent as CompositeBrick).nestedBricks.contains(childBrick)) {
+                    return true
+                }
+                if ((childBrick.parent as CompositeBrick).hasSecondaryList()) {
+                    if ((childBrick.parent as CompositeBrick).secondaryNestedBricks.contains
+                            (childBrick)) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        noConnectedItemsSelected() || isItemWithinConnectedRange(
+        isChildBrickOfSelectedCompositeBrick(brickPosition) || noConnectedItemsSelected() ||
+            isItemWithinConnectedRange(
             brickPosition,
             scriptSelected
         ) && !isItemOfNewScript(brickPosition, scriptSelected)
