@@ -187,7 +187,8 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 				.perform(click());
 	}
 
-	private static final Map<Character, Matcher<View>> charToButtonMapping;
+	private static Map<Character, Matcher<View>> charToButtonMapping;
+
 	static {
 		Map<Character, Matcher<View>> numpad = new HashMap<>();
 		numpad.put('0', NumPad.NUM0);

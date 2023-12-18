@@ -482,9 +482,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		View row3 = getActivity().findViewById(R.id.tableRow3);
 		View row4 = getActivity().findViewById(R.id.tableRow4);
 		View row5 = getActivity().findViewById(R.id.tableRow5);
-		Button keyboard_7 = getActivity().findViewById(R.id.formula_editor_keyboard_7);
-		Button keyboard_8 = getActivity().findViewById(R.id.formula_editor_keyboard_8);
-		Button keyboard_9 = getActivity().findViewById(R.id.formula_editor_keyboard_9);
+		Button keyboard7 = getActivity().findViewById(R.id.formula_editor_keyboard_7);
+		Button keyboard8 = getActivity().findViewById(R.id.formula_editor_keyboard_8);
+		Button keyboard9 = getActivity().findViewById(R.id.formula_editor_keyboard_9);
 		ImageButton keyboard_delete = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 
 		View rowFunctionButtons1 = getActivity().findViewById(R.id.tableRowFunctionButtons1);
@@ -498,17 +498,17 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		row3.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 		row4.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 		row5.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-		keyboard_7.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-		keyboard_8.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-		keyboard_9.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard7.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard8.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboard9.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 		keyboard_delete.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 
 		rowFunctionButtons1.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 		rowFunctionButtons2.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 		rowFunctionButtons3.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 
-		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ?
-				R.drawable.ic_keyboard_toggle_caret_left : R.drawable.ic_keyboard_toggle_caret_right));
+		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible
+				? R.drawable.ic_keyboard_toggle_caret_left : R.drawable.ic_keyboard_toggle_caret_right));
 		toggleFormulaEditorSpace(isVisible);
 	}
 
