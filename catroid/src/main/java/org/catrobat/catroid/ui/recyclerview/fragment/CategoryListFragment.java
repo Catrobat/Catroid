@@ -180,22 +180,18 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private static final List<Integer> LOGIC_REPORTERS = asList(
 			R.string.formula_editor_function_if_then_else,
-			R.string.formula_editor_function_collision,
 			R.string.formula_editor_function_collides_with_edge,
 			R.string.formula_editor_function_touched,
-			R.string.formula_editor_function_collides_with_color,
-			R.string.formula_editor_function_color_touches_color,
 			R.string.formula_editor_function_is_finger_touching,
-			R.string.formula_editor_function_is_multi_finger_touching);
+			R.string.formula_editor_function_is_multi_finger_touching,
+			R.string.formula_editor_function_collides_with_color);
 	private static final List<Integer> LOGIC_REPORTERS_PARAMS = asList(
 			R.string.formula_editor_function_if_then_else_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_collides_with_color_parameter,
-			R.string.formula_editor_function_color_touches_color_parameter,
 			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter);
+			R.string.formula_editor_function_collides_with_color_parameter);
 	private static final List<Integer> SENSORS_DEFAULT = asList(R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_function_touched, R.string.formula_editor_sensor_stage_width,
 			R.string.formula_editor_sensor_stage_height);
@@ -959,6 +955,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				getString(R.string.formula_editor_logic_comparison)));
 		result.addAll(addHeader(toCategoryListItems(LOGIC_REPORTERS, LOGIC_REPORTERS_PARAMS),
 				getString(R.string.formula_editor_logic_reporters)));
+		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
+		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION.subList(1, 2), OBJECT_COLOR_PARAMS.subList(1, 2)));
 
 		if (SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())) {
 			result.addAll(toCategoryListItems(SENSORS_FACE_VISIBLE, SENSORS_FACE_VISIBLE_PARAMS));

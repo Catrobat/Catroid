@@ -29,6 +29,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
@@ -45,6 +46,7 @@ import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.StringContains
 import org.junit.After
@@ -176,6 +178,8 @@ class FormulaEditorSensorListTest(
             onFormulaEditor().checkShows(getSelectedSensorString(sensor))
             true
         } ?: onFormulaEditor().checkShows(getSelectedSensorString(sensorName))
+
+        onView(ViewMatchers.isRoot()).perform(CustomActions.wait(1000))
     }
 
     private fun getSelectedSensorString(functionString: String): String {

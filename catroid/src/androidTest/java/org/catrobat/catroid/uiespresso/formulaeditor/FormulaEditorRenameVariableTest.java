@@ -86,6 +86,7 @@ public class FormulaEditorRenameVariableTest {
 		onFormulaEditor()
 				.checkShows(getUserVariableEditText(variableNameOld));
 
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performOpenDataFragment();
 
@@ -121,6 +122,7 @@ public class FormulaEditorRenameVariableTest {
 		onFormulaEditor()
 				.checkShows(getUserListEditText(variableNameOld));
 
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performOpenDataFragment();
 

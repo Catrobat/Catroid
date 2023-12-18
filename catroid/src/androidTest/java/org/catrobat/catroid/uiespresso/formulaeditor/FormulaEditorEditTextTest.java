@@ -110,6 +110,7 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
@@ -117,6 +118,7 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()

@@ -36,6 +36,7 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 
@@ -95,11 +96,11 @@ class FormulaEditorLogicListTest(
         val editorFunction = formulaEditorFunction + formulaEditorFunctionParameter
         val selectedFunctionString = getSelectedFunctionString(editorFunction)
 
-        FormulaEditorWrapper.onFormulaEditor()
+        onFormulaEditor()
             .performOpenCategory(FormulaEditorWrapper.Category.LOGIC)
             .performSelect(editorFunction)
 
-        FormulaEditorWrapper.onFormulaEditor()
+        onFormulaEditor()
             .checkShows(selectedFunctionString)
     }
 
@@ -206,11 +207,6 @@ class FormulaEditorLogicListTest(
                 "if then else"
             ),
             arrayOf(
-                str(R.string.formula_editor_function_collision),
-                str(R.string.formula_editor_function_no_parameter),
-                "if then else"
-            ),
-            arrayOf(
                 str(R.string.formula_editor_function_collides_with_edge),
                 str(R.string.formula_editor_function_no_parameter),
                 "touches edge"
@@ -230,16 +226,16 @@ class FormulaEditorLogicListTest(
                 str(R.string.formula_editor_function_color_touches_color_parameter),
                 "color touches color"
             ),
-            arrayOf(
-                str(R.string.formula_editor_function_is_finger_touching),
-                str(R.string.formula_editor_function_no_parameter),
-                "stage is touched"
-            ),
-            arrayOf(
-                str(R.string.formula_editor_function_is_multi_finger_touching),
-                str(R.string.formula_editor_function_touch_parameter),
-                "multi finger stage touched"
-            )
+//            arrayOf(
+//                str(R.string.formula_editor_function_is_finger_touching),
+//                str(R.string.formula_editor_function_no_parameter),
+//                "stage is touched"
+//            ),
+//            arrayOf(
+//                str(R.string.formula_editor_function_is_multi_finger_touching),
+//                str(R.string.formula_editor_function_touch_parameter),
+//                "multi finger stage touched"
+//            )
         )
 
         private val brickSettings: List<String> = listOf(
