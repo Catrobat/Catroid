@@ -65,7 +65,7 @@ class FormulaEditorSensorListTest(
 ) {
     @Rule
     @JvmField
-    var baseActivityTestRule = FragmentActivityTestRule<SpriteActivity>(
+    var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
         SpriteActivity.EXTRA_FRAGMENT_POSITION,
         SpriteActivity.FRAGMENT_SCRIPTS

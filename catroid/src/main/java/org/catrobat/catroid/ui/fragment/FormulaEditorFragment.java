@@ -485,7 +485,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		Button keyboard7 = getActivity().findViewById(R.id.formula_editor_keyboard_7);
 		Button keyboard8 = getActivity().findViewById(R.id.formula_editor_keyboard_8);
 		Button keyboard9 = getActivity().findViewById(R.id.formula_editor_keyboard_9);
-		ImageButton keyboard_delete = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
+		ImageButton keyboardDelete =
+				getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 
 		View rowFunctionButtons1 = getActivity().findViewById(R.id.tableRowFunctionButtons1);
 		View rowFunctionButtons2 = getActivity().findViewById(R.id.tableRowFunctionButtons2);
@@ -501,7 +502,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		keyboard7.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 		keyboard8.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 		keyboard9.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-		keyboard_delete.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		keyboardDelete.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 
 		rowFunctionButtons1.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 		rowFunctionButtons2.setVisibility(isVisible ? View.GONE : View.VISIBLE);

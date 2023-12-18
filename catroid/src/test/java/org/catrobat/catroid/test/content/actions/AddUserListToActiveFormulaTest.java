@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
@@ -46,6 +48,7 @@ import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.any;
 
 import static java.util.Arrays.asList;

@@ -128,8 +128,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public FormulaEditorCategoryListWrapper performOpenCategory(Matcher<View> category) {
 		pressFunctionalToggleButton();
-		onView(category)
-				.perform(click());
+		onView(category).perform(click());
 		return onCategoryList();
 	}
 
