@@ -82,7 +82,6 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG;
 import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -521,7 +520,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private RecyclerView recyclerView;
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private ProjectManager projectManager = ProjectManager.getInstance();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
