@@ -765,6 +765,10 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
+/*				if (brick instanceof CompositeBrick) {
+					prepareActionMode(DELETE);
+					break;
+				}*/
 				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_delete_definition:
@@ -946,11 +950,11 @@ public class ScriptFragment extends ListFragment implements
 							.getSecondaryNestedBricks().indexOf(brick);
 					((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)brick.getParent()).getParent())
 							.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
-				} else if (brick.getParent() instanceof ScriptBrickBaseType) {
+				} else if (brick.getParent() instanceof ScriptBrick) {
 					for(Brick unselectedBrick : unselectedBricks) {
 						int pos =
-								((ScriptBrickBaseType) brick.getParent()).getScript().getBrickList().indexOf(brick);
-						((ScriptBrickBaseType) brick.getParent()).getScript().addBrick(pos,
+								((ScriptBrick) brick.getParent()).getScript().getBrickList().indexOf(brick);
+						((ScriptBrick) brick.getParent()).getScript().addBrick(pos,
 								unselectedBrick);
 					}
 				}
