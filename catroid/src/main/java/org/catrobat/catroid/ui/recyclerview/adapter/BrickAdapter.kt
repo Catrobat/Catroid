@@ -55,7 +55,7 @@ class BrickAdapter(private val sprite: Sprite) :
     AdapterView.OnItemClickListener,
     OnItemLongClickListener {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
-    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY)
+    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY, ALL_DELETE)
     internal annotation class CheckBoxMode
 
     @CheckBoxMode
@@ -83,6 +83,7 @@ class BrickAdapter(private val sprite: Sprite) :
         const val ALL = 1
         const val SCRIPTS_ONLY = 2
         const val CONNECTED_ONLY = 3
+        const val ALL_DELETE = 4
 
         @JvmStatic
         fun colorAsCommentedOut(background: Drawable) {
@@ -155,6 +156,7 @@ class BrickAdapter(private val sprite: Sprite) :
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
+            ALL_DELETE -> handleCheckBoxModeAll(item)
         }
     }
 
@@ -232,13 +234,17 @@ class BrickAdapter(private val sprite: Sprite) :
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (item is CompositeBrick) {
-                if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
-                    .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
+            if (checkBoxMode == ALL_DELETE) {
+                if (item is CompositeBrick) {
+                    if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
+                        .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
+                        viewStateManager.setEnabled(!selected, adapterPosition)
+                    }
+                }
+                else if(i > 0) {
                     viewStateManager.setEnabled(!selected, adapterPosition)
                 }
-            }
-            else if(i > 0) {
+            } else if(i > 0) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
