@@ -936,25 +936,27 @@ public class ScriptFragment extends ListFragment implements
 			if (brick instanceof CompositeBrick) {
 				List<Brick> unselectedBricks = getUnselectedBricksOfCompositeBrick((CompositeBrick) brick,
 						selectedItems);
-				if (brick.getParent() instanceof CompositeBrick) {
-					int pos = ((CompositeBrick)brick.getParent()).getNestedBricks().indexOf(brick);
-					((CompositeBrick)brick.getParent()).getNestedBricks().addAll(pos,
+				Brick parentBrick = getNextUnselectedParentOfBrick(selectedItems, brick).getParent();
+				if (parentBrick instanceof CompositeBrick) {
+					int pos =
+							((CompositeBrick)parentBrick).getNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
+					((CompositeBrick)parentBrick).getNestedBricks().addAll(pos,
 							unselectedBricks);
-				} else if ((brick.getParent() instanceof IfLogicBeginBrick.ElseBrick)) {
-					int pos = ((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)brick.getParent()).getParent())
-							.getSecondaryNestedBricks().indexOf(brick);
-					((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)brick.getParent()).getParent())
+				} else if ((parentBrick instanceof IfLogicBeginBrick.ElseBrick)) {
+					int pos = ((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+							.getSecondaryNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
+					((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
 							.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
-				} else if ((brick.getParent() instanceof PhiroIfLogicBeginBrick.ElseBrick)) {
-					int pos = ((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)brick.getParent()).getParent())
-							.getSecondaryNestedBricks().indexOf(brick);
-					((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)brick.getParent()).getParent())
+				} else if ((parentBrick instanceof PhiroIfLogicBeginBrick.ElseBrick)) {
+					int pos = ((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+							.getSecondaryNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
+					((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
 							.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
-				} else if (brick.getParent() instanceof ScriptBrick) {
+				} else if (parentBrick instanceof ScriptBrick) {
 					for(Brick unselectedBrick : unselectedBricks) {
 						int pos =
-								((ScriptBrick) brick.getParent()).getScript().getBrickList().indexOf(brick);
-						((ScriptBrick) brick.getParent()).getScript().addBrick(pos,
+								((ScriptBrick) parentBrick).getScript().getBrickList().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
+						((ScriptBrick) parentBrick).getScript().addBrick(pos,
 								unselectedBrick);
 					}
 				}
@@ -963,6 +965,15 @@ public class ScriptFragment extends ListFragment implements
 		brickController.delete(selectedItems, sprite);
 		adapter.updateItems(sprite);
 		finishActionMode();
+	}
+
+	private Brick getNextUnselectedParentOfBrick(List<Brick> selectedItems, Brick childBrick) {
+		if (selectedItems.contains(childBrick.getParent())) {
+			return getNextUnselectedParentOfBrick(selectedItems, childBrick.getParent());
+		}
+		else {
+			return childBrick;
+		}
 	}
 
 	private List<Brick> getUnselectedBricksOfCompositeBrick(CompositeBrick compositeBrick,
