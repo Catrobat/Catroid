@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick.ElseBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -303,6 +302,11 @@ class BrickAdapter(private val sprite: Sprite) :
                         return true
                     }
                 }
+            }
+        } else if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is
+                PhiroIfLogicBeginBrick.ElseBrick) {
+            if (selectedItems.contains(childBrick.parent)) {
+                return true
             }
         }
         return false
