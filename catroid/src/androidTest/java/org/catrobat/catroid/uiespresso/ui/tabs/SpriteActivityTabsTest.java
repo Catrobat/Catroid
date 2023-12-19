@@ -46,6 +46,7 @@ import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
@@ -95,7 +96,7 @@ public class SpriteActivityTabsTest {
 	public void testDeleteVariable() {
 		onView(withId(tab_layout)).perform(selectTabAtPosition(FRAGMENT_SCRIPTS));
 		onView(withId(brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_data)).perform(click());
+		onFormulaEditor().performOpenDataFragment();
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.delete)).perform(click());
 		assertTabLayoutIsNotShown();

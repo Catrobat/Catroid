@@ -51,6 +51,7 @@ import org.junit.experimental.categories.Category;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
@@ -62,6 +63,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -116,6 +118,8 @@ public class FormulaEditorVariableScopeTest {
 				.performAdd("GlobalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
 				.performAdd("GlobalList2", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
 				.performAdd("LocalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.LOCAL);
+
+		onDataList().perform(waitFor(isDisplayed(), 5000));
 
 		onRecyclerView().atPosition(0).onChildView(R.id.headline)
 				.check(matches(withText(UiTestUtils.getResources().getQuantityString(R.plurals.user_defined_brick_input_headline, 2))));

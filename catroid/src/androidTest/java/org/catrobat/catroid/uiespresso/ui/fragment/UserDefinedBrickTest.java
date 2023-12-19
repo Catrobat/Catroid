@@ -64,7 +64,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class UserDefinedBrickTest {
 
-	private final long waitThreshold = 5000;
+	private final long waitThreshold = 6000;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
