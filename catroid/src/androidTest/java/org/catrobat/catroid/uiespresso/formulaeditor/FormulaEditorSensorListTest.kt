@@ -29,7 +29,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
@@ -46,7 +45,6 @@ import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.StringContains
 import org.junit.After
@@ -177,9 +175,7 @@ class FormulaEditorSensorListTest(
 
             onFormulaEditor().checkShows(getSelectedSensorString(sensor))
             true
-        } ?: onFormulaEditor().checkShows(getSelectedSensorString(sensorName))
-
-        onView(ViewMatchers.isRoot()).perform(CustomActions.wait(1000))
+        }
     }
 
     private fun getSelectedSensorString(functionString: String): String {
@@ -192,7 +188,7 @@ class FormulaEditorSensorListTest(
 
     @Suppress("LargeClass")
     companion object {
-        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId) ?: ""
+        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId)
 
         @JvmStatic
         @Parameterized.Parameters(name = "{3}\n{index}. {1}")
@@ -210,6 +206,7 @@ class FormulaEditorSensorListTest(
             paramsData.addAll(listOfFaceDetection)
             paramsData.addAll(listOfPoseDetection)
             paramsData.addAll(listOfTextRecognition)
+            paramsData.addAll(listOfObject)
             paramsData.addAll(listOfDevice)
             paramsData.addAll(listOfTouch)
             paramsData.addAll(listOfDateTime)
@@ -711,6 +708,14 @@ class FormulaEditorSensorListTest(
             )
         )
 
+        private val listOfObject = listOf(
+            listOf(
+                str(R.string.formula_editor_function_get_id_of_detected_object),
+                "", str(R.string.formula_editor_device_object_recognition)
+            ),
+            listOf(str(R.string.formula_editor_function_object_with_id_visible), "", "")
+        )
+
         private val listOfDevice = listOf(
             listOf(
                 str(R.string.formula_editor_sensor_loudness),
@@ -807,7 +812,8 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS
         )
     }
 }
