@@ -182,16 +182,16 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_if_then_else,
 			R.string.formula_editor_function_collides_with_edge,
 			R.string.formula_editor_function_touched,
+			R.string.formula_editor_function_collides_with_color,
 			R.string.formula_editor_function_is_finger_touching,
-			R.string.formula_editor_function_is_multi_finger_touching,
-			R.string.formula_editor_function_collides_with_color);
+			R.string.formula_editor_function_is_multi_finger_touching);
 	private static final List<Integer> LOGIC_REPORTERS_PARAMS = asList(
 			R.string.formula_editor_function_if_then_else_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_collides_with_color_parameter,
 			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_collides_with_color_parameter);
+			R.string.formula_editor_function_touch_parameter);
 	private static final List<Integer> SENSORS_DEFAULT = asList(R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_function_touched, R.string.formula_editor_sensor_stage_width,
 			R.string.formula_editor_sensor_stage_height);

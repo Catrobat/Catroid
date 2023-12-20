@@ -113,7 +113,7 @@ class FormulaEditorLogicListTest(
     }
 
     companion object {
-        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId) ?: ""
+        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId)
 
         @JvmStatic
         @Parameterized.Parameters(name = "{2}" + "-Test")
@@ -222,20 +222,30 @@ class FormulaEditorLogicListTest(
                 "touches color"
             ),
             arrayOf(
+                str(R.string.formula_editor_function_is_finger_touching),
+                str(R.string.formula_editor_function_no_parameter),
+                "stage is touched"
+            ),
+            arrayOf(
+                str(R.string.formula_editor_function_is_multi_finger_touching),
+                str(R.string.formula_editor_function_touch_parameter),
+                "multi finger stage touched"
+            ),
+            arrayOf(
                 str(R.string.formula_editor_function_color_touches_color),
                 str(R.string.formula_editor_function_color_touches_color_parameter),
                 "color touches color"
             ),
-//            arrayOf(
-//                str(R.string.formula_editor_function_is_finger_touching),
-//                str(R.string.formula_editor_function_no_parameter),
-//                "stage is touched"
-//            ),
-//            arrayOf(
-//                str(R.string.formula_editor_function_is_multi_finger_touching),
-//                str(R.string.formula_editor_function_touch_parameter),
-//                "multi finger stage touched"
-//            )
+            arrayOf(
+                str(R.string.formula_editor_sensor_face_detected),
+                str(R.string.formula_editor_function_no_parameter),
+                "first face is visible"
+            ),
+            arrayOf(
+                str(R.string.formula_editor_sensor_second_face_detected),
+                str(R.string.formula_editor_function_no_parameter),
+                "second face is visible"
+            )
         )
 
         private val brickSettings: List<String> = listOf(
