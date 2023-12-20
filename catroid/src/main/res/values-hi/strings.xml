@@ -711,7 +711,6 @@
     <string name="play_scene_dialog_current">वर्तमान दृश्य (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">साइन इन करें</string>
     <string name="username">उपयोगकर्ता नाम:</string>
     <string name="password">पारण शब्द:</string>
     <string name="reset_password">पासवर्ड रीसेट</string>
@@ -724,11 +723,6 @@
     <string name="register">पंजीकरण</string>
     <string name="password_confirm">पासवर्ड की पुष्टि कीजिये</string>
     <string name="accountName">ई-मेल</string>
-    <string name="signin_thanks">साइन अप करने के लिए आभार!</string>
-    <string name="signin_choose_username">अपने उपयोगकर्ता नाम का चयन करें:</string>
-    <string name="signin_choose_username_empty">कृपया उपयोगकर्तानाम डालें।</string>
-    <string name="signin_choose_username_hint">उपयोगकर्ता का नाम आपका असली नाम नहीं होना चाहिए ।</string>
-    <string name="oauth_username_taken">कोई और पहले से ही इस नाम का उपयोग करता है। कृपया एक अलग चुनें!</string>
     <string name="show_password">पासवर्ड दिखाएँ</string>
     <string name="sign_in_error">साइन इन करने के दौरान कुछ गड़बड़ हो गई।</string>
     <string name="error_google_plus_sign_in">Google साइन-इन त्रुटि। स्थिति: %s</string>

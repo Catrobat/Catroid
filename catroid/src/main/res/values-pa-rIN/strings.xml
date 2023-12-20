@@ -713,7 +713,6 @@
     <string name="play_scene_dialog_current">ਪਹਿਲਾ ਸੀਨ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">ਸਾਇਨ ਇਨ</string>
     <string name="username">ਯੂਜ਼ਰਨਾਮ</string>
     <string name="password">ਪਾਸਵਰਡ</string>
     <string name="reset_password">ਪਾਸਵਰਡ ਰੀਸੈਟ ਕਰੋ</string>
@@ -726,11 +725,6 @@
     <string name="register">ਰਜਿਸਟਰ</string>
     <string name="password_confirm">ਪਾਸਵਰਡ ਪੱਕਾ ਕਰੋ</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">ਸਾਈਨ ਅਪ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!</string>
-    <string name="signin_choose_username">ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਚੁਣੋ:</string>
-    <string name="signin_choose_username_empty">ਕ੍ਰਿਪਾ ਕਰਕੇ ਜਾਇਜ ਕਰਤਾ ਨਾਮ ਭਰੋ</string>
-    <string name="signin_choose_username_hint">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਤੁਹਾਡਾ ਅਸਲ ਨਾਮ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ ਅਤੇ ਨਾ ਹੀ ਇਹ ਇੱਕ ਈਮੇਲ ਪਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ.</string>
-    <string name="oauth_username_taken">ਕੋਈ ਹੋਰ ਪਹਿਲਾਂ ਹੀ ਇਹ ਨਾਮ ਵਰਤਦਾ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੱਖਰਾ ਚੁਣੋ!</string>
     <string name="show_password">ਪਾਸਵਰਡ ਦਿਖਾਓ</string>
     <string name="sign_in_error">ਸਾਈਨ ਇਨ ਕਰਨ ਦੌਰਾਨ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
     <string name="error_google_plus_sign_in">ਗੂਗਲ ਸਾਈਨ-ਇਨ ਗਲਤੀ. ਸਥਿਤੀ: %s</string>

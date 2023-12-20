@@ -25,9 +25,9 @@ package org.catrobat.catroid.ui
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.Html
@@ -39,11 +39,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.google.common.base.Charsets
 import com.google.common.io.Files
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.ActivityUploadBinding
@@ -51,27 +58,22 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
+import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
+import org.catrobat.catroid.transfers.ProjectUploadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.transfers.CheckTokenTask
-import org.catrobat.catroid.transfers.CheckTokenTask.TokenCheckListener
-import org.catrobat.catroid.transfers.GetTagsTask
-import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
-import org.catrobat.catroid.ui.controller.ProjectUploadController
-import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
+import org.catrobat.catroid.transfers.TagsTask
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.NetworkConnectionMonitor
+import org.catrobat.catroid.utils.ProjectZipper
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
-import org.catrobat.catroid.web.ServerAuthenticationConstants
+import org.catrobat.catroid.web.ServerAuthenticationConstants.DEPRECATED_TOKEN_LENGTH
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 import java.util.Objects
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -94,11 +96,7 @@ const val SIGN_IN_CODE = 42
 const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
 
 open class ProjectUploadActivity : BaseActivity(),
-    ProjectLoadListener,
-    TokenCheckListener,
-    TagResponseListener,
-    ResultReceiverWrapperInterface,
-    ProjectUploadInterface {
+    ProjectLoadListener {
 
     private lateinit var project: Project
     private lateinit var xmlFile: File
@@ -108,21 +106,29 @@ open class ProjectUploadActivity : BaseActivity(),
     private lateinit var apiMatcher: Matcher
 
     private var uploadProgressDialog: AlertDialog? = null
-    private val uploadResultReceiver = ResultReceiverWrapper(this, Handler())
 
     private val nameInputTextWatcher = NameInputTextWatcher()
     private var enableNextButton = true
     private var notesAndCreditsScreen = false
 
     private val projectManager: ProjectManager by inject()
+    private val connectionMonitor: NetworkConnectionMonitor by inject()
 
     private lateinit var binding: ActivityUploadBinding
     private lateinit var dialogUploadUnchangedProjectBinding: DialogUploadUnchangedProjectBinding
     private lateinit var dialogReplaceApiKeyBinding: DialogReplaceApiKeyBinding
     private var tags: List<String> = ArrayList()
 
-    @JvmField
-    protected var projectUploadController: ProjectUploadController? = null
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private val tokenTask: TokenTask by inject()
+    private val tagsTask: TagsTask by inject()
+
+    // Used for uploading callback to stay consistent with API calls
+    private val projectUploadTask: ProjectUploadTask by inject()
+
+    // Used for zipping and uploading in background
+    private var projectUploadJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,11 +142,20 @@ open class ProjectUploadActivity : BaseActivity(),
         notesAndCreditsScreen = false
         setShowProgressBar(true)
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        projectUploadTask.clear()
+        projectUploadTask.getProjectUploadResponse()
+            .observe(this) { projectUploadResponse ->
+                projectUploadResponse?.let {
+                    showSuccessDialog(projectUploadResponse)
+                } ?: run {
+                    showErrorDialog()
+                }
+            }
+
         loadProjectActivity()
     }
-
-    protected open fun createProjectUploadController(): ProjectUploadController? =
-        ProjectUploadController(this)
 
     override fun onLoadFinished(success: Boolean) {
         if (success) {
@@ -155,11 +170,10 @@ open class ProjectUploadActivity : BaseActivity(),
     private fun loadProjectActivity() {
         getTags()
         project = projectManager.currentProject
-        projectUploadController = createProjectUploadController()
         verifyUserIdentity()
     }
 
-    private fun onCreateView() {
+    protected fun onCreateView() {
         val thumbnailSize = THUMBNAIL_SIZE
         val screenshotLoader = ProjectAndSceneScreenshotLoader(
             thumbnailSize,
@@ -218,6 +232,7 @@ open class ProjectUploadActivity : BaseActivity(),
         if (uploadProgressDialog?.isShowing == true) {
             uploadProgressDialog?.dismiss()
         }
+        projectUploadJob?.cancel()
         super.onDestroy()
     }
 
@@ -275,6 +290,15 @@ open class ProjectUploadActivity : BaseActivity(),
 
             error?.let {
                 binding.inputProjectName.error = it
+                return
+            }
+
+            if (Utils.isDefaultProject(project, this)) {
+                binding.inputProjectName.error = getString(R.string.error_upload_default_project)
+                binding.inputProjectName.editText?.removeTextChangedListener(nameInputTextWatcher)
+                binding.inputProjectName.isEnabled = false
+                binding.inputProjectDescription.isEnabled = false
+                setShowProgressBar(false)
                 return
             }
 
@@ -405,7 +429,7 @@ open class ProjectUploadActivity : BaseActivity(),
             ) { dialog: DialogInterface, indexSelected: Int, isChecked: Boolean ->
                 if (isChecked) {
                     if (checkedTags.size >= Constants.MAX_NUMBER_OF_CHECKED_TAGS) {
-                        ToastUtil.showError(getContext(), R.string.upload_tags_maximum_error)
+                        ToastUtil.showError(this, R.string.upload_tags_maximum_error)
                         (dialog as AlertDialog).listView.setItemChecked(indexSelected, false)
                     } else {
                         checkedTags.add(availableTags[indexSelected])
@@ -416,10 +440,7 @@ open class ProjectUploadActivity : BaseActivity(),
             }
             .setPositiveButton(getText(R.string.next)) { _, _ ->
                 project.tags = checkedTags
-                projectUploadController?.startUpload(
-                    projectName, projectDescription,
-                    notesAndCredits, project
-                )
+                startProjectUpload()
             }
             .setNegativeButton(getText(R.string.cancel)) { dialog, which ->
                 Utils.invalidateLoginTokenIfUserRestricted(this)
@@ -428,6 +449,34 @@ open class ProjectUploadActivity : BaseActivity(),
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun startProjectUpload() {
+        Log.d(TAG, "Starting project upload process")
+        showUploadDialog()
+        projectUploadJob = GlobalScope.launch(Dispatchers.Main) {
+            // run asynchronous
+            val projectZipped = withContext(Dispatchers.Default) {
+                ProjectZipper.zipProjectToArchive(
+                    File(
+                        project.directory.absolutePath
+                    ), File(cacheDir, "upload$CATROBAT_EXTENSION")
+                )
+            }
+
+            if (projectZipped == null) {
+                // Maybe change error message on zipping error?
+                showErrorDialog()
+                Log.d(TAG, "Could not pack project to zip file")
+                return@launch
+            }
+
+            projectUploadTask.uploadProject(
+                projectZipped,
+                Utils.md5Checksum(projectZipped),
+                sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN).orEmpty(),
+            )
+        }
     }
 
     private fun setScreen(screen: Boolean) {
@@ -445,28 +494,7 @@ open class ProjectUploadActivity : BaseActivity(),
         binding.inputProjectDescription.visibility = visibility
     }
 
-    private val projectName: String
-        get() {
-            val name = binding.inputProjectName.editText?.text.toString().trim { it <= ' ' }
-            if (project.name != name) {
-                val renamedDirectory = renameProject(project.directory, name)
-                if (renamedDirectory == null) {
-                    Log.e(TAG, "Creating renamed directory failed!")
-                    return name
-                }
-                loadProject(renamedDirectory, applicationContext)
-                project = projectManager.currentProject
-            }
-            return name
-        }
-
-    private val projectDescription: String
-        get() = binding.inputProjectDescription.editText?.text.toString().trim { it <= ' ' }
-
-    private val notesAndCredits: String
-        get() = binding.inputProjectNotesAndCredits.editText?.text.toString().trim { it <= ' ' }
-
-    fun showUploadDialog() {
+    private fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
             MainMenuActivity.surveyCampaign?.uploadFlag = true
         }
@@ -491,36 +519,22 @@ open class ProjectUploadActivity : BaseActivity(),
         uploadProgressDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = false
     }
 
-    override fun getResultReceiverWrapper() = uploadResultReceiver
-
-    override fun getContext() = this@ProjectUploadActivity
-
-    override fun startUploadService(intent: Intent?) {
-        showUploadDialog()
-        startService(intent)
+    private fun showErrorDialog() {
+        uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
+            View.GONE
+        uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_message_failed)?.visibility =
+            View.VISIBLE
+        val image =
+            uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
+        image?.setImageResource(R.drawable.ic_upload_failed)
+        image?.visibility = View.VISIBLE
     }
 
-    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-
-        if (resultCode != Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || uploadProgressDialog?.isShowing == false) {
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
-                View.GONE
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_message_failed)?.visibility =
-                View.VISIBLE
-            val image =
-                uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
-            image?.setImageResource(R.drawable.ic_upload_failed)
-            image?.visibility = View.VISIBLE
-            return
-        }
-
-        val projectId = resultData.getString(Constants.EXTRA_PROJECT_ID)
+    private fun showSuccessDialog(projectMetaData: ProjectUploadResponseApi) {
         val positiveButton = uploadProgressDialog?.getButton(DialogInterface.BUTTON_POSITIVE)
-
         positiveButton?.setOnClickListener {
-            val projectUrl = Constants.SHARE_PROJECT_URL + projectId
             val intent = Intent(this, WebViewActivity::class.java)
-            intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl)
+            intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectMetaData.project_url)
             startActivity(intent)
             loadBackup()
             projectManager.resetChangedFlag(project)
@@ -535,7 +549,6 @@ open class ProjectUploadActivity : BaseActivity(),
         image?.setImageResource(R.drawable.ic_upload_success)
         image?.visibility = View.VISIBLE
 
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1
         sharedPreferences.edit()
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
@@ -578,37 +591,66 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     protected open fun verifyUserIdentity() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME)
-        val isTokenSetInPreferences =
-            token != Constants.NO_TOKEN && token?.length == ServerAuthenticationConstants.TOKEN_LENGTH && token != ServerAuthenticationConstants.TOKEN_CODE_INVALID
-        if (isTokenSetInPreferences) {
-            CheckTokenTask(this)
-                .execute(token, username)
-        } else {
-            startSignInWorkflow()
-        }
-    }
+        if (connectionMonitor.isNetworkAvailable()) {
+            token?.let {
+                if (token != Constants.NO_TOKEN) {
+                    tokenTask.isValidToken().observe(this, Observer { isValid ->
+                        if (isValid) {
+                            onCreateView()
+                        } else {
+                            val refreshToken = sharedPreferences.getString(
+                                Constants.REFRESH_TOKEN,
+                                Constants.NO_TOKEN
+                            ).orEmpty()
 
-    override fun onTokenCheckComplete(tokenValid: Boolean, connectionFailed: Boolean) {
-        if (connectionFailed) {
-            if (!tokenValid) {
-                ToastUtil.showError(this, R.string.error_session_expired)
-                Utils.logoutUser(this)
-                startSignInWorkflow()
-            } else {
-                ToastUtil.showError(this, R.string.error_internet_connection)
-                return
+                            when {
+                                token.length == DEPRECATED_TOKEN_LENGTH -> checkRefreshToken(
+                                    token,
+                                    refreshToken
+                                )
+                                refreshToken != Constants.NO_TOKEN -> checkRefreshToken(
+                                    token,
+                                    refreshToken
+                                )
+                                else -> verifyUserIdentityFailed()
+                            }
+                        }
+                    })
+                    tokenTask.checkToken(token)
+                    return
+                }
             }
-        } else if (!tokenValid) {
             startSignInWorkflow()
-            return
+        } else {
+            ToastUtil.showError(this, R.string.error_internet_connection)
+            finish()
         }
-        onCreateView()
     }
 
-    fun startSignInWorkflow() {
+    private fun checkRefreshToken(token: String, refreshToken: String) {
+        tokenTask.getRefreshTokenResponse().observe(this, Observer { refreshResponse ->
+            refreshResponse?.let {
+                sharedPreferences.edit()
+                    .putString(Constants.TOKEN, refreshResponse.token)
+                    .putString(Constants.REFRESH_TOKEN, refreshResponse.refresh_token)
+                    .apply()
+                onCreateView()
+            } ?: run {
+                verifyUserIdentityFailed()
+            }
+        })
+
+        tokenTask.refreshToken(token, refreshToken)
+    }
+
+    private fun verifyUserIdentityFailed() {
+        ToastUtil.showError(this, R.string.error_session_expired)
+        Utils.logoutUser(this)
+        startSignInWorkflow()
+    }
+
+    private fun startSignInWorkflow() {
         startActivityForResult(Intent(this, SignInActivity::class.java), SIGN_IN_CODE)
     }
 
@@ -625,13 +667,13 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun getTags() {
-        val getTagsTask = GetTagsTask()
-        getTagsTask.setOnTagsResponseListener(this)
-        getTagsTask.execute()
-    }
+        tagsTask.getTagsResponse().observe(this, Observer { tagsResponse ->
+            tagsResponse?.let { tags ->
+                this.tags = tags
+            }
+        })
 
-    override fun onTagsReceived(tags: List<String>) {
-        this.tags = tags
+        tagsTask.getTags()
     }
 
     inner class NameInputTextWatcher : TextWatcher {

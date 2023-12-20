@@ -65,7 +65,6 @@
 
     <string name="skip">skip</string>
     <string name="warning">Warning</string>
-    <string name="error">Error</string>
 
     <string name="loading">Loading…</string>
     <string name="please_wait">Please wait</string>
@@ -95,9 +94,6 @@
 
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data…</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data…</string>
-    <string name="loading_google_login">Google login on our server is complete…</string>
-
     <string name="logout_successful">Logout successful</string>
 
     <string name="degrees">degrees</string>
@@ -817,7 +813,6 @@
 
 
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="reset_password">Reset password</string>
@@ -830,11 +825,6 @@
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show password</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
@@ -1408,13 +1398,6 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">Retry</string>
-    <string name="notification_open_play_store">Open App store</string>
     <string name="notification_download_title_pending">"Downloading"</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
@@ -1429,7 +1412,6 @@ device\'s geolocation sensor, and in order to import and export projects from an
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
 
     <!-- Error messages -->
-    <string name="error_project_upload">Something went wrong while uploading the project.</string>
     <string name="error_project_download">Something went wrong while downloading the project.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be

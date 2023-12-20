@@ -62,6 +62,11 @@ class NetworkConnectionMonitor(private val context: Context) : LiveData<Boolean>
         }
     }
 
+    fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return checkConnection(connectivityManager)
+    }
+
     private fun checkConnection(connectivityManager: ConnectivityManager): Boolean {
         val network = connectivityManager.activeNetwork ?: return false
         val actNw = connectivityManager.getNetworkCapabilities(network)

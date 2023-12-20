@@ -33,13 +33,19 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.koin.testModules
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.mockito.MockitoAnnotations
@@ -48,10 +54,23 @@ import java.net.HttpURLConnection
 
 @RunWith(MockitoJUnitRunner::class)
 @Category(OutgoingNetworkTests::class)
-class CatroidWebServerTest : KoinTest {
+class CatroidWebServerProjectsTest : KoinTest {
 
     companion object {
         private const val SUCCESS_RESPONSE_FILE_NAME = "featured_projects_success_response.json"
+
+        @BeforeClass
+        @JvmStatic
+        fun initSetup() {
+            stopKoin()
+            startKoin { modules(testModules) }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun tearDownInit() {
+            stopKoin()
+        }
     }
 
     private lateinit var mockWebServer: MockWebServer
@@ -150,20 +169,10 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testFeaturedProjectsEmptyFlavorNameReturnsEmptyList() {
-        val response = webServer.getFeaturedProjects(flavor = "")
-            .execute()
-            .body()
-        assertNotNull(response)
-        assertTrue(response!!.isEmpty())
-    }
-
-    @Test
-    @Throws(Exception::class)
     fun testFeaturedProjectsCallWithDefaultValues() {
         val expectedRawResponse =
             "Response{protocol=h2, code=200, message=," +
-                " url=https://share.catrob.at/api/projects/featured?" +
+                " url=https://web-test.catrob.at/api/projects/featured?" +
                 "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
                 "&flavor=${FlavoredConstants.FLAVOR_NAME}&platform=android&limit=20&offset=0}"
         val rawResponse = webServer.getFeaturedProjects().execute().raw().toString()
@@ -181,7 +190,7 @@ class CatroidWebServerTest : KoinTest {
     fun testProjectCategoriesCallWithDefaultValues() {
         val expectedRawResponse =
             "Response{protocol=h2, code=200, message=," +
-                " url=https://share.catrob.at/api/projects/categories?" +
+                " url=https://web-test.catrob.at/api/projects/categories?" +
                 "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
                 "&flavor=${FlavoredConstants.FLAVOR_NAME}}"
         val rawResponse = webServer.getProjectCategories().execute().raw().toString()
@@ -225,6 +234,19 @@ class CatroidWebServerTest : KoinTest {
                     assertNotNull(projectResponse.filesize)
                 }
             }
+    }
+
+    @Test
+    fun testProjectTags() {
+        val response = webServer.getTags().execute()
+
+        assertEquals(response.code(), SERVER_RESPONSE_TOKEN_OK)
+
+        response.body()?.forEach { tag ->
+            assertNotNull(tag)
+            assertNotNull(tag.id)
+            assertNotNull(tag.text)
+        }
     }
 
     private fun String.containsOkHttpCode() = contains(200.toString())

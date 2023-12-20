@@ -45,7 +45,7 @@ import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
+import org.catrobat.catroid.ui.WebViewActivity.Companion.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.io.IOException

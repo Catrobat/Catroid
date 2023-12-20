@@ -125,7 +125,7 @@ pipeline {
         cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
         issueCommentTrigger('.*test this please.*')
     }
-    
+
     stages {
         stage('All') {
             parallel {

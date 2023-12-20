@@ -714,7 +714,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="play_scene_dialog_current">Kasalukuyang scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Mag-sign in</string>
     <string name="username">Pangalan ng gumagamit</string>
     <string name="password">Password</string>
     <string name="reset_password">Baguhin ang password</string>
@@ -727,11 +726,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="register">Magrehistro</string>
     <string name="password_confirm">Kumpirmahin ang password</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Salamat sa pag-sign up!</string>
-    <string name="signin_choose_username">Pakiusap pumili ng iyong username:</string>
-    <string name="signin_choose_username_empty">Pakiusap maglagay ng username.</string>
-    <string name="signin_choose_username_hint">Ang username ay hindi dapat ang pangalan mo o ang iyong email address.</string>
-    <string name="oauth_username_taken">Nagamit na ng iba ang pangalan na ito. Pakiusap pumili ng iba!</string>
     <string name="show_password">Ipakita ang password</string>
     <string name="sign_in_error">May nangyaring hindi inaasahan habang nagsa-sign in.</string>
     <string name="error_google_plus_sign_in">Error sa Google sign-in. Status: %s</string>
