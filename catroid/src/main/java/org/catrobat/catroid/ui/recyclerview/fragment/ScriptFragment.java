@@ -49,11 +49,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
@@ -929,66 +926,9 @@ public class ScriptFragment extends ListFragment implements
 
 	private void delete(List<Brick> selectedItems) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		for (Brick brick : selectedItems) {
-			if (brick instanceof CompositeBrick) {
-				List<Brick> unselectedBricks = getUnselectedBricksOfCompositeBrick((CompositeBrick) brick,
-						selectedItems);
-				Brick parentBrick = getNextUnselectedParentOfBrick(selectedItems, brick).getParent();
-				if (parentBrick instanceof CompositeBrick) {
-					int pos =
-							((CompositeBrick)parentBrick).getNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
-					((CompositeBrick)parentBrick).getNestedBricks().addAll(pos,
-							unselectedBricks);
-				} else if ((parentBrick instanceof IfLogicBeginBrick.ElseBrick)) {
-					int pos = ((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
-							.getSecondaryNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
-					((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
-							.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
-				} else if ((parentBrick instanceof PhiroIfLogicBeginBrick.ElseBrick)) {
-					int pos = ((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
-							.getSecondaryNestedBricks().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
-					((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
-							.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
-				} else if (parentBrick instanceof ScriptBrick) {
-					for(Brick unselectedBrick : unselectedBricks) {
-						int pos =
-								((ScriptBrick) parentBrick).getScript().getBrickList().indexOf(getNextUnselectedParentOfBrick(selectedItems, brick));
-						((ScriptBrick) parentBrick).getScript().addBrick(pos,
-								unselectedBrick);
-					}
-				}
-			}
-		}
 		brickController.delete(selectedItems, sprite);
 		adapter.updateItems(sprite);
 		finishActionMode();
-	}
-
-	private Brick getNextUnselectedParentOfBrick(List<Brick> selectedItems, Brick childBrick) {
-		if (selectedItems.contains(childBrick.getParent())) {
-			return getNextUnselectedParentOfBrick(selectedItems, childBrick.getParent());
-		}
-		else {
-			return childBrick;
-		}
-	}
-
-	private List<Brick> getUnselectedBricksOfCompositeBrick(CompositeBrick compositeBrick,
-			List<Brick> selectedBricks) {
-		List<Brick> unselectedBricks = new ArrayList<>();
-		for(Brick brick : compositeBrick.getNestedBricks()) {
-			if(!selectedBricks.contains(brick)) {
-				unselectedBricks.add(brick);
-			}
-		}
-		if (compositeBrick.hasSecondaryList()) {
-			for(Brick brick : compositeBrick.getSecondaryNestedBricks()) {
-				if(!selectedBricks.contains(brick)) {
-					unselectedBricks.add(brick);
-				}
-			}
-		}
-		return unselectedBricks;
 	}
 
 	private void toggleComments(List<Brick> selectedBricks) {
