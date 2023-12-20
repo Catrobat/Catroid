@@ -28,10 +28,12 @@ import android.util.Log;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -53,10 +55,47 @@ public final class BrickController {
 			} else {
 				try {
 					if (!bricksToCopy.contains(brick.getParent())) {
-						script.addBrick(brick.clone());
+						Brick copyBrick = brick.clone();
+						if (copyBrick instanceof CompositeBrick) {
+							removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick,
+									(CompositeBrick) brick);
+						}
+						script.addBrick(copyBrick);
 					}
 				} catch (CloneNotSupportedException e) {
 					Log.e(TAG, Log.getStackTraceString(e));
+				}
+			}
+		}
+	}
+
+	private void removeUnselectedBricksInCompositeBricks(CompositeBrick copyBrick,
+			CompositeBrick referenceBrick) {
+		int copyCounter = 0;
+		for (int i = 0; i < referenceBrick.getNestedBricks().size(); i++) {
+			if (referenceBrick.getNestedBricks().get(i).getCheckBox().isChecked()) {
+				if (referenceBrick.getNestedBricks().get(i) instanceof  CompositeBrick) {
+					removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getNestedBricks().get(copyCounter),
+							(CompositeBrick) referenceBrick.getNestedBricks().get(i));
+				}
+				copyCounter++;
+			}
+			else {
+				copyBrick.getNestedBricks().remove(copyCounter);
+			}
+		}
+		copyCounter = 0;
+		if (referenceBrick.hasSecondaryList()) {
+			for (int i = 0; i < referenceBrick.getSecondaryNestedBricks().size(); i++) {
+				if (referenceBrick.getSecondaryNestedBricks().get(i).getCheckBox().isChecked()) {
+					if (referenceBrick.getNestedBricks().get(i) instanceof CompositeBrick) {
+						removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getSecondaryNestedBricks().get(copyCounter),
+								(CompositeBrick) referenceBrick.getSecondaryNestedBricks().get(i));
+					}
+					copyCounter++;
+				}
+				else {
+					copyBrick.getSecondaryNestedBricks().remove(copyCounter);
 				}
 			}
 		}
@@ -79,4 +118,32 @@ public final class BrickController {
 			}
 		}
 	}
+
+	private Brick getNextUnselectedParentOfBrick(List<Brick> selectedItems, Brick childBrick) {
+		if (selectedItems.contains(childBrick.getParent())) {
+			return getNextUnselectedParentOfBrick(selectedItems, childBrick.getParent());
+		}
+		else {
+			return childBrick;
+		}
+	}
+
+	private List<Brick> getUnselectedBricksOfCompositeBrick(CompositeBrick compositeBrick,
+			List<Brick> selectedBricks) {
+		List<Brick> unselectedBricks = new ArrayList<>();
+		for(Brick brick : compositeBrick.getNestedBricks()) {
+			if(!selectedBricks.contains(brick)) {
+				unselectedBricks.add(brick);
+			}
+		}
+		if (compositeBrick.hasSecondaryList()) {
+			for(Brick brick : compositeBrick.getSecondaryNestedBricks()) {
+				if(!selectedBricks.contains(brick)) {
+					unselectedBricks.add(brick);
+				}
+			}
+		}
+		return unselectedBricks;
+	}
+
 }
