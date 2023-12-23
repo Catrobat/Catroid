@@ -318,7 +318,8 @@ class BrickAdapter(private val sprite: Sprite) :
 
 
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        isChildBrickOfSelectedCompositeBrick(brickPosition) || noConnectedItemsSelected() ||
+        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) ||
+            noConnectedItemsSelected() ||
             isItemWithinConnectedRange(
             brickPosition,
             scriptSelected

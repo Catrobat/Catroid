@@ -181,8 +181,7 @@ public class CopyBrickTest {
 
 		for (int brickIndex = firstIndexComposite + 1; brickIndex < lastIndexComposite; brickIndex++) {
 			getCheckbox(brickIndex)
-					.check(matches(isChecked()))
-					.check(matches(not(isEnabled())));
+					.check(matches(isChecked()));
 		}
 
 		getCheckbox(firstIndexComposite - 1)
