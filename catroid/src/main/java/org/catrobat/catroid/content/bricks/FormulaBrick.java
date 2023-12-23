@@ -280,7 +280,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			}
 			String formulaString =
 					Objects.requireNonNull(formulaMap.get(field)).getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext());
-			brickBuilder.append(formulaString.trim());
+			brickBuilder.append(CatrobatLanguageUtils.escapeFormula(formulaString.trim()));
 
 			if (hasIdentifier) {
 				brickBuilder.append(')');

@@ -61,7 +61,7 @@ object CatrobatLanguageUtils {
     @JvmStatic
     fun formatUserDefinedBrickParameter(parameter: String) = "[${escapeCharacters(parameter, "[]`")}]"
 
-    fun getEscapedString(string: String): String = "'${escapeCharacters(string, "'\n")}'"
+    fun getEscapedString(string: String): String = "'${escapeCharacters(string, "'\r\n")}'"
 
     @JvmStatic
     fun formatHexColorString(hexColorString: String): String {
@@ -85,10 +85,20 @@ object CatrobatLanguageUtils {
         return context.createConfigurationContext(configuration)
     }
 
+    @JvmStatic
+    fun escapeFormula(formula: String): String {
+        return escapeCharacters(formula, "\r\n")
+    }
+
     fun escapeCharacters(string: String, charactersToEscape: String): String {
         var escapedString = string
         for (character in charactersToEscape) {
-            escapedString = escapedString.replace(character.toString(), "\\$character")
+            val replacement = when (character) {
+                '\n' -> "\\n"
+                '\r' -> "\\r"
+                else -> "\\$character"
+            }
+            escapedString = escapedString.replace(character.toString(), replacement)
         }
         return escapedString
     }

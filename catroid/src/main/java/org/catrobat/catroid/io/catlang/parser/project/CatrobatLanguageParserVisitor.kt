@@ -432,6 +432,14 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
         return CatrobatLanguageBaseResult()
     }
 
+    override fun visitUserDefinedScripts(ctx: CatrobatLanguageParser.UserDefinedScriptsContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
+    }
+
+    override fun visitUserDefinedScript(ctx: CatrobatLanguageParser.UserDefinedScriptContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
+    }
+
     override fun visitBrick_defintion(ctx: CatrobatLanguageParser.Brick_defintionContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("Brick definition is null")
@@ -449,6 +457,14 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<CatrobatLang
             visitBrick_with_body(ctx.brick_with_body())
         }
         return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitUserDefinedBrick(ctx: CatrobatLanguageParser.UserDefinedBrickContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
+    }
+
+    override fun visitUserDefinedBrickPart(ctx: CatrobatLanguageParser.UserDefinedBrickPartContext?): CatrobatLanguageBaseResult {
+        TODO("Not yet implemented")
     }
 
     override fun visitBrick_with_body(ctx: CatrobatLanguageParser.Brick_with_bodyContext?): CatrobatLanguageBaseResult {

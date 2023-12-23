@@ -74,7 +74,6 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeGlobals() {
-
         val globals = arrayListOf<String>()
         for (variable in project.userVariables) {
             globals.add(CatrobatLanguageUtils.formatVariable(variable.name))
@@ -194,7 +193,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeUserDefinedScripts(sprite: Sprite) {
-        if (sprite.scriptList.isEmpty()) {
+        if (sprite.userDefinedBrickList.isEmpty()) {
             return
         }
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}User Defined Bricks {")
