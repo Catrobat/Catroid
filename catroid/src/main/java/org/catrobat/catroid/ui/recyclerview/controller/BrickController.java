@@ -75,29 +75,32 @@ public final class BrickController {
 			CompositeBrick referenceBrick) {
 		int copyCounter = 0;
 		for (int i = 0; i < referenceBrick.getNestedBricks().size(); i++) {
-			if (referenceBrick.getNestedBricks().get(i).getCheckBox().isChecked()) {
-				if (referenceBrick.getNestedBricks().get(i) instanceof  CompositeBrick) {
-					removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getNestedBricks().get(copyCounter),
-							(CompositeBrick) referenceBrick.getNestedBricks().get(i));
+			if (referenceBrick.getNestedBricks().get(i).getCheckBox() != null) {
+				if (referenceBrick.getNestedBricks().get(i).getCheckBox().isChecked()) {
+					if (referenceBrick.getNestedBricks().get(i) instanceof  CompositeBrick) {
+						removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getNestedBricks().get(copyCounter),
+								(CompositeBrick) referenceBrick.getNestedBricks().get(i));
+					}
+					copyCounter++;
 				}
-				copyCounter++;
-			}
-			else {
-				copyBrick.getNestedBricks().remove(copyCounter);
+				else {
+					copyBrick.getNestedBricks().remove(copyCounter);
+				}
 			}
 		}
 		copyCounter = 0;
 		if (referenceBrick.hasSecondaryList()) {
 			for (int i = 0; i < referenceBrick.getSecondaryNestedBricks().size(); i++) {
-				if (referenceBrick.getSecondaryNestedBricks().get(i).getCheckBox().isChecked()) {
-					if (referenceBrick.getNestedBricks().get(i) instanceof CompositeBrick) {
-						removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getSecondaryNestedBricks().get(copyCounter),
-								(CompositeBrick) referenceBrick.getSecondaryNestedBricks().get(i));
+				if (referenceBrick.getSecondaryNestedBricks().get(i).getCheckBox() != null) {
+					if (referenceBrick.getSecondaryNestedBricks().get(i).getCheckBox().isChecked()) {
+						if (referenceBrick.getNestedBricks().get(i) instanceof CompositeBrick) {
+							removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getSecondaryNestedBricks().get(copyCounter),
+									(CompositeBrick) referenceBrick.getSecondaryNestedBricks().get(i));
+						}
+						copyCounter++;
+					} else {
+						copyBrick.getSecondaryNestedBricks().remove(copyCounter);
 					}
-					copyCounter++;
-				}
-				else {
-					copyBrick.getSecondaryNestedBricks().remove(copyCounter);
 				}
 			}
 		}

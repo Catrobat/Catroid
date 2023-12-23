@@ -302,11 +302,9 @@ class BrickAdapter(private val sprite: Sprite) :
                 if ((childBrick.parent as CompositeBrick).nestedBricks.contains(childBrick)) {
                     return true
                 }
-                if ((childBrick.parent as CompositeBrick).hasSecondaryList()) {
-                    if ((childBrick.parent as CompositeBrick).secondaryNestedBricks.contains
-                            (childBrick)) {
-                        return true
-                    }
+                if ((childBrick.parent as CompositeBrick).hasSecondaryList() && (childBrick
+                        .parent as CompositeBrick).secondaryNestedBricks.contains(childBrick)) {
+                    return true
                 }
             }
         } else if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is
