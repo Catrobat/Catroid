@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.io.catlang.serializer
 
+import android.content.Context
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.UserDefinedScript
 
-class CatrobatLanguageProjectSerializer(private val project: Project) {
+class CatrobatLanguageProjectSerializer(private val project: Project, private val context: Context) {
 
     private val languageVersion = "0.1"
     private val level1IndentionLevelEnd = "${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}}"
@@ -119,6 +121,8 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeSprite(sprite: Sprite) {
+        ProjectManager.getInstance().currentSprite = sprite
+
         serializeLooks(sprite)
         serializeSounds(sprite)
         serializeLocals(sprite)
@@ -200,6 +204,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}User Defined Bricks {")
         for (script in sprite.scriptList) {
             if (script is UserDefinedScript) {
+                script.scriptBrick.getView(context)
                 programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
             }
         }

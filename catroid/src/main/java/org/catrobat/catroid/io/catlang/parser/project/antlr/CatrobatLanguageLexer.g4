@@ -71,8 +71,8 @@ UDB_END: '`' -> mode(UDB_AFTER_MODE);
 
 mode UDB_PARAM_MODE;
 UDB_PARAM_MODE_WS: [\t\r\n]+ -> skip;
-UDB_PARAM_END: ']' -> popMode;
 UDB_PARAM_TEXT: ~(']')+;
+UDB_PARAM_END: ']' -> popMode;
 
 mode UDB_AFTER_MODE;
 UDB_AFTER_MODE_WS: [ \t\r\n]+ -> skip;

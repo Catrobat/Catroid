@@ -380,13 +380,13 @@ class CatrobatLanguageParserVisitorV2 : CatrobatLanguageParserVisitor<CatrobatLa
             throw CatrobatLanguageParsingException("No valid actor content found.")
         }
 
-        if (ctx.localVariables() != null || ctx.localVariables().count() > 1) {
+        if (ctx.localVariables() != null && ctx.localVariables().count() > 1) {
             throw CatrobatLanguageParsingException("Local variables must occur at most once in each actor/object.")
         }
-        if (ctx.looks() != null || ctx.looks().count() > 1) {
+        if (ctx.looks() != null && ctx.looks().count() > 1) {
             throw CatrobatLanguageParsingException("Looks must occur at most once in each actor/object.")
         }
-        if (ctx.sounds() != null || ctx.sounds().count() > 1) {
+        if (ctx.sounds() != null && ctx.sounds().count() > 1) {
             throw CatrobatLanguageParsingException("Sounds must occur at most once in each actor/object.")
         }
         if (ctx.userDefinedScripts() != null && ctx.userDefinedScripts().count() > 1) {

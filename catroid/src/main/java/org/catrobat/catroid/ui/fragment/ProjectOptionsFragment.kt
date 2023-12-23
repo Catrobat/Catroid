@@ -59,6 +59,7 @@ import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR
@@ -314,7 +315,7 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     private fun serializeProjectToCatrobatLanguage() {
-        val projectString = CatrobatLanguageProjectSerializer(project!!).serialize()
+        val projectString = CatrobatLanguageProjectSerializer(project!!, this.requireContext()).serialize()
         Log.i(TAG, projectString)
     }
 
