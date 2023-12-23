@@ -34,7 +34,7 @@ import org.junit.runner.RunWith
 class ParserTest {
     @Test
     fun basicProgramParserTest() {
-        val project = CatrobatLanguageParser.parseProgramFromString(getTestProgramString())
+        val project = CatrobatLanguageParser.parseProgramFromString(getTestProgramString(), CatroidApplication.getAppContext())
         assert(project != null)
     }
 
