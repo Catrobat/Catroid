@@ -112,7 +112,7 @@ class CopyCompositeBrickTest {
 
         getCheckbox(firstIndexForeverBrick)?.perform(click())
 
-        getCheckbox( firstIndexForeverBrick + 1)
+        getCheckbox(firstIndexForeverBrick + 1)
             ?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
@@ -130,15 +130,15 @@ class CopyCompositeBrickTest {
 
         getCheckbox(firstIndexForeverBrick + 1)?.perform(click())
 
-        getCheckbox( firstIndexForeverBrick + 1)
+        getCheckbox(firstIndexForeverBrick + 1)
             ?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox( firstIndexForeverBrick + 2)
+        getCheckbox(firstIndexForeverBrick + 2)
             ?.check(matches(not(isEnabled())))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox( firstIndexForeverBrick + 3)
+        getCheckbox(firstIndexForeverBrick + 3)
             ?.check(matches(not(isEnabled())))
             ?.check(matches(not(isChecked())))
     }
@@ -162,7 +162,6 @@ class CopyCompositeBrickTest {
 
         onBrickAtPosition(lastIndexForeverBrick + 3).checkShowsText(R.string.brick_if_end)
     }
-
 
     @Test
     fun testCopyCompositeBrickWithoutInnerCompositeBrick() {
@@ -200,12 +199,60 @@ class CopyCompositeBrickTest {
         onBrickAtPosition(lastIndexForeverBrick + 4).checkShowsText(R.string.brick_loop_end)
     }
 
+    @Test
+    fun testClickCopyInBrickContextDialogOfCompositeBrick() {
+
+        onBrickAtPosition(firstIndexIfComposite).performClick()
+
+        onView(withText(R.string.brick_context_dialog_copy_brick)).perform(click())
+
+        getCheckbox(firstIndexIfComposite)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(firstIndexIfComposite + 1)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(elseIndexIfComposite)
+            ?.check(matches(not(isEnabled())))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(elseIndexIfComposite + 1)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(lastIndexIfComposite)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+    }
+
+    @Test
+    fun testCopyCompositeBrickWithoutInnerBricksThroughBrickContextDialog() {
+
+        onBrickAtPosition(firstIndexIfComposite).performClick()
+
+        onView(withText(R.string.brick_context_dialog_copy_brick)).perform(click())
+
+        getCheckbox(firstIndexIfComposite + 1)?.perform(click())
+
+        getCheckbox(lastIndexIfComposite - 1)?.perform(click())
+
+        onView(withId(R.id.confirm)).perform(click())
+
+        onBrickAtPosition(lastIndexForeverBrick + 1).checkShowsText(R.string.brick_if_begin)
+
+        onBrickAtPosition(lastIndexForeverBrick + 2).checkShowsText(R.string.brick_if_else)
+
+        onBrickAtPosition(lastIndexForeverBrick + 3).checkShowsText(R.string.brick_if_end)
+    }
+
     private fun getCheckbox(brickIndex: Int): DataInteraction? {
         return onBrickAtPosition(brickIndex)
             .onChildView(allOf(withId(R.id.brick_checkbox), isDisplayed()))
     }
-    
-    private fun addTestBricks(script : Script) {
+
+    private fun addTestBricks(script: Script) {
         val ifBrick = IfLogicBeginBrick()
         ifBrick.addBrickToIfBranch(SetXBrick())
         ifBrick.addBrickToElseBranch(SetYBrick())

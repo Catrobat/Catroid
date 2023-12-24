@@ -28,9 +28,10 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -152,7 +153,7 @@ class DeleteCompositeBrickTest {
 
         getCheckbox(lastIndexIfComposite - 1)?.perform(click())
 
-        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onBrickAtPosition(firstIndexIfComposite).checkShowsText(R.string.brick_set_x)
 
@@ -168,7 +169,7 @@ class DeleteCompositeBrickTest {
 
         getCheckbox(firstIndexForeverBrick + 1)?.perform(click())
 
-        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onBrickAtPosition(firstIndexForeverBrick).checkShowsText(R.string.brick_forever)
 
@@ -186,17 +187,61 @@ class DeleteCompositeBrickTest {
 
         getCheckbox(firstIndexForeverBrick + 2)?.perform(click())
 
-        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onBrickAtPosition(firstIndexForeverBrick).checkShowsText(R.string.brick_set_x)
+    }
+
+    @Test
+    fun testClickDeleteInBrickContextDialogOfCompositeBrick() {
+        onBrickAtPosition(firstIndexIfComposite).performClick()
+
+        onView(withText(R.string.brick_context_dialog_delete_brick)).perform(click())
+
+        getCheckbox(firstIndexIfComposite)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(firstIndexIfComposite + 1)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(elseIndexIfComposite)
+            ?.check(matches(not(isEnabled())))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(elseIndexIfComposite + 1)
+            ?.check(matches(isEnabled()))
+            ?.check(matches(isChecked()))
+
+        getCheckbox(lastIndexIfComposite)
+            ?.check(matches(not(isEnabled())))
+            ?.check(matches(isChecked()))
+    }
+
+    @Test
+    fun testDeleteCompositeBrickWithoutInnerBricksThroughBrickContextDialog() {
+        onBrickAtPosition(firstIndexIfComposite).performClick()
+
+        onView(withText(R.string.brick_context_dialog_delete_brick)).perform(click())
+
+        getCheckbox(firstIndexIfComposite + 1)?.perform(click())
+
+        getCheckbox(lastIndexIfComposite - 1)?.perform(click())
+
+        onView(withId(R.id.confirm)).perform(click())
+
+        onBrickAtPosition(firstIndexIfComposite).checkShowsText(R.string.brick_set_x)
+
+        onBrickAtPosition(firstIndexIfComposite + 1).checkShowsText(R.string.brick_set_y)
     }
 
     private fun getCheckbox(brickIndex: Int): DataInteraction? {
         return onBrickAtPosition(brickIndex)
             .onChildView(
                 Matchers.allOf(
-                    ViewMatchers.withId(R.id.brick_checkbox),
-                    ViewMatchers.isDisplayed()
+                    withId(R.id.brick_checkbox),
+                    isDisplayed()
                 )
             )
     }
