@@ -112,6 +112,11 @@ class BrickAdapter(private val sprite: Sprite) :
         updateItemsFromCurrentScripts()
     }
 
+    fun selectClickedBrick(brick : Brick) {
+        val position = items.indexOf(brick)
+        setSelectionTo(true, position)
+    }
+
     private fun updateItemsFromCurrentScripts() {
         items.clear()
         sprite.removeAllEmptyScriptBricks()
