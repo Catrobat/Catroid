@@ -116,7 +116,6 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 				withText(R.string.brick_context_dialog_delete_script),
 				withText(R.string.brick_context_dialog_delete_definition)))
 				.perform(click());
-		onView(withId(R.id.confirm)).perform(click());
 	}
 
 	public void performEditFormula() {
