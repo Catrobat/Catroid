@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
-import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
@@ -235,13 +234,7 @@ class BrickAdapter(private val sprite: Sprite) :
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
             if (checkBoxMode == ALL_DELETE) {
-                if (item is CompositeBrick) {
-                    if (items[adapterPosition] is EndBrick || items[adapterPosition] is IfLogicBeginBrick
-                        .ElseBrick || items[adapterPosition] is PhiroIfLogicBeginBrick.ElseBrick) {
-                        viewStateManager.setEnabled(!selected, adapterPosition)
-                    }
-                }
-                else if(i > 0) {
+                if (!isChildBrickOfSelectedCompositeBrick(adapterPosition) && i > 0) {
                     viewStateManager.setEnabled(!selected, adapterPosition)
                 }
             } else if(i > 0) {
