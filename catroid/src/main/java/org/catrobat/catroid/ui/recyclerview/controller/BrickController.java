@@ -77,13 +77,12 @@ public final class BrickController {
 		for (int i = 0; i < referenceBrick.getNestedBricks().size(); i++) {
 			if (referenceBrick.getNestedBricks().get(i).getCheckBox() != null) {
 				if (referenceBrick.getNestedBricks().get(i).getCheckBox().isChecked()) {
-					if (referenceBrick.getNestedBricks().get(i) instanceof  CompositeBrick) {
+					if (referenceBrick.getNestedBricks().get(i) instanceof CompositeBrick) {
 						removeUnselectedBricksInCompositeBricks((CompositeBrick) copyBrick.getNestedBricks().get(copyCounter),
 								(CompositeBrick) referenceBrick.getNestedBricks().get(i));
 					}
 					copyCounter++;
-				}
-				else {
+				} else {
 					copyBrick.getNestedBricks().remove(copyCounter);
 				}
 			}
@@ -158,23 +157,23 @@ public final class BrickController {
 		Brick parentBrick = lastSelectedBrick.getParent();
 		if (parentBrick instanceof ScriptBrick) {
 			int pos =
-					((ScriptBrick) parentBrick).getScript().getBrickList().indexOf(lastSelectedBrick);
-			((ScriptBrick) parentBrick).getScript().getBrickList().addAll(pos,
+					parentBrick.getScript().getBrickList().indexOf(lastSelectedBrick);
+			parentBrick.getScript().getBrickList().addAll(pos,
 					unselectedBricks);
 		} else if (parentBrick instanceof CompositeBrick) {
 			int pos =
-					((CompositeBrick)parentBrick).getNestedBricks().indexOf(lastSelectedBrick);
-			((CompositeBrick)parentBrick).getNestedBricks().addAll(pos,
+					((CompositeBrick) parentBrick).getNestedBricks().indexOf(lastSelectedBrick);
+			((CompositeBrick) parentBrick).getNestedBricks().addAll(pos,
 					unselectedBricks);
 		} else if ((parentBrick instanceof IfLogicBeginBrick.ElseBrick)) {
-			int pos = ((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+			int pos = ((IfLogicBeginBrick) parentBrick.getParent())
 					.getSecondaryNestedBricks().indexOf(lastSelectedBrick);
-			((IfLogicBeginBrick)((IfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+			((IfLogicBeginBrick) parentBrick.getParent())
 					.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
 		} else if ((parentBrick instanceof PhiroIfLogicBeginBrick.ElseBrick)) {
-			int pos = ((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+			int pos = ((PhiroIfLogicBeginBrick) parentBrick.getParent())
 					.getSecondaryNestedBricks().indexOf(lastSelectedBrick);
-			((PhiroIfLogicBeginBrick)((PhiroIfLogicBeginBrick.ElseBrick)parentBrick).getParent())
+			((PhiroIfLogicBeginBrick) parentBrick.getParent())
 					.getSecondaryNestedBricks().addAll(pos, unselectedBricks);
 		}
 	}

@@ -112,7 +112,7 @@ class BrickAdapter(private val sprite: Sprite) :
         updateItemsFromCurrentScripts()
     }
 
-    fun selectClickedBrick(brick : Brick) {
+    fun selectClickedBrick(brick: Brick) {
         val position = items.indexOf(brick)
         setSelectionTo(true, position)
     }
@@ -242,7 +242,7 @@ class BrickAdapter(private val sprite: Sprite) :
                 if (!isChildBrickOfSelectedCompositeBrick(adapterPosition) && i > 0) {
                     viewStateManager.setEnabled(!selected, adapterPosition)
                 }
-            } else if(i > 0) {
+            } else if (i > 0) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
@@ -313,7 +313,6 @@ class BrickAdapter(private val sprite: Sprite) :
         }
         return false
     }
-
 
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
         !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) ||
