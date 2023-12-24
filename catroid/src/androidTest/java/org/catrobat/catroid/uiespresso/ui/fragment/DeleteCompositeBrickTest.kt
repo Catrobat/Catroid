@@ -28,10 +28,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -43,18 +42,17 @@ import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorMultiplayerVariablesTest
-import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.createProjectAndGetStartScript
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.java.KoinJavaComponent
 
-class CopyCompositeBrickTest {
-
-    val projectManager: ProjectManager by inject(ProjectManager::class.java)
+class DeleteCompositeBrickTest {
+    val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
 
     var firstIndexIfComposite = 1
     var elseIndexIfComposite = 3
@@ -74,7 +72,7 @@ class CopyCompositeBrickTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val script = createProjectAndGetStartScript(
+        val script = UiTestUtils.createProjectAndGetStartScript(
             FormulaEditorMultiplayerVariablesTest::class.java.simpleName
         )
         addTestBricks(script)
@@ -84,7 +82,7 @@ class CopyCompositeBrickTest {
     @Test
     fun testEnabledInnerBricksOfCompositeBricks() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.copy)).perform(click())
+        onView(withText(R.string.delete)).perform(click())
 
         getCheckbox(firstIndexIfComposite)?.perform(click())
 
@@ -101,18 +99,18 @@ class CopyCompositeBrickTest {
             ?.check(matches(isChecked()))
 
         getCheckbox(lastIndexIfComposite)
-            ?.check(matches(isEnabled()))
+            ?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
     }
 
     @Test
     fun testEnabledInnerBricksOfCompositeBrickInCompositeBrick() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.copy)).perform(click())
+        onView(withText(R.string.delete)).perform(click())
 
         getCheckbox(firstIndexForeverBrick)?.perform(click())
 
-        getCheckbox( firstIndexForeverBrick + 1)
+        getCheckbox(firstIndexForeverBrick + 1)
             ?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
@@ -125,28 +123,28 @@ class CopyCompositeBrickTest {
             ?.check(matches(isChecked()))
 
         getCheckbox(lastIndexForeverBrick)
-            ?.check(matches(isEnabled()))
+            ?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
 
         getCheckbox(firstIndexForeverBrick + 1)?.perform(click())
 
-        getCheckbox( firstIndexForeverBrick + 1)
+        getCheckbox(firstIndexForeverBrick + 1)
             ?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox( firstIndexForeverBrick + 2)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(firstIndexForeverBrick + 2)
+            ?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox( firstIndexForeverBrick + 3)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(firstIndexForeverBrick + 3)
+            ?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
     }
 
     @Test
-    fun testCopyCompositeBrickWithoutInnerBrick() {
+    fun testDeleteCompositeBrickWithoutInnerBricks() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.copy)).perform(click())
+        onView(withText(R.string.delete)).perform(click())
 
         getCheckbox(firstIndexIfComposite)?.perform(click())
 
@@ -154,58 +152,56 @@ class CopyCompositeBrickTest {
 
         getCheckbox(lastIndexIfComposite - 1)?.perform(click())
 
-        onView(withId(R.id.confirm)).perform(click())
+        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
 
-        onBrickAtPosition(lastIndexForeverBrick + 1).checkShowsText(R.string.brick_if_begin)
+        onBrickAtPosition(firstIndexIfComposite).checkShowsText(R.string.brick_set_x)
 
-        onBrickAtPosition(lastIndexForeverBrick + 2).checkShowsText(R.string.brick_if_else)
-
-        onBrickAtPosition(lastIndexForeverBrick + 3).checkShowsText(R.string.brick_if_end)
+        onBrickAtPosition(firstIndexIfComposite + 1).checkShowsText(R.string.brick_set_y)
     }
 
-
     @Test
-    fun testCopyCompositeBrickWithoutInnerCompositeBrick() {
+    fun testDeleteCompositeBrickWithoutInnerCompositeBrick() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.copy)).perform(click())
+        onView(withText(R.string.delete)).perform(click())
 
         getCheckbox(firstIndexForeverBrick)?.perform(click())
 
         getCheckbox(firstIndexForeverBrick + 1)?.perform(click())
 
-        onView(withId(R.id.confirm)).perform(click())
+        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
 
-        onBrickAtPosition(lastIndexForeverBrick + 1).checkShowsText(R.string.brick_forever)
+        onBrickAtPosition(firstIndexForeverBrick).checkShowsText(R.string.brick_forever)
 
-        onBrickAtPosition(lastIndexForeverBrick + 2).checkShowsText(R.string.brick_loop_end)
+        onBrickAtPosition(firstIndexForeverBrick + 1).checkShowsText(R.string.brick_set_x)
+
+        onBrickAtPosition(firstIndexForeverBrick + 2).checkShowsText(R.string.brick_loop_end)
     }
 
     @Test
-    fun testCopyCompositeBrickWithoutInnerBrickInInnerCompositeBrick() {
+    fun testDeleteCompositeBrickWithoutInnerBrickInInnerCompositeBrick() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.copy)).perform(click())
+        onView(withText(R.string.delete)).perform(click())
 
         getCheckbox(firstIndexForeverBrick)?.perform(click())
 
         getCheckbox(firstIndexForeverBrick + 2)?.perform(click())
 
-        onView(withId(R.id.confirm)).perform(click())
+        onView(ViewMatchers.withId(R.id.confirm)).perform(click())
 
-        onBrickAtPosition(lastIndexForeverBrick + 1).checkShowsText(R.string.brick_forever)
-
-        onBrickAtPosition(lastIndexForeverBrick + 2).checkShowsText(R.string.brick_forever)
-
-        onBrickAtPosition(lastIndexForeverBrick + 3).checkShowsText(R.string.brick_loop_end)
-
-        onBrickAtPosition(lastIndexForeverBrick + 4).checkShowsText(R.string.brick_loop_end)
+        onBrickAtPosition(firstIndexForeverBrick).checkShowsText(R.string.brick_set_x)
     }
 
     private fun getCheckbox(brickIndex: Int): DataInteraction? {
         return onBrickAtPosition(brickIndex)
-            .onChildView(allOf(withId(R.id.brick_checkbox), isDisplayed()))
+            .onChildView(
+                Matchers.allOf(
+                    ViewMatchers.withId(R.id.brick_checkbox),
+                    ViewMatchers.isDisplayed()
+                )
+            )
     }
-    
-    private fun addTestBricks(script : Script) {
+
+    private fun addTestBricks(script: Script) {
         val ifBrick = IfLogicBeginBrick()
         ifBrick.addBrickToIfBranch(SetXBrick())
         ifBrick.addBrickToElseBranch(SetYBrick())
