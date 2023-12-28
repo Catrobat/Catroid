@@ -77,7 +77,7 @@ class ProgramSerializationTest {
     @Test
     fun testProgramSerialization() {
         val testProject = createProject()
-        val serializedProject = CatrobatLanguageProjectSerializer(testProject).serialize()
+        val serializedProject = CatrobatLanguageProjectSerializer(testProject, InstrumentationRegistry.getInstrumentation().context).serialize()
 
         val cleanReferenceProject = referenceProgramString
             .replace(CATROBAT_VERSION_REGEX, EMPTY_VERSION_STRING)
@@ -227,7 +227,7 @@ class ProgramSerializationTest {
 
         projectManager.currentProject = project
         baseActivityTestRule.launchActivity()
-        val serializedProject = CatrobatLanguageProjectSerializer(project).serialize()
+        val serializedProject = CatrobatLanguageProjectSerializer(project, InstrumentationRegistry.getInstrumentation().context).serialize()
         baseActivityTestRule.finishActivity()
 
         val compareFile = InstrumentationRegistry.getInstrumentation().context.assets.open(folderName + projectAssetName + ".txt")

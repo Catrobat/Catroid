@@ -34,8 +34,53 @@ import org.junit.runner.RunWith
 class ParserTest {
     @Test
     fun basicProgramParserTest() {
-        val project = CatrobatLanguageParser.parseProgramFromString(getTestProgramString(), CatroidApplication.getAppContext())
+        val project = CatrobatLanguageParser.parseProgramFromString(getTestProgram2(), CatroidApplication.getAppContext())
         assert(project != null)
+    }
+
+    fun getTestProgram2(): String {
+        return """#! Catrobat Language Version 0.1
+Program 'My project' {
+  Metadata {
+    Description: '',
+    Catrobat version: '1.12',
+    Catrobat app version: '1.1.2'
+  }
+
+  Stage {
+    Landscape mode: 'false',
+    Width: '1080',
+    Height: '2154',
+    Display mode: 'STRETCH'
+  }
+
+  Globals {
+    "asdf"
+  }
+
+  Scene 'Scene' {
+    Background {
+      Looks {
+        'Background': 'Background.png'
+      }
+      Scripts {
+        When condition becomes true (condition: (1 < 2)) {
+          `Label text [asdf]` ([asdf]: (0));
+        }
+        When condition becomes true (condition: ("asdf")) {
+        }
+        When tapped (gamepad button: (A)) {
+        }
+      }
+      User Defined Bricks {
+        Define `Label text [asdf]` with screen refresh as {
+          Set (x: ([asdf]));
+          `Label text [asdf]` ([asdf]: (0));
+        }
+      }
+    }
+  }
+}""".trimIndent()
     }
 
     fun getTestProgramString(): String {

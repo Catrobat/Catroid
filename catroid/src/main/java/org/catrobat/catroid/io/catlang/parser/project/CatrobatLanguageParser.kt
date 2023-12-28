@@ -68,7 +68,7 @@ class CatrobatLanguageParser {
             throwErrorIfErrorsPresent(lexerErrorListener.errors)
             throwErrorIfErrorsPresent(parserErrorListener.errors)
 
-            val visitor = CatrobatLanguageParserVisitor()
+            val visitor = CatrobatLanguageParserVisitorV2(context)
             val result = visitor.visitProgram(programContext)
 
             return if (result is CatrobatLanguageProgramVisitResult) {

@@ -23,5 +23,5 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageArgumentResult(val arguments: List<CatrobatLanguageKeyValueResult>) : CatrobatLanguageBaseResult() {
+class CatrobatLanguageArgumentResult(val arguments: Map<String, String>) : CatrobatLanguageBaseResult() {
 }

@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParame
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 
-class ParameterParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
+public class ParameterParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
     class LexerErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {

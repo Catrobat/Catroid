@@ -31,7 +31,11 @@ import android.widget.Spinner;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
@@ -39,8 +43,10 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import androidx.annotation.CallSuper;
@@ -429,5 +435,38 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(";\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		validateParametersPresent(arguments);
+	}
+
+	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		Collection<String> requiredArguments = getRequiredArgumentNames();
+		Collection<String> argumentsPresent = arguments.keySet();
+
+		if (requiredArguments.size() == argumentsPresent.size()) {
+			List<String> missingArguments = new ArrayList<>();
+			for (String requiredArgument : requiredArguments) {
+				if (!argumentsPresent.contains(requiredArgument)) {
+					missingArguments.add(requiredArgument);
+				}
+			}
+			if (!missingArguments.isEmpty()) {
+				String requiredArgumentsString = String.join(", ", requiredArguments);
+				String missingArgumentsString = String.join(", ", missingArguments);
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+			}
+		} else {
+			if (requiredArguments.size() == 0) {
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+			}
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+		}
+	}
+
+	protected Collection<String> getRequiredArgumentNames() {
+		return new ArrayList<>();
 	}
 }

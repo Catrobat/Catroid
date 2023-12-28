@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript
 import org.catrobat.catroid.content.WhenNfcScript
 import org.catrobat.catroid.content.WhenScript
 import org.catrobat.catroid.content.WhenTouchDownScript
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 object ScriptFactory {
     fun createScriptFromCatrobatLanguage(brickName: String, arguments: List<String>): Script {
@@ -58,6 +59,9 @@ object ScriptFactory {
         if (arguments.contains("gamepad button")) {
             return WhenGamepadButtonScript()
         }
-        return WhenScript()
+        if (arguments.isNullOrEmpty()) {
+            return WhenScript()
+        }
+        throw CatrobatLanguageParsingException("Either parameter 'gamepad button' or no parameter is allowed for 'When tapped' script.")
     }
 }

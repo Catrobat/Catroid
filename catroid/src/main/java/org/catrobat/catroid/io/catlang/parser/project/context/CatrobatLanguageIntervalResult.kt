@@ -21,18 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang.serializer
+package org.catrobat.catroid.io.catlang.parser.project.context
 
-import android.content.Context
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
-
-interface CatrobatLanguageSerializable {
-    fun serializeToCatrobatLanguage(indentionLevel: Int): String
-
-    @Throws(CatrobatLanguageParsingException::class)
-    fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>)
+class CatrobatLanguageIntervalResult(val start: Int, val stop: Int) : CatrobatLanguageBaseResult() {
 }
