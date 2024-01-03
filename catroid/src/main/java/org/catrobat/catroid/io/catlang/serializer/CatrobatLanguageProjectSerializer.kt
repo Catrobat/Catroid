@@ -135,7 +135,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
         }
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Looks {")
         for (i in sprite.lookList.indices) {
-            programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_4)}${CatrobatLanguageUtils.getEscapedString(sprite.lookList[i].name)}: ${CatrobatLanguageUtils.getEscapedString(sprite.lookList[i].file.name)}")
+            programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_4)}${CatrobatLanguageUtils.formatLook(sprite.lookList[i].name)}: ${CatrobatLanguageUtils.formatLook(sprite.lookList[i].file.name)}")
             if (i < sprite.lookList.size - 1) {
                 programString.append(",")
             }
@@ -150,7 +150,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
         }
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Sounds {")
         for (i in sprite.soundList.indices) {
-            programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_4)}${CatrobatLanguageUtils.getEscapedString(sprite.soundList[i].name)}: ${CatrobatLanguageUtils.getEscapedString(sprite.soundList[i].file.name)}")
+            programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_4)}${CatrobatLanguageUtils.formatSoundName(sprite.soundList[i].name)}: ${CatrobatLanguageUtils.formatSoundName(sprite.soundList[i].file.name)}")
             if (i < sprite.soundList.size - 1) {
                 programString.append(',')
             }

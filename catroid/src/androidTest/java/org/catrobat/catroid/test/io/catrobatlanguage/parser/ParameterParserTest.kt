@@ -30,10 +30,15 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
@@ -46,9 +51,11 @@ import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser
 import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.catrobat.catroid.userbrick.UserDefinedBrickData
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 import org.junit.After
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -71,46 +78,31 @@ class ParameterParserTest {
     @Test
     fun testSimpleString() {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.STRING, "mySimpleString:)", null))
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
     fun testSpecialString() {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.STRING, "'test(\":)", null))
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
     fun testEscapedString() {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.STRING, "mySimple\\'String\\\":)", null))
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
     fun testNumber() {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.NUMBER, "1234567890", null))
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
     fun testDecimal() {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.NUMBER, "534.535", null))
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -124,10 +116,7 @@ class ParameterParserTest {
                 FormulaElement(FormulaElement.ElementType.FUNCTION, Functions.TRUE.name, null)
             )
         )
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -187,10 +176,7 @@ class ParameterParserTest {
         bracketElement.rightChild = seElement
 
         val expectedFormula = Formula(orElement)
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -204,10 +190,7 @@ class ParameterParserTest {
                 FormulaElement(FormulaElement.ElementType.NUMBER, "2", null)
             )
         )
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -256,10 +239,7 @@ class ParameterParserTest {
         minusElement.rightChild = number4
 
         val expectedFormula = Formula(firstBracket)
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -290,10 +270,7 @@ class ParameterParserTest {
         )
         bracket3.rightChild = addition
         val expectedFormula = Formula(bracket)
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
@@ -315,14 +292,11 @@ class ParameterParserTest {
         plusElement.leftChild = roundElement
 
         val expectedFormula = Formula(plusElement)
-        val brick = WaitBrick(expectedFormula)
-        createProject(brick)
-        val actualFormula = getParsedFormula(brick)
-        compareFormulas(expectedFormula, actualFormula)
+        testFormula(expectedFormula)
     }
 
     @Test
-    fun testUserVariable() {
+    fun testSimpleUserVariable() {
         val expectedFormula = Formula(
             FormulaElement(
                 FormulaElement.ElementType.USER_VARIABLE,
@@ -330,10 +304,56 @@ class ParameterParserTest {
                 null
             )
         )
+        testFormula(expectedFormula)
+    }
+
+    @Test
+    fun testUserVariableWithEscape() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_VARIABLE,
+                "\"va\"r1\"",
+                null
+            )
+        )
         val brick = WaitBrick(expectedFormula)
         createProject(brick)
+        UiTestCatroidApplication.projectManager.currentProject.userVariables.add(UserVariable("\"va\"r1\""))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun testUserVariableWithDoubleEscape() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_VARIABLE,
+                "va\\\"r1",
+                null
+            )
+        )
+        val brick = WaitBrick(expectedFormula)
+        createProject(brick)
+        UiTestCatroidApplication.projectManager.currentProject.userVariables.add(UserVariable("va\\\"r1"))
+        val actualFormula = getParsedFormula(brick)
+        compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun failForUndefinedVariable() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_VARIABLE,
+                "undefinedVariable",
+                null
+            )
+        )
+        try {
+            testFormula(expectedFormula)
+            Assert.fail("Expected ArgumentParsingException")
+        } catch (e: ArgumentParsingException) {
+            Assert.assertEquals("Unknown variable: undefinedVariable", e.message)
+        }
     }
 
     @Test
@@ -345,10 +365,56 @@ class ParameterParserTest {
                 null
             )
         )
+        testFormula(expectedFormula)
+    }
+
+    @Test
+    fun testUserListWithEscape() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_LIST,
+                "***list1****",
+                null
+            )
+        )
         val brick = WaitBrick(expectedFormula)
         createProject(brick)
+        UiTestCatroidApplication.projectManager.currentProject.userLists.add(UserList("***list1****"))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun testUserListWithDoubleEscape() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_LIST,
+                "\\*\\*\\*list1****",
+                null
+            )
+        )
+        val brick = WaitBrick(expectedFormula)
+        createProject(brick)
+        UiTestCatroidApplication.projectManager.currentProject.userLists.add(UserList("\\*\\*\\*list1****"))
+        val actualFormula = getParsedFormula(brick)
+        compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun failForUndefinedList() {
+        val expectedFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.USER_LIST,
+                "undefinedList",
+                null
+            )
+        )
+        try {
+            testFormula(expectedFormula)
+            Assert.fail("Expected ArgumentParsingException")
+        } catch (e: ArgumentParsingException) {
+            Assert.assertEquals("Unknown list: undefinedList", e.message)
+        }
     }
 
     @Test
@@ -408,6 +474,77 @@ class ParameterParserTest {
         }
     }
 
+    @Test
+    fun testUserDefinedBrick() {
+        val userDefinedBrick = UserDefinedBrick()
+        userDefinedBrick.addLabel("Label")
+        userDefinedBrick.addInput("Input")
+        userDefinedBrick.setCallingBrick(true)
+        val udbRB = UserDefinedReceiverBrick(userDefinedBrick)
+
+        val userDefinedScript = udbRB.script as UserDefinedScript
+        val input = UserDefinedBrickInput("Input")
+        userDefinedScript.setUserDefinedBrickInputs(listOf(input))
+
+        val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, input.name, null))
+        val brick = ChangeSizeByNBrick(expectedFormula)
+        userDefinedScript.addBrick(brick)
+        createProject(userDefinedScript)
+        val actualFormula = getParsedFormula(brick)
+        compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun testUserDefinedBrickEscaped() {
+        val userDefinedBrick = UserDefinedBrick()
+        userDefinedBrick.addLabel("Label")
+        userDefinedBrick.addInput("[I[npu]t]")
+        userDefinedBrick.setCallingBrick(true)
+        val udbRB = UserDefinedReceiverBrick(userDefinedBrick)
+
+        val userDefinedScript = udbRB.script as UserDefinedScript
+        val input = UserDefinedBrickInput("[I[npu]t]")
+        userDefinedScript.setUserDefinedBrickInputs(listOf(input))
+
+        val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, input.name, null))
+        val brick = ChangeSizeByNBrick(expectedFormula)
+        userDefinedScript.addBrick(brick)
+        createProject(userDefinedScript)
+        val actualFormula = getParsedFormula(brick)
+        compareFormulas(expectedFormula, actualFormula)
+    }
+
+    @Test
+    fun failForUndefinedUserInput() {
+        val userDefinedBrick = UserDefinedBrick()
+        userDefinedBrick.addLabel("Label")
+        userDefinedBrick.addInput("Input")
+        userDefinedBrick.setCallingBrick(true)
+        val udbRB = UserDefinedReceiverBrick(userDefinedBrick)
+
+        val userDefinedScript = udbRB.script as UserDefinedScript
+        val input = UserDefinedBrickInput("Input")
+        userDefinedScript.setUserDefinedBrickInputs(listOf(input))
+
+        val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, "Input2", null))
+        val brick = ChangeSizeByNBrick(expectedFormula)
+        userDefinedScript.addBrick(brick)
+        createProject(userDefinedScript)
+        try {
+            getParsedFormula(brick)
+            Assert.fail("Expected ArgumentParsingException")
+        } catch (e: ArgumentParsingException) {
+            Assert.assertEquals("Unknown user defined brick parameter: Input2", e.message)
+        }
+    }
+
+    private fun testFormula(expectedFormula: Formula) {
+        val brick = WaitBrick(expectedFormula)
+        createProject(brick)
+        val actualFormula = getParsedFormula(brick)
+        compareFormulas(expectedFormula, actualFormula)
+    }
+
     private fun compareFormulas(expectedFormula: Formula, actualFormula: Formula) {
         val expectedContent = expectedFormula.getTrimmedFormulaStringForCatrobatLanguage(ApplicationProvider.getApplicationContext())
         val actualContent = actualFormula.getTrimmedFormulaStringForCatrobatLanguage(ApplicationProvider.getApplicationContext())
@@ -439,7 +576,7 @@ class ParameterParserTest {
         }
     }
 
-    private fun getParsedFormula(brick: WaitBrick): Formula {
+    private fun getParsedFormula(brick: FormulaBrick): Formula {
         val parameterParser = ParameterParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
@@ -450,7 +587,23 @@ class ParameterParserTest {
         return parameterParser.parseArgument(brick.formulas[0].getTrimmedFormulaStringForCatrobatLanguage(ApplicationProvider.getApplicationContext()))
     }
 
+    private fun createProject(script: Script) {
+        createProject()
+        
+        UiTestCatroidApplication.projectManager.currentSprite.addScript(script)
+        baseActivityTestRule.launchActivity()
+    }
+
     private fun createProject(brick: Brick) {
+        createProject()
+
+        val script = StartScript()
+        UiTestCatroidApplication.projectManager.currentSprite.addScript(script)
+        script.addBrick(brick)
+        baseActivityTestRule.launchActivity()
+    }
+    
+    private fun createProject() {
         val projectName = javaClass.simpleName
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
@@ -490,11 +643,5 @@ class ParameterParserTest {
         UiTestCatroidApplication.projectManager.currentProject.userLists.add(UserList("list3"))
 
         UiTestCatroidApplication.projectManager.currentProject.broadcastMessageContainer.addBroadcastMessage("Broadcast1")
-
-        val script = StartScript()
-        UiTestCatroidApplication.projectManager.currentSprite.addScript(script)
-        script.addBrick(brick)
-
-        baseActivityTestRule.launchActivity()
     }
 }
