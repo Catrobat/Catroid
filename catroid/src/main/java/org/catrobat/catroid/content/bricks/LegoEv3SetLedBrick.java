@@ -37,7 +37,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-@CatrobatLanguageBrick(command = "Set EV3 LED")
+@CatrobatLanguageBrick(command = "Set EV3")
 public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
