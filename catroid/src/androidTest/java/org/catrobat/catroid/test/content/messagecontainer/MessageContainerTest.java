@@ -81,7 +81,7 @@ public class MessageContainerTest {
 		List<String> broadcastMessages = projectManager.getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
-		assertThat(broadcastMessages, hasItem(broadcastMessage1));
+		assertThat(broadcastMessages, hasItem(broadcastMessage2));
 		assertEquals(1, broadcastMessages.size());
 	}
 
