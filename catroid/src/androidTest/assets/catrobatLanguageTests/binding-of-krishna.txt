@@ -366,7 +366,7 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-SinhalaLanguage"), value: ('ක්‍රියාශීලී බඳුන'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-GermanLanguage"), value: ('Energietrank'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-JapaneseLanguage"), value: ('敏速力強化ドリンク'));
-          Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d'agilité'));
+          Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d\'agilité'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-BengaliLanguage"), value: ('গতি বৃদ্ধি'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-TamilLanguage"), value: ('சுகாதார ஆட்டம்'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-UrduLanguage"), value: ('توانائی دوائیاں'));
@@ -388,7 +388,7 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-SinhalaLanguage"), value: ('අනිත්‍යතාව බඳුන'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-GermanLanguage"), value: ('Unbesiegbarkeitstrank'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-JapaneseLanguage"), value: ('無敵ポーション'));
-          Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d'invulnérabilité'));
+          Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d\'invulnérabilité'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-BengaliLanguage"), value: ('অদৃশ্য'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-TamilLanguage"), value: ('பாதிப்பற்ற ஆட்டம்'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-UrduLanguage"), value: ('  جو ضرر سے محفوظ  دوائیاں '));
@@ -536,7 +536,7 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-SinhalaLanguage"), value: ('ක්‍රියාශීලී බඳුන'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-GermanLanguage"), value: ('Energietrank'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-JapaneseLanguage"), value: ('敏速力強化ドリンク'));
-          Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d'agilité'));
+          Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d\'agilité'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-BengaliLanguage"), value: ('গতি বৃদ্ধি'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-TamilLanguage"), value: ('சுகாதார ஆட்டம்'));
           Insert (list: (*LanguageList-AgilityPotion*), position: ("Const-UrduLanguage"), value: ('توانائی دوائیاں'));
@@ -558,7 +558,7 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-SinhalaLanguage"), value: ('අනිත්‍යතාව බඳුන'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-GermanLanguage"), value: ('Unbesiegbarkeitstrank'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-JapaneseLanguage"), value: ('無敵ポーション'));
-          Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d'invulnérabilité'));
+          Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-FrenchLanguage"), value: ('Potion d\'invulnérabilité'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-BengaliLanguage"), value: ('অদৃশ্য'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-TamilLanguage"), value: ('பாதிப்பற்ற ஆட்டம்'));
           Insert (list: (*LanguageList-InvulnerabilityPotion*), position: ("Const-UrduLanguage"), value: ('  جو ضرر سے محفوظ  دوائیاں '));
@@ -583,23 +583,23 @@ Program 'The Binding of Krishna' {
       Scripts {
         When scene starts {
           Insert (list: (*Language List-Caption*), position: (1), value: ('Once upon a time there was an evil king named Kansa. He used to torture people for worshiping gods.'));
-          Insert (list: (*Language List-Caption*), position: (2), value: ('A prophecy is told that Lord Vishnu himself would reincarnate as a child of Kansa's sister to end the life of Kansa'));
-          Insert (list: (*Language List-Caption*), position: (3), value: ('On hearing the prophecy, Kansa imprisons his sister thinking he would kill the child on it's birth.'));
+          Insert (list: (*Language List-Caption*), position: (2), value: ('A prophecy is told that Lord Vishnu himself would reincarnate as a child of Kansa\'s sister to end the life of Kansa'));
+          Insert (list: (*Language List-Caption*), position: (3), value: ('On hearing the prophecy, Kansa imprisons his sister thinking he would kill the child on it\'s birth.'));
           Insert (list: (*Language List-Caption*), position: (4), value: ('As Krishna is born, miraculously all the guards in the prison fell asleep. Krishna is then moved to a safe place'));
-          Insert (list: (*Language List-Caption*), position: (5), value: ('Krishna is raised up in a safe house, hidden from Kansa. Few year later, little Krishna returns to Kansa's Palace'));
-          Insert (list: (*Language List-Caption*), position: (6), value: ('The time has come for Krishna to fulfill his destiny. But to reach Kansa, Krishna has to fight through Kansa's army.'));
+          Insert (list: (*Language List-Caption*), position: (5), value: ('Krishna is raised up in a safe house, hidden from Kansa. Few year later, little Krishna returns to Kansa\'s Palace'));
+          Insert (list: (*Language List-Caption*), position: (6), value: ('The time has come for Krishna to fulfill his destiny. But to reach Kansa, Krishna has to fight through Kansa\'s army.'));
           Insert (list: (*LanguageList-Portuguese*), position: (1), value: ('Era uma vez um rei maligno chamado Kansa. Ele costumava torturar pessoas por adorar os deuses'));
           Insert (list: (*LanguageList-Portuguese*), position: (2), value: ('Uma professia contava que o prórprio Lod Vishnu iria reencarnar como um filho da irmã de Kansa para acabar com a vida de Kansa'));
           Insert (list: (*LanguageList-Portuguese*), position: (3), value: ('Ao ouvir a professia, Kansa aprisionou sua irmã pensando em matar seu filho ao nascer'));
           Insert (list: (*LanguageList-Portuguese*), position: (4), value: ('Quando Krishna nasceu, miraculosamente todos os guardas da prisão pegaram no sono e Krishna conseguiu se mover para um lugar seguro'));
           Insert (list: (*LanguageList-Portuguese*), position: (5), value: ('Krishna é levado a uma casa segura escondido de Kansa. Poucos anos depois o pequeno Krishna retorna para o palácio de Kansa'));
           Insert (list: (*LanguageList-Portuguese*), position: (6), value: ('O tempo de comprir o seu destino chegou para Krishna. Mas para alcançar o Kansa, Krishna tem que lutar contra o seu exército'));
-          Insert (list: (*LanguageList-Italian*), position: (1), value: ('C'era una volta un cattivo re chiamato Kansa. Lui torturava pesone solo perchè credevano nelle divinità'));
+          Insert (list: (*LanguageList-Italian*), position: (1), value: ('C\'era una volta un cattivo re chiamato Kansa. Lui torturava pesone solo perchè credevano nelle divinità'));
           Insert (list: (*LanguageList-Italian*), position: (2), value: ('Una profezia narrò che Lord Virshnu sarebbe reincarnato nel figlio della sorella di Kansa, con lo scopo di ucciderlo'));
-          Insert (list: (*LanguageList-Italian*), position: (3), value: ('Quando senti la profezia Kansa imprigionò sua sorella con l'obiettivo di uccidere il bambino alla nascita'));
+          Insert (list: (*LanguageList-Italian*), position: (3), value: ('Quando senti la profezia Kansa imprigionò sua sorella con l\'obiettivo di uccidere il bambino alla nascita'));
           Insert (list: (*LanguageList-Italian*), position: (4), value: ('Quando Krishna nacque, come per miracolo, tutte le guardie caddero addormentate e Krishna fu portato in un posto sicuro'));
           Insert (list: (*LanguageList-Italian*), position: (5), value: ('Krishna viene cresciuto nel posto sicuro, nascosto da Kansa. Pochi anni dopo il piccolo Krishna ritorna al palazzo di Kansa'));
-          Insert (list: (*LanguageList-Italian*), position: (6), value: ('E' giunta l'ora per Krishna di soddisfare la profezia. Però per raggiungere Kansa, Krishna dovrà combattere contro tutto l'esercito di Kansa.'));
+          Insert (list: (*LanguageList-Italian*), position: (6), value: ('E\' giunta l\'ora per Krishna di soddisfare la profezia. Però per raggiungere Kansa, Krishna dovrà combattere contro tutto l\'esercito di Kansa.'));
           Insert (list: (*LanguageList-Hindi*), position: (1), value: ('एक बार कंस नाम का एक दुष्ट राजा था। वह लोगों को देवताओं की पूजा करने के लिए प्रताड़ित करता था।'));
           Insert (list: (*LanguageList-Hindi*), position: (2), value: ('एक भविष्यवाणी में बताया गया है कि कंस का जीवन समाप्त करने के लिए भगवान विष्णु स्वयं कंस की बहन के रूप में पुनर्जन्म लेंगे।'));
           Insert (list: (*LanguageList-Hindi*), position: (3), value: ('भविष्यवाणी सुनने पर, कंस अपनी बहन को यह सोचकर कैद कर लेता है कि वह इस जन्म में बच्चे को मार डालेगा।'));
@@ -618,12 +618,12 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-Japanese*), position: (4), value: ('クリシュナが生まれると、奇跡的に刑務所内のすべての警備員が眠りに落ちたので、クリシュナは安全な場所に移動します。'));
           Insert (list: (*LanguageList-Japanese*), position: (5), value: ('クリシュナはカンザから隠された安全な家の中で育ちました。 数年後、クリシュナはカンザの宮殿に戻りました。'));
           Insert (list: (*LanguageList-Japanese*), position: (6), value: ('クリシュナが運命を果たすために時が来ました。 しかし、カンザに到達するためには、クリシュナはカンザの軍隊を通して戦わなければなりません。'));
-          Insert (list: (*LanguageList-French*), position: (1), value: ('Il était une fois un roi diabolique nommé Kansa. Il avait l'habitude de torturer son peuple pour vénérer des dieux.'));
+          Insert (list: (*LanguageList-French*), position: (1), value: ('Il était une fois un roi diabolique nommé Kansa. Il avait l\'habitude de torturer son peuple pour vénérer des dieux.'));
           Insert (list: (*LanguageList-French*), position: (2), value: ('Une prophétie dit que Lord Vishnu lui-même se réincarnerait en enfant de la soeur de Kansa pour mettre fin à la vie de Kansa.'));
-          Insert (list: (*LanguageList-French*), position: (3), value: ('En entendant la prophétie, Kansa emprisonne sa sœur en pensant qu'il tuerait l'enfant à sa naissance.'));
+          Insert (list: (*LanguageList-French*), position: (3), value: ('En entendant la prophétie, Kansa emprisonne sa sœur en pensant qu\'il tuerait l\'enfant à sa naissance.'));
           Insert (list: (*LanguageList-French*), position: (4), value: ('Alors que Krishna est né, tous les gardes de la prison se sont endormis miraculeusement, Krishna est alors transféré dans un endroit sûr.'));
-          Insert (list: (*LanguageList-French*), position: (5), value: ('Krishna est élevé à l'abri de Kansa. Quelques années plus tard, le petit Krishna retourne au palais de Kansa.'));
-          Insert (list: (*LanguageList-French*), position: (6), value: ('Le moment est venu pour Krishna d'accomplir son destin. Mais pour atteindre Kansa, Krishna doit combattre l'armée de Kansa.'));
+          Insert (list: (*LanguageList-French*), position: (5), value: ('Krishna est élevé à l\'abri de Kansa. Quelques années plus tard, le petit Krishna retourne au palais de Kansa.'));
+          Insert (list: (*LanguageList-French*), position: (6), value: ('Le moment est venu pour Krishna d\'accomplir son destin. Mais pour atteindre Kansa, Krishna doit combattre l\'armée de Kansa.'));
           Insert (list: (*LanguageList-Bengali*), position: (1), value: ('একসময় কানসা নামে এক দুষ্ট রাজা ছিলেন। তিনি দেবতাদের উপাসনার জন্য লোকদের উপর অত্যাচার করতেন।'));
           Insert (list: (*LanguageList-Bengali*), position: (2), value: ('একটি ভবিষ্যদ্বাণীতে বলা হয়েছে যে কানসার জীবন শেষ করার জন্য ভগবান বিষ্ণু কানসার বোনের সন্তান হিসাবে পুনর্জন্ম লাভ করবেন।'));
           Insert (list: (*LanguageList-Bengali*), position: (3), value: ('ভবিষ্যদ্বাণী শুনে কানসা তার বোনকে বন্দী করে রাখে, এই আশায় যে সে জন্মের সময় বাচ্চাকে মেরে ফেলবে।'));
@@ -695,7 +695,7 @@ Program 'The Binding of Krishna' {
           Insert (list: (*LanguageList-Turkish*), position: (3), value: ('Kehaniti duyunca,Kansa kardesini hapisilendiriyor ve kardesinin cocugunu dogmunda öldürmesini düsünüyor.'));
           Insert (list: (*LanguageList-Turkish*), position: (4), value: ('Krishna dunyaga geldiginde,  bir mucize gibi gardiyanlar uyumaya basliyorlar. Krishna güvenli bir yere götrüliyor.'));
           Insert (list: (*LanguageList-Turkish*), position: (5), value: ('Krishna güvenli bir yerde buyuyor. Birkac yil sonra kücük Krishna Kansanin sarayina geri dönüyor. '));
-          Insert (list: (*LanguageList-Turkish*), position: (6), value: ('Krishna'nın kaderini yerine getirme zamanı geldi.Ancak Kansa'ya ulaşmak için,Krishna'nın Kansa ordusu aracılığıyla savaşması gerekiyor.'));
+          Insert (list: (*LanguageList-Turkish*), position: (6), value: ('Krishna\'nın kaderini yerine getirme zamanı geldi.Ancak Kansa\'ya ulaşmak için,Krishna\'nın Kansa ordusu aracılığıyla savaşması gerekiyor.'));
           Insert (list: (*LanguageList-Vietnamese*), position: (1), value: ('Ngày xửa ngày xưa, có một vị vua độc ác tên là Kansa. Ông ấy thường hành hạ người dân như một hình thức để cúng tế các vị thần.'));
           Insert (list: (*LanguageList-Vietnamese*), position: (2), value: ('Một lời tiên tri bảo rằng Lãnh chúa Vishnu sẽ được đầu thai thành con trai của chị gái Kansa nhằm tiêu diệt hắn.'));
           Insert (list: (*LanguageList-Vietnamese*), position: (3), value: ('Khi nghe được lời tiên tri, Kansa đã bắt giam chị gái của hắn với suy nghĩ là sẽ giết chết đứa trẻ trong ngày nó ra đời.'));
@@ -1604,7 +1604,7 @@ Program 'The Binding of Krishna' {
             Create clone of (actor or object: ('Arrow'));
           }
         }
-        When you receive (message: ('Start arrows' joystick control!')) {
+        When you receive (message: ('Start arrows\' joystick control!')) {
           Set (variable: ("Local: arrow joystick x"), value: (stage touch x( "Local: arrows' finger index" )));
           Set (variable: ("Local: arrow joystick y"), value: (stage touch y( "Local: arrows' finger index" )));
           Wait (seconds: ("Local: delta time for arrow direction calculation"));
@@ -1638,7 +1638,7 @@ Program 'The Binding of Krishna' {
             Set (variable: ("Local: last arrow joystick y"), value: ("Local: arrow joystick y"));
           }
         }
-        When you receive (message: ('Start Krishna's joystick control!')) {
+        When you receive (message: ('Start Krishna\'s joystick control!')) {
           Set (variable: ("Local: joystick x"), value: (stage touch x( "Local: joystick finger index" )));
           Set (variable: ("Local: joystick y"), value: (stage touch y( "Local: joystick finger index" )));
           Broadcast (message: ('Krishna: move!'));
