@@ -49,8 +49,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 @RunWith(Parameterized.class)
 public class ProjectRenamerSpecialCharactersTest {
 
-	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
-
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
@@ -103,7 +101,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertTrue(loadProject(renamedDirectory));
 
-		project = projectManager.getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
 	}
 
@@ -121,7 +119,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertTrue(loadProject(renamedDirectory));
 
-		project = projectManager.getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());
 	}
 }
