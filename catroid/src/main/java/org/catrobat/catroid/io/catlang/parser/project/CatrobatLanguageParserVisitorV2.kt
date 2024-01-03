@@ -32,19 +32,33 @@ import org.antlr.v4.runtime.tree.TerminalNode
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BrickBaseType
+import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.NoteBrick
+import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageArgumentResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBaseResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBrickResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageIntervalResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageKeyValueResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageListResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageProgramVisitResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickInputResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickLabelResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedScriptResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVariableResult
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
 import kotlin.math.max
 import kotlin.math.min
@@ -53,6 +67,9 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
     private val project = Project()
     private var currentScene: Scene? = null
     private var currentSprite: Sprite? = null
+    private var currentScript: Script? = null
+
+    private val userDefinedBricks = mutableMapOf<String, UserDefinedBrick>()
 
     override fun visit(tree: ParseTree?): CatrobatLanguageBaseResult {
         throw NotImplementedError("Not needed.")
@@ -368,6 +385,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         currentScene!!.spriteList.add(0, backgroundSprite)
         currentSprite = backgroundSprite
 
+        userDefinedBricks.clear()
+        userDefinedBricksInitialized = false
         visitActorContent(ctx.actorContent())
 
         currentSprite = null
@@ -382,6 +401,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         currentSprite = sprite
         currentScene!!.spriteList.add(sprite)
 
+        userDefinedBricks.clear()
+        userDefinedBricksInitialized = false
         visitActorContent(ctx.actorContent())
 
         currentSprite = null
@@ -468,33 +489,27 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             throw CatrobatLanguageParsingException("No valid scripts found.")
         }
         ctx.brick_with_body().forEach {
-            visitBrick_with_body(it)
+            val scriptBrick = (visitBrick_with_body(it) as CatrobatLanguageBrickResult).brick as ScriptBrick
+            currentSprite!!.scriptList.add(scriptBrick.script)
         }
         return CatrobatLanguageBaseResult()
     }
 
-    override fun visitUserDefinedScripts(ctx: CatrobatLanguageParser.UserDefinedScriptsContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
-    }
-
-    override fun visitUserDefinedScript(ctx: CatrobatLanguageParser.UserDefinedScriptContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
-    }
-
     override fun visitBrick_defintion(ctx: CatrobatLanguageParser.Brick_defintionContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
-    }
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid brick definition found.")
+        }
 
-    override fun visitUserDefinedBrick(ctx: CatrobatLanguageParser.UserDefinedBrickContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
-    }
+        if (ctx.brick_invocation() != null) {
+            return visitBrick_invocation(ctx.brick_invocation())
+        }
+        if (ctx.brick_with_body() != null) {
+            return visitBrick_with_body(ctx.brick_with_body())
+        }
+        if (ctx.NOTE_BRICK() != null) {
+            return CatrobatLanguageBrickResult(NoteBrick(ctx.NOTE_BRICK().text), mapOf())
+        }
 
-    override fun visitUserDefinedBrickPart(ctx: CatrobatLanguageParser.UserDefinedBrickPartContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
         return CatrobatLanguageBaseResult()
     }
 
@@ -510,20 +525,66 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             mapOf()
         }
 
+        val brick: Brick;
         if (ctx.parent is CatrobatLanguageParser.ScriptsContext) {
-            val scriptBrick = ScriptFactory.createScriptFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments.keys.toList()).scriptBrick
-            currentSprite!!.addScript(scriptBrick.script)
-            scriptBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+            brick = ScriptFactory.createScriptFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments.keys.toList()).scriptBrick
+            currentScript = brick.script
+            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+        } else if (ctx.parent is CatrobatLanguageParser.Brick_defintionContext) {
+            brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, false)
+            brick.parent = currentScript!!.scriptBrick
+            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+        } else {
+            throw IllegalArgumentException("Unknown context parent: ${ctx.parent}")
         }
 
-        // TODO: child bricks
+        // TODO: secondary list (else-branch) - missing in grammar
 
-        return CatrobatLanguageBaseResult()
+        if (ctx.brick_defintion() != null) {
+            ctx.brick_defintion().forEach {
+                val subBrick = (visitBrick_defintion(it) as CatrobatLanguageBrickResult).brick
+                subBrick.parent = brick
+                subBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+                if (brick is ScriptBrick) {
+                    brick.script.brickList.add(subBrick)
+                } else if (brick is CompositeBrick) {
+                    brick.nestedBricks.add(subBrick)
+                }
+            }
+        }
+
+        return CatrobatLanguageBrickResult(brick, arguments)
     }
 
     override fun visitBrick_invocation(ctx: CatrobatLanguageParser.Brick_invocationContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid brick invocation found.")
+        }
+
+        val arguments: Map<String, String> = if (ctx.brick_condition() != null) {
+            val result = visitBrick_condition(ctx.brick_condition()) as CatrobatLanguageArgumentResult
+            result.arguments
+        } else {
+            mapOf()
+        }
+
+        if (ctx.BRICK_NAME() != null) {
+            val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, false)
+            brick.parent = currentScript!!.scriptBrick
+            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+            return CatrobatLanguageBrickResult(brick, arguments)
+        }
+        if (ctx.userDefinedBrick() != null) {
+            val userDefinedBrickResult = visitUserDefinedBrick(ctx.userDefinedBrick()) as CatrobatLanguageUserDefinedBrickResult
+            if (!userDefinedBricks.containsKey(userDefinedBrickResult.userDefinedBrickText)) {
+                throw CatrobatLanguageParsingException("User defined brick ${userDefinedBrickResult.userDefinedBrickText} must be defined before it can be used.")
+            }
+            val userDefinedBrick = userDefinedBricks[userDefinedBrickResult.userDefinedBrickText]
+            val userDefinedBrickCopy = UserDefinedBrick(userDefinedBrick!!)
+            userDefinedBrickCopy.setCallingBrick(true)
+            return CatrobatLanguageBrickResult(userDefinedBrickCopy, arguments)
+        }
+        throw IllegalArgumentException("Unknown brick invocation: ${ctx.text}")
     }
 
     override fun visitBrick_condition(ctx: CatrobatLanguageParser.Brick_conditionContext?): CatrobatLanguageBaseResult {
@@ -583,5 +644,88 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         val startIndex = min(ctx.start.startIndex, ctx.stop.startIndex)
         val stopIndex = max(ctx.start.stopIndex, ctx.stop.stopIndex)
         return CatrobatLanguageIntervalResult(startIndex, stopIndex)
+    }
+
+    private var userDefinedBricksInitialized: Boolean = false
+
+    override fun visitUserDefinedScripts(ctx: CatrobatLanguageParser.UserDefinedScriptsContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid user defined scripts found.")
+        }
+
+        ctx.userDefinedScript().forEach {
+            val userDefinedBrickResult = visitUserDefinedScript(it) as CatrobatLanguageUserDefinedBrickResult
+            userDefinedBricks[userDefinedBrickResult.userDefinedBrickText] = userDefinedBrickResult.userDefinedBrick
+            currentSprite!!.userDefinedBrickList.add(userDefinedBrickResult.userDefinedBrick)
+        }
+
+        userDefinedBricksInitialized = true
+
+        ctx.userDefinedScript().forEach {
+            val userDefinedScriptResult = visitUserDefinedScript(it) as CatrobatLanguageUserDefinedScriptResult
+            currentSprite!!.scriptList.add(userDefinedScriptResult.userDefinedScript.script)
+        }
+
+        return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitUserDefinedScript(ctx: CatrobatLanguageParser.UserDefinedScriptContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid user defined script found.")
+        }
+
+        val userDefinedBrickResult = visitUserDefinedBrick(ctx.userDefinedBrick()) as CatrobatLanguageUserDefinedBrickResult
+        if (!userDefinedBricksInitialized) {
+            userDefinedBrickResult.userDefinedBrick.setCallingBrick(false)
+            return userDefinedBrickResult
+        }
+
+        val userDefinedBrick = userDefinedBricks[userDefinedBrickResult.userDefinedBrickText]
+        val userDefinedScript = UserDefinedReceiverBrick(userDefinedBrick)
+
+        if (ctx.brick_defintion() != null) {
+            ctx.brick_defintion().forEach {
+                val subBrick = (visitBrick_defintion(it) as CatrobatLanguageBrickResult).brick
+                subBrick.parent = userDefinedScript
+                userDefinedScript.script.brickList.add(subBrick)
+            }
+        }
+        return CatrobatLanguageUserDefinedScriptResult(userDefinedScript)
+    }
+
+    override fun visitUserDefinedBrick(ctx: CatrobatLanguageParser.UserDefinedBrickContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid user defined brick found.")
+        }
+        val udb = UserDefinedBrick()
+        val udbString = StringBuilder()
+
+        ctx.userDefinedBrickPart().forEach {
+            val userDefinedBrickPartResult = visitUserDefinedBrickPart(it)
+            if (userDefinedBrickPartResult is CatrobatLanguageUserDefinedBrickLabelResult) {
+                udb.addLabel(userDefinedBrickPartResult.label)
+                udbString.append(userDefinedBrickPartResult.label)
+            }
+            if (userDefinedBrickPartResult is CatrobatLanguageUserDefinedBrickInputResult) {
+                udb.addInput(userDefinedBrickPartResult.input)
+                udbString.append("[${userDefinedBrickPartResult.input}]")
+            }
+        }
+        return CatrobatLanguageUserDefinedBrickResult(udbString.toString(), udb)
+    }
+
+    override fun visitUserDefinedBrickPart(ctx: CatrobatLanguageParser.UserDefinedBrickPartContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid user defined brick part found.")
+        }
+
+        if (ctx.UDB_LABEL() != null) {
+            return CatrobatLanguageUserDefinedBrickLabelResult(ctx.UDB_LABEL().text.trim())
+        }
+        if (ctx.UDB_PARAM_TEXT() != null) {
+            return CatrobatLanguageUserDefinedBrickInputResult(ctx.UDB_PARAM_TEXT().text.trim())
+        }
+
+        throw IllegalArgumentException("Undefined user defined brick part - all null")
     }
 }

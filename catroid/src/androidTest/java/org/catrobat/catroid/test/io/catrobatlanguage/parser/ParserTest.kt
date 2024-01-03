@@ -65,6 +65,7 @@ Program 'My project' {
       }
       Scripts {
         When condition becomes true (condition: (1 < 2)) {
+          Set (x: (0));
           `Label text [asdf]` ([asdf]: (0));
         }
         When condition becomes true (condition: ("asdf")) {

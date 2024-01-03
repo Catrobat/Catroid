@@ -36,9 +36,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
@@ -51,9 +54,12 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -417,5 +423,19 @@ public class UserDefinedBrick extends FormulaBrick {
 			addCatroabLanguageBrickName(catrobatLanguage);
 			return catrobatLanguage.toString();
 		}
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		// TODO
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		List<String> inputNames = new ArrayList<>();
+		for (UserDefinedBrickInput input : getUserDefinedBrickInputs()) {
+			inputNames.add(input.getName());
+		}
+		return inputNames;
 	}
 }
