@@ -418,14 +418,26 @@ public class InternToExternGenerator {
 			case FUNCTION_PARAMETER_DELIMITER:
 				return ",";
 			case USER_VARIABLE:
-				return "\"" + internToken.getTokenStringValue() + "\"";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatVariable(internToken.getTokenStringValue());
+				} else {
+					return "\"" + internToken.getTokenStringValue() + "\"";
+				}
 			case USER_LIST:
-				return "*" + internToken.getTokenStringValue() + "*";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatList(internToken.getTokenStringValue());
+				} else {
+					return "*" + internToken.getTokenStringValue() + "*";
+				}
 			case USER_DEFINED_BRICK_INPUT:
-				return "[" + internToken.getTokenStringValue() + "]";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatUserDefinedBrickParameter(internToken.getTokenStringValue());
+				} else {
+					return "[" + internToken.getTokenStringValue() + "]";
+				}
 			case STRING:
 				if (this.isCatrobatLanguageMode) {
-					return CatrobatLanguageUtils.getEscapedString(internToken.getTokenStringValue());
+					return CatrobatLanguageUtils.formatString(internToken.getTokenStringValue());
 				} else {
 					return "\'" + internToken.getTokenStringValue() + "\'";
 				}

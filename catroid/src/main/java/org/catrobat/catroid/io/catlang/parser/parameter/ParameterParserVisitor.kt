@@ -441,30 +441,34 @@ internal class ParameterParserVisitor(
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.NUMBER().text, tryGetParentFormulaElement()))
         }
         if (context.STRING() != null) {
-            val trimmedString = context.STRING().text.substring(1, context.STRING().text.length - 1).replace("\\'", "'")
+            val trimmedString = trimFirstAndLastCharacter(context.STRING().text).replace("\\'", "'")
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, tryGetParentFormulaElement()))
         }
         if (context.UDB_PARAMETER() != null) {
-            val trimmedUDBParameter = context.UDB_PARAMETER().text.trimStart('[').trimEnd(']')
+            val trimmedUDBParameter = trimFirstAndLastCharacter(context.UDB_PARAMETER().text).replace("\\[", "[").replace("\\]", "]")
             if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
                 throw ArgumentParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, tryGetParentFormulaElement()))
         }
         if (context.LIST() != null) {
-            val trimmedListParameter = context.LIST().text.trim('*')
+            val trimmedListParameter = trimFirstAndLastCharacter(context.LIST().text).replace("\\*", "*")
             if (!userLists.contains(trimmedListParameter)) {
                 throw ArgumentParsingException("Unknown list: $trimmedListParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, tryGetParentFormulaElement()))
         }
         if (context.VARIABLE() != null) {
-            val trimmedVariableParameter = context.VARIABLE().text.trim('"')
+            val trimmedVariableParameter = trimFirstAndLastCharacter(context.VARIABLE().text).replace("\\\"", "\"")
             if (!variables.contains(trimmedVariableParameter)) {
                 throw ArgumentParsingException("Unknown variable: $trimmedVariableParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, tryGetParentFormulaElement()))
         }
         throw ArgumentParsingException("No literal found")
+    }
+
+    private fun trimFirstAndLastCharacter(string: String): String {
+        return string.substring(1, string.length - 1)
     }
 }

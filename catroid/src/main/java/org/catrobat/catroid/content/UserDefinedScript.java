@@ -78,7 +78,7 @@ public class UserDefinedScript extends Script {
 
 	public List<UserData> getAllUserDefinedBrickInputs() {
 		List<UserData> userDefinedBrickInputs = new ArrayList<>();
-		for (Object variable : userDefinedBrickInputs) {
+		for (Object variable : this.userDefinedBrickInputs) {
 			if (variable instanceof UserData) {
 				userDefinedBrickInputs.add((UserData) variable);
 			}
