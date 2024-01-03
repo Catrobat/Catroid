@@ -61,6 +61,7 @@ object CatrobatLanguageUtils {
     @JvmStatic
     fun formatUserDefinedBrickParameter(parameter: String) = "[${escapeCharacters(parameter, "[]`")}]"
 
+    @JvmStatic
     fun getEscapedString(string: String): String = "'${escapeCharacters(string, "'\r\n")}'"
 
     @JvmStatic
