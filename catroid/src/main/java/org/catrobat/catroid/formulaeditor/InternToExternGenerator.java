@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.utils.FormatNumberUtil;
 
 import java.util.HashMap;
@@ -423,7 +424,11 @@ public class InternToExternGenerator {
 			case USER_DEFINED_BRICK_INPUT:
 				return "[" + internToken.getTokenStringValue() + "]";
 			case STRING:
-				return "\'" + internToken.getTokenStringValue() + "\'";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.getEscapedString(internToken.getTokenStringValue());
+				} else {
+					return "\'" + internToken.getTokenStringValue() + "\'";
+				}
 			case COLLISION_FORMULA:
 				String collisionTag = CatroidApplication.getAppContext().getString(R.string
 						.formula_editor_function_collision);

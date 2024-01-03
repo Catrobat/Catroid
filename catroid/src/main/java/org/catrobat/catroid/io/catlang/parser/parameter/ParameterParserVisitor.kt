@@ -441,7 +441,7 @@ internal class ParameterParserVisitor(
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.NUMBER().text, tryGetParentFormulaElement()))
         }
         if (context.STRING() != null) {
-            val trimmedString = context.STRING().text.trim('\'');
+            val trimmedString = context.STRING().text.substring(1, context.STRING().text.length - 1).replace("\\'", "'")
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, tryGetParentFormulaElement()))
         }
         if (context.UDB_PARAMETER() != null) {
