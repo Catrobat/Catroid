@@ -1,6 +1,7 @@
 // Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/CatrobatParameterParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserVisitor;
 
 /**
  * This class provides an empty implementation of {@link CatrobatParameterParserVisitor},
@@ -46,6 +47,13 @@ public class CatrobatParameterParserBaseVisitor<T> extends AbstractParseTreeVisi
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitComparisonExpression(CatrobatParameterParser.ComparisonExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -54,6 +62,13 @@ public class CatrobatParameterParserBaseVisitor<T> extends AbstractParseTreeVisi
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitComparisonOperator(CatrobatParameterParser.ComparisonOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

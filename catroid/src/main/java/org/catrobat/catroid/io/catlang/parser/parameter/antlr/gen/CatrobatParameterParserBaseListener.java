@@ -4,6 +4,7 @@ package org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserListener;
 
 /**
  * This class provides an empty implementation of {@link CatrobatParameterParserListener},
@@ -65,6 +66,18 @@ public class CatrobatParameterParserBaseListener implements CatrobatParameterPar
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComparisonExpression(CatrobatParameterParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparisonExpression(CatrobatParameterParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAdditiveOperator(CatrobatParameterParser.AdditiveOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -84,6 +97,18 @@ public class CatrobatParameterParserBaseListener implements CatrobatParameterPar
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComparisonOperator(CatrobatParameterParser.ComparisonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparisonOperator(CatrobatParameterParser.ComparisonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

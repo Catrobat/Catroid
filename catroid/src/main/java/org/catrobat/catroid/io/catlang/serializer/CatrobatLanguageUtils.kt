@@ -82,7 +82,7 @@ object CatrobatLanguageUtils {
     fun getEnglishContextForFormulas(context: Context): Context {
         var configuration = context.resources.configuration
         configuration = Configuration(configuration)
-        configuration.setLocale(Locale("en"))
+        configuration.setLocale(Locale.ROOT)
         return context.createConfigurationContext(configuration)
     }
 

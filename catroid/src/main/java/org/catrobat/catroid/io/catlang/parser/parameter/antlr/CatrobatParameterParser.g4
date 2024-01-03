@@ -8,12 +8,6 @@ argument: expression EOF;
 
 expression
 	: additiveExpression
-	| expression OPERATOR_LOGIC_EQUAL expression
-	| expression OPERATOR_LOGIC_NOT_EQUAL expression
-	| expression OPERATOR_LOGIC_LOWER expression
-	| expression OPERATOR_LOGIC_GREATER expression
-	| expression OPERATOR_LOGIC_LOWER_EQUAL expression
-	| expression OPERATOR_LOGIC_GREATER_EQUAL expression
 	;
 
 additiveExpression
@@ -21,12 +15,18 @@ additiveExpression
     ;
 
 multiplicativeExpression
-    :   simpleExpression (multiplicativeOperator simpleExpression)*
+    :   comparisonExpression (multiplicativeOperator comparisonExpression)*
     ;
+
+comparisonExpression
+	: simpleExpression (comparisonOperator simpleExpression)*
+	;
 
 additiveOperator: OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_OR;
 
 multiplicativeOperator: OPERATOR_NUMERIC_MULTIPLY | OPERATOR_NUMERIC_DIVIDE | OPERATOR_LOGIC_AND;
+
+comparisonOperator: OPERATOR_LOGIC_EQUAL | OPERATOR_LOGIC_NOT_EQUAL | OPERATOR_LOGIC_LOWER | OPERATOR_LOGIC_GREATER | OPERATOR_LOGIC_LOWER_EQUAL | OPERATOR_LOGIC_GREATER_EQUAL;
 
 simpleExpression
 	: literal
@@ -41,7 +41,7 @@ sensorPropertyOrMethodInvocation: SENSOR_OR_PROPERTY_OR_METHOD methodParameters?
 methodParameters: BRACE_OPEN parameterList BRACE_CLOSE;
 parameterList: expression (COMMA expression)*;
 
-unaryExpression: (OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_NOT) expression;
+unaryExpression: (OPERATOR_NUMERIC_ADD | OPERATOR_NUMERIC_MINUS | OPERATOR_LOGIC_NOT) simpleExpression;
 
 literal
 	: NUMBER

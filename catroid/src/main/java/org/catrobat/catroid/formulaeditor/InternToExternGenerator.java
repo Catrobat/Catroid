@@ -442,7 +442,7 @@ public class InternToExternGenerator {
 					return "\'" + internToken.getTokenStringValue() + "\'";
 				}
 			case COLLISION_FORMULA:
-				String collisionTag = CatroidApplication.getAppContext().getString(R.string
+				String collisionTag = context.getString(R.string
 						.formula_editor_function_collision);
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
 

@@ -149,34 +149,7 @@ internal class ParameterParserVisitor(
         if (context.additiveExpression() != null) {
             return visitAdditiveExpression(context.additiveExpression())
         }
-
-        var operator: Operators? = null
-        if (context.OPERATOR_LOGIC_EQUAL() != null) {
-            operator = Operators.EQUAL
-        } else if (context.OPERATOR_LOGIC_NOT_EQUAL() != null) {
-            operator = Operators.NOT_EQUAL
-        } else if (context.OPERATOR_LOGIC_LOWER() != null) {
-            operator = Operators.SMALLER_THAN
-        } else if (context.OPERATOR_LOGIC_GREATER() != null) {
-            operator = Operators.GREATER_THAN
-        } else if (context.OPERATOR_LOGIC_LOWER_EQUAL() != null) {
-            operator = Operators.SMALLER_OR_EQUAL
-        } else if (context.OPERATOR_LOGIC_GREATER_EQUAL() != null) {
-            operator = Operators.GREATER_OR_EQUAL
-        }
-
-        if (operator != null) {
-            val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, tryGetParentFormulaElement())
-            parentFormulaStack.push(formulaElement)
-            val leftResult = visitExpression(context.expression(0))
-            val rightResult = visitExpression(context.expression(1))
-            formulaElement.setLeftChild((leftResult as FormulaElementVisitResult).formulaElement)
-            formulaElement.setRightChild((rightResult as FormulaElementVisitResult).formulaElement)
-            parentFormulaStack.pop()
-            return FormulaElementVisitResult(formulaElement)
-        }
-
-        throw ArgumentParsingException("No comparison operator found")
+        throw ArgumentParsingException("No valid expression found")
     }
 
     override fun visitAdditiveExpression(context: CatrobatParameterParser.AdditiveExpressionContext?): ArgumentBaseVisitResult {
@@ -210,12 +183,39 @@ internal class ParameterParserVisitor(
         if (context == null) {
             throw ArgumentParsingException("No multiplicative expression found")
         }
-        if (context.simpleExpression().count() == 1) {
-            return visitSimpleExpression(context.simpleExpression(0))
+        if (context.comparisonExpression().count() == 1) {
+            return visitComparisonExpression(context.comparisonExpression(0))
         }
         val multiplicativeExpressionStack = Stack<FormulaElement>()
         for (i in context.multiplicativeOperator().indices.reversed()) {
             val operator = (visitMultiplicativeOperator(context.multiplicativeOperator(i)) as OperatorVisitResult).operator
+            val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, tryGetParentFormulaElement())
+            parentFormulaStack.push(formulaElement)
+            if (multiplicativeExpressionStack.isNotEmpty()) {
+                multiplicativeExpressionStack.peek().setLeftChild(formulaElement)
+            }
+            val rightSimpleExpression = (visitComparisonExpression(context.comparisonExpression(i+1)) as FormulaElementVisitResult).formulaElement
+            formulaElement.setRightChild(rightSimpleExpression)
+            if (i == 0) {
+                val firstSimpleExpression = (visitComparisonExpression(context.comparisonExpression(i)) as FormulaElementVisitResult).formulaElement
+                formulaElement.setLeftChild(firstSimpleExpression)
+            }
+            multiplicativeExpressionStack.push(formulaElement)
+            parentFormulaStack.pop()
+        }
+        return FormulaElementVisitResult(multiplicativeExpressionStack.elementAt(0))
+    }
+
+    override fun visitComparisonExpression(context: CatrobatParameterParser.ComparisonExpressionContext?): ArgumentBaseVisitResult {
+        if (context == null) {
+            throw ArgumentParsingException("No multiplicative expression found")
+        }
+        if (context.simpleExpression().count() == 1) {
+            return visitSimpleExpression(context.simpleExpression(0))
+        }
+        val multiplicativeExpressionStack = Stack<FormulaElement>()
+        for (i in context.comparisonOperator().indices.reversed()) {
+            val operator = (visitComparisonOperator(context.comparisonOperator(i)) as OperatorVisitResult).operator
             val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, tryGetParentFormulaElement())
             parentFormulaStack.push(formulaElement)
             if (multiplicativeExpressionStack.isNotEmpty()) {
@@ -263,6 +263,26 @@ internal class ParameterParserVisitor(
             return OperatorVisitResult(Operators.LOGICAL_AND)
         }
         throw ArgumentParsingException("No known multiplicative operator found")
+    }
+
+    override fun visitComparisonOperator(context: CatrobatParameterParser.ComparisonOperatorContext?): ArgumentBaseVisitResult {
+        if (context == null) {
+            throw ArgumentParsingException("No comparison operator found")
+        }
+        if (context.OPERATOR_LOGIC_EQUAL() != null) {
+        return OperatorVisitResult(Operators.EQUAL);
+        } else if (context.OPERATOR_LOGIC_NOT_EQUAL() != null) {
+            return OperatorVisitResult(Operators.NOT_EQUAL)
+        } else if (context.OPERATOR_LOGIC_LOWER() != null) {
+            return OperatorVisitResult(Operators.SMALLER_THAN)
+        } else if (context.OPERATOR_LOGIC_GREATER() != null) {
+            return OperatorVisitResult(Operators.GREATER_THAN)
+        } else if (context.OPERATOR_LOGIC_LOWER_EQUAL() != null) {
+            return OperatorVisitResult(Operators.SMALLER_OR_EQUAL)
+        } else if (context.OPERATOR_LOGIC_GREATER_EQUAL() != null) {
+            return OperatorVisitResult(Operators.GREATER_OR_EQUAL)
+        }
+        throw ArgumentParsingException("No known comparison operator found")
     }
 
     override fun visitSimpleExpression(context: CatrobatParameterParser.SimpleExpressionContext?): ArgumentBaseVisitResult {
@@ -425,7 +445,7 @@ internal class ParameterParserVisitor(
 
         if (unaryFormulaElement != null) {
             parentFormulaStack.push(unaryFormulaElement)
-            val result = visitExpression(context.expression())
+            val result = visitSimpleExpression(context.simpleExpression())
             unaryFormulaElement.setRightChild((result as FormulaElementVisitResult).formulaElement)
             parentFormulaStack.pop()
             return FormulaElementVisitResult(unaryFormulaElement)

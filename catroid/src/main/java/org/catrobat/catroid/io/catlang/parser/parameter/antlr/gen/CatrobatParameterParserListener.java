@@ -48,6 +48,16 @@ public interface CatrobatParameterParserListener extends ParseTreeListener {
 	 */
 	void exitMultiplicativeExpression(CatrobatParameterParser.MultiplicativeExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#comparisonExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonExpression(CatrobatParameterParser.ComparisonExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#comparisonExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonExpression(CatrobatParameterParser.ComparisonExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatParameterParser#additiveOperator}.
 	 * @param ctx the parse tree
 	 */
@@ -67,6 +77,16 @@ public interface CatrobatParameterParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMultiplicativeOperator(CatrobatParameterParser.MultiplicativeOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatParameterParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonOperator(CatrobatParameterParser.ComparisonOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatParameterParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonOperator(CatrobatParameterParser.ComparisonOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatParameterParser#simpleExpression}.
 	 * @param ctx the parse tree
