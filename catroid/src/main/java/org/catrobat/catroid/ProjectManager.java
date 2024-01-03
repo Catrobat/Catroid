@@ -668,8 +668,7 @@ public final class ProjectManager {
 	}
 
 	public void moveChangedFlag(String source, String destination) {
-		Boolean value = downloadedProjects.get(source);
-		if (null != value) {
+		if (downloadedProjects.get(source) != null) {
 			downloadedProjects.remove(source);
 			downloadedProjects.put(destination, true);
 			saveDownloadedProjects();
