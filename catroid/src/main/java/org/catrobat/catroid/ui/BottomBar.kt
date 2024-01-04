@@ -56,4 +56,14 @@ object BottomBar {
     fun hidePlayButton(activity: Activity?) {
         activity?.findViewById<View?>(R.id.button_play)?.visibility = View.GONE
     }
+
+    @JvmStatic
+    fun showAiAssistButton(activity: Activity?) {
+        activity?.findViewById<View?>(R.id.button_ai_assist)?.visibility = View.VISIBLE
+    }
+
+    @JvmStatic
+    fun hideAiAssistButton(activity: Activity?) {
+        activity?.findViewById<View?>(R.id.button_ai_assist)?.visibility = View.GONE
+    }
 }

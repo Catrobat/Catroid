@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1964,7 +1964,6 @@
     <string name="search">ค้นหา</string>
     <string name="no_results_found">ไม่พบผลลัพธ์</string>
     <string name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
-    <string name="cut">ตัด</string>
     <string name="paste">วาง</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">เอฟเฟกต์อนุภาคจาง</string>

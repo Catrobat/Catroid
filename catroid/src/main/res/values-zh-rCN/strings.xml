@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1953,7 +1953,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="search">搜索</string>
     <string name="no_results_found">没有发现结果</string>
     <string name="query_field_is_empty">查询字段为空</string>
-    <string name="cut"> 剪切</string>
     <string name="paste">粘贴</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">淡出粒子效果</string>

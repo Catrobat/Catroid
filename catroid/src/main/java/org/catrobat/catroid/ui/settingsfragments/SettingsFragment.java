@@ -40,12 +40,15 @@ import android.util.DisplayMetrics;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment.Companion.Extension;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -55,6 +58,7 @@ import java.util.Locale;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
@@ -64,32 +68,30 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
 
-	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_PREFERENCE = "settings_mindstorms_nxt_bricks_preference";
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE = "settings_mindstorms_nxt_bricks_checkbox_preference";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
-	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_PREFERENCE = "settings_mindstorms_ev3_bricks_preference";
+	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE = "settings_mindstorms_ev3_bricks_checkbox_preference";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_EDIT_TRUSTED_DOMAINS = "setting_trusted_domains";
 	public static final String SETTINGS_SHOW_JUMPING_SUMO_BRICKS = "setting_parrot_jumping_sumo_bricks";
-	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
-	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
+	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS_PREFERENCE = "setting_embroidery_bricks_preference";
+	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE = "setting_embroidery_bricks_checkbox_preference";
+	public static final String SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE = "setting_enable_phiro_bricks_checkbox_preference";
+	public static final String SETTINGS_SHOW_PHIRO_BRICKS_PREFERENCE = "setting_enable_phiro_bricks_preference";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
-	public static final String SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS =
-			"setting_ai_speech_recognition";
-	public static final String SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS =
-			"setting_ai_speech_synthetization";
-	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS =
-			"setting_ai_face_detection";
-	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS =
-			"setting_ai_pose_detection";
-	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS =
-			"setting_ai_text_recognition";
-	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS =
-			"setting_ai_object_detection";
+	public static final String SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS = "setting_ai_speech_recognition";
+	public static final String SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS = "setting_ai_speech_synthetization";
+	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS = "setting_ai_face_detection";
+	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS = "setting_ai_pose_detection";
+	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recognition";
+	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS = "setting_ai_object_detection";
 
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
@@ -144,13 +146,15 @@ public class SettingsFragment extends PreferenceFragment {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
-			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
+			CheckBoxPreference embroideryPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE);
 			embroideryPreference.setEnabled(false);
 			screen.removePreference(embroideryPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-			CheckBoxPreference phiroPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
+			CheckBoxPreference phiroPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
@@ -198,6 +202,9 @@ public class SettingsFragment extends PreferenceFragment {
 			testPreference.setEnabled(BuildConfig.DEBUG);
 			screen.removePreference(testPreference);
 		}
+
+		setCorrectPreferenceViewForEmbroidery();
+		setCorrectPreferenceViewForPhiro();
 	}
 
 	@Override
@@ -265,7 +272,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static boolean isEmroiderySharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_EMBROIDERY_BRICKS, context);
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE, context);
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context) {
@@ -277,15 +284,16 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
+		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, context);
 	}
 
 	public static boolean isMindstormsEV3SharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, context);
+		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, context);
 	}
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE,
+				context);
 	}
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
@@ -294,7 +302,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value)
+				.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE, value)
 				.apply();
 	}
 
@@ -484,13 +492,13 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static void enableLegoMindstormsNXTBricks(Context context) {
 		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, true)
 				.apply();
 	}
 
 	public static void enableLegoMindstormsEV3Bricks(Context context) {
 		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true)
+				.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, true)
 				.apply();
 	}
 
@@ -579,5 +587,41 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
+	}
+
+	private void setCorrectPreferenceViewForEmbroidery() {
+		CheckBoxPreference embroideryCheckBoxPreference =
+				(CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE);
+		Preference simplePreferenceField = findPreference(SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS_PREFERENCE);
+
+		if (BuildConfig.FLAVOR != Constants.FLAVOR_EMBROIDERY_DESIGNER) {
+			getPreferenceScreen().removePreference(embroideryCheckBoxPreference);
+
+			simplePreferenceField.setOnPreferenceClickListener(preference -> {
+				AppStoreDialogFragment.newInstance(Extension.EMBROIDERY).show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
+						AppStoreDialogFragment.Companion.getTAG());
+				return true;
+			});
+		} else {
+			getPreferenceScreen().removePreference(simplePreferenceField);
+		}
+	}
+
+	private void setCorrectPreferenceViewForPhiro() {
+		CheckBoxPreference phiroCheckBoxPreference =
+				(CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE);
+		Preference simplePreferenceField = findPreference(SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_PREFERENCE);
+
+		if (BuildConfig.FLAVOR != Constants.FLAVOR_PHIRO) {
+			getPreferenceScreen().removePreference(phiroCheckBoxPreference);
+
+			simplePreferenceField.setOnPreferenceClickListener(preference -> {
+				AppStoreDialogFragment.newInstance(Extension.PHIRO).show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
+						AppStoreDialogFragment.Companion.getTAG());
+				return true;
+			});
+		} else {
+			getPreferenceScreen().removePreference(simplePreferenceField);
+		}
 	}
 }

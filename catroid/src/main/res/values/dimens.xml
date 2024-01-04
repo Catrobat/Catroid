@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
     <dimen name="brick_height_big" >120dp</dimen >
-    <dimen name="key_margin" >1dip</dimen >
+    <dimen name="key_margin" >5dp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
 
     <!-- Dialog -->

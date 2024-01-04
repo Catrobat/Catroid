@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,6 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -55,7 +54,7 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	private int sensorSpinnerPosition = 0;
 
 	private transient ElseBrick elseBrick = new ElseBrick(this);
-	private transient EndBrick endBrick = new EndBrick(this);
+	private transient EndBrick endBrick = new EndBrick(this, R.layout.brick_if_end_if);
 
 	private List<Brick> ifBranchBricks = new ArrayList<>();
 	private List<Brick> elseBranchBricks = new ArrayList<>();
@@ -98,7 +97,7 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	public Brick clone() throws CloneNotSupportedException {
 		PhiroIfLogicBeginBrick clone = (PhiroIfLogicBeginBrick) super.clone();
 		clone.elseBrick = new ElseBrick(clone);
-		clone.endBrick = new EndBrick(clone);
+		clone.endBrick = new EndBrick(clone, R.layout.brick_if_end_if);
 		clone.ifBranchBricks = new ArrayList<>();
 		clone.elseBranchBricks = new ArrayList<>();
 
@@ -332,58 +331,6 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
-	}
-
-	@VisibleForTesting
-	public static class EndBrick extends BrickBaseType {
-
-		EndBrick(PhiroIfLogicBeginBrick ifBrick) {
-			parent = ifBrick;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList();
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_if_end_if;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
-
-		@Override
-		public UUID getBrickID() {
-			return parent.getBrickID();
 		}
 	}
 }
