@@ -74,6 +74,11 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		return null;
 	}
 
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return ifBranchBricks.add(brick);
 	}

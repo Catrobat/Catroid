@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -47,6 +46,7 @@ import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguage
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageArgumentResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBaseResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBrickListResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageBrickResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageIntervalResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageKeyValueResult
@@ -60,6 +60,7 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVa
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
+import java.util.Stack
 import kotlin.math.max
 import kotlin.math.min
 
@@ -67,9 +68,10 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
     private val project = Project()
     private var currentScene: Scene? = null
     private var currentSprite: Sprite? = null
-    private var currentScript: Script? = null
 
     private val userDefinedBricks = mutableMapOf<String, UserDefinedBrick>()
+
+    private val parentBrickStack = Stack<Brick>()
 
     override fun visit(tree: ParseTree?): CatrobatLanguageBaseResult {
         throw NotImplementedError("Not needed.")
@@ -527,24 +529,39 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         val brick: Brick;
         if (ctx.parent is CatrobatLanguageParser.ScriptsContext) {
+            if (ctx.elseBranch() != null) {
+                throw CatrobatLanguageParsingException("Else branch must not occur in scripts.")
+            }
             brick = ScriptFactory.createScriptFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments.keys.toList()).scriptBrick
-            currentScript = brick.script
+            parentBrickStack.push(brick)
             brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
         } else if (ctx.parent is CatrobatLanguageParser.Brick_defintionContext) {
-            brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, false)
-            brick.parent = currentScript!!.scriptBrick
+            val elseBranchPresent = ctx.elseBranch() != null
+            brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, elseBranchPresent)
+            brick.parent = if (parentBrickStack.isEmpty()) {
+                null
+            } else {
+                parentBrickStack.peek()
+            }
+            parentBrickStack.push(brick)
+            if (brick !is CompositeBrick) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have a body.")
+            }
+            if (!brick.hasSecondaryList() && elseBranchPresent) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have an else branch.")
+            }
+            if (brick.hasSecondaryList() && !elseBranchPresent) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must have an else branch.")
+            }
+
             brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
         } else {
             throw IllegalArgumentException("Unknown context parent: ${ctx.parent}")
         }
 
-        // TODO: secondary list (else-branch) - missing in grammar
-
         if (ctx.brick_defintion() != null) {
             ctx.brick_defintion().forEach {
                 val subBrick = (visitBrick_defintion(it) as CatrobatLanguageBrickResult).brick
-                subBrick.parent = brick
-                subBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
                 if (brick is ScriptBrick) {
                     brick.script.brickList.add(subBrick)
                 } else if (brick is CompositeBrick) {
@@ -553,7 +570,30 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             }
         }
 
+        if (ctx.elseBranch() != null && brick is CompositeBrick && brick.hasSecondaryList()) {
+            parentBrickStack.push(brick.secondaryNestedBricksParent)
+            val elseBranch = (visitElseBranch(ctx.elseBranch()) as CatrobatLanguageBrickListResult).bricks
+            parentBrickStack.pop()
+            brick.secondaryNestedBricks.addAll(elseBranch)
+        }
+
+        parentBrickStack.pop()
+
         return CatrobatLanguageBrickResult(brick, arguments)
+    }
+
+    override fun visitElseBranch(ctx: CatrobatLanguageParser.ElseBranchContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid else branch found.")
+        }
+        val bricks = arrayListOf<Brick>()
+        if (ctx.brick_defintion() != null) {
+            ctx.brick_defintion().forEach {
+                val brick = (visitBrick_defintion(it) as CatrobatLanguageBrickResult).brick
+                bricks.add(brick)
+            }
+        }
+        return CatrobatLanguageBrickListResult(bricks)
     }
 
     override fun visitBrick_invocation(ctx: CatrobatLanguageParser.Brick_invocationContext?): CatrobatLanguageBaseResult {
@@ -570,7 +610,11 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         if (ctx.BRICK_NAME() != null) {
             val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, false)
-            brick.parent = currentScript!!.scriptBrick
+            brick.parent = if (parentBrickStack.isEmpty()) {
+                null
+            } else {
+                parentBrickStack.peek()
+            }
             brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
             return CatrobatLanguageBrickResult(brick, arguments)
         }
@@ -623,15 +667,20 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         val argumentName = ctx.PARAM_MODE_NAME().text.trim()
         val formulaInterval = (visitFormula(ctx.formula()) as CatrobatLanguageIntervalResult)
 
+        // TODO: find a better way!
         var formulaValue = ""
-        var formulaStartIndex = formulaInterval.start
-        var formulaStopIndex = formulaInterval.stop
-        if (bracketOpenIndex == formulaInterval.start) {
-            formulaStartIndex += 1
-        }
-        if (bracketCloseIndex == formulaInterval.stop) {
-            formulaStopIndex -= 1
-        }
+//        var formulaStartIndex = formulaInterval.start
+//        var formulaStopIndex = formulaInterval.stop
+//        if (bracketOpenIndex == formulaInterval.start) {
+//            formulaStartIndex += 1
+//        }
+//        if (bracketCloseIndex == formulaInterval.stop) {
+//            formulaStopIndex -= 1
+//        }
+
+        val formulaStartIndex = bracketOpenIndex + 1
+        val formulaStopIndex = bracketCloseIndex - 1
+
         formulaValue = ctx.formula().start.inputStream.getText(Interval(formulaStartIndex, formulaStopIndex))
 
         return CatrobatLanguageKeyValueResult(argumentName, formulaValue)

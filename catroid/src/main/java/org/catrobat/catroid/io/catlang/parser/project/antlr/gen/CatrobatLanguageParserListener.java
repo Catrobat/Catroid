@@ -338,6 +338,16 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_invocation}.
 	 * @param ctx the parse tree
 	 */

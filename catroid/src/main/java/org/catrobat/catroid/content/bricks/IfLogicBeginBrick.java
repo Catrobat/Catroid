@@ -87,6 +87,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		return elseBranchBricks;
 	}
 
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return elseBrick;
+	}
+
 	public boolean addBrickToIfBranch(Brick brick) {
 		return ifBranchBricks.add(brick);
 	}

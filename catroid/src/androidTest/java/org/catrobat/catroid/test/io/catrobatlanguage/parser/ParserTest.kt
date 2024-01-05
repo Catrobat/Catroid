@@ -54,34 +54,87 @@ Program 'My project' {
     Display mode: 'STRETCH'
   }
 
-  Globals {
-    "asdf"
-  }
 
   Scene 'Scene' {
     Background {
       Looks {
-        'Background': 'Background.png'
+        'Background': 'img.png'
       }
       Scripts {
-        When condition becomes true (condition: (1 < 2)) {
-          Set (x: (0));
-          `Label text [asdf]` ([asdf]: (0));
-        }
-        When condition becomes true (condition: ("asdf")) {
-        }
-        When tapped (gamepad button: (A)) {
+        When tapped {
+          Set (x: (random value from to( - 10 , 10 )));
+          Forever {
+            Set (y: (200));
+            If (condition: (1 < 2)) {
+              Change x by (value: (10));
+            } else {
+              Change y by (value: (10));
+            }
+            Move (steps: (10));
+          }
+          Turn (direction: (right), degrees: (15));
         }
       }
-      User Defined Bricks {
-        Define `Label text [asdf]` with screen refresh as {
-          Set (x: ([asdf]));
-          `Label text [asdf]` ([asdf]: (0));
+    }
+    Actor or object 'Clouds1' {
+      Looks {
+        'Clouds': 'img_#0.png'
+      }
+      Scripts {
+        When scene starts {
+          Place at (x: (0), y: (0));
+          Glide to (x: (- 1080), y: (0), seconds: (5));
+          Place at (x: (1080), y: (0));
+          Forever {
+            Glide to (x: (- 1080), y: (0), seconds: (10));
+            Place at (x: (1080), y: (0));
+          }
+        }
+      }
+    }
+    Actor or object 'Clouds2' {
+      Looks {
+        'Clouds': 'img_#1.png'
+      }
+      Scripts {
+        When scene starts {
+          Place at (x: (1080), y: (0));
+          Forever {
+            Glide to (x: (- 1080), y: (0), seconds: (10));
+            Place at (x: (1080), y: (0));
+          }
+        }
+      }
+    }
+    Actor or object 'Animal' {
+      Looks {
+        'Wings up': 'img_#2.png',
+        'Wings down': 'img_#3.png'
+      }
+      Sounds {
+        'Tweet1': 'snd.wav',
+        'Tweet2': 'snd_#0.wav'
+      }
+      Scripts {
+        When scene starts {
+          Forever {
+            Glide to (x: (random value from to( - 300 , 300 )), y: (random value from to( - 200 , 200 )), seconds: (1));
+          }
+        }
+        When scene starts {
+          Forever {
+            Next look;
+            Wait (seconds: (0.2));
+          }
+        }
+        When tapped {
+          Start (sound: ('Tweet1'));
         }
       }
     }
   }
-}""".trimIndent()
+}
+""".trimIndent()
     }
 
     fun getTestProgramString(): String {

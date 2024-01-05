@@ -53,28 +53,33 @@ class CatrobatLanguageParser {
 
     companion object {
         fun parseProgramFromString(program: String, context: Context): Project? {
-            val lexer = CatrobatLanguageLexer(CharStreams.fromString(program))
-            val lexerErrorListener = LexerErrorListener()
-            lexer.removeErrorListeners()
-            lexer.addErrorListener(lexerErrorListener)
+            try {
+                val lexer = CatrobatLanguageLexer(CharStreams.fromString(program))
+                val lexerErrorListener = LexerErrorListener()
+                lexer.removeErrorListeners()
+                lexer.addErrorListener(lexerErrorListener)
 
-            val parser = CatrobatLanguageParser(CommonTokenStream(lexer))
-            val parserErrorListener = ParserErrorListener()
-            parser.removeErrorListeners()
-            parser.addErrorListener(parserErrorListener)
+                val parser = CatrobatLanguageParser(CommonTokenStream(lexer))
+                val parserErrorListener = ParserErrorListener()
+                parser.removeErrorListeners()
+                parser.addErrorListener(parserErrorListener)
 
-            val programContext = parser.program()
+                val programContext = parser.program()
 
-            throwErrorIfErrorsPresent(lexerErrorListener.errors)
-            throwErrorIfErrorsPresent(parserErrorListener.errors)
+                throwErrorIfErrorsPresent(lexerErrorListener.errors)
+                throwErrorIfErrorsPresent(parserErrorListener.errors)
 
-            val visitor = CatrobatLanguageParserVisitorV2(context)
-            val result = visitor.visitProgram(programContext)
+                val visitor = CatrobatLanguageParserVisitorV2(context)
+                val result = visitor.visitProgram(programContext)
 
-            return if (result is CatrobatLanguageProgramVisitResult) {
-                result.project
-            } else {
-                null
+                return if (result is CatrobatLanguageProgramVisitResult) {
+                    result.project
+                } else {
+                    null
+                }
+            } catch(t: Throwable) {
+                println(t.message)
+                throw t
             }
         }
 

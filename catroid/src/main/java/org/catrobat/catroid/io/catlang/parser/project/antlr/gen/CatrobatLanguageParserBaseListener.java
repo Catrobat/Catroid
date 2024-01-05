@@ -414,6 +414,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx) { }
 	/**
 	 * {@inheritDoc}

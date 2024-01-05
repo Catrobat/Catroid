@@ -68,6 +68,11 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 		return null;
 	}
 
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return loopBricks.add(brick);
 	}

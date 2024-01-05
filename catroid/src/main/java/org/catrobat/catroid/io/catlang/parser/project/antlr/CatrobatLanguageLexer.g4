@@ -49,6 +49,7 @@ BACKGROUND: 'Background';
 SCRIPTS: 'Scripts';
 USER_DEFINED_SCRIPTS: 'User Defined Bricks';
 UDB_DEFINE: 'Define';
+ELSE_BRICK: 'Else' | 'else';
 
 NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
 fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];

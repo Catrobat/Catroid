@@ -76,8 +76,8 @@ background
 actor
 	: ACTOR_OR_OBJECT
 	  STRING
-	  OF_TYPE
-	  STRING
+	  (OF_TYPE
+	  STRING)?
 	  CURLY_BRACKET_OPEN
 	  actorContent
 	  CURLY_BRACKET_CLOSE
@@ -156,12 +156,21 @@ brick_with_body
 	  BRICK_BODY_OPEN
 	  brick_defintion*
 	  CURLY_BRACKET_CLOSE
+	  elseBranch?
 	| DISABLED_BRICK_INDICATION
 	  BRICK_NAME
 	  brick_condition?
 	  BRICK_BODY_OPEN
 	  brick_defintion*
 	  DISABLED_BRICK_INDICATION
+	  CURLY_BRACKET_CLOSE
+	  elseBranch?
+	;
+
+elseBranch
+	: ELSE_BRICK
+	  CURLY_BRACKET_OPEN
+	  brick_defintion*
 	  CURLY_BRACKET_CLOSE
 	;
 

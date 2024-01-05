@@ -67,12 +67,12 @@ public class ParameterParser(private val context: Context, private val project: 
         parser.removeErrorListeners()
         parser.addErrorListener(parserErrorListener)
 
-        val argument = parser.argument()
-        throwArgumentParsingException(lexerErrorListener.errors)
-        throwArgumentParsingException(parserErrorListener.errors)
+        val argumentContext = parser.argument()
+        throwArgumentParsingException(argument, lexerErrorListener.errors)
+        throwArgumentParsingException(argument, parserErrorListener.errors)
 
         val visitor = ParameterParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters())
-        return (visitor.visitArgument(argument) as FormulaVisitResult).formula
+        return (visitor.visitArgument(argumentContext) as FormulaVisitResult).formula
     }
 
     private fun getLists(): List<String> {
@@ -98,9 +98,9 @@ public class ParameterParser(private val context: Context, private val project: 
         return emptyList()
     }
 
-    private fun throwArgumentParsingException(errors: List<String>) {
+    private fun throwArgumentParsingException(argument: String, errors: List<String>) {
         if (errors.isNotEmpty()) {
-            throw ArgumentParsingException(errors.joinToString("\n"))
+            throw ArgumentParsingException("Error while parsing argument $argument:" + errors.joinToString("\n"))
         }
     }
 }

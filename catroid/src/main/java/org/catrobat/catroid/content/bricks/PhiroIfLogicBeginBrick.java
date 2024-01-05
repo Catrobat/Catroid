@@ -74,6 +74,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		return elseBranchBricks;
 	}
 
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return elseBrick;
+	}
+
 	public boolean addBrickToIfBranch(Brick brick) {
 		return ifBranchBricks.add(brick);
 	}

@@ -71,6 +71,11 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 		return null;
 	}
 
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return loopBricks.add(brick);
 	}

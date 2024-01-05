@@ -73,6 +73,7 @@ import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -118,6 +119,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -394,6 +396,10 @@ public final class XstreamSerializer {
 		xstream.omitField(WhenGamepadButtonBrick.class, "spinner");
 		xstream.omitField(DronePlayLedAnimationBrick.class, "animationSpinner");
 		xstream.omitField(PlayDrumForBeatsBrick.class, "spinner");
+
+		xstream.omitField(DronePlayLedAnimationBrick.class, "spinnerSelectionIndex");
+		xstream.omitField(FormulaBrick.class, "catrobatLanguageFormulaParameters");
+		xstream.omitField(LegoEv3SetLedBrick.class, "spinnerSelectionIndex");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);

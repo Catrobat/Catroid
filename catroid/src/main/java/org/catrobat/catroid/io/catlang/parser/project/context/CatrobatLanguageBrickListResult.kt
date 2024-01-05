@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.io.catlang.parser.project.context
 
-import java.util.List;
+import org.catrobat.catroid.content.bricks.Brick
 
-public interface CompositeBrick extends Brick {
-
-	boolean hasSecondaryList();
-
-	List<Brick> getNestedBricks();
-
-	List<Brick> getSecondaryNestedBricks();
-
-	Brick getSecondaryNestedBricksParent();
+class CatrobatLanguageBrickListResult(val bricks: List<Brick>) : CatrobatLanguageBaseResult() {
 }

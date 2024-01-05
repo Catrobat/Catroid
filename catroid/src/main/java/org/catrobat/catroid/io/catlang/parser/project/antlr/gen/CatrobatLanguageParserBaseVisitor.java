@@ -250,6 +250,13 @@ public class CatrobatLanguageParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

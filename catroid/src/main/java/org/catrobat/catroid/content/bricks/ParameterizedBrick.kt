@@ -55,6 +55,9 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
     override fun getNestedBricks(): List<Brick> = loopBricks
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
+    override fun getSecondaryNestedBricksParent(): Brick {
+        TODO("Not yet implemented")
+    }
 
     fun getEndBrick(): ParameterizedEndBrick = endBrick
 
