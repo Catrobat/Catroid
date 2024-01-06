@@ -62,8 +62,7 @@ Program 'My project' {
       }
       Scripts {
         When tapped {
-          Set (x: (1 + 2 / ((8/9) / ("variable" / (*list* / [udbparam])))));
-          Set (x: (random value from to( - 10 , 10 )));
+          Set (x: (100));
           Forever {
             Set (y: (200));
             If (condition: (1 < 2)) {
@@ -83,13 +82,24 @@ Program 'My project' {
       }
       Scripts {
         When scene starts {
+          # add comment here…
           Place at (x: (0), y: (0));
+          Emergency AR.Drone 2.0;
           Glide to (x: (- 1080), y: (0), seconds: (5));
           Place at (x: (1080), y: (0));
-          Forever {
+          /* Forever {
             Glide to (x: (- 1080), y: (0), seconds: (10));
-            Place at (x: (1080), y: (0));
-          }
+          } */
+        }
+      }
+      User Defined Bricks {
+        Define `Label text [Name of input]` with screen refresh as {
+          /* If (condition: (1 < 2)) {
+            // Change y by (value: (10));
+          } else {
+            // If on edge, bounce;
+          } */
+          Place at (x: (1080), y: (0));
         }
       }
     }
@@ -99,7 +109,7 @@ Program 'My project' {
       }
       Scripts {
         When scene starts {
-          Place at (x: (1080), y: (0));
+          // Place at (x: (1080), y: (0));
           Forever {
             Glide to (x: (- 1080), y: (0), seconds: (10));
             Place at (x: (1080), y: (0));

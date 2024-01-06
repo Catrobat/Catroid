@@ -342,6 +342,54 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBrickWithBody(CatrobatLanguageParser.BrickWithBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBrickWithBody(CatrobatLanguageParser.BrickWithBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBrickInvocation(CatrobatLanguageParser.BrickInvocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBrickInvocation(CatrobatLanguageParser.BrickInvocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterUserDefinedScripts(CatrobatLanguageParser.UserDefinedScriptsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -361,18 +409,6 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -402,61 +438,25 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx) { }
+	@Override public void enterBrickCondition(CatrobatLanguageParser.BrickConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx) { }
+	@Override public void exitBrickCondition(CatrobatLanguageParser.BrickConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	@Override public void enterArgumentList(CatrobatLanguageParser.ArgumentListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBrick_condition(CatrobatLanguageParser.Brick_conditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBrick_condition(CatrobatLanguageParser.Brick_conditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArg_list(CatrobatLanguageParser.Arg_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArg_list(CatrobatLanguageParser.Arg_listContext ctx) { }
+	@Override public void exitArgumentList(CatrobatLanguageParser.ArgumentListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

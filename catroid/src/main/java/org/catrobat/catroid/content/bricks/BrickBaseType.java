@@ -335,7 +335,11 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("// ");
+			if (withBody) {
+				catrobatLanguage.append("/* ");
+			} else {
+				catrobatLanguage.append("// ");
+			}
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
@@ -352,12 +356,11 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
-
+		catrobatLanguage.append("}");
 		if (commentedOut) {
-			catrobatLanguage.append("// ");
+			catrobatLanguage.append(" */");
 		}
-
-		catrobatLanguage.append("}\n");
+		catrobatLanguage.append("\n");
 	}
 
 	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
@@ -397,7 +400,11 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("// ");
+			if (withBody) {
+				catrobatLanguage.append("/* ");
+			} else {
+				catrobatLanguage.append("// ");
+			}
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
@@ -443,7 +450,6 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	}
 
 	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		// TODO: enable again
 //		Collection<String> requiredArguments = getRequiredArgumentNames();
 //		Collection<String> argumentsPresent = arguments.keySet();
 //

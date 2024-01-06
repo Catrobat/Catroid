@@ -278,6 +278,46 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickDefintion}.
+	 * @param ctx the parse tree
+	 */
+	void enterBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brickDefintion}.
+	 * @param ctx the parse tree
+	 */
+	void exitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickWithBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterBrickWithBody(CatrobatLanguageParser.BrickWithBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brickWithBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitBrickWithBody(CatrobatLanguageParser.BrickWithBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickInvocation}.
+	 * @param ctx the parse tree
+	 */
+	void enterBrickInvocation(CatrobatLanguageParser.BrickInvocationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brickInvocation}.
+	 * @param ctx the parse tree
+	 */
+	void exitBrickInvocation(CatrobatLanguageParser.BrickInvocationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedScripts}.
 	 * @param ctx the parse tree
 	 */
@@ -297,16 +337,6 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
-	 * @param ctx the parse tree
-	 */
-	void enterBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
-	 * @param ctx the parse tree
-	 */
-	void exitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrick}.
 	 * @param ctx the parse tree
@@ -328,55 +358,25 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx);
+	void enterBrickCondition(CatrobatLanguageParser.BrickConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brickCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx);
+	void exitBrickCondition(CatrobatLanguageParser.BrickConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#argumentList}.
 	 * @param ctx the parse tree
 	 */
-	void enterElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	void enterArgumentList(CatrobatLanguageParser.ArgumentListContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#argumentList}.
 	 * @param ctx the parse tree
 	 */
-	void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_invocation}.
-	 * @param ctx the parse tree
-	 */
-	void enterBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brick_invocation}.
-	 * @param ctx the parse tree
-	 */
-	void exitBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brick_condition}.
-	 * @param ctx the parse tree
-	 */
-	void enterBrick_condition(CatrobatLanguageParser.Brick_conditionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#brick_condition}.
-	 * @param ctx the parse tree
-	 */
-	void exitBrick_condition(CatrobatLanguageParser.Brick_conditionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CatrobatLanguageParser#arg_list}.
-	 * @param ctx the parse tree
-	 */
-	void enterArg_list(CatrobatLanguageParser.Arg_listContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CatrobatLanguageParser#arg_list}.
-	 * @param ctx the parse tree
-	 */
-	void exitArg_list(CatrobatLanguageParser.Arg_listContext ctx);
+	void exitArgumentList(CatrobatLanguageParser.ArgumentListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#argument}.
 	 * @param ctx the parse tree

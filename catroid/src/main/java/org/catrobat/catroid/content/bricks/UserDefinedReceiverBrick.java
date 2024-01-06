@@ -179,9 +179,6 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 		StringBuilder catrobatLanguage = new StringBuilder(100);
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
-		if (isCommentedOut()) {
-			catrobatLanguage.append("// ");
-		}
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(' ');
 
@@ -200,10 +197,6 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 		catrobatLanguage.append(indention);
-
-		if (isCommentedOut()) {
-			catrobatLanguage.append("// ");
-		}
 		catrobatLanguage.append("}\n");
 		return catrobatLanguage.toString();
 	}

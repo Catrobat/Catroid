@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterLexer
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
@@ -93,7 +95,10 @@ public class ParameterParser(private val context: Context, private val project: 
     private fun getUserDefinedBrickParameters(): List<String> {
         val script = brick.script
         if (script is UserDefinedScript) {
-            return script.allUserDefinedBrickInputs.map { it.name  }
+            val scriptBrick = script.scriptBrick
+            if (scriptBrick is UserDefinedReceiverBrick) {
+                return scriptBrick.userDefinedBrick.userDefinedBrickInputs.map { it.name }
+            }
         }
         return emptyList()
     }

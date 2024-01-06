@@ -76,16 +76,6 @@ public class UserDefinedScript extends Script {
 		return null;
 	}
 
-	public List<UserData> getAllUserDefinedBrickInputs() {
-		List<UserData> userDefinedBrickInputs = new ArrayList<>();
-		for (Object variable : this.userDefinedBrickInputs) {
-			if (variable instanceof UserData) {
-				userDefinedBrickInputs.add((UserData) variable);
-			}
-		}
-		return userDefinedBrickInputs;
-	}
-
 	public UUID getUserDefinedBrickID() {
 		return userDefinedBrickID;
 	}

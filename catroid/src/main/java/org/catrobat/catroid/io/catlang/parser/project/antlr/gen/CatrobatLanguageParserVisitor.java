@@ -173,6 +173,30 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickDefintion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickWithBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBrickWithBody(CatrobatLanguageParser.BrickWithBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickInvocation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBrickInvocation(CatrobatLanguageParser.BrickInvocationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedScripts}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -184,12 +208,6 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUserDefinedScript(CatrobatLanguageParser.UserDefinedScriptContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_defintion}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBrick_defintion(CatrobatLanguageParser.Brick_defintionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#userDefinedBrick}.
 	 * @param ctx the parse tree
@@ -203,35 +221,17 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUserDefinedBrickPart(CatrobatLanguageParser.UserDefinedBrickPartContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_with_body}.
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBrick_with_body(CatrobatLanguageParser.Brick_with_bodyContext ctx);
+	T visitBrickCondition(CatrobatLanguageParser.BrickConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#elseBranch}.
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#argumentList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_invocation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBrick_invocation(CatrobatLanguageParser.Brick_invocationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brick_condition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBrick_condition(CatrobatLanguageParser.Brick_conditionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CatrobatLanguageParser#arg_list}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArg_list(CatrobatLanguageParser.Arg_listContext ctx);
+	T visitArgumentList(CatrobatLanguageParser.ArgumentListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#argument}.
 	 * @param ctx the parse tree

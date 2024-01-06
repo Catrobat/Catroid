@@ -53,9 +53,11 @@ ELSE_BRICK: 'Else' | 'else';
 
 NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
 fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];
-DISABLED_BRICK_INDICATION: '//';
-BRICK_NAME: LETTER+ (' ' LETTER+)* -> mode(BRICK_MODE);
-//USER_DEFINED_BRICK: '`' ~('(' | '{')+ -> mode(USER_DEFINED_BRICK_MODE);
+BRICK_INVOCATION_DISABLED: '//';
+BRICK_WITH_BODY_DISABLED_START: '/*';
+BRICK_WITH_BODY_DISABLED_END: '*/';
+BRICK_NAME: LETTER+ (' '? (LETTER+ | NUMBER | ',' | '.'))* -> mode(BRICK_MODE);
+//BRICK_NAME: LETTER+ (LETTER | NUMBER | ',' | '.' | ' ')+ -> mode(BRICK_MODE);
 UDB_START: '`' -> mode(UDB_MODE);
 
 mode BRICK_MODE;
@@ -72,7 +74,7 @@ UDB_END: '`' -> mode(UDB_AFTER_MODE);
 
 mode UDB_PARAM_MODE;
 UDB_PARAM_MODE_WS: [\t\r\n]+ -> skip;
-UDB_PARAM_TEXT: ~(']')+;
+UDB_PARAM_TEXT: (~(']') | '\\]')+;
 UDB_PARAM_END: ']' -> popMode;
 
 mode UDB_AFTER_MODE;
@@ -86,8 +88,9 @@ UDB_BODY_OPEN: '{' -> mode(DEFAULT_MODE);
 mode PARAM_MODE;
 PARAM_MODE_WS: [ \t\r\n]+ -> skip;
 PARAM_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
-PARAM_MODE_BRACKET_CLOSE: ')' -> popMode;// mode(BRICK_MODE);
-PARAM_MODE_NAME: '[' LETTER+ (' ' LETTER+)* ']' | LETTER+ (' ' LETTER+)*;
+PARAM_MODE_BRACKET_CLOSE: ')' -> popMode;
+PARAM_MODE_NAME: LETTER+ (' ' | LETTER  | NUMBER | '²' | '/')*;
+PARAM_MODE_UDB_NAME: '[' (~(']') | '\\]')+ ']';
 PARAM_MODE_COLON: ':';
 PARAM_SEPARATOR: ',';
 
@@ -118,10 +121,3 @@ FORMULA_UDB_PARAM_MODE_END: ']' -> popMode;
 mode FORMULA_LIST_MODE;
 FORMULA_LIST_MODE_ANYTHING: (~('*') | '\\*')+;
 FORMULA_LIST_MODE_END: '*' -> popMode;
-// end of >ignore everything<
-
-//mode USER_DEFINED_BRICK_PARAM_MODE;
-//USER_DEFINED_BRICK_PARAM_MODE_WS: [ \t\r\n]+ -> skip;
-//USER_DEFINED_BRICK_TEXT: ~[`]+;
-//USER_DEFINED_BRICK_PARAM_START: '`' -> pushMode(PARAM_MODE);
-//USER_DEFINED_BRICK_SEMICOLON: ';' -> mode(DEFAULT_MODE);

@@ -111,8 +111,45 @@ looksAndSoundsContent: STRING COLON STRING;
 scripts
 	: SCRIPTS
 	  CURLY_BRACKET_OPEN
-	  brick_with_body*
+	  brickWithBody*
 	  CURLY_BRACKET_CLOSE
+	;
+
+brickDefintion
+	: BRICK_INVOCATION_DISABLED? NOTE_BRICK
+	| brickInvocation
+	| brickWithBody
+	;
+
+brickWithBody
+	: BRICK_NAME
+	  brickCondition?
+	  BRICK_BODY_OPEN
+	  brickDefintion*
+	  CURLY_BRACKET_CLOSE
+	  elseBranch?
+	| BRICK_WITH_BODY_DISABLED_START
+	  BRICK_NAME
+	  brickCondition?
+	  BRICK_BODY_OPEN
+	  brickDefintion*
+	  CURLY_BRACKET_CLOSE
+	  elseBranch?
+	  BRICK_WITH_BODY_DISABLED_END
+	;
+
+elseBranch
+	: ELSE_BRICK
+	  CURLY_BRACKET_OPEN
+	  brickDefintion*
+	  CURLY_BRACKET_CLOSE
+	;
+
+brickInvocation
+	: BRICK_INVOCATION_DISABLED?
+	  (BRICK_NAME | userDefinedBrick)
+	  brickCondition?
+	  (SEMICOLON | UDB_SEMICOLON)
 	;
 
 userDefinedScripts
@@ -123,20 +160,12 @@ userDefinedScripts
 	;
 
 userDefinedScript
-	: UDB_DEFINE userDefinedBrick (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH) UDB_BODY_OPEN
-	  brick_defintion*
+	: UDB_DEFINE
+	  userDefinedBrick
+	  (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH)
+	  UDB_BODY_OPEN
+	  brickDefintion*
 	  CURLY_BRACKET_CLOSE
-	| DISABLED_BRICK_INDICATION
-	  UDB_DEFINE userDefinedBrick (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH) UDB_BODY_OPEN
-	  brick_defintion*
-	  DISABLED_BRICK_INDICATION
-	  CURLY_BRACKET_CLOSE
-	  ;
-
-brick_defintion
-	: DISABLED_BRICK_INDICATION? NOTE_BRICK
-	| brick_invocation
-	| brick_with_body
 	;
 
 userDefinedBrick
@@ -150,46 +179,16 @@ userDefinedBrickPart
 	| UDB_LABEL
 	;
 
-brick_with_body
-	: BRICK_NAME
-	  brick_condition?
-	  BRICK_BODY_OPEN
-	  brick_defintion*
-	  CURLY_BRACKET_CLOSE
-	  elseBranch?
-	| DISABLED_BRICK_INDICATION
-	  BRICK_NAME
-	  brick_condition?
-	  BRICK_BODY_OPEN
-	  brick_defintion*
-	  DISABLED_BRICK_INDICATION
-	  CURLY_BRACKET_CLOSE
-	  elseBranch?
-	;
-
-elseBranch
-	: ELSE_BRICK
-	  CURLY_BRACKET_OPEN
-	  brick_defintion*
-	  CURLY_BRACKET_CLOSE
-	;
-
-brick_invocation
-	: DISABLED_BRICK_INDICATION?
-	  (BRICK_NAME | userDefinedBrick)
-	  brick_condition?
-	  (SEMICOLON | UDB_SEMICOLON)
-	;
-
-brick_condition
+brickCondition
 	: (BRICK_MODE_BRACKET_OPEN | UDB_MODE_BRACKET_OPEN)
-	  arg_list
+	  argumentList
 	  PARAM_MODE_BRACKET_CLOSE
 	;
 
-arg_list: argument (PARAM_SEPARATOR argument)* ;
+argumentList: argument (PARAM_SEPARATOR argument)* ;
+
 argument
-	: PARAM_MODE_NAME
+	: (PARAM_MODE_NAME | PARAM_MODE_UDB_NAME)
 	  PARAM_MODE_COLON
 	  PARAM_MODE_BRACKET_OPEN
 	  formula
