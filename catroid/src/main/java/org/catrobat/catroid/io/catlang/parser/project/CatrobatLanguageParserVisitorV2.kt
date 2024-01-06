@@ -52,6 +52,7 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageIn
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageKeyValueResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageListResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageProgramVisitResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageStringResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickInputResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickLabelResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickResult
@@ -482,8 +483,15 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
     }
 
     override fun visitLooksAndSoundsContent(ctx: CatrobatLanguageParser.LooksAndSoundsContentContext?): CatrobatLanguageBaseResult {
-        // TODO: Implement
-        return CatrobatLanguageBaseResult()
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid file definition content found.")
+        }
+        if (ctx.STRING().size != 2) {
+            throw CatrobatLanguageParsingException("The file definition must contain the name and the file identifier.")
+        }
+        val lookOrSoundName = CatrobatLanguageParserHelper.getStringContent(ctx.STRING(0).text)
+        val lookOrSoundFileName = CatrobatLanguageParserHelper.getStringContent(ctx.STRING(1).text)
+        return CatrobatLanguageKeyValueResult(lookOrSoundName, lookOrSoundFileName)
     }
 
     override fun visitScripts(ctx: CatrobatLanguageParser.ScriptsContext?): CatrobatLanguageBaseResult {
@@ -661,38 +669,79 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid argument found.")
         }
-        val bracketOpenIndex = ctx.PARAM_MODE_BRACKET_OPEN().symbol.startIndex
-        val bracketCloseIndex = ctx.FORMULA_MODE_BRACKET_CLOSE().symbol.stopIndex
-
         val argumentName = ctx.PARAM_MODE_NAME().text.trim()
-        val formulaInterval = (visitFormula(ctx.formula()) as CatrobatLanguageIntervalResult)
-
-        // TODO: find a better way!
-        var formulaValue = ""
-//        var formulaStartIndex = formulaInterval.start
-//        var formulaStopIndex = formulaInterval.stop
-//        if (bracketOpenIndex == formulaInterval.start) {
-//            formulaStartIndex += 1
-//        }
-//        if (bracketCloseIndex == formulaInterval.stop) {
-//            formulaStopIndex -= 1
-//        }
-
-        val formulaStartIndex = bracketOpenIndex + 1
-        val formulaStopIndex = bracketCloseIndex - 1
-
-        formulaValue = ctx.formula().start.inputStream.getText(Interval(formulaStartIndex, formulaStopIndex))
-
-        return CatrobatLanguageKeyValueResult(argumentName, formulaValue)
+        val formulaString = (visitFormula(ctx.formula()) as CatrobatLanguageStringResult).string
+        return CatrobatLanguageKeyValueResult(argumentName, formulaString)
     }
 
     override fun visitFormula(ctx: CatrobatLanguageParser.FormulaContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid formula found.")
         }
-        val startIndex = min(ctx.start.startIndex, ctx.stop.startIndex)
-        val stopIndex = max(ctx.start.stopIndex, ctx.stop.stopIndex)
-        return CatrobatLanguageIntervalResult(startIndex, stopIndex)
+        val formulaString = StringBuilder()
+        ctx.formulaElement().forEach {
+            val formulaElementResult = visitFormulaElement(it) as CatrobatLanguageStringResult
+            formulaString.append(formulaElementResult.string)
+        }
+        return CatrobatLanguageStringResult(formulaString.toString())
+    }
+
+    override fun visitFormulaElement(ctx: CatrobatLanguageParser.FormulaElementContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid formula element found.")
+        }
+
+        if (ctx.FORMULA_MODE_BRACKET_OPEN() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_BRACKET_OPEN().text)
+        }
+        if (ctx.FORMULA_MODE_BRACKET_CLOSE() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_BRACKET_CLOSE().text)
+        }
+        if (ctx.FORMULA_MODE_ANYTHING() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_ANYTHING().text)
+        }
+
+        if (ctx.FORMULA_MODE_STRING_BEGIN() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_STRING_BEGIN().text)
+        }
+        if (ctx.FORMULA_STRING_MODE_END() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_STRING_MODE_END().text)
+        }
+        if (ctx.FORMULA_STRING_MODE_ANYTHING() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_STRING_MODE_ANYTHING().text)
+        }
+
+        if (ctx.FORMULA_MODE_VARIABLE_BEGIN() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_VARIABLE_BEGIN().text)
+        }
+        if (ctx.FORMULA_VARIABLE_MODE_END() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_VARIABLE_MODE_END().text)
+        }
+        if (ctx.FORMULA_VARIABLE_MODE_ANYTHING() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_VARIABLE_MODE_ANYTHING().text)
+        }
+
+        if (ctx.FORMULA_MODE_UDB_PARAM_BEGIN() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_MODE_UDB_PARAM_BEGIN().text)
+        }
+        if (ctx.FORMULA_UDB_PARAM_MODE_END() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_UDB_PARAM_MODE_END().text)
+        }
+        if (ctx.FORMULA_UDB_PARAM_MODE_ANYTHING() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_UDB_PARAM_MODE_ANYTHING().text)
+        }
+
+        if (ctx.FORMULA_LIST_MODE_BEGIN() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_LIST_MODE_BEGIN().text)
+        }
+        if (ctx.FORMULA_LIST_MODE_END() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_LIST_MODE_END().text)
+        }
+        if (ctx.FORMULA_LIST_MODE_ANYTHING() != null) {
+            return CatrobatLanguageStringResult(ctx.FORMULA_LIST_MODE_ANYTHING().text)
+        }
+
+        throw IllegalArgumentException("Unknown formula element.")
     }
 
     private var userDefinedBricksInitialized: Boolean = false

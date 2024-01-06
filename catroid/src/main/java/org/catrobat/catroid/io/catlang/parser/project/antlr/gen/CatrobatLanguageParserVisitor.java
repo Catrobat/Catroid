@@ -244,4 +244,10 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFormula(CatrobatLanguageParser.FormulaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#formulaElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx);
 }

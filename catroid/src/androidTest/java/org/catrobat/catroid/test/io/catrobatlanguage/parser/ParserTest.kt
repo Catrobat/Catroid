@@ -62,6 +62,7 @@ Program 'My project' {
       }
       Scripts {
         When tapped {
+          Set (x: (1 + 2 / ((8/9) / ("variable" / (*list* / [udbparam])))));
           Set (x: (random value from to( - 10 , 10 )));
           Forever {
             Set (y: (200));

@@ -397,4 +397,14 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFormula(CatrobatLanguageParser.FormulaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#formulaElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#formulaElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx);
 }

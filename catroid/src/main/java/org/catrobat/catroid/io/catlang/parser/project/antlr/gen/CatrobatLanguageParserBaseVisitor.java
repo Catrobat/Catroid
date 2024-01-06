@@ -286,4 +286,11 @@ public class CatrobatLanguageParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitFormula(CatrobatLanguageParser.FormulaContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx) { return visitChildren(ctx); }
 }

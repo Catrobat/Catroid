@@ -92,27 +92,32 @@ PARAM_MODE_COLON: ':';
 PARAM_SEPARATOR: ',';
 
 mode FORMULA_MODE;
-FORMULA_MODE_WS: [ \t\r\n]+ -> skip;
+FORMULA_MODE_WS: [\t\r\n]+ -> skip;
 FORMULA_MODE_BRACKET_CLOSE: ')' -> popMode;
 
 // >ignore everything< except for the brackets
 FORMULA_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
-FORMULA_MODE_ANYTHING: ~('\'' | '"' | '[' | ']' | '(' | ')')+ -> skip;
-FORMULA_MODE_APOSTROPHE: '\'' -> pushMode(ESCAPE_MODE_APOSTROPHE);
-FORMULA_MODE_QUOTE: '"' -> pushMode(ESCAPE_MODE_QUOTE);
-FORMULA_MODE_UDB_PARAM: '[' -> pushMode(ESCAPE_UDB_PARAM_MODE);
+FORMULA_MODE_ANYTHING: ~('\'' | '"' | '[' | ']' | '(' | ')' | '*')+;
+FORMULA_MODE_STRING_BEGIN: '\'' -> pushMode(FORMULA_STRING_MODE);
+FORMULA_MODE_VARIABLE_BEGIN: '"' -> pushMode(FORMULA_VARIABLE_MODE);
+FORMULA_MODE_UDB_PARAM_BEGIN: '[' -> pushMode(FORMULA_UDB_PARAM_MODE);
+FORMULA_LIST_MODE_BEGIN: '*' -> pushMode(FORMULA_LIST_MODE);
 
-mode ESCAPE_MODE_APOSTROPHE;
-ESCAPE_MODE_APOSTROPHE_ANYTHING: ~('\'')+ -> skip;
-ESCAPE_MODE_APOSTROPHE_CHAR: '\'' -> popMode;
+mode FORMULA_STRING_MODE;
+FORMULA_STRING_MODE_ANYTHING: (~('\'') | '\\\'')+;
+FORMULA_STRING_MODE_END: '\'' -> popMode;
 
-mode ESCAPE_MODE_QUOTE;
-ESCAPE_MODE_QUOTE_ANYTHING: ~('"')+ -> skip;
-ESCAPE_MODE_QUOTE_CHAR: '"' -> popMode;
+mode FORMULA_VARIABLE_MODE;
+FORMULA_VARIABLE_MODE_ANYTHING: (~('"') | '\\"')+;
+FORMULA_VARIABLE_MODE_END: '"' -> popMode;
 
-mode ESCAPE_UDB_PARAM_MODE;
-ESCAPE_UDB_PARAM_MODE_ANYTHING: ~(']')+ -> skip;
-ESCAPE_UDB_PARAM_MODE_CHAR: ']' -> popMode;
+mode FORMULA_UDB_PARAM_MODE;
+FORMULA_UDB_PARAM_MODE_ANYTHING: (~(']') | '\\]')+;
+FORMULA_UDB_PARAM_MODE_END: ']' -> popMode;
+
+mode FORMULA_LIST_MODE;
+FORMULA_LIST_MODE_ANYTHING: (~('*') | '\\*')+;
+FORMULA_LIST_MODE_END: '*' -> popMode;
 // end of >ignore everything<
 
 //mode USER_DEFINED_BRICK_PARAM_MODE;

@@ -481,6 +481,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFormula(CatrobatLanguageParser.FormulaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFormulaElement(CatrobatLanguageParser.FormulaElementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
