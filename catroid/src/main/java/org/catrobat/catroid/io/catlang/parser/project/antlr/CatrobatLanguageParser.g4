@@ -110,13 +110,28 @@ looksAndSoundsContent: STRING COLON STRING;
 
 scripts
 	: SCRIPTS
-	  CURLY_BRACKET_OPEN
-	  brickWithBody*
-	  CURLY_BRACKET_CLOSE
+	  SCRIPTS_START
+	  script*
+	  SCRIPTS_END
+	;
+
+script
+	: SCRIPT_NAME
+	  brickCondition?
+	  BRICK_BODY_OPEN
+	  (BRICKLIST_NEWLINE brickDefintion?)+
+	  BRICK_LIST_END
+    |
+      SCRIPT_DISABLED_INDICATOR SCRIPT_NAME
+      brickCondition?
+      BRICK_BODY_OPEN
+      (BRICKLIST_NEWLINE brickDefintion?)+
+   	  BRICK_LIST_DISABLED_INDICATOR BRICK_LIST_END
 	;
 
 brickDefintion
-	: BRICK_INVOCATION_DISABLED? NOTE_BRICK
+	:
+	BRICK_LIST_DISABLED_INDICATOR? NOTE_BRICK
 	| brickInvocation
 	| brickWithBody
 	;
@@ -125,28 +140,30 @@ brickWithBody
 	: BRICK_NAME
 	  brickCondition?
 	  BRICK_BODY_OPEN
-	  brickDefintion*
-	  CURLY_BRACKET_CLOSE
-	  elseBranch?
-	| BRICK_WITH_BODY_DISABLED_START
-	  BRICK_NAME
-	  brickCondition?
-	  BRICK_BODY_OPEN
-	  brickDefintion*
-	  CURLY_BRACKET_CLOSE
-	  elseBranch?
-	  BRICK_WITH_BODY_DISABLED_END
+	  (BRICKLIST_NEWLINE brickDefintion?)+
+	  (BRICK_LIST_END | elseBranch)
+	|
+	  BRICK_LIST_DISABLED_INDICATOR BRICK_NAME
+      brickCondition?
+      BRICK_BODY_OPEN
+      (BRICKLIST_NEWLINE brickDefintion?)+
+      ((BRICK_LIST_DISABLED_INDICATOR BRICK_LIST_END) | elseBranchDisabled)
 	;
 
 elseBranch
-	: ELSE_BRICK
-	  CURLY_BRACKET_OPEN
-	  brickDefintion*
-	  CURLY_BRACKET_CLOSE
+	: BRICK_LIST_END_ELSE BRICK_BODY_OPEN
+	  (BRICKLIST_NEWLINE brickDefintion?)+
+	  BRICK_LIST_END
+	;
+
+elseBranchDisabled
+	: BRICK_LIST_DISABLED_INDICATOR BRICK_LIST_END_ELSE BRICK_BODY_OPEN
+	  (BRICKLIST_NEWLINE brickDefintion?)+
+	  BRICK_LIST_DISABLED_INDICATOR BRICK_LIST_END
 	;
 
 brickInvocation
-	: BRICK_INVOCATION_DISABLED?
+	: BRICK_LIST_DISABLED_INDICATOR?
 	  (BRICK_NAME | userDefinedBrick)
 	  brickCondition?
 	  (SEMICOLON | UDB_SEMICOLON)
@@ -154,9 +171,9 @@ brickInvocation
 
 userDefinedScripts
 	: USER_DEFINED_SCRIPTS
-	  CURLY_BRACKET_OPEN
+	  USER_DEFINED_SCRIPTS_START
 	  userDefinedScript*
-	  CURLY_BRACKET_CLOSE
+	  USER_DEFINED_SCRIPTS_END
 	;
 
 userDefinedScript
@@ -164,12 +181,12 @@ userDefinedScript
 	  userDefinedBrick
 	  (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH)
 	  UDB_BODY_OPEN
-	  brickDefintion*
-	  CURLY_BRACKET_CLOSE
+	  (BRICKLIST_NEWLINE brickDefintion?)+
+	  BRICK_LIST_END
 	;
 
 userDefinedBrick
-	: UDB_START
+	: (USER_DEFINED_SCRIPT_UDB_START | UDB_START)
 	  userDefinedBrickPart+
 	  UDB_END
 	;

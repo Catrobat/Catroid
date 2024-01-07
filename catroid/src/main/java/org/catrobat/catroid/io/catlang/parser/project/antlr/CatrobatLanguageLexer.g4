@@ -46,25 +46,39 @@ ACTOR_OR_OBJECT: 'Actor or object';
 OF_TYPE: 'of type';
 SCENE: 'Scene';
 BACKGROUND: 'Background';
-SCRIPTS: 'Scripts';
-USER_DEFINED_SCRIPTS: 'User Defined Bricks';
-UDB_DEFINE: 'Define';
-ELSE_BRICK: 'Else' | 'else';
+SCRIPTS: 'Scripts' -> mode(SCRIPTS_MODE);
+USER_DEFINED_SCRIPTS: 'User Defined Bricks' -> mode(USER_DEFINED_SCRIPTS_MODE);
 
+mode SCRIPTS_MODE;
+SCRIPTS_WS: [ \t\r\n]+ -> skip;
+SCRIPT_DISABLED_INDICATOR: '//';
+SCRIPTS_START: '{';
+SCRIPT_NAME: LETTER+ (' '? (LETTER+ | NUMBER | ',' | '.'))* -> pushMode(BRICK_MODE);
+SCRIPTS_END: '}' -> mode(DEFAULT_MODE);
+
+mode USER_DEFINED_SCRIPTS_MODE;
+USER_DEFINED_SCRIPTS_WS: [ \t\r\n]+ -> skip;
+USER_DEFINED_SCRIPTS_START: '{';
+UDB_DEFINE: 'Define';
+USER_DEFINED_SCRIPT_UDB_START: '`' -> pushMode(UDB_MODE);
+USER_DEFINED_SCRIPTS_END: '}' -> mode(DEFAULT_MODE);
+
+mode BRICK_LIST_MODE;
+BRICK_LIST_WS: [ \t]+ -> skip;
+BRICKLIST_NEWLINE: '\r'? '\n';
+BRICK_NAME: LETTER+ (' '? (LETTER+ | NUMBER | ',' | '.'))* -> pushMode(BRICK_MODE);
+UDB_START: '`' -> pushMode(UDB_MODE);
+BRICK_LIST_DISABLED_INDICATOR: '//';
 NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
 fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];
-BRICK_INVOCATION_DISABLED: '//';
-BRICK_WITH_BODY_DISABLED_START: '/*';
-BRICK_WITH_BODY_DISABLED_END: '*/';
-BRICK_NAME: LETTER+ (' '? (LETTER+ | NUMBER | ',' | '.'))* -> mode(BRICK_MODE);
-//BRICK_NAME: LETTER+ (LETTER | NUMBER | ',' | '.' | ' ')+ -> mode(BRICK_MODE);
-UDB_START: '`' -> mode(UDB_MODE);
+BRICK_LIST_END_ELSE: '}' (' ' | '\t')+ 'Else' -> mode(BRICK_MODE);
+BRICK_LIST_END: '}' -> popMode;
 
 mode BRICK_MODE;
-BRICK_MODE_WS: [ \t\r\n]+ -> skip;
+BRICK_MODE_WS: [ \t]+ -> skip;
 BRICK_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
-SEMICOLON: ';' -> mode(DEFAULT_MODE);
-BRICK_BODY_OPEN: '{' -> mode(DEFAULT_MODE);
+SEMICOLON: ';' -> popMode;
+BRICK_BODY_OPEN: '{' -> mode(BRICK_LIST_MODE);
 
 mode UDB_MODE;
 UDB_MODE_WS: [\t\r\n]+ -> skip;
@@ -73,20 +87,20 @@ UDB_LABEL: ~('[' | '`' | ']')+;
 UDB_END: '`' -> mode(UDB_AFTER_MODE);
 
 mode UDB_PARAM_MODE;
-UDB_PARAM_MODE_WS: [\t\r\n]+ -> skip;
+UDB_PARAM_MODE_WS: [\t]+ -> skip;
 UDB_PARAM_TEXT: (~(']') | '\\]')+;
 UDB_PARAM_END: ']' -> popMode;
 
 mode UDB_AFTER_MODE;
-UDB_AFTER_MODE_WS: [ \t\r\n]+ -> skip;
+UDB_AFTER_MODE_WS: [ \t]+ -> skip;
 UDB_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
-UDB_SEMICOLON: ';' -> mode(DEFAULT_MODE);
+UDB_SEMICOLON: ';' -> popMode;
 UDB_DEFINITION_SCREEN_REFRESH: 'with screen refresh as';
 UDB_DEFINITION_NO_SCREEN_REFRESH: 'without screen refresh as';
-UDB_BODY_OPEN: '{' -> mode(DEFAULT_MODE);
+UDB_BODY_OPEN: '{' -> mode(BRICK_LIST_MODE);
 
 mode PARAM_MODE;
-PARAM_MODE_WS: [ \t\r\n]+ -> skip;
+PARAM_MODE_WS: [ \t]+ -> skip;
 PARAM_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
 PARAM_MODE_BRACKET_CLOSE: ')' -> popMode;
 PARAM_MODE_NAME: LETTER+ (' ' | LETTER  | NUMBER | '²' | '/')*;
@@ -95,7 +109,7 @@ PARAM_MODE_COLON: ':';
 PARAM_SEPARATOR: ',';
 
 mode FORMULA_MODE;
-FORMULA_MODE_WS: [\t\r\n]+ -> skip;
+FORMULA_MODE_WS: [\t]+ -> skip;
 FORMULA_MODE_BRACKET_CLOSE: ')' -> popMode;
 
 // >ignore everything< except for the brackets
