@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.controller;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -45,9 +47,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -77,8 +83,13 @@ public class SceneControllerTest {
 	private BackpackListManager backpackListManager;
 	private final String newName = "new Scene Name";
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws IOException {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
@@ -88,6 +99,7 @@ public class SceneControllerTest {
 	public void tearDown() throws IOException {
 		deleteProject();
 		clearBackPack(backpackListManager);
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
