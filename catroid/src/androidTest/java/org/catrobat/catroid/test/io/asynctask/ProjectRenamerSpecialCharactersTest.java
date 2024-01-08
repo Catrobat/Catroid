@@ -53,9 +53,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 @RunWith(Parameterized.class)
 public class ProjectRenamerSpecialCharactersTest {
 
-	private final List<Module> dependencyModules =
-			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
-
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
@@ -89,13 +86,11 @@ public class ProjectRenamerSpecialCharactersTest {
 	@Before
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(specialCharacterEncodedProjectName, projectNameWithoutSpecialCharacter);
-		CatroidKoinHelperKt.start(ApplicationProvider.getApplicationContext(), dependencyModules);
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		TestUtils.deleteProjects(specialCharacterEncodedProjectName, projectNameWithoutSpecialCharacter);
-		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
