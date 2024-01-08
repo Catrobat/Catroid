@@ -69,7 +69,6 @@ public class SoundControllerTest {
 
 	@Before
 	public void setUp() throws IOException {
-		Context contextMock = Mockito.mock(Context.class);
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
