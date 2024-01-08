@@ -26,16 +26,20 @@ package org.catrobat.catroid.test.io.asynctask;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 
@@ -48,6 +52,9 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class ProjectRenamerSpecialCharactersTest {
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -82,11 +89,13 @@ public class ProjectRenamerSpecialCharactersTest {
 	@Before
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(specialCharacterEncodedProjectName, projectNameWithoutSpecialCharacter);
+		CatroidKoinHelperKt.start(ApplicationProvider.getApplicationContext(), dependencyModules);
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		TestUtils.deleteProjects(specialCharacterEncodedProjectName, projectNameWithoutSpecialCharacter);
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
