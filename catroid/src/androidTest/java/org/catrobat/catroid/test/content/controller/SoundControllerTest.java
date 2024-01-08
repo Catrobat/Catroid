@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.content.controller;
 
-import android.content.Context;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -39,7 +37,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
