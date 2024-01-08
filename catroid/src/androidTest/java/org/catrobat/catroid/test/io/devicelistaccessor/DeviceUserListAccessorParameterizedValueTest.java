@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.io.devicelistaccessor;
 
-import android.content.Context;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -32,21 +30,17 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.koin.core.module.Module;
-import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +57,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class DeviceUserListAccessorParameterizedValueTest<T> {
-
-	private final List<Module> dependencyModules =
-			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -93,8 +84,6 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 
 	@Before
 	public void setUp() {
-		Context contextMock = Mockito.mock(Context.class);
-		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
 		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
 		directory.mkdir();
 
@@ -150,6 +139,5 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 	@After
 	public void tearDown() throws IOException {
 		StorageOperations.deleteDir(directory);
-		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 }

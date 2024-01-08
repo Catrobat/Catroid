@@ -22,27 +22,20 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.content.Context;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.rules.ExternalResource;
-import org.koin.core.module.Module;
-import org.mockito.Mockito;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
