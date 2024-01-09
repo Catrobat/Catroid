@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -136,13 +136,13 @@ class SpriteListUndoTest {
             .perform(click())
 
         onRecyclerView().atPosition(1)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onRecyclerView().atPosition(2)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onRecyclerView().atPosition(3)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onView(withId(R.id.confirm))
             .perform(click())
@@ -166,10 +166,10 @@ class SpriteListUndoTest {
             .perform(click())
 
         onRecyclerView().atPosition(1)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onRecyclerView().atPosition(2)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onView(withId(R.id.confirm))
             .perform(click())
@@ -245,13 +245,13 @@ class SpriteListUndoTest {
             .perform(click())
 
         onRecyclerView().atPosition(1)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onRecyclerView().atPosition(2)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onRecyclerView().atPosition(3)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onView(withId(R.id.confirm))
             .perform(click())
