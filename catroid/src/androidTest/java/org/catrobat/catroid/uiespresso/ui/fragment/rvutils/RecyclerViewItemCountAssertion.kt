@@ -48,9 +48,9 @@ class RecyclerViewItemCountAssertion(val matcher: Matcher<Int>) : ViewAssertion 
 
     companion object {
         fun withItemCount(expected: Int): RecyclerViewItemCountAssertion =
-            withItemCount(`is`(expected))
+            withItemCountMatcher(`is`(expected))
 
-        fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion =
+        private fun withItemCountMatcher(matcher: Matcher<Int>): RecyclerViewItemCountAssertion =
             RecyclerViewItemCountAssertion(matcher)
     }
 }
