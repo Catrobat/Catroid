@@ -203,7 +203,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}User Defined Bricks {")
         for (script in sprite.scriptList) {
             if (script is UserDefinedScript) {
-                script.scriptBrick.getView(context)
+                //script.scriptBrick.getView(context)
                 programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
             }
         }

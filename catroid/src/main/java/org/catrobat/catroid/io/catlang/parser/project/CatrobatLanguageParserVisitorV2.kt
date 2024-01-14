@@ -514,11 +514,42 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid scripts found.")
         }
-        ctx.brickWithBody().forEach {
-            val scriptBrick = (visitBrickWithBody(it) as CatrobatLanguageBrickResult).brick as ScriptBrick
-            currentSprite!!.scriptList.add(scriptBrick.script)
+        if (ctx.script() != null) {
+            ctx.script().forEach {
+                val scriptBrick = (visitScript(it) as CatrobatLanguageBrickResult).brick as ScriptBrick
+                currentSprite!!.scriptList.add(scriptBrick.script)
+            }
         }
         return CatrobatLanguageBaseResult()
+    }
+
+    override fun visitScript(ctx: CatrobatLanguageParser.ScriptContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid script found.")
+        }
+
+        val arguments: Map<String, String> = if (ctx.brickCondition() != null) {
+            val result = visitBrickCondition(ctx.brickCondition()) as CatrobatLanguageArgumentResult
+            result.arguments
+        } else {
+            mapOf()
+        }
+
+        val script = ScriptFactory.createScriptFromCatrobatLanguage(ctx.SCRIPT_NAME().text.trim(), arguments.keys.toList())
+        parentBrickStack.push(script.scriptBrick)
+        script.scriptBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+
+        script.scriptBrick.isCommentedOut = ctx.SCRIPT_DISABLED_INDICATOR() != null && ctx.BRICK_LIST_DISABLED_INDICATOR() != null
+
+        if (ctx.brickDefintion() != null) {
+            ctx.brickDefintion().forEach {
+                val subBrick = (visitBrickDefintion(it) as CatrobatLanguageBrickResult).brick
+                script.brickList.add(subBrick)
+            }
+        }
+
+        parentBrickStack.pop()
+        return CatrobatLanguageBrickResult(script.scriptBrick, arguments)
     }
 
     override fun visitBrickDefintion(ctx: CatrobatLanguageParser.BrickDefintionContext?): CatrobatLanguageBaseResult {
@@ -532,11 +563,36 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         if (ctx.brickWithBody() != null) {
             return visitBrickWithBody(ctx.brickWithBody())
         }
-        if (ctx.NOTE_BRICK() != null) {
-            return visitNoteBrick(ctx)
+        if (ctx.noteBrick() != null) {
+            return visitNoteBrick(ctx.noteBrick())
         }
 
         return CatrobatLanguageBaseResult()
+    }
+
+    //    private fun visitNoteBrick(ctx: CatrobatLanguageParser.BrickDefintionContext): CatrobatLanguageBaseResult {
+//        val noteBrick = NoteBrick(ctx.NOTE_BRICK().text.trim())
+//        noteBrick.isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR() != null
+//        noteBrick.parent = if (parentBrickStack.isEmpty()) {
+//            null
+//        } else {
+//            parentBrickStack.peek()
+//        }
+//        return CatrobatLanguageBrickResult(noteBrick, mapOf())
+//    }
+
+    override fun visitNoteBrick(ctx: CatrobatLanguageParser.NoteBrickContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid note brick found.")
+        }
+        val noteBrick = NoteBrick(ctx.NODE_BRICK_TEXT().text.trim())
+        noteBrick.isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR() != null
+        noteBrick.parent = if (parentBrickStack.isEmpty()) {
+            null
+        } else {
+            parentBrickStack.peek()
+        }
+        return CatrobatLanguageBrickResult(noteBrick, mapOf())
     }
 
     override fun visitBrickWithBody(ctx: CatrobatLanguageParser.BrickWithBodyContext?): CatrobatLanguageBaseResult {
@@ -551,55 +607,56 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             mapOf()
         }
 
-        val brick: Brick;
-        if (ctx.parent is CatrobatLanguageParser.ScriptsContext) {
-            if (ctx.elseBranch() != null) {
-                throw CatrobatLanguageParsingException("Else branch must not occur in scripts.")
-            }
-            brick = ScriptFactory.createScriptFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments.keys.toList()).scriptBrick
-            parentBrickStack.push(brick)
-            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
-        } else if (ctx.parent is CatrobatLanguageParser.BrickDefintionContext) {
-            val elseBranchPresent = ctx.elseBranch() != null
-            brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, elseBranchPresent)
-            brick.parent = if (parentBrickStack.isEmpty()) {
-                null
-            } else {
-                parentBrickStack.peek()
-            }
-            parentBrickStack.push(brick)
-            if (brick !is CompositeBrick) {
-                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have a body.")
-            }
-            if (!brick.hasSecondaryList() && elseBranchPresent) {
-                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have an else branch.")
-            }
-            if (brick.hasSecondaryList() && !elseBranchPresent) {
-                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must have an else branch.")
-            }
 
-            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+        val elseBranchPresent = ctx.elseBranch() != null
+        val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, elseBranchPresent)
+        brick.parent = if (parentBrickStack.isEmpty()) {
+            null
         } else {
-            throw IllegalArgumentException("Unknown context parent: ${ctx.parent}")
+            parentBrickStack.peek()
+        }
+        parentBrickStack.push(brick)
+        if (brick !is CompositeBrick) {
+            throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have a body.")
+        }
+        if (!brick.hasSecondaryList() && elseBranchPresent) {
+            throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must not have an else branch.")
+        }
+        if (brick.hasSecondaryList() && !elseBranchPresent) {
+            throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must have an else branch.")
         }
 
-        val isBrickDisabled = ctx.BRICK_WITH_BODY_DISABLED_START() != null && ctx.BRICK_WITH_BODY_DISABLED_END() != null
-        brick.isCommentedOut = isBrickDisabled
+        brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+
+        if (ctx.BRICK_LIST_DISABLED_INDICATOR() != null) {
+            if (ctx.BRICK_LIST_DISABLED_INDICATOR().size != 0 && ctx.BRICK_LIST_DISABLED_INDICATOR().size != 2) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} is disabled. So must the closing bracket be.")
+            }
+            (brick as CompositeBrick).isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR().size != 0
+        }
 
         if (ctx.brickDefintion() != null) {
             ctx.brickDefintion().forEach {
                 val subBrick = (visitBrickDefintion(it) as CatrobatLanguageBrickResult).brick
-                if (brick is ScriptBrick) {
-                    brick.script.brickList.add(subBrick)
-                } else if (brick is CompositeBrick) {
-                    brick.nestedBricks.add(subBrick)
-                }
+                brick.nestedBricks.add(subBrick)
             }
         }
 
-        if (ctx.elseBranch() != null && brick is CompositeBrick && brick.hasSecondaryList()) {
+        if (ctx.elseBranch() != null && brick.hasSecondaryList()) {
+            if ((brick as CompositeBrick).isCommentedOut) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} is disabled. So must the else branch be.")
+            }
             parentBrickStack.push(brick.secondaryNestedBricksParent)
             val elseBranch = (visitElseBranch(ctx.elseBranch()) as CatrobatLanguageBrickListResult).bricks
+            parentBrickStack.pop()
+            brick.secondaryNestedBricks.addAll(elseBranch)
+        }
+        if (ctx.elseBranchDisabled() != null) {
+            if (!(brick as CompositeBrick).isCommentedOut) {
+                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} is not disabled. So must the else branch be.")
+            }
+            parentBrickStack.push(brick.secondaryNestedBricksParent)
+            val elseBranch = (visitElseBranchDisabled(ctx.elseBranchDisabled()) as CatrobatLanguageBrickListResult).bricks
             parentBrickStack.pop()
             brick.secondaryNestedBricks.addAll(elseBranch)
         }
@@ -610,6 +667,20 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
     }
 
     override fun visitElseBranch(ctx: CatrobatLanguageParser.ElseBranchContext?): CatrobatLanguageBaseResult {
+        if (ctx == null) {
+            throw CatrobatLanguageParsingException("No valid else branch found.")
+        }
+        val bricks = arrayListOf<Brick>()
+        if (ctx.brickDefintion() != null) {
+            ctx.brickDefintion().forEach {
+                val brick = (visitBrickDefintion(it) as CatrobatLanguageBrickResult).brick
+                bricks.add(brick)
+            }
+        }
+        return CatrobatLanguageBrickListResult(bricks)
+    }
+
+    override fun visitElseBranchDisabled(ctx: CatrobatLanguageParser.ElseBranchDisabledContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid else branch found.")
         }
@@ -635,7 +706,7 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             mapOf()
         }
 
-        val isBrickDisabled = ctx.BRICK_INVOCATION_DISABLED() != null
+        val isBrickDisabled = ctx.BRICK_LIST_DISABLED_INDICATOR() != null
 
         if (ctx.BRICK_NAME() != null) {
             val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, false)
@@ -665,17 +736,6 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             return CatrobatLanguageBrickResult(userDefinedBrickCopy, arguments)
         }
         throw IllegalArgumentException("Unknown brick invocation: ${ctx.text}")
-    }
-
-    private fun visitNoteBrick(ctx: CatrobatLanguageParser.BrickDefintionContext): CatrobatLanguageBaseResult {
-        val noteBrick = NoteBrick(ctx.NOTE_BRICK().text.trim())
-        noteBrick.isCommentedOut = ctx.BRICK_INVOCATION_DISABLED() != null
-        noteBrick.parent = if (parentBrickStack.isEmpty()) {
-            null
-        } else {
-            parentBrickStack.peek()
-        }
-        return CatrobatLanguageBrickResult(noteBrick, mapOf())
     }
 
     override fun visitBrickCondition(ctx: CatrobatLanguageParser.BrickConditionContext?): CatrobatLanguageBaseResult {

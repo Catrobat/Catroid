@@ -278,6 +278,16 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 */
 	void exitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#script}.
+	 * @param ctx the parse tree
+	 */
+	void enterScript(CatrobatLanguageParser.ScriptContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#script}.
+	 * @param ctx the parse tree
+	 */
+	void exitScript(CatrobatLanguageParser.ScriptContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickDefintion}.
 	 * @param ctx the parse tree
 	 */
@@ -287,6 +297,16 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#noteBrick}.
+	 * @param ctx the parse tree
+	 */
+	void enterNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#noteBrick}.
+	 * @param ctx the parse tree
+	 */
+	void exitNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickWithBody}.
 	 * @param ctx the parse tree
@@ -307,6 +327,16 @@ public interface CatrobatLanguageParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CatrobatLanguageParser#elseBranchDisabled}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CatrobatLanguageParser#elseBranchDisabled}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CatrobatLanguageParser#brickInvocation}.
 	 * @param ctx the parse tree

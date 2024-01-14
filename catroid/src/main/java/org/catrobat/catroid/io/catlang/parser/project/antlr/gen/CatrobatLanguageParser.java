@@ -26,20 +26,23 @@ public class CatrobatLanguageParser extends Parser {
 		STAGE=16, LANDSCAPE_MODE=17, HEIGHT=18, WIDTH=19, DISPLAY_MODE=20, GLOBALS=21, 
 		MULTIPLAYER_VARIABLES=22, LOCAL_VARIABLES=23, LOOKS=24, SOUNDS=25, ACTOR_OR_OBJECT=26, 
 		OF_TYPE=27, SCENE=28, BACKGROUND=29, SCRIPTS=30, USER_DEFINED_SCRIPTS=31, 
-		UDB_DEFINE=32, ELSE_BRICK=33, NOTE_BRICK=34, BRICK_INVOCATION_DISABLED=35, 
-		BRICK_WITH_BODY_DISABLED_START=36, BRICK_WITH_BODY_DISABLED_END=37, BRICK_NAME=38, 
-		UDB_START=39, BRICK_MODE_WS=40, BRICK_MODE_BRACKET_OPEN=41, SEMICOLON=42, 
-		BRICK_BODY_OPEN=43, UDB_MODE_WS=44, UDB_PARAM_START=45, UDB_LABEL=46, 
-		UDB_END=47, UDB_PARAM_MODE_WS=48, UDB_PARAM_TEXT=49, UDB_PARAM_END=50, 
-		UDB_AFTER_MODE_WS=51, UDB_MODE_BRACKET_OPEN=52, UDB_SEMICOLON=53, UDB_DEFINITION_SCREEN_REFRESH=54, 
-		UDB_DEFINITION_NO_SCREEN_REFRESH=55, UDB_BODY_OPEN=56, PARAM_MODE_WS=57, 
-		PARAM_MODE_BRACKET_OPEN=58, PARAM_MODE_BRACKET_CLOSE=59, PARAM_MODE_NAME=60, 
-		PARAM_MODE_UDB_NAME=61, PARAM_MODE_COLON=62, PARAM_SEPARATOR=63, FORMULA_MODE_WS=64, 
-		FORMULA_MODE_BRACKET_CLOSE=65, FORMULA_MODE_BRACKET_OPEN=66, FORMULA_MODE_ANYTHING=67, 
-		FORMULA_MODE_STRING_BEGIN=68, FORMULA_MODE_VARIABLE_BEGIN=69, FORMULA_MODE_UDB_PARAM_BEGIN=70, 
-		FORMULA_LIST_MODE_BEGIN=71, FORMULA_STRING_MODE_ANYTHING=72, FORMULA_STRING_MODE_END=73, 
-		FORMULA_VARIABLE_MODE_ANYTHING=74, FORMULA_VARIABLE_MODE_END=75, FORMULA_UDB_PARAM_MODE_ANYTHING=76, 
-		FORMULA_UDB_PARAM_MODE_END=77, FORMULA_LIST_MODE_ANYTHING=78, FORMULA_LIST_MODE_END=79;
+		SCRIPTS_WS=32, SCRIPT_DISABLED_INDICATOR=33, SCRIPTS_START=34, SCRIPT_NAME=35, 
+		SCRIPTS_END=36, USER_DEFINED_SCRIPTS_WS=37, USER_DEFINED_SCRIPTS_START=38, 
+		UDB_DEFINE=39, USER_DEFINED_SCRIPT_UDB_START=40, USER_DEFINED_SCRIPTS_END=41, 
+		BRICK_LIST_WS=42, BRICKLIST_NEWLINE=43, BRICK_NAME=44, UDB_START=45, BRICK_LIST_DISABLED_INDICATOR=46, 
+		NOTE_BRICK=47, BRICK_LIST_END_ELSE=48, BRICK_LIST_END=49, BRICK_MODE_WS=50, 
+		BRICK_MODE_BRACKET_OPEN=51, SEMICOLON=52, BRICK_BODY_OPEN=53, NODE_BRICK_TEXT=54, 
+		UDB_MODE_WS=55, UDB_PARAM_START=56, UDB_LABEL=57, UDB_END=58, UDB_PARAM_MODE_WS=59, 
+		UDB_PARAM_TEXT=60, UDB_PARAM_END=61, UDB_AFTER_MODE_WS=62, UDB_MODE_BRACKET_OPEN=63, 
+		UDB_SEMICOLON=64, UDB_DEFINITION_SCREEN_REFRESH=65, UDB_DEFINITION_NO_SCREEN_REFRESH=66, 
+		UDB_BODY_OPEN=67, PARAM_MODE_WS=68, PARAM_MODE_BRACKET_OPEN=69, PARAM_MODE_BRACKET_CLOSE=70, 
+		PARAM_MODE_NAME=71, PARAM_MODE_UDB_NAME=72, PARAM_MODE_COLON=73, PARAM_SEPARATOR=74, 
+		FORMULA_MODE_WS=75, FORMULA_MODE_BRACKET_CLOSE=76, FORMULA_MODE_BRACKET_OPEN=77, 
+		FORMULA_MODE_ANYTHING=78, FORMULA_MODE_STRING_BEGIN=79, FORMULA_MODE_VARIABLE_BEGIN=80, 
+		FORMULA_MODE_UDB_PARAM_BEGIN=81, FORMULA_LIST_MODE_BEGIN=82, FORMULA_STRING_MODE_ANYTHING=83, 
+		FORMULA_STRING_MODE_END=84, FORMULA_VARIABLE_MODE_ANYTHING=85, FORMULA_VARIABLE_MODE_END=86, 
+		FORMULA_UDB_PARAM_MODE_ANYTHING=87, FORMULA_UDB_PARAM_MODE_END=88, FORMULA_LIST_MODE_ANYTHING=89, 
+		FORMULA_LIST_MODE_END=90;
 	public static final int
 		RULE_program = 0, RULE_programHeader = 1, RULE_programBody = 2, RULE_metadata = 3, 
 		RULE_metadataContent = 4, RULE_description = 5, RULE_catrobatVersion = 6, 
@@ -48,11 +51,11 @@ public class CatrobatLanguageParser extends Parser {
 		RULE_multiplayerVariables = 15, RULE_variableOrListDeclaration = 16, RULE_variableDeclaration = 17, 
 		RULE_scene = 18, RULE_background = 19, RULE_actor = 20, RULE_actorContent = 21, 
 		RULE_localVariables = 22, RULE_looks = 23, RULE_sounds = 24, RULE_looksAndSoundsContent = 25, 
-		RULE_scripts = 26, RULE_brickDefintion = 27, RULE_brickWithBody = 28, 
-		RULE_elseBranch = 29, RULE_brickInvocation = 30, RULE_userDefinedScripts = 31, 
-		RULE_userDefinedScript = 32, RULE_userDefinedBrick = 33, RULE_userDefinedBrickPart = 34, 
-		RULE_brickCondition = 35, RULE_argumentList = 36, RULE_argument = 37, 
-		RULE_formula = 38, RULE_formulaElement = 39;
+		RULE_scripts = 26, RULE_script = 27, RULE_brickDefintion = 28, RULE_noteBrick = 29, 
+		RULE_brickWithBody = 30, RULE_elseBranch = 31, RULE_elseBranchDisabled = 32, 
+		RULE_brickInvocation = 33, RULE_userDefinedScripts = 34, RULE_userDefinedScript = 35, 
+		RULE_userDefinedBrick = 36, RULE_userDefinedBrickPart = 37, RULE_brickCondition = 38, 
+		RULE_argumentList = 39, RULE_argument = 40, RULE_formula = 41, RULE_formulaElement = 42;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"program", "programHeader", "programBody", "metadata", "metadataContent", 
@@ -60,23 +63,25 @@ public class CatrobatLanguageParser extends Parser {
 			"landscapeMode", "height", "width", "displayMode", "globals", "multiplayerVariables", 
 			"variableOrListDeclaration", "variableDeclaration", "scene", "background", 
 			"actor", "actorContent", "localVariables", "looks", "sounds", "looksAndSoundsContent", 
-			"scripts", "brickDefintion", "brickWithBody", "elseBranch", "brickInvocation", 
-			"userDefinedScripts", "userDefinedScript", "userDefinedBrick", "userDefinedBrickPart", 
-			"brickCondition", "argumentList", "argument", "formula", "formulaElement"
+			"scripts", "script", "brickDefintion", "noteBrick", "brickWithBody", 
+			"elseBranch", "elseBranchDisabled", "brickInvocation", "userDefinedScripts", 
+			"userDefinedScript", "userDefinedBrick", "userDefinedBrickPart", "brickCondition", 
+			"argumentList", "argument", "formula", "formulaElement"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, null, "'}'", null, null, null, null, null, null, "'Program'", 
+			null, null, null, null, null, null, null, null, null, null, null, "'Program'", 
 			"'Metadata'", "'Description'", "'Catrobat version'", "'Catrobat app version'", 
 			"'Stage'", "'Landscape mode'", "'Height'", "'Width'", "'Display mode'", 
 			"'Globals'", "'Multiplayer variables'", "'Locals'", "'Looks'", "'Sounds'", 
 			"'Actor or object'", "'of type'", "'Scene'", "'Background'", "'Scripts'", 
-			"'User Defined Bricks'", "'Define'", null, null, "'//'", "'/*'", "'*/'", 
+			"'User Defined Bricks'", null, null, null, null, null, null, null, "'Define'", 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "'with screen refresh as'", "'without screen refresh as'"
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, "'with screen refresh as'", "'without screen refresh as'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -88,20 +93,23 @@ public class CatrobatLanguageParser extends Parser {
 			"STAGE", "LANDSCAPE_MODE", "HEIGHT", "WIDTH", "DISPLAY_MODE", "GLOBALS", 
 			"MULTIPLAYER_VARIABLES", "LOCAL_VARIABLES", "LOOKS", "SOUNDS", "ACTOR_OR_OBJECT", 
 			"OF_TYPE", "SCENE", "BACKGROUND", "SCRIPTS", "USER_DEFINED_SCRIPTS", 
-			"UDB_DEFINE", "ELSE_BRICK", "NOTE_BRICK", "BRICK_INVOCATION_DISABLED", 
-			"BRICK_WITH_BODY_DISABLED_START", "BRICK_WITH_BODY_DISABLED_END", "BRICK_NAME", 
-			"UDB_START", "BRICK_MODE_WS", "BRICK_MODE_BRACKET_OPEN", "SEMICOLON", 
-			"BRICK_BODY_OPEN", "UDB_MODE_WS", "UDB_PARAM_START", "UDB_LABEL", "UDB_END", 
-			"UDB_PARAM_MODE_WS", "UDB_PARAM_TEXT", "UDB_PARAM_END", "UDB_AFTER_MODE_WS", 
-			"UDB_MODE_BRACKET_OPEN", "UDB_SEMICOLON", "UDB_DEFINITION_SCREEN_REFRESH", 
-			"UDB_DEFINITION_NO_SCREEN_REFRESH", "UDB_BODY_OPEN", "PARAM_MODE_WS", 
-			"PARAM_MODE_BRACKET_OPEN", "PARAM_MODE_BRACKET_CLOSE", "PARAM_MODE_NAME", 
-			"PARAM_MODE_UDB_NAME", "PARAM_MODE_COLON", "PARAM_SEPARATOR", "FORMULA_MODE_WS", 
-			"FORMULA_MODE_BRACKET_CLOSE", "FORMULA_MODE_BRACKET_OPEN", "FORMULA_MODE_ANYTHING", 
-			"FORMULA_MODE_STRING_BEGIN", "FORMULA_MODE_VARIABLE_BEGIN", "FORMULA_MODE_UDB_PARAM_BEGIN", 
-			"FORMULA_LIST_MODE_BEGIN", "FORMULA_STRING_MODE_ANYTHING", "FORMULA_STRING_MODE_END", 
-			"FORMULA_VARIABLE_MODE_ANYTHING", "FORMULA_VARIABLE_MODE_END", "FORMULA_UDB_PARAM_MODE_ANYTHING", 
-			"FORMULA_UDB_PARAM_MODE_END", "FORMULA_LIST_MODE_ANYTHING", "FORMULA_LIST_MODE_END"
+			"SCRIPTS_WS", "SCRIPT_DISABLED_INDICATOR", "SCRIPTS_START", "SCRIPT_NAME", 
+			"SCRIPTS_END", "USER_DEFINED_SCRIPTS_WS", "USER_DEFINED_SCRIPTS_START", 
+			"UDB_DEFINE", "USER_DEFINED_SCRIPT_UDB_START", "USER_DEFINED_SCRIPTS_END", 
+			"BRICK_LIST_WS", "BRICKLIST_NEWLINE", "BRICK_NAME", "UDB_START", "BRICK_LIST_DISABLED_INDICATOR", 
+			"NOTE_BRICK", "BRICK_LIST_END_ELSE", "BRICK_LIST_END", "BRICK_MODE_WS", 
+			"BRICK_MODE_BRACKET_OPEN", "SEMICOLON", "BRICK_BODY_OPEN", "NODE_BRICK_TEXT", 
+			"UDB_MODE_WS", "UDB_PARAM_START", "UDB_LABEL", "UDB_END", "UDB_PARAM_MODE_WS", 
+			"UDB_PARAM_TEXT", "UDB_PARAM_END", "UDB_AFTER_MODE_WS", "UDB_MODE_BRACKET_OPEN", 
+			"UDB_SEMICOLON", "UDB_DEFINITION_SCREEN_REFRESH", "UDB_DEFINITION_NO_SCREEN_REFRESH", 
+			"UDB_BODY_OPEN", "PARAM_MODE_WS", "PARAM_MODE_BRACKET_OPEN", "PARAM_MODE_BRACKET_CLOSE", 
+			"PARAM_MODE_NAME", "PARAM_MODE_UDB_NAME", "PARAM_MODE_COLON", "PARAM_SEPARATOR", 
+			"FORMULA_MODE_WS", "FORMULA_MODE_BRACKET_CLOSE", "FORMULA_MODE_BRACKET_OPEN", 
+			"FORMULA_MODE_ANYTHING", "FORMULA_MODE_STRING_BEGIN", "FORMULA_MODE_VARIABLE_BEGIN", 
+			"FORMULA_MODE_UDB_PARAM_BEGIN", "FORMULA_LIST_MODE_BEGIN", "FORMULA_STRING_MODE_ANYTHING", 
+			"FORMULA_STRING_MODE_END", "FORMULA_VARIABLE_MODE_ANYTHING", "FORMULA_VARIABLE_MODE_END", 
+			"FORMULA_UDB_PARAM_MODE_ANYTHING", "FORMULA_UDB_PARAM_MODE_END", "FORMULA_LIST_MODE_ANYTHING", 
+			"FORMULA_LIST_MODE_END"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -188,9 +196,9 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
+			setState(86);
 			programHeader();
-			setState(81);
+			setState(87);
 			programBody();
 			}
 		}
@@ -233,7 +241,7 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(83);
+			setState(89);
 			match(PROGRAM_START);
 			}
 		}
@@ -310,41 +318,41 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
+			setState(91);
 			match(PROGRAM);
-			setState(86);
+			setState(92);
 			match(STRING);
-			setState(87);
+			setState(93);
 			match(CURLY_BRACKET_OPEN);
-			setState(94);
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 6361088L) != 0)) {
 				{
-				setState(92);
+				setState(98);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case METADATA:
 					{
-					setState(88);
+					setState(94);
 					metadata();
 					}
 					break;
 				case STAGE:
 					{
-					setState(89);
+					setState(95);
 					stage();
 					}
 					break;
 				case GLOBALS:
 					{
-					setState(90);
+					setState(96);
 					globals();
 					}
 					break;
 				case MULTIPLAYER_VARIABLES:
 					{
-					setState(91);
+					setState(97);
 					multiplayerVariables();
 					}
 					break;
@@ -352,25 +360,25 @@ public class CatrobatLanguageParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(96);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(98); 
+			setState(104); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(97);
+				setState(103);
 				scene();
 				}
 				}
-				setState(100); 
+				setState(106); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==SCENE );
-			setState(102);
+			setState(108);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -426,37 +434,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(110);
 			match(METADATA);
-			setState(105);
+			setState(111);
 			match(CURLY_BRACKET_OPEN);
-			setState(107);
+			setState(113);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 57344L) != 0)) {
 				{
-				setState(106);
+				setState(112);
 				metadataContent();
 				}
 			}
 
-			setState(113);
+			setState(119);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(109);
+				setState(115);
 				match(SEPARATOR);
-				setState(110);
+				setState(116);
 				metadataContent();
 				}
 				}
-				setState(115);
+				setState(121);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(116);
+			setState(122);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -507,24 +515,24 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(127);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case DESCRIPTION:
 				{
-				setState(118);
+				setState(124);
 				description();
 				}
 				break;
 			case CATROBAT_VERSION:
 				{
-				setState(119);
+				setState(125);
 				catrobatVersion();
 				}
 				break;
 			case CATRPBAT_APP_VERSION:
 				{
-				setState(120);
+				setState(126);
 				catrobatAppVersion();
 				}
 				break;
@@ -574,11 +582,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(129);
 			match(DESCRIPTION);
-			setState(124);
+			setState(130);
 			match(COLON);
-			setState(125);
+			setState(131);
 			match(STRING);
 			}
 		}
@@ -623,11 +631,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(133);
 			match(CATROBAT_VERSION);
-			setState(128);
+			setState(134);
 			match(COLON);
-			setState(129);
+			setState(135);
 			match(STRING);
 			}
 		}
@@ -672,11 +680,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(131);
+			setState(137);
 			match(CATRPBAT_APP_VERSION);
-			setState(132);
+			setState(138);
 			match(COLON);
-			setState(133);
+			setState(139);
 			match(STRING);
 			}
 		}
@@ -732,37 +740,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135);
+			setState(141);
 			match(STAGE);
-			setState(136);
+			setState(142);
 			match(CURLY_BRACKET_OPEN);
-			setState(138);
+			setState(144);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1966080L) != 0)) {
 				{
-				setState(137);
+				setState(143);
 				stageContent();
 				}
 			}
 
-			setState(144);
+			setState(150);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(140);
+				setState(146);
 				match(SEPARATOR);
-				setState(141);
+				setState(147);
 				stageContent();
 				}
 				}
-				setState(146);
+				setState(152);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(147);
+			setState(153);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -816,30 +824,30 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(153);
+			setState(159);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LANDSCAPE_MODE:
 				{
-				setState(149);
+				setState(155);
 				landscapeMode();
 				}
 				break;
 			case HEIGHT:
 				{
-				setState(150);
+				setState(156);
 				height();
 				}
 				break;
 			case WIDTH:
 				{
-				setState(151);
+				setState(157);
 				width();
 				}
 				break;
 			case DISPLAY_MODE:
 				{
-				setState(152);
+				setState(158);
 				displayMode();
 				}
 				break;
@@ -889,11 +897,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(155);
+			setState(161);
 			match(LANDSCAPE_MODE);
-			setState(156);
+			setState(162);
 			match(COLON);
-			setState(157);
+			setState(163);
 			match(STRING);
 			}
 		}
@@ -938,11 +946,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
+			setState(165);
 			match(HEIGHT);
-			setState(160);
+			setState(166);
 			match(COLON);
-			setState(161);
+			setState(167);
 			match(STRING);
 			}
 		}
@@ -987,11 +995,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(163);
+			setState(169);
 			match(WIDTH);
-			setState(164);
+			setState(170);
 			match(COLON);
-			setState(165);
+			setState(171);
 			match(STRING);
 			}
 		}
@@ -1036,11 +1044,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
+			setState(173);
 			match(DISPLAY_MODE);
-			setState(168);
+			setState(174);
 			match(COLON);
-			setState(169);
+			setState(175);
 			match(STRING);
 			}
 		}
@@ -1096,37 +1104,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(171);
+			setState(177);
 			match(GLOBALS);
-			setState(172);
+			setState(178);
 			match(CURLY_BRACKET_OPEN);
-			setState(174);
+			setState(180);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==VARIABLE_REF || _la==LIST_REF) {
 				{
-				setState(173);
+				setState(179);
 				variableOrListDeclaration();
 				}
 			}
 
-			setState(180);
+			setState(186);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(176);
+				setState(182);
 				match(SEPARATOR);
-				setState(177);
+				setState(183);
 				variableOrListDeclaration();
 				}
 				}
-				setState(182);
+				setState(188);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(183);
+			setState(189);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1182,37 +1190,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(185);
+			setState(191);
 			match(MULTIPLAYER_VARIABLES);
-			setState(186);
+			setState(192);
 			match(CURLY_BRACKET_OPEN);
-			setState(188);
+			setState(194);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==VARIABLE_REF) {
 				{
-				setState(187);
+				setState(193);
 				variableDeclaration();
 				}
 			}
 
-			setState(194);
+			setState(200);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(190);
+				setState(196);
 				match(SEPARATOR);
-				setState(191);
+				setState(197);
 				variableDeclaration();
 				}
 				}
-				setState(196);
+				setState(202);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(197);
+			setState(203);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1256,20 +1264,20 @@ public class CatrobatLanguageParser extends Parser {
 		VariableOrListDeclarationContext _localctx = new VariableOrListDeclarationContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_variableOrListDeclaration);
 		try {
-			setState(201);
+			setState(207);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case VARIABLE_REF:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(199);
+				setState(205);
 				variableDeclaration();
 				}
 				break;
 			case LIST_REF:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(200);
+				setState(206);
 				match(LIST_REF);
 				}
 				break;
@@ -1316,7 +1324,7 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(203);
+			setState(209);
 			match(VARIABLE_REF);
 			}
 		}
@@ -1372,29 +1380,29 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(205);
+			setState(211);
 			match(SCENE);
-			setState(206);
-			match(STRING);
-			setState(207);
-			match(CURLY_BRACKET_OPEN);
-			setState(208);
-			background();
 			setState(212);
+			match(STRING);
+			setState(213);
+			match(CURLY_BRACKET_OPEN);
+			setState(214);
+			background();
+			setState(218);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ACTOR_OR_OBJECT) {
 				{
 				{
-				setState(209);
+				setState(215);
 				actor();
 				}
 				}
-				setState(214);
+				setState(220);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(215);
+			setState(221);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1442,13 +1450,13 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(217);
+			setState(223);
 			match(BACKGROUND);
-			setState(218);
+			setState(224);
 			match(CURLY_BRACKET_OPEN);
-			setState(219);
+			setState(225);
 			actorContent();
-			setState(220);
+			setState(226);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1502,27 +1510,27 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(222);
+			setState(228);
 			match(ACTOR_OR_OBJECT);
-			setState(223);
+			setState(229);
 			match(STRING);
-			setState(226);
+			setState(232);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OF_TYPE) {
 				{
-				setState(224);
+				setState(230);
 				match(OF_TYPE);
-				setState(225);
+				setState(231);
 				match(STRING);
 				}
 			}
 
-			setState(228);
+			setState(234);
 			match(CURLY_BRACKET_OPEN);
-			setState(229);
+			setState(235);
 			actorContent();
-			setState(230);
+			setState(236);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1595,41 +1603,41 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(237); 
+			setState(243); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(237);
+				setState(243);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case LOCAL_VARIABLES:
 					{
-					setState(232);
+					setState(238);
 					localVariables();
 					}
 					break;
 				case LOOKS:
 					{
-					setState(233);
+					setState(239);
 					looks();
 					}
 					break;
 				case SOUNDS:
 					{
-					setState(234);
+					setState(240);
 					sounds();
 					}
 					break;
 				case SCRIPTS:
 					{
-					setState(235);
+					setState(241);
 					scripts();
 					}
 					break;
 				case USER_DEFINED_SCRIPTS:
 					{
-					setState(236);
+					setState(242);
 					userDefinedScripts();
 					}
 					break;
@@ -1637,7 +1645,7 @@ public class CatrobatLanguageParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(239); 
+				setState(245); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 3279945728L) != 0) );
@@ -1695,37 +1703,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(241);
+			setState(247);
 			match(LOCAL_VARIABLES);
-			setState(242);
+			setState(248);
 			match(CURLY_BRACKET_OPEN);
-			setState(244);
+			setState(250);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==VARIABLE_REF || _la==LIST_REF) {
 				{
-				setState(243);
+				setState(249);
 				variableOrListDeclaration();
 				}
 			}
 
-			setState(250);
+			setState(256);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(246);
+				setState(252);
 				match(SEPARATOR);
-				setState(247);
+				setState(253);
 				variableOrListDeclaration();
 				}
 				}
-				setState(252);
+				setState(258);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(253);
+			setState(259);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1781,37 +1789,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(255);
+			setState(261);
 			match(LOOKS);
-			setState(256);
+			setState(262);
 			match(CURLY_BRACKET_OPEN);
-			setState(258);
+			setState(264);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==STRING) {
 				{
-				setState(257);
+				setState(263);
 				looksAndSoundsContent();
 				}
 			}
 
-			setState(264);
+			setState(270);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(260);
+				setState(266);
 				match(SEPARATOR);
-				setState(261);
+				setState(267);
 				looksAndSoundsContent();
 				}
 				}
-				setState(266);
+				setState(272);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(267);
+			setState(273);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1867,37 +1875,37 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(269);
+			setState(275);
 			match(SOUNDS);
-			setState(270);
+			setState(276);
 			match(CURLY_BRACKET_OPEN);
-			setState(272);
+			setState(278);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==STRING) {
 				{
-				setState(271);
+				setState(277);
 				looksAndSoundsContent();
 				}
 			}
 
-			setState(278);
+			setState(284);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEPARATOR) {
 				{
 				{
-				setState(274);
+				setState(280);
 				match(SEPARATOR);
-				setState(275);
+				setState(281);
 				looksAndSoundsContent();
 				}
 				}
-				setState(280);
+				setState(286);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(281);
+			setState(287);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -1944,11 +1952,11 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(283);
+			setState(289);
 			match(STRING);
-			setState(284);
+			setState(290);
 			match(COLON);
-			setState(285);
+			setState(291);
 			match(STRING);
 			}
 		}
@@ -1966,13 +1974,13 @@ public class CatrobatLanguageParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class ScriptsContext extends ParserRuleContext {
 		public TerminalNode SCRIPTS() { return getToken(CatrobatLanguageParser.SCRIPTS, 0); }
-		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_CLOSE, 0); }
-		public List<BrickWithBodyContext> brickWithBody() {
-			return getRuleContexts(BrickWithBodyContext.class);
+		public TerminalNode SCRIPTS_START() { return getToken(CatrobatLanguageParser.SCRIPTS_START, 0); }
+		public TerminalNode SCRIPTS_END() { return getToken(CatrobatLanguageParser.SCRIPTS_END, 0); }
+		public List<ScriptContext> script() {
+			return getRuleContexts(ScriptContext.class);
 		}
-		public BrickWithBodyContext brickWithBody(int i) {
-			return getRuleContext(BrickWithBodyContext.class,i);
+		public ScriptContext script(int i) {
+			return getRuleContext(ScriptContext.class,i);
 		}
 		public ScriptsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2000,26 +2008,182 @@ public class CatrobatLanguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(287);
+			setState(293);
 			match(SCRIPTS);
-			setState(288);
-			match(CURLY_BRACKET_OPEN);
-			setState(292);
+			setState(294);
+			match(SCRIPTS_START);
+			setState(298);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==BRICK_WITH_BODY_DISABLED_START || _la==BRICK_NAME) {
+			while (_la==SCRIPT_DISABLED_INDICATOR || _la==SCRIPT_NAME) {
 				{
 				{
-				setState(289);
-				brickWithBody();
+				setState(295);
+				script();
 				}
 				}
-				setState(294);
+				setState(300);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(295);
-			match(CURLY_BRACKET_CLOSE);
+			setState(301);
+			match(SCRIPTS_END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ScriptContext extends ParserRuleContext {
+		public TerminalNode SCRIPT_NAME() { return getToken(CatrobatLanguageParser.SCRIPT_NAME, 0); }
+		public TerminalNode BRICK_BODY_OPEN() { return getToken(CatrobatLanguageParser.BRICK_BODY_OPEN, 0); }
+		public TerminalNode BRICK_LIST_END() { return getToken(CatrobatLanguageParser.BRICK_LIST_END, 0); }
+		public BrickConditionContext brickCondition() {
+			return getRuleContext(BrickConditionContext.class,0);
+		}
+		public List<TerminalNode> BRICKLIST_NEWLINE() { return getTokens(CatrobatLanguageParser.BRICKLIST_NEWLINE); }
+		public TerminalNode BRICKLIST_NEWLINE(int i) {
+			return getToken(CatrobatLanguageParser.BRICKLIST_NEWLINE, i);
+		}
+		public List<BrickDefintionContext> brickDefintion() {
+			return getRuleContexts(BrickDefintionContext.class);
+		}
+		public BrickDefintionContext brickDefintion(int i) {
+			return getRuleContext(BrickDefintionContext.class,i);
+		}
+		public TerminalNode SCRIPT_DISABLED_INDICATOR() { return getToken(CatrobatLanguageParser.SCRIPT_DISABLED_INDICATOR, 0); }
+		public TerminalNode BRICK_LIST_DISABLED_INDICATOR() { return getToken(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR, 0); }
+		public ScriptContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_script; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).enterScript(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).exitScript(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof CatrobatLanguageParserVisitor ) return ((CatrobatLanguageParserVisitor<? extends T>)visitor).visitScript(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ScriptContext script() throws RecognitionException {
+		ScriptContext _localctx = new ScriptContext(_ctx, getState());
+		enterRule(_localctx, 54, RULE_script);
+		int _la;
+		try {
+			setState(333);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case SCRIPT_NAME:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(303);
+				match(SCRIPT_NAME);
+				setState(305);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) {
+					{
+					setState(304);
+					brickCondition();
+					}
+				}
+
+				setState(307);
+				match(BRICK_BODY_OPEN);
+				setState(312); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(308);
+					match(BRICKLIST_NEWLINE);
+					setState(310);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 264982302294016L) != 0)) {
+						{
+						setState(309);
+						brickDefintion();
+						}
+					}
+
+					}
+					}
+					setState(314); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==BRICKLIST_NEWLINE );
+				setState(316);
+				match(BRICK_LIST_END);
+				}
+				break;
+			case SCRIPT_DISABLED_INDICATOR:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(317);
+				match(SCRIPT_DISABLED_INDICATOR);
+				setState(318);
+				match(SCRIPT_NAME);
+				setState(320);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) {
+					{
+					setState(319);
+					brickCondition();
+					}
+				}
+
+				setState(322);
+				match(BRICK_BODY_OPEN);
+				setState(327); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(323);
+					match(BRICKLIST_NEWLINE);
+					setState(325);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
+					case 1:
+						{
+						setState(324);
+						brickDefintion();
+						}
+						break;
+					}
+					}
+					}
+					setState(329); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==BRICKLIST_NEWLINE );
+				setState(331);
+				match(BRICK_LIST_DISABLED_INDICATOR);
+				setState(332);
+				match(BRICK_LIST_END);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2035,8 +2199,9 @@ public class CatrobatLanguageParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class BrickDefintionContext extends ParserRuleContext {
-		public TerminalNode NOTE_BRICK() { return getToken(CatrobatLanguageParser.NOTE_BRICK, 0); }
-		public TerminalNode BRICK_INVOCATION_DISABLED() { return getToken(CatrobatLanguageParser.BRICK_INVOCATION_DISABLED, 0); }
+		public NoteBrickContext noteBrick() {
+			return getRuleContext(NoteBrickContext.class,0);
+		}
 		public BrickInvocationContext brickInvocation() {
 			return getRuleContext(BrickInvocationContext.class,0);
 		}
@@ -2064,40 +2229,29 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final BrickDefintionContext brickDefintion() throws RecognitionException {
 		BrickDefintionContext _localctx = new BrickDefintionContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_brickDefintion);
-		int _la;
+		enterRule(_localctx, 56, RULE_brickDefintion);
 		try {
-			setState(303);
+			setState(338);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,32,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(298);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==BRICK_INVOCATION_DISABLED) {
-					{
-					setState(297);
-					match(BRICK_INVOCATION_DISABLED);
-					}
-				}
-
-				setState(300);
-				match(NOTE_BRICK);
+				setState(335);
+				noteBrick();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(301);
+				setState(336);
 				brickInvocation();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(302);
+				setState(337);
 				brickWithBody();
 				}
 				break;
@@ -2115,12 +2269,77 @@ public class CatrobatLanguageParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
+	public static class NoteBrickContext extends ParserRuleContext {
+		public TerminalNode NOTE_BRICK() { return getToken(CatrobatLanguageParser.NOTE_BRICK, 0); }
+		public TerminalNode NODE_BRICK_TEXT() { return getToken(CatrobatLanguageParser.NODE_BRICK_TEXT, 0); }
+		public TerminalNode BRICK_LIST_DISABLED_INDICATOR() { return getToken(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR, 0); }
+		public NoteBrickContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_noteBrick; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).enterNoteBrick(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).exitNoteBrick(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof CatrobatLanguageParserVisitor ) return ((CatrobatLanguageParserVisitor<? extends T>)visitor).visitNoteBrick(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final NoteBrickContext noteBrick() throws RecognitionException {
+		NoteBrickContext _localctx = new NoteBrickContext(_ctx, getState());
+		enterRule(_localctx, 58, RULE_noteBrick);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(341);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==BRICK_LIST_DISABLED_INDICATOR) {
+				{
+				setState(340);
+				match(BRICK_LIST_DISABLED_INDICATOR);
+				}
+			}
+
+			setState(343);
+			match(NOTE_BRICK);
+			setState(344);
+			match(NODE_BRICK_TEXT);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class BrickWithBodyContext extends ParserRuleContext {
 		public TerminalNode BRICK_NAME() { return getToken(CatrobatLanguageParser.BRICK_NAME, 0); }
 		public TerminalNode BRICK_BODY_OPEN() { return getToken(CatrobatLanguageParser.BRICK_BODY_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode BRICK_LIST_END() { return getToken(CatrobatLanguageParser.BRICK_LIST_END, 0); }
+		public ElseBranchContext elseBranch() {
+			return getRuleContext(ElseBranchContext.class,0);
+		}
 		public BrickConditionContext brickCondition() {
 			return getRuleContext(BrickConditionContext.class,0);
+		}
+		public List<TerminalNode> BRICKLIST_NEWLINE() { return getTokens(CatrobatLanguageParser.BRICKLIST_NEWLINE); }
+		public TerminalNode BRICKLIST_NEWLINE(int i) {
+			return getToken(CatrobatLanguageParser.BRICKLIST_NEWLINE, i);
 		}
 		public List<BrickDefintionContext> brickDefintion() {
 			return getRuleContexts(BrickDefintionContext.class);
@@ -2128,11 +2347,13 @@ public class CatrobatLanguageParser extends Parser {
 		public BrickDefintionContext brickDefintion(int i) {
 			return getRuleContext(BrickDefintionContext.class,i);
 		}
-		public ElseBranchContext elseBranch() {
-			return getRuleContext(ElseBranchContext.class,0);
+		public List<TerminalNode> BRICK_LIST_DISABLED_INDICATOR() { return getTokens(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR); }
+		public TerminalNode BRICK_LIST_DISABLED_INDICATOR(int i) {
+			return getToken(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR, i);
 		}
-		public TerminalNode BRICK_WITH_BODY_DISABLED_START() { return getToken(CatrobatLanguageParser.BRICK_WITH_BODY_DISABLED_START, 0); }
-		public TerminalNode BRICK_WITH_BODY_DISABLED_END() { return getToken(CatrobatLanguageParser.BRICK_WITH_BODY_DISABLED_END, 0); }
+		public ElseBranchDisabledContext elseBranchDisabled() {
+			return getRuleContext(ElseBranchDisabledContext.class,0);
+		}
 		public BrickWithBodyContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2154,104 +2375,136 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final BrickWithBodyContext brickWithBody() throws RecognitionException {
 		BrickWithBodyContext _localctx = new BrickWithBodyContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_brickWithBody);
+		enterRule(_localctx, 60, RULE_brickWithBody);
 		int _la;
 		try {
-			setState(337);
+			setState(382);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case BRICK_NAME:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(305);
+				setState(346);
 				match(BRICK_NAME);
-				setState(307);
+				setState(348);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) {
 					{
-					setState(306);
+					setState(347);
 					brickCondition();
 					}
 				}
 
-				setState(309);
+				setState(350);
 				match(BRICK_BODY_OPEN);
-				setState(313);
+				setState(355); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 944892805120L) != 0)) {
+				do {
 					{
 					{
-					setState(310);
-					brickDefintion();
-					}
-					}
-					setState(315);
+					setState(351);
+					match(BRICKLIST_NEWLINE);
+					setState(353);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				}
-				setState(316);
-				match(CURLY_BRACKET_CLOSE);
-				setState(318);
+					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 264982302294016L) != 0)) {
+						{
+						setState(352);
+						brickDefintion();
+						}
+					}
+
+					}
+					}
+					setState(357); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==BRICKLIST_NEWLINE );
+				setState(361);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ELSE_BRICK) {
+				switch (_input.LA(1)) {
+				case BRICK_LIST_END:
 					{
-					setState(317);
+					setState(359);
+					match(BRICK_LIST_END);
+					}
+					break;
+				case BRICK_LIST_END_ELSE:
+					{
+					setState(360);
 					elseBranch();
 					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-
 				}
 				break;
-			case BRICK_WITH_BODY_DISABLED_START:
+			case BRICK_LIST_DISABLED_INDICATOR:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(320);
-				match(BRICK_WITH_BODY_DISABLED_START);
-				setState(321);
+				setState(363);
+				match(BRICK_LIST_DISABLED_INDICATOR);
+				setState(364);
 				match(BRICK_NAME);
-				setState(323);
+				setState(366);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) {
 					{
-					setState(322);
+					setState(365);
 					brickCondition();
 					}
 				}
 
-				setState(325);
+				setState(368);
 				match(BRICK_BODY_OPEN);
-				setState(329);
+				setState(373); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 944892805120L) != 0)) {
+				do {
 					{
 					{
-					setState(326);
-					brickDefintion();
+					setState(369);
+					match(BRICKLIST_NEWLINE);
+					setState(371);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,39,_ctx) ) {
+					case 1:
+						{
+						setState(370);
+						brickDefintion();
+						}
+						break;
 					}
 					}
-					setState(331);
+					}
+					setState(375); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				}
-				setState(332);
-				match(CURLY_BRACKET_CLOSE);
-				setState(334);
+				} while ( _la==BRICKLIST_NEWLINE );
+				setState(380);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ELSE_BRICK) {
+				switch ( getInterpreter().adaptivePredict(_input,41,_ctx) ) {
+				case 1:
 					{
-					setState(333);
-					elseBranch();
+					{
+					setState(377);
+					match(BRICK_LIST_DISABLED_INDICATOR);
+					setState(378);
+					match(BRICK_LIST_END);
 					}
+					}
+					break;
+				case 2:
+					{
+					setState(379);
+					elseBranchDisabled();
+					}
+					break;
 				}
-
-				setState(336);
-				match(BRICK_WITH_BODY_DISABLED_END);
 				}
 				break;
 			default:
@@ -2271,9 +2524,13 @@ public class CatrobatLanguageParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ElseBranchContext extends ParserRuleContext {
-		public TerminalNode ELSE_BRICK() { return getToken(CatrobatLanguageParser.ELSE_BRICK, 0); }
-		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode BRICK_LIST_END_ELSE() { return getToken(CatrobatLanguageParser.BRICK_LIST_END_ELSE, 0); }
+		public TerminalNode BRICK_BODY_OPEN() { return getToken(CatrobatLanguageParser.BRICK_BODY_OPEN, 0); }
+		public TerminalNode BRICK_LIST_END() { return getToken(CatrobatLanguageParser.BRICK_LIST_END, 0); }
+		public List<TerminalNode> BRICKLIST_NEWLINE() { return getTokens(CatrobatLanguageParser.BRICKLIST_NEWLINE); }
+		public TerminalNode BRICKLIST_NEWLINE(int i) {
+			return getToken(CatrobatLanguageParser.BRICKLIST_NEWLINE, i);
+		}
 		public List<BrickDefintionContext> brickDefintion() {
 			return getRuleContexts(BrickDefintionContext.class);
 		}
@@ -2301,31 +2558,133 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final ElseBranchContext elseBranch() throws RecognitionException {
 		ElseBranchContext _localctx = new ElseBranchContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_elseBranch);
+		enterRule(_localctx, 62, RULE_elseBranch);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(339);
-			match(ELSE_BRICK);
-			setState(340);
-			match(CURLY_BRACKET_OPEN);
-			setState(344);
+			setState(384);
+			match(BRICK_LIST_END_ELSE);
+			setState(385);
+			match(BRICK_BODY_OPEN);
+			setState(390); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 944892805120L) != 0)) {
+			do {
 				{
 				{
-				setState(341);
-				brickDefintion();
-				}
-				}
-				setState(346);
+				setState(386);
+				match(BRICKLIST_NEWLINE);
+				setState(388);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 264982302294016L) != 0)) {
+					{
+					setState(387);
+					brickDefintion();
+					}
+				}
+
+				}
+				}
+				setState(392); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==BRICKLIST_NEWLINE );
+			setState(394);
+			match(BRICK_LIST_END);
 			}
-			setState(347);
-			match(CURLY_BRACKET_CLOSE);
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ElseBranchDisabledContext extends ParserRuleContext {
+		public List<TerminalNode> BRICK_LIST_DISABLED_INDICATOR() { return getTokens(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR); }
+		public TerminalNode BRICK_LIST_DISABLED_INDICATOR(int i) {
+			return getToken(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR, i);
+		}
+		public TerminalNode BRICK_LIST_END_ELSE() { return getToken(CatrobatLanguageParser.BRICK_LIST_END_ELSE, 0); }
+		public TerminalNode BRICK_BODY_OPEN() { return getToken(CatrobatLanguageParser.BRICK_BODY_OPEN, 0); }
+		public TerminalNode BRICK_LIST_END() { return getToken(CatrobatLanguageParser.BRICK_LIST_END, 0); }
+		public List<TerminalNode> BRICKLIST_NEWLINE() { return getTokens(CatrobatLanguageParser.BRICKLIST_NEWLINE); }
+		public TerminalNode BRICKLIST_NEWLINE(int i) {
+			return getToken(CatrobatLanguageParser.BRICKLIST_NEWLINE, i);
+		}
+		public List<BrickDefintionContext> brickDefintion() {
+			return getRuleContexts(BrickDefintionContext.class);
+		}
+		public BrickDefintionContext brickDefintion(int i) {
+			return getRuleContext(BrickDefintionContext.class,i);
+		}
+		public ElseBranchDisabledContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_elseBranchDisabled; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).enterElseBranchDisabled(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CatrobatLanguageParserListener ) ((CatrobatLanguageParserListener)listener).exitElseBranchDisabled(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof CatrobatLanguageParserVisitor ) return ((CatrobatLanguageParserVisitor<? extends T>)visitor).visitElseBranchDisabled(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ElseBranchDisabledContext elseBranchDisabled() throws RecognitionException {
+		ElseBranchDisabledContext _localctx = new ElseBranchDisabledContext(_ctx, getState());
+		enterRule(_localctx, 64, RULE_elseBranchDisabled);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(396);
+			match(BRICK_LIST_DISABLED_INDICATOR);
+			setState(397);
+			match(BRICK_LIST_END_ELSE);
+			setState(398);
+			match(BRICK_BODY_OPEN);
+			setState(403); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(399);
+				match(BRICKLIST_NEWLINE);
+				setState(401);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,45,_ctx) ) {
+				case 1:
+					{
+					setState(400);
+					brickDefintion();
+					}
+					break;
+				}
+				}
+				}
+				setState(405); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==BRICKLIST_NEWLINE );
+			setState(407);
+			match(BRICK_LIST_DISABLED_INDICATOR);
+			setState(408);
+			match(BRICK_LIST_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2347,7 +2706,7 @@ public class CatrobatLanguageParser extends Parser {
 		public UserDefinedBrickContext userDefinedBrick() {
 			return getRuleContext(UserDefinedBrickContext.class,0);
 		}
-		public TerminalNode BRICK_INVOCATION_DISABLED() { return getToken(CatrobatLanguageParser.BRICK_INVOCATION_DISABLED, 0); }
+		public TerminalNode BRICK_LIST_DISABLED_INDICATOR() { return getToken(CatrobatLanguageParser.BRICK_LIST_DISABLED_INDICATOR, 0); }
 		public BrickConditionContext brickCondition() {
 			return getRuleContext(BrickConditionContext.class,0);
 		}
@@ -2372,50 +2731,51 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final BrickInvocationContext brickInvocation() throws RecognitionException {
 		BrickInvocationContext _localctx = new BrickInvocationContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_brickInvocation);
+		enterRule(_localctx, 66, RULE_brickInvocation);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(350);
+			setState(411);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==BRICK_INVOCATION_DISABLED) {
+			if (_la==BRICK_LIST_DISABLED_INDICATOR) {
 				{
-				setState(349);
-				match(BRICK_INVOCATION_DISABLED);
+				setState(410);
+				match(BRICK_LIST_DISABLED_INDICATOR);
 				}
 			}
 
-			setState(354);
+			setState(415);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case BRICK_NAME:
 				{
-				setState(352);
+				setState(413);
 				match(BRICK_NAME);
 				}
 				break;
+			case USER_DEFINED_SCRIPT_UDB_START:
 			case UDB_START:
 				{
-				setState(353);
+				setState(414);
 				userDefinedBrick();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(357);
+			setState(418);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) {
 				{
-				setState(356);
+				setState(417);
 				brickCondition();
 				}
 			}
 
-			setState(359);
+			setState(420);
 			_la = _input.LA(1);
 			if ( !(_la==SEMICOLON || _la==UDB_SEMICOLON) ) {
 			_errHandler.recoverInline(this);
@@ -2441,8 +2801,8 @@ public class CatrobatLanguageParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class UserDefinedScriptsContext extends ParserRuleContext {
 		public TerminalNode USER_DEFINED_SCRIPTS() { return getToken(CatrobatLanguageParser.USER_DEFINED_SCRIPTS, 0); }
-		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode USER_DEFINED_SCRIPTS_START() { return getToken(CatrobatLanguageParser.USER_DEFINED_SCRIPTS_START, 0); }
+		public TerminalNode USER_DEFINED_SCRIPTS_END() { return getToken(CatrobatLanguageParser.USER_DEFINED_SCRIPTS_END, 0); }
 		public List<UserDefinedScriptContext> userDefinedScript() {
 			return getRuleContexts(UserDefinedScriptContext.class);
 		}
@@ -2470,31 +2830,31 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final UserDefinedScriptsContext userDefinedScripts() throws RecognitionException {
 		UserDefinedScriptsContext _localctx = new UserDefinedScriptsContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_userDefinedScripts);
+		enterRule(_localctx, 68, RULE_userDefinedScripts);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(361);
+			setState(422);
 			match(USER_DEFINED_SCRIPTS);
-			setState(362);
-			match(CURLY_BRACKET_OPEN);
-			setState(366);
+			setState(423);
+			match(USER_DEFINED_SCRIPTS_START);
+			setState(427);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==UDB_DEFINE) {
 				{
 				{
-				setState(363);
+				setState(424);
 				userDefinedScript();
 				}
 				}
-				setState(368);
+				setState(429);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(369);
-			match(CURLY_BRACKET_CLOSE);
+			setState(430);
+			match(USER_DEFINED_SCRIPTS_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2515,9 +2875,13 @@ public class CatrobatLanguageParser extends Parser {
 			return getRuleContext(UserDefinedBrickContext.class,0);
 		}
 		public TerminalNode UDB_BODY_OPEN() { return getToken(CatrobatLanguageParser.UDB_BODY_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(CatrobatLanguageParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode BRICK_LIST_END() { return getToken(CatrobatLanguageParser.BRICK_LIST_END, 0); }
 		public TerminalNode UDB_DEFINITION_SCREEN_REFRESH() { return getToken(CatrobatLanguageParser.UDB_DEFINITION_SCREEN_REFRESH, 0); }
 		public TerminalNode UDB_DEFINITION_NO_SCREEN_REFRESH() { return getToken(CatrobatLanguageParser.UDB_DEFINITION_NO_SCREEN_REFRESH, 0); }
+		public List<TerminalNode> BRICKLIST_NEWLINE() { return getTokens(CatrobatLanguageParser.BRICKLIST_NEWLINE); }
+		public TerminalNode BRICKLIST_NEWLINE(int i) {
+			return getToken(CatrobatLanguageParser.BRICKLIST_NEWLINE, i);
+		}
 		public List<BrickDefintionContext> brickDefintion() {
 			return getRuleContexts(BrickDefintionContext.class);
 		}
@@ -2545,16 +2909,16 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final UserDefinedScriptContext userDefinedScript() throws RecognitionException {
 		UserDefinedScriptContext _localctx = new UserDefinedScriptContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_userDefinedScript);
+		enterRule(_localctx, 70, RULE_userDefinedScript);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(371);
+			setState(432);
 			match(UDB_DEFINE);
-			setState(372);
+			setState(433);
 			userDefinedBrick();
-			setState(373);
+			setState(434);
 			_la = _input.LA(1);
 			if ( !(_la==UDB_DEFINITION_SCREEN_REFRESH || _la==UDB_DEFINITION_NO_SCREEN_REFRESH) ) {
 			_errHandler.recoverInline(this);
@@ -2564,24 +2928,34 @@ public class CatrobatLanguageParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(374);
+			setState(435);
 			match(UDB_BODY_OPEN);
-			setState(378);
+			setState(440); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 944892805120L) != 0)) {
+			do {
 				{
 				{
-				setState(375);
-				brickDefintion();
-				}
-				}
-				setState(380);
+				setState(436);
+				match(BRICKLIST_NEWLINE);
+				setState(438);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(381);
-			match(CURLY_BRACKET_CLOSE);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 264982302294016L) != 0)) {
+					{
+					setState(437);
+					brickDefintion();
+					}
+				}
+
+				}
+				}
+				setState(442); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==BRICKLIST_NEWLINE );
+			setState(444);
+			match(BRICK_LIST_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2597,8 +2971,9 @@ public class CatrobatLanguageParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class UserDefinedBrickContext extends ParserRuleContext {
-		public TerminalNode UDB_START() { return getToken(CatrobatLanguageParser.UDB_START, 0); }
 		public TerminalNode UDB_END() { return getToken(CatrobatLanguageParser.UDB_END, 0); }
+		public TerminalNode USER_DEFINED_SCRIPT_UDB_START() { return getToken(CatrobatLanguageParser.USER_DEFINED_SCRIPT_UDB_START, 0); }
+		public TerminalNode UDB_START() { return getToken(CatrobatLanguageParser.UDB_START, 0); }
 		public List<UserDefinedBrickPartContext> userDefinedBrickPart() {
 			return getRuleContexts(UserDefinedBrickPartContext.class);
 		}
@@ -2626,28 +3001,36 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final UserDefinedBrickContext userDefinedBrick() throws RecognitionException {
 		UserDefinedBrickContext _localctx = new UserDefinedBrickContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_userDefinedBrick);
+		enterRule(_localctx, 72, RULE_userDefinedBrick);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(383);
-			match(UDB_START);
-			setState(385); 
+			setState(446);
+			_la = _input.LA(1);
+			if ( !(_la==USER_DEFINED_SCRIPT_UDB_START || _la==UDB_START) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(448); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(384);
+				setState(447);
 				userDefinedBrickPart();
 				}
 				}
-				setState(387); 
+				setState(450); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==UDB_PARAM_START || _la==UDB_LABEL );
-			setState(389);
+			setState(452);
 			match(UDB_END);
 			}
 		}
@@ -2689,26 +3072,26 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final UserDefinedBrickPartContext userDefinedBrickPart() throws RecognitionException {
 		UserDefinedBrickPartContext _localctx = new UserDefinedBrickPartContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_userDefinedBrickPart);
+		enterRule(_localctx, 74, RULE_userDefinedBrickPart);
 		try {
-			setState(395);
+			setState(458);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case UDB_PARAM_START:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(391);
+				setState(454);
 				match(UDB_PARAM_START);
-				setState(392);
+				setState(455);
 				match(UDB_PARAM_TEXT);
-				setState(393);
+				setState(456);
 				match(UDB_PARAM_END);
 				}
 				break;
 			case UDB_LABEL:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(394);
+				setState(457);
 				match(UDB_LABEL);
 				}
 				break;
@@ -2756,12 +3139,12 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final BrickConditionContext brickCondition() throws RecognitionException {
 		BrickConditionContext _localctx = new BrickConditionContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_brickCondition);
+		enterRule(_localctx, 76, RULE_brickCondition);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(397);
+			setState(460);
 			_la = _input.LA(1);
 			if ( !(_la==BRICK_MODE_BRACKET_OPEN || _la==UDB_MODE_BRACKET_OPEN) ) {
 			_errHandler.recoverInline(this);
@@ -2771,9 +3154,9 @@ public class CatrobatLanguageParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(398);
+			setState(461);
 			argumentList();
-			setState(399);
+			setState(462);
 			match(PARAM_MODE_BRACKET_CLOSE);
 			}
 		}
@@ -2821,26 +3204,26 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final ArgumentListContext argumentList() throws RecognitionException {
 		ArgumentListContext _localctx = new ArgumentListContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_argumentList);
+		enterRule(_localctx, 78, RULE_argumentList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(401);
+			setState(464);
 			argument();
-			setState(406);
+			setState(469);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PARAM_SEPARATOR) {
 				{
 				{
-				setState(402);
+				setState(465);
 				match(PARAM_SEPARATOR);
-				setState(403);
+				setState(466);
 				argument();
 				}
 				}
-				setState(408);
+				setState(471);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2888,12 +3271,12 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final ArgumentContext argument() throws RecognitionException {
 		ArgumentContext _localctx = new ArgumentContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_argument);
+		enterRule(_localctx, 80, RULE_argument);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(409);
+			setState(472);
 			_la = _input.LA(1);
 			if ( !(_la==PARAM_MODE_NAME || _la==PARAM_MODE_UDB_NAME) ) {
 			_errHandler.recoverInline(this);
@@ -2903,13 +3286,13 @@ public class CatrobatLanguageParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(410);
+			setState(473);
 			match(PARAM_MODE_COLON);
-			setState(411);
+			setState(474);
 			match(PARAM_MODE_BRACKET_OPEN);
-			setState(412);
+			setState(475);
 			formula();
-			setState(413);
+			setState(476);
 			match(FORMULA_MODE_BRACKET_CLOSE);
 			}
 		}
@@ -2953,26 +3336,26 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final FormulaContext formula() throws RecognitionException {
 		FormulaContext _localctx = new FormulaContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_formula);
+		enterRule(_localctx, 82, RULE_formula);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(418);
+			setState(481);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,43,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,56,_ctx);
 			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(415);
+					setState(478);
 					formulaElement();
 					}
 					} 
 				}
-				setState(420);
+				setState(483);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,43,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,56,_ctx);
 			}
 			}
 		}
@@ -3025,14 +3408,14 @@ public class CatrobatLanguageParser extends Parser {
 
 	public final FormulaElementContext formulaElement() throws RecognitionException {
 		FormulaElementContext _localctx = new FormulaElementContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_formulaElement);
+		enterRule(_localctx, 84, RULE_formulaElement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(421);
+			setState(484);
 			_la = _input.LA(1);
-			if ( !(((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & 32767L) != 0)) ) {
+			if ( !(((((_la - 76)) & ~0x3f) == 0 && ((1L << (_la - 76)) & 32767L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -3054,7 +3437,7 @@ public class CatrobatLanguageParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001O\u01a8\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001Z\u01e7\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -3065,265 +3448,309 @@ public class CatrobatLanguageParser extends Parser {
 		"\u0002\u0019\u0007\u0019\u0002\u001a\u0007\u001a\u0002\u001b\u0007\u001b"+
 		"\u0002\u001c\u0007\u001c\u0002\u001d\u0007\u001d\u0002\u001e\u0007\u001e"+
 		"\u0002\u001f\u0007\u001f\u0002 \u0007 \u0002!\u0007!\u0002\"\u0007\"\u0002"+
-		"#\u0007#\u0002$\u0007$\u0002%\u0007%\u0002&\u0007&\u0002\'\u0007\'\u0001"+
-		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0005"+
-		"\u0002]\b\u0002\n\u0002\f\u0002`\t\u0002\u0001\u0002\u0004\u0002c\b\u0002"+
-		"\u000b\u0002\f\u0002d\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003"+
-		"\u0001\u0003\u0003\u0003l\b\u0003\u0001\u0003\u0001\u0003\u0005\u0003"+
-		"p\b\u0003\n\u0003\f\u0003s\t\u0003\u0001\u0003\u0001\u0003\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0003\u0004z\b\u0004\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
-		"\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001"+
-		"\b\u0003\b\u008b\b\b\u0001\b\u0001\b\u0005\b\u008f\b\b\n\b\f\b\u0092\t"+
-		"\b\u0001\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0003\t\u009a\b\t\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
-		"\u0001\f\u0001\f\u0001\f\u0001\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001"+
-		"\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u00af\b\u000e\u0001\u000e\u0001"+
-		"\u000e\u0005\u000e\u00b3\b\u000e\n\u000e\f\u000e\u00b6\t\u000e\u0001\u000e"+
-		"\u0001\u000e\u0001\u000f\u0001\u000f\u0001\u000f\u0003\u000f\u00bd\b\u000f"+
-		"\u0001\u000f\u0001\u000f\u0005\u000f\u00c1\b\u000f\n\u000f\f\u000f\u00c4"+
-		"\t\u000f\u0001\u000f\u0001\u000f\u0001\u0010\u0001\u0010\u0003\u0010\u00ca"+
-		"\b\u0010\u0001\u0011\u0001\u0011\u0001\u0012\u0001\u0012\u0001\u0012\u0001"+
-		"\u0012\u0001\u0012\u0005\u0012\u00d3\b\u0012\n\u0012\f\u0012\u00d6\t\u0012"+
-		"\u0001\u0012\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013"+
-		"\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0003\u0014"+
-		"\u00e3\b\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0015"+
-		"\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0004\u0015\u00ee\b\u0015"+
-		"\u000b\u0015\f\u0015\u00ef\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016"+
-		"\u00f5\b\u0016\u0001\u0016\u0001\u0016\u0005\u0016\u00f9\b\u0016\n\u0016"+
-		"\f\u0016\u00fc\t\u0016\u0001\u0016\u0001\u0016\u0001\u0017\u0001\u0017"+
-		"\u0001\u0017\u0003\u0017\u0103\b\u0017\u0001\u0017\u0001\u0017\u0005\u0017"+
-		"\u0107\b\u0017\n\u0017\f\u0017\u010a\t\u0017\u0001\u0017\u0001\u0017\u0001"+
-		"\u0018\u0001\u0018\u0001\u0018\u0003\u0018\u0111\b\u0018\u0001\u0018\u0001"+
-		"\u0018\u0005\u0018\u0115\b\u0018\n\u0018\f\u0018\u0118\t\u0018\u0001\u0018"+
-		"\u0001\u0018\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u001a"+
-		"\u0001\u001a\u0001\u001a\u0005\u001a\u0123\b\u001a\n\u001a\f\u001a\u0126"+
-		"\t\u001a\u0001\u001a\u0001\u001a\u0001\u001b\u0003\u001b\u012b\b\u001b"+
-		"\u0001\u001b\u0001\u001b\u0001\u001b\u0003\u001b\u0130\b\u001b\u0001\u001c"+
-		"\u0001\u001c\u0003\u001c\u0134\b\u001c\u0001\u001c\u0001\u001c\u0005\u001c"+
-		"\u0138\b\u001c\n\u001c\f\u001c\u013b\t\u001c\u0001\u001c\u0001\u001c\u0003"+
-		"\u001c\u013f\b\u001c\u0001\u001c\u0001\u001c\u0001\u001c\u0003\u001c\u0144"+
-		"\b\u001c\u0001\u001c\u0001\u001c\u0005\u001c\u0148\b\u001c\n\u001c\f\u001c"+
-		"\u014b\t\u001c\u0001\u001c\u0001\u001c\u0003\u001c\u014f\b\u001c\u0001"+
-		"\u001c\u0003\u001c\u0152\b\u001c\u0001\u001d\u0001\u001d\u0001\u001d\u0005"+
-		"\u001d\u0157\b\u001d\n\u001d\f\u001d\u015a\t\u001d\u0001\u001d\u0001\u001d"+
-		"\u0001\u001e\u0003\u001e\u015f\b\u001e\u0001\u001e\u0001\u001e\u0003\u001e"+
-		"\u0163\b\u001e\u0001\u001e\u0003\u001e\u0166\b\u001e\u0001\u001e\u0001"+
-		"\u001e\u0001\u001f\u0001\u001f\u0001\u001f\u0005\u001f\u016d\b\u001f\n"+
-		"\u001f\f\u001f\u0170\t\u001f\u0001\u001f\u0001\u001f\u0001 \u0001 \u0001"+
-		" \u0001 \u0001 \u0005 \u0179\b \n \f \u017c\t \u0001 \u0001 \u0001!\u0001"+
-		"!\u0004!\u0182\b!\u000b!\f!\u0183\u0001!\u0001!\u0001\"\u0001\"\u0001"+
-		"\"\u0001\"\u0003\"\u018c\b\"\u0001#\u0001#\u0001#\u0001#\u0001$\u0001"+
-		"$\u0001$\u0005$\u0195\b$\n$\f$\u0198\t$\u0001%\u0001%\u0001%\u0001%\u0001"+
-		"%\u0001%\u0001&\u0005&\u01a1\b&\n&\f&\u01a4\t&\u0001\'\u0001\'\u0001\'"+
-		"\u0000\u0000(\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016"+
-		"\u0018\u001a\u001c\u001e \"$&(*,.02468:<>@BDFHJLN\u0000\u0005\u0002\u0000"+
-		"**55\u0001\u000067\u0002\u0000))44\u0001\u0000<=\u0001\u0000AO\u01b4\u0000"+
-		"P\u0001\u0000\u0000\u0000\u0002S\u0001\u0000\u0000\u0000\u0004U\u0001"+
-		"\u0000\u0000\u0000\u0006h\u0001\u0000\u0000\u0000\by\u0001\u0000\u0000"+
-		"\u0000\n{\u0001\u0000\u0000\u0000\f\u007f\u0001\u0000\u0000\u0000\u000e"+
-		"\u0083\u0001\u0000\u0000\u0000\u0010\u0087\u0001\u0000\u0000\u0000\u0012"+
-		"\u0099\u0001\u0000\u0000\u0000\u0014\u009b\u0001\u0000\u0000\u0000\u0016"+
-		"\u009f\u0001\u0000\u0000\u0000\u0018\u00a3\u0001\u0000\u0000\u0000\u001a"+
-		"\u00a7\u0001\u0000\u0000\u0000\u001c\u00ab\u0001\u0000\u0000\u0000\u001e"+
-		"\u00b9\u0001\u0000\u0000\u0000 \u00c9\u0001\u0000\u0000\u0000\"\u00cb"+
-		"\u0001\u0000\u0000\u0000$\u00cd\u0001\u0000\u0000\u0000&\u00d9\u0001\u0000"+
-		"\u0000\u0000(\u00de\u0001\u0000\u0000\u0000*\u00ed\u0001\u0000\u0000\u0000"+
-		",\u00f1\u0001\u0000\u0000\u0000.\u00ff\u0001\u0000\u0000\u00000\u010d"+
-		"\u0001\u0000\u0000\u00002\u011b\u0001\u0000\u0000\u00004\u011f\u0001\u0000"+
-		"\u0000\u00006\u012f\u0001\u0000\u0000\u00008\u0151\u0001\u0000\u0000\u0000"+
-		":\u0153\u0001\u0000\u0000\u0000<\u015e\u0001\u0000\u0000\u0000>\u0169"+
-		"\u0001\u0000\u0000\u0000@\u0173\u0001\u0000\u0000\u0000B\u017f\u0001\u0000"+
-		"\u0000\u0000D\u018b\u0001\u0000\u0000\u0000F\u018d\u0001\u0000\u0000\u0000"+
-		"H\u0191\u0001\u0000\u0000\u0000J\u0199\u0001\u0000\u0000\u0000L\u01a2"+
-		"\u0001\u0000\u0000\u0000N\u01a5\u0001\u0000\u0000\u0000PQ\u0003\u0002"+
-		"\u0001\u0000QR\u0003\u0004\u0002\u0000R\u0001\u0001\u0000\u0000\u0000"+
-		"ST\u0005\n\u0000\u0000T\u0003\u0001\u0000\u0000\u0000UV\u0005\u000b\u0000"+
-		"\u0000VW\u0005\u0005\u0000\u0000W^\u0005\u0003\u0000\u0000X]\u0003\u0006"+
-		"\u0003\u0000Y]\u0003\u0010\b\u0000Z]\u0003\u001c\u000e\u0000[]\u0003\u001e"+
-		"\u000f\u0000\\X\u0001\u0000\u0000\u0000\\Y\u0001\u0000\u0000\u0000\\Z"+
-		"\u0001\u0000\u0000\u0000\\[\u0001\u0000\u0000\u0000]`\u0001\u0000\u0000"+
-		"\u0000^\\\u0001\u0000\u0000\u0000^_\u0001\u0000\u0000\u0000_b\u0001\u0000"+
-		"\u0000\u0000`^\u0001\u0000\u0000\u0000ac\u0003$\u0012\u0000ba\u0001\u0000"+
-		"\u0000\u0000cd\u0001\u0000\u0000\u0000db\u0001\u0000\u0000\u0000de\u0001"+
-		"\u0000\u0000\u0000ef\u0001\u0000\u0000\u0000fg\u0005\u0004\u0000\u0000"+
-		"g\u0005\u0001\u0000\u0000\u0000hi\u0005\f\u0000\u0000ik\u0005\u0003\u0000"+
-		"\u0000jl\u0003\b\u0004\u0000kj\u0001\u0000\u0000\u0000kl\u0001\u0000\u0000"+
-		"\u0000lq\u0001\u0000\u0000\u0000mn\u0005\u0006\u0000\u0000np\u0003\b\u0004"+
-		"\u0000om\u0001\u0000\u0000\u0000ps\u0001\u0000\u0000\u0000qo\u0001\u0000"+
-		"\u0000\u0000qr\u0001\u0000\u0000\u0000rt\u0001\u0000\u0000\u0000sq\u0001"+
-		"\u0000\u0000\u0000tu\u0005\u0004\u0000\u0000u\u0007\u0001\u0000\u0000"+
-		"\u0000vz\u0003\n\u0005\u0000wz\u0003\f\u0006\u0000xz\u0003\u000e\u0007"+
-		"\u0000yv\u0001\u0000\u0000\u0000yw\u0001\u0000\u0000\u0000yx\u0001\u0000"+
-		"\u0000\u0000z\t\u0001\u0000\u0000\u0000{|\u0005\r\u0000\u0000|}\u0005"+
-		"\u0007\u0000\u0000}~\u0005\u0005\u0000\u0000~\u000b\u0001\u0000\u0000"+
-		"\u0000\u007f\u0080\u0005\u000e\u0000\u0000\u0080\u0081\u0005\u0007\u0000"+
-		"\u0000\u0081\u0082\u0005\u0005\u0000\u0000\u0082\r\u0001\u0000\u0000\u0000"+
-		"\u0083\u0084\u0005\u000f\u0000\u0000\u0084\u0085\u0005\u0007\u0000\u0000"+
-		"\u0085\u0086\u0005\u0005\u0000\u0000\u0086\u000f\u0001\u0000\u0000\u0000"+
-		"\u0087\u0088\u0005\u0010\u0000\u0000\u0088\u008a\u0005\u0003\u0000\u0000"+
-		"\u0089\u008b\u0003\u0012\t\u0000\u008a\u0089\u0001\u0000\u0000\u0000\u008a"+
-		"\u008b\u0001\u0000\u0000\u0000\u008b\u0090\u0001\u0000\u0000\u0000\u008c"+
-		"\u008d\u0005\u0006\u0000\u0000\u008d\u008f\u0003\u0012\t\u0000\u008e\u008c"+
-		"\u0001\u0000\u0000\u0000\u008f\u0092\u0001\u0000\u0000\u0000\u0090\u008e"+
-		"\u0001\u0000\u0000\u0000\u0090\u0091\u0001\u0000\u0000\u0000\u0091\u0093"+
-		"\u0001\u0000\u0000\u0000\u0092\u0090\u0001\u0000\u0000\u0000\u0093\u0094"+
-		"\u0005\u0004\u0000\u0000\u0094\u0011\u0001\u0000\u0000\u0000\u0095\u009a"+
-		"\u0003\u0014\n\u0000\u0096\u009a\u0003\u0016\u000b\u0000\u0097\u009a\u0003"+
-		"\u0018\f\u0000\u0098\u009a\u0003\u001a\r\u0000\u0099\u0095\u0001\u0000"+
-		"\u0000\u0000\u0099\u0096\u0001\u0000\u0000\u0000\u0099\u0097\u0001\u0000"+
-		"\u0000\u0000\u0099\u0098\u0001\u0000\u0000\u0000\u009a\u0013\u0001\u0000"+
-		"\u0000\u0000\u009b\u009c\u0005\u0011\u0000\u0000\u009c\u009d\u0005\u0007"+
-		"\u0000\u0000\u009d\u009e\u0005\u0005\u0000\u0000\u009e\u0015\u0001\u0000"+
-		"\u0000\u0000\u009f\u00a0\u0005\u0012\u0000\u0000\u00a0\u00a1\u0005\u0007"+
-		"\u0000\u0000\u00a1\u00a2\u0005\u0005\u0000\u0000\u00a2\u0017\u0001\u0000"+
-		"\u0000\u0000\u00a3\u00a4\u0005\u0013\u0000\u0000\u00a4\u00a5\u0005\u0007"+
-		"\u0000\u0000\u00a5\u00a6\u0005\u0005\u0000\u0000\u00a6\u0019\u0001\u0000"+
-		"\u0000\u0000\u00a7\u00a8\u0005\u0014\u0000\u0000\u00a8\u00a9\u0005\u0007"+
-		"\u0000\u0000\u00a9\u00aa\u0005\u0005\u0000\u0000\u00aa\u001b\u0001\u0000"+
-		"\u0000\u0000\u00ab\u00ac\u0005\u0015\u0000\u0000\u00ac\u00ae\u0005\u0003"+
-		"\u0000\u0000\u00ad\u00af\u0003 \u0010\u0000\u00ae\u00ad\u0001\u0000\u0000"+
-		"\u0000\u00ae\u00af\u0001\u0000\u0000\u0000\u00af\u00b4\u0001\u0000\u0000"+
-		"\u0000\u00b0\u00b1\u0005\u0006\u0000\u0000\u00b1\u00b3\u0003 \u0010\u0000"+
-		"\u00b2\u00b0\u0001\u0000\u0000\u0000\u00b3\u00b6\u0001\u0000\u0000\u0000"+
-		"\u00b4\u00b2\u0001\u0000\u0000\u0000\u00b4\u00b5\u0001\u0000\u0000\u0000"+
-		"\u00b5\u00b7\u0001\u0000\u0000\u0000\u00b6\u00b4\u0001\u0000\u0000\u0000"+
-		"\u00b7\u00b8\u0005\u0004\u0000\u0000\u00b8\u001d\u0001\u0000\u0000\u0000"+
-		"\u00b9\u00ba\u0005\u0016\u0000\u0000\u00ba\u00bc\u0005\u0003\u0000\u0000"+
-		"\u00bb\u00bd\u0003\"\u0011\u0000\u00bc\u00bb\u0001\u0000\u0000\u0000\u00bc"+
-		"\u00bd\u0001\u0000\u0000\u0000\u00bd\u00c2\u0001\u0000\u0000\u0000\u00be"+
-		"\u00bf\u0005\u0006\u0000\u0000\u00bf\u00c1\u0003\"\u0011\u0000\u00c0\u00be"+
-		"\u0001\u0000\u0000\u0000\u00c1\u00c4\u0001\u0000\u0000\u0000\u00c2\u00c0"+
-		"\u0001\u0000\u0000\u0000\u00c2\u00c3\u0001\u0000\u0000\u0000\u00c3\u00c5"+
-		"\u0001\u0000\u0000\u0000\u00c4\u00c2\u0001\u0000\u0000\u0000\u00c5\u00c6"+
-		"\u0005\u0004\u0000\u0000\u00c6\u001f\u0001\u0000\u0000\u0000\u00c7\u00ca"+
-		"\u0003\"\u0011\u0000\u00c8\u00ca\u0005\t\u0000\u0000\u00c9\u00c7\u0001"+
-		"\u0000\u0000\u0000\u00c9\u00c8\u0001\u0000\u0000\u0000\u00ca!\u0001\u0000"+
-		"\u0000\u0000\u00cb\u00cc\u0005\b\u0000\u0000\u00cc#\u0001\u0000\u0000"+
-		"\u0000\u00cd\u00ce\u0005\u001c\u0000\u0000\u00ce\u00cf\u0005\u0005\u0000"+
-		"\u0000\u00cf\u00d0\u0005\u0003\u0000\u0000\u00d0\u00d4\u0003&\u0013\u0000"+
-		"\u00d1\u00d3\u0003(\u0014\u0000\u00d2\u00d1\u0001\u0000\u0000\u0000\u00d3"+
-		"\u00d6\u0001\u0000\u0000\u0000\u00d4\u00d2\u0001\u0000\u0000\u0000\u00d4"+
-		"\u00d5\u0001\u0000\u0000\u0000\u00d5\u00d7\u0001\u0000\u0000\u0000\u00d6"+
-		"\u00d4\u0001\u0000\u0000\u0000\u00d7\u00d8\u0005\u0004\u0000\u0000\u00d8"+
-		"%\u0001\u0000\u0000\u0000\u00d9\u00da\u0005\u001d\u0000\u0000\u00da\u00db"+
-		"\u0005\u0003\u0000\u0000\u00db\u00dc\u0003*\u0015\u0000\u00dc\u00dd\u0005"+
-		"\u0004\u0000\u0000\u00dd\'\u0001\u0000\u0000\u0000\u00de\u00df\u0005\u001a"+
-		"\u0000\u0000\u00df\u00e2\u0005\u0005\u0000\u0000\u00e0\u00e1\u0005\u001b"+
-		"\u0000\u0000\u00e1\u00e3\u0005\u0005\u0000\u0000\u00e2\u00e0\u0001\u0000"+
-		"\u0000\u0000\u00e2\u00e3\u0001\u0000\u0000\u0000\u00e3\u00e4\u0001\u0000"+
-		"\u0000\u0000\u00e4\u00e5\u0005\u0003\u0000\u0000\u00e5\u00e6\u0003*\u0015"+
-		"\u0000\u00e6\u00e7\u0005\u0004\u0000\u0000\u00e7)\u0001\u0000\u0000\u0000"+
-		"\u00e8\u00ee\u0003,\u0016\u0000\u00e9\u00ee\u0003.\u0017\u0000\u00ea\u00ee"+
-		"\u00030\u0018\u0000\u00eb\u00ee\u00034\u001a\u0000\u00ec\u00ee\u0003>"+
-		"\u001f\u0000\u00ed\u00e8\u0001\u0000\u0000\u0000\u00ed\u00e9\u0001\u0000"+
-		"\u0000\u0000\u00ed\u00ea\u0001\u0000\u0000\u0000\u00ed\u00eb\u0001\u0000"+
-		"\u0000\u0000\u00ed\u00ec\u0001\u0000\u0000\u0000\u00ee\u00ef\u0001\u0000"+
-		"\u0000\u0000\u00ef\u00ed\u0001\u0000\u0000\u0000\u00ef\u00f0\u0001\u0000"+
-		"\u0000\u0000\u00f0+\u0001\u0000\u0000\u0000\u00f1\u00f2\u0005\u0017\u0000"+
-		"\u0000\u00f2\u00f4\u0005\u0003\u0000\u0000\u00f3\u00f5\u0003 \u0010\u0000"+
-		"\u00f4\u00f3\u0001\u0000\u0000\u0000\u00f4\u00f5\u0001\u0000\u0000\u0000"+
-		"\u00f5\u00fa\u0001\u0000\u0000\u0000\u00f6\u00f7\u0005\u0006\u0000\u0000"+
-		"\u00f7\u00f9\u0003 \u0010\u0000\u00f8\u00f6\u0001\u0000\u0000\u0000\u00f9"+
-		"\u00fc\u0001\u0000\u0000\u0000\u00fa\u00f8\u0001\u0000\u0000\u0000\u00fa"+
-		"\u00fb\u0001\u0000\u0000\u0000\u00fb\u00fd\u0001\u0000\u0000\u0000\u00fc"+
-		"\u00fa\u0001\u0000\u0000\u0000\u00fd\u00fe\u0005\u0004\u0000\u0000\u00fe"+
-		"-\u0001\u0000\u0000\u0000\u00ff\u0100\u0005\u0018\u0000\u0000\u0100\u0102"+
-		"\u0005\u0003\u0000\u0000\u0101\u0103\u00032\u0019\u0000\u0102\u0101\u0001"+
-		"\u0000\u0000\u0000\u0102\u0103\u0001\u0000\u0000\u0000\u0103\u0108\u0001"+
-		"\u0000\u0000\u0000\u0104\u0105\u0005\u0006\u0000\u0000\u0105\u0107\u0003"+
-		"2\u0019\u0000\u0106\u0104\u0001\u0000\u0000\u0000\u0107\u010a\u0001\u0000"+
-		"\u0000\u0000\u0108\u0106\u0001\u0000\u0000\u0000\u0108\u0109\u0001\u0000"+
-		"\u0000\u0000\u0109\u010b\u0001\u0000\u0000\u0000\u010a\u0108\u0001\u0000"+
-		"\u0000\u0000\u010b\u010c\u0005\u0004\u0000\u0000\u010c/\u0001\u0000\u0000"+
-		"\u0000\u010d\u010e\u0005\u0019\u0000\u0000\u010e\u0110\u0005\u0003\u0000"+
-		"\u0000\u010f\u0111\u00032\u0019\u0000\u0110\u010f\u0001\u0000\u0000\u0000"+
-		"\u0110\u0111\u0001\u0000\u0000\u0000\u0111\u0116\u0001\u0000\u0000\u0000"+
-		"\u0112\u0113\u0005\u0006\u0000\u0000\u0113\u0115\u00032\u0019\u0000\u0114"+
-		"\u0112\u0001\u0000\u0000\u0000\u0115\u0118\u0001\u0000\u0000\u0000\u0116"+
-		"\u0114\u0001\u0000\u0000\u0000\u0116\u0117\u0001\u0000\u0000\u0000\u0117"+
-		"\u0119\u0001\u0000\u0000\u0000\u0118\u0116\u0001\u0000\u0000\u0000\u0119"+
-		"\u011a\u0005\u0004\u0000\u0000\u011a1\u0001\u0000\u0000\u0000\u011b\u011c"+
-		"\u0005\u0005\u0000\u0000\u011c\u011d\u0005\u0007\u0000\u0000\u011d\u011e"+
-		"\u0005\u0005\u0000\u0000\u011e3\u0001\u0000\u0000\u0000\u011f\u0120\u0005"+
-		"\u001e\u0000\u0000\u0120\u0124\u0005\u0003\u0000\u0000\u0121\u0123\u0003"+
-		"8\u001c\u0000\u0122\u0121\u0001\u0000\u0000\u0000\u0123\u0126\u0001\u0000"+
-		"\u0000\u0000\u0124\u0122\u0001\u0000\u0000\u0000\u0124\u0125\u0001\u0000"+
-		"\u0000\u0000\u0125\u0127\u0001\u0000\u0000\u0000\u0126\u0124\u0001\u0000"+
-		"\u0000\u0000\u0127\u0128\u0005\u0004\u0000\u0000\u01285\u0001\u0000\u0000"+
-		"\u0000\u0129\u012b\u0005#\u0000\u0000\u012a\u0129\u0001\u0000\u0000\u0000"+
-		"\u012a\u012b\u0001\u0000\u0000\u0000\u012b\u012c\u0001\u0000\u0000\u0000"+
-		"\u012c\u0130\u0005\"\u0000\u0000\u012d\u0130\u0003<\u001e\u0000\u012e"+
-		"\u0130\u00038\u001c\u0000\u012f\u012a\u0001\u0000\u0000\u0000\u012f\u012d"+
-		"\u0001\u0000\u0000\u0000\u012f\u012e\u0001\u0000\u0000\u0000\u01307\u0001"+
-		"\u0000\u0000\u0000\u0131\u0133\u0005&\u0000\u0000\u0132\u0134\u0003F#"+
-		"\u0000\u0133\u0132\u0001\u0000\u0000\u0000\u0133\u0134\u0001\u0000\u0000"+
-		"\u0000\u0134\u0135\u0001\u0000\u0000\u0000\u0135\u0139\u0005+\u0000\u0000"+
-		"\u0136\u0138\u00036\u001b\u0000\u0137\u0136\u0001\u0000\u0000\u0000\u0138"+
-		"\u013b\u0001\u0000\u0000\u0000\u0139\u0137\u0001\u0000\u0000\u0000\u0139"+
-		"\u013a\u0001\u0000\u0000\u0000\u013a\u013c\u0001\u0000\u0000\u0000\u013b"+
-		"\u0139\u0001\u0000\u0000\u0000\u013c\u013e\u0005\u0004\u0000\u0000\u013d"+
-		"\u013f\u0003:\u001d\u0000\u013e\u013d\u0001\u0000\u0000\u0000\u013e\u013f"+
-		"\u0001\u0000\u0000\u0000\u013f\u0152\u0001\u0000\u0000\u0000\u0140\u0141"+
-		"\u0005$\u0000\u0000\u0141\u0143\u0005&\u0000\u0000\u0142\u0144\u0003F"+
-		"#\u0000\u0143\u0142\u0001\u0000\u0000\u0000\u0143\u0144\u0001\u0000\u0000"+
-		"\u0000\u0144\u0145\u0001\u0000\u0000\u0000\u0145\u0149\u0005+\u0000\u0000"+
-		"\u0146\u0148\u00036\u001b\u0000\u0147\u0146\u0001\u0000\u0000\u0000\u0148"+
-		"\u014b\u0001\u0000\u0000\u0000\u0149\u0147\u0001\u0000\u0000\u0000\u0149"+
-		"\u014a\u0001\u0000\u0000\u0000\u014a\u014c\u0001\u0000\u0000\u0000\u014b"+
-		"\u0149\u0001\u0000\u0000\u0000\u014c\u014e\u0005\u0004\u0000\u0000\u014d"+
-		"\u014f\u0003:\u001d\u0000\u014e\u014d\u0001\u0000\u0000\u0000\u014e\u014f"+
-		"\u0001\u0000\u0000\u0000\u014f\u0150\u0001\u0000\u0000\u0000\u0150\u0152"+
-		"\u0005%\u0000\u0000\u0151\u0131\u0001\u0000\u0000\u0000\u0151\u0140\u0001"+
-		"\u0000\u0000\u0000\u01529\u0001\u0000\u0000\u0000\u0153\u0154\u0005!\u0000"+
-		"\u0000\u0154\u0158\u0005\u0003\u0000\u0000\u0155\u0157\u00036\u001b\u0000"+
-		"\u0156\u0155\u0001\u0000\u0000\u0000\u0157\u015a\u0001\u0000\u0000\u0000"+
-		"\u0158\u0156\u0001\u0000\u0000\u0000\u0158\u0159\u0001\u0000\u0000\u0000"+
-		"\u0159\u015b\u0001\u0000\u0000\u0000\u015a\u0158\u0001\u0000\u0000\u0000"+
-		"\u015b\u015c\u0005\u0004\u0000\u0000\u015c;\u0001\u0000\u0000\u0000\u015d"+
-		"\u015f\u0005#\u0000\u0000\u015e\u015d\u0001\u0000\u0000\u0000\u015e\u015f"+
-		"\u0001\u0000\u0000\u0000\u015f\u0162\u0001\u0000\u0000\u0000\u0160\u0163"+
-		"\u0005&\u0000\u0000\u0161\u0163\u0003B!\u0000\u0162\u0160\u0001\u0000"+
-		"\u0000\u0000\u0162\u0161\u0001\u0000\u0000\u0000\u0163\u0165\u0001\u0000"+
-		"\u0000\u0000\u0164\u0166\u0003F#\u0000\u0165\u0164\u0001\u0000\u0000\u0000"+
-		"\u0165\u0166\u0001\u0000\u0000\u0000\u0166\u0167\u0001\u0000\u0000\u0000"+
-		"\u0167\u0168\u0007\u0000\u0000\u0000\u0168=\u0001\u0000\u0000\u0000\u0169"+
-		"\u016a\u0005\u001f\u0000\u0000\u016a\u016e\u0005\u0003\u0000\u0000\u016b"+
-		"\u016d\u0003@ \u0000\u016c\u016b\u0001\u0000\u0000\u0000\u016d\u0170\u0001"+
-		"\u0000\u0000\u0000\u016e\u016c\u0001\u0000\u0000\u0000\u016e\u016f\u0001"+
-		"\u0000\u0000\u0000\u016f\u0171\u0001\u0000\u0000\u0000\u0170\u016e\u0001"+
-		"\u0000\u0000\u0000\u0171\u0172\u0005\u0004\u0000\u0000\u0172?\u0001\u0000"+
-		"\u0000\u0000\u0173\u0174\u0005 \u0000\u0000\u0174\u0175\u0003B!\u0000"+
-		"\u0175\u0176\u0007\u0001\u0000\u0000\u0176\u017a\u00058\u0000\u0000\u0177"+
-		"\u0179\u00036\u001b\u0000\u0178\u0177\u0001\u0000\u0000\u0000\u0179\u017c"+
-		"\u0001\u0000\u0000\u0000\u017a\u0178\u0001\u0000\u0000\u0000\u017a\u017b"+
-		"\u0001\u0000\u0000\u0000\u017b\u017d\u0001\u0000\u0000\u0000\u017c\u017a"+
-		"\u0001\u0000\u0000\u0000\u017d\u017e\u0005\u0004\u0000\u0000\u017eA\u0001"+
-		"\u0000\u0000\u0000\u017f\u0181\u0005\'\u0000\u0000\u0180\u0182\u0003D"+
-		"\"\u0000\u0181\u0180\u0001\u0000\u0000\u0000\u0182\u0183\u0001\u0000\u0000"+
-		"\u0000\u0183\u0181\u0001\u0000\u0000\u0000\u0183\u0184\u0001\u0000\u0000"+
-		"\u0000\u0184\u0185\u0001\u0000\u0000\u0000\u0185\u0186\u0005/\u0000\u0000"+
-		"\u0186C\u0001\u0000\u0000\u0000\u0187\u0188\u0005-\u0000\u0000\u0188\u0189"+
-		"\u00051\u0000\u0000\u0189\u018c\u00052\u0000\u0000\u018a\u018c\u0005."+
-		"\u0000\u0000\u018b\u0187\u0001\u0000\u0000\u0000\u018b\u018a\u0001\u0000"+
-		"\u0000\u0000\u018cE\u0001\u0000\u0000\u0000\u018d\u018e\u0007\u0002\u0000"+
-		"\u0000\u018e\u018f\u0003H$\u0000\u018f\u0190\u0005;\u0000\u0000\u0190"+
-		"G\u0001\u0000\u0000\u0000\u0191\u0196\u0003J%\u0000\u0192\u0193\u0005"+
-		"?\u0000\u0000\u0193\u0195\u0003J%\u0000\u0194\u0192\u0001\u0000\u0000"+
-		"\u0000\u0195\u0198\u0001\u0000\u0000\u0000\u0196\u0194\u0001\u0000\u0000"+
-		"\u0000\u0196\u0197\u0001\u0000\u0000\u0000\u0197I\u0001\u0000\u0000\u0000"+
-		"\u0198\u0196\u0001\u0000\u0000\u0000\u0199\u019a\u0007\u0003\u0000\u0000"+
-		"\u019a\u019b\u0005>\u0000\u0000\u019b\u019c\u0005:\u0000\u0000\u019c\u019d"+
-		"\u0003L&\u0000\u019d\u019e\u0005A\u0000\u0000\u019eK\u0001\u0000\u0000"+
-		"\u0000\u019f\u01a1\u0003N\'\u0000\u01a0\u019f\u0001\u0000\u0000\u0000"+
-		"\u01a1\u01a4\u0001\u0000\u0000\u0000\u01a2\u01a0\u0001\u0000\u0000\u0000"+
-		"\u01a2\u01a3\u0001\u0000\u0000\u0000\u01a3M\u0001\u0000\u0000\u0000\u01a4"+
-		"\u01a2\u0001\u0000\u0000\u0000\u01a5\u01a6\u0007\u0004\u0000\u0000\u01a6"+
-		"O\u0001\u0000\u0000\u0000,\\^dkqy\u008a\u0090\u0099\u00ae\u00b4\u00bc"+
-		"\u00c2\u00c9\u00d4\u00e2\u00ed\u00ef\u00f4\u00fa\u0102\u0108\u0110\u0116"+
-		"\u0124\u012a\u012f\u0133\u0139\u013e\u0143\u0149\u014e\u0151\u0158\u015e"+
-		"\u0162\u0165\u016e\u017a\u0183\u018b\u0196\u01a2";
+		"#\u0007#\u0002$\u0007$\u0002%\u0007%\u0002&\u0007&\u0002\'\u0007\'\u0002"+
+		"(\u0007(\u0002)\u0007)\u0002*\u0007*\u0001\u0000\u0001\u0000\u0001\u0000"+
+		"\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0001\u0002\u0001\u0002\u0005\u0002c\b\u0002\n\u0002\f\u0002"+
+		"f\t\u0002\u0001\u0002\u0004\u0002i\b\u0002\u000b\u0002\f\u0002j\u0001"+
+		"\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003r\b"+
+		"\u0003\u0001\u0003\u0001\u0003\u0005\u0003v\b\u0003\n\u0003\f\u0003y\t"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0003"+
+		"\u0004\u0080\b\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001"+
+		"\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0003\b\u0091\b\b\u0001\b\u0001"+
+		"\b\u0005\b\u0095\b\b\n\b\f\b\u0098\t\b\u0001\b\u0001\b\u0001\t\u0001\t"+
+		"\u0001\t\u0001\t\u0003\t\u00a0\b\t\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
+		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\f\u0001\f\u0001\f\u0001"+
+		"\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001\u000e\u0001\u000e\u0001\u000e"+
+		"\u0003\u000e\u00b5\b\u000e\u0001\u000e\u0001\u000e\u0005\u000e\u00b9\b"+
+		"\u000e\n\u000e\f\u000e\u00bc\t\u000e\u0001\u000e\u0001\u000e\u0001\u000f"+
+		"\u0001\u000f\u0001\u000f\u0003\u000f\u00c3\b\u000f\u0001\u000f\u0001\u000f"+
+		"\u0005\u000f\u00c7\b\u000f\n\u000f\f\u000f\u00ca\t\u000f\u0001\u000f\u0001"+
+		"\u000f\u0001\u0010\u0001\u0010\u0003\u0010\u00d0\b\u0010\u0001\u0011\u0001"+
+		"\u0011\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0005"+
+		"\u0012\u00d9\b\u0012\n\u0012\f\u0012\u00dc\t\u0012\u0001\u0012\u0001\u0012"+
+		"\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0014"+
+		"\u0001\u0014\u0001\u0014\u0001\u0014\u0003\u0014\u00e9\b\u0014\u0001\u0014"+
+		"\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0004\u0015\u00f4\b\u0015\u000b\u0015\f\u0015"+
+		"\u00f5\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016\u00fb\b\u0016\u0001"+
+		"\u0016\u0001\u0016\u0005\u0016\u00ff\b\u0016\n\u0016\f\u0016\u0102\t\u0016"+
+		"\u0001\u0016\u0001\u0016\u0001\u0017\u0001\u0017\u0001\u0017\u0003\u0017"+
+		"\u0109\b\u0017\u0001\u0017\u0001\u0017\u0005\u0017\u010d\b\u0017\n\u0017"+
+		"\f\u0017\u0110\t\u0017\u0001\u0017\u0001\u0017\u0001\u0018\u0001\u0018"+
+		"\u0001\u0018\u0003\u0018\u0117\b\u0018\u0001\u0018\u0001\u0018\u0005\u0018"+
+		"\u011b\b\u0018\n\u0018\f\u0018\u011e\t\u0018\u0001\u0018\u0001\u0018\u0001"+
+		"\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u001a\u0001\u001a\u0001"+
+		"\u001a\u0005\u001a\u0129\b\u001a\n\u001a\f\u001a\u012c\t\u001a\u0001\u001a"+
+		"\u0001\u001a\u0001\u001b\u0001\u001b\u0003\u001b\u0132\b\u001b\u0001\u001b"+
+		"\u0001\u001b\u0001\u001b\u0003\u001b\u0137\b\u001b\u0004\u001b\u0139\b"+
+		"\u001b\u000b\u001b\f\u001b\u013a\u0001\u001b\u0001\u001b\u0001\u001b\u0001"+
+		"\u001b\u0003\u001b\u0141\b\u001b\u0001\u001b\u0001\u001b\u0001\u001b\u0003"+
+		"\u001b\u0146\b\u001b\u0004\u001b\u0148\b\u001b\u000b\u001b\f\u001b\u0149"+
+		"\u0001\u001b\u0001\u001b\u0003\u001b\u014e\b\u001b\u0001\u001c\u0001\u001c"+
+		"\u0001\u001c\u0003\u001c\u0153\b\u001c\u0001\u001d\u0003\u001d\u0156\b"+
+		"\u001d\u0001\u001d\u0001\u001d\u0001\u001d\u0001\u001e\u0001\u001e\u0003"+
+		"\u001e\u015d\b\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0003\u001e\u0162"+
+		"\b\u001e\u0004\u001e\u0164\b\u001e\u000b\u001e\f\u001e\u0165\u0001\u001e"+
+		"\u0001\u001e\u0003\u001e\u016a\b\u001e\u0001\u001e\u0001\u001e\u0001\u001e"+
+		"\u0003\u001e\u016f\b\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0003\u001e"+
+		"\u0174\b\u001e\u0004\u001e\u0176\b\u001e\u000b\u001e\f\u001e\u0177\u0001"+
+		"\u001e\u0001\u001e\u0001\u001e\u0003\u001e\u017d\b\u001e\u0003\u001e\u017f"+
+		"\b\u001e\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0003\u001f\u0185"+
+		"\b\u001f\u0004\u001f\u0187\b\u001f\u000b\u001f\f\u001f\u0188\u0001\u001f"+
+		"\u0001\u001f\u0001 \u0001 \u0001 \u0001 \u0001 \u0003 \u0192\b \u0004"+
+		" \u0194\b \u000b \f \u0195\u0001 \u0001 \u0001 \u0001!\u0003!\u019c\b"+
+		"!\u0001!\u0001!\u0003!\u01a0\b!\u0001!\u0003!\u01a3\b!\u0001!\u0001!\u0001"+
+		"\"\u0001\"\u0001\"\u0005\"\u01aa\b\"\n\"\f\"\u01ad\t\"\u0001\"\u0001\""+
+		"\u0001#\u0001#\u0001#\u0001#\u0001#\u0001#\u0003#\u01b7\b#\u0004#\u01b9"+
+		"\b#\u000b#\f#\u01ba\u0001#\u0001#\u0001$\u0001$\u0004$\u01c1\b$\u000b"+
+		"$\f$\u01c2\u0001$\u0001$\u0001%\u0001%\u0001%\u0001%\u0003%\u01cb\b%\u0001"+
+		"&\u0001&\u0001&\u0001&\u0001\'\u0001\'\u0001\'\u0005\'\u01d4\b\'\n\'\f"+
+		"\'\u01d7\t\'\u0001(\u0001(\u0001(\u0001(\u0001(\u0001(\u0001)\u0005)\u01e0"+
+		"\b)\n)\f)\u01e3\t)\u0001*\u0001*\u0001*\u0000\u0000+\u0000\u0002\u0004"+
+		"\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e \""+
+		"$&(*,.02468:<>@BDFHJLNPRT\u0000\u0006\u0002\u000044@@\u0001\u0000AB\u0002"+
+		"\u0000((--\u0002\u000033??\u0001\u0000GH\u0001\u0000LZ\u01fd\u0000V\u0001"+
+		"\u0000\u0000\u0000\u0002Y\u0001\u0000\u0000\u0000\u0004[\u0001\u0000\u0000"+
+		"\u0000\u0006n\u0001\u0000\u0000\u0000\b\u007f\u0001\u0000\u0000\u0000"+
+		"\n\u0081\u0001\u0000\u0000\u0000\f\u0085\u0001\u0000\u0000\u0000\u000e"+
+		"\u0089\u0001\u0000\u0000\u0000\u0010\u008d\u0001\u0000\u0000\u0000\u0012"+
+		"\u009f\u0001\u0000\u0000\u0000\u0014\u00a1\u0001\u0000\u0000\u0000\u0016"+
+		"\u00a5\u0001\u0000\u0000\u0000\u0018\u00a9\u0001\u0000\u0000\u0000\u001a"+
+		"\u00ad\u0001\u0000\u0000\u0000\u001c\u00b1\u0001\u0000\u0000\u0000\u001e"+
+		"\u00bf\u0001\u0000\u0000\u0000 \u00cf\u0001\u0000\u0000\u0000\"\u00d1"+
+		"\u0001\u0000\u0000\u0000$\u00d3\u0001\u0000\u0000\u0000&\u00df\u0001\u0000"+
+		"\u0000\u0000(\u00e4\u0001\u0000\u0000\u0000*\u00f3\u0001\u0000\u0000\u0000"+
+		",\u00f7\u0001\u0000\u0000\u0000.\u0105\u0001\u0000\u0000\u00000\u0113"+
+		"\u0001\u0000\u0000\u00002\u0121\u0001\u0000\u0000\u00004\u0125\u0001\u0000"+
+		"\u0000\u00006\u014d\u0001\u0000\u0000\u00008\u0152\u0001\u0000\u0000\u0000"+
+		":\u0155\u0001\u0000\u0000\u0000<\u017e\u0001\u0000\u0000\u0000>\u0180"+
+		"\u0001\u0000\u0000\u0000@\u018c\u0001\u0000\u0000\u0000B\u019b\u0001\u0000"+
+		"\u0000\u0000D\u01a6\u0001\u0000\u0000\u0000F\u01b0\u0001\u0000\u0000\u0000"+
+		"H\u01be\u0001\u0000\u0000\u0000J\u01ca\u0001\u0000\u0000\u0000L\u01cc"+
+		"\u0001\u0000\u0000\u0000N\u01d0\u0001\u0000\u0000\u0000P\u01d8\u0001\u0000"+
+		"\u0000\u0000R\u01e1\u0001\u0000\u0000\u0000T\u01e4\u0001\u0000\u0000\u0000"+
+		"VW\u0003\u0002\u0001\u0000WX\u0003\u0004\u0002\u0000X\u0001\u0001\u0000"+
+		"\u0000\u0000YZ\u0005\n\u0000\u0000Z\u0003\u0001\u0000\u0000\u0000[\\\u0005"+
+		"\u000b\u0000\u0000\\]\u0005\u0005\u0000\u0000]d\u0005\u0003\u0000\u0000"+
+		"^c\u0003\u0006\u0003\u0000_c\u0003\u0010\b\u0000`c\u0003\u001c\u000e\u0000"+
+		"ac\u0003\u001e\u000f\u0000b^\u0001\u0000\u0000\u0000b_\u0001\u0000\u0000"+
+		"\u0000b`\u0001\u0000\u0000\u0000ba\u0001\u0000\u0000\u0000cf\u0001\u0000"+
+		"\u0000\u0000db\u0001\u0000\u0000\u0000de\u0001\u0000\u0000\u0000eh\u0001"+
+		"\u0000\u0000\u0000fd\u0001\u0000\u0000\u0000gi\u0003$\u0012\u0000hg\u0001"+
+		"\u0000\u0000\u0000ij\u0001\u0000\u0000\u0000jh\u0001\u0000\u0000\u0000"+
+		"jk\u0001\u0000\u0000\u0000kl\u0001\u0000\u0000\u0000lm\u0005\u0004\u0000"+
+		"\u0000m\u0005\u0001\u0000\u0000\u0000no\u0005\f\u0000\u0000oq\u0005\u0003"+
+		"\u0000\u0000pr\u0003\b\u0004\u0000qp\u0001\u0000\u0000\u0000qr\u0001\u0000"+
+		"\u0000\u0000rw\u0001\u0000\u0000\u0000st\u0005\u0006\u0000\u0000tv\u0003"+
+		"\b\u0004\u0000us\u0001\u0000\u0000\u0000vy\u0001\u0000\u0000\u0000wu\u0001"+
+		"\u0000\u0000\u0000wx\u0001\u0000\u0000\u0000xz\u0001\u0000\u0000\u0000"+
+		"yw\u0001\u0000\u0000\u0000z{\u0005\u0004\u0000\u0000{\u0007\u0001\u0000"+
+		"\u0000\u0000|\u0080\u0003\n\u0005\u0000}\u0080\u0003\f\u0006\u0000~\u0080"+
+		"\u0003\u000e\u0007\u0000\u007f|\u0001\u0000\u0000\u0000\u007f}\u0001\u0000"+
+		"\u0000\u0000\u007f~\u0001\u0000\u0000\u0000\u0080\t\u0001\u0000\u0000"+
+		"\u0000\u0081\u0082\u0005\r\u0000\u0000\u0082\u0083\u0005\u0007\u0000\u0000"+
+		"\u0083\u0084\u0005\u0005\u0000\u0000\u0084\u000b\u0001\u0000\u0000\u0000"+
+		"\u0085\u0086\u0005\u000e\u0000\u0000\u0086\u0087\u0005\u0007\u0000\u0000"+
+		"\u0087\u0088\u0005\u0005\u0000\u0000\u0088\r\u0001\u0000\u0000\u0000\u0089"+
+		"\u008a\u0005\u000f\u0000\u0000\u008a\u008b\u0005\u0007\u0000\u0000\u008b"+
+		"\u008c\u0005\u0005\u0000\u0000\u008c\u000f\u0001\u0000\u0000\u0000\u008d"+
+		"\u008e\u0005\u0010\u0000\u0000\u008e\u0090\u0005\u0003\u0000\u0000\u008f"+
+		"\u0091\u0003\u0012\t\u0000\u0090\u008f\u0001\u0000\u0000\u0000\u0090\u0091"+
+		"\u0001\u0000\u0000\u0000\u0091\u0096\u0001\u0000\u0000\u0000\u0092\u0093"+
+		"\u0005\u0006\u0000\u0000\u0093\u0095\u0003\u0012\t\u0000\u0094\u0092\u0001"+
+		"\u0000\u0000\u0000\u0095\u0098\u0001\u0000\u0000\u0000\u0096\u0094\u0001"+
+		"\u0000\u0000\u0000\u0096\u0097\u0001\u0000\u0000\u0000\u0097\u0099\u0001"+
+		"\u0000\u0000\u0000\u0098\u0096\u0001\u0000\u0000\u0000\u0099\u009a\u0005"+
+		"\u0004\u0000\u0000\u009a\u0011\u0001\u0000\u0000\u0000\u009b\u00a0\u0003"+
+		"\u0014\n\u0000\u009c\u00a0\u0003\u0016\u000b\u0000\u009d\u00a0\u0003\u0018"+
+		"\f\u0000\u009e\u00a0\u0003\u001a\r\u0000\u009f\u009b\u0001\u0000\u0000"+
+		"\u0000\u009f\u009c\u0001\u0000\u0000\u0000\u009f\u009d\u0001\u0000\u0000"+
+		"\u0000\u009f\u009e\u0001\u0000\u0000\u0000\u00a0\u0013\u0001\u0000\u0000"+
+		"\u0000\u00a1\u00a2\u0005\u0011\u0000\u0000\u00a2\u00a3\u0005\u0007\u0000"+
+		"\u0000\u00a3\u00a4\u0005\u0005\u0000\u0000\u00a4\u0015\u0001\u0000\u0000"+
+		"\u0000\u00a5\u00a6\u0005\u0012\u0000\u0000\u00a6\u00a7\u0005\u0007\u0000"+
+		"\u0000\u00a7\u00a8\u0005\u0005\u0000\u0000\u00a8\u0017\u0001\u0000\u0000"+
+		"\u0000\u00a9\u00aa\u0005\u0013\u0000\u0000\u00aa\u00ab\u0005\u0007\u0000"+
+		"\u0000\u00ab\u00ac\u0005\u0005\u0000\u0000\u00ac\u0019\u0001\u0000\u0000"+
+		"\u0000\u00ad\u00ae\u0005\u0014\u0000\u0000\u00ae\u00af\u0005\u0007\u0000"+
+		"\u0000\u00af\u00b0\u0005\u0005\u0000\u0000\u00b0\u001b\u0001\u0000\u0000"+
+		"\u0000\u00b1\u00b2\u0005\u0015\u0000\u0000\u00b2\u00b4\u0005\u0003\u0000"+
+		"\u0000\u00b3\u00b5\u0003 \u0010\u0000\u00b4\u00b3\u0001\u0000\u0000\u0000"+
+		"\u00b4\u00b5\u0001\u0000\u0000\u0000\u00b5\u00ba\u0001\u0000\u0000\u0000"+
+		"\u00b6\u00b7\u0005\u0006\u0000\u0000\u00b7\u00b9\u0003 \u0010\u0000\u00b8"+
+		"\u00b6\u0001\u0000\u0000\u0000\u00b9\u00bc\u0001\u0000\u0000\u0000\u00ba"+
+		"\u00b8\u0001\u0000\u0000\u0000\u00ba\u00bb\u0001\u0000\u0000\u0000\u00bb"+
+		"\u00bd\u0001\u0000\u0000\u0000\u00bc\u00ba\u0001\u0000\u0000\u0000\u00bd"+
+		"\u00be\u0005\u0004\u0000\u0000\u00be\u001d\u0001\u0000\u0000\u0000\u00bf"+
+		"\u00c0\u0005\u0016\u0000\u0000\u00c0\u00c2\u0005\u0003\u0000\u0000\u00c1"+
+		"\u00c3\u0003\"\u0011\u0000\u00c2\u00c1\u0001\u0000\u0000\u0000\u00c2\u00c3"+
+		"\u0001\u0000\u0000\u0000\u00c3\u00c8\u0001\u0000\u0000\u0000\u00c4\u00c5"+
+		"\u0005\u0006\u0000\u0000\u00c5\u00c7\u0003\"\u0011\u0000\u00c6\u00c4\u0001"+
+		"\u0000\u0000\u0000\u00c7\u00ca\u0001\u0000\u0000\u0000\u00c8\u00c6\u0001"+
+		"\u0000\u0000\u0000\u00c8\u00c9\u0001\u0000\u0000\u0000\u00c9\u00cb\u0001"+
+		"\u0000\u0000\u0000\u00ca\u00c8\u0001\u0000\u0000\u0000\u00cb\u00cc\u0005"+
+		"\u0004\u0000\u0000\u00cc\u001f\u0001\u0000\u0000\u0000\u00cd\u00d0\u0003"+
+		"\"\u0011\u0000\u00ce\u00d0\u0005\t\u0000\u0000\u00cf\u00cd\u0001\u0000"+
+		"\u0000\u0000\u00cf\u00ce\u0001\u0000\u0000\u0000\u00d0!\u0001\u0000\u0000"+
+		"\u0000\u00d1\u00d2\u0005\b\u0000\u0000\u00d2#\u0001\u0000\u0000\u0000"+
+		"\u00d3\u00d4\u0005\u001c\u0000\u0000\u00d4\u00d5\u0005\u0005\u0000\u0000"+
+		"\u00d5\u00d6\u0005\u0003\u0000\u0000\u00d6\u00da\u0003&\u0013\u0000\u00d7"+
+		"\u00d9\u0003(\u0014\u0000\u00d8\u00d7\u0001\u0000\u0000\u0000\u00d9\u00dc"+
+		"\u0001\u0000\u0000\u0000\u00da\u00d8\u0001\u0000\u0000\u0000\u00da\u00db"+
+		"\u0001\u0000\u0000\u0000\u00db\u00dd\u0001\u0000\u0000\u0000\u00dc\u00da"+
+		"\u0001\u0000\u0000\u0000\u00dd\u00de\u0005\u0004\u0000\u0000\u00de%\u0001"+
+		"\u0000\u0000\u0000\u00df\u00e0\u0005\u001d\u0000\u0000\u00e0\u00e1\u0005"+
+		"\u0003\u0000\u0000\u00e1\u00e2\u0003*\u0015\u0000\u00e2\u00e3\u0005\u0004"+
+		"\u0000\u0000\u00e3\'\u0001\u0000\u0000\u0000\u00e4\u00e5\u0005\u001a\u0000"+
+		"\u0000\u00e5\u00e8\u0005\u0005\u0000\u0000\u00e6\u00e7\u0005\u001b\u0000"+
+		"\u0000\u00e7\u00e9\u0005\u0005\u0000\u0000\u00e8\u00e6\u0001\u0000\u0000"+
+		"\u0000\u00e8\u00e9\u0001\u0000\u0000\u0000\u00e9\u00ea\u0001\u0000\u0000"+
+		"\u0000\u00ea\u00eb\u0005\u0003\u0000\u0000\u00eb\u00ec\u0003*\u0015\u0000"+
+		"\u00ec\u00ed\u0005\u0004\u0000\u0000\u00ed)\u0001\u0000\u0000\u0000\u00ee"+
+		"\u00f4\u0003,\u0016\u0000\u00ef\u00f4\u0003.\u0017\u0000\u00f0\u00f4\u0003"+
+		"0\u0018\u0000\u00f1\u00f4\u00034\u001a\u0000\u00f2\u00f4\u0003D\"\u0000"+
+		"\u00f3\u00ee\u0001\u0000\u0000\u0000\u00f3\u00ef\u0001\u0000\u0000\u0000"+
+		"\u00f3\u00f0\u0001\u0000\u0000\u0000\u00f3\u00f1\u0001\u0000\u0000\u0000"+
+		"\u00f3\u00f2\u0001\u0000\u0000\u0000\u00f4\u00f5\u0001\u0000\u0000\u0000"+
+		"\u00f5\u00f3\u0001\u0000\u0000\u0000\u00f5\u00f6\u0001\u0000\u0000\u0000"+
+		"\u00f6+\u0001\u0000\u0000\u0000\u00f7\u00f8\u0005\u0017\u0000\u0000\u00f8"+
+		"\u00fa\u0005\u0003\u0000\u0000\u00f9\u00fb\u0003 \u0010\u0000\u00fa\u00f9"+
+		"\u0001\u0000\u0000\u0000\u00fa\u00fb\u0001\u0000\u0000\u0000\u00fb\u0100"+
+		"\u0001\u0000\u0000\u0000\u00fc\u00fd\u0005\u0006\u0000\u0000\u00fd\u00ff"+
+		"\u0003 \u0010\u0000\u00fe\u00fc\u0001\u0000\u0000\u0000\u00ff\u0102\u0001"+
+		"\u0000\u0000\u0000\u0100\u00fe\u0001\u0000\u0000\u0000\u0100\u0101\u0001"+
+		"\u0000\u0000\u0000\u0101\u0103\u0001\u0000\u0000\u0000\u0102\u0100\u0001"+
+		"\u0000\u0000\u0000\u0103\u0104\u0005\u0004\u0000\u0000\u0104-\u0001\u0000"+
+		"\u0000\u0000\u0105\u0106\u0005\u0018\u0000\u0000\u0106\u0108\u0005\u0003"+
+		"\u0000\u0000\u0107\u0109\u00032\u0019\u0000\u0108\u0107\u0001\u0000\u0000"+
+		"\u0000\u0108\u0109\u0001\u0000\u0000\u0000\u0109\u010e\u0001\u0000\u0000"+
+		"\u0000\u010a\u010b\u0005\u0006\u0000\u0000\u010b\u010d\u00032\u0019\u0000"+
+		"\u010c\u010a\u0001\u0000\u0000\u0000\u010d\u0110\u0001\u0000\u0000\u0000"+
+		"\u010e\u010c\u0001\u0000\u0000\u0000\u010e\u010f\u0001\u0000\u0000\u0000"+
+		"\u010f\u0111\u0001\u0000\u0000\u0000\u0110\u010e\u0001\u0000\u0000\u0000"+
+		"\u0111\u0112\u0005\u0004\u0000\u0000\u0112/\u0001\u0000\u0000\u0000\u0113"+
+		"\u0114\u0005\u0019\u0000\u0000\u0114\u0116\u0005\u0003\u0000\u0000\u0115"+
+		"\u0117\u00032\u0019\u0000\u0116\u0115\u0001\u0000\u0000\u0000\u0116\u0117"+
+		"\u0001\u0000\u0000\u0000\u0117\u011c\u0001\u0000\u0000\u0000\u0118\u0119"+
+		"\u0005\u0006\u0000\u0000\u0119\u011b\u00032\u0019\u0000\u011a\u0118\u0001"+
+		"\u0000\u0000\u0000\u011b\u011e\u0001\u0000\u0000\u0000\u011c\u011a\u0001"+
+		"\u0000\u0000\u0000\u011c\u011d\u0001\u0000\u0000\u0000\u011d\u011f\u0001"+
+		"\u0000\u0000\u0000\u011e\u011c\u0001\u0000\u0000\u0000\u011f\u0120\u0005"+
+		"\u0004\u0000\u0000\u01201\u0001\u0000\u0000\u0000\u0121\u0122\u0005\u0005"+
+		"\u0000\u0000\u0122\u0123\u0005\u0007\u0000\u0000\u0123\u0124\u0005\u0005"+
+		"\u0000\u0000\u01243\u0001\u0000\u0000\u0000\u0125\u0126\u0005\u001e\u0000"+
+		"\u0000\u0126\u012a\u0005\"\u0000\u0000\u0127\u0129\u00036\u001b\u0000"+
+		"\u0128\u0127\u0001\u0000\u0000\u0000\u0129\u012c\u0001\u0000\u0000\u0000"+
+		"\u012a\u0128\u0001\u0000\u0000\u0000\u012a\u012b\u0001\u0000\u0000\u0000"+
+		"\u012b\u012d\u0001\u0000\u0000\u0000\u012c\u012a\u0001\u0000\u0000\u0000"+
+		"\u012d\u012e\u0005$\u0000\u0000\u012e5\u0001\u0000\u0000\u0000\u012f\u0131"+
+		"\u0005#\u0000\u0000\u0130\u0132\u0003L&\u0000\u0131\u0130\u0001\u0000"+
+		"\u0000\u0000\u0131\u0132\u0001\u0000\u0000\u0000\u0132\u0133\u0001\u0000"+
+		"\u0000\u0000\u0133\u0138\u00055\u0000\u0000\u0134\u0136\u0005+\u0000\u0000"+
+		"\u0135\u0137\u00038\u001c\u0000\u0136\u0135\u0001\u0000\u0000\u0000\u0136"+
+		"\u0137\u0001\u0000\u0000\u0000\u0137\u0139\u0001\u0000\u0000\u0000\u0138"+
+		"\u0134\u0001\u0000\u0000\u0000\u0139\u013a\u0001\u0000\u0000\u0000\u013a"+
+		"\u0138\u0001\u0000\u0000\u0000\u013a\u013b\u0001\u0000\u0000\u0000\u013b"+
+		"\u013c\u0001\u0000\u0000\u0000\u013c\u014e\u00051\u0000\u0000\u013d\u013e"+
+		"\u0005!\u0000\u0000\u013e\u0140\u0005#\u0000\u0000\u013f\u0141\u0003L"+
+		"&\u0000\u0140\u013f\u0001\u0000\u0000\u0000\u0140\u0141\u0001\u0000\u0000"+
+		"\u0000\u0141\u0142\u0001\u0000\u0000\u0000\u0142\u0147\u00055\u0000\u0000"+
+		"\u0143\u0145\u0005+\u0000\u0000\u0144\u0146\u00038\u001c\u0000\u0145\u0144"+
+		"\u0001\u0000\u0000\u0000\u0145\u0146\u0001\u0000\u0000\u0000\u0146\u0148"+
+		"\u0001\u0000\u0000\u0000\u0147\u0143\u0001\u0000\u0000\u0000\u0148\u0149"+
+		"\u0001\u0000\u0000\u0000\u0149\u0147\u0001\u0000\u0000\u0000\u0149\u014a"+
+		"\u0001\u0000\u0000\u0000\u014a\u014b\u0001\u0000\u0000\u0000\u014b\u014c"+
+		"\u0005.\u0000\u0000\u014c\u014e\u00051\u0000\u0000\u014d\u012f\u0001\u0000"+
+		"\u0000\u0000\u014d\u013d\u0001\u0000\u0000\u0000\u014e7\u0001\u0000\u0000"+
+		"\u0000\u014f\u0153\u0003:\u001d\u0000\u0150\u0153\u0003B!\u0000\u0151"+
+		"\u0153\u0003<\u001e\u0000\u0152\u014f\u0001\u0000\u0000\u0000\u0152\u0150"+
+		"\u0001\u0000\u0000\u0000\u0152\u0151\u0001\u0000\u0000\u0000\u01539\u0001"+
+		"\u0000\u0000\u0000\u0154\u0156\u0005.\u0000\u0000\u0155\u0154\u0001\u0000"+
+		"\u0000\u0000\u0155\u0156\u0001\u0000\u0000\u0000\u0156\u0157\u0001\u0000"+
+		"\u0000\u0000\u0157\u0158\u0005/\u0000\u0000\u0158\u0159\u00056\u0000\u0000"+
+		"\u0159;\u0001\u0000\u0000\u0000\u015a\u015c\u0005,\u0000\u0000\u015b\u015d"+
+		"\u0003L&\u0000\u015c\u015b\u0001\u0000\u0000\u0000\u015c\u015d\u0001\u0000"+
+		"\u0000\u0000\u015d\u015e\u0001\u0000\u0000\u0000\u015e\u0163\u00055\u0000"+
+		"\u0000\u015f\u0161\u0005+\u0000\u0000\u0160\u0162\u00038\u001c\u0000\u0161"+
+		"\u0160\u0001\u0000\u0000\u0000\u0161\u0162\u0001\u0000\u0000\u0000\u0162"+
+		"\u0164\u0001\u0000\u0000\u0000\u0163\u015f\u0001\u0000\u0000\u0000\u0164"+
+		"\u0165\u0001\u0000\u0000\u0000\u0165\u0163\u0001\u0000\u0000\u0000\u0165"+
+		"\u0166\u0001\u0000\u0000\u0000\u0166\u0169\u0001\u0000\u0000\u0000\u0167"+
+		"\u016a\u00051\u0000\u0000\u0168\u016a\u0003>\u001f\u0000\u0169\u0167\u0001"+
+		"\u0000\u0000\u0000\u0169\u0168\u0001\u0000\u0000\u0000\u016a\u017f\u0001"+
+		"\u0000\u0000\u0000\u016b\u016c\u0005.\u0000\u0000\u016c\u016e\u0005,\u0000"+
+		"\u0000\u016d\u016f\u0003L&\u0000\u016e\u016d\u0001\u0000\u0000\u0000\u016e"+
+		"\u016f\u0001\u0000\u0000\u0000\u016f\u0170\u0001\u0000\u0000\u0000\u0170"+
+		"\u0175\u00055\u0000\u0000\u0171\u0173\u0005+\u0000\u0000\u0172\u0174\u0003"+
+		"8\u001c\u0000\u0173\u0172\u0001\u0000\u0000\u0000\u0173\u0174\u0001\u0000"+
+		"\u0000\u0000\u0174\u0176\u0001\u0000\u0000\u0000\u0175\u0171\u0001\u0000"+
+		"\u0000\u0000\u0176\u0177\u0001\u0000\u0000\u0000\u0177\u0175\u0001\u0000"+
+		"\u0000\u0000\u0177\u0178\u0001\u0000\u0000\u0000\u0178\u017c\u0001\u0000"+
+		"\u0000\u0000\u0179\u017a\u0005.\u0000\u0000\u017a\u017d\u00051\u0000\u0000"+
+		"\u017b\u017d\u0003@ \u0000\u017c\u0179\u0001\u0000\u0000\u0000\u017c\u017b"+
+		"\u0001\u0000\u0000\u0000\u017d\u017f\u0001\u0000\u0000\u0000\u017e\u015a"+
+		"\u0001\u0000\u0000\u0000\u017e\u016b\u0001\u0000\u0000\u0000\u017f=\u0001"+
+		"\u0000\u0000\u0000\u0180\u0181\u00050\u0000\u0000\u0181\u0186\u00055\u0000"+
+		"\u0000\u0182\u0184\u0005+\u0000\u0000\u0183\u0185\u00038\u001c\u0000\u0184"+
+		"\u0183\u0001\u0000\u0000\u0000\u0184\u0185\u0001\u0000\u0000\u0000\u0185"+
+		"\u0187\u0001\u0000\u0000\u0000\u0186\u0182\u0001\u0000\u0000\u0000\u0187"+
+		"\u0188\u0001\u0000\u0000\u0000\u0188\u0186\u0001\u0000\u0000\u0000\u0188"+
+		"\u0189\u0001\u0000\u0000\u0000\u0189\u018a\u0001\u0000\u0000\u0000\u018a"+
+		"\u018b\u00051\u0000\u0000\u018b?\u0001\u0000\u0000\u0000\u018c\u018d\u0005"+
+		".\u0000\u0000\u018d\u018e\u00050\u0000\u0000\u018e\u0193\u00055\u0000"+
+		"\u0000\u018f\u0191\u0005+\u0000\u0000\u0190\u0192\u00038\u001c\u0000\u0191"+
+		"\u0190\u0001\u0000\u0000\u0000\u0191\u0192\u0001\u0000\u0000\u0000\u0192"+
+		"\u0194\u0001\u0000\u0000\u0000\u0193\u018f\u0001\u0000\u0000\u0000\u0194"+
+		"\u0195\u0001\u0000\u0000\u0000\u0195\u0193\u0001\u0000\u0000\u0000\u0195"+
+		"\u0196\u0001\u0000\u0000\u0000\u0196\u0197\u0001\u0000\u0000\u0000\u0197"+
+		"\u0198\u0005.\u0000\u0000\u0198\u0199\u00051\u0000\u0000\u0199A\u0001"+
+		"\u0000\u0000\u0000\u019a\u019c\u0005.\u0000\u0000\u019b\u019a\u0001\u0000"+
+		"\u0000\u0000\u019b\u019c\u0001\u0000\u0000\u0000\u019c\u019f\u0001\u0000"+
+		"\u0000\u0000\u019d\u01a0\u0005,\u0000\u0000\u019e\u01a0\u0003H$\u0000"+
+		"\u019f\u019d\u0001\u0000\u0000\u0000\u019f\u019e\u0001\u0000\u0000\u0000"+
+		"\u01a0\u01a2\u0001\u0000\u0000\u0000\u01a1\u01a3\u0003L&\u0000\u01a2\u01a1"+
+		"\u0001\u0000\u0000\u0000\u01a2\u01a3\u0001\u0000\u0000\u0000\u01a3\u01a4"+
+		"\u0001\u0000\u0000\u0000\u01a4\u01a5\u0007\u0000\u0000\u0000\u01a5C\u0001"+
+		"\u0000\u0000\u0000\u01a6\u01a7\u0005\u001f\u0000\u0000\u01a7\u01ab\u0005"+
+		"&\u0000\u0000\u01a8\u01aa\u0003F#\u0000\u01a9\u01a8\u0001\u0000\u0000"+
+		"\u0000\u01aa\u01ad\u0001\u0000\u0000\u0000\u01ab\u01a9\u0001\u0000\u0000"+
+		"\u0000\u01ab\u01ac\u0001\u0000\u0000\u0000\u01ac\u01ae\u0001\u0000\u0000"+
+		"\u0000\u01ad\u01ab\u0001\u0000\u0000\u0000\u01ae\u01af\u0005)\u0000\u0000"+
+		"\u01afE\u0001\u0000\u0000\u0000\u01b0\u01b1\u0005\'\u0000\u0000\u01b1"+
+		"\u01b2\u0003H$\u0000\u01b2\u01b3\u0007\u0001\u0000\u0000\u01b3\u01b8\u0005"+
+		"C\u0000\u0000\u01b4\u01b6\u0005+\u0000\u0000\u01b5\u01b7\u00038\u001c"+
+		"\u0000\u01b6\u01b5\u0001\u0000\u0000\u0000\u01b6\u01b7\u0001\u0000\u0000"+
+		"\u0000\u01b7\u01b9\u0001\u0000\u0000\u0000\u01b8\u01b4\u0001\u0000\u0000"+
+		"\u0000\u01b9\u01ba\u0001\u0000\u0000\u0000\u01ba\u01b8\u0001\u0000\u0000"+
+		"\u0000\u01ba\u01bb\u0001\u0000\u0000\u0000\u01bb\u01bc\u0001\u0000\u0000"+
+		"\u0000\u01bc\u01bd\u00051\u0000\u0000\u01bdG\u0001\u0000\u0000\u0000\u01be"+
+		"\u01c0\u0007\u0002\u0000\u0000\u01bf\u01c1\u0003J%\u0000\u01c0\u01bf\u0001"+
+		"\u0000\u0000\u0000\u01c1\u01c2\u0001\u0000\u0000\u0000\u01c2\u01c0\u0001"+
+		"\u0000\u0000\u0000\u01c2\u01c3\u0001\u0000\u0000\u0000\u01c3\u01c4\u0001"+
+		"\u0000\u0000\u0000\u01c4\u01c5\u0005:\u0000\u0000\u01c5I\u0001\u0000\u0000"+
+		"\u0000\u01c6\u01c7\u00058\u0000\u0000\u01c7\u01c8\u0005<\u0000\u0000\u01c8"+
+		"\u01cb\u0005=\u0000\u0000\u01c9\u01cb\u00059\u0000\u0000\u01ca\u01c6\u0001"+
+		"\u0000\u0000\u0000\u01ca\u01c9\u0001\u0000\u0000\u0000\u01cbK\u0001\u0000"+
+		"\u0000\u0000\u01cc\u01cd\u0007\u0003\u0000\u0000\u01cd\u01ce\u0003N\'"+
+		"\u0000\u01ce\u01cf\u0005F\u0000\u0000\u01cfM\u0001\u0000\u0000\u0000\u01d0"+
+		"\u01d5\u0003P(\u0000\u01d1\u01d2\u0005J\u0000\u0000\u01d2\u01d4\u0003"+
+		"P(\u0000\u01d3\u01d1\u0001\u0000\u0000\u0000\u01d4\u01d7\u0001\u0000\u0000"+
+		"\u0000\u01d5\u01d3\u0001\u0000\u0000\u0000\u01d5\u01d6\u0001\u0000\u0000"+
+		"\u0000\u01d6O\u0001\u0000\u0000\u0000\u01d7\u01d5\u0001\u0000\u0000\u0000"+
+		"\u01d8\u01d9\u0007\u0004\u0000\u0000\u01d9\u01da\u0005I\u0000\u0000\u01da"+
+		"\u01db\u0005E\u0000\u0000\u01db\u01dc\u0003R)\u0000\u01dc\u01dd\u0005"+
+		"L\u0000\u0000\u01ddQ\u0001\u0000\u0000\u0000\u01de\u01e0\u0003T*\u0000"+
+		"\u01df\u01de\u0001\u0000\u0000\u0000\u01e0\u01e3\u0001\u0000\u0000\u0000"+
+		"\u01e1\u01df\u0001\u0000\u0000\u0000\u01e1\u01e2\u0001\u0000\u0000\u0000"+
+		"\u01e2S\u0001\u0000\u0000\u0000\u01e3\u01e1\u0001\u0000\u0000\u0000\u01e4"+
+		"\u01e5\u0007\u0005\u0000\u0000\u01e5U\u0001\u0000\u0000\u00009bdjqw\u007f"+
+		"\u0090\u0096\u009f\u00b4\u00ba\u00c2\u00c8\u00cf\u00da\u00e8\u00f3\u00f5"+
+		"\u00fa\u0100\u0108\u010e\u0116\u011c\u012a\u0131\u0136\u013a\u0140\u0145"+
+		"\u0149\u014d\u0152\u0155\u015c\u0161\u0165\u0169\u016e\u0173\u0177\u017c"+
+		"\u017e\u0184\u0188\u0191\u0195\u019b\u019f\u01a2\u01ab\u01b6\u01ba\u01c2"+
+		"\u01ca\u01d5\u01e1";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

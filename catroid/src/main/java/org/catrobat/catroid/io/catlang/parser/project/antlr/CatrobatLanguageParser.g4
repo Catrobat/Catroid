@@ -130,11 +130,12 @@ script
 	;
 
 brickDefintion
-	:
-	BRICK_LIST_DISABLED_INDICATOR? NOTE_BRICK
+	: noteBrick
 	| brickInvocation
 	| brickWithBody
 	;
+
+noteBrick: BRICK_LIST_DISABLED_INDICATOR? NOTE_BRICK NODE_BRICK_TEXT;
 
 brickWithBody
 	: BRICK_NAME

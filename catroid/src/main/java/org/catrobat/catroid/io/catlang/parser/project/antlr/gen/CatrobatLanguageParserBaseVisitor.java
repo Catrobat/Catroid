@@ -208,7 +208,21 @@ public class CatrobatLanguageParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitScript(CatrobatLanguageParser.ScriptContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -223,6 +237,13 @@ public class CatrobatLanguageParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

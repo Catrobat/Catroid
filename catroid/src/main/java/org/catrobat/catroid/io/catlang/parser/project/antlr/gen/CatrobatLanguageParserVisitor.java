@@ -173,11 +173,23 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScripts(CatrobatLanguageParser.ScriptsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#script}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScript(CatrobatLanguageParser.ScriptContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickDefintion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#noteBrick}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickWithBody}.
 	 * @param ctx the parse tree
@@ -190,6 +202,12 @@ public interface CatrobatLanguageParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CatrobatLanguageParser#elseBranchDisabled}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CatrobatLanguageParser#brickInvocation}.
 	 * @param ctx the parse tree

@@ -342,6 +342,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScript(CatrobatLanguageParser.ScriptContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScript(CatrobatLanguageParser.ScriptContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -349,6 +361,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBrickDefintion(CatrobatLanguageParser.BrickDefintionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNoteBrick(CatrobatLanguageParser.NoteBrickContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -373,6 +397,18 @@ public class CatrobatLanguageParserBaseListener implements CatrobatLanguageParse
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitElseBranch(CatrobatLanguageParser.ElseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseBranchDisabled(CatrobatLanguageParser.ElseBranchDisabledContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -69,9 +69,9 @@ BRICKLIST_NEWLINE: '\r'? '\n';
 BRICK_NAME: LETTER+ (' '? (LETTER+ | NUMBER | ',' | '.'))* -> pushMode(BRICK_MODE);
 UDB_START: '`' -> pushMode(UDB_MODE);
 BRICK_LIST_DISABLED_INDICATOR: '//';
-NOTE_BRICK: '#' (~[\n\r] | NOTE_BRICK_ESCAPE)*;
+NOTE_BRICK: '#' ' '? -> pushMode(NODE_BRICK_MODE);
 fragment NOTE_BRICK_ESCAPE : '\\' [nrtbf\\];
-BRICK_LIST_END_ELSE: '}' (' ' | '\t')+ 'Else' -> mode(BRICK_MODE);
+BRICK_LIST_END_ELSE: '}' (' ' | '\t')+ ('Else' | 'else') -> mode(BRICK_MODE);
 BRICK_LIST_END: '}' -> popMode;
 
 mode BRICK_MODE;
@@ -79,6 +79,9 @@ BRICK_MODE_WS: [ \t]+ -> skip;
 BRICK_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
 SEMICOLON: ';' -> popMode;
 BRICK_BODY_OPEN: '{' -> mode(BRICK_LIST_MODE);
+
+mode NODE_BRICK_MODE;
+NODE_BRICK_TEXT: ~[\r\n]+ -> popMode;
 
 mode UDB_MODE;
 UDB_MODE_WS: [\t\r\n]+ -> skip;

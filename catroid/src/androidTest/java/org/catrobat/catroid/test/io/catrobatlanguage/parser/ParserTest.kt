@@ -27,6 +27,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -36,6 +37,14 @@ class ParserTest {
     fun basicProgramParserTest() {
         val project = CatrobatLanguageParser.parseProgramFromString(getTestProgram2(), CatroidApplication.getAppContext())
         assert(project != null)
+
+        try {
+            val serializer = CatrobatLanguageProjectSerializer(project!!, CatroidApplication.getAppContext())
+            val serializedProgram = serializer.serialize()
+            assert(serializedProgram == getTestProgram2())
+        } catch (t: Throwable) {
+            println(t)
+        }
     }
 
     fun getTestProgram2(): String {
@@ -87,18 +96,20 @@ Program 'My project' {
           Emergency AR.Drone 2.0;
           Glide to (x: (- 1080), y: (0), seconds: (5));
           Place at (x: (1080), y: (0));
-          /* Forever {
+          // Forever {
             Glide to (x: (- 1080), y: (0), seconds: (10));
-          } */
+          // }
+          `Label text5 [Name of input]` ([Name of input]: (2));
         }
       }
       User Defined Bricks {
         Define `Label text [Name of input]` with screen refresh as {
-          /* If (condition: (1 < 2)) {
+          If (condition: (1 < 2)) {
             // Change y by (value: (10));
           } else {
             // If on edge, bounce;
-          } */
+          }
+          `Label text [Name of input]` ([Name of input]: (1));
           Place at (x: (1080), y: (0));
         }
       }
