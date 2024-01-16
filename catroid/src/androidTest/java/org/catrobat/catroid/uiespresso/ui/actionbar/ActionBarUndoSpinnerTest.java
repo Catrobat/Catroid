@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.nfc.NfcHandler;
@@ -60,6 +61,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -97,9 +99,9 @@ public class ActionBarUndoSpinnerTest {
 	@Parameterized.Parameter(2)
 	public int brickSpinnerViewId;
 
-	private String firstItem = "abc";
-	private String secondItem = "def";
-	private String newItem = "new";
+	private final String firstItem = "abc";
+	private final String secondItem = "def";
+	private final String newItem = "new";
 
 	@After
 	public void tearDown() throws IOException {
@@ -149,10 +151,11 @@ public class ActionBarUndoSpinnerTest {
 		}
 	}
 
-	private void createProject() {
+	private void createProject() throws ImageTooLargeException {
 		Script script = UiTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
 
 		currentProject.addUserVariable(new UserVariable(firstItem));
 		currentProject.addUserVariable(new UserVariable(secondItem));

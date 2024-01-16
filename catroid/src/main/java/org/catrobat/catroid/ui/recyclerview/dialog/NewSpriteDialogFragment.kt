@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.exceptions.ImageTooLargeException
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
@@ -59,6 +60,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -80,6 +82,8 @@ class NewSpriteDialogFragment(
     private var isPlaceVisually = true
     private var sprite: Sprite? = null
 
+    private val projectManager by inject(ProjectManager::class.java)
+
     companion object {
         val TAG: String = NewSpriteDialogFragment::class.java.simpleName
     }
@@ -87,7 +91,7 @@ class NewSpriteDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val view = View.inflate(activity, R.layout.dialog_new_sprite, null)
-        val currentScene = ProjectManager.getInstance().currentlyEditedScene
+        val currentScene = projectManager.currentlyEditedScene
 
         visuallyPlaceSwitch = view.findViewById(R.id.place_visually_sprite_switch)
         placeVisuallyTextView = view.findViewById(R.id.place_visually_textView)
@@ -127,8 +131,8 @@ class NewSpriteDialogFragment(
         } else {
             sprite = Sprite(textInput)
             currentScene.addSprite(sprite)
-            if (!emptySprite) {
-                addLookDataToSprite(currentScene, textInput)
+            if (!emptySprite && !addLookDataToSprite(currentScene, textInput)) {
+                currentScene.removeSprite(sprite)
             }
         }
 
@@ -156,10 +160,10 @@ class NewSpriteDialogFragment(
     }
 
     private fun showCastDialog(): Boolean = SettingsFragment.isCastSharedPreferenceEnabled(activity) &&
-        ProjectManager.getInstance().currentProject.isCastProject &&
+        projectManager.currentProject.isCastProject &&
         !CastManager.getInstance().isConnected
 
-    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) {
+    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) : Boolean {
         try {
             val imageDirectory = File(
                 currentScene?.directory,
@@ -175,13 +179,19 @@ class NewSpriteDialogFragment(
             if (lookData.imageMimeType == null) {
                 imgFormatNotSupportedDialog()
                 currentScene?.removeSprite(sprite)
+                return false
             } else {
                 sprite?.lookList?.add(lookData)
                 lookData.collisionInformation.calculate()
             }
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
+            return false
+        } catch (e: ImageTooLargeException) {
+            e.show(this.requireContext())
+            return false
         }
+        return true
     }
 
     private fun setupToggleButtonListener() {
@@ -210,7 +220,7 @@ class NewSpriteDialogFragment(
     }
 
     private fun startVisualPlacementActivity() {
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentSprite = sprite
         val intent = Intent(requireContext(), VisualPlacementActivity()::class.java)
         intent.putExtra(EXTRA_X_TRANSFORM, BrickValues.X_POSITION)
         intent.putExtra(EXTRA_Y_TRANSFORM, BrickValues.Y_POSITION)
