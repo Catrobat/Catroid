@@ -29,6 +29,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @CatrobatLanguageBrick(command = "Ask")
 public class AskBrick extends UserVariableBrickWithFormula {
 
@@ -72,5 +75,12 @@ public class AskBrick extends UserVariableBrickWithFormula {
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("answer variable");
+		return requiredArguments;
 	}
 }

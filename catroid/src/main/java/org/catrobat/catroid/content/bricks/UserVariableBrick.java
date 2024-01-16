@@ -39,6 +39,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.IdRes;
@@ -144,5 +145,12 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		}
 		catrobatLanguage.append("));\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("variable");
+		return requiredArguments;
 	}
 }

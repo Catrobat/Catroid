@@ -32,6 +32,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Move AR.Drone 2.0")
@@ -92,5 +95,12 @@ public class DroneMoveForwardBrick extends FormulaBrick {
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("direction");
+		return requiredArguments;
 	}
 }

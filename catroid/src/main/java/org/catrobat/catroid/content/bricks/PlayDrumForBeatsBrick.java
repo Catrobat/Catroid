@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -131,5 +132,12 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 		brickBuilder.append(drumSelection.getCatrobatLanguageString());
 		brickBuilder.append("), ");
 		super.appendCatrobatLanguageArguments(brickBuilder);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("drum");
+		return requiredArguments;
 	}
 }

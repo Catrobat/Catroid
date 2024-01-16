@@ -34,6 +34,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.physics.PhysicsObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
@@ -129,5 +132,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Updateab
 			default:
 				throw new IllegalStateException("Invalid spinner selection: " + selection);
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("motion type");
+		return requiredArguments;
 	}
 }

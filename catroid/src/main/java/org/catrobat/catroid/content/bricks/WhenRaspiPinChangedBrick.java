@@ -39,6 +39,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import kotlin.Unit;
 
@@ -161,5 +162,13 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 			brickBuilder.append(script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low");
 		}
 		brickBuilder.append(')');
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("pin");
+		requiredArguments.add("position");
+		return requiredArguments;
 	}
 }

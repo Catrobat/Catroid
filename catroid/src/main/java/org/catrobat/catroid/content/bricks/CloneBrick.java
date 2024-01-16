@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -122,5 +123,12 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 			currentObject = CatrobatLanguageUtils.formatActorOrObject(objectToClone.getName());
 		}
 		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object", currentObject);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("actor or object");
+		return requiredArguments;
 	}
 }

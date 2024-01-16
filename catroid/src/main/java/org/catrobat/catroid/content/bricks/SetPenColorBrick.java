@@ -36,6 +36,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -164,5 +167,12 @@ public class SetPenColorBrick extends FormulaBrick {
 		String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
 
 		return getCatrobatLanguageParameterCall(indentionLevel, "pen color code", hexColor);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add("pen color code");
+		return requiredArguments;
 	}
 }

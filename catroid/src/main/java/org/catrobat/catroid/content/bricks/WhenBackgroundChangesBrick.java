@@ -43,6 +43,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -194,5 +195,12 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 			brickBuilder.append(CatrobatLanguageUtils.formatLook(lookData.getName()));
 		}
 		brickBuilder.append(')');
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("look");
+		return requiredArguments;
 	}
 }

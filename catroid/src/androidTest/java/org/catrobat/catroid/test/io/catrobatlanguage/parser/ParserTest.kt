@@ -99,7 +99,7 @@ Program 'My project' {
           // Forever {
             Glide to (x: (- 1080), y: (0), seconds: (10));
           // }
-          `Label text5 [Name of input]` ([Name of input]: (2));
+          `Label text [Name of input]` ([Name of input]: (2));
         }
       }
       User Defined Bricks {

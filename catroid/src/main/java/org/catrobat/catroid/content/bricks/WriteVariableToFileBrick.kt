@@ -60,4 +60,10 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     }
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false)
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("variable")
+        return requiredArguments
+    }
 }

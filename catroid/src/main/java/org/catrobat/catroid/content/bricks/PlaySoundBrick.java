@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -146,5 +147,12 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 			sound = CatrobatLanguageUtils.formatSoundName(this.sound.getName());
 		}
 		return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("sound");
+		return requiredArguments;
 	}
 }

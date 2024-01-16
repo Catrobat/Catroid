@@ -231,4 +231,10 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         brickBuilder.append(", ")
         endBrick.appendCatrobatLanguageArguments(brickBuilder)
     }
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("reference list")
+        return requiredArguments
+    }
 }

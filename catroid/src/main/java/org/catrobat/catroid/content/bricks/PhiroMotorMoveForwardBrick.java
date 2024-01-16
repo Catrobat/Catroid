@@ -38,6 +38,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
@@ -160,5 +163,13 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick implements Updateab
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("motor");
+		requiredArguments.add("direction");
+		return requiredArguments;
 	}
 }

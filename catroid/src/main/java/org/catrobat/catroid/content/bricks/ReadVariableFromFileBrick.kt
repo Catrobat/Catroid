@@ -141,4 +141,11 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
         catrobatLanguage.append("\n")
         return catrobatLanguage.toString()
     }
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("action")
+        requiredArguments.add("variable")
+        return requiredArguments
+    }
 }

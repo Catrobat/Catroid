@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -126,6 +127,13 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 			default:
 				throw new IllegalStateException("Invalid spinner selection: " + selection);
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("rotation style");
+		return requiredArguments;
 	}
 
 	class RotationStyleOption implements Nameable {

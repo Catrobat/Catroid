@@ -39,6 +39,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -143,5 +144,12 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 			brickBuilder.append(CatrobatLanguageUtils.formatActorOrObject(script.getSpriteToBounceOffName()));
 		}
 		brickBuilder.append(')');
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("actor or object");
+		return requiredArguments;
 	}
 }

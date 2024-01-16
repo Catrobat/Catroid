@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -205,5 +206,12 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 
 		getCatrobatLanguageBodyClose(stringBuilder, indentionLevel);
 		return stringBuilder.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("value");
+		return requiredArguments;
 	}
 }

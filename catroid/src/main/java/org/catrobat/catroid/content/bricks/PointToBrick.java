@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -137,5 +138,12 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object",
 				CatrobatLanguageUtils.formatActorOrObject(pointedObject.getName()));
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("actor or object");
+		return requiredArguments;
 	}
 }

@@ -450,27 +450,27 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	}
 
 	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
-//		Collection<String> requiredArguments = getRequiredArgumentNames();
-//		Collection<String> argumentsPresent = arguments.keySet();
-//
-//		if (requiredArguments.size() == argumentsPresent.size()) {
-//			List<String> missingArguments = new ArrayList<>();
-//			for (String requiredArgument : requiredArguments) {
-//				if (!argumentsPresent.contains(requiredArgument)) {
-//					missingArguments.add(requiredArgument);
-//				}
-//			}
-//			if (!missingArguments.isEmpty()) {
-//				String requiredArgumentsString = String.join(", ", requiredArguments);
-//				String missingArgumentsString = String.join(", ", missingArguments);
-//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
-//			}
-//		} else {
-//			if (requiredArguments.size() == 0) {
-//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
-//			}
-//			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
-//		}
+		Collection<String> requiredArguments = getRequiredArgumentNames();
+		Collection<String> argumentsPresent = arguments.keySet();
+
+		if (requiredArguments.size() == argumentsPresent.size()) {
+			List<String> missingArguments = new ArrayList<>();
+			for (String requiredArgument : requiredArguments) {
+				if (!argumentsPresent.contains(requiredArgument)) {
+					missingArguments.add(requiredArgument);
+				}
+			}
+			if (!missingArguments.isEmpty()) {
+				String requiredArgumentsString = String.join(", ", requiredArguments);
+				String missingArgumentsString = String.join(", ", missingArguments);
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+			}
+		} else {
+			if (requiredArguments.size() == 0) {
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+			}
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+		}
 	}
 
 	protected Collection<String> getRequiredArgumentNames() {

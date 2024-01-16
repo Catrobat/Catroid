@@ -34,6 +34,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @CatrobatLanguageBrick(command = "Start sound and wait")
 public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLanguageAttributes {
 
@@ -82,5 +85,12 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLan
 		brickBuilder.append("sound: (")
 				.append(soundName)
 				.append(')');
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("sound");
+		return requiredArguments;
 	}
 }

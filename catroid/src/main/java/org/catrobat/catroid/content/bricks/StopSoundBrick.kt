@@ -100,4 +100,10 @@ class StopSoundBrick : BrickBaseType(),
         if (this.sound != null) sound = formatSoundName(this.sound!!.name)
         return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound)
     }
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("sound")
+        return requiredArguments
+    }
 }

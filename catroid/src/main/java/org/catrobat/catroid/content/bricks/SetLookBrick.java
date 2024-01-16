@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -142,5 +143,12 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String lookname = look == null ? "" : CatrobatLanguageUtils.formatLook(look.getName());
 		return getCatrobatLanguageParameterCall(indentionLevel, "look", lookname);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("look");
+		return requiredArguments;
 	}
 }

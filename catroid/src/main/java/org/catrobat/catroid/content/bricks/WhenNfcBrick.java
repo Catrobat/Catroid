@@ -43,6 +43,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -153,5 +154,12 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 			brickBuilder.append(CatrobatLanguageUtils.formatNFCTag(script.getNfcTag().getName()));
 		}
 		brickBuilder.append(')');
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("nfc tag");
+		return requiredArguments;
 	}
 }

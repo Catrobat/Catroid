@@ -42,6 +42,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.IdRes;
@@ -173,5 +174,12 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		}
 		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("list");
+		return requiredArguments;
 	}
 }

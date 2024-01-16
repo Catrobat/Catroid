@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrumen
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -109,5 +110,12 @@ public class SetInstrumentBrick extends BrickBaseType
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return getCatrobatLanguageParameterCall(indentionLevel, "instrument", instrumentSelection.getCatrobatLanguageString());
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("instrument");
+		return requiredArguments;
 	}
 }

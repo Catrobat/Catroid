@@ -35,6 +35,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play Phiro")
@@ -139,5 +142,12 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 		brickBuilder.append(this.getCatrobatLanguageSpinnerValue(Tone.valueOf(tone).ordinal()));
 		brickBuilder.append("), ");
 		super.appendCatrobatLanguageArguments(brickBuilder);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("tone");
+		return requiredArguments;
 	}
 }

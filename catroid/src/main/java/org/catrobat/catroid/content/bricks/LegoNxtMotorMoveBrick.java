@@ -35,6 +35,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
@@ -140,5 +143,12 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("motor");
+		return requiredArguments;
 	}
 }

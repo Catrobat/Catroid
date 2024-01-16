@@ -35,6 +35,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
@@ -111,5 +114,12 @@ public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerB
 			default:
 				throw new IllegalArgumentException("Invalid spinner index");
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("script");
+		return requiredArguments;
 	}
 }

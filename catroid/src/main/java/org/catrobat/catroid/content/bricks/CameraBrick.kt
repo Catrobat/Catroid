@@ -86,4 +86,10 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
         val state = if (spinnerSelectionON) "on" else "off"
         return getCatrobatLanguageParameterCall(indentionLevel, "camera", state)
     }
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("camera")
+        return requiredArguments
+    }
 }

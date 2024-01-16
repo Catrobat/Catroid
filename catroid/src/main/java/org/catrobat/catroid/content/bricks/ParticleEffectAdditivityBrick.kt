@@ -121,4 +121,10 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
     }
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.getCatrobatLanguageSpinnerCall(indentionLevel, "particle effect additivity", fadeSpinnerSelectionId)
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("particle effect additivity")
+        return requiredArguments
+    }
 }

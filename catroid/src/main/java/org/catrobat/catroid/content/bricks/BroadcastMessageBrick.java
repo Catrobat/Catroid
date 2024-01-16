@@ -41,6 +41,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -203,5 +204,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		if (spinnerId == R.id.brick_broadcast_spinner && spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("message");
+		return requiredArguments;
 	}
 }

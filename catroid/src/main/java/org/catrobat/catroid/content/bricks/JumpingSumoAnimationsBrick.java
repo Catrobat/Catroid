@@ -34,6 +34,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
@@ -124,5 +127,12 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return getCatrobatLanguageSpinnerCall(indentionLevel, "animation", spinnerSelectionIndex);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("animation");
+		return requiredArguments;
 	}
 }

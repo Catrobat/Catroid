@@ -40,6 +40,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -290,6 +291,13 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 			default:
 				throw new IllegalArgumentException("Invalid spinnerIndex: " + spinnerIndex);
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("activated phiro");
+		return requiredArguments;
 	}
 
 	@VisibleForTesting

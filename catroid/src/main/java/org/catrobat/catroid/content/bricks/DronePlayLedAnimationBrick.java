@@ -35,7 +35,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -151,6 +153,13 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return getCatrobatLanguageSpinnerCall(indentionLevel, "flash animation", spinnerSelectionIndex);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("flash animation");
+		return requiredArguments;
 	}
 }
 

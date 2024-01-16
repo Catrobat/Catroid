@@ -118,4 +118,10 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
     }
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int) = getCatrobatLanguageSpinnerCall(indentionLevel, "effect", fadeSpinnerSelectionId)
+
+    override fun getRequiredArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+        requiredArguments.add("effect")
+        return requiredArguments
+    }
 }

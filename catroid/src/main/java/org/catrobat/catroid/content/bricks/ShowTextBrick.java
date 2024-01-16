@@ -32,6 +32,9 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Show")
@@ -96,5 +99,12 @@ public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("variable");
+		return requiredArguments;
 	}
 }

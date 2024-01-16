@@ -41,6 +41,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
@@ -229,5 +232,13 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 			default:
 				throw new IndexOutOfBoundsException("Invalid spinnerIndex in " + getClass().getSimpleName());
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("light");
+		requiredArguments.add("color");
+		return requiredArguments;
 	}
 }

@@ -38,6 +38,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -144,5 +145,12 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 			default:
 				throw new IllegalArgumentException("Invalid spinner index");
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("target");
+		return requiredArguments;
 	}
 }

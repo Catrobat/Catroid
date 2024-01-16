@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -266,6 +267,14 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 			default:
 				throw new NotImplementedException("Spinner index " + spinnerIndex + " not implemented.");
 		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("variable");
+		requiredArguments.add("alignment");
+		return requiredArguments;
 	}
 
 	private static class AlignmentStyle implements Nameable {

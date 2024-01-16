@@ -28,7 +28,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import androidx.annotation.NonNull;
 
@@ -79,5 +81,12 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return super.serializeToCatrobatLanguage(indentionLevel, "variable", false, false);
+	}
+
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.add("variable");
+		return requiredArguments;
 	}
 }
