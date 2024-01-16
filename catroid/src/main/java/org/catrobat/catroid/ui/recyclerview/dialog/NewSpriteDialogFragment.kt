@@ -163,7 +163,7 @@ class NewSpriteDialogFragment(
         projectManager.currentProject.isCastProject &&
         !CastManager.getInstance().isConnected
 
-    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) : Boolean {
+    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?): Boolean {
         try {
             val imageDirectory = File(
                 currentScene?.directory,
