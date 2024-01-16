@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -108,6 +109,7 @@ import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -152,8 +154,6 @@ public class SpriteActivity extends BaseActivity {
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;
-
-	private ProjectManager projectManager;
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
@@ -161,6 +161,8 @@ public class SpriteActivity extends BaseActivity {
 	private String generatedVariableName;
 
 	private boolean isUndoMenuItemVisible = false;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +172,6 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
 		currentProject = projectManager.getCurrentProject();
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
@@ -217,7 +218,7 @@ public class SpriteActivity extends BaseActivity {
 		if (optionsMenu != null) {
 			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				projectManager.changedProject(currentProject.getName());
 			}
 		}
 	}
@@ -225,9 +226,9 @@ public class SpriteActivity extends BaseActivity {
 	public void checkForChange() {
 		if (optionsMenu != null) {
 			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				projectManager.changedProject(currentProject.getName());
 			} else {
-				ProjectManager.getInstance().resetChangedFlag(currentProject);
+				projectManager.resetChangedFlag(currentProject);
 			}
 		}
 	}
@@ -316,7 +317,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void saveProject() {
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject = projectManager.getCurrentProject();
 		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
@@ -330,7 +331,7 @@ public class SpriteActivity extends BaseActivity {
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					projectManager.getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -494,6 +495,10 @@ public class SpriteActivity extends BaseActivity {
 						lookData.getCollisionInformation().calculate();
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
+					} catch (ImageTooLargeException e) {
+						e.show(getBaseContext());
+						currentScene.removeSprite(sprite);
+						return;
 					}
 					if (onNewSpriteListener != null) {
 						onNewSpriteListener.addItem(sprite);
@@ -552,6 +557,8 @@ public class SpriteActivity extends BaseActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} catch (ImageTooLargeException e) {
+			e.show(this);
 		}
 	}
 
@@ -590,6 +597,8 @@ public class SpriteActivity extends BaseActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} catch (ImageTooLargeException e) {
+			e.show(this);
 		}
 	}
 
@@ -812,16 +821,14 @@ public class SpriteActivity extends BaseActivity {
 		RadioButton multiplayerRadioButton = view.findViewById(R.id.multiplayer);
 		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(getApplicationContext())) {
 			multiplayerRadioButton.setVisibility(View.VISIBLE);
-			multiplayerRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-				makeListCheckBox.setEnabled(!isChecked);
-			});
+			multiplayerRadioButton.setOnCheckedChangeListener((buttonView, isChecked) ->
+					makeListCheckBox.setEnabled(!isChecked));
 		}
 
 		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
 		List<UserData> variables = new ArrayList<>();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
 		currentSprite = projectManager.getCurrentSprite();
 		currentProject = projectManager.getCurrentProject();
 

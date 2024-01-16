@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
@@ -68,19 +69,19 @@ public class ProjectLoaderTest {
 	private Scene scene2;
 	private Sprite sprite1;
 	private Sprite sprite2;
-	private UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
-	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
-	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
-	private UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
+	private final UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
+	private final UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
+	private final UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
+	private final UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
+	private final UserList sprite1UserList = new UserList("Sprite1_List");
+	private final UserList sprite2UserList = new UserList("Sprite2_List");
+	private final UserList globalUserList = new UserList("Global_List");
 	private DeviceVariableAccessor variableAccessor;
 	private DeviceUserDataAccessor userDataAccessor;
 	private File[] correctLooks;
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ImageTooLargeException {
 		project = createProject();
 		assertTrue(XstreamSerializer.getInstance().saveProject(project));
 
@@ -90,7 +91,7 @@ public class ProjectLoaderTest {
 		assertTrue(XstreamSerializer.getInstance().saveProject(project));
 	}
 
-	private Project createProject() throws IOException {
+	private Project createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		directory = project.getDirectory();
 
@@ -149,14 +150,14 @@ public class ProjectLoaderTest {
 		userDataAccessor.writeMapToJson(map);
 	}
 
-	private void setUpLooks() throws IOException {
+	private void setUpLooks() throws IOException, ImageTooLargeException {
 		addLookToSprite(sprite1, scene1, "Valid look1");
 		addLookToSprite(sprite1, scene1, "Valid look2");
 		addUnusedLookToSprite(scene1, "Unused look1");
 		addUnusedLookToSprite(scene1, "Unused look2");
 	}
 
-	private void addLookToSprite(Sprite sprite, Scene scene, String name) throws IOException {
+	private void addLookToSprite(Sprite sprite, Scene scene, String name) throws IOException, ImageTooLargeException {
 		File imageDirectory = new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
 		File lookDataFile = new File(imageDirectory, name);
 		lookDataFile.createNewFile();
@@ -178,7 +179,7 @@ public class ProjectLoaderTest {
 	}
 
 	@Test
-	public void projectLoadTaskTest() throws IOException {
+	public void projectLoadTaskTest() {
 		// Delete User Variables
 		project.getUserVariables().clear();
 		sprite1.getUserVariables().clear();
@@ -214,7 +215,7 @@ public class ProjectLoaderTest {
 	}
 
 	@Test
-	public void projectInvalidLoadTaskTest() throws IOException {
+	public void projectInvalidLoadTaskTest() {
 		File directory = new File("");
 		assertNotNull(directory);
 		assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()));
