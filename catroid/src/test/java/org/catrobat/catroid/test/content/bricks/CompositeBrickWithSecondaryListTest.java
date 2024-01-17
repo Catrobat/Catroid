@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +47,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -91,7 +91,7 @@ public class CompositeBrickWithSecondaryListTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		initializeStaticSingletonMethods(dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 		compositeBrick = compositeBrickClass.newInstance();
 		List<Brick> compositeBrickParts = compositeBrick.getAllParts();
 		compositeMiddleBrick = compositeBrickParts.get(1);

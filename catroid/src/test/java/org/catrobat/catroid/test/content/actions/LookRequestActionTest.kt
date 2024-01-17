@@ -61,6 +61,7 @@ import org.powermock.modules.junit4.PowerMockRunner
 import java.io.InputStream
 import org.koin.java.KoinJavaComponent.inject
 import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.koin.core.module.Module
 import java.util.Collections
 
@@ -230,5 +231,6 @@ class LookRequestActionTest {
     fun tearDown() {
         StageActivity.stageListener.webConnectionHolder = null
         StageActivity.stageListener = null
+        stop(dependencyModules)
     }
 }

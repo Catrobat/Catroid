@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,8 +43,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class SetSizeToActionTest {
@@ -61,7 +60,7 @@ public class SetSizeToActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		initializeStaticSingletonMethods(dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 		sprite = new Sprite("testSprite");
 	}
 

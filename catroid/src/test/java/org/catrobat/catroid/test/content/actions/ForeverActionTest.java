@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -41,7 +42,6 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
@@ -54,7 +54,7 @@ public class ForeverActionTest {
 
 	@Test
 	public void testLoopDelay() {
-		initializeStaticSingletonMethods(dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 		Project project = Mockito.mock(Project.class);
 		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		Mockito.doReturn(null).when(project).getSpriteListWithClones();
@@ -80,5 +80,7 @@ public class ForeverActionTest {
 		}
 
 		assertEquals(deltaY * REPEAT_TIMES, (int) sprite.look.getYInUserInterfaceDimensionUnit());
+
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 }

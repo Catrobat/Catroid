@@ -72,6 +72,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +84,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.koin.java.KoinJavaComponent.inject;
@@ -164,7 +164,7 @@ public class CloneBrickWithFormulaTest {
 
 	@Before
 	public void setUp() throws CloneNotSupportedException {
-		initializeStaticSingletonMethods(dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);

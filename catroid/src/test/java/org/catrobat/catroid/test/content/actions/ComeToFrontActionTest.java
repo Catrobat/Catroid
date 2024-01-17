@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.content.Context;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -115,6 +113,8 @@ public class ComeToFrontActionTest {
 		assertEquals(bottomSprite.look.getZIndex(), getZMaxValue(bottomSprite));
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
+
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(Project project) {
@@ -141,11 +141,12 @@ public class ComeToFrontActionTest {
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createComeToFrontAction(null);
-		Context context = MockUtil.mockContextForProject(dependencyModules);
-		CatroidKoinHelperKt.startWithContext(context, dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 
 		exception.expect(NullPointerException.class);
 		action.act(1.0f);
+
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -171,6 +172,8 @@ public class ComeToFrontActionTest {
 		action.act(1.0f);
 
 		assertEquals(getZMaxValue(firstSprite), firstSprite.look.getZIndex());
+
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	private int getZMaxValue(Sprite sprite) {
