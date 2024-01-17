@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.junit.After;
 import org.junit.Before;
@@ -55,7 +56,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -97,7 +97,7 @@ public class CompositeBrickVariableUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		initializeStaticSingletonMethods(dependencyModules);
+		MockUtil.mockContextForProject(dependencyModules);
 		Project project = new Project();
 		userVariable = new UserVariable();
 		userList = new UserList();

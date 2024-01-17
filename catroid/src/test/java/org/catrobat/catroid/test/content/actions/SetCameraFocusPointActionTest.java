@@ -38,6 +38,7 @@ import org.catrobat.catroid.stage.CameraPositioner;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -88,6 +89,11 @@ public class SetCameraFocusPointActionTest {
 
 		OrthographicCamera camera = new OrthographicCamera();
 		StageActivity.stageListener.cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

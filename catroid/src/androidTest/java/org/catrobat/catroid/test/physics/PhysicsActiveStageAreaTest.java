@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -79,6 +80,11 @@ public class PhysicsActiveStageAreaTest {
 		project = rule.project;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsLook = ((PhysicsLook) sprite.look);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

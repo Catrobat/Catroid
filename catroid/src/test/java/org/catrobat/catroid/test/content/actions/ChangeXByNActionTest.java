@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -67,6 +68,11 @@ public class ChangeXByNActionTest {
 		Context context = MockUtil.mockContextForProject(dependencyModules);
 		Project project = new Project(context, "Project");
 		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
