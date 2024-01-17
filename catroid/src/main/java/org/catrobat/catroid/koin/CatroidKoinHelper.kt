@@ -168,8 +168,10 @@ fun startWithContext(context: Context, modules: List<Module>) {
 }
 
 fun stop(modules: List<Module>) {
-    if (KoinContextHandler.getOrNull() != null) {
-        unloadKoinModules(modules)
-        stopKoin()
-    }
+    unloadKoinModules(modules)
+    stopKoin()
+//    if (KoinContextHandler.getOrNull() != null) {
+//        unloadKoinModules(modules)
+//        stopKoin()
+//    }
 }
