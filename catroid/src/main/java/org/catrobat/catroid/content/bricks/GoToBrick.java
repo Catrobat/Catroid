@@ -135,6 +135,7 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 
 	// TODO: better soluton?
 	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		// TODO: funktioniert nicht...
 		switch (spinnerIndex) {
 			case BrickValues.GO_TO_TOUCH_POSITION:
 				return "touch position";

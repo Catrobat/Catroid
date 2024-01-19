@@ -392,7 +392,7 @@ object BrickFactory {
             if (arguments.containsKey("size") && arguments.containsKey("color") && arguments.containsKey("alignment")) {
                 return ShowTextColorSizeAlignmentBrick()
             }
-            ShowTextBrick()
+            return ShowTextBrick()
         }
         throw CatrobatLanguageParsingException("Show requires either no parameters or 'variable', 'x' and 'y' or 'variable', 'x', 'y', 'size', 'color' and 'alignment'")
     }
@@ -400,10 +400,10 @@ object BrickFactory {
     private fun createSpinBrick(arguments: Map<String, String>) : BrickBaseType {
         if (arguments.containsKey("direction")) {
             if (arguments["direction"] == "left") {
-                return TurnLeftBrick()
+                return TurnLeftSpeedBrick()
             }
             if (arguments["direction"] == "right") {
-                return TurnRightBrick()
+                return TurnRightSpeedBrick()
             }
         }
         throw CatrobatLanguageParsingException("Spin requires parameter 'direction' with the either one of the following values: 'left' or 'right'")

@@ -315,8 +315,12 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     private fun serializeProjectToCatrobatLanguage() {
-        val projectString = CatrobatLanguageProjectSerializer(project!!, this.requireContext()).serialize()
-        Log.i(TAG, projectString)
+        try {
+            val projectString = CatrobatLanguageProjectSerializer(project!!, this.requireContext()).serialize()
+            Log.i(TAG, projectString)
+        } catch (t: Throwable) {
+            Log.i(TAG, "")
+        }
     }
 
     private fun exportProject() {

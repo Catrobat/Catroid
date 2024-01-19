@@ -1909,7 +1909,7 @@ class SpinnerSerializationTest {
         var defaultCatLangValue = ""
         for (drum in PickableDrum.values()) {
             val spinnerItemName = getStringForResourceId(drum.nameStringId)
-            val drumName = drum.catrobatLanguageString
+            val drumName = PickableDrum.getCatrobatLanguageStringByDrum(drum)
             if (spinnerItemName == defaultValue) {
                 defaultCatLangValue = expectedValue.replace("{{DRUM}}", drumName)
                 continue

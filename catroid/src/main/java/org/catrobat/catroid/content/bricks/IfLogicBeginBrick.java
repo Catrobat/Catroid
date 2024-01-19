@@ -305,6 +305,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
+		if (isCommentedOut()) {
+			catrobatLanguage.append("// ");
+		}
 		catrobatLanguage.append("} else {\n");
 
 		for (Brick brick : elseBranchBricks) {

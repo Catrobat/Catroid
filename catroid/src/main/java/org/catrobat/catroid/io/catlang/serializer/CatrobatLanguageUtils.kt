@@ -35,34 +35,34 @@ object CatrobatLanguageUtils {
     fun getIndention(level: IndentionLevel): String = getIndention(level.ordinal + 1)
 
     @JvmStatic
-    fun formatSoundName(soundName: String): String = "'${escapeCharacters(soundName, "'\r\n")}'"
+    fun formatSoundName(soundName: String?): String = "'${escapeCharacters(soundName, "'\r\n")}'"
 
     @JvmStatic
-    fun formatActorOrObject(actorOrObjectName: String): String = "'${escapeCharacters(actorOrObjectName, "'\r\n")}'"
+    fun formatActorOrObject(actorOrObjectName: String?): String = "'${escapeCharacters(actorOrObjectName, "'\r\n")}'"
 
     @JvmStatic
-    fun formatLook(lookName: String): String = "'${escapeCharacters(lookName, "'\r\n")}'"
+    fun formatLook(lookName: String?): String = "'${escapeCharacters(lookName, "'\r\n")}'"
 
     @JvmStatic
-    fun formatNFCTag(nfcTag: String): String = "'${escapeCharacters(nfcTag, "'\r\n")}'"
+    fun formatNFCTag(nfcTag: String?): String = "'${escapeCharacters(nfcTag, "'\r\n")}'"
 
     @JvmStatic
-    fun formatVariable(variableName: String): String = "\"${escapeCharacters(variableName, "\"\r\n")}\""
+    fun formatVariable(variableName: String?): String = "\"${escapeCharacters(variableName, "\"\r\n")}\""
 
     @JvmStatic
-    fun formatList(listName: String): String = "*${escapeCharacters(listName, "*\r\n")}*"
+    fun formatList(listName: String?): String = "*${escapeCharacters(listName, "*\r\n")}*"
 
     @JvmStatic
-    fun formatString(string: String): String = "'${escapeCharacters(string, "'\r\n")}'"
+    fun formatString(string: String?): String = "'${escapeCharacters(string, "'\r\n")}'"
 
     @JvmStatic
-    fun formatUserDefinedBrickLabel(label: String) = escapeCharacters(label, "[]`")
+    fun formatUserDefinedBrickLabel(label: String?) = escapeCharacters(label, "[]`")
 
     @JvmStatic
-    fun formatUserDefinedBrickParameter(parameter: String) = "[${escapeCharacters(parameter, "[]`")}]"
+    fun formatUserDefinedBrickParameter(parameter: String?) = "[${escapeCharacters(parameter, "[]`")}]"
 
     @JvmStatic
-    fun getEscapedString(string: String): String = "'${escapeCharacters(string, "'\t\r\n")}'"
+    fun getEscapedString(string: String?): String = "'${escapeCharacters(string, "'\t\r\n")}'"
 
     @JvmStatic
     fun formatHexColorString(hexColorString: String): String {
@@ -87,20 +87,23 @@ object CatrobatLanguageUtils {
     }
 
     @JvmStatic
-    fun escapeFormula(formula: String): String {
+    fun escapeFormula(formula: String?): String {
         return escapeCharacters(formula, "\r\n")
     }
 
-    fun escapeCharacters(string: String, charactersToEscape: String): String {
-        var escapedString = string
-        for (character in charactersToEscape) {
-            val replacement = when (character) {
-                '\n' -> "\\n"
-                '\r' -> "\\r"
-                else -> "\\$character"
+    fun escapeCharacters(string: String?, charactersToEscape: String): String {
+        if (string != null) {
+            var escapedString = string!!
+            for (character in charactersToEscape) {
+                val replacement = when (character) {
+                    '\n' -> "\\n"
+                    '\r' -> "\\r"
+                    else -> "\\$character"
+                }
+                escapedString = escapedString.replace(character.toString(), replacement)
             }
-            escapedString = escapedString.replace(character.toString(), replacement)
+            return escapedString
         }
-        return escapedString
+        return ""
     }
 }

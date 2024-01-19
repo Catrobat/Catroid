@@ -83,7 +83,7 @@ actor
 	  CURLY_BRACKET_CLOSE
 	;
 
-actorContent: (localVariables | looks | sounds | scripts | userDefinedScripts)+;
+actorContent: (localVariables | looks | sounds | scripts | userDefinedScripts)*;
 
 localVariables
 	: LOCAL_VARIABLES

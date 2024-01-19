@@ -37,3 +37,5 @@ OPERATOR_LOGIC_LOWER_EQUAL: '<=' | '≤';
 OPERATOR_LOGIC_GREATER_EQUAL: '>=' | '≥';
 
 SENSOR_OR_PROPERTY_OR_METHOD: LETTER (LETTER | DIGIT | '%' | ' ' | '°')+;
+
+HEX_NUMBER: '#' ('0'..'9' | 'a'..'f' | 'A'..'F')+;

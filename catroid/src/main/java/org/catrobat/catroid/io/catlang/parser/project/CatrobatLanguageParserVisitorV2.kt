@@ -608,7 +608,7 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         }
 
 
-        val elseBranchPresent = ctx.elseBranch() != null
+        val elseBranchPresent = ctx.elseBranch() != null || ctx.elseBranchDisabled() != null
         val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, elseBranchPresent)
         brick.parent = if (parentBrickStack.isEmpty()) {
             null
@@ -629,9 +629,6 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
 
         if (ctx.BRICK_LIST_DISABLED_INDICATOR() != null) {
-            if (ctx.BRICK_LIST_DISABLED_INDICATOR().size != 0 && ctx.BRICK_LIST_DISABLED_INDICATOR().size != 2) {
-                throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} is disabled. So must the closing bracket be.")
-            }
             (brick as CompositeBrick).isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR().size != 0
         }
 
@@ -651,7 +648,7 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             parentBrickStack.pop()
             brick.secondaryNestedBricks.addAll(elseBranch)
         }
-        if (ctx.elseBranchDisabled() != null) {
+        if (ctx.elseBranchDisabled() != null && brick.hasSecondaryList()) {
             if (!(brick as CompositeBrick).isCommentedOut) {
                 throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} is not disabled. So must the else branch be.")
             }

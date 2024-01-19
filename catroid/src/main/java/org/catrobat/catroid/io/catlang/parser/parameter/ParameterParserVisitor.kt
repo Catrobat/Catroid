@@ -464,6 +464,9 @@ internal class ParameterParserVisitor(
             val trimmedString = trimFirstAndLastCharacter(context.STRING().text).replace("\\'", "'")
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, tryGetParentFormulaElement()))
         }
+        if (context.HEX_NUMBER() != null) {
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.HEX_NUMBER().text, tryGetParentFormulaElement()))
+        }
         if (context.UDB_PARAMETER() != null) {
             val trimmedUDBParameter = trimFirstAndLastCharacter(context.UDB_PARAMETER().text).replace("\\[", "[").replace("\\]", "]")
             if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {

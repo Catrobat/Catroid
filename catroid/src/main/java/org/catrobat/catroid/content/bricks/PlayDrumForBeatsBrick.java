@@ -27,17 +27,21 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -129,7 +133,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		brickBuilder.append("drum: (");
-		brickBuilder.append(drumSelection.getCatrobatLanguageString());
+		brickBuilder.append(PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
 		brickBuilder.append("), ");
 		super.appendCatrobatLanguageArguments(brickBuilder);
 	}
@@ -139,5 +143,15 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
 		requiredArguments.add("drum");
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String drum = arguments.get("drum");
+		if (drum != null) {
+			drumSelection = PickableDrum.getDrumByCatrobatLanguageString(drum);
+		}
 	}
 }

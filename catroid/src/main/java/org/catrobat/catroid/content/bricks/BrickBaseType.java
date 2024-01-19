@@ -335,11 +335,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			if (withBody) {
-				catrobatLanguage.append("/* ");
-			} else {
-				catrobatLanguage.append("// ");
-			}
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
@@ -356,10 +352,10 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
-		catrobatLanguage.append("}");
 		if (commentedOut) {
-			catrobatLanguage.append(" */");
+			catrobatLanguage.append("// ");
 		}
+		catrobatLanguage.append("}");
 		catrobatLanguage.append("\n");
 	}
 
@@ -400,11 +396,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			if (withBody) {
-				catrobatLanguage.append("/* ");
-			} else {
-				catrobatLanguage.append("// ");
-			}
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());

@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -260,6 +261,13 @@ public abstract class UserDataBrick extends FormulaBrick
 		}
 	}
 
+	@Override
+	protected Collection<String> getRequiredArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		requiredArguments.addAll(catrobatLanguageUserDataParameters.values());
+		return requiredArguments;
+	}
+
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		Set<BrickData> brickDataSet = catrobatLanguageUserDataParameters.keySet();
 		BrickData[] brickDataArray = brickDataSet.toArray(new BrickData[brickDataSet.size()]);
@@ -291,5 +299,7 @@ public abstract class UserDataBrick extends FormulaBrick
 				brickBuilder.append(", ");
 			}
 		}
+
+
 	}
 }

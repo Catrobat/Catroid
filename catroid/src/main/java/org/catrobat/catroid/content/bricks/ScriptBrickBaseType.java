@@ -74,7 +74,7 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("//");
 		}
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 

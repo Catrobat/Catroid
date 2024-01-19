@@ -86,11 +86,4 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLan
 				.append(soundName)
 				.append(')');
 	}
-
-	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("sound");
-		return requiredArguments;
-	}
 }

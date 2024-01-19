@@ -123,7 +123,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -136,10 +136,10 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		}
 
 		catrobatLanguage.append(indention);
-		catrobatLanguage.append("}");
 		if (commentedOut) {
-			catrobatLanguage.append("*/");
+			catrobatLanguage.append("// ");
 		}
+		catrobatLanguage.append("}");
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
