@@ -97,13 +97,12 @@ import androidx.fragment.app.Fragment;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-import static java.util.Arrays.asList;
-
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
 import static org.koin.java.KoinJavaComponent.inject;
+
+import static java.util.Arrays.asList;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
