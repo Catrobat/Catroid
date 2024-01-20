@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -76,8 +76,8 @@ class BackpackUserDefinedBricksTest {
         startScript.addToFlatList(bricksToPack)
         scriptController.pack(backpackGroupName, bricksToPack)
         val scripts = BackpackListManager.getInstance().backpackedScripts[backpackGroupName]
-        scripts?.forEach {
-            scriptController.unpack(it, secondSprite)
+        scripts?.forEach { script ->
+            scriptController.unpack(backpackGroupName, script, secondSprite)
         }
 
         Assert.assertNotNull(secondSprite.getUserDefinedScript(userDefinedBrick.userDefinedBrickID))
@@ -91,8 +91,8 @@ class BackpackUserDefinedBricksTest {
         userDefinedScript.addToFlatList(bricksToPack)
         scriptController.pack(backpackGroupName, bricksToPack)
         val scripts = BackpackListManager.getInstance().backpackedScripts[backpackGroupName]
-        scripts?.forEach {
-            scriptController.unpack(it, secondSprite)
+        scripts?.forEach { script ->
+            scriptController.unpack(backpackGroupName, script, secondSprite)
         }
 
         Assert.assertNotNull(secondSprite.getUserDefinedScript(userDefinedBrick.userDefinedBrickID))
