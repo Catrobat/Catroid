@@ -235,6 +235,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
     override fun getRequiredArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredArgumentNames())
         requiredArguments.add("reference list")
+        requiredArguments.add("value")
         return requiredArguments
     }
 }

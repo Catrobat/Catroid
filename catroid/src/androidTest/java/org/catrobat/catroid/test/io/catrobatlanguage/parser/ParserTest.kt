@@ -49,7 +49,7 @@ class ParserTest {
 
     fun getTestProgram2(): String {
         return """#! Catrobat Language Version 0.1
-Program 'My project' {
+Program 'test x' {
   Metadata {
     Description: '',
     Catrobat version: '1.12',
@@ -71,10 +71,7 @@ Program 'My project' {
   Scene 'Scene' {
     Background {
       Looks {
-        'Background': 'img.png'
-      }
-      Sounds {
-        'Untitled song': 'MUS-1664320882.midi'
+        'Background': 'Background.png'
       }
       Scripts {
         When tapped {
@@ -114,7 +111,7 @@ Program 'My project' {
           }
           For each value in list (value: ("Variable"), list: (*List*)) {
           }
-          Continue (scene: ('2nd Scene'));
+          Continue (scene: ('Scene 2'));
           Start (scene: ('Scene'));
           Finish stage;
           Stop (script: (this script));
@@ -141,7 +138,7 @@ Program 'My project' {
           Turn (direction: (left), degrees: (15));
           Turn (direction: (right), degrees: (15));
           Point in direction (degrees: (90));
-          Point towards (actor or object: ('Clouds1'));
+          Point towards (actor or object: ('My actor or object'));
           Set (rotation style: (left-right only));
           Glide to (x: (100), y: (200), seconds: (1));
           Become focus point with flexibility in percent (horizontal: (0), vertical: (0));
@@ -155,8 +152,8 @@ Program 'My project' {
           Set (bounce factor percentage: (80));
           Set (friction percentage: (20));
           Fade particle (effect: (in));
-          Start (sound: ('Untitled song'));
-          Start sound and wait (sound: ('Untitled song'));
+          Start (sound: ());
+          Start sound and wait (sound: ());
           Start sound and skip seconds (sound: ('Untitled song'), seconds: (0.5));
           Stop (sound: ('Untitled song'));
           Stop all sounds;
@@ -254,7 +251,7 @@ Program 'My project' {
           Set EV3 (motor: (A), speed percentage: (100));
           Stop EV3 (motor: (A));
           Play EV3 tone (seconds: (1), frequency x100Hz: (2), volume: (100));
-          Set EV3 (status: (green));
+          Set EV3 LED (status: (green));
           Set Arduino (digital pin: (13), value: (1));
           Set Arduino (PWM~ pin: (3), value: (255));
           Take off / land AR.Drone 2.0;
@@ -268,7 +265,7 @@ Program 'My project' {
           Turn AR.Drone 2.0 (direction: (left), seconds: (1), power percentage: (20));
           Turn AR.Drone 2.0 (direction: (right), seconds: (1), power percentage: (20));
           Flip AR.Drone 2.0;
-          Play AR.Drone 2.0 (flash animation: (blink green));
+          Play AR.Drone 2.0 (flash animation: (blink green red));
           Switch AR.Drone 2.0 camera;
           Move Jumping Sumo (direction: (forward), steps: (1), power percentage: (80));
           Move Jumping Sumo (direction: (backward), steps: (1), power percentage: (80));
@@ -326,64 +323,10 @@ Program 'My project' {
         }
       }
     }
-    Actor or object 'Clouds1' {
-      Looks {
-        'Clouds': 'img_#0.png'
-      }
-      Scripts {
-        When scene starts {
-          Place at (x: (0), y: (0));
-          Glide to (x: (- 1080), y: (0), seconds: (5));
-          Place at (x: (1080), y: (0));
-          Forever {
-            Glide to (x: (- 1080), y: (0), seconds: (10));
-            Place at (x: (1080), y: (0));
-          }
-        }
-      }
-    }
-    Actor or object 'Clouds2' {
-      Looks {
-        'Clouds': 'img_#1.png'
-      }
-      Scripts {
-        When scene starts {
-          Place at (x: (1080), y: (0));
-          Forever {
-            Glide to (x: (- 1080), y: (0), seconds: (10));
-            Place at (x: (1080), y: (0));
-          }
-        }
-      }
-    }
-    Actor or object 'Animal' {
-      Looks {
-        'Wings up': 'img_#2.png',
-        'Wings down': 'img_#3.png'
-      }
-      Sounds {
-        'Tweet1': 'snd.wav',
-        'Tweet2': 'snd_#0.wav'
-      }
-      Scripts {
-        When scene starts {
-          Forever {
-            Glide to (x: (random value from to( - 300 , 300 )), y: (random value from to( - 200 , 200 )), seconds: (1));
-          }
-        }
-        When scene starts {
-          Forever {
-            Next look;
-            Wait (seconds: (0.2));
-          }
-        }
-        When tapped {
-          Start (sound: ('Tweet1'));
-        }
-      }
+    Actor or object 'My actor or object' {
     }
   }
-  Scene '2nd Scene' {
+  Scene 'Scene 2' {
     Background {
     }
   }

@@ -30,16 +30,20 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,6 +141,8 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
 		// TODO: funktioniert nicht...
 		switch (spinnerIndex) {
+			case 0:
+				return "";
 			case BrickValues.GO_TO_TOUCH_POSITION:
 				return "touch position";
 			case BrickValues.GO_TO_RANDOM_POSITION:
@@ -153,5 +159,25 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
 		requiredArguments.add("target");
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		if (arguments.containsKey("target")) {
+			String target = arguments.get("target");
+			if (target.equals("touch position")) {
+				spinnerSelection = BrickValues.GO_TO_TOUCH_POSITION;
+			} else if (target.equals("random position")) {
+				spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
+			} else {
+				destinationSprite = scene.getSprite(target);
+				if (destinationSprite == null) {
+					throw new CatrobatLanguageParsingException("Target sprite '" + target + "' not found.");
+				}
+				spinnerSelection = BrickValues.GO_TO_OTHER_SPRITE_POSITION;
+			}
+		}
 	}
 }

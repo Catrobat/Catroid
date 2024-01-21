@@ -465,7 +465,7 @@ internal class ParameterParserVisitor(
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, tryGetParentFormulaElement()))
         }
         if (context.HEX_NUMBER() != null) {
-            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.HEX_NUMBER().text, tryGetParentFormulaElement()))
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, context.HEX_NUMBER().text, tryGetParentFormulaElement()))
         }
         if (context.UDB_PARAMETER() != null) {
             val trimmedUDBParameter = trimFirstAndLastCharacter(context.UDB_PARAMETER().text).replace("\\[", "[").replace("\\]", "]")

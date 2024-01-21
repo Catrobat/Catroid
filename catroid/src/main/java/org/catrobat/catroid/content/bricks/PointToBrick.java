@@ -136,8 +136,9 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String pointedObjectName = pointedObject == null ? "" : pointedObject.getName();
 		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object",
-				CatrobatLanguageUtils.formatActorOrObject(pointedObject.getName()));
+				CatrobatLanguageUtils.formatActorOrObject(pointedObjectName));
 	}
 
 	@Override

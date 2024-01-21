@@ -236,7 +236,7 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add("light");
 		requiredArguments.add("color");
 		return requiredArguments;

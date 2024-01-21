@@ -36,12 +36,15 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -58,6 +61,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -299,7 +303,47 @@ public abstract class UserDataBrick extends FormulaBrick
 				brickBuilder.append(", ");
 			}
 		}
+	}
 
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		Map<String, BrickData> catrobatLanguageParameterNameToBrickdata = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
+		for (Map.Entry<String, String> entry : arguments.entrySet()) {
+			String catrobatLanguageParameterName = entry.getKey();
+			String userDataName = entry.getValue();
+			if (userDataName.isEmpty()) {
+				continue;
+			}
+			BrickData brickData = catrobatLanguageParameterNameToBrickdata.get(catrobatLanguageParameterName);
+			if (brickData == null) {
+				throw new CatrobatLanguageParsingException("Unknown parameter name: " + catrobatLanguageParameterName);
+			}
+			UserData userData;
+			if (BrickData.isUserList(brickData)) {
+				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userDataName);
+				userData = sprite.getUserList(userDataName);
+				if (userData == null) {
+					userData = project.getUserList(userDataName);
+					if (userData == null) {
+						throw new CatrobatLanguageParsingException("Unknown user list: " + userDataName);
+					}
+				}
 
+			} else {
+				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userDataName);
+				userData = sprite.getUserVariable(userDataName);
+				if (userData == null) {
+					userData = project.getUserVariable(userDataName);
+					if (userData == null) {
+						userData = project.getMultiplayerVariable(userDataName);
+						if (userData == null) {
+							throw new CatrobatLanguageParsingException("Unknown variable: " + userDataName);
+						}
+					}
+				}
+			}
+			userDataList.put(brickData, userData);
+		}
 	}
 }

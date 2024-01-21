@@ -40,7 +40,7 @@ import java.util.Collection;
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-@CatrobatLanguageBrick(command = "Set EV3")
+@CatrobatLanguageBrick(command = "Set EV3 LED")
 public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
