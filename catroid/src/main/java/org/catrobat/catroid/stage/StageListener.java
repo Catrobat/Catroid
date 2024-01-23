@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
@@ -289,7 +290,7 @@ public class StageListener implements ApplicationListener {
 		embroideryActor.setZIndex(Z_LAYER_EMBROIDERY_ACTOR);
 	}
 
-	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
+	public void cloneSpriteAndAddToStage(Sprite cloneMe) throws ImageTooLargeException {
 		Sprite copy = new SpriteController().copyForCloneBrick(cloneMe);
 		if (cloneMe.isClone) {
 			copy.myOriginal = cloneMe.myOriginal;
