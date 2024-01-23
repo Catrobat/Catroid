@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -119,7 +120,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void cloneSpriteTest() {
+	public void cloneSpriteTest() throws ImageTooLargeException {
 		Project dummyProject = new Project();
 		Scene dummyScene = new Scene();
 		dummyProject.addScene(dummyScene);
