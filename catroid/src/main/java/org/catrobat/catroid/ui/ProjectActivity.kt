@@ -92,8 +92,6 @@ class ProjectActivity : BaseCastActivity() {
     private lateinit var binding: ActivityRecyclerBinding
     private val projectManager: ProjectManager by inject()
 
-    private var isUndoMenuItemVisible = false
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecyclerBinding.inflate(layoutInflater)
@@ -477,18 +475,7 @@ class ProjectActivity : BaseCastActivity() {
         optionsMenu.findItem(R.id.menu_undo).isVisible = visible
         if (visible) {
             projectManager.changedProject(projectManager.currentProject.name)
-        }
-    }
-
-    fun checkForChange() {
-        if (optionsMenu.findItem(R.id.menu_undo).isVisible) {
             projectManager.changedProject(projectManager.currentProject.name)
-        } else {
-            projectManager.resetChangedFlag(projectManager.currentProject)
         }
-    }
-
-    fun setUndoMenuItemVisibility(isVisible: Boolean) {
-        isUndoMenuItemVisible = isVisible
     }
 }
