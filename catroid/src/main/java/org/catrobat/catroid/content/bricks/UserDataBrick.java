@@ -265,8 +265,8 @@ public abstract class UserDataBrick extends FormulaBrick
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.addAll(catrobatLanguageUserDataParameters.values());
 		return requiredArguments;
 	}
@@ -275,20 +275,20 @@ public abstract class UserDataBrick extends FormulaBrick
 	protected List<Map.Entry<String, String>> getArgumentList() {
 		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
 		for (Map.Entry<BrickData, String> entry : catrobatLanguageUserDataParameters.entrySet()) {
-			arguments.add(getArgumentByName(entry.getValue()));
+			arguments.add(this.getArgumentByCatlangName(entry.getValue()));
 		}
 		arguments.addAll(super.getArgumentList());
 		return arguments;
 	}
 
 	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
 		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
 		if (brickData != null) {
 			return new AbstractMap.SimpleEntry<>(name, getUserDataNameFormatted(brickData));
 		}
-		return super.getArgumentByName(name);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	private String getUserDataNameFormatted(BrickData brickData) {

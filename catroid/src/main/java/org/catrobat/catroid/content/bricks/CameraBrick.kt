@@ -87,8 +87,8 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
         return getCatrobatLanguageParameterCall(indentionLevel, "camera", state)
     }
 
-    override fun getRequiredArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add("camera")
         return requiredArguments
     }

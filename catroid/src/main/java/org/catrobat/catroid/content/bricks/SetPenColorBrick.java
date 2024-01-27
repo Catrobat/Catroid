@@ -170,7 +170,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
+	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add("pen color code");
 		return requiredArguments;

@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -128,17 +127,17 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		}
 	}
 
-	protected abstract String getUserVariableCatrobatLanguageName();
+	protected abstract String getUserVariableCatlangArgumentName();
 
 	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
-		if (name.equals(getUserVariableCatrobatLanguageName())) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(getUserVariableCatlangArgumentName())) {
 			String userVariableName = "";
 			if (userVariable != null) {
 				userVariableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
 			}
 			return new AbstractMap.SimpleEntry<>(name, userVariableName);
 		}
-		return super.getArgumentByName(name);
+		return super.getArgumentByCatlangName(name);
 	}
 }

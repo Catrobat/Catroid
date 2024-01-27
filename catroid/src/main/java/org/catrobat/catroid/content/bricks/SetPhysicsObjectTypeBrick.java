@@ -135,8 +135,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Updateab
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("motion type");
 		return requiredArguments;
 	}

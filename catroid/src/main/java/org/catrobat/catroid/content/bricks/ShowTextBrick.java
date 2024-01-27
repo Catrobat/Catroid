@@ -102,8 +102,8 @@ public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("variable");
 		return requiredArguments;
 	}

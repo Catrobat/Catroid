@@ -141,8 +141,8 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("status");
 		return requiredArguments;
 	}

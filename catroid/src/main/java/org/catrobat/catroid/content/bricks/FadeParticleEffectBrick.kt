@@ -28,10 +28,12 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Fade particle")
 class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), UpdateableSpinnerBrick {
@@ -39,6 +41,9 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
     companion object {
         const val FADE_IN = 0
         const val FADE_OUT = 1
+
+        const val EFFECT_CATLANG_PARAMETER_NAME = "effect";
+        val spinnerValuesCatrobatLanguageMap = HashBiMap.create(mapOf(FADE_IN to "in", FADE_OUT to "out"))
     }
 
     private var fadeSpinnerSelectionId: Int = fadeType
@@ -109,19 +114,23 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
         }
     }
 
-    override fun getCatrobatLanguageSpinnerValue(spinnerIndex: Int): String {
-        when (spinnerIndex) {
-            FADE_IN -> return "in"
-            FADE_OUT -> return "out"
-            else -> throw IllegalStateException("Invalid spinner index $spinnerIndex")
-        }
+    override fun getArgumentList(): MutableList<MutableMap.MutableEntry<String, String>> {
+        val arguments = arrayListOf<MutableMap.MutableEntry<String, String>>()
+        arguments.addAll(super.getArgumentList())
+        arguments.add(getArgumentByCatlangName(EFFECT_CATLANG_PARAMETER_NAME))
+        return arguments
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int) = getCatrobatLanguageSpinnerCall(indentionLevel, "effect", fadeSpinnerSelectionId)
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == EFFECT_CATLANG_PARAMETER_NAME) {
+            return AbstractMap.SimpleEntry(name, spinnerValuesCatrobatLanguageMap[fadeSpinnerSelectionId])
+        }
+        return super.getArgumentByCatlangName(name)
+    }
 
-    override fun getRequiredArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
-        requiredArguments.add("effect")
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
+        requiredArguments.add(EFFECT_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }

@@ -29,13 +29,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
@@ -43,7 +41,6 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -386,6 +383,18 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		return catrobatLanguage.toString();
 	}
 
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		return new ArrayList<>();
+	}
+
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
+		for (String argumentName: getRequiredCatlangArgumentNames()) {
+			arguments.add(getArgumentByCatlangName(argumentName));
+		}
+		return arguments;
+	}
+
 	protected String getArgumentListFormatted() {
 		List<Map.Entry<String, String>> arguments = getArgumentList();
 		if (!arguments.isEmpty()) {
@@ -398,11 +407,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		return "";
 	}
 
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		return new ArrayList<>();
-	}
-
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		throw new IllegalArgumentException("The argument " + name + " does not exist in brick " + getCatrobatLanguageCommand());
 	}
 
@@ -520,7 +525,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	}
 
 	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		Collection<String> requiredArguments = getRequiredArgumentNames();
+		Collection<String> requiredArguments = getRequiredCatlangArgumentNames();
 		Collection<String> argumentsPresent = arguments.keySet();
 
 		if (requiredArguments.size() == argumentsPresent.size()) {
@@ -541,9 +546,5 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 			}
 			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
 		}
-	}
-
-	protected Collection<String> getRequiredArgumentNames() {
-		return new ArrayList<>();
 	}
 }

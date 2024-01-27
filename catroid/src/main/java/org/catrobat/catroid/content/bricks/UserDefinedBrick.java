@@ -431,7 +431,7 @@ public class UserDefinedBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
+	protected Collection<String> getRequiredCatlangArgumentNames() {
 		List<String> inputNames = new ArrayList<>();
 		for (UserDefinedBrickInput input : getUserDefinedBrickInputs()) {
 			inputNames.add(input.getName());

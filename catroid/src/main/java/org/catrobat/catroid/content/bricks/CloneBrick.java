@@ -38,6 +38,7 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,6 +51,8 @@ import androidx.annotation.Nullable;
 public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
 
 	private Sprite objectToClone;
 	private transient BrickSpinner<Sprite> spinner;
@@ -119,27 +122,29 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String currentObject = "yourself";
-		if (objectToClone != null) {
-			currentObject = CatrobatLanguageUtils.formatActorOrObject(objectToClone.getName());
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if(name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
+			String currentObject = "yourself";
+			if (objectToClone != null) {
+				currentObject = CatrobatLanguageUtils.formatActorOrObject(objectToClone.getName());
+			}
+			return new AbstractMap.SimpleEntry<>(name, currentObject);
 		}
-		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object", currentObject);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("actor or object");
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String objectName = arguments.get("actor or object");
+		String objectName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 
 	}
 }

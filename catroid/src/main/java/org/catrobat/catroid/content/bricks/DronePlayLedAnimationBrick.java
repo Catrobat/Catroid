@@ -156,8 +156,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("flash animation");
 		return requiredArguments;
 	}

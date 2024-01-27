@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Ask question and store written answer to variable")
 public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
@@ -65,7 +63,7 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
-	protected String getUserVariableCatrobatLanguageName() {
+	protected String getUserVariableCatlangArgumentName() {
 		return VARIABLE_CATLANG_PARAMETER_NAME;
 	}
 
@@ -85,8 +83,8 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}

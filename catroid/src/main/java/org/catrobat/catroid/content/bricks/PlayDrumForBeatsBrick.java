@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
@@ -130,22 +129,22 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	@Override
 	protected List<Map.Entry<String, String>> getArgumentList() {
 		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
-		arguments.add(getArgumentByName(DRUM_CATLANG_PARAMETER_NAME));
+		arguments.add(this.getArgumentByCatlangName(DRUM_CATLANG_PARAMETER_NAME));
 		arguments.addAll(super.getArgumentList());
 		return arguments;
 	}
 
 	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(DRUM_CATLANG_PARAMETER_NAME)) {
 			return new AbstractMap.SimpleEntry<>(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
 		}
-		return super.getArgumentByName(name);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(DRUM_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}

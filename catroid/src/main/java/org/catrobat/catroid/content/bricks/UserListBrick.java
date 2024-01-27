@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -158,15 +157,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	}
 
 	@Override
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		ArrayList<Map.Entry<String, String>> argumentList = new ArrayList<>();
-		argumentList.add(getArgumentByName(LIST_CATLANG_PARAMETER_NAME));
-		argumentList.addAll(super.getArgumentList());
-		return argumentList;
-	}
-
-	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(LIST_CATLANG_PARAMETER_NAME)) {
 			String listName = "";
 			if (userList != null) {
@@ -174,20 +165,20 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			}
 			return new AbstractMap.SimpleEntry<>(LIST_CATLANG_PARAMETER_NAME, listName);
 		}
-		return super.getArgumentByName(name);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("list");
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(LIST_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String userListName = arguments.get("list");
+		String userListName = arguments.get(LIST_CATLANG_PARAMETER_NAME);
 		if (userListName != null) {
 			userList = sprite.getUserList(userListName);
 			if (userList == null) {

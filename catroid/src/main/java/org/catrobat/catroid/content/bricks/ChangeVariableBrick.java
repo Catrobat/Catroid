@@ -32,8 +32,6 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Change")
 public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 
@@ -70,7 +68,7 @@ public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
-	protected String getUserVariableCatrobatLanguageName() {
+	protected String getUserVariableCatlangArgumentName() {
 		return VARIABLE_CATLANG_PARAMETER_NAME;
 	}
 
@@ -81,8 +79,8 @@ public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 						getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
 	}
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}

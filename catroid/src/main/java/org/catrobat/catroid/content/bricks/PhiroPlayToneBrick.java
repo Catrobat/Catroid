@@ -145,8 +145,8 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("tone");
 		return requiredArguments;
 	}

@@ -46,8 +46,6 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -59,8 +57,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -273,23 +269,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>(super.getArgumentList());
-		for (Map.Entry<FormulaField, String> entry : catrobatLanguageFormulaParameters.entrySet()) {
-			Formula formula = formulaMap.get(entry.getKey());
-			if (formula == null) {
-				continue;
-			}
-			arguments.add(getArgumentByName(entry.getValue()));
-		}
-		return arguments;
-	}
-
-	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		FormulaField field = catrobatLanguageFormulaParameters.inverse().get(name);
 		if (field == null) {
-			return super.getArgumentByName(name);
+			return super.getArgumentByCatlangName(name);
 		}
 		Formula formula = formulaMap.get(field);
 		return new AbstractMap.SimpleEntry<>(name, formula == null ? "" : formula.getTrimmedFormulaString(CatroidApplication.getAppContext()));
@@ -315,7 +298,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
+	protected Collection<String> getRequiredCatlangArgumentNames() {
 		return catrobatLanguageFormulaParameters.values();
 	}
 }

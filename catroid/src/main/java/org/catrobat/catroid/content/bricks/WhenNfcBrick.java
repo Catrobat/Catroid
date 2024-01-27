@@ -157,8 +157,8 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("nfc tag");
 		return requiredArguments;
 	}

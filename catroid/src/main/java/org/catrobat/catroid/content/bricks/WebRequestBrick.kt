@@ -61,8 +61,8 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false)
 
-    override fun getRequiredArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add("answer variable")
         return requiredArguments
     }

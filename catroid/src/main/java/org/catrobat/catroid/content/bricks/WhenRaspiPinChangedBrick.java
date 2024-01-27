@@ -165,8 +165,8 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("pin");
 		requiredArguments.add("position");
 		return requiredArguments;

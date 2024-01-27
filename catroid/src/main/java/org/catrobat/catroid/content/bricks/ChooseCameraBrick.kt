@@ -92,8 +92,8 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
         return getCatrobatLanguageParameterCall(indentionLevel, "camera", camera)
     }
 
-    override fun getRequiredArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add("camera")
         return requiredArguments
     }

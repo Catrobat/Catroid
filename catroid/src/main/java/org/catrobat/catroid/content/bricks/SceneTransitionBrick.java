@@ -42,11 +42,12 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,6 +55,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SCENE_CATLANG_PARAMETER_NAME = "scene";
 
 	private String sceneForTransition;
 
@@ -160,17 +163,18 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterCall(indentionLevel, "scene",
-				CatrobatLanguageUtils.formatActorOrObject(sceneForTransition));
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SCENE_CATLANG_PARAMETER_NAME)) {
+			return new AbstractMap.SimpleEntry<>(name, CatrobatLanguageUtils.formatActorOrObject(sceneForTransition));
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("scene");
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(SCENE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

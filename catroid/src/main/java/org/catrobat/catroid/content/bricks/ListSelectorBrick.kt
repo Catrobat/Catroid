@@ -91,8 +91,8 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
         brickBuilder.append(")")
     }
 
-    override fun getRequiredArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredArgumentNames())
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add("lists")
         return requiredArguments
     }

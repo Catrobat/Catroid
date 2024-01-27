@@ -147,8 +147,8 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add("actor or object");
 		return requiredArguments;
 	}

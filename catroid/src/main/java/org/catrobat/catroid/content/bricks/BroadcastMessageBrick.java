@@ -201,19 +201,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@Override
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>(super.getArgumentList());
-		arguments.add(getArgumentByName(MESSAGE_CATLANG_PARAMETER_NAME));
-		return arguments;
-	}
-
-	@Override
-	protected Map.Entry<String, String> getArgumentByName(String name) {
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(MESSAGE_CATLANG_PARAMETER_NAME)) {
 			String formattedMessage = CatrobatLanguageUtils.formatString(getBroadcastMessage());
 			return new AbstractMap.SimpleEntry<>(name, formattedMessage);
 		}
-		return super.getArgumentByName(name);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
@@ -224,8 +217,8 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@Override
-	protected Collection<String> getRequiredArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(MESSAGE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
