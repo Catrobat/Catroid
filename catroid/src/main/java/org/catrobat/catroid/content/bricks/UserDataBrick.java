@@ -45,7 +45,6 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -53,20 +52,20 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class UserDataBrick extends FormulaBrick
-		implements BrickSpinner.OnItemSelectedListener<UserData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+		implements BrickSpinner.OnItemSelectedListener<UserData>, UpdateableSpinnerBrick {
 
 	public transient BiMap<BrickData, Integer> brickDataToTextViewIdMap = HashBiMap.create(2);
 
@@ -272,36 +271,35 @@ public abstract class UserDataBrick extends FormulaBrick
 		return requiredArguments;
 	}
 
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		Set<BrickData> brickDataSet = catrobatLanguageUserDataParameters.keySet();
-		BrickData[] brickDataArray = brickDataSet.toArray(new BrickData[brickDataSet.size()]);
-		for (int i = 0; i < brickDataArray.length; i++) {
-			BrickData brickData = brickDataArray[i];
-			boolean hasIdentifier = false;
-			String identifier = catrobatLanguageUserDataParameters.get(brickData);
-			if (identifier != null && !identifier.isEmpty()) {
-				brickBuilder.append(identifier);
-				brickBuilder.append(": (");
-				hasIdentifier = true;
-			}
+	@Override
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
+		for (Map.Entry<BrickData, String> entry : catrobatLanguageUserDataParameters.entrySet()) {
+			arguments.add(getArgumentByName(entry.getValue()));
+		}
+		arguments.addAll(super.getArgumentList());
+		return arguments;
+	}
 
-			UserData userData = userDataList.get(brickData);
-			if (userData != null) {
-				if (BrickData.isUserList(brickData)) {
-					brickBuilder.append(CatrobatLanguageUtils.formatList(userData.getName()));
-				} else {
-					brickBuilder.append(CatrobatLanguageUtils.formatVariable(userData.getName()));
-				}
-			} else {
-				brickBuilder.append('0');
-			}
+	@Override
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
+		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
+		if (brickData != null) {
+			return new AbstractMap.SimpleEntry<>(name, getUserDataNameFormatted(brickData));
+		}
+		return super.getArgumentByName(name);
+	}
 
-			if (hasIdentifier) {
-				brickBuilder.append(')');
-			}
-			if (i < (brickDataArray.length - 1)) {
-				brickBuilder.append(", ");
-			}
+	private String getUserDataNameFormatted(BrickData brickData) {
+		if (brickData == null) {
+			return "";
+		}
+		UserData userData = userDataList.get(brickData);
+		if (BrickData.isUserList(brickData)) {
+			return CatrobatLanguageUtils.formatList(userData.getName());
+		} else {
+			return CatrobatLanguageUtils.formatVariable(userData.getName());
 		}
 	}
 

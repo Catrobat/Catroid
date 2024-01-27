@@ -34,4 +34,6 @@ public interface CompositeBrick extends Brick {
 	List<Brick> getSecondaryNestedBricks();
 
 	Brick getSecondaryNestedBricksParent();
+
+	String getSecondaryBrickCommand();
 }

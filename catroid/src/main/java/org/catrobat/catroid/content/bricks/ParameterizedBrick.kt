@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 

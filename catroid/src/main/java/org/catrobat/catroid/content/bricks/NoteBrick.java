@@ -69,11 +69,8 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand()).append(' ');
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(' ');
 
 		String formulaString =
 				getFormulas().get(0).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();

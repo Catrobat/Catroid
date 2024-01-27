@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
@@ -42,6 +43,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -323,118 +325,194 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		CatrobatLanguageBrick annotation =
 				this.getClass().getAnnotation(CatrobatLanguageBrick.class);
 		if (annotation != null) {
+			if (commentedOut) {
+				return "// " + annotation.command();
+			}
 			return annotation.command();
 		}
 		return null;
 	}
 
-	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-
-		if (withBody) {
-			catrobatLanguage.append(" {\n");
-		} else {
-			catrobatLanguage.append(";\n");
-		}
-
-		return catrobatLanguage;
-	}
-
-	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-		catrobatLanguage.append(indention);
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-		catrobatLanguage.append("}");
-		catrobatLanguage.append("\n");
-	}
-
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		throw new NotImplementedException("This method needs to be overwritten in the brick classes");
-	}
-
-	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
-			String parameterName, int spinnerIndex) {
-		return getCatrobatLanguageParameterCall(indentionLevel, parameterName,
-				getCatrobatLanguageSpinnerValue(spinnerIndex));
-	}
-
-	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
-			String value) {
-		StringBuilder catrobatLanguage = new StringBuilder(100);
-		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (")
-				.append(parameterName)
-				.append(": (")
-				.append(value)
-				.append("));\n");
-
-		return catrobatLanguage.toString();
-	}
-
-	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
-			boolean withBody) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder(100);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-
-		if (this instanceof CatrobatLanguageAttributes) {
-			CatrobatLanguageAttributes brick = (CatrobatLanguageAttributes) this;
-			catrobatLanguage.append(" (");
-			brick.appendCatrobatLanguageArguments(catrobatLanguage);
-			catrobatLanguage.append(')');
-		}
-
-		if (withBody) {
-			catrobatLanguage.append(" {");
-		} else {
-			catrobatLanguage.append(';');
-		}
-
-		catrobatLanguage.append('\n');
-		return catrobatLanguage;
-	}
-
-	// TODO: remove from brick base type!
-	// or keep for only comment bricks?
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-		StringBuilder catrobatLanguage = new StringBuilder(100);
-		catrobatLanguage.append(indention);
+		if (this instanceof CompositeBrick) {
+			return serializeCompositeBrickToCatrobatLanguage(indentionLevel);
+		}
+		return serializeBrickCallToCatrobatLanguage(indentionLevel);
+	}
 
+	protected String serializeBrickCallToCatrobatLanguage(int indentionLevel) {
+		if (this instanceof CompositeBrick) {
+			throw new IllegalStateException("This method should not be called for CompositeBricks");
+		}
+		return CatrobatLanguageUtils.getIndention(indentionLevel)
+				+ getCatrobatLanguageCommand()
+				+ getArgumentListFormatted()
+				+ ";\n";
+	}
+
+	protected String serializeCompositeBrickToCatrobatLanguage(int indentionLevel) {
+		if (!(this instanceof CompositeBrick)) {
+			throw new IllegalStateException("This method should only be called for CompositeBricks");
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(CatrobatLanguageUtils.getIndention(indentionLevel));
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(getArgumentListFormatted())
+				.append(" {\n");
+		CompositeBrick thisCompositeBrick = (CompositeBrick) this;
+		for (Brick brick : thisCompositeBrick.getNestedBricks()) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
 		if (commentedOut) {
 			catrobatLanguage.append("// ");
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(";\n");
+		catrobatLanguage.append('}');
+		if (thisCompositeBrick.hasSecondaryList()) {
+			catrobatLanguage.append(' ')
+					.append(thisCompositeBrick.getSecondaryBrickCommand())
+					.append(" {\n");
+			for (Brick brick : thisCompositeBrick.getSecondaryNestedBricks()) {
+				catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+			}
+			catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+			if (commentedOut) {
+				catrobatLanguage.append("// ");
+			}
+			catrobatLanguage.append('}');
+		}
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
+
+	protected String getArgumentListFormatted() {
+		List<Map.Entry<String, String>> arguments = getArgumentList();
+		if (!arguments.isEmpty()) {
+			ArrayList<String> argumentStrings = new ArrayList<>();
+			for (Map.Entry<String, String> argument : arguments) {
+				argumentStrings.add(argument.getKey() + ": " + argument.getValue());
+			}
+			return " (" + String.join(", ", argumentStrings) + ')';
+		}
+		return "";
+	}
+
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		return new ArrayList<>();
+	}
+
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		throw new IllegalArgumentException("The argument " + name + " does not exist in brick " + getCatrobatLanguageCommand());
+	}
+
+	//	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
+//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+//
+//		StringBuilder catrobatLanguage = new StringBuilder();
+//		catrobatLanguage.append(indention);
+//
+//		if (commentedOut) {
+//			catrobatLanguage.append("// ");
+//		}
+//
+//		catrobatLanguage.append(getCatrobatLanguageCommand());
+//
+//		if (withBody) {
+//			catrobatLanguage.append(" {\n");
+//		} else {
+//			catrobatLanguage.append(";\n");
+//		}
+//
+//		return catrobatLanguage;
+//	}
+//
+//	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
+//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+//		catrobatLanguage.append(indention);
+//		if (commentedOut) {
+//			catrobatLanguage.append("// ");
+//		}
+//		catrobatLanguage.append("}");
+//		catrobatLanguage.append("\n");
+//	}
+//
+//	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+//		throw new NotImplementedException("This method needs to be overwritten in the brick classes");
+//	}
+//
+//	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
+//			String parameterName, int spinnerIndex) {
+//		return getCatrobatLanguageParameterCall(indentionLevel, parameterName,
+//				getCatrobatLanguageSpinnerValue(spinnerIndex));
+//	}
+//
+//	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
+//			String value) {
+//		StringBuilder catrobatLanguage = new StringBuilder(100);
+//		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+//
+//		if (commentedOut) {
+//			catrobatLanguage.append("// ");
+//		}
+//
+//		catrobatLanguage.append(getCatrobatLanguageCommand())
+//				.append(" (")
+//				.append(parameterName)
+//				.append(": (")
+//				.append(value)
+//				.append("));\n");
+//
+//		return catrobatLanguage.toString();
+//	}
+//
+//	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
+//			boolean withBody) {
+//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+//
+//		StringBuilder catrobatLanguage = new StringBuilder(100);
+//		catrobatLanguage.append(indention);
+//
+//		if (commentedOut) {
+//			catrobatLanguage.append("// ");
+//		}
+//
+//		catrobatLanguage.append(getCatrobatLanguageCommand());
+//
+//		if (this instanceof CatrobatLanguageAttributes) {
+//			CatrobatLanguageAttributes brick = (CatrobatLanguageAttributes) this;
+//			catrobatLanguage.append(" (");
+//			brick.appendCatrobatLanguageArguments(catrobatLanguage);
+//			catrobatLanguage.append(')');
+//		}
+//
+//		if (withBody) {
+//			catrobatLanguage.append(" {");
+//		} else {
+//			catrobatLanguage.append(';');
+//		}
+//
+//		catrobatLanguage.append('\n');
+//		return catrobatLanguage;
+//	}
+//
+//	// TODO: remove from brick base type!
+//	// or keep for only comment bricks?
+//	@NonNull
+//	@Override
+//	public String serializeToCatrobatLanguage(int indentionLevel) {
+//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+//		StringBuilder catrobatLanguage = new StringBuilder(100);
+//		catrobatLanguage.append(indention);
+//
+//		if (commentedOut) {
+//			catrobatLanguage.append("// ");
+//		}
+//
+//		catrobatLanguage.append(getCatrobatLanguageCommand())
+//				.append(";\n");
+//		return catrobatLanguage.toString();
+//	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {

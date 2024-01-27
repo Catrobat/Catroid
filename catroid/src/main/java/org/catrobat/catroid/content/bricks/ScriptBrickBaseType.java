@@ -71,24 +71,21 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 			size += getScript().getBrickList().size() * 60;
 		}
 		StringBuilder catrobatLanguage = new StringBuilder(size);
-		catrobatLanguage.append(indention);
+		catrobatLanguage.append(indention)
+				.append(getCatrobatLanguageCommand())
+				.append(getArgumentListFormatted())
+				.append(" {\n");
 
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-
-		if (this instanceof CatrobatLanguageAttributes) {
-			catrobatLanguage.append(" (");
-			((CatrobatLanguageAttributes) this).appendCatrobatLanguageArguments(catrobatLanguage);
-			catrobatLanguage.append(')');
-		}
-
-		catrobatLanguage.append(" {\n");
 		for (Brick subBrick : getScript().getBrickList()) {
 			catrobatLanguage.append(subBrick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
+
+		catrobatLanguage.append(indention);
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append("}\n");
+
 		return catrobatLanguage.toString();
 	}
 }

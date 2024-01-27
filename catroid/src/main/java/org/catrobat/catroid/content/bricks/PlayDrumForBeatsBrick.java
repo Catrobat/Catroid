@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
@@ -35,9 +36,9 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +49,9 @@ import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "Play")
 public class PlayDrumForBeatsBrick extends FormulaBrick
-		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick {
+
+	private static final String DRUM_CATLANG_PARAMETER_NAME = "drum";
 
 	private PickableDrum drumSelection = PickableDrum.values()[0];
 	private transient BrickSpinner<PickableDrum> spinner;
@@ -124,24 +127,26 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
+		arguments.add(getArgumentByName(DRUM_CATLANG_PARAMETER_NAME));
+		arguments.addAll(super.getArgumentList());
+		return arguments;
 	}
 
 	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("drum: (");
-		brickBuilder.append(PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
-		brickBuilder.append("), ");
-		super.appendCatrobatLanguageArguments(brickBuilder);
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		if (name.equals(DRUM_CATLANG_PARAMETER_NAME)) {
+			return new AbstractMap.SimpleEntry<>(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
+		}
+		return super.getArgumentByName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("drum");
+		requiredArguments.add(DRUM_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 

@@ -29,7 +29,6 @@ import androidx.annotation.IdRes
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Companion.showFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface

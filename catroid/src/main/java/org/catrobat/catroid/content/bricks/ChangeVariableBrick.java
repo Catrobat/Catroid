@@ -37,6 +37,8 @@ import androidx.annotation.NonNull;
 @CatrobatLanguageBrick(command = "Change")
 public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 
+	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "";
+
 	private static final long serialVersionUID = 1L;
 
 	public ChangeVariableBrick() {
@@ -68,22 +70,20 @@ public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	protected String getUserVariableCatrobatLanguageName() {
+		return VARIABLE_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createChangeVariableAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
 	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return serializeToCatrobatLanguage(indentionLevel, "variable", true, false);
-	}
-
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("variable");
+		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

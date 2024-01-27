@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -37,13 +38,13 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,7 +55,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick {
+
+	private static final String LIST_CATLANG_PARAMETER_NAME = "list";
 
 	protected UserList userList;
 
@@ -154,30 +157,24 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		}
 	}
 
-	@NonNull
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+	@Override
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> argumentList = new ArrayList<>();
+		argumentList.add(getArgumentByName(LIST_CATLANG_PARAMETER_NAME));
+		argumentList.addAll(super.getArgumentList());
+		return argumentList;
+	}
 
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	@Override
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		if (name.equals(LIST_CATLANG_PARAMETER_NAME)) {
+			String listName = "";
+			if (userList != null) {
+				listName = CatrobatLanguageUtils.formatList(userList.getName());
+			}
+			return new AbstractMap.SimpleEntry<>(LIST_CATLANG_PARAMETER_NAME, listName);
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (list: (");
-		if (userList != null) {
-			catrobatLanguage.append(CatrobatLanguageUtils.formatList(userList.getName()));
-		}
-		catrobatLanguage.append(')');
-
-		if (catrobatLanguageFormulaParameters.size() > 0) {
-			catrobatLanguage.append(", ");
-			appendCatrobatLanguageArguments(catrobatLanguage);
-		}
-		catrobatLanguage.append(");\n");
-		return catrobatLanguage.toString();
+		return super.getArgumentByName(name);
 	}
 
 	@Override

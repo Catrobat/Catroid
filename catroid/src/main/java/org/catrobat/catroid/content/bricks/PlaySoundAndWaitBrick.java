@@ -37,8 +37,10 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import androidx.annotation.NonNull;
+
 @CatrobatLanguageBrick(command = "Start sound and wait")
-public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLanguageAttributes {
+public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,10 +72,7 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLan
 		return duration;
 	}
 
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
-	}
+
 
 	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {

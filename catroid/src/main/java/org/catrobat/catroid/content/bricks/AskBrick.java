@@ -28,12 +28,19 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Ask")
 public class AskBrick extends UserVariableBrickWithFormula {
+
+	private static final String ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "";
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,14 +80,14 @@ public class AskBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false);
+	protected String getUserVariableCatrobatLanguageName() {
+		return ANSWER_VARIABLE_CATLANG_PARAMETER_NAME;
 	}
 
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("answer variable");
+		requiredArguments.add(ANSWER_VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

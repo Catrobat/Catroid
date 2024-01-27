@@ -37,12 +37,14 @@ import org.catrobat.catroid.content.bricks.brickspinner.EditOption;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +58,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
+
+	private static final String MESSAGE_CATLANG_PARAMETER_NAME = "message";
 
 	private transient BrickSpinner<StringOption> spinner;
 
@@ -196,11 +200,20 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		return items;
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterCall(indentionLevel, "message",
-				"'" + getBroadcastMessage() + "'");
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>(super.getArgumentList());
+		arguments.add(getArgumentByName(MESSAGE_CATLANG_PARAMETER_NAME));
+		return arguments;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		if (name.equals(MESSAGE_CATLANG_PARAMETER_NAME)) {
+			String formattedMessage = CatrobatLanguageUtils.formatString(getBroadcastMessage());
+			return new AbstractMap.SimpleEntry<>(name, formattedMessage);
+		}
+		return super.getArgumentByName(name);
 	}
 
 	@Override
@@ -213,14 +226,14 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("message");
+		requiredArguments.add(MESSAGE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String message = arguments.get("message");
+		String message = arguments.get(MESSAGE_CATLANG_PARAMETER_NAME);
 		if (message != null) {
 			setBroadcastMessage(message);
 		}

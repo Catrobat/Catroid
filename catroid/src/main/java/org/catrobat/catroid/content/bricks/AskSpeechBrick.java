@@ -39,6 +39,8 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "variable";
+
 	public AskSpeechBrick() {
 		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text, "question");
 	}
@@ -63,6 +65,11 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	protected String getUserVariableCatrobatLanguageName() {
+		return VARIABLE_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.addAll(Arrays.asList(
 				Brick.MICROPHONE,
@@ -77,16 +84,10 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 						getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
 	}
 
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return super.serializeToCatrobatLanguage(indentionLevel, "variable", false, false);
-	}
-
 	@Override
 	protected Collection<String> getRequiredArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredArgumentNames());
-		requiredArguments.add("variable");
+		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

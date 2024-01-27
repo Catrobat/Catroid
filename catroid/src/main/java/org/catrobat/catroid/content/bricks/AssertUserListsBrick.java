@@ -51,10 +51,4 @@ public class AssertUserListsBrick extends UserDataBrick {
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_EXPECTED),
 				getPositionInformation()));
 	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
-	}
 }

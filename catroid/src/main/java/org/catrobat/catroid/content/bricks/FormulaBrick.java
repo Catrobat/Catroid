@@ -54,6 +54,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -68,7 +69,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener, CatrobatLanguageAttributes {
+public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
@@ -271,56 +272,27 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return !brickFieldToTextViewIdMap.isEmpty();
 	}
 
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		Set<FormulaField> formulaFieldSet = catrobatLanguageFormulaParameters.keySet();
-		FormulaField[] formulas = formulaFieldSet.toArray(new FormulaField[formulaFieldSet.size()]);
-		int numberOfFormulas = formulas.length;
-		for (int i = 0; i < numberOfFormulas; ++i) {
-			FormulaField field = formulas[i];
-			boolean hasIdentifier = false;
-			String formulaIdentifier = catrobatLanguageFormulaParameters.get(field);
-			if (formulaIdentifier != null && !formulaIdentifier.isEmpty()) {
-				brickBuilder.append(formulaIdentifier);
-				brickBuilder.append(": (");
-				hasIdentifier = true;
+	@Override
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>(super.getArgumentList());
+		for (Map.Entry<FormulaField, String> entry : catrobatLanguageFormulaParameters.entrySet()) {
+			Formula formula = formulaMap.get(entry.getKey());
+			if (formula == null) {
+				continue;
 			}
-			String formulaString =
-					Objects.requireNonNull(formulaMap.get(field)).getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext());
-			brickBuilder.append(CatrobatLanguageUtils.escapeFormula(formulaString.trim()));
-
-			if (hasIdentifier) {
-				brickBuilder.append(')');
-			}
-			if (i < (numberOfFormulas - 1)) {
-				brickBuilder.append(", ");
-			}
+			arguments.add(getArgumentByName(entry.getValue()));
 		}
+		return arguments;
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	protected Map.Entry<String, String> getArgumentByName(String name) {
+		FormulaField field = catrobatLanguageFormulaParameters.inverse().get(name);
+		if (field == null) {
+			return super.getArgumentByName(name);
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-
-		if (catrobatLanguageFormulaParameters.keySet().size() > 0) {
-			catrobatLanguage.append(" (");
-			appendCatrobatLanguageArguments(catrobatLanguage);
-			catrobatLanguage.append(");");
-		} else {
-			catrobatLanguage.append(';');
-		}
-
-		catrobatLanguage.append('\n');
-		return catrobatLanguage.toString();
+		Formula formula = formulaMap.get(field);
+		return new AbstractMap.SimpleEntry<>(name, formula == null ? "" : formula.getTrimmedFormulaString(CatroidApplication.getAppContext()));
 	}
 
 	@Override
