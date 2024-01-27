@@ -325,7 +325,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		validateParametersPresent(arguments);
+		super.setParameters(context, project, scene, sprite, arguments);
 		Map<String, FormulaField> argumentNameToFormula = catrobatLanguageFormulaParameters.inverse();
 		for (String argumentName : arguments.keySet()) {
 			if (!argumentNameToFormula.containsKey(argumentName)) {

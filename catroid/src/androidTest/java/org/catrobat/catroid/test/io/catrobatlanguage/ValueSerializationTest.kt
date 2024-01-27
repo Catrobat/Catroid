@@ -307,7 +307,7 @@ class ValueSerializationTest(
                 arrayOf(LegoEv3MotorMoveBrick::class.simpleName, LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_B, testInt1), "Set EV3 (motor: (B), speed percentage: ($testInt1));\n"),
                 arrayOf(LegoEv3MotorStopBrick::class.simpleName, LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_B), "Stop EV3 (motor: (B));\n"),
                 arrayOf(LegoEv3PlayToneBrick::class.simpleName, LegoEv3PlayToneBrick(testDouble, testDouble2, testInt1.toDouble()), "Play EV3 tone (seconds: ($testDouble2), frequency x100Hz: ($testDouble), volume: ($testInt1));\n"),
-                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_RED), "Set EV3 (status: (red));\n"),
+                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_RED), "Set EV3 LED (status: (red));\n"),
                 arrayOf(ArduinoSendDigitalValueBrick::class.simpleName, ArduinoSendDigitalValueBrick(testInt1, testInt2), "Set Arduino (digital pin: ($testInt1), value: ($testInt2));\n"),
                 arrayOf(ArduinoSendPWMValueBrick::class.simpleName, ArduinoSendPWMValueBrick(testInt1, testInt2), "Set Arduino (PWM~ pin: ($testInt1), value: ($testInt2));\n"),
                 arrayOf(DroneMoveUpBrick::class.simpleName, DroneMoveUpBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (up), seconds: ($testInt1), power percentage: ($testInt2));\n"),
