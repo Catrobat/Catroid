@@ -40,6 +40,7 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,6 +52,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface, UpdateableSpinnerBrick {
+
+	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "variable";
 
 	protected UserVariable userVariable;
 
@@ -130,30 +133,22 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		}
 	}
 
-	@NonNull
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(VARIABLE_CATLANG_PARAMETER_NAME)) {
+			String userVariableName = "";
+			if (userVariable != null) {
+				userVariableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
+			}
+			return new AbstractMap.SimpleEntry<>(name, userVariableName);
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (variable: (");
-		if (userVariable != null) {
-			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
-		}
-		catrobatLanguage.append("));\n");
-		return catrobatLanguage.toString();
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("variable");
+		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 

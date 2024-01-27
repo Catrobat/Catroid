@@ -42,6 +42,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,6 +55,8 @@ import androidx.appcompat.app.AppCompatActivity;
 @CatrobatLanguageBrick(command = "Switch to")
 public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
 		NewItemInterface<LookData>, UpdateableSpinnerBrick {
+
+	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
 
 	private static final long serialVersionUID = 1L;
 
@@ -142,24 +145,29 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String lookname = look == null ? "" : CatrobatLanguageUtils.formatLook(look.getName());
-		return getCatrobatLanguageParameterCall(indentionLevel, "look", lookname);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LOOK_CATLANG_PARAMETER_NAME)) {
+			String lookName = "";
+			if (look != null) {
+				lookName = look.getName();
+			}
+			return new AbstractMap.SimpleEntry<>(LOOK_CATLANG_PARAMETER_NAME, CatrobatLanguageUtils.formatLook(lookName));
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("look");
+		requiredArguments.add(LOOK_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String lookName = arguments.get("look");
+		String lookName = arguments.get(LOOK_CATLANG_PARAMETER_NAME);
 		if (lookName.isEmpty()) {
 			return;
 		}

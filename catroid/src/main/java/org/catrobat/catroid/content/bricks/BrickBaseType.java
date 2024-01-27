@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;

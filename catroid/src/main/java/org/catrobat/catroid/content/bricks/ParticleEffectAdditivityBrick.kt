@@ -28,11 +28,12 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import org.apache.commons.lang3.NotImplementedException
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
 class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {
@@ -40,6 +41,13 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
     companion object {
         const val ON = 0
         const val OFF = 1
+        private const val PARTICLE_EFFECT_CATLANG_PARAMETER_NAME = "particle effect additivity"
+        private val SPINNER_VALUE_MAP = HashBiMap.create(
+            mapOf(
+                OFF to "off",
+                ON to "on"
+            )
+        )
     }
 
     private var fadeSpinnerSelectionId: Int = fadeType
@@ -112,15 +120,11 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
         }
     }
 
-    override fun getCatrobatLanguageSpinnerValue(spinnerIndex: Int): String {
-        when (spinnerIndex) {
-            ON -> return "on"
-            OFF -> return "off"
-            else -> throw NotImplementedException("Invalid spinner index ($spinnerIndex)")
-        }
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        return if (name == PARTICLE_EFFECT_CATLANG_PARAMETER_NAME) {
+            AbstractMap.SimpleEntry(PARTICLE_EFFECT_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP[fadeSpinnerSelectionId])
+        } else super.getArgumentByCatlangName(name)
     }
-
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.getCatrobatLanguageSpinnerCall(indentionLevel, "particle effect additivity", fadeSpinnerSelectionId)
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())

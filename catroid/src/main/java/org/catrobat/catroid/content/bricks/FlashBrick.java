@@ -27,16 +27,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Turn")
@@ -44,6 +48,17 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 
 	private static final int FLASH_OFF = 0;
 	private static final int FLASH_ON = 1;
+
+	private static final String FLASH_CATLANG_PARAMETER_NAME = "flashlight";
+
+	private static final HashBiMap<Integer, String> SPINNER_VALUE_MAP;
+
+	static {
+		Map<Integer, String> map = new HashMap<>();
+		map.put(FLASH_OFF, "off");
+		map.put(FLASH_ON, "on");
+		SPINNER_VALUE_MAP = HashBiMap.create(map);
+	}
 
 	private int spinnerSelectionID;
 
@@ -104,27 +119,18 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case FLASH_OFF:
-				return "off";
-			case FLASH_ON:
-				return "on";
-			default:
-				throw new IllegalArgumentException("Invalid spinner index");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(FLASH_CATLANG_PARAMETER_NAME)) {
+			return new AbstractMap.SimpleEntry<>(FLASH_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP.get(spinnerSelectionID));
+		} else {
+			return super.getArgumentByCatlangName(name);
 		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "flashlight", spinnerSelectionID);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("flashlight");
+		requiredArguments.add(FLASH_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }
