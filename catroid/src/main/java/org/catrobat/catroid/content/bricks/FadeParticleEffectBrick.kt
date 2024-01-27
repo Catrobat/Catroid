@@ -114,13 +114,6 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
         }
     }
 
-    override fun getArgumentList(): MutableList<MutableMap.MutableEntry<String, String>> {
-        val arguments = arrayListOf<MutableMap.MutableEntry<String, String>>()
-        arguments.addAll(super.getArgumentList())
-        arguments.add(getArgumentByCatlangName(EFFECT_CATLANG_PARAMETER_NAME))
-        return arguments
-    }
-
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
         if (name == EFFECT_CATLANG_PARAMETER_NAME) {
             return AbstractMap.SimpleEntry(name, spinnerValuesCatrobatLanguageMap[fadeSpinnerSelectionId])

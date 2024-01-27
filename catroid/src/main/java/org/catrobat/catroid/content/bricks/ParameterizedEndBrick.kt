@@ -26,10 +26,13 @@ package org.catrobat.catroid.content.bricks
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.UUID
 
-class ParameterizedEndBrick() : UserListBrick(), CatrobatLanguageAttributes {
+class ParameterizedEndBrick() : UserListBrick() {
+    companion object {
+        private const val REFRENCE_LIST_CATLANG_PARAMETER_NAME = "reference list";
+    }
+
     init {
         addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text, "value")
     }
@@ -62,12 +65,15 @@ class ParameterizedEndBrick() : UserListBrick(), CatrobatLanguageAttributes {
 
     override fun getSpinnerId(): Int = R.id.brick_param_expected_list
 
-    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
-        super.appendCatrobatLanguageArguments(brickBuilder)
-        brickBuilder.append(", reference list: (")
-        if (userList != null) {
-            brickBuilder.append(CatrobatLanguageUtils.formatList(userList.name))
-        }
-        brickBuilder.append(")")
+    override fun getListCatlangParameterName(): String {
+        return REFRENCE_LIST_CATLANG_PARAMETER_NAME
+    }
+
+    fun getArgumentByCatlangNameForCallingBrick(name: String?): MutableMap.MutableEntry<String, String> {
+        return getArgumentByCatlangName(name)
+    }
+
+    fun getRequiredCatlangArgumentNamesForCallingBrick(): MutableCollection<String> {
+        return requiredCatlangArgumentNames
     }
 }

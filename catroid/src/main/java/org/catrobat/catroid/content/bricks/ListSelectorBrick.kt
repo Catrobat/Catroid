@@ -34,7 +34,12 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Compan
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface
 
 abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
-    ListSelectorInterface, CatrobatLanguageAttributes {
+    ListSelectorInterface {
+
+    companion object {
+        private const val LISTS_CATLANG_PARAMETER_NAME = "lists";
+    }
+
     var userLists = mutableListOf<UserList>()
 
     @Throws(CloneNotSupportedException::class)
@@ -80,20 +85,19 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
         }
     }
 
-    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
-        brickBuilder.append("lists: (")
-        userLists.forEachIndexed { index, currentElement ->
-            brickBuilder.append(CatrobatLanguageUtils.formatList(currentElement.name))
-            if (index < userLists.size - 1) {
-                brickBuilder.append(", ")
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == LISTS_CATLANG_PARAMETER_NAME) {
+            val lists = userLists.joinToString(", ") {
+                CatrobatLanguageUtils.formatList(it.name)
             }
+            return java.util.AbstractMap.SimpleEntry(name, lists)
         }
-        brickBuilder.append(")")
+        return super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("lists")
+        requiredArguments.add(LISTS_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }

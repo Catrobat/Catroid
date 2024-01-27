@@ -38,7 +38,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
 @CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")
-class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
 
@@ -56,6 +56,10 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
     override fun getSecondaryNestedBricks(): List<Brick>? = null
     override fun getSecondaryNestedBricksParent(): Brick {
         TODO("Not yet implemented")
+    }
+
+    override fun getSecondaryBrickCommand(): String? {
+        return null
     }
 
     fun getEndBrick(): ParameterizedEndBrick = endBrick
@@ -216,25 +220,18 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         }
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        val catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true)
-        for (brick in loopBricks) {
-            catrobatLanguage.appendLine(brick.serializeToCatrobatLanguage(indentionLevel + 1))
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        try {
+            return endBrick.getArgumentByCatlangNameForCallingBrick(name)
+        } catch (_: IllegalArgumentException) {
         }
-        getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel)
-        return catrobatLanguage.toString()
-    }
-
-    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
-        super.appendCatrobatLanguageArguments(brickBuilder)
-        brickBuilder.append(", ")
-        endBrick.appendCatrobatLanguageArguments(brickBuilder)
+        return super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("reference list")
-        requiredArguments.add("value")
+        val requiredArguments = arrayListOf<String>()
+        requiredArguments.addAll(super.getRequiredCatlangArgumentNames()!!)
+        requiredArguments.addAll(endBrick.getRequiredCatlangArgumentNamesForCallingBrick())
         return requiredArguments
     }
 }

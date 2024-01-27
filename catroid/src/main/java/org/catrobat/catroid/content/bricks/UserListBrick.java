@@ -156,14 +156,18 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		}
 	}
 
+	protected String getListCatlangParameterName() {
+		return LIST_CATLANG_PARAMETER_NAME;
+	}
+
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(LIST_CATLANG_PARAMETER_NAME)) {
+		if (name.equals(getListCatlangParameterName())) {
 			String listName = "";
 			if (userList != null) {
 				listName = CatrobatLanguageUtils.formatList(userList.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(LIST_CATLANG_PARAMETER_NAME, listName);
+			return new AbstractMap.SimpleEntry<>(name, listName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -171,7 +175,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add(LIST_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(getListCatlangParameterName());
 		return requiredArguments;
 	}
 

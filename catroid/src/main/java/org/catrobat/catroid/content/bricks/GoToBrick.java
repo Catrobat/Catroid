@@ -26,6 +26,9 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -40,8 +43,10 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +57,13 @@ import androidx.annotation.Nullable;
 public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TARGET_CATLANG_PARAMETER_NAME = "target";
+
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
+		put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
+	}});
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
@@ -131,46 +143,35 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 		brickSpinner.setSelection(itemName);
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "target", spinnerSelection);
-	}
-
-	// TODO: better soluton?
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		// TODO: funktioniert nicht...
-		switch (spinnerIndex) {
-			case 0:
-				return "";
-			case BrickValues.GO_TO_TOUCH_POSITION:
-				return "touch position";
-			case BrickValues.GO_TO_RANDOM_POSITION:
-				return "random position";
-			case BrickValues.GO_TO_OTHER_SPRITE_POSITION:
-				return CatrobatLanguageUtils.formatActorOrObject(destinationSprite.getName());
-			default:
-				throw new IllegalArgumentException("Invalid spinner index");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(TARGET_CATLANG_PARAMETER_NAME)) {
+			String currentSelectionString = "";
+			if (CATLANG_SPINNER_VALUES.containsKey(spinnerSelection)) {
+				currentSelectionString = CATLANG_SPINNER_VALUES.get(spinnerSelection);
+			} else if (destinationSprite != null) {
+				currentSelectionString = CatrobatLanguageUtils.formatActorOrObject(destinationSprite.getName());
+			}
+			return new AbstractMap.SimpleEntry<>(name, currentSelectionString);
 		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("target");
+		requiredArguments.add(TARGET_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-
-		if (arguments.containsKey("target")) {
-			String target = arguments.get("target");
-			if (target.equals("touch position")) {
-				spinnerSelection = BrickValues.GO_TO_TOUCH_POSITION;
-			} else if (target.equals("random position")) {
-				spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
+		if (arguments.containsKey(TARGET_CATLANG_PARAMETER_NAME)) {
+			String target = arguments.get(TARGET_CATLANG_PARAMETER_NAME);
+			BiMap<String, Integer> spinnerValues = CATLANG_SPINNER_VALUES.inverse();
+			if (spinnerValues.containsKey(target)) {
+				spinnerSelection = spinnerValues.get(target);
 			} else {
 				destinationSprite = scene.getSprite(target);
 				if (destinationSprite == null) {

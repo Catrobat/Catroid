@@ -35,14 +35,18 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "For")
 public class ForVariableFromToBrick extends UserVariableBrickWithFormula implements CompositeBrick {
+
+	private static final String VALUE_CATLANG_PARAMETER_NAME = "value";
 
 	private transient EndBrick endBrick = new EndBrick(this);
 
@@ -95,6 +99,11 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 
 	@Override
 	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
 		return null;
 	}
 
@@ -194,24 +203,15 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		sequence.addAction(action);
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(super.serializeToCatrobatLanguage(indentionLevel, "value", true, true));
-
-		for (Brick brick : loopBricks) {
-			stringBuilder.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-
-		getCatrobatLanguageBodyClose(stringBuilder, indentionLevel);
-		return stringBuilder.toString();
+	protected String getUserVariableCatlangArgumentName() {
+		return VALUE_CATLANG_PARAMETER_NAME;
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("value");
+		requiredArguments.add(VALUE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

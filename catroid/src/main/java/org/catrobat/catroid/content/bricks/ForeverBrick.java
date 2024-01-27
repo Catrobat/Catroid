@@ -67,6 +67,11 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 		return null;
 	}
 
+	@Override
+	public String getSecondaryBrickCommand() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return loopBricks.add(brick);
 	}
@@ -165,18 +170,5 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 		for (Brick brick : loopBricks) {
 			brick.addRequiredResources(requiredResourcesSet);
 		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageCall(indentionLevel, true);
-
-		for (Brick brick : loopBricks) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
 	}
 }

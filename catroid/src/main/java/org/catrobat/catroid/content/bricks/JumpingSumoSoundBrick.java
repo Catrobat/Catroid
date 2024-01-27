@@ -28,25 +28,36 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import org.apache.commons.lang3.NotImplementedException;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play Jumping Sumo")
-public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
+	private static final BiMap<String, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<String, String>()
+	{{
+		put("DEFAULT", "normal");
+		put("ROBOT", "robot");
+		put("INSECT", "insect");
+		put("MONSTER", "monster");
+	}});
 
 	private String soundName;
 
@@ -104,33 +115,12 @@ public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpi
 		}
 	}
 
-	private String getCatrobatLanguageSoundName() {
-		switch (soundName) {
-			case "DEFAULT":
-				return "normal";
-			case "ROBOT":
-				return "robot";
-			case "INSECT":
-				return "insect";
-			case "MONSTER":
-				return "monster";
-			default:
-				throw new NotImplementedException("Invalid sound name: " + soundName);
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
+			return new HashMap.SimpleEntry<>(SOUND_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(soundName));
 		}
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("sound: (");
-		brickBuilder.append(getCatrobatLanguageSoundName());
-		brickBuilder.append("), ");
-		super.appendCatrobatLanguageArguments(brickBuilder);
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override

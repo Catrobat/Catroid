@@ -28,6 +28,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
@@ -38,7 +41,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
@@ -47,6 +52,31 @@ import kotlin.Unit;
 public class DronePlayLedAnimationBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String FLASH_ANIMATION_CATLANG_PARAMETER_NAME = "flash animation";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(0, "blink green red");
+		put(1, "blink green");
+		put(2, "blink red");
+		put(3, "blink orange");
+		put(4, "snake green red");
+		put(5, "fire");
+		put(6, "standard");
+		put(7, "red");
+		put(8, "green");
+		put(9, "red snake");
+		put(10, "blank");
+		put(11, "right missile");
+		put(12, "left missile");
+		put(13, "double missle");
+		put(14, "front left green others red");
+		put(15, "front right green others red");
+		put(16, "rear right green others red");
+		put(17, "rear left green others red");
+		put(18, "left green right red");
+		put(19, "left red right green");
+		put(20, "blink standard");
+	}});
 
 	private String ledAnimationName = "";
 	private int spinnerSelectionIndex;
@@ -100,65 +130,17 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "blink green red";
-			case 1:
-				return "blink green";
-			case 2:
-				return "blink red";
-			case 3:
-				return "blink orange";
-			case 4:
-				return "snake green red";
-			case 5:
-				return "fire";
-			case 6:
-				return "standard";
-			case 7:
-				return "red";
-			case 8:
-				return "green";
-			case 9:
-				return "red snake";
-			case 10:
-				return "blank";
-			case 11:
-				return "right missile";
-			case 12:
-				return "left missile";
-			case 13:
-				return "double missle";
-			case 14:
-				return "front left green others red";
-			case 15:
-				return "front right green others red";
-			case 16:
-				return "rear right green others red";
-			case 17:
-				return "rear left green others red";
-			case 18:
-				return "left green right red";
-			case 19:
-				return "left red right green";
-			case 20:
-				return "blink standard";
-			default:
-				throw new NotImplementedException("Invalid spinner index");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(FLASH_ANIMATION_CATLANG_PARAMETER_NAME)) {
+			return new HashMap.SimpleEntry<>(name, CATLANG_SPINNER_VALUES.get(spinnerSelectionIndex));
 		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "flash animation", spinnerSelectionIndex);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("flash animation");
+		requiredArguments.add(FLASH_ANIMATION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }
