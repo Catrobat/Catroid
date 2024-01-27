@@ -29,13 +29,20 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Turn Jumping Sumo")
 public class JumpingSumoRotateRightBrick extends FormulaBrick {
+
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
+
+	private static final String DIRECTION_CATLANG_PARAMETER_VALUE = "right";
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,29 +68,18 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return new AbstractMap.SimpleEntry<>(DIRECTION_CATLANG_PARAMETER_NAME, DIRECTION_CATLANG_PARAMETER_VALUE);
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (direction: (right), ");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");\n");
-		return catrobatLanguage.toString();
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("direction");
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

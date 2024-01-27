@@ -42,6 +42,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -56,6 +57,8 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
 
 	protected SoundInfo sound;
 
@@ -143,27 +146,29 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String sound = "";
-		if (this.sound != null) {
-			sound = CatrobatLanguageUtils.formatSoundName(this.sound.getName());
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
+			String soundName = "";
+			if (sound != null) {
+				soundName = sound.getName();
+			}
+			return new AbstractMap.SimpleEntry<>(name, CatrobatLanguageUtils.formatSoundName(soundName));
 		}
-		return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("sound");
+		requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String soundName = arguments.get("sound");
+		String soundName = arguments.get(SOUND_CATLANG_PARAMETER_NAME);
 		if (soundName.isEmpty()) {
 			return;
 		}

@@ -28,15 +28,21 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.devices.mindstorms.LegoSensorFactory;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
@@ -45,6 +51,17 @@ import kotlin.Unit;
 public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SCRIPT_CATLANG_PARAMETER_NAME = "script";
+
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES;
+
+	static {
+		CATLANG_SPINNER_VALUES = HashBiMap.create();
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_THIS_SCRIPT, "this script");
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_ALL_SCRIPTS, "all scripts");
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_OTHER_SCRIPTS, "other scripts of this actor or object");
+	}
 
 	private int spinnerSelection;
 
@@ -96,30 +113,19 @@ public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerB
 		spinnerSelection = itemIndex;
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "script", spinnerSelection);
-	}
-
-	// TODO: better soluton?
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case BrickValues.STOP_THIS_SCRIPT:
-				return "this script";
-			case BrickValues.STOP_ALL_SCRIPTS:
-				return "all scripts";
-			case BrickValues.STOP_OTHER_SCRIPTS:
-				return "other scripts of this actor or object";
-			default:
-				throw new IllegalArgumentException("Invalid spinner index");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SCRIPT_CATLANG_PARAMETER_NAME)) {
+			return new AbstractMap.SimpleEntry<>(SCRIPT_CATLANG_PARAMETER_NAME,
+					CATLANG_SPINNER_VALUES.get(spinnerSelection));
 		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("script");
+		requiredArguments.add(SCRIPT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

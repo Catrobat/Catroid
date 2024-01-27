@@ -26,15 +26,26 @@ import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
 class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType(), UpdateableSpinnerBrick {
+    companion object {
+        private const val CAMERA_CATLANG_PARAMETER_NAME = "direction"
+        private val SPINNER_VALUE_MAP = HashBiMap.create(
+            mapOf(
+                false to "off",
+                true to "on"
+            )
+        )
+    }
 
     override fun getView(context: Context): View {
         super.getView(context)
@@ -82,14 +93,15 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
         spinnerSelectionON = itemIndex == 1
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        val state = if (spinnerSelectionON) "on" else "off"
-        return getCatrobatLanguageParameterCall(indentionLevel, "camera", state)
+    override fun getArgumentByCatlangName(name: String): Map.Entry<String?, String?>? {
+        return if (name == CAMERA_CATLANG_PARAMETER_NAME) {
+            AbstractMap.SimpleEntry(CAMERA_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP[spinnerSelectionON])
+        } else super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("camera")
+        requiredArguments.add(CAMERA_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }
