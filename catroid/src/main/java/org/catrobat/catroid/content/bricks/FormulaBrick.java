@@ -46,6 +46,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -275,7 +276,11 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			return super.getArgumentByCatlangName(name);
 		}
 		Formula formula = formulaMap.get(field);
-		return new AbstractMap.SimpleEntry<>(name, formula == null ? "" : formula.getTrimmedFormulaString(CatroidApplication.getAppContext()));
+		String formulaString = "";
+		if (formula != null) {
+			formulaString = formula.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+		}
+		return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formulaString);
 	}
 
 	@Override

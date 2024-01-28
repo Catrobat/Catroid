@@ -29,28 +29,41 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "If")
-public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME = "activated phiro";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(0, "front left sensor");
+		put(1, "front right sensor");
+		put(2, "side left sensor");
+		put(3, "side right sensor");
+		put(4, "bottom left sensor");
+		put(5, "bottom right sensor");
+	}});
 
 	private int sensorSpinnerPosition = 0;
 
@@ -78,6 +91,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	@Override
 	public Brick getSecondaryNestedBricksParent() {
 		return elseBrick;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
+		return "else";
 	}
 
 	public boolean addBrickToIfBranch(Brick brick) {
@@ -247,56 +265,17 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		sensorSpinnerPosition = itemIndex;
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
-		for (Brick brick : ifBranchBricks) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-		catrobatLanguage.append("} else {\n");
-		for (Brick brick : elseBranchBricks) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("activated phiro: (")
-				.append(getCatrobatLanguageSpinnerValue(sensorSpinnerPosition))
-				.append(')');
-	}
-
-	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "front left sensor";
-			case 1:
-				return "front right sensor";
-			case 2:
-				return "side left sensor";
-			case 3:
-				return "side right sensor";
-			case 4:
-				return "bottom left sensor";
-			case 5:
-				return "bottom right sensor";
-			default:
-				throw new IllegalArgumentException("Invalid spinnerIndex: " + spinnerIndex);
-		}
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME))
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(sensorSpinnerPosition));
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("activated phiro");
+		requiredArguments.add(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 

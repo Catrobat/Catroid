@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(DRUM_CATLANG_PARAMETER_NAME)) {
-			return new AbstractMap.SimpleEntry<>(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

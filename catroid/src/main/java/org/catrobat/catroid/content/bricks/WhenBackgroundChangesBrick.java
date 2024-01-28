@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -45,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,9 +53,10 @@ import androidx.appcompat.app.AppCompatActivity;
 @CatrobatLanguageBrick(command = "When background changes to")
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
 		BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+		NewItemInterface<LookData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
 
 	private WhenBackgroundChangesScript script;
 
@@ -176,31 +177,22 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
-		for (Brick brick : getScript().getBrickList()) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LOOK_CATLANG_PARAMETER_NAME)) {
+			String lookName = "";
+			if (getLook() != null) {
+				lookName = CatrobatLanguageUtils.formatLook(getLook().getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(LOOK_CATLANG_PARAMETER_NAME, lookName);
 		}
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("look: (");
-		LookData lookData = getLook();
-		if (lookData != null) {
-			brickBuilder.append(CatrobatLanguageUtils.formatLook(lookData.getName()));
-		}
-		brickBuilder.append(')');
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("look");
+		requiredArguments.add(LOOK_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

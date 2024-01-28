@@ -27,6 +27,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
@@ -36,6 +39,8 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
@@ -44,6 +49,22 @@ import kotlin.Unit;
 public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String LED_STATUS_CATLANG_PARAMETER_NAME = "status";
+
+	private static final BiMap<LedStatus, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<LedStatus, String>()
+	{{
+		put(LedStatus.LED_OFF, "off");
+		put(LedStatus.LED_GREEN, "green");
+		put(LedStatus.LED_RED, "red");
+		put(LedStatus.LED_ORANGE, "orange");
+		put(LedStatus.LED_GREEN_FLASHING, "green flashing");
+		put(LedStatus.LED_RED_FLASHING, "red flashing");
+		put(LedStatus.LED_ORANGE_FLASHING, "orange flashing");
+		put(LedStatus.LED_GREEN_PULSE, "green pulse");
+		put(LedStatus.LED_RED_PULSE, "red pulse");
+		put(LedStatus.LED_ORANGE_PULSE, "orange pulse");
+	}});
 
 	private String ledStatus;
 	private int spinnerSelectionIndex;
@@ -107,43 +128,16 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "off";
-			case 1:
-				return "green";
-			case 2:
-				return "red";
-			case 3:
-				return "orange";
-			case 4:
-				return "green flashing";
-			case 5:
-				return "red flashing";
-			case 6:
-				return "orange flashing";
-			case 7:
-				return "green pulse";
-			case 8:
-				return "red pulse";
-			case 9:
-				return "orange pulse";
-			default:
-				throw new NotImplementedException("Invalid spinnerIndex");
-		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "status", spinnerSelectionIndex);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LED_STATUS_CATLANG_PARAMETER_NAME))
+			return new HashMap.SimpleEntry<>(LED_STATUS_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(LedStatus.valueOf(ledStatus)));
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("status");
+		requiredArguments.add(LED_STATUS_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

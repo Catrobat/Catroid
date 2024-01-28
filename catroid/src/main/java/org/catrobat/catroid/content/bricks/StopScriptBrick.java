@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.mindstorms.LegoSensorFactory;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -116,8 +117,7 @@ public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerB
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(SCRIPT_CATLANG_PARAMETER_NAME)) {
-			return new AbstractMap.SimpleEntry<>(SCRIPT_CATLANG_PARAMETER_NAME,
-					CATLANG_SPINNER_VALUES.get(spinnerSelection));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(SCRIPT_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(spinnerSelection));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

@@ -33,6 +33,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Fade particle")
@@ -116,7 +117,7 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
         if (name == EFFECT_CATLANG_PARAMETER_NAME) {
-            return AbstractMap.SimpleEntry(name, spinnerValuesCatrobatLanguageMap[fadeSpinnerSelectionId])
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, spinnerValuesCatrobatLanguageMap[fadeSpinnerSelectionId])
         }
         return super.getArgumentByCatlangName(name)
     }

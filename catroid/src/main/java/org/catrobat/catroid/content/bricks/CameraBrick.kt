@@ -33,12 +33,13 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
 class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType(), UpdateableSpinnerBrick {
     companion object {
-        private const val CAMERA_CATLANG_PARAMETER_NAME = "direction"
+        private const val CAMERA_CATLANG_PARAMETER_NAME = "camera"
         private val SPINNER_VALUE_MAP = HashBiMap.create(
             mapOf(
                 false to "off",
@@ -95,7 +96,7 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun getArgumentByCatlangName(name: String): Map.Entry<String?, String?>? {
         return if (name == CAMERA_CATLANG_PARAMETER_NAME) {
-            AbstractMap.SimpleEntry(CAMERA_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP[spinnerSelectionON])
+            CatrobatLanguageUtils.getCatlangArgumentTuple(CAMERA_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP[spinnerSelectionON])
         } else super.getArgumentByCatlangName(name)
     }
 

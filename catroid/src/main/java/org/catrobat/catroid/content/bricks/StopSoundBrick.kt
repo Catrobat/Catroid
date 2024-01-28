@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils.formatSoundName
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
@@ -41,6 +42,10 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 @CatrobatLanguageBrick(command = "Stop")
 class StopSoundBrick : BrickBaseType(),
     BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
+
+    companion object {
+        private const val SOUND_CATLANG_PARAMETER_NAME = "sound";
+    }
 
     var sound: SoundInfo? = null
 
@@ -95,15 +100,20 @@ class StopSoundBrick : BrickBaseType(),
         spinner.setSelection(itemName)
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        var sound = ""
-        if (this.sound != null) sound = formatSoundName(this.sound!!.name)
-        return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound)
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == SOUND_CATLANG_PARAMETER_NAME) {
+            var soundName = "";
+            if (sound != null) {
+                soundName = formatSoundName(sound!!.name)
+            }
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, soundName)
+        }
+        return super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("sound")
+        requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }

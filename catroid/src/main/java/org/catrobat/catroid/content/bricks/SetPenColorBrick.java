@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +47,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String PEN_COLOR_CATLANG_PARAMETER_NAME = "pen color code";
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -158,21 +160,22 @@ public class SetPenColorBrick extends FormulaBrick {
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
-		String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
-		String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
-		String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
-
-		return getCatrobatLanguageParameterCall(indentionLevel, "pen color code", hexColor);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(PEN_COLOR_CATLANG_PARAMETER_NAME)) {
+			String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
+			String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
+			String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
+			String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(PEN_COLOR_CATLANG_PARAMETER_NAME, hexColor);
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>();
-		requiredArguments.add("pen color code");
+		requiredArguments.add(PEN_COLOR_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

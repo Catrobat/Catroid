@@ -28,6 +28,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +39,8 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
@@ -44,6 +49,18 @@ import kotlin.Unit;
 public class JumpingSumoAnimationsBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ANIMATION_CATLANG_PARAMETER_NAME = "animation";
+	private static final BiMap<Animation, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Animation, String>()
+	{{
+		put(Animation.SPIN, "spin");
+		put(Animation.TAB, "tab");
+		put(Animation.SLOWSHAKE, "slowshake");
+		put(Animation.METRONOME, "metronome");
+		put(Animation.ONDULATION, "ondulation");
+		put(Animation.SPINJUMP, "spinjump");
+		put(Animation.SPIRAL, "spiral");
+		put(Animation.SLALOM, "slalom");
+	}});
 
 	private String animationName;
 	private int spinnerSelectionIndex;
@@ -100,39 +117,16 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "spin";
-			case 1:
-				return "tab";
-			case 2:
-				return "slowshake";
-			case 3:
-				return "metronome";
-			case 4:
-				return "ondulation";
-			case 5:
-				return "spinjump";
-			case 6:
-				return "spiral";
-			case 7:
-				return "slalom";
-			default:
-				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
-		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "animation", spinnerSelectionIndex);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ANIMATION_CATLANG_PARAMETER_NAME))
+			return new HashMap.SimpleEntry<>(ANIMATION_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(Animation.valueOf(animationName)));
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("animation");
+		requiredArguments.add(ANIMATION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

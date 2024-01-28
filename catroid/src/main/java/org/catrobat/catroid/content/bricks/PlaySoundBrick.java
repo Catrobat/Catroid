@@ -153,7 +153,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 			if (sound != null) {
 				soundName = sound.getName();
 			}
-			return new AbstractMap.SimpleEntry<>(name, CatrobatLanguageUtils.formatSoundName(soundName));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatSoundName(soundName));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

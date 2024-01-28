@@ -27,6 +27,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
@@ -40,6 +43,8 @@ import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import kotlin.Unit;
@@ -48,6 +53,14 @@ import kotlin.Unit;
 public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
+	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
+	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>()
+	{{
+		put(Motor.MOTOR_LEFT, "left");
+		put(Motor.MOTOR_RIGHT, "right");
+		put(Motor.MOTOR_BOTH, "both");
+	}});
 
 	private String motor;
 
@@ -131,45 +144,22 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 		}
 	}
 
-	private String getCatrobatLanguageMotor() {
-		switch (Motor.valueOf(motor)) {
-			case MOTOR_LEFT:
-				return "left";
-			case MOTOR_RIGHT:
-				return "right";
-			case MOTOR_BOTH:
-				return "both";
-			default:
-				throw new IllegalStateException("Motor not implemented");
-		}
-	}
-
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(MOTOR_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(MOTOR_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(Motor.valueOf(motor)));
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (motor: (")
-				.append(getCatrobatLanguageMotor())
-				.append("), direction: (backward), ");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");\n");
-		return catrobatLanguage.toString();
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(DIRECTION_CATLANG_PARAMETER_NAME, "backward");
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("motor");
-		requiredArguments.add("direction");
+		requiredArguments.add(MOTOR_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

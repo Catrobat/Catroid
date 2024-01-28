@@ -73,6 +73,11 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 		return null;
 	}
 
+	@Override
+	public String getSecondaryBrickCommand() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return loopBricks.add(brick);
 	}
@@ -174,18 +179,5 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 		for (Brick brick : loopBricks) {
 			brick.addRequiredResources(requiredResourcesSet);
 		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
-
-		for (Brick brick : loopBricks) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
 	}
 }

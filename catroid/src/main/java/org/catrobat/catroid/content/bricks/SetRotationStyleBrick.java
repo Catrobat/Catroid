@@ -25,6 +25,9 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Look;
@@ -32,21 +35,32 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 
 @CatrobatLanguageBrick(command = "Set")
 public class SetRotationStyleBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ROTATION_STYLE_CATLANG_PARAMETER_NAME = "rotation style";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
+		put(Look.ROTATION_STYLE_ALL_AROUND, "all around");
+		put(ROTATION_STYLE_NONE, "don't rotate");
+	}});
 
 	@Look.RotationStyle
 	private int selection;
@@ -109,30 +123,18 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "rotation style", selection);
-	}
-
-	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
-				return "left-right only";
-			case Look.ROTATION_STYLE_ALL_AROUND:
-				return "all-around";
-			case Look.ROTATION_STYLE_NONE:
-				return "don't rotate";
-			default:
-				throw new IllegalStateException("Invalid spinner selection: " + selection);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ROTATION_STYLE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(selection));
 		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("rotation style");
+		requiredArguments.add(ROTATION_STYLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 

@@ -43,6 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 		NewItemInterface<LookData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
 
 	private transient BrickSpinner<LookData> spinner;
 
@@ -135,17 +137,19 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String lookname = look == null ? "" : CatrobatLanguageUtils.formatLook(look.getName());
-		return getCatrobatLanguageParameterCall(indentionLevel, "look", lookname);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LOOK_CATLANG_PARAMETER_NAME)) {
+			String lookName = look == null ? "" : CatrobatLanguageUtils.formatLook(look.getName());
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(LOOK_CATLANG_PARAMETER_NAME, lookName);
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("look");
+		requiredArguments.add(LOOK_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

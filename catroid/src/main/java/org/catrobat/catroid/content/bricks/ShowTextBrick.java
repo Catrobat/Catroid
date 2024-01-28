@@ -94,17 +94,4 @@ public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 	public int getYEditTextId() {
 		return R.id.brick_show_variable_edit_text_y;
 	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false);
-	}
-
-	@Override
-	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("variable");
-		return requiredArguments;
-	}
 }

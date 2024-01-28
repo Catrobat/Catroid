@@ -25,9 +25,19 @@ package org.catrobat.catroid.io.catlang.serializer
 
 import android.content.Context
 import android.content.res.Configuration
+import java.util.AbstractMap
 import java.util.Locale
 
 object CatrobatLanguageUtils {
+    @JvmStatic
+    fun getCatlangArgumentTuple(name: String, nullableValue: String?): AbstractMap.SimpleEntry<String, String> {
+        var value = nullableValue
+        if (value == null) {
+            value = ""
+        }
+        return AbstractMap.SimpleEntry(name, value)
+    }
+
     @JvmStatic
     fun getIndention(level: Int): String = " ".repeat(level * 2)
 

@@ -140,7 +140,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 			if (userVariable != null) {
 				userVariableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(name, userVariableName);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userVariableName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

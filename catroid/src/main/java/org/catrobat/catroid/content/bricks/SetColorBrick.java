@@ -61,11 +61,4 @@ public class SetColorBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetColorAction(sprite, sequence, getFormulaWithBrickField(BrickField.COLOR)));
 	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String color = CatrobatLanguageUtils.formatHexColorString(getFormulaWithBrickField(BrickField.COLOR).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim());
-		return getCatrobatLanguageParameterCall(indentionLevel, "color", color);
-	}
 }

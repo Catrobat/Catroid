@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +55,7 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
 	protected SoundInfo sound;
 	private transient BrickSpinner<SoundInfo> spinner;
 
@@ -150,29 +152,22 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		String soundName = "";
-		if (sound != null) {
-			soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
+			String soundName = "";
+			if (sound != null) {
+				soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, soundName);
 		}
-		brickBuilder.append("sound: (");
-		brickBuilder.append(soundName);
-		brickBuilder.append("), ");
-
-		super.appendCatrobatLanguageArguments(brickBuilder);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("sound");
+		requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

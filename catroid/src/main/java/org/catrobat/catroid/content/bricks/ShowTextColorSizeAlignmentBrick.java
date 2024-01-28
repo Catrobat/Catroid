@@ -27,6 +27,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
@@ -41,7 +44,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -50,7 +52,9 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,9 +71,17 @@ import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
 @CatrobatLanguageBrick(command = "Show")
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ALIGNMENT_CATLANG_PARAMETER_NAME = "alignment";
+	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
+	private static final BiMap<Integer, String> ALIGNMENT_SPINNER_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(ALIGNMENT_STYLE_LEFT, "left");
+		put(ALIGNMENT_STYLE_CENTERED, "centered");
+		put(ALIGNMENT_STYLE_RIGHT, "right");
+	}});
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
@@ -81,7 +93,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x, "x");
 		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y, "y");
 		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size, "size");
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color, "color");
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color, COLOR_CATLANG_PARAMETER_NAME);
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
@@ -229,51 +241,21 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	}
 
 	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("variable: (");
-		if (userVariable != null) {
-			brickBuilder.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ALIGNMENT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, ALIGNMENT_SPINNER_CATLANG_VALUES.get(alignmentSelection));
 		}
-		for (BrickField brickField : new BrickField[] {BrickField.X_POSITION, BrickField.Y_POSITION, BrickField.SIZE}) {
-			brickBuilder.append("), ")
-					.append(catrobatLanguageFormulaParameters.get(brickField))
-					.append(": (")
-					.append(convertFieldToString(brickField));
+		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
+			String hexColor = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
 		}
-
-		brickBuilder.append("), color: (");
-		String color = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
-		brickBuilder.append(color)
-				.append("), alignment: (")
-				.append(getCatrobatLanguageSpinnerValue(alignmentSelection))
-				.append(')');
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
-	}
-
-	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case ALIGNMENT_STYLE_LEFT:
-				return "left";
-			case ALIGNMENT_STYLE_CENTERED:
-				return "centered";
-			case ALIGNMENT_STYLE_RIGHT:
-				return "right";
-			default:
-				throw new NotImplementedException("Spinner index " + spinnerIndex + " not implemented.");
-		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("variable");
-		requiredArguments.add("alignment");
+		requiredArguments.add(ALIGNMENT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 

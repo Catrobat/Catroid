@@ -129,7 +129,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 			if (objectToClone != null) {
 				currentObject = CatrobatLanguageUtils.formatActorOrObject(objectToClone.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(name, currentObject);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, currentObject);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

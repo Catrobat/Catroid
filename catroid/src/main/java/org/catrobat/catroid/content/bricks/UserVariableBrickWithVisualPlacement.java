@@ -41,7 +41,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -169,48 +171,26 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		}
 	}
 
-	@NonNull
-	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+	protected String getCatLangVariableArgumentName() {
+		return "variable";
+	}
 
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (");
-
-		if (!beforeParams) {
-			appendCatrobatLanguageArguments(catrobatLanguage);
-			if (getFormulas().size() > 0) {
-				catrobatLanguage.append(", ");
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(getCatLangVariableArgumentName())) {
+			String variableName = "";
+			if (userVariable != null) {
+				variableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
 			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, variableName);
 		}
+		return super.getArgumentByCatlangName(name);
+	}
 
-		catrobatLanguage.append(name)
-				.append(": (");
-		if (userVariable != null) {
-			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
-		}
-		catrobatLanguage.append(')');
-
-		if (beforeParams) {
-			catrobatLanguage.append(", ");
-			appendCatrobatLanguageArguments(catrobatLanguage);
-		}
-
-		catrobatLanguage.append(')');
-
-		if (withBody) {
-			catrobatLanguage.append(" {");
-		} else {
-			catrobatLanguage.append(';');
-		}
-
-		catrobatLanguage.append('\n');
-		return catrobatLanguage.toString();
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> arguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		arguments.add(getCatLangVariableArgumentName());
+		return arguments;
 	}
 }

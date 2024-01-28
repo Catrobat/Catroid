@@ -26,9 +26,11 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -36,6 +38,7 @@ import androidx.annotation.NonNull;
 public class JumpingSumoJumpHighBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TYPE_CATLANG_PARAMETER_NAME = "type";
 
 	public JumpingSumoJumpHighBrick() {
 	}
@@ -49,16 +52,18 @@ public class JumpingSumoJumpHighBrick extends BrickBaseType {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterCall(indentionLevel, "type", "high");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(TYPE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, "high");
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("type");
+		requiredArguments.add(TYPE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

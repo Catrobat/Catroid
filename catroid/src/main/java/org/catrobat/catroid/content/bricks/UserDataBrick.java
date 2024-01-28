@@ -286,7 +286,7 @@ public abstract class UserDataBrick extends FormulaBrick
 		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
 		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
 		if (brickData != null) {
-			return new AbstractMap.SimpleEntry<>(name, getUserDataNameFormatted(brickData));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, getUserDataNameFormatted(brickData));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

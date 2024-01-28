@@ -335,6 +335,9 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		if (this instanceof CompositeBrick) {
 			return serializeCompositeBrickToCatrobatLanguage(indentionLevel);
 		}
+		if (this instanceof ScriptBrick) {
+			return serializeScriptBrickToCatrobatLanguage(indentionLevel);
+		}
 		return serializeBrickCallToCatrobatLanguage(indentionLevel);
 	}
 
@@ -382,6 +385,35 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		return catrobatLanguage.toString();
 	}
 
+	protected String serializeScriptBrickToCatrobatLanguage(int indentionLevel) {
+		if (!(this instanceof ScriptBrick)) {
+			throw new IllegalStateException("This method should only be called for ScriptBricks");
+		}
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		int size = 60;
+		if (getScript().getBrickList() != null) {
+			size += getScript().getBrickList().size() * 60;
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(size);
+		catrobatLanguage.append(indention)
+				.append(getCatrobatLanguageCommand())
+				.append(getArgumentListFormatted())
+				.append(" {\n");
+
+		for (Brick subBrick : getScript().getBrickList()) {
+			catrobatLanguage.append(subBrick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append("}\n");
+
+		return catrobatLanguage.toString();
+	}
+
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		return new ArrayList<>();
 	}
@@ -394,12 +426,12 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		return arguments;
 	}
 
-	protected String getArgumentListFormatted() {
+	private String getArgumentListFormatted() {
 		List<Map.Entry<String, String>> arguments = getArgumentList();
 		if (!arguments.isEmpty()) {
 			ArrayList<String> argumentStrings = new ArrayList<>();
 			for (Map.Entry<String, String> argument : arguments) {
-				argumentStrings.add(argument.getKey() + ": " + argument.getValue());
+				argumentStrings.add(argument.getKey() + ": (" + argument.getValue() + ")");
 			}
 			return " (" + String.join(", ", argumentStrings) + ')';
 		}

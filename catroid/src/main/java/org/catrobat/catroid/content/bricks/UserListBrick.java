@@ -167,7 +167,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			if (userList != null) {
 				listName = CatrobatLanguageUtils.formatList(userList.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(name, listName);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, listName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

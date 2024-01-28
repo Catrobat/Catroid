@@ -25,6 +25,9 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Script;
@@ -33,21 +36,33 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When tapped")
 public class WhenGamepadButtonBrick extends ScriptBrickBaseType
-		implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+		implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME = "gamepad button";
+	private static BiMap<Integer, String> GAMEPAD_BUTTON_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(0, "A");
+		put(1, "B");
+		put(2, "up");
+		put(3, "down");
+		put(4, "left");
+		put(5, "right");
+	}});
 
 	private WhenGamepadButtonScript script;
 	private transient BrickSpinner<StringOption> spinner;
@@ -132,40 +147,21 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "A";
-			case 1:
-				return "B";
-			case 2:
-				return "up";
-			case 3:
-				return "down";
-			case 4:
-				return "left";
-			case 5:
-				return "right";
-			default:
-				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME)) {
+			int selectedItem = 0;
+			if (spinner != null) {
+				selectedItem = spinner.getItems().indexOf(spinner.getSelection());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(selectedItem));
 		}
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("gamepad button: (");
-		int index = 0;
-		if (spinner != null) {
-			index = spinner.getItems().indexOf(spinner.getSelection());
-		}
-		brickBuilder.append(getCatrobatLanguageSpinnerValue(index))
-				.append(')');
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("gamepad button");
+		requiredArguments.add(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

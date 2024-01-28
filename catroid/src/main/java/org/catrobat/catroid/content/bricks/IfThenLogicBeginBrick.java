@@ -79,6 +79,11 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		return null;
 	}
 
+	@Override
+	public String getSecondaryBrickCommand() {
+		return null;
+	}
+
 	public boolean addBrick(Brick brick) {
 		return ifBranchBricks.add(brick);
 	}
@@ -185,18 +190,5 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		for (Brick brick : ifBranchBricks) {
 			brick.addRequiredResources(requiredResourcesSet);
 		}
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
-
-		for (Brick brick : ifBranchBricks) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
 	}
 }

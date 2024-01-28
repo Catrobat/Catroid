@@ -27,16 +27,12 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "When you receive")
-public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick, CatrobatLanguageAttributes {
+public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -111,26 +107,5 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("message: (");
-		String name = getBroadcastMessage();
-		brickBuilder.append(CatrobatLanguageUtils.formatString(name == null ? "" : name));
-		brickBuilder.append(')');
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
-
-		for (Brick brick : getScript().getBrickList()) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-
-		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
 	}
 }

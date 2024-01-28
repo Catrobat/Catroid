@@ -28,6 +28,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
@@ -36,22 +39,31 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set Phiro")
-public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
+	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
+	private final static BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>()
+	{{
+		put(Eye.LEFT, "left");
+		put(Eye.RIGHT, "right");
+		put(Eye.BOTH, "both");
+	}});
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -200,45 +212,26 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
-		String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
-		String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
-		String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
-
-		brickBuilder.append("light: (")
-				.append(this.getCatrobatLanguageSpinnerValue(Eye.valueOf(eye).ordinal()))
-				.append("), color: (")
-				.append(hexColor)
-				.append(')');
-	}
-
-	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "left";
-			case 1:
-				return "right";
-			case 2:
-				return "both";
-			default:
-				throw new IndexOutOfBoundsException("Invalid spinnerIndex in " + getClass().getSimpleName());
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LIGHT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(Eye.valueOf(eye)));
 		}
+		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
+			String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
+			String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
+			String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
+			String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>();
-		requiredArguments.add("light");
-		requiredArguments.add("color");
+		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(COLOR_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

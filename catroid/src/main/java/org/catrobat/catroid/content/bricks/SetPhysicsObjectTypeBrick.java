@@ -27,15 +27,21 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -45,6 +51,13 @@ import kotlin.Unit;
 public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String MOTION_TYPE_CATLANG_PARAMETER_NAME = "motion type";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(0, "moving and bouncing under gravity");
+		put(1, "not moving under gravity, but others bounce off you under gravity");
+		put(2, "not moving or bouncing under gravity (default)");
+	}});
 
 	private int selection;
 
@@ -114,30 +127,18 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Updateab
 		updateSelectedType(itemIndex);
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageSpinnerCall(indentionLevel, "motion type", selection);
-	}
-
-	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "moving and bouncing under gravity";
-			case 1:
-				return "not moving under gravity, but others bounce off you under gravity";
-			case 2:
-				return "not moving or bouncing under gravity (default)";
-			default:
-				throw new IllegalStateException("Invalid spinner selection: " + selection);
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(MOTION_TYPE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(selection));
 		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("motion type");
+		requiredArguments.add(MOTION_TYPE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

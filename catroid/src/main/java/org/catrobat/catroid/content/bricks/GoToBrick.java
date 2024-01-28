@@ -152,7 +152,7 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 			} else if (destinationSprite != null) {
 				currentSelectionString = CatrobatLanguageUtils.formatActorOrObject(destinationSprite.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(name, currentSelectionString);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, currentSelectionString);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

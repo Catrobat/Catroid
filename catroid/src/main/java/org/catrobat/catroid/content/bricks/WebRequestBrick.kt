@@ -42,6 +42,10 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
         addAllowedBrickField(BrickField.WEB_REQUEST, R.id.brick_web_request_edit_text, "url")
     }
 
+    companion object {
+        private const val ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable";
+    }
+
     override fun getViewResource(): Int = R.layout.brick_web_request
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
@@ -58,12 +62,13 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     override fun getSpinnerId(): Int = R.id.web_request_spinner
-
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false)
+    override fun getUserVariableCatlangArgumentName(): String {
+        return ANSWER_VARIABLE_CATLANG_PARAMETER_NAME
+    }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("answer variable")
+        requiredArguments.add(ANSWER_VARIABLE_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }

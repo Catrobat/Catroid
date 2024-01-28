@@ -26,16 +26,23 @@ import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 
 @CatrobatLanguageBrick(command = "Use")
 class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType(),
     UpdateableSpinnerBrick {
+
+    companion object {
+        private const val CAMERA_CATLANG_PARAMETER_NAME = "camera"
+        private val CATLANG_SPINNER_VALUES = HashBiMap.create(mapOf(true to "front", false to "rear"))
+    }
 
     override fun getViewResource() = R.layout.brick_choose_camera
 
@@ -87,9 +94,11 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
         spinnerSelectionFRONT = itemIndex == 1
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        val camera = if (spinnerSelectionFRONT) "front" else "rear"
-        return getCatrobatLanguageParameterCall(indentionLevel, "camera", camera)
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == CAMERA_CATLANG_PARAMETER_NAME) {
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES[spinnerSelectionFRONT])
+        }
+        return super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {

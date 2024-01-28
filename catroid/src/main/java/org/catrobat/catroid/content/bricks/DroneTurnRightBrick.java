@@ -87,7 +87,7 @@ public class DroneTurnRightBrick extends FormulaBrick {
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
-			return new AbstractMap.SimpleEntry<>(DIRECTION_CATLANG_PARAMETER_NAME, DIRECTION_CATLANG_PARAMETER_VALUE);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(DIRECTION_CATLANG_PARAMETER_NAME, DIRECTION_CATLANG_PARAMETER_VALUE);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

@@ -27,23 +27,39 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play Phiro")
-public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String TONE_CATLANG_PARAMETER_NAME = "tone";
+	private static final BiMap<Tone, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Tone, String>()
+	{{
+		put(Tone.DO, "do");
+		put(Tone.RE, "re");
+		put(Tone.MI, "mi");
+		put(Tone.FA, "fa");
+		put(Tone.SO, "so");
+		put(Tone.LA, "la");
+		put(Tone.TI, "ti");
+	}});
 
 	private String tone;
 
@@ -115,39 +131,17 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 	}
 
 	@Override
-	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (spinnerIndex) {
-			case 0:
-				return "do";
-			case 1:
-				return "re";
-			case 2:
-				return "mi";
-			case 3:
-				return "fa";
-			case 4:
-				return "so";
-			case 5:
-				return "la";
-			case 6:
-				return "ti";
-			default:
-				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(TONE_CATLANG_PARAMETER_NAME)) {
+			return new HashMap.SimpleEntry<>(TONE_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(Tone.valueOf(tone)));
 		}
-	}
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("tone: (");
-		brickBuilder.append(this.getCatrobatLanguageSpinnerValue(Tone.valueOf(tone).ordinal()));
-		brickBuilder.append("), ");
-		super.appendCatrobatLanguageArguments(brickBuilder);
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("tone");
+		requiredArguments.add(TONE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

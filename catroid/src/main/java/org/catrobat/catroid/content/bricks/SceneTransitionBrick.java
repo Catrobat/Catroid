@@ -166,7 +166,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(SCENE_CATLANG_PARAMETER_NAME)) {
-			return new AbstractMap.SimpleEntry<>(name, CatrobatLanguageUtils.formatActorOrObject(sceneForTransition));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatActorOrObject(sceneForTransition));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

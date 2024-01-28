@@ -90,7 +90,7 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
             val lists = userLists.joinToString(", ") {
                 CatrobatLanguageUtils.formatList(it.name)
             }
-            return java.util.AbstractMap.SimpleEntry(name, lists)
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(LISTS_CATLANG_PARAMETER_NAME, lists)
         }
         return super.getArgumentByCatlangName(name)
     }

@@ -26,6 +26,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
@@ -53,6 +54,11 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
     companion object Mode {
         private const val KEEP = 0
         private const val DELETE = 1
+
+        private const val VARIABLE_CATLANG_PARAMETER_NAME = "variable";
+        private const val ACTION_CATLANG_PARAMETER_NAME = "action";
+
+        private val CATLANG_SPINNER_VALUES = HashBiMap.create(hashMapOf(KEEP to "keep the file", DELETE to "delete the file"))
     }
 
     override fun getViewResource(): Int = R.layout.brick_read_variable_from_file
@@ -113,39 +119,20 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
         }
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        val indention = CatrobatLanguageUtils.getIndention(indentionLevel)
-        val catrobatLanguage = StringBuilder()
-        catrobatLanguage.append(indention)
-        if (commentedOut) {
-            catrobatLanguage.append("// ")
-        }
-        catrobatLanguage.append(catrobatLanguageCommand)
-        catrobatLanguage.append(" (")
+    override fun getUserVariableCatlangArgumentName(): String {
+        return VARIABLE_CATLANG_PARAMETER_NAME
+    }
 
-        catrobatLanguage.append("variable: (")
-        if (userVariable != null) {
-            catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.name))
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == ACTION_CATLANG_PARAMETER_NAME) {
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES[spinnerSelectionID])
         }
-        catrobatLanguage.append("), ")
-        appendCatrobatLanguageArguments(catrobatLanguage)
-
-        catrobatLanguage.append(", action: (")
-        if (spinnerSelectionID == KEEP) {
-            catrobatLanguage.append("keep the file")
-        } else {
-            catrobatLanguage.append("delete the file")
-        }
-        catrobatLanguage.append("));")
-
-        catrobatLanguage.append("\n")
-        return catrobatLanguage.toString()
+        return super.getArgumentByCatlangName(name)
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("action")
-        requiredArguments.add("variable")
+        requiredArguments.add(ACTION_CATLANG_PARAMETER_NAME)
         return requiredArguments
     }
 }

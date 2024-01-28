@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(FLASH_CATLANG_PARAMETER_NAME)) {
-			return new AbstractMap.SimpleEntry<>(FLASH_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP.get(spinnerSelectionID));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(FLASH_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP.get(spinnerSelectionID));
 		} else {
 			return super.getArgumentByCatlangName(name);
 		}

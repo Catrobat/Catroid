@@ -204,7 +204,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(MESSAGE_CATLANG_PARAMETER_NAME)) {
 			String formattedMessage = CatrobatLanguageUtils.formatString(getBroadcastMessage());
-			return new AbstractMap.SimpleEntry<>(name, formattedMessage);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formattedMessage);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

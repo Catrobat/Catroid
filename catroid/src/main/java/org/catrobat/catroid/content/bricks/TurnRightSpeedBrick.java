@@ -31,6 +31,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -38,6 +39,7 @@ import androidx.annotation.NonNull;
 public class TurnRightSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
 
 	public TurnRightSpeedBrick() {
 		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text, "degrees/second");
@@ -70,29 +72,18 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 						getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("// ");
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, "right");
 		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (direction: (right), ");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");\n");
-		return catrobatLanguage.toString();
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("degrees/second");
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

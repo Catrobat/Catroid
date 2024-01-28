@@ -33,10 +33,12 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +46,8 @@ import androidx.annotation.Nullable;
 @CatrobatLanguageBrick(command = "Set")
 public class SetInstrumentBrick extends BrickBaseType
 		implements BrickSpinner.OnItemSelectedListener<PickableMusicalInstrument>, UpdateableSpinnerBrick {
+
+	private static final String INSTRUMENT_CATLANG_PARAMETER_NAME = "instrument";
 
 	public PickableMusicalInstrument instrumentSelection = PickableMusicalInstrument.values()[0];
 
@@ -106,16 +110,18 @@ public class SetInstrumentBrick extends BrickBaseType
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterCall(indentionLevel, "instrument", instrumentSelection.getCatrobatLanguageString());
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(INSTRUMENT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, instrumentSelection.getCatrobatLanguageString());
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("instrument");
+		requiredArguments.add(INSTRUMENT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

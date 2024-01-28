@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -130,13 +131,20 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	protected abstract String getUserVariableCatlangArgumentName();
 
 	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> arguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		arguments.add(getUserVariableCatlangArgumentName());
+		return arguments;
+	}
+
+	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(getUserVariableCatlangArgumentName())) {
 			String userVariableName = "";
 			if (userVariable != null) {
 				userVariableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
 			}
-			return new AbstractMap.SimpleEntry<>(name, userVariableName);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userVariableName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

@@ -38,9 +38,11 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +53,8 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		NewItemInterface<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
 
 	private Sprite pointedObject;
 
@@ -133,18 +137,22 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String pointedObjectName = pointedObject == null ? "" : pointedObject.getName();
-		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object",
-				CatrobatLanguageUtils.formatActorOrObject(pointedObjectName));
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
+			String actorOrObjectName = "";
+			if (pointedObject != null) {
+				actorOrObjectName = CatrobatLanguageUtils.formatActorOrObject(pointedObject.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, actorOrObjectName);
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("actor or object");
+		requiredArguments.add(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

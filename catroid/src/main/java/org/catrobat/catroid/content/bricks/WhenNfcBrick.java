@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
@@ -45,14 +44,16 @@ import org.catrobat.catroid.ui.NfcTagsActivity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When NFC gets scanned")
-public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
+public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String NFC_TAG_CATLANG_PARAMETER_NAME = "nfc tag";
 
 	private WhenNfcScript script;
 
@@ -146,20 +147,23 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("nfc tag: (");
-		if (script.getMatchAll()) {
-			brickBuilder.append("all");
-		} else {
-			brickBuilder.append(CatrobatLanguageUtils.formatNFCTag(script.getNfcTag().getName()));
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(NFC_TAG_CATLANG_PARAMETER_NAME)) {
+			String nfcTagName = "";
+			if (script.getMatchAll()) {
+				nfcTagName = "all";
+			} else if (script.getNfcTag() != null) {
+				nfcTagName = CatrobatLanguageUtils.formatNFCTag(script.getNfcTag().getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(NFC_TAG_CATLANG_PARAMETER_NAME, nfcTagName);
 		}
-		brickBuilder.append(')');
+		return super.getArgumentByCatlangName(name);
 	}
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("nfc tag");
+		requiredArguments.add(NFC_TAG_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

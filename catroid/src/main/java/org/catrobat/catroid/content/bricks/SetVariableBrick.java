@@ -74,21 +74,13 @@ public class SetVariableBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	protected String getUserVariableCatlangArgumentName() {
+		return "variable";
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.VARIABLE), userVariable));
-	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return serializeToCatrobatLanguage(indentionLevel, "variable", true, false);
-	}
-
-	@Override
-	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add("variable");
-		return requiredArguments;
 	}
 }

@@ -30,7 +30,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -70,19 +69,5 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 		duration = Integer.parseInt(metadataRetriever
 				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
 		return duration;
-	}
-
-
-
-	@Override
-	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		String soundName = "";
-		if (sound != null) {
-			soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
-		}
-
-		brickBuilder.append("sound: (")
-				.append(soundName)
-				.append(')');
 	}
 }

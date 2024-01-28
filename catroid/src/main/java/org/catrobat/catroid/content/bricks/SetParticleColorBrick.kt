@@ -33,7 +33,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.lang.StringBuilder
 
 @CatrobatLanguageBrick(command = "Set")
-class SetParticleColorBrick() : FormulaBrick(), CatrobatLanguageAttributes {
+class SetParticleColorBrick() : FormulaBrick() {
     constructor(color: String) : this(Formula(color))
 
     constructor(formula: Formula) : this() {
@@ -58,16 +58,5 @@ class SetParticleColorBrick() : FormulaBrick(), CatrobatLanguageAttributes {
 
     init {
         addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, "particle color")
-    }
-
-    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
-        val paramname = catrobatLanguageFormulaParameters[BrickField.COLOR]
-        brickBuilder.append(paramname).append(": (")
-
-        val color = formulaMap[BrickField.COLOR]?.getTrimmedFormulaString(CatroidApplication.getAppContext())?.trim()
-        if (color != null) {
-            brickBuilder.append(CatrobatLanguageUtils.formatHexColorString(color))
-        }
-        brickBuilder.append(")")
     }
 }
