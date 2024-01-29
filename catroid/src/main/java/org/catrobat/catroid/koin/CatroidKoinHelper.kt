@@ -71,7 +71,6 @@ val componentsModules = module(createdAtStart = true, override = false) {
     }
     single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
     factory { WorkManager.getInstance(androidContext()) }
-    single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
     factory { HuaweiApiAvailability.getInstance() }
     factory { GoogleApiAvailability.getInstance() }
@@ -138,7 +137,8 @@ val projectManagerModule = module {
 }
 
 val myModules = listOf(
-    componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
+    componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules,
+    projectManagerModule
 )
 
 fun start(application: Application, modules: List<Module>) {

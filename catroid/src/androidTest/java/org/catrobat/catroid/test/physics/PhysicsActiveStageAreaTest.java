@@ -74,7 +74,7 @@ public class PhysicsActiveStageAreaTest {
 
 	@Before
 	public void setUp() throws Exception {
-		CatroidKoinHelperKt.start(ApplicationProvider.getApplicationContext(), dependencyModules);
+		CatroidKoinHelperKt.startWithContext(ApplicationProvider.getApplicationContext(), dependencyModules);
 		sprite = rule.sprite;
 		physicsWorld = rule.physicsWorld;
 		project = rule.project;
