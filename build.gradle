@@ -25,7 +25,7 @@
 
 buildscript {
     ext.kotlin_version = '1.4.32'
-    ext.koin_version = '2.1.6'
+    ext.koin_version = '2.1.5'
     ext.lifecycle_version = '2.2.0'
     ext.jacoco_core_version = '0.8.7'
     repositories {
