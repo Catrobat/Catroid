@@ -125,8 +125,9 @@ public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpi
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add("sound");
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
 	}
 }

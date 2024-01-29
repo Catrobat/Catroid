@@ -58,7 +58,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
 	{{
 		put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
-		put(Look.ROTATION_STYLE_ALL_AROUND, "all around");
+		put(Look.ROTATION_STYLE_ALL_AROUND, "all-around");
 		put(ROTATION_STYLE_NONE, "don't rotate");
 	}});
 

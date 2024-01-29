@@ -1261,21 +1261,21 @@ class SpinnerSerializationTest {
             baseActivityTestRule.launchActivity()
             val keys = getStringArrayForResourceId(R.array.ev3_led_status_chooser)
             val mapOfValues = mapOf(
-                keys[0] to "Set EV3 (status: (off));\n",
-                keys[2] to "Set EV3 (status: (red));\n",
-                keys[3] to "Set EV3 (status: (orange));\n",
-                keys[4] to "Set EV3 (status: (green flashing));\n",
-                keys[5] to "Set EV3 (status: (red flashing));\n",
-                keys[6] to "Set EV3 (status: (orange flashing));\n",
-                keys[7] to "Set EV3 (status: (green pulse));\n",
-                keys[8] to "Set EV3 (status: (red pulse));\n",
-                keys[9] to "Set EV3 (status: (orange pulse));\n",
-                keys[1] to "Set EV3 (status: (green));\n"
+                keys[0] to "Set EV3 LED (status: (off));\n",
+                keys[2] to "Set EV3 LED (status: (red));\n",
+                keys[3] to "Set EV3 LED (status: (orange));\n",
+                keys[4] to "Set EV3 LED (status: (green flashing));\n",
+                keys[5] to "Set EV3 LED (status: (red flashing));\n",
+                keys[6] to "Set EV3 LED (status: (orange flashing));\n",
+                keys[7] to "Set EV3 LED (status: (green pulse));\n",
+                keys[8] to "Set EV3 LED (status: (red pulse));\n",
+                keys[9] to "Set EV3 LED (status: (orange pulse));\n",
+                keys[1] to "Set EV3 LED (status: (green));\n"
             )
             executeTest(
                 R.id.brick_ev3_set_led_spinner,
                 brick,
-                "Set EV3 (status: (green));\n",
+                "Set EV3 LED (status: (green));\n",
                 mapOfValues
             )
             checkSpinnerValueCount(brick, R.id.brick_ev3_set_led_spinner, mapOfValues.size)

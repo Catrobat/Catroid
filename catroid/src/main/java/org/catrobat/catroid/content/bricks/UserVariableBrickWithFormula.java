@@ -132,8 +132,9 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> arguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> arguments = new ArrayList<>();
 		arguments.add(getUserVariableCatlangArgumentName());
+		arguments.addAll(super.getRequiredCatlangArgumentNames());
 		return arguments;
 	}
 

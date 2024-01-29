@@ -174,8 +174,9 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add(getListCatlangParameterName());
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
 	}
 

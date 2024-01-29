@@ -128,14 +128,6 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	}
 
 	@Override
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
-		arguments.add(this.getArgumentByCatlangName(DRUM_CATLANG_PARAMETER_NAME));
-		arguments.addAll(super.getArgumentList());
-		return arguments;
-	}
-
-	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(DRUM_CATLANG_PARAMETER_NAME)) {
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
@@ -145,8 +137,9 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add(DRUM_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
 	}
 
@@ -154,7 +147,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 
-		String drum = arguments.get("drum");
+		String drum = arguments.get(DRUM_CATLANG_PARAMETER_NAME);
 		if (drum != null) {
 			drumSelection = PickableDrum.getDrumByCatrobatLanguageString(drum);
 		}

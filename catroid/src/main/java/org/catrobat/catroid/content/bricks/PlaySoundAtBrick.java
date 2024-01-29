@@ -166,8 +166,9 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
 	}
 }

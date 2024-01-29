@@ -66,10 +66,4 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     override fun getUserVariableCatlangArgumentName(): String {
         return VARIABLE_CATLANG_PARAMETER_NAME
     }
-
-    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME)
-        return requiredArguments
-    }
 }

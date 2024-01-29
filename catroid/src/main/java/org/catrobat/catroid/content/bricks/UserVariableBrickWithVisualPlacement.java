@@ -189,8 +189,9 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> arguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> arguments = new ArrayList<>();
 		arguments.add(getCatLangVariableArgumentName());
+		arguments.addAll(super.getRequiredCatlangArgumentNames());
 		return arguments;
 	}
 }

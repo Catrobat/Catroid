@@ -96,8 +96,9 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
     }
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
-        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
+        val requiredArguments = arrayListOf<String>()
         requiredArguments.add(LISTS_CATLANG_PARAMETER_NAME)
+        requiredArguments.addAll(super.getRequiredCatlangArgumentNames())
         return requiredArguments
     }
 }

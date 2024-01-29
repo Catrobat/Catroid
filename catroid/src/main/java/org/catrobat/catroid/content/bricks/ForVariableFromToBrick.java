@@ -211,7 +211,6 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add(VALUE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}
 }

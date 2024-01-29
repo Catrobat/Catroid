@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +57,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +73,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
-	protected BiMap<FormulaField, String> catrobatLanguageFormulaParameters = HashBiMap.create();
+	@XStreamOmitField
+	protected LinkedHashMap<FormulaField, String> catrobatLanguageFormulaParameters = new LinkedHashMap<>();
 
 	public transient BiMap<FormulaField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
 
@@ -271,7 +274,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		FormulaField field = catrobatLanguageFormulaParameters.inverse().get(name);
+		FormulaField field = HashBiMap.create(catrobatLanguageFormulaParameters).inverse().get(name);
 		if (field == null) {
 			return super.getArgumentByCatlangName(name);
 		}
@@ -286,7 +289,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		Map<String, FormulaField> argumentNameToFormula = catrobatLanguageFormulaParameters.inverse();
+		Map<String, FormulaField> argumentNameToFormula = HashBiMap.create(catrobatLanguageFormulaParameters).inverse();
 		for (String argumentName : arguments.keySet()) {
 			if (!argumentNameToFormula.containsKey(argumentName)) {
 				continue;

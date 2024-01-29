@@ -35,12 +35,13 @@ import java.util.Collection;
 @CatrobatLanguageBrick(command = "Ask")
 public class AskBrick extends UserVariableBrickWithFormula {
 
-	private static final String ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "";
+	private static final String ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable";
+	private static final String QUESTION_CATLANG_PARAMETER_NAME = "question";
 
 	private static final long serialVersionUID = 1L;
 
 	public AskBrick() {
-		addAllowedBrickField(BrickField.ASK_QUESTION, R.id.brick_ask_question_edit_text, "question");
+		addAllowedBrickField(BrickField.ASK_QUESTION, R.id.brick_ask_question_edit_text, QUESTION_CATLANG_PARAMETER_NAME);
 	}
 
 	public AskBrick(String questionText) {
@@ -81,7 +82,8 @@ public class AskBrick extends UserVariableBrickWithFormula {
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(QUESTION_CATLANG_PARAMETER_NAME);
 		requiredArguments.add(ANSWER_VARIABLE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
 	}

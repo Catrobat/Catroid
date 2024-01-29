@@ -84,8 +84,9 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	@Override
 	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
-		return requiredArguments;
+		ArrayList<String> arguments = new ArrayList<>();
+		arguments.addAll(this.catrobatLanguageFormulaParameters.values());
+		arguments.add(getUserVariableCatlangArgumentName());
+		return arguments;
 	}
 }

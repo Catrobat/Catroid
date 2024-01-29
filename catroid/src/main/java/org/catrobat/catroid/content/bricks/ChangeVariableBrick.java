@@ -35,7 +35,7 @@ import java.util.Collection;
 @CatrobatLanguageBrick(command = "Change")
 public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 
-	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "";
+	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "variable";
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,11 +77,5 @@ public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory()
 				.createChangeVariableAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
-	}
-	@Override
-	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
-		requiredArguments.add(VARIABLE_CATLANG_PARAMETER_NAME);
-		return requiredArguments;
 	}
 }
