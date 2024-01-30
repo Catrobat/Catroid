@@ -272,16 +272,6 @@ public abstract class UserDataBrick extends FormulaBrick
 	}
 
 	@Override
-	protected List<Map.Entry<String, String>> getArgumentList() {
-		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
-		for (Map.Entry<BrickData, String> entry : catrobatLanguageUserDataParameters.entrySet()) {
-			arguments.add(this.getArgumentByCatlangName(entry.getValue()));
-		}
-		arguments.addAll(super.getArgumentList());
-		return arguments;
-	}
-
-	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
 		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
