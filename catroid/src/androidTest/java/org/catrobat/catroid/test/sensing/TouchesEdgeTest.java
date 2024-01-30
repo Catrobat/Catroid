@@ -23,18 +23,27 @@
 
 package org.catrobat.catroid.test.sensing;
 
+import android.content.Context;
+
 import com.badlogic.gdx.math.Rectangle;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.physics.collision.CollisionTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
+
+import java.util.Collections;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -52,8 +61,14 @@ public class TouchesEdgeTest {
 	private int virtualScreenHeight;
 	private Rectangle screen;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+
 		TestUtils.deleteProjects();
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -71,6 +86,11 @@ public class TouchesEdgeTest {
 
 		sprite1.look.setXInUserInterfaceDimensionUnit(0);
 		sprite1.look.setYInUserInterfaceDimensionUnit(0);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
