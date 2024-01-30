@@ -414,7 +414,6 @@ dependencies {
 
     // Room
     implementation("androidx.room:room-runtime:$room_version")
-    androidTestImplementation project(path: ':catroid')
     kapt("androidx.room:room-compiler:$room_version")
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")

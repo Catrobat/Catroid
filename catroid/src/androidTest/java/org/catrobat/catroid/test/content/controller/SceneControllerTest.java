@@ -83,13 +83,13 @@ public class SceneControllerTest {
 	private BackpackListManager backpackListManager;
 	private final String newName = "new Scene Name";
 
-	private final List<Module> dependencyModules =
-			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+//	private final List<Module> dependencyModules =
+//			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws IOException {
-		Context contextMock = Mockito.mock(Context.class);
-		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+//		Context contextMock = Mockito.mock(Context.class);
+//		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
@@ -99,7 +99,7 @@ public class SceneControllerTest {
 	public void tearDown() throws IOException {
 		deleteProject();
 		clearBackPack(backpackListManager);
-		CatroidKoinHelperKt.stop(dependencyModules);
+//		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
