@@ -38,7 +38,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity
@@ -112,7 +111,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     protected fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
         googleTracker!!.setScreenName(this.javaClass.name)
-        googleTracker!!.send(ScreenViewBuilder().build())
+        googleTracker.send(ScreenViewBuilder().build())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
