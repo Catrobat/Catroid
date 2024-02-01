@@ -111,8 +111,8 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
 
     protected fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
-        googleTracker.setScreenName(this.javaClass.name)
-        googleTracker.send(ScreenViewBuilder().build())
+        googleTracker!!.setScreenName(this.javaClass.name)
+        googleTracker!!.send(ScreenViewBuilder().build())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
