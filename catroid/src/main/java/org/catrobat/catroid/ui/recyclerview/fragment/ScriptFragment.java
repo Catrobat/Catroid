@@ -278,11 +278,17 @@ public class ScriptFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
-		int bottomListPadding = ScreenValues.SCREEN_HEIGHT / 3;
+		int bottomListPadding;
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			bottomListPadding = (int) (ScreenValues.SCREEN_HEIGHT / 2.5);
+		} else {
+			bottomListPadding = ScreenValues.SCREEN_HEIGHT / 3;
+		}
 		listView.setPadding(0, 0, 0, bottomListPadding);
 		listView.setClipToPadding(false);
 
 		activity = (SpriteActivity) getActivity();
+		SettingsFragment.setToChosenLanguage(activity);
 
 		scriptFinder = view.findViewById(R.id.findview);
 		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
@@ -403,6 +409,10 @@ public class ScriptFragment extends ListFragment implements
 		BottomBar.showBottomBar(getActivity());
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
+
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			BottomBar.showAiAssistButton(getActivity());
+		}
 
 		adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 
@@ -888,7 +898,7 @@ public class ScriptFragment extends ListFragment implements
 
 		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
 
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
 				CatblocksScriptFragment.Companion.getTAG());
 		fragmentTransaction.commit();

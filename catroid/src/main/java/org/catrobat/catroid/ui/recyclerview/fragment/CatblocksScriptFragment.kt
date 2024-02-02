@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -101,19 +101,22 @@ class CatblocksScriptFragment(
     ): View? {
         BottomBar.showBottomBar(activity)
 
-        setHasOptionsMenu(true)
+        if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+            BottomBar.showAiAssistButton(activity)
+        }
 
+        setHasOptionsMenu(true)
         val view = View.inflate(activity, R.layout.fragment_catblocks, null)
         val webView = view.findViewById<WebView>(R.id.catblocksWebView)
         initWebView(webView)
         this.webview = webView
+
         return view
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView(catblocksWebView: WebView) {
         catblocksWebView.settings.javaScriptEnabled = true
-
         if (BuildConfig.FEATURE_CATBLOCKS_DEBUGABLE) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
@@ -193,7 +196,6 @@ class CatblocksScriptFragment(
 
         override fun run() {
             SettingsFragment.setUseCatBlocks(context, false)
-
             val scriptFragment: ScriptFragment = if (brickToFocus == null) {
                 ScriptFragment()
             } else if (brickToFocus is ScriptBrick) {
@@ -201,7 +203,6 @@ class CatblocksScriptFragment(
             } else {
                 ScriptFragment.newInstance(brickToFocus)
             }
-
             val fragmentTransaction = parentFragmentManager.beginTransaction()
             fragmentTransaction.replace(
                 R.id.fragment_container, scriptFragment,
@@ -236,8 +237,7 @@ class CatblocksScriptFragment(
         }
 
         @JavascriptInterface
-        fun getCurrentLanguage(): String =
-            Locale.getDefault().toString().replace("_", "-")
+        fun getCurrentLanguage(): String = Locale.getDefault().toString().replace("_", "-")
 
         @JavascriptInterface
         fun isRTL(): Boolean {

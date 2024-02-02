@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
+import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
@@ -64,9 +65,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
             .addMigrations(DatabaseMigrations.MIGRATION_1_2)
             .build()
     }
-    single {
-        CatroidWebServer.getWebService("https://share.catrob.at/api/")
-    }
+    single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
@@ -74,6 +73,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
     factory { GoogleApiAvailability.getInstance() }
     factory { MobileServiceAvailability(get(), get()) }
 
+    single { BackpackListManager.getInstance() }
     single {
         DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
     }

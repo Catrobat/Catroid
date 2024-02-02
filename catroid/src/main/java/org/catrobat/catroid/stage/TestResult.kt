@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,45 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.stage;
+package org.catrobat.catroid.stage
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+data class TestResult(var message: String, var resultCode: Int) {
 
-public class TextActor extends Actor {
-
-	private int posX;
-	private int posY;
-	private String text;
-	private BitmapFont font;
-
-	public TextActor(String text, int posX, int posY) {
-		this.text = text;
-		this.posX = posX;
-		this.posY = posY;
-		init();
-	}
-
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		font.draw(batch, text, posX, posY);
-	}
-
-	private void init() {
-		font = new BitmapFont();
-		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-	}
-
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
+    companion object {
+        const val STAGE_ACTIVITY_TEST_SUCCESS: Int = 7777
+        const val STAGE_ACTIVITY_TEST_FAIL: Int = 8888
+        const val TEST_RESULT_MESSAGE: String = "ASSERTION_MESSAGE"
+    }
 }

@@ -158,6 +158,7 @@ android {
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
+        buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
@@ -244,6 +245,7 @@ android {
             resValue "string", "DEBUG_MODE", "true"
             buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
+            buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
         }
