@@ -107,6 +107,15 @@ def useDockerLabelParameter(dockerImage, defaultLabel) {
     return dockerImage + ':' + label
 }
 
+def renameApks(suffix) {
+    suffix = suffix.replaceAll(/[\\:#\/]/, '_')
+    def apkFiles = sh script: 'find -name "*.apk"', returnStdout: true
+    apkFiles.trim().split('\n').each { oldPath ->
+        def newPath = oldPath.replaceAll(/\.apk$/, "-${suffix}.apk")
+        sh "mv '$oldPath' '$newPath'"
+    }
+}
+
 pipeline {
     agent none
 
