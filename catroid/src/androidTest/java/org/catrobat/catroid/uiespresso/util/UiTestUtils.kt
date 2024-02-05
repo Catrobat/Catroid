@@ -153,6 +153,14 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
+        fun createProjectWithoutSprite(projectName: String?): Project {
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            projectManager.currentProject = project
+            projectManager.currentlyEditedScene = project.defaultScene
+            return project
+        }
+
+        @JvmStatic
         fun onToast(viewMatcher: Matcher<View?>?): ViewInteraction =
             onView(viewMatcher).inRoot(SuperToastMatchers.isToast())
 
