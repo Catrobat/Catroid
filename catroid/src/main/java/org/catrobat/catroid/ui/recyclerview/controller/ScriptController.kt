@@ -43,11 +43,9 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_LIST
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_VARIABLE
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserDataWrapper
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
@@ -154,14 +152,6 @@ class ScriptController {
                 projectManager.currentProject.multiplayerVariables.contains(userVariable) -> addUserDataToBackpack(groupName, userVariable, MULTIPLAYER_USER_VARIABLE)
             }
         }
-
-        for (userList in getUserLists(sprite, brick)) {
-            createInitialHashmap(groupName, backpackListManager.backpack.backpackedUserLists)
-            when {
-                projectManager.currentProject.userLists.contains(userList) -> addUserDataToBackpack(groupName, userList, GLOBAL_USER_VARIABLE)
-                sprite.userLists.contains(userList) -> addUserDataToBackpack(groupName, userList, LOCAL_USER_VARIABLE)
-            }
-        }
     }
 
     private fun getUserDataNamesForBrick(brick: Brick, type: ElementType): List<String> {
@@ -169,7 +159,6 @@ class ScriptController {
 
         when {
             brick is UserVariableBrickInterface && type == USER_VARIABLE -> userDataNameList.add(brick.userVariable.name)
-            brick is UserListBrick && type == USER_LIST -> userDataNameList.add(brick.userList.name)
             brick is FormulaBrick ->
                 for (formula in brick.formulas) {
                     userDataNameList.addAll(formula.formulaTree.getUserDataRecursive(type))
@@ -193,27 +182,11 @@ class ScriptController {
         return userVariableList
     }
 
-    private fun getUserLists(sprite: Sprite, brick: Brick): List<UserList> {
-        val userListList = ArrayList<UserList>()
-
-        if (brick is FormulaBrick && formulaBrickContainsUserData(brick, USER_LIST)) {
-            val userListNameList = getUserDataNamesForBrick(brick, USER_LIST)
-            userListList.addAll(getUserDataFromNames(userListNameList, projectManager.currentProject.userLists))
-            userListList.addAll(getUserDataFromNames(userListNameList, sprite.userLists))
-        } else if (brick is UserListBrick) {
-            userListList.add(brick.userList)
-        }
-
-        return userListList
-    }
-
     private fun <T> getUserDataFromNames(nameList: List<String>, userDataList: List<T>): List<T> {
         val userData = ArrayList<T>()
         for (variable in userDataList) {
             for (name in nameList) {
                 if (variable is UserVariable && variable.name == name) {
-                    userData.add(variable)
-                } else if (variable is UserList && variable.name == name) {
                     userData.add(variable)
                 }
             }
@@ -243,9 +216,6 @@ class ScriptController {
 
         if (userData is UserVariable) {
             map = backpackListManager.backpack.backpackedUserVariables[groupName]
-            name = userData.name
-        } else if (userData is UserList) {
-            map = backpackListManager.backpack.backpackedUserLists[groupName]
             name = userData.name
         }
 
@@ -310,7 +280,6 @@ class ScriptController {
                 return
             }
             unpackUserVariable(projectManager.currentSprite, scriptName, brick)
-            unpackUserList(projectManager.currentSprite, scriptName, brick)
             copyBroadcastMessages(brick)
         }
         destinationSprite.scriptList.add(script)
@@ -329,19 +298,6 @@ class ScriptController {
             }
 
             addUserVariableToBrick(sprite, userVariableName, destinationList, brick)
-        }
-    }
-
-    private fun unpackUserList(sprite: Sprite, scriptName: String, brick: Brick) {
-        for (userListName in getUserDataNamesForBrick(brick, USER_LIST)) {
-            val listType: Int? = backpackListManager.backpack.backpackedUserLists[scriptName]?.get(userListName)
-            val destinationList: MutableList<UserList> = if (listType == GLOBAL_USER_VARIABLE) {
-                projectManager.currentProject.userLists
-            } else {
-                sprite.userLists
-            }
-
-            addUserListToBrick(sprite, userListName, destinationList, brick)
         }
     }
 
@@ -368,31 +324,6 @@ class ScriptController {
             }
 
             updateFormula(brick, name, newNameForVariable, USER_VARIABLE)
-        }
-    }
-
-    private fun addUserListToBrick(sprite: Sprite, name: String, destinationList: MutableList<UserList>, brick: Brick) {
-        if (renamedUserLists.containsKey(name)) {
-            if (brick is UserListBrick) {
-                brick.userList = destinationList.find { userList ->
-                    userList.name == renamedUserLists[name]
-                }
-            }
-            updateFormula(brick, name, renamedUserLists[name], USER_LIST)
-        } else if (!destinationList.any { list -> list.name == name }) {
-            val newNameForList = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
-
-            if (newNameForList != name) {
-                renamedUserLists[name] = newNameForList
-            }
-
-            val newUserList = UserList(newNameForList)
-            destinationList.add(newUserList)
-            if (brick is UserListBrick) {
-                brick.userList = newUserList
-            }
-
-            updateFormula(brick, name, newNameForList, USER_LIST)
         }
     }
 
@@ -504,7 +435,6 @@ class ScriptController {
                     updateUserData(brick, destinationProject, destinationSprite)
             }
             unpackUserVariable(destinationSprite, spriteName, brick)
-            unpackUserList(destinationSprite, spriteName, brick)
         }
         destinationSprite.scriptList.add(script)
         renamedUserVariables.clear()

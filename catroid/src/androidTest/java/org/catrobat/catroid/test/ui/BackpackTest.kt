@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
@@ -112,7 +111,7 @@ class BackpackTest {
         )
         assertEquals(1, projectManager.currentSprite.userLists.size)
         assertEquals(listName, projectManager.currentSprite.userLists[0].name)
-        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userList)
+        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userVariable)
         assertEquals(1, projectManager.currentSprite.scriptList.size)
         backpackManager.removeItemFromScriptBackPack(scriptGroupName)
     }
@@ -149,7 +148,7 @@ class BackpackTest {
         )
         assertEquals(1, projectManager.currentSprite.userLists.size)
         assertEquals(listName, projectManager.currentSprite.userLists[0].name)
-        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userList)
+        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userVariable)
         assertEquals(2, projectManager.currentSprite.scriptList.size)
         backpackManager.removeItemFromScriptBackPack(scriptGroupName)
     }
@@ -190,7 +189,7 @@ class BackpackTest {
         assertEquals(1, projectManager.currentSprite.userLists.size)
         assertEquals("$listName (1)", projectManager.currentSprite.userLists[0].name)
         assertEquals(1, projectManager.currentProject.userLists.size)
-        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userList)
+        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userVariable)
         assertEquals(2, projectManager.currentSprite.scriptList.size)
         backpackManager.removeItemFromScriptBackPack(scriptGroupName)
     }
@@ -233,7 +232,7 @@ class BackpackTest {
         assertEquals(1, projectManager.currentProject.userLists.size)
         assertEquals(
             projectManager.currentProject.userLists[0],
-            unpackedAddItemToListBrick.userList
+            unpackedAddItemToListBrick.userVariable
         )
         assertEquals(2, projectManager.currentSprite.scriptList.size)
         backpackManager.removeItemFromScriptBackPack(scriptGroupName)
@@ -276,7 +275,7 @@ class BackpackTest {
         )
         assertEquals(1, projectManager.currentSprite.userLists.size)
         assertEquals(listName, projectManager.currentSprite.userLists[0].name)
-        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userList)
+        assertEquals(projectManager.currentSprite.userLists[0], unpackedAddItemToListBrick.userVariable)
         assertEquals(2, projectManager.currentlyEditedScene.spriteList.size)
     }
 
@@ -297,14 +296,14 @@ class BackpackTest {
         script: Script,
         isPublic: Boolean = false
     ) {
-        val userList = UserList(name)
+        val userList = UserVariable(name, true)
         if (isPublic) {
-            projectManager.currentProject.addUserList(userList)
+            projectManager.currentProject.addUserVariable(userList)
         } else {
-            projectManager.currentSprite.addUserList(userList)
+            projectManager.currentSprite.addUserVariable(userList)
         }
         val addItemToUserListBrick = AddItemToUserListBrick(3.3)
-        addItemToUserListBrick.userList = userList
+        addItemToUserListBrick.userVariable = userList
         script.addBrick(addItemToUserListBrick)
     }
 
