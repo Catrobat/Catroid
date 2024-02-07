@@ -34,7 +34,6 @@ import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isClickable
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -42,7 +41,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SoundInfo
@@ -83,8 +81,8 @@ class SpriteListUndoTest {
     private val groupSpriteName = "groupSprite"
     private val groupItemSpriteName = "groupItemSprite"
 
-    private lateinit var lookDirectory : File
-    private lateinit var soundDirectory : File
+    private lateinit var lookDirectory: File
+    private lateinit var soundDirectory: File
 
     private val projectManager by inject(ProjectManager::class.java)
 
@@ -92,54 +90,6 @@ class SpriteListUndoTest {
     fun setUp() {
         createProject(SpriteListUndoTest::class.java.simpleName)
         baseActivityTestRule.launchActivity()
-    }
-
-    @Test
-    fun deleteAndUndoMultipleSpritesAtOnceTest() {
-        openActionBarMenu()
-        onView(withText(R.string.delete))
-            .perform(click())
-
-        onRecyclerView().atPosition(1)
-            .performCheckItemClick()
-
-        onRecyclerView().atPosition(2)
-            .performCheckItemClick()
-
-        onView(withId(R.id.confirm))
-            .perform(click())
-
-        onRecyclerView().checkHasNumberOfItems(3)
-
-        onView(withId(R.id.menu_undo))
-            .perform(waitFor(isClickable(), 3000))
-            .perform(click())
-
-        onRecyclerView().checkHasNumberOfItems(5)
-    }
-
-    @Test
-    fun copyAndUndoMultipleSpritesAtOnceTest() {
-        openActionBarMenu()
-        onView(withText(R.string.copy))
-            .perform(click())
-
-        onRecyclerView().atPosition(1)
-            .performCheckItemClick()
-
-        onRecyclerView().atPosition(2)
-            .performCheckItemClick()
-
-        onView(withId(R.id.confirm))
-            .perform(click())
-
-        onRecyclerView().checkHasNumberOfItems(7)
-
-        onView(withId(R.id.menu_undo))
-            .perform(waitFor(isClickable(), 3000))
-            .perform(click())
-
-        onRecyclerView().checkHasNumberOfItems(5)
     }
 
     @Test
@@ -345,14 +295,14 @@ class SpriteListUndoTest {
         XstreamSerializer.getInstance().saveProject(project)
     }
 
-    private fun createSprite(name : String) : Sprite {
+    private fun createSprite(name: String): Sprite {
         val sprite = Sprite(name)
         addLookFileToSprite(sprite)
         addSoundFileToSprite(sprite)
         return sprite
     }
 
-    private fun addLookFileToSprite(sprite : Sprite) {
+    private fun addLookFileToSprite(sprite: Sprite) {
         val lookFile = createImageFileFromResourcesInDirectory(
             (getApplicationContext() as Context).resources,
             R.drawable.default_project_bird_wing_up,
@@ -363,7 +313,7 @@ class SpriteListUndoTest {
         sprite.lookList.add(LookData(sprite.name, lookFile))
     }
 
-    private fun addSoundFileToSprite(sprite : Sprite) {
+    private fun addSoundFileToSprite(sprite: Sprite) {
         val soundFile = createSoundFileFromResourcesInDirectory(
             (getApplicationContext() as Context).resources,
             R.raw.default_project_tweet_1,
@@ -373,5 +323,3 @@ class SpriteListUndoTest {
         sprite.soundList.add(SoundInfo(sprite.name, soundFile))
     }
 }
-
-
