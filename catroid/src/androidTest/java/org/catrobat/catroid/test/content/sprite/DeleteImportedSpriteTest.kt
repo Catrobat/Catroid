@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,7 +106,7 @@ class DeleteImportedSpriteTest {
         importSprite()
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(ViewMatchers.withId(R.id.confirm)).perform(ViewActions.click())
-        SpriteController().delete(localProject.defaultScene.getSprite("Animal"))
+        SpriteController().delete(localProject.defaultScene.getSprite("Animal"), false)
         project.defaultScene.spriteList[1].lookList.forEach {
             assertTrue(it.file.exists())
         }
@@ -120,7 +120,7 @@ class DeleteImportedSpriteTest {
     fun testOriginalLooksAndSoundsExistAfterDeleteImport() {
         importSprite()
         Espresso.onView(ViewMatchers.withId(R.id.confirm)).perform(ViewActions.click())
-        SpriteController().delete(project.defaultScene.getSprite("Animal"))
+        SpriteController().delete(project.defaultScene.getSprite("Animal"), false)
         localProject.defaultScene.spriteList[1].lookList.forEach {
             assertTrue(it.file.exists())
         }

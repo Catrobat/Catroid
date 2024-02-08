@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -170,7 +170,7 @@ public class SpriteControllerTest {
 		File deletedLookFile = sprite.getLookList().get(0).getFile();
 		File deletedSoundFile = sprite.getSoundList().get(0).getFile();
 
-		controller.delete(sprite);
+		controller.delete(sprite, false);
 
 		assertEquals(2, scene.getSpriteList().size());
 
@@ -201,7 +201,7 @@ public class SpriteControllerTest {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
 
-		controller.delete(packedSprite);
+		controller.delete(packedSprite, false);
 
 		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(),
@@ -249,7 +249,7 @@ public class SpriteControllerTest {
 		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
 
-		controller.delete(sprite);
+		controller.delete(sprite, false);
 
 		assertEquals(sprite.getLookList().size(), copy.getLookList().size());
 		assertEquals(sprite.getSoundList().size(), copy.getSoundList().size());
