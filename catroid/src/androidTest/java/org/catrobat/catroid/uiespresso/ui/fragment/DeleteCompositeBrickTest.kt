@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -71,7 +71,6 @@ class DeleteCompositeBrickTest {
     )
 
     @Before
-    @Throws(Exception::class)
     fun setUp() {
         val script = UiTestUtils.createProjectAndGetStartScript(
             FormulaEditorMultiplayerVariablesTest::class.java.simpleName
@@ -87,20 +86,16 @@ class DeleteCompositeBrickTest {
 
         getCheckbox(firstIndexIfComposite)?.perform(click())
 
-        getCheckbox(firstIndexIfComposite + 1)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexIfComposite + 1)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(elseIndexIfComposite)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(elseIndexIfComposite)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
 
-        getCheckbox(elseIndexIfComposite + 1)
-            ?.check(matches(isEnabled()))
+        getCheckbox(elseIndexIfComposite + 1)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(lastIndexIfComposite)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(lastIndexIfComposite)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
     }
 
@@ -111,34 +106,27 @@ class DeleteCompositeBrickTest {
 
         getCheckbox(firstIndexForeverBrick)?.perform(click())
 
-        getCheckbox(firstIndexForeverBrick + 1)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexForeverBrick + 1)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(firstIndexForeverBrick + 2)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexForeverBrick + 2)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(firstIndexForeverBrick + 3)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(firstIndexForeverBrick + 3)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
 
-        getCheckbox(lastIndexForeverBrick)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(lastIndexForeverBrick)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
 
         getCheckbox(firstIndexForeverBrick + 1)?.perform(click())
 
-        getCheckbox(firstIndexForeverBrick + 1)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexForeverBrick + 1)?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox(firstIndexForeverBrick + 2)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexForeverBrick + 2)?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
 
-        getCheckbox(firstIndexForeverBrick + 3)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexForeverBrick + 3)?.check(matches(isEnabled()))
             ?.check(matches(not(isChecked())))
     }
 
@@ -198,24 +186,18 @@ class DeleteCompositeBrickTest {
 
         onView(withText(R.string.brick_context_dialog_delete_brick)).perform(click())
 
-        getCheckbox(firstIndexIfComposite)
-            ?.check(matches(isEnabled()))
+        getCheckbox(firstIndexIfComposite)?.check(matches(isEnabled()))?.check(matches(isChecked()))
+
+        getCheckbox(firstIndexIfComposite + 1)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(firstIndexIfComposite + 1)
-            ?.check(matches(isEnabled()))
+        getCheckbox(elseIndexIfComposite)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
 
-        getCheckbox(elseIndexIfComposite)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(elseIndexIfComposite + 1)?.check(matches(isEnabled()))
             ?.check(matches(isChecked()))
 
-        getCheckbox(elseIndexIfComposite + 1)
-            ?.check(matches(isEnabled()))
-            ?.check(matches(isChecked()))
-
-        getCheckbox(lastIndexIfComposite)
-            ?.check(matches(not(isEnabled())))
+        getCheckbox(lastIndexIfComposite)?.check(matches(not(isEnabled())))
             ?.check(matches(isChecked()))
     }
 
@@ -237,11 +219,9 @@ class DeleteCompositeBrickTest {
     }
 
     private fun getCheckbox(brickIndex: Int): DataInteraction? {
-        return onBrickAtPosition(brickIndex)
-            .onChildView(
+        return onBrickAtPosition(brickIndex).onChildView(
                 Matchers.allOf(
-                    withId(R.id.brick_checkbox),
-                    isDisplayed()
+                    withId(R.id.brick_checkbox), isDisplayed()
                 )
             )
     }

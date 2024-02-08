@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,11 +48,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectio
 import java.util.ArrayList
 import java.util.Collections
 
-class BrickAdapter(private val sprite: Sprite) :
-    BaseAdapter(),
-    BrickAdapterInterface,
-    AdapterView.OnItemClickListener,
-    OnItemLongClickListener {
+class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInterface,
+    AdapterView.OnItemClickListener, OnItemLongClickListener {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY, ALL_DELETE)
     internal annotation class CheckBoxMode
@@ -201,10 +198,7 @@ class BrickAdapter(private val sprite: Sprite) :
     }
 
     override fun onItemLongClick(
-        parent: AdapterView<*>?,
-        view: View,
-        position: Int,
-        id: Long
+        parent: AdapterView<*>?, view: View, position: Int, id: Long
     ): Boolean {
         if (checkBoxMode == NONE) {
             val item = items[position]
@@ -238,11 +232,13 @@ class BrickAdapter(private val sprite: Sprite) :
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (checkBoxMode == ALL_DELETE) {
-                if (!isChildBrickOfSelectedCompositeBrick(adapterPosition) && i > 0) {
-                    viewStateManager.setEnabled(!selected, adapterPosition)
-                }
-            } else if (i > 0) {
+            if (i <= 0) {
+                continue
+            }
+            if (checkBoxMode != ALL_DELETE) {
+                viewStateManager.setEnabled(!selected, adapterPosition)
+            }
+            if (!isChildBrickOfSelectedCompositeBrick(adapterPosition)) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
@@ -250,11 +246,7 @@ class BrickAdapter(private val sprite: Sprite) :
         if (checkBoxMode == CONNECTED_ONLY) {
             val firstFlatListPosition = items.indexOf(flatItems[0])
             updateConnectedItems(
-                position,
-                firstFlatListPosition,
-                adapterPosition,
-                selected,
-                scriptSelected
+                position, firstFlatListPosition, adapterPosition, selected, scriptSelected
             )
         }
     }
@@ -287,49 +279,43 @@ class BrickAdapter(private val sprite: Sprite) :
         for (item in items) {
             val brickPosition = items.indexOf(item)
             viewStateManager.setEnabled(
-                selectableForCopy(brickPosition, scriptSelected),
-                brickPosition
+                selectableForCopy(brickPosition, scriptSelected), brickPosition
             )
         }
     }
 
     private fun isChildBrickOfSelectedCompositeBrick(brickPosition: Int): Boolean {
         val childBrick = items[brickPosition]
-        if (childBrick.parent is CompositeBrick) {
-            if (selectedItems.contains(childBrick.parent)) {
-                if ((childBrick.parent as CompositeBrick).nestedBricks.contains(childBrick)) {
-                    return true
-                }
-                if ((childBrick.parent as CompositeBrick).hasSecondaryList() && (childBrick
-                        .parent as CompositeBrick).secondaryNestedBricks.contains(childBrick)) {
-                    return true
-                }
-            }
-        } else if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is
+        if (!selectedItems.contains(childBrick.parent)) {
+            return false
+        }
+        if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is
                 PhiroIfLogicBeginBrick.ElseBrick) {
-            if (selectedItems.contains(childBrick.parent)) {
-                return true
-            }
+            return true
+        }
+        if (childBrick.parent !is CompositeBrick) {
+            return false
+        }
+        if ((childBrick.parent as CompositeBrick).nestedBricks?.contains(childBrick) == true) {
+            return true
+        }
+        if ((childBrick.parent as CompositeBrick).secondaryNestedBricks?.contains(childBrick) == true) {
+            return true
         }
         return false
     }
 
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) ||
-            noConnectedItemsSelected() ||
-            isItemWithinConnectedRange(
-            brickPosition,
-            scriptSelected
+        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) || noConnectedItemsSelected() || isItemWithinConnectedRange(
+            brickPosition, scriptSelected
         ) && !isItemOfNewScript(brickPosition, scriptSelected)
 
     private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 ||
-            brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
+        return brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 || brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
     }
 
     private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick ||
-            scriptSelected && brickPosition <= firstConnectedItem
+        return lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick || scriptSelected && brickPosition <= firstConnectedItem
     }
 
     private fun noConnectedItemsSelected(): Boolean =
