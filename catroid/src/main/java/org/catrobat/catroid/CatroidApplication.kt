@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Application
 import android.content.Context
@@ -38,6 +39,7 @@ import com.huawei.hms.mlsdk.common.MLApplication
 import org.catrobat.catroid.koin.myModules
 import org.catrobat.catroid.koin.start
 import org.catrobat.catroid.utils.Utils
+import java.lang.IllegalStateException
 import java.util.Locale
 
 open class CatroidApplication : Application() {
@@ -57,7 +59,7 @@ open class CatroidApplication : Application() {
             )
         }
 
-        appContext = applicationContext
+        context = applicationContext
         start(this, myModules)
 
         Utils.fetchSpeechRecognitionSupportedLanguages(this)
@@ -77,7 +79,6 @@ open class CatroidApplication : Application() {
         MLApplication.getInstance().apiKey = apiKey
     }
 
-
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -95,7 +96,7 @@ open class CatroidApplication : Application() {
 
     companion object {
         private val TAG = CatroidApplication::class.java.simpleName
-        private lateinit var appContext: Context
+        private lateinit var context: Context
         @JvmField
         var defaultSystemLanguage: String? = null
         private lateinit var googleAnalytics: GoogleAnalytics
@@ -103,7 +104,10 @@ open class CatroidApplication : Application() {
 
         @JvmStatic
         fun getAppContext(): Context {
-            return appContext
+            if (!this::context.isInitialized) {
+                throw IllegalStateException("Acception has not been initialized yet.")
+            }
+            return context
         }
     }
 }
