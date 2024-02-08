@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Application
 import android.content.Context
