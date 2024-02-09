@@ -120,7 +120,7 @@ public class ScriptFragment extends ListFragment implements
 	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS, COLLAPSE})
 	@interface ActionModeType {
 	}
 
@@ -130,6 +130,7 @@ public class ScriptFragment extends ListFragment implements
 	private static final int DELETE = 3;
 	private static final int COMMENT = 4;
 	private static final int CATBLOCKS = 5;
+	private static final int COLLAPSE = 6;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -210,6 +211,11 @@ public class ScriptFragment extends ListFragment implements
 				adapter.setCheckBoxMode(BrickAdapter.ALL);
 				mode.setTitle(getString(R.string.comment_in_out));
 				break;
+			case COLLAPSE:
+				adapter.selectAllCollapsedBricks();
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				mode.setTitle(getString(R.string.collapse_expand));
+				break;
 			case NONE:
 				adapter.setCheckBoxMode(NONE);
 				actionMode.finish();
@@ -261,6 +267,9 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case COMMENT:
 				toggleComments(adapter.getSelectedItems());
+				break;
+			case COLLAPSE:
+				collapseBricks(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
@@ -479,6 +488,9 @@ public class ScriptFragment extends ListFragment implements
 			case R.id.find:
 				scriptFinder.open();
 				break;
+			case R.id.collapse_expand:
+				prepareActionMode(COLLAPSE);
+				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -584,6 +596,9 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case COMMENT:
 				actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
+				break;
+			case COLLAPSE:
+				actionMode.setTitle(getString(R.string.collapse_expand) + " " + selectedItemCnt);
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
@@ -930,6 +945,13 @@ public class ScriptFragment extends ListFragment implements
 	private void toggleComments(List<Brick> selectedBricks) {
 		for (Brick brick : adapter.getItems()) {
 			brick.setCommentedOut(selectedBricks.contains(brick));
+		}
+		finishActionMode();
+	}
+
+	private void collapseBricks(List<Brick> selectedBricks) {
+		for (Brick brick : adapter.getItems()) {
+			brick.setCollapsed(selectedBricks.contains(brick));
 		}
 		finishActionMode();
 	}
