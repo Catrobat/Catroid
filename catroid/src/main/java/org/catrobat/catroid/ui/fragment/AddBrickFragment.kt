@@ -88,6 +88,7 @@ class AddBrickFragment : ListFragment() {
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater)
         menu.findItem(R.id.comment_in_out).isVisible = false
+        menu.findItem(R.id.collapse_expand).isVisible = false
     }
 
     override fun onDestroy() {

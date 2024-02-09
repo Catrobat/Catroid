@@ -240,6 +240,7 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
+			menu.findItem(R.id.collapse_expand).setVisible(true);
 			showUndo(isUndoMenuItemVisible);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
 			showUndo(isUndoMenuItemVisible);

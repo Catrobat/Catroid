@@ -25,20 +25,32 @@ package org.catrobat.catroid.ui.recyclerview.adapter
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import androidx.annotation.IntDef
+import androidx.appcompat.widget.AppCompatImageView
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BrickBaseType
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.ui.BrickLayout
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
@@ -120,28 +132,44 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val item = items[position]
-        val itemView = item.getView(parent.context)
+        val itemView = if (item.isCollapsed && checkBoxMode == NONE) {
+            getCollapsedItemView(item, parent)
+        } else {
+            item.getView(parent.context)
+        }
 
         itemView.visibility =
             if (viewStateManager.isVisible(position)) View.VISIBLE else View.INVISIBLE
         itemView.alpha = if (viewStateManager.isEnabled(position)) 1F else DISABLED_BRICK_ALPHA
 
-        var brickViewContainer = (itemView as ViewGroup).getChildAt(1)
-        if (item is UserDefinedReceiverBrick) {
-            brickViewContainer = (itemView.getChildAt(1) as ViewGroup).getChildAt(0)
-        }
-
-        val background = brickViewContainer.background
+        val background = getBackground(item, itemView)
         if (item.isCommentedOut || item is EmptyEventBrick) {
             colorAsCommentedOut(background)
         } else {
             background.clearColorFilter()
         }
 
-        checkBoxClickListener(item, itemView, position)
+        checkBoxClickListener(item, (itemView as ViewGroup), position)
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
         return itemView
+    }
+
+    private fun getBackground(item: Brick, itemView: View): Drawable {
+        if (item.isCollapsed) {
+            return (itemView as ViewGroup).getChildAt(0).background
+        }
+        if (item is UserDefinedReceiverBrick) {
+            return ((itemView as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(0).background
+        }
+        return (itemView as ViewGroup).getChildAt(1).background
+    }
+
+    private fun getCollapsedItemView(item: Brick, parent: ViewGroup): View {
+//        if (item is ChangeXByNBrick || item is ChangeYByNBrick || item is GlideToBrick) {
+//            return LayoutInflater.from(parent.context).inflate(R.layout.collapsed_motion_brick, null)
+//        }
+        return LayoutInflater.from(parent.context).inflate(R.layout.collapsed_motion_brick, null)
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
@@ -330,6 +358,13 @@ class BrickAdapter(private val sprite: Sprite) :
     fun selectAllCommentedOutBricks() {
         for (i in items.indices) {
             setSelectionTo(items[i].isCommentedOut, i)
+        }
+        notifyDataSetChanged()
+    }
+
+    fun selectAllCollapsedBricks() {
+        for (i in items.indices) {
+            setSelectionTo(items[i].isCollapsed, i)
         }
         notifyDataSetChanged()
     }
