@@ -58,7 +58,7 @@ open class CatroidApplication : Application() {
             )
         }
 
-        context = applicationContext
+        appContext = applicationContext
         start(this, myModules)
 
         Utils.fetchSpeechRecognitionSupportedLanguages(this)
@@ -95,7 +95,7 @@ open class CatroidApplication : Application() {
 
     companion object {
         private val TAG = CatroidApplication::class.java.simpleName
-        private lateinit var context: Context
+        private lateinit var appContext: Context
         @JvmField
         var defaultSystemLanguage: String? = null
         private lateinit var googleAnalytics: GoogleAnalytics
@@ -103,10 +103,10 @@ open class CatroidApplication : Application() {
 
         @JvmStatic
         fun getAppContext(): Context {
-            if (!this::context.isInitialized) {
-                throw IllegalStateException("Acception has not been initialized yet.")
+            if (!this::appContext.isInitialized) {
+                throw IllegalStateException("Application has not been initialized yet.")
             }
-            return context
+            return appContext
         }
     }
 }
