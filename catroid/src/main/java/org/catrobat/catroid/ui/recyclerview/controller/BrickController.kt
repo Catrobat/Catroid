@@ -33,7 +33,10 @@ import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 
 class BrickController {
-    private val TAG = BrickController::class.java.simpleName
+    companion object {
+        @JvmField
+        val TAG = BrickController::class.java.simpleName
+    }
 
     fun copy(bricksToCopy: List<Brick>, parent: Sprite) {
         for (brick in bricksToCopy) {
@@ -47,21 +50,23 @@ class BrickController {
                 continue
             }
             if (!bricksToCopy.contains(brick.parent)) {
-                try {
-                    val copyBrick = brick.clone()
-                    if (copyBrick is CompositeBrick) {
-                        removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
-                    }
-                    script.addBrick(copyBrick)
+                val copyBrick = try {
+                    brick.clone()
                 } catch (e: CloneNotSupportedException) {
                     Log.e(TAG, Log.getStackTraceString(e))
+                    continue
                 }
+                if (copyBrick is CompositeBrick) {
+                    removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
+                }
+                script.addBrick(copyBrick)
             }
         }
     }
 
     private fun removeUnselectedBricksInCompositeBricks(
-        copyBrick: CompositeBrick, referenceBrick: CompositeBrick
+        copyBrick: CompositeBrick,
+        referenceBrick: CompositeBrick
     ) {
         var copyCounter = 0
         for (i in referenceBrick.nestedBricks.indices) {
@@ -140,7 +145,8 @@ class BrickController {
     }
 
     private fun addUnselectedBricksToNextUnselectedParentBrick(
-        unselectedBricks: List<Brick>, lastSelectedBrick: Brick
+        unselectedBricks: List<Brick>,
+        lastSelectedBrick: Brick
     ) {
         when (val parentBrick = lastSelectedBrick.parent) {
             is ScriptBrick -> {
@@ -173,7 +179,6 @@ class BrickController {
                     pos, unselectedBricks
                 )
             }
-
         }
     }
 }
