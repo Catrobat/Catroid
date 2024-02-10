@@ -198,7 +198,10 @@ class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInte
     }
 
     override fun onItemLongClick(
-        parent: AdapterView<*>?, view: View, position: Int, id: Long
+        parent: AdapterView<*>?,
+        view: View,
+        position: Int,
+        id: Long
     ): Boolean {
         if (checkBoxMode == NONE) {
             val item = items[position]
@@ -289,8 +292,7 @@ class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInte
         if (!selectedItems.contains(childBrick.parent)) {
             return false
         }
-        if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is
-                PhiroIfLogicBeginBrick.ElseBrick) {
+        if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is PhiroIfLogicBeginBrick.ElseBrick) {
             return true
         }
         if (childBrick.parent !is CompositeBrick) {
@@ -310,13 +312,11 @@ class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInte
             brickPosition, scriptSelected
         ) && !isItemOfNewScript(brickPosition, scriptSelected)
 
-    private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 || brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
-    }
+    private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean =
+        brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 || brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
 
-    private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick || scriptSelected && brickPosition <= firstConnectedItem
-    }
+    private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean =
+        lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick || scriptSelected && brickPosition <= firstConnectedItem
 
     private fun noConnectedItemsSelected(): Boolean =
         firstConnectedItem == -1 && lastConnectedItem == -1
