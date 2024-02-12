@@ -447,11 +447,11 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>(), ProjectLoadListener 
         refreshFragmentAfterUndo()
     }
 
-    fun showUndo() {
+    private fun showUndo() {
         toggleUndo(true)
     }
 
-    fun hideUndo() {
+    private fun hideUndo() {
         toggleUndo(false)
     }
 

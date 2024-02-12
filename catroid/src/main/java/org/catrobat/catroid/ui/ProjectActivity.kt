@@ -475,7 +475,6 @@ class ProjectActivity : BaseCastActivity() {
         optionsMenu.findItem(R.id.menu_undo).isVisible = visible
         if (visible) {
             projectManager.changedProject(projectManager.currentProject.name)
-            projectManager.changedProject(projectManager.currentProject.name)
         }
     }
 }
