@@ -47,9 +47,8 @@ class BrickController {
                 } catch (e: CloneNotSupportedException) {
                     Log.e(TAG, Log.getStackTraceString(e))
                 }
-                continue
             }
-            if (!bricksToCopy.contains(brick.parent)) {
+            else if (!bricksToCopy.contains(brick.parent)) {
                 val copyBrick = try {
                     brick.clone()
                 } catch (e: CloneNotSupportedException) {
