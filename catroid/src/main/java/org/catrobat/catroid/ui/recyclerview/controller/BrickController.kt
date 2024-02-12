@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.controller
 
 import android.util.Log
-import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CompositeBrick
@@ -43,37 +42,25 @@ class BrickController {
         for (brick in bricksToCopy) {
             val script = brick.script
             if (brick is ScriptBrick) {
-                val copyScript = copyScript(script)
-                copyScript.let {
-                    parent.addScript(copyScript)
-                }
-            } else if (!bricksToCopy.contains(brick.parent)) {
-                val copyBrick = copyBrick(brick)
-                copyBrick.let {
-                    script.addBrick(copyBrick)
+                try {
+                    parent.addScript(script.clone())
+                } catch (e: CloneNotSupportedException) {
+                    Log.e(TAG, Log.getStackTraceString(e))
                 }
             }
+            else if (!bricksToCopy.contains(brick.parent)) {
+                val copyBrick = try {
+                    brick.clone()
+                } catch (e: CloneNotSupportedException) {
+                    Log.e(TAG, Log.getStackTraceString(e))
+                    continue
+                }
+                if (copyBrick is CompositeBrick) {
+                    removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
+                }
+                script.addBrick(copyBrick)
+            }
         }
-    }
-
-    private fun copyScript(script: Script): Script? = try {
-        script.clone()
-    } catch (e: CloneNotSupportedException) {
-        Log.e(TAG, Log.getStackTraceString(e))
-        null
-    }
-
-    private fun copyBrick(brick: Brick): Brick? {
-        val copyBrick = try {
-            brick.clone()
-        } catch (e: CloneNotSupportedException) {
-            Log.e(TAG, Log.getStackTraceString(e))
-            null
-        }
-        if (copyBrick is CompositeBrick) {
-            removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
-        }
-        return copyBrick
     }
 
     private fun removeUnselectedBricksInCompositeBricks(
