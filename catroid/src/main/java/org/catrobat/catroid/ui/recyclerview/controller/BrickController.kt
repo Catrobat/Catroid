@@ -77,7 +77,8 @@ class BrickController {
     }
 
     private fun removeUnselectedBricksInCompositeBricks(
-        copyBrick: CompositeBrick, referenceBrick: CompositeBrick
+        copyBrick: CompositeBrick,
+        referenceBrick: CompositeBrick
     ) {
         var copyCounter = 0
         for (i in referenceBrick.nestedBricks.indices) {
@@ -156,7 +157,8 @@ class BrickController {
     }
 
     private fun addUnselectedBricksToNextUnselectedParentBrick(
-        unselectedBricks: List<Brick>, lastSelectedBrick: Brick
+        unselectedBricks: List<Brick>,
+        lastSelectedBrick: Brick
     ) {
         when (val parentBrick = lastSelectedBrick.parent) {
             is ScriptBrick -> {
