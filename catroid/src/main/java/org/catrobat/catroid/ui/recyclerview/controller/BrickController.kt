@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.controller
 
 import android.util.Log
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CompositeBrick
@@ -42,30 +43,41 @@ class BrickController {
         for (brick in bricksToCopy) {
             val script = brick.script
             if (brick is ScriptBrick) {
-                try {
-                    parent.addScript(script.clone())
-                } catch (e: CloneNotSupportedException) {
-                    Log.e(TAG, Log.getStackTraceString(e))
+                val copyScript = copyScript(script)
+                copyScript.let {
+                    parent.addScript(copyScript)
                 }
-            }
-            else if (!bricksToCopy.contains(brick.parent)) {
-                val copyBrick = try {
-                    brick.clone()
-                } catch (e: CloneNotSupportedException) {
-                    Log.e(TAG, Log.getStackTraceString(e))
-                    continue
+            } else if (!bricksToCopy.contains(brick.parent)) {
+                val copyBrick = copyBrick(brick)
+                copyBrick.let {
+                    script.addBrick(copyBrick)
                 }
-                if (copyBrick is CompositeBrick) {
-                    removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
-                }
-                script.addBrick(copyBrick)
             }
         }
     }
 
+    private fun copyScript(script: Script): Script? = try {
+        script.clone()
+    } catch (e: CloneNotSupportedException) {
+        Log.e(TAG, Log.getStackTraceString(e))
+        null
+    }
+
+    private fun copyBrick(brick: Brick): Brick? {
+        val copyBrick = try {
+            brick.clone()
+        } catch (e: CloneNotSupportedException) {
+            Log.e(TAG, Log.getStackTraceString(e))
+            null
+        }
+        if (copyBrick is CompositeBrick) {
+            removeUnselectedBricksInCompositeBricks(copyBrick, brick as CompositeBrick)
+        }
+        return copyBrick
+    }
+
     private fun removeUnselectedBricksInCompositeBricks(
-        copyBrick: CompositeBrick,
-        referenceBrick: CompositeBrick
+        copyBrick: CompositeBrick, referenceBrick: CompositeBrick
     ) {
         var copyCounter = 0
         for (i in referenceBrick.nestedBricks.indices) {
@@ -144,8 +156,7 @@ class BrickController {
     }
 
     private fun addUnselectedBricksToNextUnselectedParentBrick(
-        unselectedBricks: List<Brick>,
-        lastSelectedBrick: Brick
+        unselectedBricks: List<Brick>, lastSelectedBrick: Brick
     ) {
         when (val parentBrick = lastSelectedBrick.parent) {
             is ScriptBrick -> {
