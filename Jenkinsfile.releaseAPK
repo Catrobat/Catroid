@@ -77,7 +77,7 @@ pipeline {
             }
         }
 
-        stage('Upload AKP to Alpha') {
+        stage('Upload APK to Alpha') {
             when {
                 environment name: 'APPROVE_UPLOAD_APK', value: 'yes'
             }
