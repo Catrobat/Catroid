@@ -33,9 +33,12 @@ import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
@@ -129,5 +132,14 @@ public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpi
 		requiredArguments.add("sound");
 		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		soundName = CATLANG_SPINNER_VALUES.inverse().get(arguments.get(SOUND_CATLANG_PARAMETER_NAME));
+		if (soundName == null) {
+			throw new CatrobatLanguageParsingException("Invalid jumping sumo sound: " + arguments.get(SOUND_CATLANG_PARAMETER_NAME));
+		}
 	}
 }

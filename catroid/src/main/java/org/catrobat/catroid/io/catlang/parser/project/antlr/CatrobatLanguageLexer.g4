@@ -14,8 +14,6 @@ CURLY_BRACKET_OPEN: '{';
 CURLY_BRACKET_CLOSE: '}';
 
 mode DEFAULT_MODE;
-//STRING : '\'' (~[\n\r] | STRING_ESCAPE)* '\'';
-//fragment STRING_ESCAPE : '\\' [nrtbf'\\];
 STRING: '\'' ( ~['] | '\\\'')* '\'';
 SEPARATOR: ',';
 COLON: ':';
@@ -23,7 +21,6 @@ VARIABLE_REF: '"' (~[\n\r"] | VAR_ESCAPE)* '"';
 fragment VAR_ESCAPE : '\\' [nrtbf"\\];
 LIST_REF: '*' (~[\n\r*] | LIST_ESCAPE)* '*';
 fragment LIST_ESCAPE : '\\' [nrtbf*\\];
-//VARIABLE_NAME_OR_CONTENT: '\'' ( ~['] | '\\\'' | '\\' . )* '\'';
 
 PROGRAM_START : '#!' (' ')+ 'Catrobat Language Version' (' ')+ NUMBER;
 PROGRAM: 'Program';
@@ -47,7 +44,7 @@ OF_TYPE: 'of type';
 SCENE: 'Scene';
 BACKGROUND: 'Background';
 SCRIPTS: 'Scripts' -> mode(SCRIPTS_MODE);
-USER_DEFINED_SCRIPTS: 'User Defined Bricks' -> mode(USER_DEFINED_SCRIPTS_MODE);
+USER_DEFINED_SCRIPTS: 'User Defined Bricks' -> mode(SCRIPTS_MODE);
 
 mode SCRIPTS_MODE;
 SCRIPTS_WS: [ \t\r\n]+ -> skip;
@@ -55,13 +52,6 @@ SCRIPT_DISABLED_INDICATOR: '//';
 SCRIPTS_START: '{';
 SCRIPT_NAME: LETTER+ (' ' | LETTER+ | NUMBER+ | ',' | '.' | '-' | '/')* -> pushMode(BRICK_MODE);
 SCRIPTS_END: '}' -> mode(DEFAULT_MODE);
-
-mode USER_DEFINED_SCRIPTS_MODE;
-USER_DEFINED_SCRIPTS_WS: [ \t\r\n]+ -> skip;
-USER_DEFINED_SCRIPTS_START: '{';
-UDB_DEFINE: 'Define';
-USER_DEFINED_SCRIPT_UDB_START: '`' -> pushMode(UDB_MODE);
-USER_DEFINED_SCRIPTS_END: '}' -> mode(DEFAULT_MODE);
 
 mode BRICK_LIST_MODE;
 BRICK_LIST_WS: [ \t]+ -> skip;
@@ -98,9 +88,7 @@ mode UDB_AFTER_MODE;
 UDB_AFTER_MODE_WS: [ \t]+ -> skip;
 UDB_MODE_BRACKET_OPEN: '(' -> pushMode(PARAM_MODE);
 UDB_SEMICOLON: ';' -> popMode;
-UDB_DEFINITION_SCREEN_REFRESH: 'with screen refresh as';
-UDB_DEFINITION_NO_SCREEN_REFRESH: 'without screen refresh as';
-UDB_BODY_OPEN: '{' -> mode(BRICK_LIST_MODE);
+UDB_FORMULA_END: ')' -> popMode;
 
 mode PARAM_MODE;
 PARAM_MODE_WS: [ \t]+ -> skip;
@@ -114,10 +102,10 @@ PARAM_SEPARATOR: ',';
 mode FORMULA_MODE;
 FORMULA_MODE_WS: [\t]+ -> skip;
 FORMULA_MODE_BRACKET_CLOSE: ')' -> popMode;
+FORMULA_UDB_START: '`' -> mode(UDB_MODE);
 
-// >ignore everything< except for the brackets
 FORMULA_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
-FORMULA_MODE_ANYTHING: ~('\'' | '"' | '[' | ']' | '(' | ')' | '*')+;
+FORMULA_MODE_ANYTHING: ~('\'' | '"' | '[' | ']' | '(' | ')' | '*' | '`')+;
 FORMULA_MODE_STRING_BEGIN: '\'' -> pushMode(FORMULA_STRING_MODE);
 FORMULA_MODE_VARIABLE_BEGIN: '"' -> pushMode(FORMULA_VARIABLE_MODE);
 FORMULA_MODE_UDB_PARAM_BEGIN: '[' -> pushMode(FORMULA_UDB_PARAM_MODE);

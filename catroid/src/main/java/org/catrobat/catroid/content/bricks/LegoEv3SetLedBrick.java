@@ -33,8 +33,11 @@ import com.google.common.collect.HashBiMap;
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
@@ -139,5 +142,21 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(LED_STATUS_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String ledStatus = arguments.get(LED_STATUS_CATLANG_PARAMETER_NAME);
+		if (ledStatus != null) {
+			LedStatus selectedLedStatus = CATLANG_SPINNER_VALUES.inverse().get(ledStatus);
+			if (selectedLedStatus != null) {
+				this.ledStatus = selectedLedStatus.name();
+				spinnerSelectionIndex = selectedLedStatus.ordinal();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid LED status: " + ledStatus);
+			}
+		}
 	}
 }

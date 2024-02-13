@@ -29,6 +29,8 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
@@ -233,5 +235,10 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         requiredArguments.addAll(super.getRequiredCatlangArgumentNames()!!)
         requiredArguments.addAll(endBrick.getRequiredCatlangArgumentNamesForCallingBrick())
         return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+//        super.setParameters(context, project, scene, sprite, arguments)
+        TODO("implement")
     }
 }

@@ -32,9 +32,12 @@ import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
@@ -42,6 +45,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play Phiro")
@@ -144,5 +148,19 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 		requiredArguments.add(TONE_CATLANG_PARAMETER_NAME);
 		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String tone = arguments.get(TONE_CATLANG_PARAMETER_NAME);
+		if (tone != null) {
+			Tone selectedTone = CATLANG_SPINNER_VALUES.inverse().get(tone);
+			if (selectedTone != null) {
+				this.tone = selectedTone.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid tone argument: " + tone);
+			}
+		}
 	}
 }

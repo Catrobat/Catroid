@@ -41,7 +41,9 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +53,8 @@ import androidx.annotation.VisibleForTesting;
 public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	public static final String BRICK_CATLANG_PARAMETER_NAME = "user defined brick";
+	public static final String SCREEN_REFRESH_CATLANG_PARAMETER_NAME = "screen refresh";
 
 	private UserDefinedScript userDefinedScript;
 	private LinearLayout userBrickSpace;
@@ -173,31 +177,55 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 		}
 	}
 
-	@NonNull
 	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = new StringBuilder(100);
-		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(' ');
-
-		UserDefinedBrick udBrick = (UserDefinedBrick) userDefinedBrick;
-		catrobatLanguage.append(udBrick.serializeToCatrobatLanguage(indentionLevel))
-				.append(' ');
-
-		if (userDefinedScript.getScreenRefresh()) {
-			catrobatLanguage.append("with");
-		} else {
-			catrobatLanguage.append("without");
-		}
-		catrobatLanguage.append(" screen refresh as {\n");
-
-		for (Brick brick : userDefinedScript.getBrickList()) {
-			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-		}
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append("}\n");
-		return catrobatLanguage.toString();
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(BRICK_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(SCREEN_REFRESH_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
 	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(BRICK_CATLANG_PARAMETER_NAME)) {
+			String userDefinedBrickSerialized = "";
+			if (userDefinedBrick instanceof UserDefinedBrick) {
+				userDefinedBrickSerialized = ((UserDefinedBrick) userDefinedBrick).serializeToCatrobatLanguage(0);
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userDefinedBrickSerialized);
+		}
+		if (name.equals(SCREEN_REFRESH_CATLANG_PARAMETER_NAME)) {
+			String screenRefreshSerialized = userDefinedScript.getScreenRefresh() ? "on" : "off";
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, screenRefreshSerialized);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+//	@NonNull
+//	@Override
+//	public String serializeToCatrobatLanguage(int indentionLevel) {
+//		StringBuilder catrobatLanguage = new StringBuilder(100);
+//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+//		catrobatLanguage.append(indention);
+//		catrobatLanguage.append(getCatrobatLanguageCommand())
+//				.append(' ');
+//
+//		UserDefinedBrick udBrick = (UserDefinedBrick) userDefinedBrick;
+//		catrobatLanguage.append(udBrick.serializeToCatrobatLanguage(indentionLevel))
+//				.append(' ');
+//
+//		if (userDefinedScript.getScreenRefresh()) {
+//			catrobatLanguage.append("with");
+//		} else {
+//			catrobatLanguage.append("without");
+//		}
+//		catrobatLanguage.append(" screen refresh as {\n");
+//
+//		for (Brick brick : userDefinedScript.getBrickList()) {
+//			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+//		}
+//		catrobatLanguage.append(indention);
+//		catrobatLanguage.append("}\n");
+//		return catrobatLanguage.toString();
+//	}
 }

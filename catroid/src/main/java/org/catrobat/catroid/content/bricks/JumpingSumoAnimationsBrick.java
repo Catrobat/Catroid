@@ -33,8 +33,11 @@ import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
@@ -128,5 +131,21 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(ANIMATION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String animation = arguments.get(ANIMATION_CATLANG_PARAMETER_NAME);
+		if (animation != null) {
+			Animation selectedAnimation = CATLANG_SPINNER_VALUES.inverse().get(animation);
+			if (selectedAnimation != null) {
+				animationName = selectedAnimation.name();
+				spinnerSelectionIndex = selectedAnimation.ordinal();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid animation argument: " + animation);
+			}
+		}
 	}
 }

@@ -228,7 +228,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		super.setParameters(context, project, scene, sprite, arguments);
 		String message = arguments.get(MESSAGE_CATLANG_PARAMETER_NAME);
 		if (message != null) {
-			setBroadcastMessage(message);
+			setBroadcastMessage(message.substring(1, message.length() - 1));
 		}
 	}
 }

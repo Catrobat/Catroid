@@ -39,5 +39,15 @@ class CatrobatLanguageParserUtils {
             val listMatch = listRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid list name: $name. Expected format: *list name*")
             return listMatch.groupValues[1]
         }
+
+        fun hexToRgb(hex: String): IntArray? {
+            if (!hex.matches(Regex("^#[0-9a-fA-F]{6}$"))) {
+                throw CatrobatLanguageParsingException("Invalid hex code: $hex. Expected format: #RRGGBB")
+            }
+            val red = Integer.parseInt(hex.substring(1, 3), 16)
+            val green = Integer.parseInt(hex.substring(3, 5), 16)
+            val blue = Integer.parseInt(hex.substring(5, 7), 16)
+            return intArrayOf(red, green, blue)
+        }
     }
 }

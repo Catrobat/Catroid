@@ -32,9 +32,12 @@ import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -137,5 +140,20 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 		requiredArguments.add(MOTOR_CATLANG_PARAMETER_NAME);
 		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String motor = arguments.get(MOTOR_CATLANG_PARAMETER_NAME);
+		if (motor != null) {
+			Motor selectedMotor = CATLANG_SPINNER_VALUES.inverse().get(motor);
+			if (selectedMotor != null) {
+				this.motor = selectedMotor.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid motor argument: " + motor);
+			}
+		}
 	}
 }

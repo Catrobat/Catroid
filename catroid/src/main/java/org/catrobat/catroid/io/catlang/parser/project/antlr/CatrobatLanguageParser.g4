@@ -172,22 +172,21 @@ brickInvocation
 
 userDefinedScripts
 	: USER_DEFINED_SCRIPTS
-	  USER_DEFINED_SCRIPTS_START
+	  SCRIPTS_START
 	  userDefinedScript*
-	  USER_DEFINED_SCRIPTS_END
+	  SCRIPTS_END
 	;
 
 userDefinedScript
-	: UDB_DEFINE
-	  userDefinedBrick
-	  (UDB_DEFINITION_SCREEN_REFRESH | UDB_DEFINITION_NO_SCREEN_REFRESH)
-	  UDB_BODY_OPEN
+	: SCRIPT_NAME
+	  brickCondition
+	  BRICK_BODY_OPEN
 	  (BRICKLIST_NEWLINE brickDefintion?)+
 	  BRICK_LIST_END
 	;
 
 userDefinedBrick
-	: (USER_DEFINED_SCRIPT_UDB_START | UDB_START)
+	: (UDB_START | FORMULA_UDB_START)
 	  userDefinedBrickPart+
 	  UDB_END
 	;
@@ -209,8 +208,7 @@ argument
 	: (PARAM_MODE_NAME | PARAM_MODE_UDB_NAME)
 	  PARAM_MODE_COLON
 	  PARAM_MODE_BRACKET_OPEN
-	  formula
-	  FORMULA_MODE_BRACKET_CLOSE
+	  (userDefinedBrick UDB_FORMULA_END | formula FORMULA_MODE_BRACKET_CLOSE)
 	;
 
 formula: formulaElement*;

@@ -29,11 +29,14 @@ import android.widget.Spinner
 import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 
@@ -134,5 +137,16 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add(ACTION_CATLANG_PARAMETER_NAME)
         return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val action = arguments[ACTION_CATLANG_PARAMETER_NAME]
+        val selectedAction = CATLANG_SPINNER_VALUES.inverse()[action]
+        if (selectedAction != null) {
+            spinnerSelectionID = selectedAction
+        } else {
+            throw CatrobatLanguageParsingException("Unknown action: $action")
+        }
     }
 }

@@ -34,8 +34,11 @@ import com.google.common.collect.HashBiMap;
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
@@ -142,6 +145,21 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(FLASH_ANIMATION_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String animation = arguments.get(FLASH_ANIMATION_CATLANG_PARAMETER_NAME);
+		if (animation != null) {
+			Integer selectedAnimation = CATLANG_SPINNER_VALUES.inverse().get(animation);
+			if (selectedAnimation == null) {
+				throw new CatrobatLanguageParsingException("Invalid animation: " + animation);
+			}
+			spinnerSelectionIndex = selectedAnimation;
+			ledAnimationName = context.getResources().getStringArray(
+					R.array.brick_drone_play_led_animation_spinner)[spinnerSelectionIndex];
+		}
 	}
 }
 

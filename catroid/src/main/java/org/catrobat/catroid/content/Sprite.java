@@ -549,8 +549,26 @@ public class Sprite implements Nameable, Serializable {
 		return lookList;
 	}
 
+	public LookData getLookByName(String lookName) {
+		for (LookData lookData : lookList) {
+			if (lookData.getName().equals(lookName)) {
+				return lookData;
+			}
+		}
+		return null;
+	}
+
 	public List<SoundInfo> getSoundList() {
 		return soundList;
+	}
+
+	public SoundInfo getSoundByName(String soundName) {
+		for (SoundInfo soundInfo : soundList) {
+			if (soundInfo.getName().equals(soundName)) {
+				return soundInfo;
+			}
+		}
+		return null;
 	}
 
 	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {

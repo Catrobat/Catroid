@@ -57,6 +57,7 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguagePr
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageStringResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickArgumentResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickInputResult
+import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickKeyValueResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickLabelResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedBrickResult
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUserDefinedScriptResult
@@ -530,6 +531,9 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         val arguments: Map<String, String> = if (ctx.brickCondition() != null) {
             val result = visitBrickCondition(ctx.brickCondition()) as CatrobatLanguageArgumentResult
+            if (result.userDefinedBricks != null && result.userDefinedBricks.isNotEmpty()) {
+                throw CatrobatLanguageParsingException("User defined bricks are not allowed in scripts.")
+            }
             result.arguments
         } else {
             mapOf()
@@ -743,7 +747,7 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
         if (ctx.argumentList() != null) {
             return visitArgumentList(ctx.argumentList());
         }
-        return CatrobatLanguageArgumentResult(mapOf())
+        return CatrobatLanguageArgumentResult(mapOf(), mapOf())
     }
 
     override fun visitArgumentList(ctx: CatrobatLanguageParser.ArgumentListContext?): CatrobatLanguageBaseResult {
@@ -751,22 +755,40 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             throw CatrobatLanguageParsingException("No valid argument list found.")
         }
         val arguments = mutableMapOf<String, String>()
+        val userDefinedBricks = mutableMapOf<String, CatrobatLanguageUserDefinedBrickResult>()
+
         ctx.argument().forEach {
-            val argumentResult = visitArgument(it) as CatrobatLanguageKeyValueResult
-            if (arguments.containsKey(argumentResult.key)) {
-                throw CatrobatLanguageParsingException("Argument ${argumentResult.key} must not occur more than once.")
+            val argumentResult = visitArgument(it)
+            if (argumentResult is CatrobatLanguageKeyValueResult) {
+                if (arguments.containsKey(argumentResult.key) || userDefinedBricks.containsKey((argumentResult.key))) {
+                    throw CatrobatLanguageParsingException("Argument ${argumentResult.key} must not occur more than once.")
+                }
+                arguments[argumentResult.key] = argumentResult.value
+            } else if (argumentResult is CatrobatLanguageUserDefinedBrickKeyValueResult) {
+                if (arguments.containsKey(argumentResult.key) || userDefinedBricks.containsKey((argumentResult.key))) {
+                    throw CatrobatLanguageParsingException("Argument ${argumentResult.key} must not occur more than once.")
+                }
+                userDefinedBricks[argumentResult.key] = argumentResult.userDefinedBrick
+            } else {
+                throw CatrobatLanguageParsingException("No valid argument found.")
             }
-            arguments[argumentResult.key] = argumentResult.value
         }
-        return CatrobatLanguageArgumentResult(arguments)
+        return CatrobatLanguageArgumentResult(arguments, userDefinedBricks)
     }
 
     override fun visitArgument(ctx: CatrobatLanguageParser.ArgumentContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid argument found.")
         }
+        if (ctx.userDefinedBrick() != null) {
+            val argumentName = ctx.PARAM_MODE_NAME().text.trim()
+            val userDefinedBrickResult = visitUserDefinedBrick(ctx.userDefinedBrick()) as CatrobatLanguageUserDefinedBrickResult
+            return CatrobatLanguageUserDefinedBrickKeyValueResult(argumentName, userDefinedBrickResult)
+        }
+        if (ctx.formula() == null) {
+            throw CatrobatLanguageParsingException("No valid formula or user defined brick found in argument.")
+        }
         val formulaString = (visitFormula(ctx.formula()) as CatrobatLanguageStringResult).string
-
         if (ctx.PARAM_MODE_UDB_NAME() != null) {
             val argumentName = ctx.PARAM_MODE_UDB_NAME().text.trim().substring(1, ctx.PARAM_MODE_UDB_NAME().text.trim().length - 1)
             return CatrobatLanguageUserDefinedBrickArgumentResult(argumentName, formulaString)
@@ -872,7 +894,25 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             throw CatrobatLanguageParsingException("No valid user defined script found.")
         }
 
-        val userDefinedBrickResult = visitUserDefinedBrick(ctx.userDefinedBrick()) as CatrobatLanguageUserDefinedBrickResult
+        if (ctx.SCRIPT_NAME().text.trim() != "Define") {
+            throw CatrobatLanguageParsingException("User defined brick definition must be named Define.")
+        }
+
+        if (ctx.brickCondition() == null) {
+            throw CatrobatLanguageParsingException("User defined brick definition must have arguments.")
+        }
+
+        val argumentResult = visitBrickCondition(ctx.brickCondition()) as CatrobatLanguageArgumentResult
+
+        if (!argumentResult.userDefinedBricks.containsKey(UserDefinedReceiverBrick.BRICK_CATLANG_PARAMETER_NAME)) {
+            throw CatrobatLanguageParsingException("User defined brick definition must have a parameter named ${UserDefinedReceiverBrick.BRICK_CATLANG_PARAMETER_NAME}.")
+        }
+        if (!argumentResult.arguments.containsKey(UserDefinedReceiverBrick.SCREEN_REFRESH_CATLANG_PARAMETER_NAME)) {
+            throw CatrobatLanguageParsingException("User defined brick definition must have a parameter named ${UserDefinedReceiverBrick.SCREEN_REFRESH_CATLANG_PARAMETER_NAME}.")
+        }
+
+        val userDefinedBrickResult = argumentResult.userDefinedBricks[UserDefinedReceiverBrick.BRICK_CATLANG_PARAMETER_NAME]!!
+
         if (!userDefinedBricksInitialized) {
             userDefinedBrickResult.userDefinedBrick.setCallingBrick(false)
             return userDefinedBrickResult
@@ -880,6 +920,17 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         val userDefinedBrick = userDefinedBricks[userDefinedBrickResult.userDefinedBrickText]
         val userDefinedReceiverBrick = UserDefinedReceiverBrick(userDefinedBrick)
+
+        val screenRefreshState = argumentResult.arguments[UserDefinedReceiverBrick.SCREEN_REFRESH_CATLANG_PARAMETER_NAME]!!
+        (userDefinedReceiverBrick.script as UserDefinedScript).screenRefresh = if (screenRefreshState.toLowerCase() == "on") {
+            true
+        } else if (screenRefreshState.toLowerCase() == "off") {
+            false
+        } else {
+            throw CatrobatLanguageParsingException("Screen refresh state must be either on or off.")
+        }
+
+
         parentBrickStack.push(userDefinedReceiverBrick)
 
         if (ctx.brickDefintion() != null) {

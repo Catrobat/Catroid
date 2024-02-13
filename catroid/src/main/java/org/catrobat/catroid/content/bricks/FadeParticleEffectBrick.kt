@@ -30,8 +30,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
@@ -126,5 +129,18 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), Update
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add(EFFECT_CATLANG_PARAMETER_NAME)
         return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val effect = arguments[EFFECT_CATLANG_PARAMETER_NAME]
+        if (effect != null) {
+            val selectedValue = spinnerValuesCatrobatLanguageMap.inverse()[effect]
+            if (selectedValue != null) {
+                fadeSpinnerSelectionId = selectedValue
+            } else {
+                throw CatrobatLanguageParsingException("Unknown value for parameter $EFFECT_CATLANG_PARAMETER_NAME: $effect")
+            }
+        }
     }
 }

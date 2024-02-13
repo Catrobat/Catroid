@@ -30,11 +30,14 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -170,5 +173,18 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 		requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME);
 		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String soundName = arguments.get(SOUND_CATLANG_PARAMETER_NAME);
+		if (soundName != null) {
+			sound = sprite.getSoundByName(soundName);
+			if (sound == null) {
+				throw new CatrobatLanguageParsingException("No sound found with name " + soundName);
+			}
+		}
 	}
 }

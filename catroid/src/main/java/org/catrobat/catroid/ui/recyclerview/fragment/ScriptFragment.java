@@ -606,17 +606,17 @@ public class ScriptFragment extends ListFragment implements
 
 	public void handleAddButton() {
 
-		List<Brick> bricks = new CategoryBricksFactory().getAllBricks(true, requireContext());
-		Script lastScript = new WhenScript();
-		ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
-		for (Brick brick : bricks) {
-			if (brick instanceof ScriptBrick) {
-				lastScript = ((ScriptBrick) brick).getScript();
-				ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
-			} else {
-				lastScript.addBrick(brick);
-			}
-		}
+//		List<Brick> bricks = new CategoryBricksFactory().getAllBricks(true, requireContext());
+//		Script lastScript = new WhenScript();
+//		ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
+//		for (Brick brick : bricks) {
+//			if (brick instanceof ScriptBrick) {
+//				lastScript = ((ScriptBrick) brick).getScript();
+//				ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
+//			} else {
+//				lastScript.addBrick(brick);
+//			}
+//		}
 
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();

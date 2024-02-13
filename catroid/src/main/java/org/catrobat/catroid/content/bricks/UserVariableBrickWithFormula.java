@@ -30,11 +30,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
@@ -45,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -148,5 +151,21 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userVariableName);
 		}
 		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String userVariableName = arguments.get(getUserVariableCatlangArgumentName());
+		userVariable = sprite.getUserVariable(userVariableName);
+		if (userVariable == null) {
+			userVariable = project.getUserVariable(userVariableName);
+			if (userVariable == null) {
+				userVariable = project.getMultiplayerVariable(userVariableName);
+				if (userVariable == null) {
+					throw new CatrobatLanguageParsingException("Unkown variable " + userVariableName + " in parameter " + getUserVariableCatlangArgumentName());
+				}
+			}
+		}
 	}
 }

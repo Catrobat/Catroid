@@ -144,7 +144,10 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String objectName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
-
+		String spriteName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		objectToClone = scene.getSprite(spriteName);
+		if (objectToClone == null) {
+			throw new CatrobatLanguageParsingException("No sprite with name " + spriteName + " found");
+		}
 	}
 }
