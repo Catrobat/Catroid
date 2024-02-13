@@ -38,7 +38,6 @@ import com.huawei.hms.mlsdk.common.MLApplication
 import org.catrobat.catroid.koin.myModules
 import org.catrobat.catroid.koin.start
 import org.catrobat.catroid.utils.Utils
-import java.lang.IllegalStateException
 import java.util.Locale
 
 open class CatroidApplication : Application() {
@@ -95,7 +94,7 @@ open class CatroidApplication : Application() {
 
     companion object {
         private val TAG = CatroidApplication::class.java.simpleName
-        private lateinit var appContext: Context
+        private var appContext: Context? = null
         @JvmField
         var defaultSystemLanguage: String? = null
         private lateinit var googleAnalytics: GoogleAnalytics
@@ -103,10 +102,7 @@ open class CatroidApplication : Application() {
 
         @JvmStatic
         fun getAppContext(): Context {
-            if (!this::appContext.isInitialized) {
-                throw IllegalStateException("Application has not been initialized yet.")
-            }
-            return appContext
+            return appContext!!
         }
     }
 }
