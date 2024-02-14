@@ -221,11 +221,6 @@
 
     <style name="BrickContainer.Motion" />
 
-    <style name="BrickContainer.Motion.Collapse">
-        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
-        <item name="android:background" >@drawable/collapsed_brick_motion</item>
-    </style>
-
     <style name="BrickContainer.Motion.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background" >@drawable/brick_1h_blue</item>
