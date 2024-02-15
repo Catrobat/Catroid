@@ -171,12 +171,9 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		if (lookName.isEmpty()) {
 			return;
 		}
-		for (LookData look : sprite.getLookList()) {
-			if (lookName.equals(look.getName())) {
-				this.look = look;
-				return;
-			}
+		look = sprite.getLookByName(lookName);
+		if (look == null) {
+			throw new CatrobatLanguageParsingException("No look found with name " + lookName);
 		}
-		throw new CatrobatLanguageParsingException("Look not found: " + lookName);
 	}
 }

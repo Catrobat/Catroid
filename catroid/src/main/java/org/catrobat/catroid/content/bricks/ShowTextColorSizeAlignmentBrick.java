@@ -34,6 +34,8 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
@@ -44,6 +46,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -257,6 +260,20 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(ALIGNMENT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String alignment = arguments.get(ALIGNMENT_CATLANG_PARAMETER_NAME);
+		if (alignment != null) {
+			Integer selectedAlignment = ALIGNMENT_SPINNER_CATLANG_VALUES.inverse().get(alignment);
+			if (selectedAlignment != null) {
+				alignmentSelection = selectedAlignment;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid alignment value: " + alignment);
+			}
+		}
 	}
 
 	private static class AlignmentStyle implements Nameable {

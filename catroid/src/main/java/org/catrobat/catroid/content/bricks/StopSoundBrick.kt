@@ -28,10 +28,13 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils.formatSoundName
@@ -115,5 +118,14 @@ class StopSoundBrick : BrickBaseType(),
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
         requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME)
         return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val soundName = arguments[SOUND_CATLANG_PARAMETER_NAME]
+        sound = sprite.getSoundByName(soundName)
+        if (sound == null) {
+            throw CatrobatLanguageParsingException("No sound with name $soundName found.")
+        }
     }
 }

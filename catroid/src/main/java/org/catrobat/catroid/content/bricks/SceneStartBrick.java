@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -178,5 +179,16 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(SCENE_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String sceneToStart = arguments.get(SCENE_CATLANG_PARAMETER_NAME);
+		Scene selectedScene = project.getSceneByName(sceneToStart);
+		if (selectedScene == null) {
+			throw new CatrobatLanguageParsingException("No scene found with name " + sceneToStart);
+		}
+		this.sceneToStart = selectedScene.getName();
 	}
 }

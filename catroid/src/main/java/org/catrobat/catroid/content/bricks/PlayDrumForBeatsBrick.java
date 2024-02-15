@@ -150,6 +150,9 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 		String drum = arguments.get(DRUM_CATLANG_PARAMETER_NAME);
 		if (drum != null) {
 			drumSelection = PickableDrum.getDrumByCatrobatLanguageString(drum);
+			if (drumSelection == null) {
+				throw new CatrobatLanguageParsingException("Invalid drum argument: " + drum);
+			}
 		}
 	}
 }

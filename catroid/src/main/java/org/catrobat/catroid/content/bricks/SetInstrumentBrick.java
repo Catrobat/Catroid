@@ -28,10 +28,13 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -113,7 +116,7 @@ public class SetInstrumentBrick extends BrickBaseType
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(INSTRUMENT_CATLANG_PARAMETER_NAME)) {
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, instrumentSelection.getCatrobatLanguageString());
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableMusicalInstrument.catrobatLanguageMap.get(instrumentSelection));
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -123,5 +126,14 @@ public class SetInstrumentBrick extends BrickBaseType
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(INSTRUMENT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		instrumentSelection = PickableMusicalInstrument.catrobatLanguageMap.inverse().get(arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
+		if (instrumentSelection == null) {
+			throw new CatrobatLanguageParsingException("Invalid instrument: " + arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
+		}
 	}
 }

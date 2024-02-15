@@ -35,8 +35,11 @@ import com.google.common.collect.HashBiMap;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -277,6 +280,18 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String sensorValue = arguments.get(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		if (sensorValue == null)
+			throw new CatrobatLanguageParsingException("No value found for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		Integer sensorIndex = CATLANG_SPINNER_VALUES.inverse().get(sensorValue);
+		if (sensorIndex == null)
+			throw new CatrobatLanguageParsingException("Unknown value " + sensorValue + " for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		sensorSpinnerPosition = sensorIndex;
 	}
 
 	@VisibleForTesting

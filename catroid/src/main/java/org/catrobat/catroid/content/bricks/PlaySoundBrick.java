@@ -172,12 +172,9 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		if (soundName.isEmpty()) {
 			return;
 		}
-		for (SoundInfo sound : sprite.getSoundList()) {
-			if (sound.getName().equals(soundName)) {
-				this.sound = sound;
-				return;
-			}
+		this.sound = sprite.getSoundByName(soundName);
+		if (this.sound == null) {
+			throw new CatrobatLanguageParsingException("No sound found with name " + soundName);
 		}
-		throw new CatrobatLanguageParsingException("Unknown sound: " + soundName);
 	}
 }

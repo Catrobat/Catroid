@@ -34,9 +34,12 @@ import com.google.common.collect.HashBiMap;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.mindstorms.LegoSensorFactory;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -127,5 +130,19 @@ public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerB
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(SCRIPT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String script = arguments.get(SCRIPT_CATLANG_PARAMETER_NAME);
+		if (script != null) {
+			Integer selectedSpinner = CATLANG_SPINNER_VALUES.inverse().get(script);
+			if (selectedSpinner != null) {
+				spinnerSelection = selectedSpinner;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid spinner value: " + script);
+			}
+		}
 	}
 }

@@ -22,16 +22,21 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -177,5 +182,16 @@ public class SetPenColorBrick extends FormulaBrick {
 		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add(PEN_COLOR_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		validateParametersPresent(arguments);
+		String hexColor = arguments.get(PEN_COLOR_CATLANG_PARAMETER_NAME);
+		int[] rgb = CatrobatLanguageParserUtils.Companion.hexToRgb(hexColor);
+		arguments.put("red", String.valueOf(rgb[0]));
+		arguments.put("green", String.valueOf(rgb[1]));
+		arguments.put("blue", String.valueOf(rgb[2]));
+		super.setParameters(context, project, scene, sprite, arguments);
 	}
 }

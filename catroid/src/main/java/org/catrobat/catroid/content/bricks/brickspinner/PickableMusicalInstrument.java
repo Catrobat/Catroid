@@ -25,11 +25,15 @@ package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.content.Context;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -99,52 +103,27 @@ public enum PickableMusicalInstrument implements Nameable, Serializable {
 		return context.getString(nameStringId);
 	}
 
-	public String getCatrobatLanguageString() {
-		switch (this.getValue()) {
-			case 0:
-				return "piano";
-			case 2:
-				return "electric piano";
-			case 42:
-				return "cello";
-			case 73:
-				return "flute";
-			case 11:
-				return "vibraphone";
-			case 16:
-				return "organ";
-			case 24:
-				return "guitar";
-			case 26:
-				return "electric guitar";
-			case 32:
-				return "bass";
-			case 45:
-				return "pizzicato";
-			case 90:
-				return "synth pad";
-			case 52:
-				return "choir";
-			case 80:
-				return "synth lead";
-			case 75:
-				return "wooden flute";
-			case 57:
-				return "trombone";
-			case 64:
-				return "saxophone";
-			case 70:
-				return "bassoon";
-			case 71:
-				return "clarinet";
-			case 10:
-				return "music box";
-			case 114:
-				return "steel drum";
-			case 12:
-				return "marimba";
-			default:
-				throw new NotImplementedException("Instrument not implemented");
-		}
-	}
+	public static final BiMap<PickableMusicalInstrument, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableMusicalInstrument, String>(){{
+		put(PIANO, "piano");
+		put(ELECTRIC_PIANO, "electric piano");
+		put(CELLO, "cello");
+		put(FLUTE, "flute");
+		put(VIBRAPHONE, "vibraphone");
+		put(ORGAN, "organ");
+		put(GUITAR, "guitar");
+		put(ELECTRIC_GUITAR, "electric guitar");
+		put(BASS, "bass");
+		put(PIZZICATO, "pizzicato");
+		put(SYNTH_PAD, "synth pad");
+		put(CHOIR, "choir");
+		put(SYNTH_LEAD, "synth lead");
+		put(WOODEN_FLUTE, "wooden flute");
+		put(TROMBONE, "trombone");
+		put(SAXOPHONE, "saxophone");
+		put(BASSOON, "bassoon");
+		put(CLARINET, "clarinet");
+		put(MUSIC_BOX, "music box");
+		put(STEEL_DRUM, "steel drum");
+		put(MARIMBA, "marimba");
+	}});
 }

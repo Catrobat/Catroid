@@ -30,8 +30,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
@@ -129,7 +132,18 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
-        requiredArguments.add("particle effect additivity")
+        requiredArguments.add(PARTICLE_EFFECT_CATLANG_PARAMETER_NAME)
         return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val particleEffect = arguments[PARTICLE_EFFECT_CATLANG_PARAMETER_NAME]
+        val selectedParticleEffect = SPINNER_VALUE_MAP.inverse()[particleEffect]
+        if (selectedParticleEffect != null) {
+            fadeSpinnerSelectionId = selectedParticleEffect
+        } else {
+            throw CatrobatLanguageParsingException("Invalid particle effect additivity value: $particleEffect")
+        }
     }
 }

@@ -31,8 +31,11 @@ import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -42,6 +45,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Turn")
@@ -133,5 +137,19 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(FLASH_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String flashValue = arguments.get(FLASH_CATLANG_PARAMETER_NAME);
+		if (flashValue != null) {
+			Integer selectedFlashValue = SPINNER_VALUE_MAP.inverse().get(flashValue);
+			if (selectedFlashValue != null) {
+				spinnerSelectionID = selectedFlashValue;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid value for flashlight parameter: " + flashValue);
+			}
+		}
 	}
 }
