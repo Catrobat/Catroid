@@ -31,6 +31,8 @@ import org.w3c.dom.Node
 import java.util.UUID
 
 const val NUMBER_OF_OLD_USER_LIST_ARGUMENTS = 4
+const val NUMBER_OF_MAIN_PROGRAM_NODES = 5
+
 const val USER_VARIABLE_STRING = "userVariable"
 const val USER_LIST_STRING = "userList"
 const val USER_VARIABLES_STRING = "userVariables"
@@ -51,7 +53,7 @@ class OldUserListInterpreter(
         DataContainerInterpreter(outcomeDocument)
 
     fun interpret(): Document {
-        if (outcomeDocument.firstChild.childNodes.length < 5) {
+        if (outcomeDocument.firstChild.childNodes.length < NUMBER_OF_MAIN_PROGRAM_NODES) {
             return outcomeDocument
         }
         dataContainerInterpreter.interpret()
@@ -86,6 +88,7 @@ class OldUserListInterpreter(
             }
             outcomeDocument.renameNode(userList, null, USER_VARIABLE_STRING)
         }
+        userListList.addAll(extractUserListsFromAssertUserListsBrick())
         updateAllUserListReferences()
         return if (userListList.isEmpty()) null else userListList
     }
@@ -97,14 +100,49 @@ class OldUserListInterpreter(
         }
     }
 
-    private fun updateUserListReference(userList: Element) {
-        val reference = userList.getAttribute(REFERENCE)
+    private fun updateUserListReference(userData: Element) {
+        val reference = userData.getAttribute(REFERENCE)
         val referenceParts = reference.split("/").toMutableList()
         if (referenceParts.isNotEmpty() && referenceParts.last() == USER_LIST_STRING) {
             referenceParts[referenceParts.size - 1] = USER_VARIABLE_STRING
-            userList.removeAttribute(REFERENCE)
-            userList.setAttribute(REFERENCE, referenceParts.joinToString("/"))
+            userData.removeAttribute(REFERENCE)
+            userData.setAttribute(REFERENCE, referenceParts.joinToString("/"))
         }
+    }
+
+    private fun extractUserListsFromAssertUserListsBrick(): ArrayList<Node> {
+        val userLists = ArrayList<Node>()
+        val assertUserListsBricks = ArrayList<Node>()
+        val forItemInUserListBricks = ArrayList<Node>()
+        val bricks = outcomeDocument.getElementsByTagName("brick")
+
+        for (i in 0 until bricks.length) {
+            val brickType = bricks.item(i).attributes.getNamedItem("type")
+            if (brickType != null && brickType.textContent == "AssertUserListsBrick") {
+                assertUserListsBricks.add(bricks.item(i))
+            } else if (brickType != null && brickType.textContent == "ForItemInUserListBrick") {
+                forItemInUserListBricks.add(bricks.item(i))
+            }
+        }
+        userLists.addAll(extractUserListsFromUserDataList(assertUserListsBricks))
+        userLists.addAll(extractUserListsFromUserDataList(forItemInUserListBricks))
+        return userLists
+    }
+
+    private fun extractUserListsFromUserDataList(bricks: ArrayList<Node>): ArrayList<Node> {
+        val userLists = ArrayList<Node>()
+        for (brick in bricks) {
+            val userDataList = NodeOperatorExtension
+                .getChildNodeByName(brick, "userDataList") ?: continue
+            for (i in 0 until userDataList.childNodes.length) {
+                val listItem = userDataList.childNodes.item(i)
+                if (listItem.attributes.getNamedItem(REFERENCE) == null &&
+                    listItem.childNodes.length > 1) {
+                    userLists.add(listItem)
+                }
+            }
+        }
+        return userLists
     }
 
     private fun isNewUserList(userList: Node): Boolean {
@@ -308,7 +346,8 @@ class OldUserListInterpreter(
     }
 
     private fun correctCloneBrick(brick: Node) {
-        val brickType = brick.attributes.getNamedItem("type")
+        val brickType = brick.attributes.getNamedItem("type") ?: return
+
         if (brickType.textContent == "CloneBrick") {
             val objectToClone =
                 NodeOperatorExtension.getChildNodeByName(brick, "objectToClone") ?: return

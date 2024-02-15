@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.project;
 
 import android.content.Context;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -175,11 +174,7 @@ public class LoadProjectsTest {
 		PowerMockito.verifyStatic(ProjectManager.class, times(0));
 		ProjectManager.updateDirectionProperty(projectMock);
 
-		if (!BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
-			PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		} else {
-			PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		}
+		PowerMockito.verifyStatic(ProjectManager.class, times(0));
 		ProjectManager.flattenAllLists(projectMock);
 	}
 }
