@@ -207,9 +207,9 @@ object FormulaElementOperations {
 
     private fun booleanToLocalizedString(value: Boolean): String {
         return if (value) {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_true)
+            CatroidApplication.getAppContext()!!.getString(R.string.formula_editor_true)
         } else {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_false)
+            CatroidApplication.getAppContext()!!.getString(R.string.formula_editor_false)
         }
     }
 

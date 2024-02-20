@@ -66,7 +66,7 @@ object FaceDetector : Detector {
                 val context = CatroidApplication.getAppContext()
                 StageActivity.messageHandler.obtainMessage(
                     StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
+                    arrayListOf(context?.getString(R.string.camera_error_face_detection))
                 ).sendToTarget()
                 Log.e(
                     javaClass.simpleName,
