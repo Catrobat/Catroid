@@ -506,8 +506,6 @@ dependencies {
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
 
-    testImplementation "io.mockk:mockk:1.10.0"
-
     // Retrofit testing
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.14.9'
 
