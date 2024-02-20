@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.Functions.JOIN
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.test.MockUtil
-import org.catrobat.catroid.test.PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons
+import org.catrobat.catroid.test.PowerMockUtil.Companion.mockStaticAppContextAndInitializeStaticSingletons
 import org.catrobat.catroid.test.utils.Reflection.getPrivateField
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
