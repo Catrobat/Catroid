@@ -101,8 +101,6 @@ open class CatroidApplication : Application() {
         private var googleTracker: Tracker? = null
 
         @JvmStatic
-        fun getAppContext(): Context? {
-            return appContext
-        }
+        fun getAppContext(): Context? = appContext
     }
 }
