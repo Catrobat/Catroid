@@ -42,7 +42,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.Functions.JOIN
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.test.MockUtil
-import org.catrobat.catroid.test.PowerMockUtil.Companion.mockStaticAppContextAndInitializeStaticSingletons
+import org.catrobat.catroid.test.PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons
 import org.catrobat.catroid.test.utils.Reflection.getPrivateField
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
