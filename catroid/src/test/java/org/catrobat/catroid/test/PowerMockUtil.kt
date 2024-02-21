@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test;
+package org.catrobat.catroid.test
 
-import android.content.Context;
-import org.catrobat.catroid.CatroidApplication;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
+import android.content.Context
+import org.catrobat.catroid.CatroidApplication
+import org.mockito.Mockito
+import org.powermock.api.mockito.PowerMockito
 import org.powermock.reflect.Whitebox
 
 class PowerMockUtil private constructor() {
