@@ -42,7 +42,7 @@ import java.util.Locale
 
 open class CatroidApplication : Application() {
 
-    @TargetApi(29)
+    @TargetApi(TARGET_API_VERSION)
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "CatroidApplication onCreate")
@@ -93,6 +93,7 @@ open class CatroidApplication : Application() {
         }
 
     companion object {
+        const val TARGET_API_VERSION = 29
         private val TAG = CatroidApplication::class.java.simpleName
         private var appContext: Context? = null
         @JvmField
