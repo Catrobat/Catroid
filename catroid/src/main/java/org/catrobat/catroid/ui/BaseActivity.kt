@@ -124,7 +124,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         surveyCampaign?.startAppTime(this)
     }
 
-    protected fun googleAnalyticsTrackScreenResume() {
+    private fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
         googleTracker!!.setScreenName(this.javaClass.name)
         googleTracker.send(ScreenViewBuilder().build())
