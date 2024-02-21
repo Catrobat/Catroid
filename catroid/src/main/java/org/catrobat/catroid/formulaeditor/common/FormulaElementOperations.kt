@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -205,11 +205,11 @@ object FormulaElementOperations {
         } ?: Conversions.FALSE
     }
 
-    private fun booleanToLocalizedString(value: Boolean): String {
+    private fun booleanToLocalizedString(value: Boolean): String? {
         return if (value) {
-            CatroidApplication.getAppContext()!!.getString(R.string.formula_editor_true)
+            CatroidApplication.getAppContext()?.getString(R.string.formula_editor_true)
         } else {
-            CatroidApplication.getAppContext()!!.getString(R.string.formula_editor_false)
+            CatroidApplication.getAppContext()?.getString(R.string.formula_editor_false)
         }
     }
 
