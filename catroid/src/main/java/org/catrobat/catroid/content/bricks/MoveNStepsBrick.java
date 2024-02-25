@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.utils.Utils;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class MoveNStepsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -65,7 +67,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 		TextView label = view.findViewById(R.id.brick_move_n_steps_step_text_view);
 		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
-				ProjectManager projectManager = ProjectManager.getInstance();
+				ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
 				label.setText(view.getResources().getQuantityString(

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,12 @@ import org.junit.rules.TemporaryFolder
 import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import java.lang.reflect.Method
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 class SpeakAndWaitActionTest {
     private lateinit var sprite: Sprite
@@ -53,19 +59,28 @@ class SpeakAndWaitActionTest {
     lateinit var mobileServiceAvailability: MobileServiceAvailability
     lateinit var contextMock: Context
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        contextMock = MockUtil.mockContextForProject()
+        contextMock = MockUtil.mockContextForProject(dependencyModules)
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir).thenAnswer { temporaryCacheFolder }
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
-        scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        scope = Scope(projectManager.currentProject, sprite, SequenceAction())
+        val project = Project(contextMock, "Project")
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

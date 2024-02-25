@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,8 @@ import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> implements RVAdapter.SelectionListener {
 
@@ -358,17 +360,18 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	}
 
 	public void remove(UserData item) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		if (item instanceof UserVariable) {
 			if (!globalVarAdapter.remove((UserVariable) item) && !localVarAdapter.remove((UserVariable) item)) {
 				multiplayerVarAdapter.remove((UserVariable) item);
 			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDir = projectManager.getCurrentProject().getDirectory();
 			new DeviceVariableAccessor(projectDir).removeDeviceValue(item);
 		} else {
 			if (!globalListAdapter.remove((UserList) item)) {
 				localListAdapter.remove((UserList) item);
 			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDir = projectManager.getCurrentProject().getDirectory();
 			new DeviceListAccessor(projectDir).removeDeviceValue(item);
 		}
 		notifyDataSetChanged();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -107,8 +108,9 @@ class ScreenshotSaver(
             fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
 
-            if (ProjectManager.getInstance().currentProject != null) {
-                val projectFolder = ProjectManager.getInstance().currentProject.directory.absolutePath + "/"
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            if (projectManager.currentProject != null) {
+                val projectFolder = projectManager.currentProject.directory.absolutePath + "/"
                 val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
                 val streamProject = imageProject.write(false)
                 File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()

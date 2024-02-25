@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -199,8 +200,9 @@ public class RenameLookTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile0 = ResourceImporter.createImageFileFromResourcesInDirectory(
@@ -210,7 +212,7 @@ public class RenameLookTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookList();
 		LookData lookData0 = new LookData();
 		lookData0.setFile(imageFile0);
 		lookData0.setName(oldLookName);

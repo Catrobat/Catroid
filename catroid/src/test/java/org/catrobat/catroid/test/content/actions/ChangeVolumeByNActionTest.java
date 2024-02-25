@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,14 +27,19 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
+
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class ChangeVolumeByNActionTest {
@@ -42,27 +47,35 @@ public class ChangeVolumeByNActionTest {
 	private static final float INITIALIZED_VALUE = 70f;
 	private static final float CHANGE_VALUE = 12.3f;
 	private static final String NOT_NUMERICAL_STRING = "volume";
-	private final float louderValue = 10.6f;
-	private final float softerValue = -20.3f;
 	private Sprite sprite;
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws Exception {
-		initializeStaticSingletonMethods();
+		MockUtil.mockContextForProject(dependencyModules);
 		sprite = new Sprite("testSprite");
 		SoundManager.getInstance().setVolume(INITIALIZED_VALUE);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
 	public void testVolume() {
 		float expectedVolume = SoundManager.getInstance().getVolume();
 
+		float louderValue = 10.6f;
 		expectedVolume += louderValue;
 		Formula louder = new Formula(louderValue);
 
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new SequenceAction(), louder).act(1.0f);
 		assertEquals(expectedVolume, SoundManager.getInstance().getVolume());
 
+		float softerValue = -20.3f;
 		expectedVolume += softerValue;
 		Formula softer = new Formula(softerValue);
 

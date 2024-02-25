@@ -35,18 +35,24 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class ParserTestStringFunctions {
@@ -57,18 +63,28 @@ public class ParserTestStringFunctions {
 	private static final String PROJECT_USER_VARIABLE_NAME = "projectUserVariable";
 	private static final String PROJECT_USER_VARIABLE_NAME2 = "projectUserVariable2";
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
 		Sprite testSprite = new Sprite("testsprite");
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), "testProject");
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(testSprite);
 
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME2, USER_VARIABLE_2_VALUE_TYPE_STRING));
 
 		testScope = new Scope(project, testSprite, new SequenceAction());
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -98,7 +114,7 @@ public class ParserTestStringFunctions {
 		String letterString = "letterString";
 		String index = "7";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
-				InternTokenType.STRING, letterString, String.valueOf(letterString.charAt(Integer.valueOf(index) - 1)),
+				InternTokenType.STRING, letterString, String.valueOf(letterString.charAt(Integer.parseInt(index) - 1)),
 				testScope);
 
 		index = "0";
@@ -120,19 +136,19 @@ public class ParserTestStringFunctions {
 		letterString = "letterString";
 		index = "2";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.STRING,
-				String.valueOf(letterString.charAt(Integer.valueOf(index) - 1)), InternTokenType.STRING, letterString,
+				String.valueOf(letterString.charAt(Integer.parseInt(index) - 1)), InternTokenType.STRING, letterString,
 				emptyString, testScope);
 
 		index = "4";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
-				String.valueOf(Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE).charAt(Integer.valueOf(index) - 1)),
+				String.valueOf(Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE).charAt(Integer.parseInt(index) - 1)),
 				testScope);
 
 		index = "3";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
-				String.valueOf(USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(Integer.valueOf(index) - 1)), testScope);
+				String.valueOf(USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(Integer.parseInt(index) - 1)), testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
@@ -410,7 +426,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter);
 		List<InternToken> lengthTokenList = FormulaEditorTestUtil.buildSingleParameterFunction(Functions.LENGTH,
 				joinTokenList);
-		List<InternToken> secondInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> secondInternTokenList = new LinkedList<>();
 		secondInternTokenList.add(new InternToken(InternTokenType.STRING, firstParameter + secondParameter));
 		List<InternToken> letterTokenList = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.LETTER,
 				lengthTokenList, secondInternTokenList);

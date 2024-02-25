@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInfo> {
 
@@ -59,13 +60,15 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	protected void unpackItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
-		Sprite destinationSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Sprite destinationSprite = projectManager.getCurrentSprite();
 		int unpackedItemCnt = 0;
 
 		for (SoundInfo item : selectedItems) {
 			try {
 				destinationSprite.getSoundList().add(soundController.unpack(item,
-						ProjectManager.getInstance().getCurrentlyEditedScene(),
+						projectManager.getCurrentlyEditedScene(),
 						destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {

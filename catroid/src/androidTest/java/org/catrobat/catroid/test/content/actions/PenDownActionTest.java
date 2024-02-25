@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class PenDownActionTest {
 
@@ -60,12 +62,12 @@ public class PenDownActionTest {
 
 	private static final float X_MOVEMENT = 100.0f;
 	private static final float Y_MOVEMENT = 50.0f;
-	private Formula xMovement = new Formula(X_MOVEMENT);
-	private Formula yMovement = new Formula(Y_MOVEMENT);
+	private final Formula xMovement = new Formula(X_MOVEMENT);
+	private final Formula yMovement = new Formula(Y_MOVEMENT);
 	private Sprite sprite;
-	private OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
-	private CameraPositioner cameraPositioner = new CameraPositioner(camera, 960.0f, 540.0f);
-	private String projectName = "testProject";
+	private final OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
+	private final CameraPositioner cameraPositioner = new CameraPositioner(camera, 960.0f, 540.0f);
+	private final String projectName = "testProject";
 
 	@Before
 	public void setUp() throws Exception {
@@ -170,6 +172,6 @@ public class PenDownActionTest {
 	private void createTestProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,17 +37,23 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class ParserTestObject {
@@ -61,13 +69,18 @@ public class ParserTestObject {
 	private static final float DELTA = 0.01f;
 	private Scope testScope;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 		Sprite testSprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		projectManager.setCurrentSprite(testSprite);
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
@@ -79,12 +92,17 @@ public class ParserTestObject {
 	}
 
 	public Double interpretSensor(Sensors sensor) throws InterpretationException {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula(testScope);
 		Formula sensorFormula = new Formula(parseTree);
 		return sensorFormula.interpretDouble(testScope);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,21 @@
  */
 package org.catrobat.catroid.test.xmlformat;
 
+import android.content.Context;
+
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +73,20 @@ public class BricksXmlSerializerTest {
 
 	@Parameterized.Parameter(1)
 	public Class brickClass;
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
+	@Before
+	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
 
 	@Test
 	public void testBrickAlias() throws IllegalAccessException, InstantiationException {

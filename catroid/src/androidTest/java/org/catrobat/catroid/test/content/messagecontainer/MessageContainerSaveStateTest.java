@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,9 +49,12 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class MessageContainerSaveStateTest {
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private final String projectName1 = "TestProject1";
 	private final String broadcastMessage1 = "testBroadcast1";
@@ -69,7 +72,7 @@ public class MessageContainerSaveStateTest {
 
 	@Test
 	public void testDoNotSaveUnusedMessages() {
-		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+		List<String> broadcastMessages = projectManager.getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, hasItem(broadcastMessage1));
@@ -95,10 +98,8 @@ public class MessageContainerSaveStateTest {
 
 		XstreamSerializer.getInstance().saveProject(project1);
 
-		ProjectManager.getInstance()
-				.loadProject(project1.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(project1.getDirectory());
 
-		ProjectManager.getInstance()
-				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
+		projectManager.setCurrentlyEditedScene(projectManager.getCurrentProject().getDefaultScene());
 	}
 }

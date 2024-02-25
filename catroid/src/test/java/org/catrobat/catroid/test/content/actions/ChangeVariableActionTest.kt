@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class ChangeVariableActionTest(
@@ -44,6 +50,8 @@ class ChangeVariableActionTest(
 ) {
     private lateinit var testSprite: Sprite
     private lateinit var testSequence: SequenceAction
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -67,10 +75,17 @@ class ChangeVariableActionTest(
     fun setUp() {
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").apply {
             addUserVariable(userVariable)
-            ProjectManager.getInstance().currentProject = this
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            projectManager.currentProject = this
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

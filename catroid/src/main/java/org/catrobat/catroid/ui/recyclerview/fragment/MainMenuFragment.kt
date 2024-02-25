@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -221,7 +221,7 @@ class MainMenuFragment : Fragment(),
             // CATROID-1434 Caution
             // running loadProject on main thread may cause ANR due to locking in
             // XstreamSerializer
-            loadProject(projectDir, requireContext())
+            loadProject(projectDir)
         }
         loadProjectImage()
     }
@@ -231,7 +231,7 @@ class MainMenuFragment : Fragment(),
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
         )
-        ProjectLoader(projectDir, requireContext())
+        ProjectLoader(projectDir)
             .setListener(this)
             .loadProjectAsync()
     }
@@ -278,7 +278,7 @@ class MainMenuFragment : Fragment(),
             FileMetaDataExtractor
                 .encodeSpecialCharsForFileSystem(projectData!!.name)
         )
-        ProjectLoader(projectDir, requireContext())
+        ProjectLoader(projectDir)
             .setListener(this)
             .loadProjectAsync()
     }
@@ -297,7 +297,7 @@ class MainMenuFragment : Fragment(),
                     DEFAULT_ROOT_DIRECTORY,
                     FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
                 )
-                ProjectLoader(projectDir, requireContext())
+                ProjectLoader(projectDir)
                     .setListener(this)
                     .loadProjectAsync()
             }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,24 +36,31 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class HighlightBrickPartsTest {
@@ -80,12 +87,17 @@ public class HighlightBrickPartsTest {
 	private BrickAdapter brickAdapter;
 	private BrickListView brickListView;
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() {
-		Context context = Mockito.mock(Context.class).getApplicationContext();
-		createProject();
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		createProject(context);
 
-		brickAdapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
+		brickAdapter = new BrickAdapter(projectManager.getValue().getCurrentSprite());
 		brickListView = Mockito.spy(new BrickListView(context));
 		brickListView.setAdapter(brickAdapter);
 		View view = Mockito.mock(View.class);
@@ -96,9 +108,9 @@ public class HighlightBrickPartsTest {
 		Mockito.doReturn(view).when(brickListView).getChildAt(Mockito.anyInt());
 	}
 
-	private void createProject() {
+	private void createProject(Context context) {
 		String projectName = "highlightBrickPartsTest";
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(context, projectName);
 
 		Sprite sprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(sprite);
@@ -114,8 +126,13 @@ public class HighlightBrickPartsTest {
 
 		sprite.addScript(script);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

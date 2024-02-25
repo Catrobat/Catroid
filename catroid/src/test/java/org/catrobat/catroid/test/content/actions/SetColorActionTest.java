@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,21 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
+
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class SetColorActionTest {
@@ -46,19 +51,27 @@ public class SetColorActionTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float COLOR = 100.0f;
-	private Formula color = new Formula(COLOR);
+	private final Formula color = new Formula(COLOR);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		initializeStaticSingletonMethods();
+		MockUtil.mockContextForProject(dependencyModules);
 		sprite = new Sprite("testSprite");
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
 	public void testColorEffect() {
-		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color);
@@ -68,7 +81,7 @@ public class SetColorActionTest {
 	public void testValueAboveMax() {
 		final float highColor = 1000;
 
-		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(highColor)).act(1.0f);
 		assertEquals((highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}

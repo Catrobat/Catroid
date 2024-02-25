@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class IfOnEdgeBounceActionTest(
@@ -44,6 +50,8 @@ class IfOnEdgeBounceActionTest(
 ) {
 
     private lateinit var sprite: Sprite
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -108,11 +116,18 @@ class IfOnEdgeBounceActionTest(
             setPositionInUserInterfaceDimensionUnit(initialPosX, initialPosY)
             motionDirectionInUserInterfaceDimensionUnit = initialDirection.toFloat()
         }
-        Project(MockUtil.mockContextForProject(), "Test", false).apply {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "Test", false).apply {
             xmlHeader.virtualScreenWidth = SCREEN_WIDTH
             xmlHeader.virtualScreenHeight = SCREEN_HEIGHT
-            ProjectManager.getInstance().currentProject = this
+            projectManager.currentProject = this
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

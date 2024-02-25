@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -30,17 +32,27 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -49,24 +61,25 @@ public class GoNStepsBackActionPMTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private final int realSpriteMinLayer = 3;
-	private final int backgroundLayer = 0;
-	private final int penActorLayer = 1;
-	private final int embroideryActorLayer = 2;
 	private Project project;
 	private Sprite background;
 	private Sprite penActorSprite;
 	private Sprite embroideryActorSprite;
-	private Sprite realSprite;
+
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "testProject");
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");
 		embroideryActorSprite = new Sprite("embroideryActor");
-		realSprite = new Sprite("testSprite");
+		Sprite realSprite = new Sprite("testSprite");
 
 		project.getDefaultScene().addSprite(penActorSprite);
 		project.getDefaultScene().addSprite(embroideryActorSprite);
@@ -78,12 +91,17 @@ public class GoNStepsBackActionPMTest {
 		parentGroup.addActor(embroideryActorSprite.look);
 		parentGroup.addActor(realSprite.look);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
-	public void testBoudaryForeground() {
+	public void testBoundaryForeground() {
 		final int expectedLayer = 4;
 		Sprite sprite1 = new Sprite("TestSprite1");
 		Sprite sprite2 = new Sprite("TestSprite2");
@@ -97,11 +115,15 @@ public class GoNStepsBackActionPMTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 
+		int realSpriteMinLayer = 3;
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
+		int backgroundLayer = 0;
 		assertEquals(backgroundLayer, background.look.getZIndex());
+		int penActorLayer = 1;
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		int embroideryActorLayer = 2;
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 
 		sprite1.getActionFactory().createGoNStepsBackAction(sprite1, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);

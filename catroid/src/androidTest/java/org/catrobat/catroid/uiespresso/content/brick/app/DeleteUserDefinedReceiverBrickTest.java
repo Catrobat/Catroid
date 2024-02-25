@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteUserDefinedReceiverBrickTest {
@@ -113,7 +114,6 @@ public class DeleteUserDefinedReceiverBrickTest {
 
 	private void createProject(String projectName) throws IOException, CloneNotSupportedException {
 		Project project = UiTestUtils.createDefaultTestProject(projectName);
-		ProjectManager projectManager = ProjectManager.getInstance();
 
 		SpriteController controller = new SpriteController();
 
@@ -129,7 +129,7 @@ public class DeleteUserDefinedReceiverBrickTest {
 		createStartScript();
 
 		copiedSprite = controller.copy(sprite, project, project.getDefaultScene());
-		projectManager.setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 
 	private void createStartScript() {

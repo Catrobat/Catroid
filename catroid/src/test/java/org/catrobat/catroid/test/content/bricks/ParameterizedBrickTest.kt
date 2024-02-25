@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,19 +38,26 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.ArrayList
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 class ParameterizedBrickTest {
     private var userList: UserList? = null
     private var userVariable: UserVariable? = null
     private var parameterizedBrick: ParameterizedBrick? = null
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     @Throws(IllegalAccessException::class, InstantiationException::class)
     fun setUp() {
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "testProject"
-        )
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "testProject")
         userVariable = UserVariable()
         userList = UserList()
         val scene = Scene()
@@ -66,7 +73,12 @@ class ParameterizedBrickTest {
         scene.addSprite(sprite)
         sprite.addScript(script)
         script.addBrick(parameterizedBrick)
-        ProjectManager.getInstance().currentProject = project
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test
@@ -85,7 +97,7 @@ class ParameterizedBrickTest {
     fun testRemovingLinkedVariable() {
         val elements: MutableList<UserData<*>?> = ArrayList()
         elements.add(userVariable)
-        ProjectManager.getInstance().currentProject.deselectElements(elements)
+        projectManager.currentProject.deselectElements(elements)
         Assert.assertFalse(parameterizedBrick?.userLists?.contains(userList) ?: true)
     }
 
@@ -93,7 +105,7 @@ class ParameterizedBrickTest {
     fun testRemovingLinkedList() {
         val elements: MutableList<UserData<*>?> = ArrayList()
         elements.add(userList)
-        ProjectManager.getInstance().currentProject.deselectElements(elements)
+        projectManager.currentProject.deselectElements(elements)
         Assert.assertFalse(parameterizedBrick?.userLists?.contains(userList) ?: true)
     }
 

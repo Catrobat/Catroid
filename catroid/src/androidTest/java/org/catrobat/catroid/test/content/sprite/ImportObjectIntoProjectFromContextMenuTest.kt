@@ -49,7 +49,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
 class ImportObjectIntoProjectFromContextMenuTest {
@@ -61,7 +61,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
     private var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
     val tag: String = ImportObjectIntoProjectTest::class.java.simpleName
-    private val projectManager = KoinJavaComponent.inject(ProjectManager::class.java)
+    private val projectManager = inject(ProjectManager::class.java)
 
     @get:Rule
     var baseActivityTestRule: FragmentActivityTestRule<ProjectActivity> = FragmentActivityTestRule(

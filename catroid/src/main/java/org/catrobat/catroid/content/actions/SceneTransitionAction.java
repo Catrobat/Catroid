@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneTransitionAction extends TemporalAction {
 
 	private String sceneName;
@@ -35,7 +37,8 @@ public class SceneTransitionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (sceneName != null && !ProjectManager.getInstance().getCurrentlyPlayingScene().getName().equals(sceneName)) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		if (sceneName != null && !projectManager.getCurrentlyPlayingScene().getName().equals(sceneName)) {
 			sprite.releaseAllPointers();
 			StageActivity.stageListener.transitionToScene(sceneName);
 		}

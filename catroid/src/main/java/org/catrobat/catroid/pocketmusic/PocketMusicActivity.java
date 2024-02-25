@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.midiFolder;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PocketMusicActivity extends BaseActivity {
 
@@ -143,6 +144,8 @@ public class PocketMusicActivity extends BaseActivity {
 	public void finish() {
 		if (project != null) {
 
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 			boolean receivedSoundInfoThroughIntent = project.getFile().exists();
 
 			Track track = TrackGridToTrackConverter
@@ -150,7 +153,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 			if (track.isEmpty() && receivedSoundInfoThroughIntent) {
 				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile(), true);
-				ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
+				projectManager.getCurrentSprite().getSoundList().remove(soundInfo);
 
 				try {
 					new SoundController().delete(soundInfo);
@@ -172,7 +175,7 @@ public class PocketMusicActivity extends BaseActivity {
 				}
 
 				if (!receivedSoundInfoThroughIntent) {
-					ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+					projectManager.getCurrentSprite().getSoundList().add(soundInfo);
 				}
 			}
 		}

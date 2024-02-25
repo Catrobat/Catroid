@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,12 @@ import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(StorageOperations::class, XstreamSerializer::class, GdxNativesLoader::class)
@@ -56,16 +62,25 @@ class PaintNewLookActionTest {
     private val lookData = LookData("firstLook", mock(File::class.java))
     private val formulaName = Formula("CopiedLook")
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        projectMock = Project(context, "testProject").also { project ->
+            projectManager.currentProject = project
         }
         testSequence = SequenceAction()
         PowerMockito.mockStatic(XstreamSerializer::class.java)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
         Mockito.`when`(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock)
         Mockito.`when`(xstreamSerializerMock.saveProject(projectMock)).thenReturn(true)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

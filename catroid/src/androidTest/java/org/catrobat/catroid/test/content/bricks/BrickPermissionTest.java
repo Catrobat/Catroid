@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,7 @@ import static android.Manifest.permission.NFC;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class BrickPermissionTest {
@@ -105,7 +106,7 @@ public class BrickPermissionTest {
 		scene.addSprite(sprite);
 		script = new StartScript();
 		sprite.addScript(script);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

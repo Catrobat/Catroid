@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData> {
 
 	private static final long serialVersionUID = 1L;
@@ -82,7 +84,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class DataListFragmentUserDefinedBrickInputTest(
@@ -87,11 +88,13 @@ class DataListFragmentUserDefinedBrickInputTest(
             input.inputFormulaField,
             formula
         )
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
         userDefinedScript.scriptBrick = UserDefinedReceiverBrick(userDefinedBrick)
         userDefinedScript.addBrick(ChangeSizeByNBrick(0.0))
-        ProjectManager.getInstance().currentSprite.addScript(userDefinedScript)
+        projectManager.currentSprite.addScript(userDefinedScript)
 
-        project = ProjectManager.getInstance().currentProject
+        project = projectManager.currentProject
         baseActivityTestRule.launchActivity()
         openDataFragment()
         onView(withId(R.id.empty_view))

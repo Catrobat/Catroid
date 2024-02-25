@@ -41,6 +41,7 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -64,7 +65,7 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarScriptTitleOneSceneProjectTest() {
-		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String currentSpriteName = inject(ProjectManager.class).getValue().getCurrentSprite().getName();
 		onActionBar().checkTitleMatches(currentSpriteName);
 		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
 		onActionBar().checkTitleMatches(R.string.formula_editor_title);

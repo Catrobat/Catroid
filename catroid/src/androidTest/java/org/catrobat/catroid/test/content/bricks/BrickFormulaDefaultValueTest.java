@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -115,6 +115,8 @@ import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class BrickFormulaDefaultValueTest {
@@ -234,7 +236,6 @@ public class BrickFormulaDefaultValueTest {
 	public String expected;
 
 	private CategoryBricksFactory categoryBricksFactory;
-	private Sprite sprite;
 
 	@Before
 	public void setUp() throws Exception {
@@ -245,14 +246,16 @@ public class BrickFormulaDefaultValueTest {
 
 	public void createProject(Context context) {
 		Project project = new Project(context, getClass().getSimpleName());
-		sprite = new Sprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test

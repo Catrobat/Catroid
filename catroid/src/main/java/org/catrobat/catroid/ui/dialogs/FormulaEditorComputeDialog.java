@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import androidx.appcompat.app.AlertDialog;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -65,7 +66,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
 			computeTextView = findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);

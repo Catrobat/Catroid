@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onView;
@@ -69,7 +70,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-	private Locale arLocale = new Locale("ar");
+	private final Locale arLocale = new Locale("ar");
 
 	@Before
 	public void setUp() {
@@ -90,7 +91,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void hindiNumbers() throws Exception {
+	public void hindiNumbers() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
@@ -128,7 +129,8 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 		project.getDefaultScene().addSprite(firstSprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

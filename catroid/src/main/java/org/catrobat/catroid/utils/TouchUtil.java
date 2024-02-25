@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class TouchUtil {
 
@@ -115,7 +117,7 @@ public final class TouchUtil {
 
 	private static void fireTouchEvent() {
 		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), false);
-		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+		inject(ProjectManager.class).getValue().getCurrentProject().fireToAllSprites(event);
 	}
 
 	public static ArrayList<PointF> getCurrentTouchingPoints() {

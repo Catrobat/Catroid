@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -100,6 +100,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static java.util.Arrays.asList;
 
@@ -107,9 +108,9 @@ import static java.util.Arrays.asList;
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerTest {
 
-	private SpriteActivity activity;
-
 	Spinner brickSpinner;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -151,15 +152,17 @@ public class BrickSpinnerTest {
 	@SuppressWarnings("PMD.UnusedPrivateField")
 	private String name;
 
-	private Brick brick;
+	private final Brick brick;
 
-	private @IdRes int spinnerId;
+	private final @IdRes int spinnerId;
 
-	private String expectedSelection;
+	private final String expectedSelection;
 
-	private List<String> expectedContent;
+	private final List<String> expectedContent;
 
-	public BrickSpinnerTest(String name, Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
+	public BrickSpinnerTest(String name, Brick brick, @IdRes int spinnerId,
+			String expectedSelection,
+			List<String> expectedContent) {
 		this.name = name;
 		this.brick = brick;
 		this.spinnerId = spinnerId;
@@ -170,7 +173,7 @@ public class BrickSpinnerTest {
 	@Before
 	public void setUp() throws Exception {
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
-		activity = activityController.get();
+		SpriteActivity activity = activityController.get();
 		createProject(activity);
 		activityController.create().resume();
 
@@ -187,7 +190,7 @@ public class BrickSpinnerTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
@@ -211,9 +214,9 @@ public class BrickSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 
 		Sprite sprite2 = new Sprite("otherTestSprite");
 		project.getDefaultScene().addSprite(sprite2);
@@ -236,10 +239,10 @@ public class BrickSpinnerTest {
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setFile(Mockito.mock(File.class));
 		backgroundLookData.setName("someBackground");
-		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
+		List<LookData> backgroundLookDataList = projectManager.getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
 		backgroundLookDataList.add(backgroundLookData);
 
-		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
-		ProjectManager.getInstance().getCurrentProject().addUserList(new UserList("someList"));
+		projectManager.getCurrentProject().addUserVariable(new UserVariable("someVariable"));
+		projectManager.getCurrentProject().addUserList(new UserList("someList"));
 	}
 }

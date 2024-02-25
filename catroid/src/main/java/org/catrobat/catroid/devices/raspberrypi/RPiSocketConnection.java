@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class RPiSocketConnection {
 
@@ -131,9 +133,10 @@ public class RPiSocketConnection {
 
 	private void callEvent(String broadcastMessage) {
 		String[] messageSegments = broadcastMessage.split(" ");
-		if (messageSegments.length == 3 && ProjectManager.getInstance().getCurrentProject() != null) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		if (messageSegments.length == 3 && projectManager.getCurrentProject() != null) {
 			RaspiEventId id = new RaspiEventId(messageSegments[1], messageSegments[2]);
-			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, false));
+			projectManager.getCurrentProject().fireToAllSprites(new EventWrapper(id, false));
 		}
 	}
 

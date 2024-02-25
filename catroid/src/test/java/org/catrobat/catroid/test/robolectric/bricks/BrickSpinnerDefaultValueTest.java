@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,6 +83,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -91,6 +92,8 @@ public class BrickSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
 			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
@@ -167,7 +170,7 @@ public class BrickSpinnerDefaultValueTest {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
 		sharedPreferencesEditor.clear().commit();
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -177,9 +180,9 @@ public class BrickSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategoryBricksFactory() {

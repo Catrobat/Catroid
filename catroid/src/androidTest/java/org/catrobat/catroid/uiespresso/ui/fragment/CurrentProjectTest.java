@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -105,7 +106,7 @@ public class CurrentProjectTest {
 	private void createProject() {
 		Project project = new Project(applicationContext, currentProject);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

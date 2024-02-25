@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.physics.PhysicsBoundaryBox.BoundaryBoxIdentifier
 import org.catrobat.catroid.physics.PhysicsLook
 import org.catrobat.catroid.physics.PhysicsObject
 import org.catrobat.catroid.physics.PhysicsWorld
+import org.koin.java.KoinJavaComponent.inject
 
 class IfOnEdgeBouncePhysicsAction : TemporalAction() {
     enum class Side {
@@ -43,9 +44,9 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
         private const val COLLISION_OVERLAP_RANGE_FACTOR = 0.9f
         private const val OPPOSITE_DIRECTION = 180.0f
     }
-
-    private val virtualScreenWidth = ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenWidth
-    private val vsHeight = ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenHeight
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val virtualScreenWidth = projectManager.currentProject.xmlHeader.virtualScreenWidth
+    private val vsHeight = projectManager.currentProject.xmlHeader.virtualScreenHeight
 
     lateinit var sprite: Sprite
     lateinit var physicsWorld: PhysicsWorld

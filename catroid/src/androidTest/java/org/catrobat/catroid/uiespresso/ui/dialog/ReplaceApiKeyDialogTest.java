@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -72,6 +73,8 @@ public class ReplaceApiKeyDialogTest {
 			new BaseActivityTestRule<>(ProjectUploadDialogTest.ProjectUploadTestActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	Project dummyProject;
 	String apikey = "AIzaas98d7f9a0sdf07ad0sf8a7sd09fASDf97asd9f";
@@ -93,7 +96,7 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		projectManager.setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret));
@@ -111,7 +114,7 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret1, String secret2) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		projectManager.setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret1));

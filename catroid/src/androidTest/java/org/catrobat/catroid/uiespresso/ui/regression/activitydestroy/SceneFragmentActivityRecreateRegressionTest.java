@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
@@ -66,8 +67,6 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
-	private String sceneName = "secondScene";
-
 	@Before
 	public void setUp() throws Exception {
 		createProject();
@@ -87,12 +86,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
@@ -101,6 +95,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
+		String sceneName = "secondScene";
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
 				.check(matches(withText(sceneName)));
 		onView(withId(R.id.button_add))
@@ -108,19 +103,16 @@ public class SceneFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.new_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "SceneTestProject");
 		project.addScene(new Scene("secondScene", project));
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

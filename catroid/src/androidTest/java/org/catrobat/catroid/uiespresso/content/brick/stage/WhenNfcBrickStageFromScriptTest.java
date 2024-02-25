@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -64,6 +64,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.onNfcBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -80,7 +81,6 @@ public class WhenNfcBrickStageFromScriptTest {
 	private NdefMessage ndefMessage1;
 	private UserVariable readTagId;
 	private UserVariable readTagMessage;
-	private UserVariable numDetectedTags;
 	private List<NfcTagData> tagDataList;
 	private Script scriptUnderTest;
 	private int nfcBrickPosition;
@@ -151,7 +151,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		Project project = UiTestUtils.createProjectWithCustomScript("nfcTestProject", new WhenNfcScript());
 		Script script = UiTestUtils.getDefaultTestScript(project);
 
-		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		UserVariable numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
 		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
 
@@ -170,7 +170,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1), numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
 
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		tagDataList = inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
 		firstTagData.setName(TAG_NAME_TEST1);

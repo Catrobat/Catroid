@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,12 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class BluetoothMultiplayerActionTest(
@@ -49,6 +55,8 @@ class BluetoothMultiplayerActionTest(
     private val formula: Formula = Formula(INITIAL_VALUE)
     private val testSprite: Sprite = Sprite("testSprite")
     private val testSequence: SequenceAction = SequenceAction()
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -66,14 +74,22 @@ class BluetoothMultiplayerActionTest(
 
     @Before
     fun setUp() {
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
+        Project(context, "testProject").apply {
             if (expectedValue == 0) {
                 addUserVariable(userVariable)
             } else {
                 addMultiplayerVariable(userVariable)
             }
-            ProjectManager.getInstance().currentProject = this
+            projectManager.currentProject = this
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

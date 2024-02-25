@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,8 @@ import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReadListFromDeviceAction extends AsynchronousAction {
 	private UserList userList;
@@ -63,7 +65,7 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 
 		@Override
 		protected Void doInBackground(UserList[] userList) {
-			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDirectory = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 
 			for (UserList list: userList) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,18 +34,24 @@ import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickWithSecondaryListBroadcastMessageTest {
@@ -70,9 +76,12 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 
 	private Scene scene;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		initializeStaticSingletonMethods();
+		MockUtil.mockContextForProject(dependencyModules);
 		Project project = new Project();
 		scene = new Scene();
 		Sprite sprite = new Sprite();
@@ -90,7 +99,12 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 		compositeBrick.getNestedBricks().add(primaryListBroadcastBrick);
 		compositeBrick.getSecondaryNestedBricks().add(secondaryListBroadcastBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

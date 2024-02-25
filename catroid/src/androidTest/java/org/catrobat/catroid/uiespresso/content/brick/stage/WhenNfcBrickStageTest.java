@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -83,6 +84,7 @@ public class WhenNfcBrickStageTest {
 		Project project = UiTestUtils.createProjectWithCustomScript("nfcStageTestProject", new WhenNfcScript());
 		WhenNfcScript script = (WhenNfcScript) UiTestUtils.getDefaultTestScript(project);
 		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
@@ -104,15 +106,15 @@ public class WhenNfcBrickStageTest {
 				numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
 
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 		tagDataList.add(firstTagData);
 		tagDataList.add(secondTagData);
 
 		assertEquals("Sprite is not set as current", sprite,
-				ProjectManager.getInstance().getCurrentSprite());
+				projectManager.getCurrentSprite());
 
 		assertEquals("Sprite NFC tag list is not set", sprite.getNfcTagList(),
-				ProjectManager.getInstance().getCurrentSprite().getNfcTagList());
+				projectManager.getCurrentSprite().getNfcTagList());
 
 		numDetectedTags.setValue(0.0);
 		return script;
