@@ -235,13 +235,10 @@ class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInte
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (i <= 0) {
+            if (i == 0) {
                 continue
             }
-            if (checkBoxMode != ALL_DELETE) {
-                viewStateManager.setEnabled(!selected, adapterPosition)
-            }
-            if (!isChildBrickOfSelectedCompositeBrick(adapterPosition)) {
+            if (checkBoxMode != ALL_DELETE || !isChildBrickOfSelectedCompositeBrick(adapterPosition)) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
@@ -289,34 +286,32 @@ class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInte
 
     private fun isChildBrickOfSelectedCompositeBrick(brickPosition: Int): Boolean {
         val childBrick = items[brickPosition]
-        if (!selectedItems.contains(childBrick.parent)) {
-            return false
-        }
-        if (childBrick.parent is IfLogicBeginBrick.ElseBrick || childBrick.parent is PhiroIfLogicBeginBrick.ElseBrick) {
-            return true
-        }
-        if (childBrick.parent !is CompositeBrick) {
-            return false
-        }
-        if ((childBrick.parent as CompositeBrick).nestedBricks?.contains(childBrick) == true) {
-            return true
-        }
-        if ((childBrick.parent as CompositeBrick).secondaryNestedBricks?.contains(childBrick) == true) {
-            return true
-        }
-        return false
+        val parent = childBrick.parent
+        return selectedItems.contains(parent) && (parent is IfLogicBeginBrick.ElseBrick ||
+            parent is PhiroIfLogicBeginBrick.ElseBrick ||
+            parent is CompositeBrick && checkNestedBricks(parent, childBrick))
     }
 
+    private fun checkNestedBricks(parent: CompositeBrick, childBrick: Brick): Boolean =
+        parent.nestedBricks.contains(childBrick) || parent.hasSecondaryList() &&
+            parent.secondaryNestedBricks.contains(childBrick)
+
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) || noConnectedItemsSelected() || isItemWithinConnectedRange(
-            brickPosition, scriptSelected
-        ) && !isItemOfNewScript(brickPosition, scriptSelected)
+        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) ||
+            noConnectedItemsSelected() || isItemWithinConnectedRange(
+            brickPosition,
+            scriptSelected
+        ) &&
+            !isItemOfNewScript(brickPosition, scriptSelected)
 
     private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 || brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
+        brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 ||
+            brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 &&
+            !scriptSelected
 
     private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick || scriptSelected && brickPosition <= firstConnectedItem
+        lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick ||
+            scriptSelected && brickPosition <= firstConnectedItem
 
     private fun noConnectedItemsSelected(): Boolean =
         firstConnectedItem == -1 && lastConnectedItem == -1
