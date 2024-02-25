@@ -48,25 +48,24 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -80,7 +79,7 @@ class LargeImageTest {
     private val fileNameNormal = "Exif.jpg"
     private val fileNameLarge = "large_image.png"
     private val spriteNameNormal = "Exif"
-    private val dummy_sprite = "testSprite"
+    private val dummySprite = "testSprite"
 
     private val type = "image/*"
     private lateinit var imageFolder: File
@@ -136,7 +135,7 @@ class LargeImageTest {
     @Before
     fun setUp() {
         StorageOperations.deleteDir(ApplicationProvider.getApplicationContext<Context>().cacheDir)
-        createProject()
+        project = UiTestUtils.createDefaultTestProject(projectName)
         setupFolderAndImage()
         Intents.init()
         baseActivityTestRule.launchActivity()
@@ -154,8 +153,8 @@ class LargeImageTest {
             ?.edit()
             ?.remove(SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY)
             ?.apply()
-        Assert.assertTrue(imageFileLarge.delete())
-        Assert.assertTrue(imageFileNormal.delete())
+        assertTrue(imageFileLarge.delete())
+        assertTrue(imageFileNormal.delete())
         StorageOperations.deleteDir(ApplicationProvider.getApplicationContext<Context>().cacheDir)
         StorageOperations.deleteDir(project.directory)
     }
@@ -170,28 +169,17 @@ class LargeImageTest {
         ).respondWith(result)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        onView(withSubstring(dummy_sprite))
-            .perform(click())
-        onView(withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
-        onView(withId(R.id.button_add))
-            .perform(click())
-        onView(withId(R.id.dialog_new_look_gallery))
-            .perform(click())
+        onView(withSubstring(dummySprite)).perform(click())
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_new_look_gallery)).perform(click())
 
         intended(hasAction(Intent.ACTION_CHOOSER))
         pressBack()
-        onView(withSubstring(dummy_sprite))
-            .perform(click())
-        onView(withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+        onView(withSubstring(dummySprite)).perform(click())
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        val projectManager by inject(ProjectManager::class.java)
-        Assert.assertEquals(
-            1,
-            projectManager.currentProject.defaultScene.getSprite(dummy_sprite).lookList.size
-        )
-
+        assertEquals(1, project.defaultScene.getSprite(dummySprite).lookList.size)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
@@ -205,36 +193,27 @@ class LargeImageTest {
         ).respondWith(result)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        onView(withId(R.id.button_add))
-            .perform(click())
-        onView(withId(R.id.dialog_new_look_gallery))
-            .perform(click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_new_look_gallery)).perform(click())
         intended(hasAction(Intent.ACTION_CHOOSER))
 
-        onView(withText(R.string.place_visually_text))
-            .check(matches(isDisplayed()))
-        onView(withId(R.id.place_visually_sprite_switch))
-            .check(matches(isChecked()))
+        onView(withText(R.string.place_visually_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.place_visually_sprite_switch)).check(matches(isChecked()))
         closeSoftKeyboard()
 
-        onView(withId(R.id.place_visually_sprite_switch))
-            .perform(click())
+        onView(withId(R.id.place_visually_sprite_switch)).perform(click())
         onView(
-            CoreMatchers.allOf(
+            allOf(
                 withId(android.R.id.button1),
                 withText(R.string.ok)
             )
         ).perform(click())
         intended(hasAction(Intent.ACTION_CHOOSER))
 
-        onView(withSubstring(spriteNameNormal))
-            .perform(click())
-        onView(withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+        onView(withSubstring(spriteNameNormal)).perform(click())
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        val projectManager by inject(ProjectManager::class.java)
-        Assert.assertEquals(3, projectManager.currentProject.defaultScene.spriteList.size)
-
+        assertEquals(3, project.defaultScene.spriteList.size)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
@@ -248,26 +227,16 @@ class LargeImageTest {
         ).respondWith(result)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        onView(withSubstring(dummy_sprite))
-            .perform(click())
-        onView(withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
-        onView(withId(R.id.button_add))
-            .perform(click())
-        onView(withId(R.id.dialog_new_look_gallery))
-            .perform(click())
+        onView(withSubstring(dummySprite)).perform(click())
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_new_look_gallery)).perform(click())
         intended(hasAction(Intent.ACTION_CHOOSER))
 
-        onView(withText(R.string.Image_size_too_large_text))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.ok))
-            .perform(click())
+        onView(withText(R.string.Image_size_too_large_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
 
-        val projectManager by inject(ProjectManager::class.java)
-        Assert.assertEquals(
-            0,
-            projectManager.currentProject.defaultScene.getSprite(dummy_sprite).lookList.size
-        )
+        assertEquals(0, project.defaultScene.getSprite(dummySprite).lookList.size)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
@@ -282,50 +251,29 @@ class LargeImageTest {
         ).respondWith(result)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        onView(withId(R.id.button_add))
-            .perform(click())
-
-        onView(withId(R.id.dialog_new_look_gallery))
-            .perform(click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_new_look_gallery)).perform(click())
 
         intended(hasAction(Intent.ACTION_CHOOSER))
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        onView(withText(R.string.place_visually_text))
-            .check(matches(isDisplayed()))
-        onView(withId(R.id.place_visually_sprite_switch))
-            .check(matches(isChecked()))
+        onView(withText(R.string.place_visually_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.place_visually_sprite_switch)).check(matches(isChecked()))
         closeSoftKeyboard()
-
-        onView(withId(R.id.place_visually_sprite_switch))
-            .perform(click())
+        onView(withId(R.id.place_visually_sprite_switch)).perform(click())
 
         onView(
-            CoreMatchers.allOf(
+            allOf(
                 withId(android.R.id.button1),
                 withText(R.string.ok)
             )
         ).perform(click())
 
         intended(hasAction(Intent.ACTION_CHOOSER))
-        onView(withText(R.string.Image_size_too_large_text))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.ok))
-            .perform(click())
+        onView(withText(R.string.Image_size_too_large_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
 
-        val projectManager by inject(ProjectManager::class.java)
-        Assert.assertEquals(2, projectManager.currentProject.defaultScene.spriteList.size)
-
+        assertEquals(2, project.defaultScene.spriteList.size)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-    }
-
-    private fun createProject() {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-
-        project.defaultScene.addSprite(Sprite(dummy_sprite))
-        val projectManager by inject(ProjectManager::class.java)
-        projectManager.currentProject = project
-        projectManager.setCurrentSceneAndSprite(project.defaultScene.name, dummy_sprite)
-        projectManager.currentlyEditedScene = project.defaultScene
     }
 }
