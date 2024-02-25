@@ -85,8 +85,8 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		this.file = file;
 		fileName = file.getName();
 
-		long memory = MemoryAvailability.INSTANCE.getAvailableMemory();
-		if (memory > 0 && getMemorySize() >= memory / 2) {
+		long memory = MemoryAvailability.getAvailableMemory();
+		if (getMemorySize() >= memory / 2) {
 			throw new ImageTooLargeException();
 		}
 	}
