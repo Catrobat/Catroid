@@ -24,7 +24,7 @@
 package org.catrobat.catroid.utils
 
 object MemoryAvailability {
-
+    @JvmStatic
     fun getAvailableMemory(): Long {
         val runtime = Runtime.getRuntime()
         val usedMemory = runtime.totalMemory() - runtime.freeMemory()
