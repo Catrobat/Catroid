@@ -29,6 +29,12 @@ class CatrobatLanguageParserUtils {
     companion object {
         val variableRegex = Regex("^\"(.*)\"$");
         val listRegex = Regex("^\\*(.*)\\*$");
+        val stringRegex = Regex("^'(.*)'$");
+
+        fun getAndValidateStringContent(name: String): String {
+            val variableMatch = stringRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid string: $name. Expected format: 'string content'")
+            return variableMatch.groupValues[1]
+        }
 
         fun getAndValidateVariableName(name: String): String {
             val variableMatch = variableRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid variable name: $name. Expected format: \"variable name\"")

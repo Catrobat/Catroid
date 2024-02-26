@@ -146,7 +146,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 		super.setParameters(context, project, scene, sprite, arguments);
 		String spriteName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		objectToClone = scene.getSprite(spriteName);
-		if (objectToClone == null) {
+		if (objectToClone == null && !spriteName.equals("yourself")) {
 			throw new CatrobatLanguageParsingException("No sprite with name " + spriteName + " found");
 		}
 	}

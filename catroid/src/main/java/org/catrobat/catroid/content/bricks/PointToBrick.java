@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
@@ -162,7 +163,9 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		pointedObject = scene.getSprite(arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME));
+		String spriteName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		spriteName = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(spriteName);
+		pointedObject = scene.getSprite(spriteName);
 		if (pointedObject == null) {
 			throw new CatrobatLanguageParsingException("No sprite found with name " + arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME) + " in scene " + scene.getName());
 		}

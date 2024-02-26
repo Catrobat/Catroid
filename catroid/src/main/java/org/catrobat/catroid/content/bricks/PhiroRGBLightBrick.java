@@ -241,9 +241,41 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 	}
 
 	@Override
+	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		Collection<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+		requiredArguments.add("red");
+		requiredArguments.add("green");
+		requiredArguments.add("blue");
+		Collection<String> argumentsPresent = arguments.keySet();
+
+		if (requiredArguments.size() == argumentsPresent.size()) {
+			List<String> missingArguments = new ArrayList<>();
+			for (String requiredArgument : requiredArguments) {
+				if (!argumentsPresent.contains(requiredArgument)) {
+					missingArguments.add(requiredArgument);
+				}
+			}
+			if (!missingArguments.isEmpty()) {
+				String requiredArgumentsString = String.join(", ", requiredArguments);
+				String missingArgumentsString = String.join(", ", missingArguments);
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+			}
+		} else {
+			if (requiredArguments.size() == 0) {
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+			}
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+		}
+	}
+
+	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		super.validateParametersPresent(arguments);
+		if (!arguments.containsKey(COLOR_CATLANG_PARAMETER_NAME)) {
+			throw new CatrobatLanguageParsingException("No color value given");
+		}
 		int[] convertedColor = CatrobatLanguageParserUtils.Companion.hexToRgb(arguments.get(COLOR_CATLANG_PARAMETER_NAME));
+		arguments.remove(COLOR_CATLANG_PARAMETER_NAME);
 		arguments.put("red", String.valueOf(convertedColor[0]));
 		arguments.put("green", String.valueOf(convertedColor[1]));
 		arguments.put("blue", String.valueOf(convertedColor[2]));

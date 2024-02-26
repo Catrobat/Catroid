@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.BrickLayout;
@@ -427,7 +428,18 @@ public class UserDefinedBrick extends FormulaBrick {
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		// TODO
+		super.validateParametersPresent(arguments);
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				String argument = arguments.get(input.getName());
+				if (argument == null) {
+					throw new CatrobatLanguageParsingException("No value given for input " + input.getName());
+				}
+				ParameterParser formulaParser = new ParameterParser(context, project, scene, sprite, this);
+				input.setValue(formulaParser.parseArgument(argument));
+			}
+		}
 	}
 
 	@Override

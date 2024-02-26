@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -157,6 +158,7 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String userVariableName = arguments.get(getUserVariableCatlangArgumentName());
+		userVariableName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userVariableName);
 		userVariable = sprite.getUserVariable(userVariableName);
 		if (userVariable == null) {
 			userVariable = project.getUserVariable(userVariableName);

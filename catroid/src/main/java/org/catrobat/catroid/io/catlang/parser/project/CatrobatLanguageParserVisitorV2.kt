@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.NoteBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
-import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
@@ -79,6 +78,9 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
     private val parentBrickStack = Stack<Brick>()
     private val loadedMetadata = mutableSetOf<String>()
     private val loadedStage = mutableSetOf<String>()
+
+    private data class BrickParameterInfo(val brick: Brick, val context: Context, val project: Project, val scene: Scene, val sprite: Sprite, val arguments: Map<String, String>)
+    private val brickParameters = arrayListOf<BrickParameterInfo>()
 
     override fun visit(tree: ParseTree?): CatrobatLanguageBaseResult {
         throw NotImplementedError("Not needed.")
@@ -145,6 +147,10 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         ctx.scene().forEach {
             visitScene(it)
+        }
+
+        brickParameters.forEach {
+            it.brick.setParameters(it.context, it.project, it.scene, it.sprite, it.arguments)
         }
 
         return CatrobatLanguageBaseResult()
@@ -541,7 +547,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
 
         val script = ScriptFactory.createScriptFromCatrobatLanguage(ctx.SCRIPT_NAME().text.trim(), arguments.keys.toList())
         parentBrickStack.push(script.scriptBrick)
-        script.scriptBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+//        script.scriptBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+        brickParameters.add(BrickParameterInfo(script.scriptBrick, context, project, currentScene!!, currentSprite!!, arguments))
 
         script.scriptBrick.isCommentedOut = ctx.SCRIPT_DISABLED_INDICATOR() != null && ctx.BRICK_LIST_DISABLED_INDICATOR() != null
 
@@ -630,7 +637,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must have an else branch.")
         }
 
-        brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+//        brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+        brickParameters.add(BrickParameterInfo(brick, context, project, currentScene!!, currentSprite!!, arguments))
 
         if (ctx.BRICK_LIST_DISABLED_INDICATOR() != null) {
             (brick as CompositeBrick).isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR().size != 0
@@ -716,7 +724,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             } else {
                 parentBrickStack.peek()
             }
-            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+//            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+            brickParameters.add(BrickParameterInfo(brick, context, project, currentScene!!, currentSprite!!, arguments))
             brick.isCommentedOut = isBrickDisabled
             return CatrobatLanguageBrickResult(brick, arguments)
         }
@@ -734,6 +743,8 @@ class CatrobatLanguageParserVisitorV2(private val context: Context) : CatrobatLa
             } else {
                 parentBrickStack.peek()
             }
+//            userDefinedBrickCopy.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
+            brickParameters.add(BrickParameterInfo(userDefinedBrickCopy, context, project, currentScene!!, currentSprite!!, arguments))
             return CatrobatLanguageBrickResult(userDefinedBrickCopy, arguments)
         }
         throw IllegalArgumentException("Unknown brick invocation: ${ctx.text}")

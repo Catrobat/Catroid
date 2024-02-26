@@ -226,6 +226,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         try {
             return endBrick.getArgumentByCatlangNameForCallingBrick(name)
         } catch (_: IllegalArgumentException) {
+
         }
         return super.getArgumentByCatlangName(name)
     }
@@ -238,7 +239,21 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
     }
 
     override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
-//        super.setParameters(context, project, scene, sprite, arguments)
-        TODO("implement")
+        super.validateParametersPresent(arguments)
+        val endBrickArguments = hashMapOf<String, String>()
+        arguments.forEach { (key, value) ->
+            if (endBrick.getRequiredCatlangArgumentNamesForCallingBrick().contains(key)) {
+                endBrickArguments[key] = value
+            }
+        }
+        endBrick.setParameters(context, project, scene, sprite, endBrickArguments)
+
+        val thisBrickArguments = hashMapOf<String, String>()
+        arguments.forEach { (key, value) ->
+            if (super.getRequiredCatlangArgumentNames()!!.contains(key)) {
+                thisBrickArguments[key] = value
+            }
+        }
+        super.setParameters(context, project, scene, sprite, thisBrickArguments)
     }
 }

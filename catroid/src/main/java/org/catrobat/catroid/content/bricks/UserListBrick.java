@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
@@ -183,7 +184,8 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		String userListName = arguments.get(LIST_CATLANG_PARAMETER_NAME);
+		String userListName = arguments.get(getListCatlangParameterName());
+		userListName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userListName);
 		if (userListName != null) {
 			userList = sprite.getUserList(userListName);
 			if (userList == null) {

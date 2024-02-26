@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
@@ -172,7 +173,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		if (soundName.isEmpty()) {
 			return;
 		}
-		this.sound = sprite.getSoundByName(soundName);
+		this.sound = sprite.getSoundByName(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(soundName));
 		if (this.sound == null) {
 			throw new CatrobatLanguageParsingException("No sound found with name " + soundName);
 		}
