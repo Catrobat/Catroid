@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,36 +20,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.stage
 
-package org.catrobat.catroid.stage;
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.scenes.scene2d.Actor
 
-public class TestResult {
+class TextActor(private var text: String, private var posX: Int, private var posY: Int) : Actor() {
+    private var font: BitmapFont? = null
 
-	public static final int STAGE_ACTIVITY_TEST_SUCCESS = 7777;
-	public static final int STAGE_ACTIVITY_TEST_FAIL = 8888;
-	public static final String TEST_RESULT_MESSAGE = "ASSERTION_MESSAGE";
+    init {
+        init()
+    }
 
-	private String message;
-	private int resultCode;
+    override fun draw(batch: Batch, parentAlpha: Float) {
+        font!!.draw(batch, text, posX.toFloat(), posY.toFloat())
+    }
 
-	public TestResult(String message, int resultCode) {
-		this.message = message;
-		this.resultCode = resultCode;
-	}
+    private fun init() {
+        font = BitmapFont()
+        font!!.setColor(1.0f, 0.0f, 0.0f, 1.0f)
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    fun setPosX(posX: Int) {
+        this.posX = posX
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    fun setPosY(posY: Int) {
+        this.posY = posY
+    }
 
-	public int getResultCode() {
-		return resultCode;
-	}
-
-	public void setResultCode(int resultCode) {
-		this.resultCode = resultCode;
-	}
+    fun setText(text: String) {
+        this.text = text
+    }
 }

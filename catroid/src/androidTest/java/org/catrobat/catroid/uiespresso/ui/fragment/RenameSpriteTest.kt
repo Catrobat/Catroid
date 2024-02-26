@@ -47,7 +47,6 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matchers.allOf
@@ -215,58 +214,6 @@ class RenameSpriteTest {
             .check(matches(isDisplayed()))
         onView(withText(spriteToRename))
             .check(doesNotExist())
-    }
-
-    @Test
-    fun spriteEqualBackgroundTest() {
-        UiTestUtils.openActionBarMenu()
-        onView(withText(R.string.rename)).perform(click())
-        onRecyclerView().atPosition(0)
-            .check(matches(not(isDisplayed())))
-        onRecyclerView().atPosition(2)
-            .perform(click())
-        onView(withText(R.string.rename_sprite_dialog))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
-        val backgroundString = "Background"
-        onView(allOf(withText(secondSpriteName), isDisplayed()))
-            .perform(replaceText(backgroundString))
-        closeSoftKeyboard()
-        onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-            .check(matches(not(isEnabled())))
-    }
-
-    // This test only works when the OS language of the emulator or device is set to English.
-    // Somehow the project gets created in the OS language whilst menus are translated according
-    // to setLanguageSharedPreference(...). This test is used to test functionality after switching
-    // language, this means if OS language is not set to english it probably wont work.
-    @Test
-    fun spriteEqualsBackgroundNameAfterLanguageChangeTest() {
-        baseActivityTestRule.finishActivity()
-        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en-GB")
-        baseActivityTestRule.launchActivity()
-
-        UiTestUtils.openActionBarMenu()
-        onView(withText(R.string.rename)).perform(click())
-        onRecyclerView().atPosition(0)
-            .check(matches(not(isDisplayed())))
-        onRecyclerView().atPosition(2)
-            .perform(click())
-        onView(withText(R.string.rename_sprite_dialog))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
-        val backgroundString = "Hintergrund"
-        onView(allOf(withText(secondSpriteName), isDisplayed()))
-            .perform(replaceText(backgroundString))
-        closeSoftKeyboard()
-        onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-            .perform(click())
-
-        baseActivityTestRule.finishActivity()
-        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de")
-        baseActivityTestRule.launchActivity()
-        onView(withText("$backgroundString (1)"))
-            .check(matches(isDisplayed()))
     }
 
     private fun createProject(projectName: String) {

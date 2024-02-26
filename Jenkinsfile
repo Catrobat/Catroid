@@ -361,7 +361,7 @@ pipeline {
 
     post {
         changed {
-            node('master') {
+            node('LimitedEmulator') {
                 notifyChat()
             }
         }
