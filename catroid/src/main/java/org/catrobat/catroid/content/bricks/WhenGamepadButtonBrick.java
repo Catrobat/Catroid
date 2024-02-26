@@ -29,14 +29,18 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -63,6 +67,16 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		put(3, "down");
 		put(4, "left");
 		put(5, "right");
+	}});
+
+	private static BiMap<Integer, Integer> GAMEPAD_BUTTON_VALUES = HashBiMap.create(new HashMap<Integer, Integer>()
+	{{
+		put(0, R.string.cast_gamepad_A);
+		put(1, R.string.cast_gamepad_B);
+		put(2, R.string.cast_gamepad_up);
+		put(3, R.string.cast_gamepad_down);
+		put(4, R.string.cast_gamepad_left);
+		put(5, R.string.cast_gamepad_right);
 	}});
 
 	private WhenGamepadButtonScript script;
@@ -142,11 +156,31 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME)) {
-			int selectedItem = 0;
-			throw new NotImplementedException("TODO action");
-			// return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(selectedItem));
+			Context context = CatroidApplication.getAppContext();
+			String selectedAction = script.getAction();
+			Map<Integer, Integer> resourceToValue = GAMEPAD_BUTTON_VALUES.inverse();
+			for (Map.Entry<Integer, Integer> entry : resourceToValue.entrySet()) {
+				if (context.getString(entry.getKey()).equals(selectedAction)) {
+					return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(entry.getValue()));
+				}
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(0));
 		}
 		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String selectedItem = arguments.get(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME);
+		if (selectedItem == null) {
+			throw new CatrobatLanguageParsingException("No gamepad button selected");
+		}
+		Integer selectedItemValue = GAMEPAD_BUTTON_CATLANG_VALUES.inverse().get(selectedItem);
+		if (selectedItemValue == null) {
+			throw new CatrobatLanguageParsingException("Invalid gamepad button selected");
+		}
+		script.setAction(context.getString(GAMEPAD_BUTTON_VALUES.get(selectedItemValue)));
 	}
 
 	@Override
