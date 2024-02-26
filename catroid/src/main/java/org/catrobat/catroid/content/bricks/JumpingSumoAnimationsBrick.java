@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Start Jumping Sumo")
-public class JumpingSumoAnimationsBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ANIMATION_CATLANG_PARAMETER_NAME = "animation";
@@ -66,7 +66,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 	}});
 
 	private String animationName;
-	private int spinnerSelectionIndex;
 
 	public enum Animation {
 		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPIRAL, SLALOM
@@ -74,7 +73,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 
 	public JumpingSumoAnimationsBrick() {
 		animationName = Animation.SPIN.name();
-		spinnerSelectionIndex = Animation.SPIN.ordinal();
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
@@ -99,7 +97,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			animationName = Animation.values()[position].name();
-			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		spinner.setSelection(Animation.valueOf(animationName).ordinal());
@@ -108,15 +105,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		Animation[] animations = Animation.values();
-		if (itemIndex >= 0 && itemIndex < animations.length) {
-			animationName = animations[itemIndex].name();
-			spinnerSelectionIndex = itemIndex;
-		}
 	}
 
 	@Override
@@ -142,7 +130,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 			Animation selectedAnimation = CATLANG_SPINNER_VALUES.inverse().get(animation);
 			if (selectedAnimation != null) {
 				animationName = selectedAnimation.name();
-				spinnerSelectionIndex = selectedAnimation.ordinal();
 			} else {
 				throw new CatrobatLanguageParsingException("Invalid animation argument: " + animation);
 			}

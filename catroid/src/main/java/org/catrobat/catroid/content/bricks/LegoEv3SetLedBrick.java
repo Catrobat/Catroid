@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set EV3 LED")
-public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class LegoEv3SetLedBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,7 +70,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 	}});
 
 	private String ledStatus;
-	private int spinnerSelectionIndex;
 
 	public enum LedStatus {
 		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
@@ -80,12 +79,10 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 
 	public LegoEv3SetLedBrick() {
 		ledStatus = LedStatus.LED_GREEN.name();
-		spinnerSelectionIndex = LedStatus.LED_GREEN.ordinal();
 	}
 
 	public LegoEv3SetLedBrick(LedStatus ledStatusEnum) {
 		ledStatus = ledStatusEnum.name();
-		spinnerSelectionIndex = ledStatusEnum.ordinal();
 	}
 
 	@Override
@@ -105,7 +102,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			ledStatus = LedStatus.values()[position].name();
-			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		spinner.setSelection(LedStatus.valueOf(ledStatus).ordinal());
@@ -120,14 +116,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SetLedAction(LedStatus.valueOf(ledStatus)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < LedStatus.values().length) {
-			ledStatus = LedStatus.values()[itemIndex].name();
-			spinnerSelectionIndex = itemIndex;
-		}
 	}
 
 	@Override
@@ -153,7 +141,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 			LedStatus selectedLedStatus = CATLANG_SPINNER_VALUES.inverse().get(ledStatus);
 			if (selectedLedStatus != null) {
 				this.ledStatus = selectedLedStatus.name();
-				spinnerSelectionIndex = selectedLedStatus.ordinal();
 			} else {
 				throw new CatrobatLanguageParsingException("Invalid LED status: " + ledStatus);
 			}

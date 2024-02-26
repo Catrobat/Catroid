@@ -28,6 +28,7 @@ import android.view.View;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Script;
@@ -50,7 +51,7 @@ import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When tapped")
 public class WhenGamepadButtonBrick extends ScriptBrickBaseType
-		implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
+		implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME = "gamepad button";
@@ -65,7 +66,6 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 	}});
 
 	private WhenGamepadButtonScript script;
-	private transient BrickSpinner<StringOption> spinner;
 
 	public WhenGamepadButtonBrick() {
 		script = new WhenGamepadButtonScript();
@@ -102,7 +102,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_left)));
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_right)));
 
-		spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
+		BrickSpinner<StringOption> spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getAction());
 		return view;
@@ -140,20 +140,11 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 	}
 
 	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
-	}
-
-	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME)) {
 			int selectedItem = 0;
-			if (spinner != null) {
-				selectedItem = spinner.getItems().indexOf(spinner.getSelection());
-			}
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(selectedItem));
+			throw new NotImplementedException("TODO action");
+			// return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(selectedItem));
 		}
 		return super.getArgumentByCatlangName(name);
 	}

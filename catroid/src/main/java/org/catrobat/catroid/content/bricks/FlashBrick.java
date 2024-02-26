@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Turn")
-public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class FlashBrick extends BrickBaseType {
 
 	private static final int FLASH_OFF = 0;
 	private static final int FLASH_ON = 1;
@@ -114,13 +114,6 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createFlashAction(spinnerSelectionID == FLASH_ON));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex == FLASH_OFF || itemIndex == FLASH_ON) {
-			spinnerSelectionID = itemIndex;
-		}
 	}
 
 	@Override

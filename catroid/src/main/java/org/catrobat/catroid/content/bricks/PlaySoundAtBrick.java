@@ -56,7 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Start sound and skip seconds")
 public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
-		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
+		NewItemInterface<SoundInfo> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
@@ -147,13 +147,6 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 	public void addItem(SoundInfo item) {
 		spinner.add(item);
 		spinner.setSelection(item);
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

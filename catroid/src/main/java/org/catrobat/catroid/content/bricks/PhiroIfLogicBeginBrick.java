@@ -54,7 +54,7 @@ import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "If")
-public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick {
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME = "activated phiro";
@@ -261,11 +261,6 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 						elseSequence);
 
 		sequence.addAction(action);
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		sensorSpinnerPosition = itemIndex;
 	}
 
 	@Override

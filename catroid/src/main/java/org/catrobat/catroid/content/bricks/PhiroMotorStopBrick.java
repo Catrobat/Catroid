@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Stop Phiro")
-public class PhiroMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class PhiroMotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
@@ -105,14 +105,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements UpdateableSpin
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		Motor[] motors = Motor.values();
-		if (itemIndex >= 0 && itemIndex < motors.length) {
-			motor = motors[itemIndex].name();
-		}
 	}
 
 	@Override

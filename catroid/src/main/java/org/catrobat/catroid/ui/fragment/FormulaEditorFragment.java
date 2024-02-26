@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,7 +60,6 @@ import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -84,7 +82,6 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
 import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -232,25 +229,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private boolean showCustomView = false;
-
-	public static void showCatblocksFragment(FormulaBrick formulaBrick,
-			Brick.FormulaField formulaField, FragmentManager fragmentManager, Activity activity) {
-
-		FormulaEditorFragment formulaEditorFragment = new FormulaEditorFragment();
-		formulaEditorFragment.showCustomView = false;
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
-		bundle.putSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
-		formulaEditorFragment.setArguments(bundle);
-
-		fragmentManager.beginTransaction()
-				.hide(fragmentManager.findFragmentByTag(CatblocksScriptFragment.Companion.getTAG()))
-				.add(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG)
-				.addToBackStack(FORMULA_EDITOR_FRAGMENT_TAG)
-				.commit();
-
-		BottomBar.hideBottomBar(activity);
-	}
 
 	public static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
 		showFragment(context, formulaBrick, formulaField, false);
@@ -838,28 +816,18 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		ScriptSequenceAction sequence = null;
 		Script script = formulaBrick.getScript();
-		UserDefinedBrick userDefinedBrick = null;
-
-		if (formulaBrick instanceof UserDefinedBrick) {
-			userDefinedBrick = (UserDefinedBrick) formulaBrick;
-		} else if (script instanceof UserDefinedScript) {
+		if (script instanceof UserDefinedScript) {
 			UserDefinedReceiverBrick brick = (UserDefinedReceiverBrick) script.getScriptBrick();
-			userDefinedBrick = brick.getUserDefinedBrick();
-		}
-
-		if (userDefinedBrick != null) {
-			List<UserDefinedBrickInput> inputs = userDefinedBrick.getUserDefinedBrickInputs();
+			List<UserDefinedBrickInput> inputs =
+					brick.getUserDefinedBrick().getUserDefinedBrickInputs();
 			List<Object> inputNames = new ArrayList<>();
 			for (UserDefinedBrickInput input : inputs) {
 				inputNames.add(convertUserDefinedBrickInputToUserVariable(input));
 			}
 
-			if (script instanceof UserDefinedScript) {
-				sequence = new ScriptSequenceAction(script);
-				((UserDefinedScript) (sequence.getScript())).setUserDefinedBrickInputs(inputNames);
-			}
+			sequence = new ScriptSequenceAction(script);
+			((UserDefinedScript) (sequence.getScript())).setUserDefinedBrickInputs(inputNames);
 		}
-
 		return new Scope(project, sprite, sequence);
 	}
 
@@ -950,10 +918,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 		onUserDismiss();
 
+		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+
 		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
-		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
-		if (hasFileChanged() || (fragment != null && fragment.checkVariables())) {
+		if (hasFileChanged() || fragment.checkVariables()) {
 			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
 		}
 	}

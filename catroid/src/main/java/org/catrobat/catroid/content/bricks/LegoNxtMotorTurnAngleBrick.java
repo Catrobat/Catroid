@@ -50,7 +50,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Turn NXT")
-public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
@@ -117,13 +117,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements Updateab
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
-			motor = Motor.values()[itemIndex].name();
-		}
 	}
 
 	@Override

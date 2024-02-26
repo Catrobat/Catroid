@@ -50,7 +50,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set EV3")
-public class LegoEv3MotorMoveBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -119,13 +119,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick implements UpdateableSpi
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
-			motor = Motor.values()[itemIndex].name();
-		}
 	}
 
 	@Override

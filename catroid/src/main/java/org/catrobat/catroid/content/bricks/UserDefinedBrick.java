@@ -23,9 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
@@ -66,7 +64,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 
@@ -350,22 +347,6 @@ public class UserDefinedBrick extends FormulaBrick {
 		updateUserDefinedBrickDataValues();
 		sequence.addAction(sprite.getActionFactory().createUserBrickAction(sprite, sequence,
 				getUserDefinedBrickInputs(), userDefinedBrickID));
-	}
-
-	public void showCatblocksFormulaEditor(String brickFieldName, FragmentManager fragmentManager, Activity activity) {
-		try {
-			Enumeration<Brick.FormulaField> formulaFields = formulaMap.keys();
-			while (formulaFields.hasMoreElements()) {
-				Brick.FormulaField formulaField = formulaFields.nextElement();
-				if (formulaField.toString().equals(brickFieldName)) {
-					FormulaEditorFragment.showCatblocksFragment(this, formulaField, fragmentManager, activity);
-					return;
-				}
-			}
-			FormulaEditorFragment.showCatblocksFragment(this, getDefaultBrickField(), fragmentManager, activity);
-		} catch (Exception exception) {
-			Log.e("", exception.getMessage(), exception);
-		}
 	}
 
 	private void addCatroabLanguageBrickName(StringBuilder catrobatLanguage) {

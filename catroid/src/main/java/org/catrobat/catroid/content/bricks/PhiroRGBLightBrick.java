@@ -58,7 +58,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set Phiro")
-public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
@@ -156,13 +156,6 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Eye.values().length) {
-			eye = Eye.values()[itemIndex].name();
-		}
 	}
 
 	private final class SetPhiroRGBLightBrickCallback implements ShowFormulaEditorStrategy.Callback {

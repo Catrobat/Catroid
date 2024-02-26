@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
 @CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")
-class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick {
+class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
 
@@ -209,17 +209,6 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         }
 
         return result
-    }
-
-    override fun updateSelectedItem(
-        context: Context?,
-        spinnerId: Int,
-        itemName: String?,
-        itemIndex: Int
-    ) {
-        if (spinnerId == R.id.brick_param_expected_list) {
-            endBrick.updateSelectedItem(context, spinnerId, itemName, itemIndex)
-        }
     }
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {

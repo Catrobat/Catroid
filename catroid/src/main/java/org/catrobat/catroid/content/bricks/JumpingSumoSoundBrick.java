@@ -50,7 +50,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play Jumping Sumo")
-public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
@@ -108,14 +108,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpi
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		Sounds[] sounds = Sounds.values();
-		if (itemIndex >= 0 && itemIndex < sounds.length) {
-			soundName = sounds[itemIndex].name();
-		}
 	}
 
 	@Override

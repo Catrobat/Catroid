@@ -52,7 +52,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Play AR.Drone 2.0")
-public class DronePlayLedAnimationBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String FLASH_ANIMATION_CATLANG_PARAMETER_NAME = "flash animation";
@@ -120,16 +120,6 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		String[] animations = context.getResources().getStringArray(
-				R.array.brick_drone_play_led_animation_spinner);
-		if (itemIndex >= 0 && itemIndex < animations.length) {
-			ledAnimationName = animations[itemIndex];
-			spinnerSelectionIndex = itemIndex;
-		}
 	}
 
 	@Override

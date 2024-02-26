@@ -146,22 +146,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Utils.showStandardSystemKeyboard(requireActivity())
-        if (activity == null) {
-            Utils.showStandardSystemKeyboard(getActivity())
-        } else {
-            Utils.showStandardSystemKeyboard(activity)
-        }
+        Utils.showStandardSystemKeyboard(activity)
     }
 
     override fun onDetach() {
         super.onDetach()
-        Utils.hideStandardSystemKeyboard(requireActivity())
-        if (activity == null) {
-            Utils.hideStandardSystemKeyboard(getActivity())
-        } else {
-            Utils.hideStandardSystemKeyboard(activity)
-        }
+        Utils.hideStandardSystemKeyboard(activity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

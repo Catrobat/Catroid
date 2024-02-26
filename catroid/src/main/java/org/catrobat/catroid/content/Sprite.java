@@ -738,8 +738,7 @@ public class Sprite implements Nameable, Serializable {
 
 	public Brick findBrickInSprite(UUID brickId) {
 		for (Script script : scriptList) {
-			if (script.getScriptId().equals(brickId)
-					|| script.getScriptBrick().getBrickID().equals(brickId)) {
+			if (script.getScriptId().equals(brickId)) {
 				return script.getScriptBrick();
 			}
 		}

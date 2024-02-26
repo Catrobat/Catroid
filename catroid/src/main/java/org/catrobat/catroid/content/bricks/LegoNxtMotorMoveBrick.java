@@ -50,7 +50,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set NXT")
-public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
@@ -117,13 +117,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
-			motor = Motor.values()[itemIndex].name();
-		}
 	}
 
 	@Override

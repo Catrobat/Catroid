@@ -44,7 +44,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,7 +56,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements
-		BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
+		BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final String MESSAGE_CATLANG_PARAMETER_NAME = "message";
 
@@ -207,13 +206,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formattedMessage);
 		}
 		return super.getArgumentByCatlangName(name);
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinnerId == R.id.brick_broadcast_spinner && spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

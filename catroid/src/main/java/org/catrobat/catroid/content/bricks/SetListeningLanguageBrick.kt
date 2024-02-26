@@ -35,7 +35,7 @@ import org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANGUAGES
 import java.util.Locale
 
 class SetListeningLanguageBrick : BrickBaseType(),
-    BrickSpinner.OnItemSelectedListener<LanguageObject>, UpdateableSpinnerBrick {
+    BrickSpinner.OnItemSelectedListener<LanguageObject> {
 
     private var languageObject: LanguageObject? = null
 
@@ -93,14 +93,5 @@ class SetListeningLanguageBrick : BrickBaseType(),
     override fun addRequiredResources(requiredResourcesSet: Brick.ResourcesSet) {
         requiredResourcesSet.add(Brick.SPEECH_RECOGNITION)
         super.addRequiredResources(requiredResourcesSet)
-    }
-
-    override fun updateSelectedItem(
-        context: Context?,
-        spinnerId: Int,
-        itemName: String?,
-        itemIndex: Int
-    ) {
-        spinner.setSelection(itemName)
     }
 }

@@ -51,7 +51,7 @@ import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Set")
-public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTION_TYPE_CATLANG_PARAMETER_NAME = "motion type";
@@ -91,17 +91,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Updateab
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
-			updateSelectedType(position);
+			if (position < PhysicsObject.Type.values().length) {
+				type = PhysicsObject.Type.values()[position];
+			}
 			return Unit.INSTANCE;
 		}));
 		return view;
-	}
-
-	private void updateSelectedType(int position) {
-		if (position < PhysicsObject.Type.values().length) {
-			type = PhysicsObject.Type.values()[position];
-			selection = position;
-		}
 	}
 
 	private ArrayAdapter<String> createAdapter(Context context) {
@@ -123,11 +118,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Updateab
 	@VisibleForTesting
 	public PhysicsObject.Type getType() {
 		return type;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		updateSelectedType(itemIndex);
 	}
 
 	@Override

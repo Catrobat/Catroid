@@ -54,7 +54,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "Go to")
-public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
+public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TARGET_CATLANG_PARAMETER_NAME = "target";
@@ -67,7 +67,6 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
-	private transient BrickSpinner<Sprite> brickSpinner;
 
 	public GoToBrick() {
 	}
@@ -92,16 +91,16 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
 		items.remove(ProjectManager.getInstance().getCurrentSprite());
 
-		brickSpinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
-		brickSpinner.setOnItemSelectedListener(this);
+		BrickSpinner<Sprite> spinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
-			brickSpinner.setSelection(0);
+			spinner.setSelection(0);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
-			brickSpinner.setSelection(1);
+			spinner.setSelection(1);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_OTHER_SPRITE_POSITION) {
-			brickSpinner.setSelection(destinationSprite);
+			spinner.setSelection(destinationSprite);
 		}
 		return view;
 	}
@@ -136,11 +135,6 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		brickSpinner.setSelection(itemName);
 	}
 
 	@Override

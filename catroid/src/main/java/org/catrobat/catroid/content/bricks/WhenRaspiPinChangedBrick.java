@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")
-public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements UpdateableSpinnerBrick {
+public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String PIN_CATLANG_PARAMETER_NAME = "pin";
@@ -108,6 +108,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 	}
 
 	private void setupValueSpinner(final Context context) {
+
 		final Spinner valueSpinner = view.findViewById(R.id.brick_raspi_when_valuespinner);
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
@@ -150,17 +151,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 	}
 
 	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (script != null) {
-			if (spinnerId == R.id.brick_raspi_when_pinspinner) {
-				script.setPin(itemName);
-			} else if (spinnerId == R.id.brick_raspi_when_valuespinner) {
-				script.setEventValue(BrickValues.RASPI_EVENTS[itemIndex]);
-			}
-		}
-	}
-
-	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(PIN_CATLANG_PARAMETER_NAME)) {
 			String pin = script.getPin() == null ? "" : script.getPin();
@@ -184,6 +174,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		
+
 	}
 }

@@ -52,7 +52,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface, UpdateableSpinnerBrick {
+public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
 
 	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "variable";
 
@@ -125,13 +125,6 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinnerId == getSpinnerId() && spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

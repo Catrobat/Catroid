@@ -55,7 +55,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Switch to")
 public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData>, UpdateableSpinnerBrick {
+		NewItemInterface<LookData> {
 
 	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
 
@@ -137,13 +137,6 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 
 	protected Sprite getSprite() {
 		return ProjectManager.getInstance().getCurrentSprite();
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

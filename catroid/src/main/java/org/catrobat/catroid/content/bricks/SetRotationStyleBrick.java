@@ -54,7 +54,7 @@ import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 
 @CatrobatLanguageBrick(command = "Set")
 public class SetRotationStyleBrick extends BrickBaseType implements
-		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption>, UpdateableSpinnerBrick {
+		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ROTATION_STYLE_CATLANG_PARAMETER_NAME = "rotation style";
@@ -67,8 +67,6 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 
 	@Look.RotationStyle
 	private int selection;
-
-	private transient BrickSpinner<RotationStyleOption> spinner;
 
 	public SetRotationStyleBrick() {
 	}
@@ -117,13 +115,6 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
-class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {
+class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
 
     companion object {
         const val ON = 0
@@ -111,17 +111,6 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
                 fadeSpinnerSelectionId == ON
             )
         )
-    }
-
-    override fun updateSelectedItem(
-        context: Context,
-        spinnerId: Int,
-        itemName: String?,
-        itemIndex: Int
-    ) {
-        if (itemIndex == ON || itemIndex == OFF) {
-            fadeSpinnerSelectionId = itemIndex
-        }
     }
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {

@@ -57,7 +57,7 @@ import androidx.appcompat.app.AppCompatActivity;
 @CatrobatLanguageBrick(command = "When background changes to")
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
 		BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData>, UpdateableSpinnerBrick {
+		NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
@@ -173,12 +173,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	public int getPositionInDragAndDropTargetList() {
 		return -1;
 	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

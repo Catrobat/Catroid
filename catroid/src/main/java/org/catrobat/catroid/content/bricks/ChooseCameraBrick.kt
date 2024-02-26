@@ -38,8 +38,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 
 @CatrobatLanguageBrick(command = "Use")
-class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType(),
-    UpdateableSpinnerBrick {
+class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType() {
 
     companion object {
         private const val CAMERA_CATLANG_PARAMETER_NAME = "camera"
@@ -85,15 +84,6 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
         } else {
             sequence.addAction(sprite.actionFactory.createSetBackCameraAction())
         }
-    }
-
-    override fun updateSelectedItem(
-        context: Context,
-        spinnerId: Int,
-        itemName: String?,
-        itemIndex: Int
-    ) {
-        spinnerSelectionFRONT = itemIndex == 1
     }
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {

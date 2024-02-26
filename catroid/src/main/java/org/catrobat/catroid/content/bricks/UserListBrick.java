@@ -55,7 +55,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 
 	private static final String LIST_CATLANG_PARAMETER_NAME = "list";
 
@@ -148,13 +148,6 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserList item) {
 		userList = item;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	protected String getListCatlangParameterName() {

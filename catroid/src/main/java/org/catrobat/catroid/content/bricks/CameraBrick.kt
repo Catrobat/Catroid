@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
-class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType(), UpdateableSpinnerBrick {
+class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType() {
     companion object {
         private const val CAMERA_CATLANG_PARAMETER_NAME = "camera"
         private val SPINNER_VALUE_MAP = HashBiMap.create(
@@ -86,15 +86,6 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createUpdateCameraPreviewAction(spinnerSelectionON))
-    }
-
-    override fun updateSelectedItem(
-        context: Context,
-        spinnerId: Int,
-        itemName: String?,
-        itemIndex: Int
-    ) {
-        spinnerSelectionON = itemIndex == 1
     }
 
     override fun getArgumentByCatlangName(name: String): Map.Entry<String?, String?>? {

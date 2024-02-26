@@ -62,7 +62,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.getStringAsInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isNumberAndInteger;
 
-public abstract class UserVariableBrickWithVisualPlacement extends VisualPlacementBrick implements UserVariableBrickInterface, UpdateableSpinnerBrick {
+public abstract class UserVariableBrickWithVisualPlacement extends VisualPlacementBrick implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
 
@@ -165,13 +165,6 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, ALIGNMENT_STYLE_CENTERED);
 
 		return intent;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinnerId == getSpinnerId() && spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	protected String getCatLangVariableArgumentName() {

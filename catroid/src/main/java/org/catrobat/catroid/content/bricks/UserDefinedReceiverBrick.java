@@ -50,7 +50,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 @CatrobatLanguageBrick(command = "Define")
-public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
+public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
 	public static final String BRICK_CATLANG_PARAMETER_NAME = "user defined brick";
@@ -165,16 +165,6 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemName.equals(context.getString(R.string.brick_user_defined_with_screen_refreshing))) {
-			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH;
-		}
-		if (itemName.equals(context.getString(R.string.brick_user_defined_without_screen_refreshing))) {
-			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH;
-		}
 	}
 
 	@Override

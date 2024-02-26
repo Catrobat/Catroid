@@ -55,7 +55,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Set background to")
 public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData>, UpdateableSpinnerBrick {
+		NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String LOOK_CATLANG_PARAMETER_NAME = "look";
@@ -132,13 +132,6 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable LookData item) {
 		look = item;
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

@@ -49,12 +49,11 @@ import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "Play")
 public class PlayDrumForBeatsBrick extends FormulaBrick
-		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick {
+		implements BrickSpinner.OnItemSelectedListener<PickableDrum> {
 
 	private static final String DRUM_CATLANG_PARAMETER_NAME = "drum";
 
 	private PickableDrum drumSelection = PickableDrum.values()[0];
-	private transient BrickSpinner<PickableDrum> spinner;
 
 	@Override
 	public int getViewResource() {
@@ -88,7 +87,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 			items.add(drum);
 		}
 
-		spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
+		BrickSpinner<PickableDrum> spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
 		spinner.setSelection(PickableDrum.getIndexByValue(drumSelection.getValue()));
 		spinner.setOnItemSelectedListener(this);
 
@@ -117,13 +116,6 @@ public class PlayDrumForBeatsBrick extends FormulaBrick
 	public void onItemSelected(Integer spinnerId, @Nullable PickableDrum item) {
 		if (item != null) {
 			drumSelection = item;
-		}
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
 		}
 	}
 

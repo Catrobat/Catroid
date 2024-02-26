@@ -64,8 +64,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserDataBrick extends FormulaBrick
-		implements BrickSpinner.OnItemSelectedListener<UserData>, UpdateableSpinnerBrick {
+public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserData> {
 
 	public transient BiMap<BrickData, Integer> brickDataToTextViewIdMap = HashBiMap.create(2);
 
@@ -73,7 +72,6 @@ public abstract class UserDataBrick extends FormulaBrick
 	protected LinkedHashMap<BrickData, String> catrobatLanguageUserDataParameters = new LinkedHashMap<>();
 
 	private transient HashMap<BrickData, BrickSpinner<UserData>> spinnerMap = new HashMap<>();
-	private transient HashMap<Integer, BrickSpinner<UserData>> viewToSpinnerMap = new HashMap<>();
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
@@ -156,7 +154,6 @@ public abstract class UserDataBrick extends FormulaBrick
 			spinner.setOnItemSelectedListener(this);
 			spinner.setSelection(entry.getValue());
 			spinnerMap.put(entry.getKey(), spinner);
-			viewToSpinnerMap.put(spinnerid, spinner);
 		}
 
 		return view;
@@ -255,13 +252,6 @@ public abstract class UserDataBrick extends FormulaBrick
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserData item) {
 		userDataList.put(getBrickDataFromTextViewId(spinnerId), item);
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (viewToSpinnerMap.containsKey(spinnerId)) {
-			viewToSpinnerMap.get(spinnerId).setSelection(itemName);
-		}
 	}
 
 	@Override

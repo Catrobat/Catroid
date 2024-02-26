@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Stop NXT")
-public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
+public class LegoNxtMotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
@@ -107,13 +107,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSp
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(Motor.valueOf(motor)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
-			motor = Motor.values()[itemIndex].name();
-		}
 	}
 
 	@Override

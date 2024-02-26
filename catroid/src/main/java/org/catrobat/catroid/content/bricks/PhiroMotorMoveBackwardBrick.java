@@ -53,7 +53,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Move Phiro")
-public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
@@ -137,14 +137,6 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		Motor[] motors = Motor.values();
-		if (itemIndex >= 0 && itemIndex < motors.length) {
-			motor = motors[itemIndex].name();
-		}
 	}
 
 	@Override

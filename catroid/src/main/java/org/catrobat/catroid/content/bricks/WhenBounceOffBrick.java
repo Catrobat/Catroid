@@ -45,7 +45,7 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When you bounce off")
-public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
+public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
@@ -127,13 +127,6 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (spinner != null) {
-			spinner.setSelection(itemName);
-		}
 	}
 
 	@Override

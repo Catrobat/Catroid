@@ -50,7 +50,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Turn EV3")
-public class LegoEv3MotorTurnAngleBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
@@ -118,13 +118,6 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick implements Updateab
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
-	}
-
-	@Override
-	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
-		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
-			motor = Motor.values()[itemIndex].name();
-		}
 	}
 
 	@Override
