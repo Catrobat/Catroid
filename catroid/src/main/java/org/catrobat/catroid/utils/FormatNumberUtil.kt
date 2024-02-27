@@ -39,5 +39,3 @@ object FormatNumberUtil {
 		return decimal.toPlainString()
 	}
 }
-
-
