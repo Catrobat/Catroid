@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.dialogs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -45,7 +46,7 @@ import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment.projectExistsInDirectory
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.isCastSharedPreferenceEnabled
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
@@ -75,7 +76,7 @@ class NewProjectDialogFragment : DialogFragment() {
         binding.toolbar.toolbar.setNavigationIcon(R.drawable.ic_close)
         binding.toolbar.toolbar.setNavigationOnClickListener { dismiss() }
 
-        if (isCastSharedPreferenceEnabled(activity)) {
+        if (isCastSharedPreferenceEnabled(activity as Context)) {
             binding.castRadioButton.visibility = VISIBLE
         }
 

@@ -167,7 +167,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         const val EV3_SCREEN_KEY = "setting_ev3_screen"
         const val EV3_SETTINGS_CATEGORY = "setting_ev3_category"
         const val DRONE_SCREEN_KEY = "settings_drone_screen"
-        const val RASPBERRY_SCREEN_KEY = "settings_raspberry_screen";
+        const val RASPBERRY_SCREEN_KEY = "settings_raspberry_screen"
 
         const val SETTINGS_EDIT_TRUSTED_DOMAINS = "setting_trusted_domains"
         const val SETTINGS_MANAGE_EXTENSION = "setting_manage_extensions"
@@ -318,7 +318,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         fun isMultiplayerVariablesPreferenceEnabled(context: Context): Boolean {
             val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
             return getBooleanSharedPreference(context, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, false) ||
-                projectManager.currentProject.hasMultiplayerVariables();
+                projectManager.currentProject.hasMultiplayerVariables()
         }
 
         @JvmStatic
@@ -358,7 +358,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             getBooleanSharedPreference(context, SETTINGS_USE_CATBLOCKS, false)
 
         @JvmStatic
-        fun setUseCatBlocks(context: Context, useCatBlocks: Boolean){
+        fun setUseCatBlocks(context: Context?, useCatBlocks: Boolean){
             getSharedPreferences(context)
                 .edit()
                 .putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
@@ -505,7 +505,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 .apply()
         }
 
-        private fun getSharedPreferences(context: Context) =
+        private fun getSharedPreferences(context: Context?) =
             PreferenceManager.getDefaultSharedPreferences(context)
 
         private fun getBooleanSharedPreference(context: Context, setting: String, default: Boolean) =
