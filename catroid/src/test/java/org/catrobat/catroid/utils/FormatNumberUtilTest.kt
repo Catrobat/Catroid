@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.utils
 
-import java.math.BigDecimal;
+import org.catrobat.catroid.utils.FormatNumberUtil.cutTrailingZeros
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Test
 
-public final class FormatNumberUtil {
-
-	private FormatNumberUtil() {
-		throw new AssertionError();
-	}
-
-	public static String cutTrailingZeros(String number) {
-		BigDecimal decimal = new BigDecimal(number.trim());
-		decimal = decimal.stripTrailingZeros();
-
-		// compare with Zero because of faulty implementation of stripTrailingZeros in the library
-		if (decimal.compareTo(BigDecimal.ZERO) == 0) {
-			decimal = BigDecimal.ZERO;
-		}
-
-		return decimal.toPlainString();
-	}
+class FormatNumberUtilTest {
+    @Test
+    fun testCutTrailingZeros() {
+        assertEquals("123", cutTrailingZeros("123.0"))
+        assertEquals("123", cutTrailingZeros("123.00"))
+        assertEquals("123.45", cutTrailingZeros("123.45"))
+        assertEquals("123.45", cutTrailingZeros("123.4500"))
+        assertEquals("0", cutTrailingZeros("0"))
+        assertEquals("0", cutTrailingZeros("0.0"))
+        assertNotEquals("123.0", cutTrailingZeros("123.0"))
+    }
 }
