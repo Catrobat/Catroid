@@ -234,9 +234,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         for (item in selectedItems) {
             if (item is GroupSprite) {
                 for (sprite in item.groupItems) {
-                    sprite.setConvertToSprite(true)
-                    val convertedSprite = spriteController.convert(sprite)
-                    adapter.items[adapter.items.indexOf(sprite)] = convertedSprite
+                    adapter.items.removeAt(adapter.items.indexOf(sprite))
                 }
                 adapter.notifyDataSetChanged()
             }
