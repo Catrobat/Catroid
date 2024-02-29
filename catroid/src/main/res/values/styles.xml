@@ -469,6 +469,11 @@
 
     <style name="BrickContainer.Control" />
 
+    <style name="BrickContainer.Control.Collapsed">
+        <item name="android:minHeight">10dp</item>
+        <item name="android:background">@drawable/collapsed_brick_background_control</item>
+    </style>
+
     <style name="BrickContainer.Control.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background">@drawable/brick_1h_orange</item>

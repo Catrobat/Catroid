@@ -37,25 +37,148 @@ import androidx.appcompat.widget.AppCompatImageView
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.bricks.AskBrick
+import org.catrobat.catroid.content.bricks.AskSpeechBrick
+import org.catrobat.catroid.content.bricks.BackgroundRequestBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BrickBaseType
+import org.catrobat.catroid.content.bricks.BroadcastBrick
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
+import org.catrobat.catroid.content.bricks.CameraBrick
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick
+import org.catrobat.catroid.content.bricks.CloneBrick
+import org.catrobat.catroid.content.bricks.ComeToFrontBrick
 import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.CopyLookBrick
+import org.catrobat.catroid.content.bricks.DeleteLookBrick
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick
+import org.catrobat.catroid.content.bricks.DroneFlipBrick
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
+import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
+import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
+import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
+import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
+import org.catrobat.catroid.content.bricks.GoToBrick
+import org.catrobat.catroid.content.bricks.HideBrick
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
+import org.catrobat.catroid.content.bricks.LookRequestBrick
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick
+import org.catrobat.catroid.content.bricks.NextLookBrick
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick
+import org.catrobat.catroid.content.bricks.PauseForBeatsBrick
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
+import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
+import org.catrobat.catroid.content.bricks.PlaySoundBrick
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick
+import org.catrobat.catroid.content.bricks.PointToBrick
+import org.catrobat.catroid.content.bricks.PreviousLookBrick
+import org.catrobat.catroid.content.bricks.SayBubbleBrick
+import org.catrobat.catroid.content.bricks.SayForBubbleBrick
+import org.catrobat.catroid.content.bricks.SceneStartBrick
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick
+import org.catrobat.catroid.content.bricks.SetBounceBrick
+import org.catrobat.catroid.content.bricks.SetBrightnessBrick
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick
+import org.catrobat.catroid.content.bricks.SetColorBrick
+import org.catrobat.catroid.content.bricks.SetFrictionBrick
+import org.catrobat.catroid.content.bricks.SetGravityBrick
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick
+import org.catrobat.catroid.content.bricks.SetLookBrick
+import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
+import org.catrobat.catroid.content.bricks.SetMassBrick
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick
+import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
+import org.catrobat.catroid.content.bricks.SetSizeToBrick
+import org.catrobat.catroid.content.bricks.SetTempoBrick
+import org.catrobat.catroid.content.bricks.SetTextBrick
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick
+import org.catrobat.catroid.content.bricks.SetVelocityBrick
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick
+import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.content.bricks.SetYBrick
+import org.catrobat.catroid.content.bricks.ShowBrick
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
+import org.catrobat.catroid.content.bricks.SpeakBrick
+import org.catrobat.catroid.content.bricks.StartListeningBrick
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick
+import org.catrobat.catroid.content.bricks.StopScriptBrick
+import org.catrobat.catroid.content.bricks.StopSoundBrick
+import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
+import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
+import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
+import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.content.bricks.VibrationBrick
+import org.catrobat.catroid.content.bricks.WaitBrick
+import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
+import org.catrobat.catroid.content.bricks.WaitUntilBrick
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenBrick
+import org.catrobat.catroid.content.bricks.WhenClonedBrick
+import org.catrobat.catroid.content.bricks.WhenConditionBrick
+import org.catrobat.catroid.content.bricks.WhenStartedBrick
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.ui.BrickLayout
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import java.util.ArrayList
 import java.util.Collections
+import kotlin.reflect.KClass
 
 class BrickAdapter(private val sprite: Sprite) :
     BaseAdapter(),
@@ -165,11 +288,106 @@ class BrickAdapter(private val sprite: Sprite) :
         return (itemView as ViewGroup).getChildAt(1).background
     }
 
+    fun isInstanceOfAny(obj: Any, classes: List<KClass<out Any>>): Boolean {
+        return classes.any { it.isInstance(obj) }
+    }
+
     private fun getCollapsedItemView(item: Brick, parent: ViewGroup): View {
-//        if (item is ChangeXByNBrick || item is ChangeYByNBrick || item is GlideToBrick) {
-//            return LayoutInflater.from(parent.context).inflate(R.layout.collapsed_motion_brick, null)
-//        }
-        return LayoutInflater.from(parent.context).inflate(R.layout.collapsed_motion_brick, null)
+        val inflater = LayoutInflater.from(parent.context)
+        return inflater.inflate(R.layout.collapsed_control_brick, null)
+        val eventBrickList = listOf(
+            WhenStartedBrick::class, WhenBrick::class,
+            WhenTouchDownBrick::class, BroadcastReceiverBrick::class,
+            WhenConditionBrick::class, WhenBackgroundChangesBrick::class,
+            WhenClonedBrick::class
+        )
+
+        val controlBrickList = listOf(
+            CompositeBrick::class, WaitBrick::class,
+            WaitUntilBrick::class, SceneStartBrick::class,
+            CloneBrick::class, BroadcastBrick::class,
+            BroadcastWaitBrick::class, SceneTransitionBrick::class,
+            StopScriptBrick::class, ExitStageBrick::class,
+            DeleteThisCloneBrick::class, EndBrick::class,
+            WaitTillIdleBrick::class
+        )
+
+        val lookBrickList = listOf(
+            ParticleEffectAdditivityBrick::class, AskBrick::class,
+            BackgroundRequestBrick::class,
+            ChangeBrightnessByNBrick::class, ChangeColorByNBrick::class,
+            ChangeSizeByNBrick::class, ChangeTransparencyByNBrick::class,
+            ChooseCameraBrick::class, ClearGraphicEffectBrick::class,
+            CopyLookBrick::class, DeleteLookBrick::class,
+            DroneSwitchCameraBrick::class, EditLookBrick::class,
+            FadeParticleEffectBrick::class, FlashBrick::class,
+            HideBrick::class, LookRequestBrick::class,
+            NextLookBrick::class, PaintNewLookBrick::class,
+            PhiroRGBLightBrick::class, PreviousLookBrick::class,
+            SayBubbleBrick::class, SayForBubbleBrick::class,
+            SetBackgroundBrick::class, SetBackgroundByIndexBrick::class,
+            SetBackgroundByIndexAndWaitBrick::class,
+            SetBrightnessBrick::class, SetCameraFocusPointBrick::class,
+            SetColorBrick::class, SetLookBrick::class,
+            SetLookByIndexBrick::class, SetParticleColorBrick::class,
+            SetSizeToBrick::class, SetTransparencyBrick::class,
+            ShowBrick::class, ThinkBubbleBrick::class,
+            ThinkForBubbleBrick::class, CameraBrick::class
+        )
+
+        val soundBrickList = listOf(
+            AskSpeechBrick::class, ChangeTempoByNBrick::class,
+            ChangeVolumeByNBrick::class, JumpingSumoNoSoundBrick::class,
+            JumpingSumoSoundBrick::class, PauseForBeatsBrick::class,
+            PhiroPlayToneBrick::class, PlayDrumForBeatsBrick::class,
+            PlayNoteForBeatsBrick::class, PlaySoundBrick::class,
+            PlaySoundAtBrick::class, SetInstrumentBrick::class,
+            SetListeningLanguageBrick::class, SetTempoBrick::class,
+            SetVolumeToBrick::class, SpeakBrick::class,
+            SpeakAndWaitBrick::class, StartListeningBrick::class,
+            StopAllSoundsBrick::class, StopSoundBrick::class
+        )
+
+        val motionBrickList =
+            listOf(
+                ChangeXByNBrick::class, ChangeYByNBrick::class, DroneEmergencyBrick::class,
+                DroneFlipBrick::class, DroneMoveBackwardBrick::class,
+                DroneMoveDownBrick::class, DroneMoveForwardBrick::class,
+                DroneMoveLeftBrick::class, DroneMoveRightBrick::class,
+                DroneMoveUpBrick::class, DronePlayLedAnimationBrick::class,
+                DroneTakeOffLandBrick::class, DroneTurnLeftBrick::class,
+                DroneTurnRightBrick::class, GlideToBrick::class, GoNStepsBackBrick::class,
+                GoToBrick::class, ComeToFrontBrick::class, IfOnEdgeBounceBrick::class,
+                JumpingSumoAnimationsBrick::class, JumpingSumoJumpHighBrick::class,
+                JumpingSumoJumpLongBrick::class, JumpingSumoMoveBackwardBrick::class,
+                JumpingSumoMoveForwardBrick::class, JumpingSumoRotateLeftBrick::class,
+                JumpingSumoRotateRightBrick::class, JumpingSumoTakingPictureBrick::class,
+                JumpingSumoTurnBrick::class, MoveNStepsBrick::class, SetBounceBrick::class,
+                SetFrictionBrick::class, SetGravityBrick::class, SetMassBrick::class,
+                SetPhysicsObjectTypeBrick::class, SetVelocityBrick::class,
+                TurnLeftSpeedBrick::class, TurnRightSpeedBrick::class, PlaceAtBrick::class,
+                PointInDirectionBrick::class, PointToBrick::class,
+                SetRotationStyleBrick::class, SetTextBrick::class, SetXBrick::class,
+                SetYBrick::class, TurnLeftBrick::class, TurnRightBrick::class,
+                VibrationBrick::class, WhenBounceOffBrick::class
+            )
+
+        if (isInstanceOfAny(item, eventBrickList)) {
+            return inflater.inflate(R.layout.collapsed_event_brick, null)
+        }
+        if (isInstanceOfAny(item, lookBrickList)) {
+            return inflater.inflate(R.layout.collapsed_looks_brick, null)
+        }
+        if (isInstanceOfAny(item, soundBrickList)) {
+            return inflater.inflate(R.layout.collapsed_sound_brick, null)
+        }
+        if (isInstanceOfAny(item, motionBrickList)) {
+            return inflater.inflate(R.layout.collapsed_motion_brick, null)
+        }
+        if (isInstanceOfAny(item, controlBrickList)) {
+            return inflater.inflate(R.layout.collapsed_control_brick, null)
+        }
+        throw NullPointerException("No collapsed view found")
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
