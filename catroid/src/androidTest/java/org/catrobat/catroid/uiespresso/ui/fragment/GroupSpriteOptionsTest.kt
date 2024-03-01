@@ -38,6 +38,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.GroupItemSprite
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.test.utils.TestUtils
@@ -48,6 +49,7 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.AllOf.allOf
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,7 +66,15 @@ class GroupSpriteOptionsTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
+    private val firstSpriteName = "firstSprite"
+    private val secondSpriteName = "secondSprite"
     private val groupSprite = "groupSprite"
+
+    private lateinit var group: GroupSprite
+    private lateinit var sprite1: GroupItemSprite
+    private lateinit var sprite2: GroupItemSprite
+
+
     private val projectManager by inject(ProjectManager::class.java)
 
     @Before
@@ -150,9 +160,31 @@ class GroupSpriteOptionsTest {
             .check(doesNotExist())
     }
 
+    @Test
+    fun deleteGroupSpriteWithSpritesTest() {
+        Assert.assertTrue(group.groupItems.size > 0)
+
+        UiTestUtils.openSpriteActionMenu(groupSprite, isGroupSprite = true)
+        onView(withText(R.string.delete))
+            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withText(groupSprite))
+            .check(doesNotExist())
+
+        onView(withText(firstSpriteName)).check(doesNotExist())
+        onView(withText(secondSpriteName)).check(doesNotExist())
+    }
+
     private fun createProject(projectName: String) {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(GroupSprite(groupSprite))
+        val project = UiTestUtils.createDefaultTestProject(projectName)
+        group = GroupSprite(groupSprite)
+        sprite1 = GroupItemSprite(firstSpriteName)
+        sprite2 = GroupItemSprite(secondSpriteName)
+
+        project.defaultScene.addSprite(group)
+        project.defaultScene.addSprite(sprite1)
+        project.defaultScene.addSprite(sprite2)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
     }
