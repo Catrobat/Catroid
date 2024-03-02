@@ -25,6 +25,6 @@ package org.catrobat.catroid.io.catlang.parser.parameter.context
 
 import org.catrobat.catroid.formulaeditor.FormulaElement
 
-class FormulaElementVisitResult(formulaElement: FormulaElement): ArgumentBaseVisitResult() {
+class FormulaElementVisitResult(formulaElement: FormulaElement): FormulaBaseVisitResult() {
     val formulaElement: FormulaElement = formulaElement
 }

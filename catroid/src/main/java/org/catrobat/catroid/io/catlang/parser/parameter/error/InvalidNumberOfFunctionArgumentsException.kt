@@ -23,5 +23,6 @@
 
 package org.catrobat.catroid.io.catlang.parser.parameter.error
 
-class InvalidNumberOfFunctionArgumentsException(function: String, expected: Int, actual: Int) : ArgumentParsingException("Invalid number of arguments for function $function. Expected $expected, but got $actual") {
+class InvalidNumberOfFunctionArgumentsException(function: String, expected: String, actual: Int) : FormulaParsingException("Invalid number of arguments for function $function. Expected $expected, but got $actual") {
+    constructor(function: String, expected: Int, actual: Int) : this (function, expected.toString(), actual)
 }

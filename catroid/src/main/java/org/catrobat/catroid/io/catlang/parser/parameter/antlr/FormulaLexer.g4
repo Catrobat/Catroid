@@ -1,4 +1,4 @@
-lexer grammar CatrobatParameterLexer;
+lexer grammar FormulaLexer;
 
 fragment LETTER : LOWERCASE | UPPERCASE;
 fragment UPPERCASE : 'A'..'Z';

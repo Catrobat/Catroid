@@ -34,25 +34,26 @@ import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator
 import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParser
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParserVisitor
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaElementVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
-import org.catrobat.catroid.io.catlang.parser.parameter.context.ArgumentBaseVisitResult
+import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaBaseVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.OperatorVisitResult
-import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterVisitResult
-import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
+import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterListVisitResult
+import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
+import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownFunctionException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorException
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserVisitor
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.Stack
 
-internal class ParameterParserVisitor(
-    private val context: Context,
+internal class CatrobatFormulaParserVisitor(
+    context: Context,
     private val variables: List<String>,
     private val userLists: List<String>,
     private val userDefinedBrickParameters: List<String>
-    ) : CatrobatParameterParserVisitor<ArgumentBaseVisitResult> {
+    ) : FormulaParserVisitor<FormulaBaseVisitResult> {
 
     companion object {
         val FUNCTION_TO_NUMBER_OF_PARAMETER_MAP = mapOf(
@@ -119,42 +120,42 @@ internal class ParameterParserVisitor(
         } else parentFormulaStack.peek()
     }
 
-    override fun visit(tree: ParseTree?): ArgumentBaseVisitResult {
+    override fun visit(tree: ParseTree?): FormulaBaseVisitResult {
         throw NotImplementedError("visit() method not implemented, and should not be used.")
     }
 
-    override fun visitChildren(node: RuleNode?): ArgumentBaseVisitResult {
+    override fun visitChildren(node: RuleNode?): FormulaBaseVisitResult {
         throw NotImplementedError("visitChildren() method not implemented, and should not be used.")
     }
 
-    override fun visitTerminal(node: TerminalNode?): ArgumentBaseVisitResult {
+    override fun visitTerminal(node: TerminalNode?): FormulaBaseVisitResult {
         throw NotImplementedError("visitTerminal() method not implemented, and should not be used.")
     }
 
-    override fun visitErrorNode(node: ErrorNode?): ArgumentBaseVisitResult {
+    override fun visitErrorNode(node: ErrorNode?): FormulaBaseVisitResult {
         throw NotImplementedError("visitErrorNode() method not implemented, and should not be used.")
     }
 
-    override fun visitArgument(context: CatrobatParameterParser.ArgumentContext?): ArgumentBaseVisitResult {
-        val response = visitExpression(context?.expression())
+    override fun visitFormula(ctx: FormulaParser.FormulaContext?): FormulaBaseVisitResult {
+        val response = visitExpression(ctx?.expression())
         val formulaElement = (response as FormulaElementVisitResult).formulaElement
         return FormulaVisitResult(Formula(formulaElement))
     }
 
-    override fun visitExpression(context: CatrobatParameterParser.ExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitExpression(context: FormulaParser.ExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("Cannot parse empty expression")
+            throw FormulaParsingException("Cannot parse empty expression")
         }
 
         if (context.additiveExpression() != null) {
             return visitAdditiveExpression(context.additiveExpression())
         }
-        throw ArgumentParsingException("No valid expression found")
+        throw FormulaParsingException("No valid expression found")
     }
 
-    override fun visitAdditiveExpression(context: CatrobatParameterParser.AdditiveExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitAdditiveExpression(context: FormulaParser.AdditiveExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No additive expression found")
+            throw FormulaParsingException("No additive expression found")
         }
         if (context.multiplicativeExpression().count() == 1) {
             return visitMultiplicativeExpression(context.multiplicativeExpression(0))
@@ -179,9 +180,9 @@ internal class ParameterParserVisitor(
         return FormulaElementVisitResult(additiveExpressionStack.elementAt(0))
     }
 
-    override fun visitMultiplicativeExpression(context: CatrobatParameterParser.MultiplicativeExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitMultiplicativeExpression(context: FormulaParser.MultiplicativeExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No multiplicative expression found")
+            throw FormulaParsingException("No multiplicative expression found")
         }
         if (context.comparisonExpression().count() == 1) {
             return visitComparisonExpression(context.comparisonExpression(0))
@@ -206,9 +207,9 @@ internal class ParameterParserVisitor(
         return FormulaElementVisitResult(multiplicativeExpressionStack.elementAt(0))
     }
 
-    override fun visitComparisonExpression(context: CatrobatParameterParser.ComparisonExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitComparisonExpression(context: FormulaParser.ComparisonExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No multiplicative expression found")
+            throw FormulaParsingException("No multiplicative expression found")
         }
         if (context.simpleExpression().count() == 1) {
             return visitSimpleExpression(context.simpleExpression(0))
@@ -233,9 +234,9 @@ internal class ParameterParserVisitor(
         return FormulaElementVisitResult(multiplicativeExpressionStack.elementAt(0))
     }
 
-    override fun visitAdditiveOperator(context: CatrobatParameterParser.AdditiveOperatorContext?): ArgumentBaseVisitResult {
+    override fun visitAdditiveOperator(context: FormulaParser.AdditiveOperatorContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No additive operator found")
+            throw FormulaParsingException("No additive operator found")
         }
         if (context.OPERATOR_NUMERIC_ADD() != null) {
             return OperatorVisitResult(Operators.PLUS)
@@ -246,12 +247,12 @@ internal class ParameterParserVisitor(
         if (context.OPERATOR_LOGIC_OR() != null) {
             return OperatorVisitResult(Operators.LOGICAL_OR)
         }
-        throw ArgumentParsingException("No known additive operator found")
+        throw FormulaParsingException("No known additive operator found")
     }
 
-    override fun visitMultiplicativeOperator(context: CatrobatParameterParser.MultiplicativeOperatorContext?): ArgumentBaseVisitResult {
+    override fun visitMultiplicativeOperator(context: FormulaParser.MultiplicativeOperatorContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No multiplicative operator found")
+            throw FormulaParsingException("No multiplicative operator found")
         }
         if (context.OPERATOR_NUMERIC_MULTIPLY() != null) {
             return OperatorVisitResult(Operators.MULT)
@@ -262,12 +263,12 @@ internal class ParameterParserVisitor(
         if (context.OPERATOR_LOGIC_AND() != null) {
             return OperatorVisitResult(Operators.LOGICAL_AND)
         }
-        throw ArgumentParsingException("No known multiplicative operator found")
+        throw FormulaParsingException("No known multiplicative operator found")
     }
 
-    override fun visitComparisonOperator(context: CatrobatParameterParser.ComparisonOperatorContext?): ArgumentBaseVisitResult {
+    override fun visitComparisonOperator(context: FormulaParser.ComparisonOperatorContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No comparison operator found")
+            throw FormulaParsingException("No comparison operator found")
         }
         if (context.OPERATOR_LOGIC_EQUAL() != null) {
         return OperatorVisitResult(Operators.EQUAL);
@@ -282,12 +283,12 @@ internal class ParameterParserVisitor(
         } else if (context.OPERATOR_LOGIC_GREATER_EQUAL() != null) {
             return OperatorVisitResult(Operators.GREATER_OR_EQUAL)
         }
-        throw ArgumentParsingException("No known comparison operator found")
+        throw FormulaParsingException("No known comparison operator found")
     }
 
-    override fun visitSimpleExpression(context: CatrobatParameterParser.SimpleExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitSimpleExpression(context: FormulaParser.SimpleExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No simple expression found")
+            throw FormulaParsingException("No simple expression found")
         }
         if (context.literal() != null) {
             return visitLiteral(context.literal())
@@ -306,12 +307,12 @@ internal class ParameterParserVisitor(
             parentFormulaStack.pop()
             return FormulaElementVisitResult(braceElement)
         }
-        throw ArgumentParsingException("No known simple expression found.")
+        throw FormulaParsingException("No known simple expression found.")
     }
 
-    override fun visitSensorPropertyOrMethodInvocation(context: CatrobatParameterParser.SensorPropertyOrMethodInvocationContext?): ArgumentBaseVisitResult {
+    override fun visitSensorPropertyOrMethodInvocation(context: FormulaParser.SensorPropertyOrMethodInvocationContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No sensor property or method invocation found")
+            throw FormulaParsingException("No sensor property or method invocation found")
         }
 
         val sensorPropertyOrMethod = context.SENSOR_OR_PROPERTY_OR_METHOD().text.trim()
@@ -338,7 +339,7 @@ internal class ParameterParserVisitor(
         throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
     }
 
-    private fun parseFunction(functionText: String, function: Functions, context: CatrobatParameterParser.SensorPropertyOrMethodInvocationContext): FormulaElement {
+    private fun parseFunction(functionText: String, function: Functions, context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElement {
         val functionFormulaElement = FormulaElement(FormulaElement.ElementType.FUNCTION, function.name, tryGetParentFormulaElement())
         parentFormulaStack.push(functionFormulaElement)
 
@@ -348,9 +349,9 @@ internal class ParameterParserVisitor(
         val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function] ?: throw UnkownFunctionException("Unknown function: $function")
 
         if (numberOfParametersExpected == 0 && context.methodParameters() != null) {
-            throw ArgumentParsingException("No parameters allowed for function $functionText.")
+            throw FormulaParsingException("No parameters allowed for function $functionText.")
         }
-        val parameters = visitMethodParameters(context.methodParameters()) as ParameterVisitResult
+        val parameters = visitMethodParameters(context.methodParameters()) as ParameterListVisitResult
         if (numberOfParametersExpected != parameters.numberOfParameters) {
             if (function == Functions.JOIN || function == Functions.JOIN3) {
                 if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]) {
@@ -358,10 +359,11 @@ internal class ParameterParserVisitor(
                 } else if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]) {
                     functionFormulaElement.value = Functions.JOIN3.name
                 } else {
-                    throw ArgumentParsingException("Wrong number of parameters for function $functionText. Expected ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]} or ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]}, but got ${parameters.numberOfParameters}")
+                    val expectedJoinParameters = "${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]} or ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]}"
+                    throw InvalidNumberOfFunctionArgumentsException(functionText, expectedJoinParameters, parameters.numberOfParameters)
                 }
             } else {
-                throw ArgumentParsingException("Wrong number of parameters for function $functionText. Expected $numberOfParametersExpected, but got ${parameters.numberOfParameters}")
+                throw InvalidNumberOfFunctionArgumentsException(functionText, numberOfParametersExpected, parameters.numberOfParameters)
             }
         }
 
@@ -399,13 +401,13 @@ internal class ParameterParserVisitor(
         }
     }
 
-    override fun visitMethodParameters(context: CatrobatParameterParser.MethodParametersContext?): ArgumentBaseVisitResult {
+    override fun visitMethodParameters(context: FormulaParser.MethodParametersContext?): FormulaBaseVisitResult {
         return visitParameterList(context?.parameterList())
     }
 
-    override fun visitParameterList(context: CatrobatParameterParser.ParameterListContext?): ArgumentBaseVisitResult {
+    override fun visitParameterList(context: FormulaParser.ParameterListContext?): FormulaBaseVisitResult {
         if (context?.expression() == null) {
-            return ParameterVisitResult(null, null, arrayListOf(), 0)
+            return ParameterListVisitResult(null, null, arrayListOf(), 0)
         }
         val parameters = arrayListOf<FormulaElement>()
         for (expression in context.expression()) {
@@ -426,12 +428,12 @@ internal class ParameterParserVisitor(
             parameters.remove(rightParameter)
         }
 
-        return ParameterVisitResult(leftParameter, rightParameter, parameters, numberOfParameters)
+        return ParameterListVisitResult(leftParameter, rightParameter, parameters, numberOfParameters)
     }
 
-    override fun visitUnaryExpression(context: CatrobatParameterParser.UnaryExpressionContext?): ArgumentBaseVisitResult {
+    override fun visitUnaryExpression(context: FormulaParser.UnaryExpressionContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No unary expression found")
+            throw FormulaParsingException("No unary expression found")
         }
         var unaryFormulaElement: FormulaElement? = null
 
@@ -450,12 +452,12 @@ internal class ParameterParserVisitor(
             parentFormulaStack.pop()
             return FormulaElementVisitResult(unaryFormulaElement)
         }
-        throw ArgumentParsingException("Cannot parse unary expression. No valid operator found.")
+        throw FormulaParsingException("Cannot parse unary expression. No valid operator found.")
     }
 
-    override fun visitLiteral(context: CatrobatParameterParser.LiteralContext?): ArgumentBaseVisitResult {
+    override fun visitLiteral(context: FormulaParser.LiteralContext?): FormulaBaseVisitResult {
         if (context == null) {
-            throw ArgumentParsingException("No literal found")
+            throw FormulaParsingException("No literal found")
         }
         if (context.NUMBER() != null) {
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.NUMBER().text, tryGetParentFormulaElement()))
@@ -470,25 +472,25 @@ internal class ParameterParserVisitor(
         if (context.UDB_PARAMETER() != null) {
             val trimmedUDBParameter = trimFirstAndLastCharacter(context.UDB_PARAMETER().text).replace("\\[", "[").replace("\\]", "]")
             if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
-                throw ArgumentParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
+                throw FormulaParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, tryGetParentFormulaElement()))
         }
         if (context.LIST() != null) {
             val trimmedListParameter = trimFirstAndLastCharacter(context.LIST().text).replace("\\*", "*")
             if (!userLists.contains(trimmedListParameter)) {
-                throw ArgumentParsingException("Unknown list: $trimmedListParameter")
+                throw FormulaParsingException("Unknown list: $trimmedListParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, tryGetParentFormulaElement()))
         }
         if (context.VARIABLE() != null) {
             val trimmedVariableParameter = trimFirstAndLastCharacter(context.VARIABLE().text).replace("\\\"", "\"")
             if (!variables.contains(trimmedVariableParameter)) {
-                throw ArgumentParsingException("Unknown variable: $trimmedVariableParameter")
+                throw FormulaParsingException("Unknown variable: $trimmedVariableParameter")
             }
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, tryGetParentFormulaElement()))
         }
-        throw ArgumentParsingException("No literal found")
+        throw FormulaParsingException("No literal found")
     }
 
     private fun trimFirstAndLastCharacter(string: String): String {

@@ -1,10 +1,10 @@
-parser grammar CatrobatParameterParser;
+parser grammar FormulaParser;
 
 options {
-	tokenVocab = CatrobatParameterLexer;
+	tokenVocab = FormulaLexer;
 }
 
-argument: expression EOF;
+formula: expression EOF;
 
 expression
 	: additiveExpression

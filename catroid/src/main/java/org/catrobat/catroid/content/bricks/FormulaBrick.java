@@ -44,7 +44,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser;
+import org.catrobat.catroid.io.catlang.parser.parameter.CatrobatFormulaParser;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -53,7 +53,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -281,7 +280,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			if (!argumentNameToFormula.containsKey(argumentName)) {
 				continue;
 			}
-			ParameterParser formulaParser = new ParameterParser(context, project, scene, sprite, this);
+			CatrobatFormulaParser formulaParser = new CatrobatFormulaParser(context, project, scene, sprite, this);
 			Formula formula = formulaParser.parseArgument(arguments.get(argumentName));
 			FormulaField formulaField = argumentNameToFormula.get(argumentName);
 			if (formulaMap.containsKey(formulaField)) {

@@ -23,5 +23,5 @@
 
 package org.catrobat.catroid.io.catlang.parser.parameter.error
 
-class UnkownFunctionException(function: String) : ArgumentParsingException("Unknown function found in argument: $function") {
+class UnkownFunctionException(function: String) : FormulaParsingException("Unknown function found in argument: $function") {
 }

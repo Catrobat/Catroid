@@ -25,5 +25,5 @@ package org.catrobat.catroid.io.catlang.parser.parameter.context
 
 import org.catrobat.catroid.formulaeditor.Operators
 
-class OperatorVisitResult(val operator: Operators) : ArgumentBaseVisitResult() {
+class OperatorVisitResult(val operator: Operators) : FormulaBaseVisitResult() {
 }

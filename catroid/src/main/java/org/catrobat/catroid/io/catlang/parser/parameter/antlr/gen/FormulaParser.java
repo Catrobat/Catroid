@@ -1,19 +1,19 @@
-// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/CatrobatParameterParser.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/FormulaParser.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserListener;
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParserVisitor;
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParserListener;
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParserVisitor;
 
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
-public class CatrobatParameterParser extends Parser {
+public class FormulaParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -28,14 +28,14 @@ public class CatrobatParameterParser extends Parser {
 		OPERATOR_LOGIC_LOWER_EQUAL=21, OPERATOR_LOGIC_GREATER_EQUAL=22, SENSOR_OR_PROPERTY_OR_METHOD=23, 
 		HEX_NUMBER=24;
 	public static final int
-		RULE_argument = 0, RULE_expression = 1, RULE_additiveExpression = 2, RULE_multiplicativeExpression = 3, 
+		RULE_formula = 0, RULE_expression = 1, RULE_additiveExpression = 2, RULE_multiplicativeExpression = 3, 
 		RULE_comparisonExpression = 4, RULE_additiveOperator = 5, RULE_multiplicativeOperator = 6, 
 		RULE_comparisonOperator = 7, RULE_simpleExpression = 8, RULE_sensorPropertyOrMethodInvocation = 9, 
 		RULE_methodParameters = 10, RULE_parameterList = 11, RULE_unaryExpression = 12, 
 		RULE_literal = 13;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"argument", "expression", "additiveExpression", "multiplicativeExpression", 
+			"formula", "expression", "additiveExpression", "multiplicativeExpression", 
 			"comparisonExpression", "additiveOperator", "multiplicativeOperator", 
 			"comparisonOperator", "simpleExpression", "sensorPropertyOrMethodInvocation", 
 			"methodParameters", "parameterList", "unaryExpression", "literal"
@@ -96,7 +96,7 @@ public class CatrobatParameterParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CatrobatParameterParser.g4"; }
+	public String getGrammarFileName() { return "FormulaParser.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -107,39 +107,39 @@ public class CatrobatParameterParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public CatrobatParameterParser(TokenStream input) {
+	public FormulaParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class ArgumentContext extends ParserRuleContext {
+	public static class FormulaContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode EOF() { return getToken(CatrobatParameterParser.EOF, 0); }
-		public ArgumentContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode EOF() { return getToken(FormulaParser.EOF, 0); }
+		public FormulaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_argument; }
+		@Override public int getRuleIndex() { return RULE_formula; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener) ((CatrobatParameterParserListener)listener).enterArgument(this);
+			if ( listener instanceof FormulaParserListener) ((FormulaParserListener)listener).enterFormula(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitArgument(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitFormula(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitArgument(this);
+			if ( visitor instanceof FormulaParserVisitor) return ((FormulaParserVisitor<? extends T>)visitor).visitFormula(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ArgumentContext argument() throws RecognitionException {
-		ArgumentContext _localctx = new ArgumentContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_argument);
+	public final FormulaContext formula() throws RecognitionException {
+		FormulaContext _localctx = new FormulaContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_formula);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -171,15 +171,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -225,15 +225,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_additiveExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterAdditiveExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterAdditiveExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitAdditiveExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitAdditiveExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitAdditiveExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitAdditiveExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -296,15 +296,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_multiplicativeExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterMultiplicativeExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterMultiplicativeExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitMultiplicativeExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitMultiplicativeExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -367,15 +367,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_comparisonExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterComparisonExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterComparisonExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitComparisonExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitComparisonExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitComparisonExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitComparisonExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -420,24 +420,24 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AdditiveOperatorContext extends ParserRuleContext {
-		public TerminalNode OPERATOR_NUMERIC_ADD() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_ADD, 0); }
-		public TerminalNode OPERATOR_NUMERIC_MINUS() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_MINUS, 0); }
-		public TerminalNode OPERATOR_LOGIC_OR() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_OR, 0); }
+		public TerminalNode OPERATOR_NUMERIC_ADD() { return getToken(FormulaParser.OPERATOR_NUMERIC_ADD, 0); }
+		public TerminalNode OPERATOR_NUMERIC_MINUS() { return getToken(FormulaParser.OPERATOR_NUMERIC_MINUS, 0); }
+		public TerminalNode OPERATOR_LOGIC_OR() { return getToken(FormulaParser.OPERATOR_LOGIC_OR, 0); }
 		public AdditiveOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_additiveOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterAdditiveOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterAdditiveOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitAdditiveOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitAdditiveOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitAdditiveOperator(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitAdditiveOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -474,24 +474,24 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MultiplicativeOperatorContext extends ParserRuleContext {
-		public TerminalNode OPERATOR_NUMERIC_MULTIPLY() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_MULTIPLY, 0); }
-		public TerminalNode OPERATOR_NUMERIC_DIVIDE() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_DIVIDE, 0); }
-		public TerminalNode OPERATOR_LOGIC_AND() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_AND, 0); }
+		public TerminalNode OPERATOR_NUMERIC_MULTIPLY() { return getToken(FormulaParser.OPERATOR_NUMERIC_MULTIPLY, 0); }
+		public TerminalNode OPERATOR_NUMERIC_DIVIDE() { return getToken(FormulaParser.OPERATOR_NUMERIC_DIVIDE, 0); }
+		public TerminalNode OPERATOR_LOGIC_AND() { return getToken(FormulaParser.OPERATOR_LOGIC_AND, 0); }
 		public MultiplicativeOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterMultiplicativeOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterMultiplicativeOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitMultiplicativeOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitMultiplicativeOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitMultiplicativeOperator(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitMultiplicativeOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -528,27 +528,27 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ComparisonOperatorContext extends ParserRuleContext {
-		public TerminalNode OPERATOR_LOGIC_EQUAL() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_EQUAL, 0); }
-		public TerminalNode OPERATOR_LOGIC_NOT_EQUAL() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_NOT_EQUAL, 0); }
-		public TerminalNode OPERATOR_LOGIC_LOWER() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_LOWER, 0); }
-		public TerminalNode OPERATOR_LOGIC_GREATER() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_GREATER, 0); }
-		public TerminalNode OPERATOR_LOGIC_LOWER_EQUAL() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_LOWER_EQUAL, 0); }
-		public TerminalNode OPERATOR_LOGIC_GREATER_EQUAL() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_GREATER_EQUAL, 0); }
+		public TerminalNode OPERATOR_LOGIC_EQUAL() { return getToken(FormulaParser.OPERATOR_LOGIC_EQUAL, 0); }
+		public TerminalNode OPERATOR_LOGIC_NOT_EQUAL() { return getToken(FormulaParser.OPERATOR_LOGIC_NOT_EQUAL, 0); }
+		public TerminalNode OPERATOR_LOGIC_LOWER() { return getToken(FormulaParser.OPERATOR_LOGIC_LOWER, 0); }
+		public TerminalNode OPERATOR_LOGIC_GREATER() { return getToken(FormulaParser.OPERATOR_LOGIC_GREATER, 0); }
+		public TerminalNode OPERATOR_LOGIC_LOWER_EQUAL() { return getToken(FormulaParser.OPERATOR_LOGIC_LOWER_EQUAL, 0); }
+		public TerminalNode OPERATOR_LOGIC_GREATER_EQUAL() { return getToken(FormulaParser.OPERATOR_LOGIC_GREATER_EQUAL, 0); }
 		public ComparisonOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comparisonOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterComparisonOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterComparisonOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitComparisonOperator(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitComparisonOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitComparisonOperator(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitComparisonOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -594,26 +594,26 @@ public class CatrobatParameterParser extends Parser {
 		public UnaryExpressionContext unaryExpression() {
 			return getRuleContext(UnaryExpressionContext.class,0);
 		}
-		public TerminalNode BRACE_OPEN() { return getToken(CatrobatParameterParser.BRACE_OPEN, 0); }
+		public TerminalNode BRACE_OPEN() { return getToken(FormulaParser.BRACE_OPEN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode BRACE_CLOSE() { return getToken(CatrobatParameterParser.BRACE_CLOSE, 0); }
+		public TerminalNode BRACE_CLOSE() { return getToken(FormulaParser.BRACE_CLOSE, 0); }
 		public SimpleExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_simpleExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterSimpleExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterSimpleExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitSimpleExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitSimpleExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitSimpleExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitSimpleExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -681,7 +681,7 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class SensorPropertyOrMethodInvocationContext extends ParserRuleContext {
-		public TerminalNode SENSOR_OR_PROPERTY_OR_METHOD() { return getToken(CatrobatParameterParser.SENSOR_OR_PROPERTY_OR_METHOD, 0); }
+		public TerminalNode SENSOR_OR_PROPERTY_OR_METHOD() { return getToken(FormulaParser.SENSOR_OR_PROPERTY_OR_METHOD, 0); }
 		public MethodParametersContext methodParameters() {
 			return getRuleContext(MethodParametersContext.class,0);
 		}
@@ -691,15 +691,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_sensorPropertyOrMethodInvocation; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterSensorPropertyOrMethodInvocation(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterSensorPropertyOrMethodInvocation(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitSensorPropertyOrMethodInvocation(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitSensorPropertyOrMethodInvocation(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitSensorPropertyOrMethodInvocation(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitSensorPropertyOrMethodInvocation(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -738,26 +738,26 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MethodParametersContext extends ParserRuleContext {
-		public TerminalNode BRACE_OPEN() { return getToken(CatrobatParameterParser.BRACE_OPEN, 0); }
+		public TerminalNode BRACE_OPEN() { return getToken(FormulaParser.BRACE_OPEN, 0); }
 		public ParameterListContext parameterList() {
 			return getRuleContext(ParameterListContext.class,0);
 		}
-		public TerminalNode BRACE_CLOSE() { return getToken(CatrobatParameterParser.BRACE_CLOSE, 0); }
+		public TerminalNode BRACE_CLOSE() { return getToken(FormulaParser.BRACE_CLOSE, 0); }
 		public MethodParametersContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_methodParameters; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterMethodParameters(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterMethodParameters(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitMethodParameters(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitMethodParameters(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitMethodParameters(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitMethodParameters(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -795,9 +795,9 @@ public class CatrobatParameterParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(CatrobatParameterParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(FormulaParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(CatrobatParameterParser.COMMA, i);
+			return getToken(FormulaParser.COMMA, i);
 		}
 		public ParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -805,15 +805,15 @@ public class CatrobatParameterParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameterList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterParameterList(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterParameterList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitParameterList(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitParameterList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitParameterList(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitParameterList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -861,24 +861,24 @@ public class CatrobatParameterParser extends Parser {
 		public SimpleExpressionContext simpleExpression() {
 			return getRuleContext(SimpleExpressionContext.class,0);
 		}
-		public TerminalNode OPERATOR_NUMERIC_ADD() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_ADD, 0); }
-		public TerminalNode OPERATOR_NUMERIC_MINUS() { return getToken(CatrobatParameterParser.OPERATOR_NUMERIC_MINUS, 0); }
-		public TerminalNode OPERATOR_LOGIC_NOT() { return getToken(CatrobatParameterParser.OPERATOR_LOGIC_NOT, 0); }
+		public TerminalNode OPERATOR_NUMERIC_ADD() { return getToken(FormulaParser.OPERATOR_NUMERIC_ADD, 0); }
+		public TerminalNode OPERATOR_NUMERIC_MINUS() { return getToken(FormulaParser.OPERATOR_NUMERIC_MINUS, 0); }
+		public TerminalNode OPERATOR_LOGIC_NOT() { return getToken(FormulaParser.OPERATOR_LOGIC_NOT, 0); }
 		public UnaryExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unaryExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterUnaryExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterUnaryExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitUnaryExpression(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitUnaryExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitUnaryExpression(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitUnaryExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -917,27 +917,27 @@ public class CatrobatParameterParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class LiteralContext extends ParserRuleContext {
-		public TerminalNode NUMBER() { return getToken(CatrobatParameterParser.NUMBER, 0); }
-		public TerminalNode VARIABLE() { return getToken(CatrobatParameterParser.VARIABLE, 0); }
-		public TerminalNode LIST() { return getToken(CatrobatParameterParser.LIST, 0); }
-		public TerminalNode UDB_PARAMETER() { return getToken(CatrobatParameterParser.UDB_PARAMETER, 0); }
-		public TerminalNode STRING() { return getToken(CatrobatParameterParser.STRING, 0); }
-		public TerminalNode HEX_NUMBER() { return getToken(CatrobatParameterParser.HEX_NUMBER, 0); }
+		public TerminalNode NUMBER() { return getToken(FormulaParser.NUMBER, 0); }
+		public TerminalNode VARIABLE() { return getToken(FormulaParser.VARIABLE, 0); }
+		public TerminalNode LIST() { return getToken(FormulaParser.LIST, 0); }
+		public TerminalNode UDB_PARAMETER() { return getToken(FormulaParser.UDB_PARAMETER, 0); }
+		public TerminalNode STRING() { return getToken(FormulaParser.STRING, 0); }
+		public TerminalNode HEX_NUMBER() { return getToken(FormulaParser.HEX_NUMBER, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).enterLiteral(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).enterLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CatrobatParameterParserListener ) ((CatrobatParameterParserListener)listener).exitLiteral(this);
+			if ( listener instanceof FormulaParserListener ) ((FormulaParserListener)listener).exitLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CatrobatParameterParserVisitor ) return ((CatrobatParameterParserVisitor<? extends T>)visitor).visitLiteral(this);
+			if ( visitor instanceof FormulaParserVisitor ) return ((FormulaParserVisitor<? extends T>)visitor).visitLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}

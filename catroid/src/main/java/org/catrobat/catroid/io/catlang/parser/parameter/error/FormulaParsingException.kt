@@ -25,5 +25,5 @@ package org.catrobat.catroid.io.catlang.parser.parameter.error
 
 import java.lang.Exception
 
-open class ArgumentParsingException(message: String): Exception(message) {
+open class FormulaParsingException(message: String): Exception(message) {
 }

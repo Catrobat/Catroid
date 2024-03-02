@@ -47,13 +47,11 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser
-import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
+import org.catrobat.catroid.io.catlang.parser.parameter.CatrobatFormulaParser
+import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.catrobat.catroid.userbrick.UserDefinedBrickData
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
-import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 import org.junit.After
 import org.junit.Assert
 import org.junit.Rule
@@ -62,7 +60,7 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class ParameterParserTest {
+class FormulaParserTest {
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
@@ -351,7 +349,7 @@ class ParameterParserTest {
         try {
             testFormula(expectedFormula)
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
+        } catch (e: FormulaParsingException) {
             Assert.assertEquals("Unknown variable: undefinedVariable", e.message)
         }
     }
@@ -412,7 +410,7 @@ class ParameterParserTest {
         try {
             testFormula(expectedFormula)
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
+        } catch (e: FormulaParsingException) {
             Assert.assertEquals("Unknown list: undefinedList", e.message)
         }
     }
@@ -421,7 +419,7 @@ class ParameterParserTest {
     fun failForUndefinedFunction() {
         val brick = WaitBrick()
         createProject(brick)
-        val parameterParser = ParameterParser(
+        val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
             UiTestCatroidApplication.projectManager.startScene,
@@ -431,7 +429,7 @@ class ParameterParserTest {
         try {
             parameterParser.parseArgument("undefinedFunction(1,2,3)")
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
+        } catch (e: FormulaParsingException) {
             Assert.assertEquals("Unknown sensor found in argument: Unknown sensor, property or method: undefinedFunction", e.message)
         }
     }
@@ -440,7 +438,7 @@ class ParameterParserTest {
     fun failForJoinFunctionParameterCount() {
         val brick = WaitBrick()
         createProject(brick)
-        val parameterParser = ParameterParser(
+        val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
             UiTestCatroidApplication.projectManager.startScene,
@@ -450,8 +448,8 @@ class ParameterParserTest {
         try {
             parameterParser.parseArgument("join(3)")
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
-            Assert.assertEquals("Wrong number of parameters for function join. Expected 2 or 3, but got 1", e.message)
+        } catch (e: FormulaParsingException) {
+            Assert.assertEquals("Invalid number of arguments for function join. Expected 2 or 3, but got 1", e.message)
         }
     }
 
@@ -459,7 +457,7 @@ class ParameterParserTest {
     fun failForWrongParameterNumber() {
         val brick = WaitBrick()
         createProject(brick)
-        val parameterParser = ParameterParser(
+        val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
             UiTestCatroidApplication.projectManager.startScene,
@@ -469,8 +467,8 @@ class ParameterParserTest {
         try {
             parameterParser.parseArgument("sine(1,2)")
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
-            Assert.assertEquals("Wrong number of parameters for function sine. Expected 1, but got 2", e.message)
+        } catch (e: FormulaParsingException) {
+            Assert.assertEquals("Invalid number of arguments for function sine. Expected 1, but got 2", e.message)
         }
     }
 
@@ -533,7 +531,7 @@ class ParameterParserTest {
         try {
             getParsedFormula(brick)
             Assert.fail("Expected ArgumentParsingException")
-        } catch (e: ArgumentParsingException) {
+        } catch (e: FormulaParsingException) {
             Assert.assertEquals("Unknown user defined brick parameter: Input2", e.message)
         }
     }
@@ -577,7 +575,7 @@ class ParameterParserTest {
     }
 
     private fun getParsedFormula(brick: FormulaBrick): Formula {
-        val parameterParser = ParameterParser(
+        val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
             UiTestCatroidApplication.projectManager.startScene,

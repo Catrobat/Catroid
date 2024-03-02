@@ -53,7 +53,7 @@ SENSOR_OR_PROPERTY_OR_METHOD
 HEX_NUMBER
 
 rule names:
-argument
+formula
 expression
 additiveExpression
 multiplicativeExpression

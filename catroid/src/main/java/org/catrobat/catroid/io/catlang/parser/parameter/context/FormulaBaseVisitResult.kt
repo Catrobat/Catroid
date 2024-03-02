@@ -23,5 +23,5 @@
 
 package org.catrobat.catroid.io.catlang.parser.parameter.context
 
-abstract class ArgumentBaseVisitResult {
+abstract class FormulaBaseVisitResult {
 }

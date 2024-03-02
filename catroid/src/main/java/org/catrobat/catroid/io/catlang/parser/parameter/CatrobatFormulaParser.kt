@@ -34,15 +34,14 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterLexer
-import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.CatrobatParameterParser
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaLexer
+import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParser
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
-import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
+import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 
-public class ParameterParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
+public class CatrobatFormulaParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
     class LexerErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
@@ -61,20 +60,20 @@ public class ParameterParser(private val context: Context, private val project: 
         val lexerErrorListener = LexerErrorListener()
         val parserErrorListener = ParserErrorListener()
 
-        val lexer = CatrobatParameterLexer(CharStreams.fromString(argument))
+        val lexer = FormulaLexer(CharStreams.fromString(argument))
         lexer.removeErrorListeners()
         lexer.addErrorListener(lexerErrorListener)
 
-        var parser = CatrobatParameterParser(CommonTokenStream(lexer))
+        var parser = FormulaParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
         parser.addErrorListener(parserErrorListener)
 
-        val argumentContext = parser.argument()
+        val argumentContext = parser.formula()
         throwArgumentParsingException(argument, lexerErrorListener.errors)
         throwArgumentParsingException(argument, parserErrorListener.errors)
 
-        val visitor = ParameterParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters())
-        return (visitor.visitArgument(argumentContext) as FormulaVisitResult).formula
+        val visitor = CatrobatFormulaParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters())
+        return (visitor.visitFormula(argumentContext) as FormulaVisitResult).formula
     }
 
     private fun getLists(): List<String> {
@@ -105,7 +104,7 @@ public class ParameterParser(private val context: Context, private val project: 
 
     private fun throwArgumentParsingException(argument: String, errors: List<String>) {
         if (errors.isNotEmpty()) {
-            throw ArgumentParsingException("Error while parsing argument $argument:" + errors.joinToString("\n"))
+            throw FormulaParsingException("Error while parsing argument $argument:" + errors.joinToString("\n"))
         }
     }
 }

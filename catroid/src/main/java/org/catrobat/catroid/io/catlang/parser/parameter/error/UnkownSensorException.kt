@@ -23,5 +23,5 @@
 
 package org.catrobat.catroid.io.catlang.parser.parameter.error
 
-class UnkownSensorException(sensor: String) : ArgumentParsingException("Unknown sensor found in argument: $sensor") {
+class UnkownSensorException(sensor: String) : FormulaParsingException("Unknown sensor found in argument: $sensor") {
 }

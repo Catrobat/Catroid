@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.io.catrobatlanguage.parser
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.io.catlang.parser.parameter.ParameterParser
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Test

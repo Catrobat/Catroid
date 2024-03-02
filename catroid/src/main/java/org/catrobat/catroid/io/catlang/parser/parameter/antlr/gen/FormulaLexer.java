@@ -1,4 +1,4 @@
-// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/CatrobatParameterLexer.g4 by ANTLR 4.13.1
+// Generated from /home/bprattes/catrobat/Catroid/catroid/src/main/java/org/catrobat/catroid/io/catlang/parser/parameter/antlr/FormulaLexer.g4 by ANTLR 4.13.1
 package org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class CatrobatParameterLexer extends Lexer {
+public class FormulaLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -98,13 +98,13 @@ public class CatrobatParameterLexer extends Lexer {
 	}
 
 
-	public CatrobatParameterLexer(CharStream input) {
+	public FormulaLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CatrobatParameterLexer.g4"; }
+	public String getGrammarFileName() { return "FormulaLexer.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
