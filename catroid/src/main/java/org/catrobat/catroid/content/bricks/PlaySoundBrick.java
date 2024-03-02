@@ -145,9 +145,9 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
 			String soundName = "";
 			if (sound != null) {
-				soundName = sound.getName();
+				soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
 			}
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatSoundName(soundName));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, soundName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

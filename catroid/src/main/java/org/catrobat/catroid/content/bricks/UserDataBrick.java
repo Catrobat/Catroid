@@ -276,6 +276,9 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 			return "";
 		}
 		UserData userData = userDataList.get(brickData);
+		if (userData == null) {
+			return "";
+		}
 		if (BrickData.isUserList(brickData)) {
 			return CatrobatLanguageUtils.formatList(userData.getName());
 		} else {

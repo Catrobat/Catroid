@@ -144,9 +144,9 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		if (name.equals(LOOK_CATLANG_PARAMETER_NAME)) {
 			String lookName = "";
 			if (look != null) {
-				lookName = look.getName();
+				lookName = CatrobatLanguageUtils.formatLook(look.getName());
 			}
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(LOOK_CATLANG_PARAMETER_NAME, CatrobatLanguageUtils.formatLook(lookName));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(LOOK_CATLANG_PARAMETER_NAME, lookName);
 		}
 		return super.getArgumentByCatlangName(name);
 	}

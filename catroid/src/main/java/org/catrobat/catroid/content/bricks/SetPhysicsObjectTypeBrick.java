@@ -55,14 +55,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTION_TYPE_CATLANG_PARAMETER_NAME = "motion type";
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	private static final BiMap<PhysicsObject.Type, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<PhysicsObject.Type, String>()
 	{{
-		put(0, "moving and bouncing under gravity");
-		put(1, "not moving under gravity, but others bounce off you under gravity");
-		put(2, "not moving or bouncing under gravity (default)");
+		put(PhysicsObject.Type.DYNAMIC, "moving and bouncing under gravity");
+		put(PhysicsObject.Type.FIXED, "not moving under gravity, but others bounce off you under gravity");
+		put(PhysicsObject.Type.NONE, "not moving or bouncing under gravity (default)");
 	}});
-
-	private int selection;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 
@@ -123,7 +121,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(MOTION_TYPE_CATLANG_PARAMETER_NAME)) {
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(selection));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(type));
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -140,10 +138,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String motionType = arguments.get(MOTION_TYPE_CATLANG_PARAMETER_NAME);
 		if (motionType != null) {
-			Integer selectedMotionType = CATLANG_SPINNER_VALUES.inverse().get(motionType);
-			if (selectedMotionType != null) {
-				selection = selectedMotionType;
-			} else {
+			type = CATLANG_SPINNER_VALUES.inverse().get(motionType);
+			if (type == null) {
 				throw new CatrobatLanguageParsingException("Invalid motion type: " + motionType);
 			}
 		}

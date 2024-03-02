@@ -1657,12 +1657,12 @@ Program 'The Binding of Krishna' {
           If (condition: (stage touch x( "Local: finger index" ) < 200)) {
             If (condition: (! stage is touched( "Local: joystick finger index" ))) {
               Set (variable: ("Local: joystick finger index"), value: ("Local: finger index"));
-              Broadcast (message: ('Start Krishna's joystick control!'));
+              Broadcast (message: ('Start Krishna\'s joystick control!'));
             }
           } else {
             If (condition: (! stage is touched( "Local: arrows' finger index" ))) {
               Set (variable: ("Local: arrows' finger index"), value: ("Local: finger index"));
-              Broadcast (message: ('Start arrows' joystick control!'));
+              Broadcast (message: ('Start arrows\' joystick control!'));
             }
           }
         }
@@ -1724,14 +1724,14 @@ Program 'The Binding of Krishna' {
           Hide;
         }
         When you receive (message: ('used invulnerability potion')) {
-          Set (color: (#150));
+          Set (color: (150));
           Set (variable: ("KrishnaProtected"), value: (1));
         }
         When you receive (message: ('invulnerability potion finished')) {
           Set (variable: ("KrishnaProtected"), value: (0));
         }
         When you receive (message: ('used health potion')) {
-          Set (color: (#150));
+          Set (color: (150));
         }
         When you receive (message: ('agility potion finished')) {
           Set (variable: ("Local: agility factor"), value: ("Local: normal agility factor"));
@@ -3661,7 +3661,7 @@ Program 'The Binding of Krishna' {
         }
         When you receive (message: ('PutnaAttack')) {
           Repeat (times: (3)) {
-            Set (color: (#500));
+            Set (color: (500));
             Wait (seconds: (0.2));
             Clear graphic effects;
             Wait (seconds: (0.2));
@@ -3708,7 +3708,7 @@ Program 'The Binding of Krishna' {
           Clear graphic effects;
         }
         When you receive (message: ('putna spawn shield')) {
-          Set (color: (#666555));
+          Set (color: (666555));
           Wait (seconds: (0.5));
           Create clone of (actor or object: ('putna shield'));
           Wait (seconds: (0.5));

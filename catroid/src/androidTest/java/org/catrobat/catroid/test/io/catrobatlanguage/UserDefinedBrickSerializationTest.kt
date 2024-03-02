@@ -70,7 +70,7 @@ class UserDefinedBrickSerializationTest {
         startScript.addBrick(userDefinedCallingBrick)
 
         testBrick(receiverBrick, """
-            |Define `fibonacci [n]` without screen refresh as {
+            |Define (user defined brick: (`fibonacci [n]`), screen refresh: (off)) {
             |  If (condition: ([n] < 2)) {
             |    Return (value: ([n]));
             |  } else {
@@ -99,7 +99,7 @@ class UserDefinedBrickSerializationTest {
         startScript.addBrick(userDefinedCallingBrick)
 
         testBrick(receiverBrick, """
-            |Define `` with screen refresh as {
+            |Define (user defined brick: (``), screen refresh: (on)) {
             |}
             |""".trimMargin()
         )
@@ -144,7 +144,7 @@ class UserDefinedBrickSerializationTest {
         udbScript2.addBrick(userDefinedCallingBrick1.clone())
 
         testBrick(receiverBrick1, """
-            |Define `[\[\]] myBrick is super [\`o\`]` with screen refresh as {
+            |Define (user defined brick: (`[\[\]] myBrick is super [\`o\`]`), screen refresh: (on)) {
             |  If (condition: (0)) {
             |    `[\[\]] myBrick is super [\`o\`]` ([\[\]]: (10), [\`o\`]: (20));
             |  } else {
@@ -154,7 +154,7 @@ class UserDefinedBrickSerializationTest {
             |""".trimMargin()
         )
         testBrick(receiverBrick2, """
-            |Define `prin\[\`t\] [value]` with screen refresh as {
+            |Define (user defined brick: (`prin\[\`t\] [value]`), screen refresh: (on)) {
             |  `prin\[\`t\] [value]` ([value]: ('hi'));
             |  `[\[\]] myBrick is super [\`o\`]` ([\[\]]: (10), [\`o\`]: (20));
             |}

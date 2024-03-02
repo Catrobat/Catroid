@@ -267,7 +267,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		Formula formula = formulaMap.get(field);
 		String formulaString = "";
 		if (formula != null) {
-			formulaString = formula.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+			formulaString = formula.getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
 		}
 		return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formulaString);
 	}
