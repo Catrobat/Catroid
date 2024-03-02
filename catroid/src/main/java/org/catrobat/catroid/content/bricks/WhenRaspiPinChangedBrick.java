@@ -175,5 +175,33 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 
+		String selectedPosition = arguments.get(POSITION_CATLANG_PARAMETER_NAME);
+		if (selectedPosition == null) {
+			throw new CatrobatLanguageParsingException("No RasPi position value given");
+		}
+		if (selectedPosition.equals("high")) {
+			script.setEventValue(BrickValues.RASPI_EVENTS[0]);
+		} else if (selectedPosition.equals("low")) {
+			script.setEventValue(BrickValues.RASPI_EVENTS[1]);
+		} else {
+			throw new CatrobatLanguageParsingException("Invalid RasPi position value: " + selectedPosition);
+		}
+
+		String selectedPin = arguments.get(PIN_CATLANG_PARAMETER_NAME);
+		if (selectedPin == null) {
+			throw new CatrobatLanguageParsingException("No RasPi pin value given");
+		}
+		String revision = SettingsFragment.getRaspiRevision(context);
+		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
+		try {
+			int pin = Integer.parseInt(selectedPin);
+			if (availableGPIOs.contains(pin)) {
+				script.setPin(selectedPin);
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid RasPi pin value: " + selectedPin);
+			}
+		} catch (NumberFormatException e) {
+			throw new CatrobatLanguageParsingException("Invalid RasPi pin value: " + selectedPin);
+		}
 	}
 }

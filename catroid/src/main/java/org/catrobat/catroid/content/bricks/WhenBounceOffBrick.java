@@ -28,12 +28,16 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
@@ -42,6 +46,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When you bounce off")
@@ -148,5 +153,24 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String actorOrObjectName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		if (actorOrObjectName != null) {
+			if (actorOrObjectName.equals("any edge, actor, or object")) {
+				script.setSpriteToBounceOffName(null);
+			} else {
+				Sprite selectedSprite = scene.getSprite(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(actorOrObjectName));
+				if (selectedSprite != null) {
+					script.setSpriteToBounceOffName(selectedSprite.getName());
+				} else {
+					throw new CatrobatLanguageParsingException("No actor or object found with name: " + actorOrObjectName);
+				}
+			}
+		}
 	}
 }

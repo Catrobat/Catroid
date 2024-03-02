@@ -37,6 +37,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.webkit.WebViewAssetLoader
 import com.google.gson.Gson

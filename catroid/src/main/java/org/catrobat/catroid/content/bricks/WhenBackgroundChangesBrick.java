@@ -173,7 +173,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	public int getPositionInDragAndDropTargetList() {
 		return -1;
 	}
-	}
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {

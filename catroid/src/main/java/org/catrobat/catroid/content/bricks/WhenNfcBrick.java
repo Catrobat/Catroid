@@ -30,6 +30,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
@@ -37,6 +39,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
@@ -156,5 +160,31 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
 		requiredArguments.add(NFC_TAG_CATLANG_PARAMETER_NAME);
 		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String nfcTagArgument = arguments.get(NFC_TAG_CATLANG_PARAMETER_NAME);
+		if (nfcTagArgument == null) {
+			throw new CatrobatLanguageParsingException("No nfc tag argument found");
+		}
+		script.setNfcTag(null);
+		if (nfcTagArgument.equals("all")) {
+			script.setMatchAll(true);
+		} else {
+			script.setMatchAll(false);
+			nfcTagArgument = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(nfcTagArgument);
+			for (NfcTagData nfcTag : sprite.getNfcTagList()) {
+				if (nfcTag.getName().equals(nfcTagArgument)) {
+					script.setNfcTag(nfcTag);
+					break;
+				}
+			}
+			if (script.getNfcTag() == null) {
+				throw new CatrobatLanguageParsingException("No nfc tag found with name " + nfcTagArgument);
+			}
+		}
 	}
 }

@@ -77,7 +77,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
 		animationName = animation.name();
-		spinnerSelectionIndex = animation.ordinal();
 	}
 
 	@Override
