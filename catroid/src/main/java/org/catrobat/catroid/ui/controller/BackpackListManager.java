@@ -83,7 +83,8 @@ public final class BackpackListManager {
 	}
 
 	private void createDirectory(File directory) {
-		if (!directory.mkdir()) {
+		directory.mkdir();
+		if (!directory.exists()) {
 			throw new RuntimeException("Could not create directory: " + directory.getAbsolutePath());
 		}
 	}

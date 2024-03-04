@@ -151,11 +151,15 @@ public class Formula implements Serializable {
 	}
 
 	@NotNull
-	private Double interpretDoubleInternal(Scope scope) {
+	private Double interpretDoubleInternal(Scope scope) throws InterpretationException {
 		Object o = formulaTree.interpretRecursive(scope);
 		Double doubleReturnValue;
 		if (o instanceof String) {
-			doubleReturnValue = Double.valueOf((String) o);
+			try {
+				doubleReturnValue = Double.valueOf((String) o);
+			} catch (NumberFormatException exception) {
+				throw new InterpretationException("Couldn't interpret String as Double.", exception);
+			}
 		} else if (o instanceof ArrayList) {
 			doubleReturnValue = 1d;
 		} else {
