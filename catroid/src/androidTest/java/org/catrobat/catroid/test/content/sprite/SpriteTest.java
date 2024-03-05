@@ -39,15 +39,21 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Locale;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.updateLocale;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteTest {
@@ -60,6 +66,7 @@ public class SpriteTest {
 
 	private Project project;
 	private Sprite sprite;
+	private Locale locale;
 
 	private AndroidStringProvider androidStringProvider =
 			new AndroidStringProvider(ApplicationProvider.getApplicationContext());
@@ -76,6 +83,13 @@ public class SpriteTest {
 		project.addUserVariable(globalVariable);
 
 		ProjectManager.getInstance().setCurrentProject(project);
+		locale = ApplicationProvider.getApplicationContext()
+				.getResources().getConfiguration().locale;
+	}
+
+	@After
+	public void tearDown() {
+		updateLocale(ApplicationProvider.getApplicationContext(), locale);
 	}
 
 	@Test
@@ -113,5 +127,14 @@ public class SpriteTest {
 
 		userVariable = sprite2.getUserVariable(variableName);
 		assertTrue(userVariable.getVisible());
+	}
+
+	@Test
+	public void spriteEqualBackgroundTest() {
+		sprite.setName("Hintergrund");
+		updateLocale(ApplicationProvider.getApplicationContext(), new Locale("de"));
+		project.checkIfSpriteNameEqualBackground(ApplicationProvider.getApplicationContext());
+		Assert.assertNotEquals(sprite.getName(), "Hintergrund");
+		Assert.assertEquals(sprite.getName(), "Hintergrund (1)");
 	}
 }
