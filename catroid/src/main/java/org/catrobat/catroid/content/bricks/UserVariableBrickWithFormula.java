@@ -151,6 +151,12 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String userVariableName = arguments.get(getUserVariableCatlangArgumentName());
+		if (userVariableName == null) {
+			throw new CatrobatLanguageParsingException("No variable given in parameter " + getUserVariableCatlangArgumentName());
+		}
+		if (userVariableName.isEmpty()) {
+			return;
+		}
 		userVariableName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userVariableName);
 		userVariable = sprite.getUserVariable(userVariableName);
 		if (userVariable == null) {

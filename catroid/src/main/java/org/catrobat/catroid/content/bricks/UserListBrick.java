@@ -178,14 +178,19 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String userListName = arguments.get(getListCatlangParameterName());
+		if (userListName == null) {
+			throw new CatrobatLanguageParsingException("No list given");
+		}
+		if (userListName.isEmpty()) {
+			userList = null;
+			return;
+		}
 		userListName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userListName);
-		if (userListName != null) {
-			userList = sprite.getUserList(userListName);
-			if (userList == null) {
-				userList = project.getUserList(userListName);
-			} else {
-				throw new CatrobatLanguageParsingException("Unkown list: " + userListName);
-			}
+		userList = sprite.getUserList(userListName);
+		if (userList == null) {
+			userList = project.getUserList(userListName);
+		} else {
+			throw new CatrobatLanguageParsingException("Unkown list: " + userListName);
 		}
 	}
 }

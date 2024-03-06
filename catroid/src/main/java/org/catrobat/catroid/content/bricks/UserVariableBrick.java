@@ -150,6 +150,13 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String variableName = arguments.get(VARIABLE_CATLANG_PARAMETER_NAME);
+		if (variableName == null) {
+			throw new CatrobatLanguageParsingException("No variable given");
+		}
+		if (variableName.isEmpty()) {
+			userVariable = null;
+			return;
+		}
 		variableName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(variableName);
 		userVariable = sprite.getUserVariable(variableName);
 		if (userVariable == null) {
