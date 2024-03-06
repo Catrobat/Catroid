@@ -50,6 +50,11 @@ public class WhenStartedBrick extends ScriptBrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EVENT;
+	}
+
+	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		WhenStartedBrick clone = (WhenStartedBrick) super.clone();
 		clone.script = (StartScript) script.clone();

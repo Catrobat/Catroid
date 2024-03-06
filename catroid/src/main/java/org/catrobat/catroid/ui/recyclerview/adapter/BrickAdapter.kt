@@ -256,7 +256,15 @@ class BrickAdapter(private val sprite: Sprite) :
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val item = items[position]
         val itemView = if (item.isCollapsed && checkBoxMode == NONE) {
-            getCollapsedItemView(item, parent)
+            if (item.visualizationType == Brick.BrickVisualizationType.EVENT) {
+                item.getView(parent.context)
+            }
+            else if (item is CompositeBrick && !item.parent.isCollapsed || item is EndBrick &&
+                !item.parent.parent.isCollapsed) {
+                item.getView(parent.context)
+            } else {
+                getCollapsedItemView(item, parent)
+            }
         } else {
             item.getView(parent.context)
         }
@@ -288,106 +296,26 @@ class BrickAdapter(private val sprite: Sprite) :
         return (itemView as ViewGroup).getChildAt(1).background
     }
 
-    fun isInstanceOfAny(obj: Any, classes: List<KClass<out Any>>): Boolean {
-        return classes.any { it.isInstance(obj) }
-    }
-
     private fun getCollapsedItemView(item: Brick, parent: ViewGroup): View {
         val inflater = LayoutInflater.from(parent.context)
-        return inflater.inflate(R.layout.collapsed_control_brick, null)
-        val eventBrickList = listOf(
-            WhenStartedBrick::class, WhenBrick::class,
-            WhenTouchDownBrick::class, BroadcastReceiverBrick::class,
-            WhenConditionBrick::class, WhenBackgroundChangesBrick::class,
-            WhenClonedBrick::class
-        )
 
-        val controlBrickList = listOf(
-            CompositeBrick::class, WaitBrick::class,
-            WaitUntilBrick::class, SceneStartBrick::class,
-            CloneBrick::class, BroadcastBrick::class,
-            BroadcastWaitBrick::class, SceneTransitionBrick::class,
-            StopScriptBrick::class, ExitStageBrick::class,
-            DeleteThisCloneBrick::class, EndBrick::class,
-            WaitTillIdleBrick::class
-        )
-
-        val lookBrickList = listOf(
-            ParticleEffectAdditivityBrick::class, AskBrick::class,
-            BackgroundRequestBrick::class,
-            ChangeBrightnessByNBrick::class, ChangeColorByNBrick::class,
-            ChangeSizeByNBrick::class, ChangeTransparencyByNBrick::class,
-            ChooseCameraBrick::class, ClearGraphicEffectBrick::class,
-            CopyLookBrick::class, DeleteLookBrick::class,
-            DroneSwitchCameraBrick::class, EditLookBrick::class,
-            FadeParticleEffectBrick::class, FlashBrick::class,
-            HideBrick::class, LookRequestBrick::class,
-            NextLookBrick::class, PaintNewLookBrick::class,
-            PhiroRGBLightBrick::class, PreviousLookBrick::class,
-            SayBubbleBrick::class, SayForBubbleBrick::class,
-            SetBackgroundBrick::class, SetBackgroundByIndexBrick::class,
-            SetBackgroundByIndexAndWaitBrick::class,
-            SetBrightnessBrick::class, SetCameraFocusPointBrick::class,
-            SetColorBrick::class, SetLookBrick::class,
-            SetLookByIndexBrick::class, SetParticleColorBrick::class,
-            SetSizeToBrick::class, SetTransparencyBrick::class,
-            ShowBrick::class, ThinkBubbleBrick::class,
-            ThinkForBubbleBrick::class, CameraBrick::class
-        )
-
-        val soundBrickList = listOf(
-            AskSpeechBrick::class, ChangeTempoByNBrick::class,
-            ChangeVolumeByNBrick::class, JumpingSumoNoSoundBrick::class,
-            JumpingSumoSoundBrick::class, PauseForBeatsBrick::class,
-            PhiroPlayToneBrick::class, PlayDrumForBeatsBrick::class,
-            PlayNoteForBeatsBrick::class, PlaySoundBrick::class,
-            PlaySoundAtBrick::class, SetInstrumentBrick::class,
-            SetListeningLanguageBrick::class, SetTempoBrick::class,
-            SetVolumeToBrick::class, SpeakBrick::class,
-            SpeakAndWaitBrick::class, StartListeningBrick::class,
-            StopAllSoundsBrick::class, StopSoundBrick::class
-        )
-
-        val motionBrickList =
-            listOf(
-                ChangeXByNBrick::class, ChangeYByNBrick::class, DroneEmergencyBrick::class,
-                DroneFlipBrick::class, DroneMoveBackwardBrick::class,
-                DroneMoveDownBrick::class, DroneMoveForwardBrick::class,
-                DroneMoveLeftBrick::class, DroneMoveRightBrick::class,
-                DroneMoveUpBrick::class, DronePlayLedAnimationBrick::class,
-                DroneTakeOffLandBrick::class, DroneTurnLeftBrick::class,
-                DroneTurnRightBrick::class, GlideToBrick::class, GoNStepsBackBrick::class,
-                GoToBrick::class, ComeToFrontBrick::class, IfOnEdgeBounceBrick::class,
-                JumpingSumoAnimationsBrick::class, JumpingSumoJumpHighBrick::class,
-                JumpingSumoJumpLongBrick::class, JumpingSumoMoveBackwardBrick::class,
-                JumpingSumoMoveForwardBrick::class, JumpingSumoRotateLeftBrick::class,
-                JumpingSumoRotateRightBrick::class, JumpingSumoTakingPictureBrick::class,
-                JumpingSumoTurnBrick::class, MoveNStepsBrick::class, SetBounceBrick::class,
-                SetFrictionBrick::class, SetGravityBrick::class, SetMassBrick::class,
-                SetPhysicsObjectTypeBrick::class, SetVelocityBrick::class,
-                TurnLeftSpeedBrick::class, TurnRightSpeedBrick::class, PlaceAtBrick::class,
-                PointInDirectionBrick::class, PointToBrick::class,
-                SetRotationStyleBrick::class, SetTextBrick::class, SetXBrick::class,
-                SetYBrick::class, TurnLeftBrick::class, TurnRightBrick::class,
-                VibrationBrick::class, WhenBounceOffBrick::class
-            )
-
-        if (isInstanceOfAny(item, eventBrickList)) {
-            return inflater.inflate(R.layout.collapsed_event_brick, null)
+        return when(item.visualizationType) {
+            Brick.BrickVisualizationType.EVENT ->
+                inflater.inflate(R.layout.collapsed_event_brick, null)
+            Brick.BrickVisualizationType.LOOKS ->
+                inflater.inflate(R.layout.collapsed_looks_brick, null)
+            Brick.BrickVisualizationType.MOTION ->
+                inflater.inflate(R.layout.collapsed_motion_brick, null)
+            Brick.BrickVisualizationType.CONTROL ->
+                inflater.inflate(R.layout.collapsed_control_brick, null)
+            Brick.BrickVisualizationType.SOUND ->
+                inflater.inflate(R.layout.collapsed_sound_brick, null)
+            Brick.BrickVisualizationType.ARDUINO ->
+                inflater.inflate(R.layout.collapsed_arduino_brick, null)
+            Brick.BrickVisualizationType.LEGO ->
+                inflater.inflate(R.layout.collapsed_lego_brick, null)
+            else -> throw NullPointerException("No collapsed view found")
         }
-        if (isInstanceOfAny(item, lookBrickList)) {
-            return inflater.inflate(R.layout.collapsed_looks_brick, null)
-        }
-        if (isInstanceOfAny(item, soundBrickList)) {
-            return inflater.inflate(R.layout.collapsed_sound_brick, null)
-        }
-        if (isInstanceOfAny(item, motionBrickList)) {
-            return inflater.inflate(R.layout.collapsed_motion_brick, null)
-        }
-        if (isInstanceOfAny(item, controlBrickList)) {
-            return inflater.inflate(R.layout.collapsed_control_brick, null)
-        }
-        throw NullPointerException("No collapsed view found")
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {

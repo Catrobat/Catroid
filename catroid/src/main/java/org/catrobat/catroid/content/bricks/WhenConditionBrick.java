@@ -64,6 +64,11 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		return R.layout.brick_when_condition_true;
 	}
 
+	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EVENT;
+	}
+
 	public Formula getConditionFormula() {
 		return getFormulaWithBrickField(BrickField.IF_CONDITION);
 	}

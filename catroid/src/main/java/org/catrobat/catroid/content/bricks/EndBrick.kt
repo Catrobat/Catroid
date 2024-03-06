@@ -39,6 +39,9 @@ class EndBrick @JvmOverloads constructor(
 
     override fun getViewResource(): Int = viewResource
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick
+        .BrickVisualizationType.CONTROL
+
     override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {
         // not needed for EndBricks, in case you need it for one, please be aware that changes
         // here will affect multiple composite bricks
@@ -51,7 +54,8 @@ class EndBrick @JvmOverloads constructor(
     override fun getAllParts(): List<Brick?>? = parent.allParts
 
     override fun addToFlatList(bricks: List<Brick?>?) {
-        parent.addToFlatList(bricks)
+        // not needed for EndBricks, in case you need it for one, please be aware that changes
+        // here will affect multiple composite bricks
     }
 
     override fun getDragAndDropTargetList(): List<Brick?>? =

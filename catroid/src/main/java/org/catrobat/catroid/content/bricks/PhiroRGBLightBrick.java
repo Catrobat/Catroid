@@ -80,6 +80,11 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

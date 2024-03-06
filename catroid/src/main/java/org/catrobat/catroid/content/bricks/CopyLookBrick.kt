@@ -31,6 +31,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 import org.catrobat.catroid.formulaeditor.Formula
 
 class CopyLookBrick constructor() : FormulaBrick() {
@@ -45,6 +46,8 @@ class CopyLookBrick constructor() : FormulaBrick() {
     }
 
     override fun getViewResource(): Int = R.layout.brick_copy_look
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.LOOKS
 
     override fun getView(context: Context): View {
         super.getView(context)

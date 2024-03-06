@@ -43,6 +43,9 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
 
     override fun getViewResource(): Int = R.layout.brick_additive_particle_effect
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType =
+        Brick.BrickVisualizationType.LOOKS
+
     override fun getView(context: Context): View {
         super.getView(context)
         val fadeSpinner = view.findViewById<Spinner>(R.id.brick_additive_particle_effect_spinner)

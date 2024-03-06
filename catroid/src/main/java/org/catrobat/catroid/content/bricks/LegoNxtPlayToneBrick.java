@@ -55,6 +55,11 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public BrickField getDefaultBrickField() {
 		return BrickField.LEGO_NXT_DURATION_IN_SECONDS;
 	}

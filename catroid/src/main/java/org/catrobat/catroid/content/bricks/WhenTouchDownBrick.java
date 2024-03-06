@@ -63,6 +63,11 @@ public class WhenTouchDownBrick extends ScriptBrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EVENT;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

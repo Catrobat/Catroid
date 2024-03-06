@@ -44,6 +44,8 @@ class SetBackgroundByIndexAndWaitBrick : FormulaBrick {
 
     override fun getViewResource() = R.layout.brick_set_background_by_index_and_wait
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.LOOKS
+
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory.createSetBackgroundByIndexAction(

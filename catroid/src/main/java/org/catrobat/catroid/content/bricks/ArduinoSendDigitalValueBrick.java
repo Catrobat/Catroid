@@ -52,6 +52,11 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.ARDUINO;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_SENSORS_ARDUINO);
 		super.addRequiredResources(requiredResourcesSet);

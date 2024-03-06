@@ -51,6 +51,11 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		Spinner flashSpinner = view.findViewById(R.id.brick_flash_spinner);

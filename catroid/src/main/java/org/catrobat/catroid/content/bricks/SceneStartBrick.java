@@ -83,6 +83,11 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 

@@ -56,6 +56,11 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
 				new ShowTextUtils.AndroidStringProvider(CatroidApplication.getAppContext()), getFormulaWithBrickField(BrickField.STRING),

@@ -121,6 +121,11 @@ public interface Brick extends Serializable, Cloneable {
 		}
 	}
 
+	enum BrickVisualizationType {
+		ARDUINO, CHROMECAST, CONTROL, DATA, DEVICE, EMBROIDERY, EVENT, LEGO, LOOKS, MOTION, PEN,
+		SOUND, SUMO, USERDEFINED;
+	}
+
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION,
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATION, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
@@ -209,6 +214,8 @@ public interface Brick extends Serializable, Cloneable {
 	boolean isCollapsed();
 
 	void setCollapsed(boolean collapsed);
+
+	BrickVisualizationType getVisualizationType();
 
 	boolean hasHelpPage();
 

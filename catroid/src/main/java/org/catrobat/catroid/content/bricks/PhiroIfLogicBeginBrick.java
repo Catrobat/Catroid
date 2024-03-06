@@ -175,6 +175,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		Spinner spinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
@@ -271,6 +276,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		@Override
 		public int getViewResource() {
 			return R.layout.brick_if_else;
+		}
+
+		@Override
+		public BrickVisualizationType getVisualizationType() {
+			return BrickVisualizationType.CONTROL;
 		}
 
 		@Override

@@ -39,6 +39,11 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createDeleteThisCloneAction(sprite));
 	}

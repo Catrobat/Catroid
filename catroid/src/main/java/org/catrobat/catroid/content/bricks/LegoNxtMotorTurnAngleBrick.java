@@ -66,6 +66,11 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 

@@ -37,6 +37,8 @@ class SetParticleColorBrick() : FormulaBrick() {
 
     override fun getViewResource(): Int = R.layout.brick_set_particle_color
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.LOOKS
+
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory

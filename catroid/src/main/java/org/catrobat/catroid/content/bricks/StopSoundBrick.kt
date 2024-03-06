@@ -46,6 +46,8 @@ class StopSoundBrick : BrickBaseType(),
 
     override fun getViewResource() = R.layout.brick_stop_sound
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.SOUND
+
     override fun getView(context: Context): View {
         super.getView(context)
 

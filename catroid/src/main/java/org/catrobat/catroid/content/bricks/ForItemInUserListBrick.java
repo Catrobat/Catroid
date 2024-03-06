@@ -53,6 +53,11 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public boolean hasSecondaryList() {
 		return false;
 	}
