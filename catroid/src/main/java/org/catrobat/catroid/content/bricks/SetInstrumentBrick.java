@@ -47,6 +47,11 @@ public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.On
 		return R.layout.brick_set_instrument;
 	}
 
+	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
 	protected int getSpinnerId() {
 		return R.id.set_instrument_spinner;
 	}

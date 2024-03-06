@@ -28,9 +28,9 @@
     android:orientation="horizontal">
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/collapsed_motion_brick"
-        android:background="@drawable/collapsed_brick_background_event"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:id="@+id/collapsed_event_brick"
+        style="@style/BrickContainer.Event.Collapsed"
+        android:layout_marginTop="-7dp"
+        android:layout_marginBottom="0dp">
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

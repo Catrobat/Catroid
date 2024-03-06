@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -45,6 +46,8 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
 
     override val selectorId: Int
         get() = R.id.brick_param_list_of_list_text
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.ARDUINO
 
     override fun hasSecondaryList(): Boolean = false
 

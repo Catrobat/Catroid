@@ -55,6 +55,11 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public boolean hasSecondaryList() {
 		return false;
 	}

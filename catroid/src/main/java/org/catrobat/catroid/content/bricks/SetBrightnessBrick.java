@@ -50,6 +50,11 @@ public class SetBrightnessBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.BRIGHTNESS)));

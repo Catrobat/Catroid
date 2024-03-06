@@ -180,6 +180,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
 		view.findViewById(R.id.if_else_prototype_punctuation).setVisibility(View.VISIBLE);
@@ -264,6 +269,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		@Override
 		public int getViewResource() {
 			return R.layout.brick_if_else;
+		}
+
+		@Override
+		public BrickVisualizationType getVisualizationType() {
+			return BrickVisualizationType.CONTROL;
 		}
 
 		@Override

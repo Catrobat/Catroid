@@ -62,6 +62,11 @@ public class PlayNoteForBeatsBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		if (areAllBrickFieldsNumbers() && view.getId() == brickFieldToTextViewIdMap.get(BrickField.NOTE_TO_PLAY)) {
 			ShowFormulaEditorStrategy.Callback callback = new PlayNoteForBeatsBrick.PlayNoteForBeatsBrickCallback(view);

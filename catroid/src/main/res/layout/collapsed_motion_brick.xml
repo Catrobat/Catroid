@@ -30,8 +30,8 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/collapsed_motion_brick"
-        android:background="@drawable/collapsed_brick_background_motion"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        style="@style/BrickContainer.Motion.Collapsed"
+        android:layout_marginTop="-7dp"
+        android:layout_marginBottom="0dp">
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

@@ -214,6 +214,7 @@ public class ScriptFragment extends ListFragment implements
 			case COLLAPSE:
 				adapter.selectAllCollapsedBricks();
 				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				List<Brick> selected = adapter.getSelectedItems();
 				mode.setTitle(getString(R.string.collapse_expand));
 				break;
 			case NONE:

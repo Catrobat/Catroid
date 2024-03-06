@@ -37,16 +37,16 @@
             android:strokeLineJoin="miter"
             android:strokeWidth="0.3" />
         <path
-            android:fillColor="#f99761"
+            android:fillColor="#26a6ae"
             android:pathData="m3.8,67.6 l46,0.3 8.3,17.3h70.7l7.8,-17.5 1253.3,0.2 0.3,24.5H139L132,109.9 55.1,109.4 46.7,92.7 4,92.5Z"
-            android:strokeColor="#f99761"
+            android:strokeColor="#26a6ae"
             android:strokeLineCap="butt"
             android:strokeLineJoin="miter"
             android:strokeWidth="1" />
         <path
-            android:fillColor="#fbc3a2"
+            android:fillColor="#26a6ae"
             android:pathData="m3.6,53.7 l46.2,0.3 8.5,18.4h70l8.2,-18.4 1253.1,-0.3 0.3,14.1L139.9,67 132.6,85.1 54.5,84.9 47,67.7 3.7,67.4Z"
-            android:strokeColor="#fbc3a2"
+            android:strokeColor="#26a6ae"
             android:strokeLineCap="butt"
             android:strokeLineJoin="miter"
             android:strokeWidth="0.999999" />

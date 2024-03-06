@@ -54,6 +54,11 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

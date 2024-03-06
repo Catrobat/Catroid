@@ -48,6 +48,11 @@ public class SayForBubbleBrick extends ThinkForBubbleBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite,
 				sequence, new ShowTextUtils.AndroidStringProvider(CatroidApplication.getAppContext()),

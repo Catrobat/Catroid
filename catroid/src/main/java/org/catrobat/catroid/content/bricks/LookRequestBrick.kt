@@ -26,6 +26,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
 
@@ -41,6 +42,8 @@ class LookRequestBrick constructor() : FormulaBrick() {
     }
 
     override fun getViewResource(): Int = R.layout.brick_look_request
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.LOOKS
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createLookRequestAction(

@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 class PreviousLookBrick : BrickBaseType() {
     override fun getViewResource() = R.layout.brick_previous_look
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.LOOKS
+
     override fun getView(context: Context): View {
         super.getView(context)
         if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {

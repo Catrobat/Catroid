@@ -66,6 +66,11 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

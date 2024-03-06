@@ -78,6 +78,11 @@ public abstract class BrickBaseType implements Brick {
 		this.collapsed = collapsed;
 	}
 
+	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.MOTION;
+	}
+
 	@Nullable
 	@Override
 	public CheckBox getCheckBox() {

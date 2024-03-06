@@ -31,6 +31,7 @@ import android.widget.Spinner
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 
 class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
 
@@ -42,6 +43,8 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
     private var fadeSpinnerSelectionId: Int = fadeType
 
     override fun getViewResource(): Int = R.layout.brick_fade_particle_effect
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.LOOKS
 
     override fun getView(context: Context): View {
         super.getView(context)

@@ -69,6 +69,11 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public BrickField getDefaultBrickField() {
 		return BrickField.FOR_LOOP_FROM;
 	}
