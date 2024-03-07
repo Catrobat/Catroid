@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -40,7 +39,6 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.GroupItemSprite
 import org.catrobat.catroid.content.GroupSprite
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
@@ -69,7 +67,6 @@ class GroupSpriteOptionsTest {
     private val firstSpriteName = "firstSprite"
     private val secondSpriteName = "secondSprite"
     private val groupSprite = "groupSprite"
-
     private lateinit var group: GroupSprite
     private lateinit var sprite1: GroupItemSprite
     private lateinit var sprite2: GroupItemSprite
