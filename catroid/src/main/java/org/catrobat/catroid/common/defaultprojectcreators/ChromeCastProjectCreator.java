@@ -63,8 +63,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.ScreenValues.CAST_SCREEN_HEIGHT;
-import static org.catrobat.catroid.common.ScreenValues.CAST_SCREEN_WIDTH;
+import static org.catrobat.catroid.common.ScreenValues.CAST_SCREEN_RESOLUTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
@@ -104,8 +103,8 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactor(
 				options.outWidth,
 				options.outHeight,
-				CAST_SCREEN_WIDTH,
-				CAST_SCREEN_HEIGHT);
+				CAST_SCREEN_RESOLUTION.getWidth(),
+				CAST_SCREEN_RESOLUTION.getHeight());
 
 		Scene scene = project.getDefaultScene();
 
@@ -205,22 +204,23 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		Script script = new StartScript();
 
 		script.addBrick(new PlaceAtBrick(new Formula(0), new Formula(0)));
-		script.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_WIDTH), new Formula(0), new Formula(5)));
-		script.addBrick(new PlaceAtBrick(CAST_SCREEN_WIDTH, 0));
+		script.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_RESOLUTION.getWidth()), new Formula(0),
+				new Formula(5)));
+		script.addBrick(new PlaceAtBrick(CAST_SCREEN_RESOLUTION.getWidth(), 0));
 
 		ForeverBrick loopBrick = new ForeverBrick();
-		loopBrick.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_WIDTH), new Formula(0), new Formula(10)));
-		loopBrick.addBrick(new PlaceAtBrick(CAST_SCREEN_WIDTH, 0));
+		loopBrick.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_RESOLUTION.getWidth()), new Formula(0), new Formula(10)));
+		loopBrick.addBrick(new PlaceAtBrick(CAST_SCREEN_RESOLUTION.getWidth(), 0));
 
 		script.addBrick(loopBrick);
 		cloud1.addScript(script);
 
 		script = new StartScript();
-		script.addBrick(new PlaceAtBrick(new Formula(CAST_SCREEN_WIDTH), new Formula(0)));
+		script.addBrick(new PlaceAtBrick(new Formula(CAST_SCREEN_RESOLUTION.getWidth()), new Formula(0)));
 
 		loopBrick = new ForeverBrick();
-		loopBrick.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_WIDTH), new Formula(0), new Formula(10)));
-		loopBrick.addBrick(new PlaceAtBrick(new Formula(CAST_SCREEN_WIDTH), new Formula(0)));
+		loopBrick.addBrick(new GlideToBrick(new Formula(-CAST_SCREEN_RESOLUTION.getWidth()), new Formula(0), new Formula(10)));
+		loopBrick.addBrick(new PlaceAtBrick(new Formula(CAST_SCREEN_RESOLUTION.getWidth()), new Formula(0)));
 
 		script.addBrick(loopBrick);
 		cloud2.addScript(script);

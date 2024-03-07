@@ -32,8 +32,7 @@ import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetectorSetting
 import com.huawei.hms.mlsdk.text.MLText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.coordinatesFromRelativePosition
-import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
-import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
+import org.catrobat.catroid.common.ScreenValues.currentScreenResolution
 import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
 
@@ -99,18 +98,18 @@ object TextBlockUtil {
             relativeX = if (isCameraFacingFront) 1 - relativeX else relativeX
             coordinatesFromRelativePosition(
                 relativeX,
-                SCREEN_WIDTH.toDouble(),
+                currentScreenResolution.width.toDouble(),
                 1 - textBlockBounds.exactCenterY().toDouble() / imageHeight,
-                SCREEN_WIDTH.toFloat() / aspectRatio
+                currentScreenResolution.width.toFloat() / aspectRatio
             )
         } else {
             var relativeX = textBlockBounds.exactCenterX().toDouble() / imageHeight
             relativeX = if (isCameraFacingFront) 1 - relativeX else relativeX
             coordinatesFromRelativePosition(
                 relativeX,
-                SCREEN_HEIGHT / aspectRatio,
+                currentScreenResolution.height / aspectRatio,
                 1 - textBlockBounds.exactCenterY().toDouble() / imageWidth,
-                SCREEN_HEIGHT.toDouble()
+                currentScreenResolution.height.toDouble()
             )
         }
     }

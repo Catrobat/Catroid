@@ -51,10 +51,12 @@ import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Locale;
@@ -119,11 +121,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float relativeTextSize;
 	private float xOffsetText;
 	private float yOffsetText;
-
-	private float reversedRatioHeight;
-	private float reversedRatioWidth;
-	private int layoutWidth;
-	private int layoutHeight;
+	private Resolution layoutResolution;
 	private float layoutWidthRatio;
 	private float layoutHeightRatio;
 	private VisualPlacementTouchListener visualPlacementTouchListener;
@@ -192,50 +190,28 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		frameLayout = findViewById(R.id.frame_container);
 
-		int screenWidth = displayMetrics.widthPixels;
-		int screenHeight = displayMetrics.heightPixels;
-		int virtualScreenWidth = currentProject.getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = currentProject.getXmlHeader().virtualScreenHeight;
-
-		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float screenAspectRatio = (float) screenWidth / (float) screenHeight;
-
-		float scale;
-		float ratioHeight = (float) screenHeight / (float) virtualScreenHeight;
-		float ratioWidth = (float) screenWidth / (float) virtualScreenWidth;
+		Resolution projectResolution = new Resolution(
+				currentProject.getXmlHeader().virtualScreenWidth,
+				currentProject.getXmlHeader().virtualScreenHeight);
 
 		switch (currentProject.getScreenMode()) {
 			case MAXIMIZE:
-				if (aspectRatio < screenAspectRatio) {
-					scale = ratioHeight / ratioWidth;
-					layoutWidth = (int) (screenWidth * scale);
-					layoutHeight = screenHeight;
-				} else if (aspectRatio > screenAspectRatio) {
-					scale = ratioWidth / ratioHeight;
-					layoutHeight = (int) (screenHeight * scale);
-					layoutWidth = screenWidth;
-				} else {
-					layoutHeight = screenHeight;
-					layoutWidth = screenWidth;
-				}
+				layoutResolution = projectResolution.resizeToFit(ScreenValues.currentScreenResolution);
 				break;
 			case STRETCH:
-				layoutHeight = screenHeight;
-				layoutWidth = screenWidth;
+				layoutResolution = ScreenValues.currentScreenResolution;
 				break;
 		}
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = Gravity.CENTER;
-		layoutParams.width = layoutWidth;
-		layoutParams.height = layoutHeight;
+		layoutParams.width = layoutResolution.getWidth();
+		layoutParams.height = layoutResolution.getHeight();
 		frameLayout.setLayoutParams(layoutParams);
 
-		layoutHeightRatio = (float) layoutHeight / (float) virtualScreenHeight;
-		layoutWidthRatio = (float) layoutWidth / (float) virtualScreenWidth;
-		reversedRatioHeight = (float) virtualScreenHeight / (float) layoutHeight;
-		reversedRatioWidth = (float) virtualScreenWidth / (float) layoutWidth;
+		layoutHeightRatio = (float) layoutResolution.getHeight() / (float) projectResolution.getHeight();
+		layoutWidthRatio = (float) layoutResolution.getWidth() / (float) projectResolution.getWidth();
 
 		bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -326,8 +302,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			imageView.setTranslationX(translateX);
 			imageView.setTranslationY(-translateY);
 		}
-		xCoord = translateX / reversedRatioWidth;
-		yCoord = translateY / reversedRatioHeight;
+		xCoord = translateX * layoutWidthRatio;
+		yCoord = translateY * layoutHeightRatio;
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);
@@ -395,8 +371,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public void onBackPressed() {
-		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
-		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
+		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		if (translateX != xCoordinate || translateY != yCoordinate) {
 			showSaveChangesDialog(this);
@@ -422,8 +398,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		Intent returnIntent = new Intent();
 		Bundle extras = new Bundle();
 		extras.putInt(EXTRA_BRICK_HASH, getIntent().getIntExtra(EXTRA_BRICK_HASH, -1));
-		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
-		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
+		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate);
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);
