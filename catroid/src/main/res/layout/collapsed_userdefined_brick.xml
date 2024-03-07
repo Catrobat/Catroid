@@ -28,8 +28,8 @@
     android:orientation="horizontal">
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/collapsed_sound_brick"
-        style="@style/BrickContainer.Sound.Collapsed"
+        android:id="@+id/collapsed_userdefined_brick"
+        style="@style/BrickContainer.UserDefinedBrick.Collapsed"
         android:layout_marginTop="@dimen/brick_collapsed_margin_top"
         android:layout_marginBottom="@dimen/brick_collapsed_margin_bottom">
     </org.catrobat.catroid.ui.BrickLayout>

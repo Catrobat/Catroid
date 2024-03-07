@@ -30,7 +30,7 @@
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/collapsed_event_brick"
         style="@style/BrickContainer.Event.Collapsed"
-        android:layout_marginTop="-7dp"
-        android:layout_marginBottom="0dp">
+        android:layout_marginTop="@dimen/brick_collapsed_margin_top"
+        android:layout_marginBottom="@dimen/brick_collapsed_margin_bottom">
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

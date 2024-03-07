@@ -67,6 +67,11 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.PEN;
+	}
+
+	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		if (areAllBrickFieldsNumbers()) {
 			ShowFormulaEditorStrategy.Callback callback = new SetPenColorBrickCallback(view);

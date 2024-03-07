@@ -322,6 +322,11 @@ public class UserDefinedBrick extends FormulaBrick {
 		return R.layout.brick_user_brick;
 	}
 
+	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.USERDEFINED;
+	}
+
 	public Brick.FormulaField getBrickFieldFromTextView(TextView view) {
 		return formulaFieldToTextViewMap.inverse().get(view);
 	}

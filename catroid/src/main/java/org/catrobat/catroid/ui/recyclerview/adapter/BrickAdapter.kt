@@ -314,6 +314,10 @@ class BrickAdapter(private val sprite: Sprite) :
                 inflater.inflate(R.layout.collapsed_arduino_brick, null)
             Brick.BrickVisualizationType.LEGO ->
                 inflater.inflate(R.layout.collapsed_lego_brick, null)
+            Brick.BrickVisualizationType.PEN ->
+                inflater.inflate(R.layout.collapsed_pen_brick, null)
+            Brick.BrickVisualizationType.USERDEFINED ->
+                inflater.inflate(R.layout.collapsed_userdefined_brick, null)
             else -> throw NullPointerException("No collapsed view found")
         }
     }
