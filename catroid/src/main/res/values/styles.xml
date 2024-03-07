@@ -249,7 +249,7 @@
     <style name="BrickContainer.Sound" />
 
     <style name="BrickContainer.Sound.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_sound</item>
     </style>
 
@@ -271,7 +271,7 @@
     <style name="BrickContainer.Look" />
 
     <style name="BrickContainer.Look.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_looks</item>
     </style>
 
@@ -335,6 +335,11 @@
     </style>
 
     <style name="BrickContainer.Pen" />
+
+    <style name="BrickContainer.Pen.Collapsed">
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
+        <item name="android:background">@drawable/collapsed_brick_background_pen</item>
+    </style>
 
     <style name="BrickContainer.Pen.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -417,7 +422,7 @@
     <style name="BrickContainer.Arduino" />
 
     <style name="BrickContainer.Arduino.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_arduino_rasperry_phiro</item>
     </style>
 
@@ -473,7 +478,7 @@
     <style name="BrickContainer.Lego" />
 
     <style name="BrickContainer.Lego.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_lego</item>
     </style>
 
@@ -495,7 +500,7 @@
     <style name="BrickContainer.Control" />
 
     <style name="BrickContainer.Control.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_control</item>
     </style>
 
@@ -516,6 +521,11 @@
 
     <style name ="BrickContainer.UserDefinedBrick" />
 
+    <style name="BrickContainer.UserDefinedBrick.Collapsed">
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
+        <item name="android:background">@drawable/collapsed_brick_background_userdefined</item>
+    </style>
+
     <style name="BrickContainer.UserDefinedBrick.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_1h_darkblue</item>
@@ -524,7 +534,7 @@
     <style name="BrickContainer.Event" />
 
     <style name="BrickContainer.Event.Collapsed">
-        <item name="android:minHeight">10dp</item>
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
         <item name="android:background">@drawable/collapsed_brick_background_event</item>
     </style>
 

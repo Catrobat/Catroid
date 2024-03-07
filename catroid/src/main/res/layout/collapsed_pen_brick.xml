@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -28,8 +29,8 @@
     android:orientation="horizontal">
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/collapsed_sound_brick"
-        style="@style/BrickContainer.Sound.Collapsed"
+        android:id="@+id/collapsed_pen_brick"
+        style="@style/BrickContainer.Pen.Collapsed"
         android:layout_marginTop="@dimen/brick_collapsed_margin_top"
         android:layout_marginBottom="@dimen/brick_collapsed_margin_bottom">
     </org.catrobat.catroid.ui.BrickLayout>
