@@ -71,7 +71,6 @@ class GroupSpriteOptionsTest {
     private lateinit var sprite1: GroupItemSprite
     private lateinit var sprite2: GroupItemSprite
 
-
     private val projectManager by inject(ProjectManager::class.java)
 
     @Before
