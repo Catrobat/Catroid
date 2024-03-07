@@ -93,25 +93,22 @@ public class Project implements Serializable {
 		xmlHeader.setNotesAndCredits("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+		if (ScreenValues.currentScreenResolution == null) {
 			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
-		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
+
+		if (landscapeMode) {
+			ScreenValues.currentScreenResolution = ScreenValues.currentScreenResolution.flipToLandscape();
+		} else {
+			ScreenValues.currentScreenResolution = ScreenValues.currentScreenResolution.flipToPortrait();
 		}
 
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.currentScreenResolution.getWidth();
+		xmlHeader.virtualScreenHeight = ScreenValues.currentScreenResolution.getHeight();
 
 		if (isCastProject) {
-			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
-			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_RESOLUTION.getHeight();
+			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_RESOLUTION.getWidth();
 			xmlHeader.setlandscapeMode(true);
 			xmlHeader.setIsCastProject(true);
 		}

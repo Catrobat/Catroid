@@ -350,17 +350,17 @@ object VisualDetectionHandler {
             val relativeY = x / imageWidth
             coordinatesFromRelativePosition(
                 1 - relativeX,
-                ScreenValues.SCREEN_WIDTH / aspectRatio,
+                ScreenValues.currentScreenResolution.width / aspectRatio,
                 if (frontCamera) relativeY else 1 - relativeY,
-                ScreenValues.SCREEN_WIDTH.toDouble()
+                ScreenValues.currentScreenResolution.width.toDouble()
             )
         } else {
             val relativeX = x / imageHeight
             coordinatesFromRelativePosition(
                 if (frontCamera) 1 - relativeX else relativeX,
-                ScreenValues.SCREEN_HEIGHT / aspectRatio,
+                ScreenValues.currentScreenResolution.height / aspectRatio,
                 1 - y / imageWidth,
-                ScreenValues.SCREEN_HEIGHT.toDouble()
+                ScreenValues.currentScreenResolution.height.toDouble()
             )
         }
     }

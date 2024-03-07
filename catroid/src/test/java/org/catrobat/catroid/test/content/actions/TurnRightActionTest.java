@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.utils.Resolution;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,8 +61,7 @@ public class TurnRightActionTest {
 		lookData.setFile(Mockito.mock(File.class));
 		lookData.setName("LookName");
 
-		ScreenValues.SCREEN_HEIGHT = 800;
-		ScreenValues.SCREEN_WIDTH = 480;
+		ScreenValues.currentScreenResolution = new Resolution(480, 800);
 	}
 
 	@Test
