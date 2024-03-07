@@ -25,26 +25,13 @@ package org.catrobat.catroid.utils
 import java.util.regex.Pattern
 
 class StringFinder {
-    private var matcherRun = false
-    private var result: String? = null
-    fun findBetween(string: String, start: String, end: String): Boolean {
+    fun findBetween(searchableString: String, start: String, end: String): String? {
         val pattern = Pattern.compile("$start(.*?)$end", Pattern.DOTALL)
-        val matcher = pattern.matcher(string)
-        matcherRun = true
+        val matcher = pattern.matcher(searchableString)
         if (matcher.find()) {
-            result = matcher.group(1)
-            return true
+            return matcher.group(1)
         }
-        result = null
-        return false
-    }
-
-    fun getResult(): String? {
-        check(matcherRun) {
-            "You must call findBetween(String string, String start, String end) first."
-        }
-        matcherRun = false
-        return result
+        return null
     }
 
     companion object {

@@ -57,8 +57,7 @@ class StringFinderTest {
         val end = "of"
 
         val stringFinder = StringFinder()
-        stringFinder.findBetween(singleLine, start, end)
-        assertEquals(" a more wretched hive ", stringFinder.getResult())
+        assertEquals(" a more wretched hive ", stringFinder.findBetween(singleLine, start, end))
     }
 
     @Test
@@ -67,8 +66,7 @@ class StringFinderTest {
         val end = "\nFear is the little-death that brings total obliteration."
 
         val stringFinder = StringFinder()
-        stringFinder.findBetween(multiLine, start, end)
-        assertEquals("Fear is the mind-killer.", stringFinder.getResult())
+        assertEquals("Fear is the mind-killer.", stringFinder.findBetween(multiLine, start, end))
     }
 
     @Test
@@ -77,13 +75,12 @@ class StringFinderTest {
         val end = "I will face my fear."
 
         val stringFinder = StringFinder()
-        stringFinder.findBetween(multiLine, start, end)
         assertEquals(
             """
             | is the mind-killer.
             |Fear is the little-death that brings total obliteration.
             |
-            """.trimMargin(), stringFinder.getResult()
+            """.trimMargin(), stringFinder.findBetween(multiLine, start, end)
         )
     }
 
@@ -93,8 +90,10 @@ class StringFinderTest {
         val end = encodeSpecialChars(".")
 
         val stringFinder = StringFinder()
-        stringFinder.findBetween(singleLine, start, end)
-        assertEquals(" a more wretched hive of scum and villainy", stringFinder.getResult())
+        assertEquals(
+            " a more wretched hive of scum and villainy",
+            stringFinder.findBetween(singleLine, start, end)
+        )
     }
 
     @Test
@@ -103,28 +102,6 @@ class StringFinderTest {
         val end = "I won't be found"
 
         val stringFinder = StringFinder()
-        stringFinder.findBetween(singleLine, start, end)
-        assertNull(stringFinder.getResult())
-    }
-
-    @Test
-    fun testGetResultWithoutFind() {
-        exception.expect(IllegalStateException::class.java)
-        exception.expectMessage("You must call findBetween(String string, String start, String end) first.")
-        StringFinder().getResult()
-    }
-
-    @Test
-    fun testGetResultTwice() {
-        val start = "find"
-        val end = "."
-
-        val stringFinder = StringFinder()
-        stringFinder.findBetween(singleLine, start, end)
-        stringFinder.getResult()
-
-        exception.expect(IllegalStateException::class.java)
-        exception.expectMessage("You must call findBetween(String string, String start, String end) first.")
-        stringFinder.getResult()
+        assertNull(stringFinder.findBetween(singleLine, start, end))
     }
 }
