@@ -74,6 +74,11 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.ARDUINO_RASPI_PHIRO;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,

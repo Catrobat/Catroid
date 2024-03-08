@@ -64,6 +64,11 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.DEVICE;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

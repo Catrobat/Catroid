@@ -37,6 +37,11 @@ public class ResetTimerBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.DEVICE;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createResetTimerAction());
 	}

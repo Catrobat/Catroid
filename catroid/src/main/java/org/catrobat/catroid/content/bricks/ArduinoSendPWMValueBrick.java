@@ -55,7 +55,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	@Override
 	public BrickVisualizationType getVisualizationType() {
-		return BrickVisualizationType.ARDUINO;
+		return BrickVisualizationType.ARDUINO_RASPI_PHIRO;
 	}
 
 	@Override

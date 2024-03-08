@@ -47,7 +47,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override val selectorId: Int
         get() = R.id.brick_param_list_of_list_text
 
-    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.ARDUINO
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.ARDUINO_RASPI_PHIRO
 
     override fun hasSecondaryList(): Boolean = false
 

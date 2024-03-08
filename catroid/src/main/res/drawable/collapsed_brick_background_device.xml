@@ -1,0 +1,54 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2024 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="197.01086dp"
+    android:height="25dp"
+    android:viewportHeight="184"
+    android:viewportWidth="1450">
+    <group
+        android:scaleX="1.04"
+        android:scaleY="1.5">
+        <path
+            android:pathData="m3.7,87.5 l41.5,0 7.3,17.2 81.2,-0.2 7.3,-16.6 1249.8,0.7 -0.1,18 -1251.4,0.1 -7.3,16.9 -77.3,0.1 -6.9,-16.9 -44,-0z"
+            android:strokeColor="#000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="0.3" />
+        <path
+            android:fillColor="#777777"
+            android:pathData="m3.8,67.6 l46,0.3 8.3,17.3h70.7l7.8,-17.5 1253.3,0.2 0.3,24.5H139L132,109.9 55.1,109.4 46.7,92.7 4,92.5Z"
+            android:strokeColor="#777777"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1" />
+        <path
+            android:fillColor="#777777"
+            android:pathData="m3.6,53.7 l46.2,0.3 8.5,18.4h70l8.2,-18.4 1253.1,-0.3 0.3,14.1L139.9,67 132.6,85.1 54.5,84.9 47,67.7 3.7,67.4Z"
+            android:strokeColor="#777777"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="0.999999" />
+    </group>
+</vector>

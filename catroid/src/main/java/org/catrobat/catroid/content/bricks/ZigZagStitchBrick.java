@@ -53,6 +53,11 @@ public class ZigZagStitchBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EMBROIDERY;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createZigZagStitchAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.ZIGZAG_EMBROIDERY_LENGTH),
