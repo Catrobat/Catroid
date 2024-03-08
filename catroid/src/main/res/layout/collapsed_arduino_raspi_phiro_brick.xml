@@ -28,7 +28,7 @@
     android:orientation="horizontal">
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/collapsed_arduino_brick"
+        android:id="@+id/collapsed_arduino_raspi_phiro_brick"
         style="@style/BrickContainer.Arduino.Collapsed"
         android:layout_marginTop="@dimen/brick_collapsed_margin_top"
         android:layout_marginBottom="@dimen/brick_collapsed_margin_bottom">

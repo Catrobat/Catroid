@@ -292,6 +292,11 @@
 
     <style name="BrickContainer.Device" />
 
+    <style name="BrickContainer.Device.Collapsed">
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
+        <item name="android:background">@drawable/collapsed_brick_background_device</item>
+    </style>
+
     <style name="BrickContainer.Device.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background">@drawable/brick_1h_gold</item>
@@ -318,6 +323,11 @@
     </style>
 
     <style name="BrickContainer.Embroidery" />
+
+    <style name="BrickContainer.Embroidery.Collapsed">
+        <item name="android:minHeight">@dimen/brick_height_collapsed</item>
+        <item name="android:background">@drawable/collapsed_brick_background_embroidery</item>
+    </style>
 
     <style name="BrickContainer.Embroidery.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
