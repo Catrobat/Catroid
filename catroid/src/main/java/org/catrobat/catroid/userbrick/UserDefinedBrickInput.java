@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ public class UserDefinedBrickInput extends UserDefinedBrickData implements Seria
 
 	@XStreamAlias("input")
 	private InputFormulaField name;
-	private transient Formula value;
+	public Formula value;
 	private int initialIndex = -1;
 
 	public UserDefinedBrickInput(String input) {
