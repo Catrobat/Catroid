@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.merge.ImportLocalObjectActivity;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -248,10 +249,17 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
-		if (getActivity().isFinishing()) {
+		if (requireActivity().isFinishing()) {
 			return;
 		}
+		if (requireActivity().getIntent().hasExtra(ImportLocalObjectActivity.Companion.getTAG())) {
+			actionModeType = IMPORT_LOCAL;
+		}
 		initializeAdapter();
+		if (actionModeType == IMPORT_LOCAL) {
+			setHasOptionsMenu(false);
+			adapter.showSettings = false;
+		}
 	}
 
 	public void onAdapterReady() {
@@ -275,9 +283,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		BackpackListManager.getInstance().loadBackpack();
-
 		adapter.notifyDataSetChanged();
 		adapter.registerAdapterDataObserver(observer);
 		setShowEmptyView(shouldShowEmptyView());

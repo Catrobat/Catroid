@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,10 +49,6 @@ class ProjectListActivity : BaseCastActivity() {
         BottomBar.hideAiAssistButton(this)
 
         val projectListFragment = ProjectListFragment()
-        if (intent.hasExtra(IMPORT_LOCAL_INTENT)) {
-            BottomBar.hideAddButton(this)
-            supportActionBar?.setTitle(R.string.import_from_project)
-        }
         intent?.apply {
             if (action != null) {
                 val data = Bundle()
@@ -91,7 +87,6 @@ class ProjectListActivity : BaseCastActivity() {
     }
 
     companion object {
-        const val IMPORT_LOCAL_INTENT: String = "merge"
         val TAG: String = ProjectListActivity::class.java.simpleName
     }
 }
