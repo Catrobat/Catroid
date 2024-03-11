@@ -36,6 +36,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SettingsActivity
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Before
 import org.junit.Rule
@@ -61,31 +62,32 @@ class WebAccessSettingsFragmentTest {
     @Test
     fun addAndDeleteTrustedDomainTest() {
         onView(withId(R.id.fab_add_trusted_domain)).perform(click())
-        onView(withId(R.id.input_edit_text)).perform(typeText("domain1.net"))
+        onView(withId(R.id.input_edit_text)).perform(typeText("testdomain.net"))
         onView(withText(R.string.ok)).perform(click())
-        onView(withText("domain1.net")).check(matches(isDisplayed()))
+        onView(withText("testdomain.net")).check(matches(isDisplayed()))
 
-        onView(withId(R.id.settings_button)).perform(click())
+        openActionBarMenu()
         onView(withText(R.string.delete)).perform(click())
         onRecyclerView().atPosition(0).performCheckItemClick()
-        onView(withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.menu_done)).perform(click())
     }
 
     @Category(AppUi::class, Smoke::class)
     @Test
     fun editTrustedDomainTest() {
         onView(withId(R.id.fab_add_trusted_domain)).perform(click())
-        onView(withId(R.id.input_edit_text)).perform(typeText("domain.net"))
+        onView(withId(R.id.input_edit_text)).perform(typeText("testdomain1.net"))
         onView(withText(R.string.ok)).perform(click())
-        onView(withText("domain.net")).check(matches(isDisplayed()))
-    }
+        onView(withText("testdomain1.net")).check(matches(isDisplayed()))
 
-    @Category(AppUi::class, Smoke::class)
-    @Test
-    fun addAndDeleteMultipleTrustedDomainsTest() {
-        onView(withId(R.id.fab_add_trusted_domain)).perform(click())
-        onView(withId(R.id.input_edit_text)).perform(typeText("domain.net"))
+        onView(withText("testdomain1.net")).perform(click())
+        onView(withId(R.id.input_edit_text)).perform(typeText("testdomain2.net"))
         onView(withText(R.string.ok)).perform(click())
-        onView(withText("domain.net")).check(matches(isDisplayed()))
+        onView(withText("testdomain2.net")).check(matches(isDisplayed()))
+
+        openActionBarMenu()
+        onView(withText(R.string.delete)).perform(click())
+        onRecyclerView().atPosition(0).performCheckItemClick()
+        onView(withId(R.id.menu_done)).perform(click())
     }
 }
