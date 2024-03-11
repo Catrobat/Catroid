@@ -51,9 +51,11 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguagePickerTest {
@@ -96,8 +98,7 @@ public class LanguagePickerTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testChangeLanguageToArabic() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
+		onView(withText(R.string.preference_title_language)).perform(click());
 		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE))))
 				.check(matches(isDisplayed()));
 	}
@@ -105,8 +106,7 @@ public class LanguagePickerTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testChangeLanguageToDeutsch() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
+		onView(withText(R.string.preference_title_language)).perform(click());
 		onData(hasToString(startsWith(DEUTSCHLOCALE.getDisplayName(DEUTSCHLOCALE))))
 				.check(matches(isDisplayed()));
 	}

@@ -47,6 +47,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -64,7 +65,9 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -182,11 +185,16 @@ public class DisableHintDialogTest {
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
-		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, true));
+		onView(withId(androidx.preference.R.id.recycler_view))
+				.perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(displayedTitleResourceString)),
+						scrollTo()));
 
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
+		onView(withText(displayedTitleResourceString)).perform(click());
 
 		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
+
+		onView(withText(displayedTitleResourceString)).perform(click());
+
+		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, false));
 	}
 }
