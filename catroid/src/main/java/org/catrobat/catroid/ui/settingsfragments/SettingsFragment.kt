@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -81,7 +81,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
     }
 
-    private fun navigateToFragment(preference: PreferenceFragmentCompat, tag: String){
+    private fun navigateToFragment(preference: PreferenceFragmentCompat, tag: String) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.content_frame, preference, tag)
             .addToBackStack(tag)
@@ -96,11 +96,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             navigateToFragment(AccessibilitySettingsFragment(), ACCESSIBILITY_SETTINGS_FRAGMENT_TAG)
             true
         }
-
     }
 
-    private fun addLanguageListPreferenceChangeListener(){
-
+    private fun addLanguageListPreferenceChangeListener() {
         val listPreference = findPreference<ListPreference>(SETTINGS_MULTILINGUAL)
         listPreference?.setOnPreferenceChangeListener { _, languageTag ->
             val selectedLanguage = languageTag.toString()
@@ -111,7 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun addLanguagesToListPreference(){
+    private fun addLanguagesToListPreference() {
         val languagesNames: MutableList<String> = ArrayList()
         for (languageTag in LANGUAGE_TAGS) {
             if (DEVICE_LANGUAGE == languageTag) {
@@ -138,7 +136,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun addTrustedDomainPreferenceClickListener() {
-        val trustedDomainPreference = findPreference<PreferenceScreen>(SETTINGS_EDIT_TRUSTED_DOMAINS)
+        val trustedDomainPreference =
+            findPreference<PreferenceScreen>(SETTINGS_EDIT_TRUSTED_DOMAINS)
         trustedDomainPreference?.setOnPreferenceClickListener { _ ->
             navigateToFragment(WebAccessSettingsFragment(), WEB_ACCESS_SETTINGS_FRAGMENT_TAG)
             true
@@ -147,7 +146,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun addHintPreferenceChangeListener() {
         val hintSwitchPreference = findPreference<SwitchPreference>(SETTINGS_SHOW_HINTS)
-        hintSwitchPreference?.setOnPreferenceChangeListener{ preference, _ ->
+        hintSwitchPreference?.setOnPreferenceChangeListener { preference, _ ->
             preference.preferenceManager.sharedPreferences
                 .edit()
                 .remove(SnackbarUtil.SHOWN_HINT_LIST)
@@ -199,7 +198,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         const val SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS = "setting_ai_object_detection"
         const val SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS = "setting_ai_pose_detection"
         const val SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recognition"
-        const val SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS = "setting_ai_speech_synthetization"
+        const val SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS =
+            "setting_ai_speech_synthetization"
         const val SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS = "setting_ai_speech_recognition"
 
         const val RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category"
@@ -223,10 +223,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             val locale = if (languageTag == DEVICE_LANGUAGE) {
                 Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
             } else {
-                if (LANGUAGE_TAGS.contains(languageTag)){
+                if (LANGUAGE_TAGS.contains(languageTag)) {
                     Locale.forLanguageTag(languageTag)
-                }
-                else {
+                } else {
                     Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
                 }
             }
@@ -237,7 +236,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun updateLocale(context: Context, locale: Locale?){
+        fun updateLocale(context: Context, locale: Locale?) {
             val resources = context.resources
             val displayMetrics = resources.displayMetrics
             val configuration = resources.configuration
@@ -267,7 +266,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         @JvmStatic
         fun isAISpeechSynthetizationSharedPreferenceEnabled(context: Context): Boolean =
-            getBooleanSharedPreference(context, SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS, false)
+            getBooleanSharedPreference(
+                context,
+                SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+                false
+            )
 
         @JvmStatic
         fun isAISpeechRecognitionSharedPreferenceEnabled(context: Context): Boolean =
@@ -280,7 +283,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         @JvmStatic
         fun isMindstormsNXTSharedPreferenceEnabled(context: Context): Boolean =
             getBooleanSharedPreference(context, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)
-
 
         @JvmStatic
         fun isMindstormsEV3SharedPreferenceEnabled(context: Context): Boolean =
@@ -317,14 +319,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         @JvmStatic
         fun isMultiplayerVariablesPreferenceEnabled(context: Context): Boolean {
             val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
-            return getBooleanSharedPreference(context, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, false) ||
+            return getBooleanSharedPreference(
+                context,
+                SETTINGS_MULTIPLAYER_VARIABLES_ENABLED,
+                false
+            ) ||
                 projectManager.currentProject.hasMultiplayerVariables()
         }
 
         @JvmStatic
         fun getLegoNXTSensorMapping(context: Context): Array<NXTSensor.Sensor?> {
             val sensorMapping = arrayOfNulls<NXTSensor.Sensor>(LEGO_SENSORS_ARRAY_LENGTH)
-            for (i in 0 until(LEGO_SENSORS_ARRAY_LENGTH)) {
+            for (i in 0 until LEGO_SENSORS_ARRAY_LENGTH) {
                 val sensor = getSharedPreferences(context).getString(NXT_SENSORS[i], null)
                 sensorMapping[i] = NXTSensor.Sensor.getSensorFromSensorCode(sensor)
             }
@@ -334,7 +340,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         @JvmStatic
         fun getLegoEV3SensorMapping(context: Context): Array<EV3Sensor.Sensor?> {
             val sensorMapping = arrayOfNulls<EV3Sensor.Sensor>(LEGO_SENSORS_ARRAY_LENGTH)
-            for (i in 0 until(LEGO_SENSORS_ARRAY_LENGTH)) {
+            for (i in 0 until LEGO_SENSORS_ARRAY_LENGTH) {
                 val sensor = getSharedPreferences(context).getString(EV3_SENSORS[i], null)
                 sensorMapping[i] = EV3Sensor.Sensor.getSensorFromSensorCode(sensor)
             }
@@ -358,7 +364,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             getBooleanSharedPreference(context, SETTINGS_USE_CATBLOCKS, false)
 
         @JvmStatic
-        fun setUseCatBlocks(context: Context?, useCatBlocks: Boolean){
+        fun setUseCatBlocks(context: Context?, useCatBlocks: Boolean) {
             getSharedPreferences(context)
                 .edit()
                 .putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
@@ -366,7 +372,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setMultiplayerVariablesPreferenceEnabled(context: Context, value: Boolean){
+        fun setMultiplayerVariablesPreferenceEnabled(context: Context, value: Boolean) {
             getSharedPreferences(context)
                 .edit()
                 .putBoolean(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, value)
@@ -382,7 +388,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLegoMindstormsEV3SensorMapping(context: Context, sensorMapping: Array<EV3Sensor.Sensor>){
+        fun setLegoMindstormsEV3SensorMapping(
+            context: Context,
+            sensorMapping: Array<EV3Sensor.Sensor>
+        ) {
             val editor = getSharedPreferences(context).edit()
             for (i in 0 until LEGO_SENSORS_ARRAY_LENGTH) {
                 editor.putString(NXT_SENSORS[i], sensorMapping[i].sensorCode)
@@ -391,8 +400,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLegoMindstormsEV3SensorMapping(context: Context, sensor: EV3Sensor.Sensor,
-            sensorSetting: String) {
+        fun setLegoMindstormsEV3Sensors(
+            context: Context, sensor: EV3Sensor.Sensor,
+            sensorSetting: String
+        ) {
             getSharedPreferences(context)
                 .edit()
                 .putString(sensorSetting, sensor.sensorCode)
@@ -408,7 +419,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLegoMindstormsNXTSensorMapping(context: Context, sensorMapping: Array<NXTSensor.Sensor>) {
+        fun setLegoMindstormsNXTSensorMapping(
+            context: Context,
+            sensorMapping: Array<NXTSensor.Sensor>
+        ) {
             val editor = getSharedPreferences(context).edit()
             for (i in 0 until LEGO_SENSORS_ARRAY_LENGTH) {
                 editor.putString(NXT_SENSORS[i], sensorMapping[i].sensorCode)
@@ -417,8 +431,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLegoMindstormsNXTSensorMapping(context: Context, sensor: NXTSensor.Sensor,
-            sensorSetting: String) {
+        fun setLegoMindstormsNXTSensorMapping(
+            context: Context, sensor: NXTSensor.Sensor,
+            sensorSetting: String
+        ) {
             getSharedPreferences(context)
                 .edit()
                 .putString(sensorSetting, sensor.sensorCode)
@@ -490,7 +506,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLanguageSharedPreference(context: Context, language: String){
+        fun setLanguageSharedPreference(context: Context, language: String) {
             getSharedPreferences(context)
                 .edit()
                 .putString(LANGUAGE_TAG_KEY, language)
@@ -508,8 +524,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         private fun getSharedPreferences(context: Context?) =
             PreferenceManager.getDefaultSharedPreferences(context)
 
-        private fun getBooleanSharedPreference(context: Context, setting: String, default: Boolean) =
+        private fun getBooleanSharedPreference(
+            context: Context,
+            setting: String,
+            default: Boolean
+        ) =
             PreferenceManager.getDefaultSharedPreferences(context).getBoolean(setting, default)
-
     }
 }

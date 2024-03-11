@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,7 +98,8 @@ class ParrotARDroneSettingsFragment : PreferenceFragmentCompat() {
 
     private fun addDroneConfigPreferenceChangeListener(
         listPreference: ListPreference,
-        dronePreferences: Array<String>) {
+        dronePreferences: Array<String>
+    ) {
         listPreference.setOnPreferenceChangeListener { _, newValue ->
             val index = listPreference.findIndexOfValue(newValue.toString())
             for (dronePreference in dronePreferences) {
@@ -114,11 +115,10 @@ class ParrotARDroneSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun setListPreferenceValue(listPreference: ListPreference, index: Int){
-        if(index < 2) {
+    private fun setListPreferenceValue(listPreference: ListPreference, index: Int) {
+        if (index < 2) {
             listPreference.value = "SECOND"
-        }
-        else {
+        } else {
             listPreference.value = "THIRD"
         }
     }

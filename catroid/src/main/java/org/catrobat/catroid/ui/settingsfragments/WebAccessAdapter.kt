@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,20 +30,18 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 
-class WebAccessAdapter (
+class WebAccessAdapter(
     private val trustedDomains: MutableList<String>
-    ): RVAdapter<String> (trustedDomains) {
+) : RVAdapter<String>(trustedDomains) {
 
-    private var isCheckboxVisible = false;
+    private var isCheckboxVisible = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckableViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return CheckableViewHolder(view)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return R.layout.view_holder_web_access_item
-    }
+    override fun getItemViewType(position: Int): Int = R.layout.view_holder_web_access_item
 
     override fun onBindViewHolder(holder: CheckableViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
@@ -65,8 +63,8 @@ class WebAccessAdapter (
         remove(domain)
     }
 
-    fun removeTrustedDomains(domains: List<String>){
-        for(domain in domains) {
+    fun removeTrustedDomains(domains: List<String>) {
+        for (domain in domains) {
             removeTrustedDomain(domain)
         }
     }

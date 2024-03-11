@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 
-class WebAccessSettingsFragment: PreferenceFragmentCompat(),
+class WebAccessSettingsFragment : PreferenceFragmentCompat(),
     RVAdapter.OnItemClickListener<String>, RVAdapter.SelectionListener {
 
     private var adapter: WebAccessAdapter? = null
@@ -77,7 +77,7 @@ class WebAccessSettingsFragment: PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addButton?.setOnClickListener{
+        addButton?.setOnClickListener {
             handleAddButton()
         }
         setEmptyViewVisibility()
@@ -92,7 +92,6 @@ class WebAccessSettingsFragment: PreferenceFragmentCompat(),
             .apply {
                 supportActionBar?.setTitle(R.string.preference_screen_web_access_title)
             }
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -176,7 +175,7 @@ class WebAccessSettingsFragment: PreferenceFragmentCompat(),
             )
             .setPositiveButton(getString(R.string.ok)) { _, input: String ->
                 addTrustedDomain(input)
-             }
+            }
             .setNegativeButton(getString(R.string.cancel), null)
             .setTitle(R.string.web_access_add_trusted_domain)
             .show()
@@ -255,17 +254,18 @@ class WebAccessSettingsFragment: PreferenceFragmentCompat(),
             .setPositiveButton(getString(R.string.ok)) { _, input: String ->
                 renameTrustedDomain(clickedItem, input)
             }
-            .setNegativeButton(getString((R.string.cancel)), null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .setTitle(R.string.web_access_rename_trusted_domain)
             .show()
     }
 
     private fun getTrustedDomainsAsNameable(): List<Nameable> =
         getTrustedDomains().map {
-            object: Nameable {
+            object : Nameable {
                 override fun getName(): String {
                     return it
                 }
+
                 override fun setName(name: String?) = Unit
             }
         }
@@ -281,6 +281,7 @@ class WebAccessSettingsFragment: PreferenceFragmentCompat(),
     override fun onSelectionChanged(selectedItemCnt: Int) = Unit
 
     companion object {
-        val WEB_ACCESS_SETTINGS_FRAGMENT_TAG: String = WebAccessSettingsFragment::class.java.simpleName
+        val WEB_ACCESS_SETTINGS_FRAGMENT_TAG: String =
+            WebAccessSettingsFragment::class.java.simpleName
     }
 }
