@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,7 +47,6 @@ import java.util.Map;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -90,12 +83,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;

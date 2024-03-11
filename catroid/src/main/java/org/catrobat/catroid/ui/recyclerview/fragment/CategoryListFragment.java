@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -747,7 +747,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
 								(NXTSensor.Sensor) selectedSensor, LegoSensors.NXT_SENSORS[selectedPort]);
 					} else if (type == Constants.EV3) {
-						SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
+						SettingsFragment.setLegoMindstormsEV3Sensors(getActivity(),
 								(EV3Sensor.Sensor) selectedSensor, LegoSensors.EV3_SENSORS[selectedPort]);
 					}
 
