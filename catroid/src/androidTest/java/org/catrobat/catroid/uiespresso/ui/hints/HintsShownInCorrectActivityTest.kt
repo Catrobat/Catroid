@@ -37,6 +37,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
@@ -75,6 +76,7 @@ class HintsShownInCorrectActivityTest {
 
         sharedPreferences.edit()
             .remove(SnackbarUtil.SHOWN_HINT_LIST)
+            .putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
             .putBoolean(SETTINGS_SHOW_HINTS, true)
             .apply()
 
