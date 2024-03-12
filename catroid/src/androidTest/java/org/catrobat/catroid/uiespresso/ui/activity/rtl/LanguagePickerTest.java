@@ -43,7 +43,6 @@ import org.junit.runner.RunWith;
 import java.util.Locale;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
