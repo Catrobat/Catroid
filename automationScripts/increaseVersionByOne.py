@@ -1,5 +1,5 @@
 # does part of step 2, increasing version code:
-# https://confluence.catrob.at/display/KNOWHOW/How+to+RELEASE
+# https://catrobat.atlassian.net/wiki/spaces/KNOWHOW/pages/18286436/How+to+RELEASE
 
 # step 1. build.gradle changes
 buildGradle = open("../catroid/build.gradle", "r").read()

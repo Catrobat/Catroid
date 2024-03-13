@@ -1,5 +1,5 @@
 # does all of this for you:
-# https://confluence.catrob.at/display/KNOWHOW/How+to+create+a+release+standalone+Pocket+Code+apk-file
+# https://catrobat.atlassian.net/wiki/spaces/KNOWHOW/pages/18286692/How+to+create+standalone+APK
 # plus generates the apk and copies it to this folder
 import shutil
 import os
