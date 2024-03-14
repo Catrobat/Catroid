@@ -324,7 +324,7 @@
     <string name="list_headline_sprites">بازیگران و اشیاء</string>
     <!-- Options Menu Options -->
     <string name="backpack">کوله پشتی</string>
-    <string name="copy">نقل</string>
+    <string name="copy_deafult">نقل</string>
     <string name="delete">حذف</string>
     <string name="rename">تغییر نام دهید</string>
     <string name="merge">ادغام</string>

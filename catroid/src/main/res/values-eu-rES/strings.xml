@@ -343,7 +343,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopiatu</string>
+    <string name="copy_deafult">Kopiatu</string>
     <string name="delete">Ezabatu</string>
     <string name="rename">Rename</string>
     <string name="merge">Merge</string>

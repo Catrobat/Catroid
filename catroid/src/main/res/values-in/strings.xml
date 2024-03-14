@@ -335,7 +335,7 @@
     <string name="list_headline_sprites">Aktor dan objek</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ransel</string>
-    <string name="copy">Salinan</string>
+    <string name="copy_deafult">Salinan</string>
     <string name="delete">Menghapus</string>
     <string name="rename">Ganti nama</string>
     <string name="merge">Menggabungkan</string>

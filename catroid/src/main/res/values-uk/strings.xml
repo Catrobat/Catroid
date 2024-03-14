@@ -359,7 +359,7 @@
     <string name="list_headline_sprites">Актори та об\'єкти</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Скопіювати</string>
+    <string name="copy_deafult">Скопіювати</string>
     <string name="delete">Видалити</string>
     <string name="rename">Перейменувати</string>
     <string name="merge">Об’єднати</string>

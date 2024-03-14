@@ -343,7 +343,7 @@
     <string name="list_headline_sprites">Attori e oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
-    <string name="copy">Copia</string>
+    <string name="copy_deafult">Copia</string>
     <string name="delete">Elimina</string>
     <string name="rename">Rinomina</string>
     <string name="merge">Fondi</string>

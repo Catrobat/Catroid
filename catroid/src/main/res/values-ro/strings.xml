@@ -351,7 +351,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copie</string>
+    <string name="copy_deafult">Copie</string>
     <string name="delete">șterge</string>
     <string name="rename">Redenumire</string>
     <string name="merge">Merge</string>

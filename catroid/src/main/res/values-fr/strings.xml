@@ -338,7 +338,7 @@
     <string name="list_headline_sprites">Acteurs et objets</string>
     <!-- Options Menu Options -->
     <string name="backpack">Sac à dos</string>
-    <string name="copy">Copier</string>
+    <string name="copy_deafult">Copier</string>
     <string name="delete">supprimer</string>
     <string name="rename">Renommer</string>
     <string name="merge">Fusionner</string>

@@ -109,7 +109,7 @@ class GroupSpriteOptionsTest {
         onView(withText(R.string.backpack))
             .check(doesNotExist())
 
-        onView(withText(R.string.copy))
+        onView(withText(R.string.copy_deafult))
             .check(doesNotExist())
 
         onView(withText(R.string.show_details))

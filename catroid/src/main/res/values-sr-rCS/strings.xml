@@ -351,7 +351,7 @@
     <string name="list_headline_sprites">Glumci i objekti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ranac</string>
-    <string name="copy">kopiraj</string>
+    <string name="copy_deafult">kopiraj</string>
     <string name="delete">Obriši</string>
     <string name="rename">Preimenuj</string>
     <string name="merge">Spojiti</string>

@@ -335,7 +335,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Sao chép</string>
+    <string name="copy_deafult">Sao chép</string>
     <string name="delete">Xóa</string>
     <string name="rename">Đổi Tên</string>
     <string name="merge">Merge</string>

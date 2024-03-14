@@ -343,7 +343,7 @@
     <string name="list_headline_sprites">ਅਦਾਕਾਰ ਅਤੇ ਆਬਜੈਕਟ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ਬੈਕਪੈਕ</string>
-    <string name="copy">ਕਾੱਪੀ</string>
+    <string name="copy_deafult">ਕਾੱਪੀ</string>
     <string name="delete">ਮਿਟਾਓ</string>
     <string name="rename">ਨਾਮ ਬਦਲੋ</string>
     <string name="merge">ਮਿਲਾਓ</string>

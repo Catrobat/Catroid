@@ -326,7 +326,7 @@
     <string name="list_headline_sprites">Objeler</string>
     <!-- Options Menu Options -->
     <string name="backpack">Sırt çantası</string>
-    <string name="copy">Kopyala</string>
+    <string name="copy_deafult">Kopyala</string>
     <string name="delete">Sil</string>
     <string name="rename">Yeniden adlandır</string>
     <string name="merge">Birleştir</string>

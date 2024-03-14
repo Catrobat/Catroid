@@ -355,7 +355,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Batoh</string>
-    <string name="copy">Kopírovat</string>
+    <string name="copy_deafult">Kopírovat</string>
     <string name="delete">Smazat</string>
     <string name="rename">Přejmenovat</string>
     <string name="merge">Merge</string>

@@ -343,7 +343,7 @@
     <string name="list_headline_sprites">Aktörer och objekt</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ryggsäck</string>
-    <string name="copy">Kopiera</string>
+    <string name="copy_deafult">Kopiera</string>
     <string name="delete">Radera</string>
     <string name="rename">Byt namn</string>
     <string name="merge">Slå ihop</string>
