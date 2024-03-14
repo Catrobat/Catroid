@@ -744,7 +744,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		new LegoSensorPortConfigDialog.Builder(getContext(), type, itemNameResId)
 				.setPositiveButton(getString(R.string.ok), (dialog, selectedPort, selectedSensor) -> {
 					if (type == Constants.NXT) {
-						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
+						SettingsFragment.setLegoMindstormsNXTSensors(getActivity(),
 								(NXTSensor.Sensor) selectedSensor, LegoSensors.NXT_SENSORS[selectedPort]);
 					} else if (type == Constants.EV3) {
 						SettingsFragment.setLegoMindstormsEV3Sensors(getActivity(),
