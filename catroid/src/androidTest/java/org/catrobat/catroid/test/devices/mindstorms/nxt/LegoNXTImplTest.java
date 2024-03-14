@@ -145,7 +145,7 @@ public class LegoNXTImplTest {
 		setSensorMapping(defaultSensorMapping);
 		nxt.initialise();
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
+		SettingsFragment.setLegoMindstormsNXTSensors(applicationContext,
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
@@ -153,7 +153,7 @@ public class LegoNXTImplTest {
 		assertNotNull(nxt.getSensor1());
 		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
+		SettingsFragment.setLegoMindstormsNXTSensors(applicationContext,
 				NXTSensor.Sensor.TOUCH, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);

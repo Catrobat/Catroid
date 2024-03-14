@@ -401,7 +401,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         @JvmStatic
         fun setLegoMindstormsEV3Sensors(
-            context: Context, sensor: EV3Sensor.Sensor,
+            context: Context,
+            sensor: EV3Sensor.Sensor,
             sensorSetting: String
         ) {
             getSharedPreferences(context)
@@ -431,8 +432,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun setLegoMindstormsNXTSensorMapping(
-            context: Context, sensor: NXTSensor.Sensor,
+        fun setLegoMindstormsNXTSensors(
+            context: Context,
+            sensor: NXTSensor.Sensor,
             sensorSetting: String
         ) {
             getSharedPreferences(context)

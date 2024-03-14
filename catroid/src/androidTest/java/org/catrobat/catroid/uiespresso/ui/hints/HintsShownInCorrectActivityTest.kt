@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.hints
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -52,7 +52,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent.inject
-
 
 @RunWith(AndroidJUnit4::class)
 class HintsShownInCorrectActivityTest {
@@ -297,15 +296,13 @@ class HintsShownInCorrectActivityTest {
         checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
-    fun checkIfSnackBarIsDisplayed(snackBarText: Int)
-    {
+    fun checkIfSnackBarIsDisplayed(snackBarText: Int) {
         Thread.sleep(SNACKBAR_ANIMATION_DURATION)
         onView(withText(snackBarText)).check(matches(isDisplayed()))
         Thread.sleep(50)
     }
 
-    fun checkIfSnackBarIsNotDisplayed(snackBarText: Int)
-    {
+    fun checkIfSnackBarIsNotDisplayed(snackBarText: Int) {
         Thread.sleep(SNACKBAR_ANIMATION_DURATION)
         onView(withText(snackBarText)).check(doesNotExist())
         Thread.sleep(50)
