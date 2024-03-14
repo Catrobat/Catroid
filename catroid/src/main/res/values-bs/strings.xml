@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikone</string>
     <string name="preference_title_accessibility_category_icons">Prikaži ikone</string>
     <string name="preference_description_accessibility_category_icons">Dodaj ikone u kategorije i cigle.</string>
-    <string name="preference_title_accessibility_high_contrast">Visoki kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Uvećaj kontrast teksta.</string>
     <string name="preference_description_accessibility_large_text">Uvećaj veličinu teksta.</string>
     <string name="preference_title_accessibility_large_text">Veliki tekst</string>

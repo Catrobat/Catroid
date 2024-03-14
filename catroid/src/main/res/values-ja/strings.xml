@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">アイコン</string>
     <string name="preference_title_accessibility_category_icons">アイコンを表示</string>
     <string name="preference_description_accessibility_category_icons">カテゴリとブロックにアイコンを追加します。</string>
-    <string name="preference_title_accessibility_high_contrast">ハイコントラスト</string>
     <string name="preference_description_accessibility_high_contrast">テキストのコントラストを増やします。</string>
     <string name="preference_description_accessibility_large_text">テキストのサイズを大きくします。</string>
     <string name="preference_title_accessibility_large_text">大きなテキスト</string>

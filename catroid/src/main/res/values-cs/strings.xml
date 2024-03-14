@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikony bloků</string>
     <string name="preference_title_accessibility_category_icons">Zobrazit ikony</string>
     <string name="preference_description_accessibility_category_icons">Přidání ikon ke kategoriím a blokům.</string>
-    <string name="preference_title_accessibility_high_contrast">Vysoký kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Zvýšit kontrast textu na blocích.</string>
     <string name="preference_description_accessibility_large_text">Zvětšit velikost písma.</string>
     <string name="preference_title_accessibility_large_text">Velké písmo</string>
