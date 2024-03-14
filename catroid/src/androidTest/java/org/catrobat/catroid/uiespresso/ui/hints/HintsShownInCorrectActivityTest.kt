@@ -53,6 +53,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent.inject
 
+
 @RunWith(AndroidJUnit4::class)
 class HintsShownInCorrectActivityTest {
 
@@ -68,6 +69,8 @@ class HintsShownInCorrectActivityTest {
 
     private var savedBooleanValue: Boolean = false
     private lateinit var savedShownHintsList: Set<String>
+
+    private val SNACKBAR_ANIMATION_DURATION: Long = 300
 
     @Before
     fun setUp() {
@@ -96,8 +99,7 @@ class HintsShownInCorrectActivityTest {
 
     @Test
     fun scriptsHintNotShownInFormulaEditorTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withId(R.id.brick_set_x_edit_text))
             .perform(click())
@@ -105,83 +107,77 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.formula_editor_intro_summary_formula_editor))
             .check(matches(isDisplayed()))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun hintsChangeCorrectlyBeforeDismissTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        onView(withText(R.string.hint_looks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_looks)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS))
 
-        onView(withText(R.string.hint_sounds))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_sounds)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
-        onView(withText(R.string.hint_sounds))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_sounds)
 
-        onView(withText(R.string.hint_looks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_looks)
     }
 
     @Test
     fun looksHintNotShownInScriptFragment() {
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
+
         onView(withText(R.string.got_it))
             .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        onView(withText(R.string.hint_looks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_looks)
+
+        onView(withText(R.string.got_it))
+            .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
 
-        onView(withText(R.string.hint_looks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_looks)
     }
 
     @Test
     fun soundsHintNotShownInScriptFragment() {
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
+
         onView(withText(R.string.got_it))
             .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS))
 
-        onView(withText(R.string.hint_sounds))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_sounds)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun brickCategoriesHintNotShownInScriptFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -189,19 +185,16 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         pressBack()
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
     }
 
     @Test
     fun bricksHintNotShownInScriptFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -209,8 +202,7 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -218,24 +210,20 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun bricksHintNotShownInBrickCategoryFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -243,8 +231,7 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -252,22 +239,18 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
     }
 
     @Test
     fun brickAndCategoryHintsChangeCorrectlyBeforeDismissTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -275,28 +258,23 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
     }
 
     @Test
     fun bricksHintIsNotShownAfterChoosingBrickTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -307,19 +285,29 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.category_motion))
             .perform(scrollTo(), click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         onView(withText(R.string.brick_set_y))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
+    }
+
+    fun checkIfSnackBarIsDisplayed(snackBarText: Int)
+    {
+        Thread.sleep(SNACKBAR_ANIMATION_DURATION)
+        onView(withText(snackBarText)).check(matches(isDisplayed()))
+        Thread.sleep(50)
+    }
+
+    fun checkIfSnackBarIsNotDisplayed(snackBarText: Int)
+    {
+        Thread.sleep(SNACKBAR_ANIMATION_DURATION)
+        onView(withText(snackBarText)).check(doesNotExist())
+        Thread.sleep(50)
     }
 }
