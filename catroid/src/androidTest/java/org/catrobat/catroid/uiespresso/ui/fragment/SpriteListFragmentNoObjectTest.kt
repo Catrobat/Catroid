@@ -85,7 +85,7 @@ class SpriteListFragmentNoObjectTest {
     @Test
     fun testOverflowItemsWithNoObjects() {
         checkToastMessageAfterPressingOverflowItem(R.string.backpack)
-        checkToastMessageAfterPressingOverflowItem(R.string.copy)
+        checkToastMessageAfterPressingOverflowItem(R.string.copy_deafult)
         checkToastMessageAfterPressingOverflowItem(R.string.delete)
         checkToastMessageAfterPressingOverflowItem(R.string.rename)
     }

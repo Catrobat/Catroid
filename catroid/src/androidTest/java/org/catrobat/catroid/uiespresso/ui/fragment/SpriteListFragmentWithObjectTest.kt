@@ -104,10 +104,10 @@ class SpriteListFragmentWithObjectTest {
     fun testCopyInOverflow() {
         openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
 
-        onView(withText(R.string.copy))
+        onView(withText(R.string.copy_deafult))
             .perform(click())
 
-        onView(withText(R.string.copy))
+        onView(withText(R.string.copy_deafult))
             .check(matches(isDisplayed()))
     }
 
