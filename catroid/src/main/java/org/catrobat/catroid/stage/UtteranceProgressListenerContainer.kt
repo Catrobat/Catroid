@@ -31,7 +31,11 @@ class UtteranceProgressListenerContainer : UtteranceProgressListener() {
     private val listeners: MutableMap<String?, MutableList<UtteranceProgressListener>?> = HashMap()
 
     @Synchronized
-    fun addUtteranceProgressListener(speechFile: File, utteranceProgressListener: UtteranceProgressListener, utteranceId: String?): Boolean {
+    fun addUtteranceProgressListener(
+        speechFile: File,
+        utteranceProgressListener: UtteranceProgressListener,
+        utteranceId: String?
+    ): Boolean {
         val utteranceIdListeners = listeners[utteranceId]
         return if (utteranceIdListeners == null) {
             if (speechFile.exists()) {
@@ -58,8 +62,10 @@ class UtteranceProgressListenerContainer : UtteranceProgressListener() {
     }
 
     @SuppressWarnings("EmptyFunctionBlock")
-    override fun onStart(utteranceId: String) {}
+    override fun onStart(utteranceId: String) {
+    }
 
     @SuppressWarnings("EmptyFunctionBlock")
-    override fun onError(utteranceId: String) {}
+    override fun onError(utteranceId: String) {
+    }
 }

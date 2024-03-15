@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,8 +62,10 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,7 +80,9 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, CONVERT})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	private static final int NONE = 0;
 	private static final int CONVERT = 1;
 
@@ -89,7 +93,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private ConversionManager conversionManager;
 	private SearchScratchProgramsTask searchTask;
-	private ScratchDataFetcher dataFetcher = new ServerCalls(CatrobatWebClient.INSTANCE.getClient());
+	private final ScratchDataFetcher dataFetcher = new ServerCalls(CatrobatWebClient.INSTANCE.getClient());
 
 	class OnQueryListener implements SearchView.OnQueryTextListener {
 
@@ -145,8 +149,8 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		}
 	}
 
-	private OnQueryListener onQueryListener = new OnQueryListener();
-	private SearchTaskDelegate searchTaskDelegate = new SearchTaskDelegate();
+	private final OnQueryListener onQueryListener = new OnQueryListener();
+	private final SearchTaskDelegate searchTaskDelegate = new SearchTaskDelegate();
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -179,12 +183,10 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -230,7 +232,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
 
-		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
+		adapter = new ScratchProgramAdapter(new ArrayList<>());
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
 		recyclerView.setAdapter(adapter);
@@ -262,12 +264,12 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_scratch_projects, menu);
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NonNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
@@ -280,10 +282,10 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.convert:
-				startActionMode(CONVERT);
+			case (R.id.convert):
+				startActionMode();
 				break;
-			case R.id.show_details:
+			case (R.id.show_details):
 				adapter.showDetails = !adapter.showDetails;
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
@@ -297,12 +299,12 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		return true;
 	}
 
-	private void startActionMode(@ActionModeType int type) {
+	private void startActionMode() {
 		if (adapter.getItems().isEmpty()) {
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
-			actionModeType = type;
+			actionModeType = ScratchSearchResultsFragment.CONVERT;
 			actionMode = getActivity().startActionMode(this);
 		}
 	}
@@ -382,15 +384,11 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		PopupMenu popupMenu = new PopupMenu(getContext(), view);
 
 		popupMenu.getMenu().add(getString(R.string.convert));
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-			@Override
-			public boolean onMenuItemClick(MenuItem menuItem) {
-				if (getString(R.string.convert).equals(menuItem.getTitle())) {
-					convertItems(new ArrayList<>(Collections.singletonList(item)));
-				}
-				return true;
+		popupMenu.setOnMenuItemClickListener(menuItem -> {
+			if (getString(R.string.convert).contentEquals(Objects.requireNonNull(menuItem.getTitle()))) {
+				convertItems(new ArrayList<>(Collections.singletonList(item)));
 			}
+			return true;
 		});
 		popupMenu.show();
 	}

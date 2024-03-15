@@ -68,10 +68,16 @@ class BrickSearchFragment : ListFragment() {
     private var addBrickListener: AddBrickFragment.OnAddBrickListener? = null
     private var category: String? = null
     private var adapter: PrototypeBrickAdapter? = null
-    @Volatile private var emptyQuery: Boolean = true
-    @Volatile private var previousQuery: String = ""
+    @Volatile
+    private var emptyQuery: Boolean = true
+    @Volatile
+    private var previousQuery: String = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_brick_search, container, false)
         val actionBar = (activity as? AppCompatActivity)?.supportActionBar
         previousActionBarTitle = actionBar?.title
@@ -89,14 +95,18 @@ class BrickSearchFragment : ListFragment() {
             listView.setSelection(listIndexToFocus)
             listIndexToFocus = -1
         }
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { addBrickToScript(
-            it,
-            activity as SpriteActivity,
-            addBrickListener,
-            parentFragmentManager,
-            BRICK_SEARCH_FRAGMENT_TAG
-        ) }
-        }
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+                adapter?.getItem(position)?.let {
+                    addBrickToScript(
+                        it,
+                        activity as SpriteActivity,
+                        addBrickListener,
+                        parentFragmentManager,
+                        BRICK_SEARCH_FRAGMENT_TAG
+                    )
+                }
+            }
     }
 
     override fun onDestroy() {
@@ -124,7 +134,7 @@ class BrickSearchFragment : ListFragment() {
                 view: AbsListView,
                 scrollState: Int
             ) {
-                    searchView.hideKeyboard()
+                searchView.hideKeyboard()
             }
 
             @SuppressWarnings("EmptyFunctionBlock")
@@ -133,45 +143,46 @@ class BrickSearchFragment : ListFragment() {
                 firstVisibleItem: Int,
                 visibleItemCount: Int,
                 totalItemCount: Int
-            ) {}
+            ) {
+            }
         })
 
         searchView = searchItem
         if (searchView != null) {
-                var countDownTimer: CountDownTimer
-                adapter = PrototypeBrickAdapter(searchResults)
-                listAdapter = adapter
-                queryTextListener = object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextChange(query: String): Boolean {
-                        previousQuery = query
-                        recentlyUsedTitle?.setVisibleOrGone(query.isEmpty())
-                        countDownTimer = object : CountDownTimer(
-                            PROGESSIVE_INPUT_DELAY,
-                            PROGESSIVE_INPUT_COUNTDOWN_INTERVALL
-                        ) {
-                            @SuppressWarnings("EmptyFunctionBlock")
-                            override fun onTick(millisUntilFinished: Long) {
-                            }
+            var countDownTimer: CountDownTimer
+            adapter = PrototypeBrickAdapter(searchResults)
+            listAdapter = adapter
+            queryTextListener = object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(query: String): Boolean {
+                    previousQuery = query
+                    recentlyUsedTitle?.setVisibleOrGone(query.isEmpty())
+                    countDownTimer = object : CountDownTimer(
+                        PROGESSIVE_INPUT_DELAY,
+                        PROGESSIVE_INPUT_COUNTDOWN_INTERVALL
+                    ) {
+                        @SuppressWarnings("EmptyFunctionBlock")
+                        override fun onTick(millisUntilFinished: Long) {
+                        }
 
-                            override fun onFinish() {
-                                when (query) {
-                                    previousQuery -> searchAndFillBrickList(query)
-                                }
+                        override fun onFinish() {
+                            when (query) {
+                                previousQuery -> searchAndFillBrickList(query)
                             }
                         }
-                        emptyQuery = query.isEmpty()
-                        if (query.isEmpty()) {
-                            searchResults.clear()
-                            searchResults.addAll(recentlyUsedBricks)
-                            adapter?.replaceList(searchResults)
-                            countDownTimer.cancel()
-                            setShowProgressBar(false)
-                        } else {
-                            countDownTimer.start()
-                            setShowProgressBar(true)
-                        }
-                        return true
                     }
+                    emptyQuery = query.isEmpty()
+                    if (query.isEmpty()) {
+                        searchResults.clear()
+                        searchResults.addAll(recentlyUsedBricks)
+                        adapter?.replaceList(searchResults)
+                        countDownTimer.cancel()
+                        setShowProgressBar(false)
+                    } else {
+                        countDownTimer.start()
+                        setShowProgressBar(true)
+                    }
+                    return true
+                }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
                     searchResults.clear()
@@ -186,9 +197,7 @@ class BrickSearchFragment : ListFragment() {
                 }
             }
             suggestionListener = object : SearchView.OnSuggestionListener {
-                override fun onSuggestionSelect(position: Int): Boolean {
-                    return false
-                }
+                override fun onSuggestionSelect(position: Int): Boolean = false
 
                 override fun onSuggestionClick(position: Int): Boolean {
                     val cursor: Cursor? = searchView?.suggestionsAdapter?.cursor
@@ -206,11 +215,11 @@ class BrickSearchFragment : ListFragment() {
     }
 
     private fun setShowProgressBar(visible: Boolean) {
-            if (visible) {
-                view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.VISIBLE
-            } else {
-                view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.INVISIBLE
-            }
+        if (visible) {
+            view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.VISIBLE
+        } else {
+            view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.INVISIBLE
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -221,7 +230,9 @@ class BrickSearchFragment : ListFragment() {
         menu.findItem(R.id.search_bar).isVisible = true
     }
 
-    private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
+    private fun onlyBeginnerBricks(): Boolean =
+        PreferenceManager.getDefaultSharedPreferences(activity)
+            .getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
 
     private fun searchAndFillBrickList(query: String) {
         searchResults.clear()
@@ -245,13 +256,18 @@ class BrickSearchFragment : ListFragment() {
 
     private fun searchBrick(query: String) {
         availableBricks.forEach { brick ->
-            val regexQuery = (".*" + query.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), ".*") + ".*").toRegex()
+            val regexQuery = (".*" + query.toLowerCase(Locale.ROOT)
+                .replace("\\s".toRegex(), ".*") + ".*").toRegex()
             val brickView = brick.getView(context)
-            if (regexQuery.containsMatchIn(findBrickString(brickView)) && !searchResultContains(brick)) {
+            if (regexQuery.containsMatchIn(findBrickString(brickView)) && !searchResultContains(
+                    brick
+                )
+            ) {
                 searchResults.add(brick)
             }
         }
     }
+
     private fun searchResultContains(brick: Brick): Boolean {
         searchResults.forEach {
             if (brick.javaClass == it.javaClass) {
@@ -267,11 +283,12 @@ class BrickSearchFragment : ListFragment() {
             for (i in 0 until view.childCount) {
                 val child = view.getChildAt(i)
                 val stringFoundInBrick = findBrickString(child)
-                if (stringFoundInBrick.isNotBlank()) wholeStringFoundInBrick = wholeStringFoundInBrick.plus(stringFoundInBrick)
+                if (stringFoundInBrick.isNotBlank()) wholeStringFoundInBrick =
+                    wholeStringFoundInBrick.plus(stringFoundInBrick)
             }
         } else if (view is TextView) return view.text.toString().toLowerCase(Locale.ROOT)
         return wholeStringFoundInBrick
-        }
+    }
 
     fun getRecentlyUsedBricks() {
         val categoryBricksFactory: CategoryBricksFactory = when {
@@ -280,7 +297,13 @@ class BrickSearchFragment : ListFragment() {
         }
         val backgroundSprite = ProjectManager.getInstance().currentlyEditedScene.backgroundSprite
         val sprite = ProjectManager.getInstance().currentSprite
-        recentlyUsedBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_recently_used), backgroundSprite.equals(sprite), requireContext()))
+        recentlyUsedBricks.addAll(
+            categoryBricksFactory.getBricks(
+                requireContext().getString(R.string.category_recently_used),
+                backgroundSprite.equals(sprite),
+                requireContext()
+            )
+        )
     }
 
     @SuppressWarnings("ComplexMethod")
@@ -293,25 +316,103 @@ class BrickSearchFragment : ListFragment() {
         val sprite = ProjectManager.getInstance().currentSprite
         if (category != context?.getString(R.string.category_search_bricks)) {
             availableBricks.clear()
-            availableBricks.addAll(categoryBricksFactory.getBricks(category, backgroundSprite.equals(sprite), requireContext()))
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    category,
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
         } else {
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_recently_used), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_event), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_control), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_motion), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_sound), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_looks), backgroundSprite.equals(sprite), requireContext()))
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_recently_used),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_event),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_control),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_motion),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_sound),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_looks),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
 
             if (!onlyBeginnerBricks()) {
-                availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_pen), backgroundSprite.equals(sprite), requireContext()))
+                availableBricks.addAll(
+                    categoryBricksFactory.getBricks(
+                        requireContext().getString(R.string.category_pen),
+                        backgroundSprite.equals(
+                            sprite
+                        ),
+                        requireContext()
+                    )
+                )
             }
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_data), backgroundSprite.equals(sprite), requireContext()))
-            availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_device), backgroundSprite.equals(sprite), requireContext()))
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_data),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
+            availableBricks.addAll(
+                categoryBricksFactory.getBricks(
+                    requireContext().getString(R.string.category_device),
+                    backgroundSprite.equals(sprite),
+                    requireContext()
+                )
+            )
             if (!onlyBeginnerBricks()) {
-                availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_user_bricks), backgroundSprite.equals(sprite), requireContext()))
+                availableBricks.addAll(
+                    categoryBricksFactory.getBricks(
+                        requireContext().getString(R.string.category_user_bricks),
+                        backgroundSprite.equals(
+                            sprite
+                        ),
+                        requireContext()
+                    )
+                )
             }
             if (SettingsFragment.isTestSharedPreferenceEnabled(activity)) {
-                availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_assertions), backgroundSprite.equals(sprite), requireContext()))
+                availableBricks.addAll(
+                    categoryBricksFactory.getBricks(
+                        requireContext().getString(R.string.category_assertions),
+                        backgroundSprite.equals(
+                            sprite
+                        ),
+                        requireContext()
+                    )
+                )
             }
         }
     }
@@ -320,8 +421,12 @@ class BrickSearchFragment : ListFragment() {
         @JvmField
         val BRICK_SEARCH_FRAGMENT_TAG = BrickSearchFragment::class.java.simpleName
         private var listIndexToFocus = -1
+
         @JvmStatic
-        fun newInstance(addBrickListener: AddBrickFragment.OnAddBrickListener?, selectedCategory: String?):
+        fun newInstance(
+            addBrickListener: AddBrickFragment.OnAddBrickListener?,
+            selectedCategory: String?
+        ):
             BrickSearchFragment {
             val fragment = BrickSearchFragment()
             fragment.category = selectedCategory

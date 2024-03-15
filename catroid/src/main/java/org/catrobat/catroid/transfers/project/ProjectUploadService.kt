@@ -161,7 +161,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             PendingIntent.getActivity(
                 applicationContext,
                 StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 
@@ -191,7 +191,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             PendingIntent.getActivity(
                 applicationContext,
                 StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 

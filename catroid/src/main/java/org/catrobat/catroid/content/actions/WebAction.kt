@@ -46,11 +46,13 @@ abstract class WebAction : Action(), WebRequestListener {
     enum class RequestStatus {
         NOT_SENT, WAITING, FINISHED
     }
+
     var requestStatus: RequestStatus = RequestStatus.NOT_SENT
 
     enum class PermissionStatus {
         UNKNOWN, PENDING, DENIED, GRANTED
     }
+
     private var permissionStatus: PermissionStatus = PermissionStatus.UNKNOWN
 
     private fun interpretUrl(): Boolean {
@@ -58,7 +60,9 @@ abstract class WebAction : Action(), WebRequestListener {
             formula!!.interpretString(scope)!!.let {
                 url = if (it.startsWith("http://") || it.startsWith("https://")) {
                     it
-                } else "https://$it"
+                } else {
+                    "https://$it"
+                }
             }
             val newlineIndex = url?.indexOf("\n")
             if (newlineIndex != -1) {
@@ -77,7 +81,8 @@ abstract class WebAction : Action(), WebRequestListener {
         } else {
             permissionStatus = PermissionStatus.PENDING
             val params = arrayListOf(BrickDialogManager.DialogType.WEB_ACCESS_DIALOG, this, url!!)
-            StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_DIALOG, params).sendToTarget()
+            StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_DIALOG, params)
+                .sendToTarget()
         }
     }
 
@@ -100,6 +105,7 @@ abstract class WebAction : Action(), WebRequestListener {
                 handleError(Constants.ERROR_AUTHENTICATION_REQUIRED.toString())
                 return true
             }
+
             else -> {}
         }
 
@@ -134,7 +140,9 @@ abstract class WebAction : Action(), WebRequestListener {
         return if (stageListener.webConnectionHolder.addConnection(webConnection!!)) {
             webConnection!!.sendWebRequest()
             true
-        } else false
+        } else {
+            false
+        }
     }
 
     abstract fun handleResponse()

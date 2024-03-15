@@ -34,7 +34,9 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
         if (event is EventWrapper) {
             handleEvent(event)
             true
-        } else false
+        } else {
+            false
+        }
 
     private fun handleEvent(event: EventWrapper) {
         with(look) {
@@ -57,9 +59,12 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
         with(look) {
             val scriptClone = (sequenceAction.script as UserDefinedScript).clone() as
                 UserDefinedScript
-            scriptClone.setUserDefinedBrickInputs((event.eventId as
-                UserDefinedBrickEventId).userBrickParameters)
-            val sequenceClone: ScriptSequenceAction = sequenceAction.cloneAndChangeScript(scriptClone)
+            scriptClone.setUserDefinedBrickInputs(
+                (event.eventId as
+                    UserDefinedBrickEventId).userBrickParameters
+            )
+            val sequenceClone: ScriptSequenceAction =
+                sequenceAction.cloneAndChangeScript(scriptClone)
             sequenceClone.script.run(sprite, sequenceClone)
             event.addSpriteToWaitList(sprite)
             startThread(ScriptSequenceActionWithWaiter(sequenceClone, event, sprite))

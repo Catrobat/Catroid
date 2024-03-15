@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.pocketmusic.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -116,6 +117,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 		return isPlaying;
 	}
 
+	@SuppressLint("NotifyDataSetChanged")
 	public void setPlaying(boolean playing) {
 		isPlaying = playing;
 		getAdapter().notifyDataSetChanged();

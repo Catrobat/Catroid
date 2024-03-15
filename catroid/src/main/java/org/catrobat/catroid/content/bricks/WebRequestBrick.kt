@@ -43,7 +43,8 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     override fun getViewResource(): Int = R.layout.brick_web_request
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createWebRequestAction(
+        sequence.addAction(
+            sprite.actionFactory.createWebRequestAction(
                 sprite, sequence,
                 getFormulaWithBrickField(BrickField.WEB_REQUEST), userVariable
             )

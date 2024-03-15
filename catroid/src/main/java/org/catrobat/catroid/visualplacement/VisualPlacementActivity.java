@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.visualplacement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -140,13 +141,14 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			case android.R.id.home:
 				onBackPressed();
 				break;
-			case R.id.confirm:
+			case (R.id.confirm):
 				finishWithResult();
 				break;
 		}
 		return true;
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(null);

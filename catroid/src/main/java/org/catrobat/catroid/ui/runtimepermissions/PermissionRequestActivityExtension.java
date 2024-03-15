@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.ui.runtimepermissions;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.view.ContextThemeWrapper;
 
 import org.catrobat.catroid.R;
@@ -84,9 +82,8 @@ public class PermissionRequestActivityExtension {
 		return matchedTask;
 	}
 
-	@TargetApi(23)
 	private void showPermissionRationale(final Activity activity, final RequiresPermissionTask task) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
+		if (activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
 			String message = activity.getResources().getString(task.getRationaleString());
 
 			OnClickListener okListener = (dialog, whichButton) -> {
@@ -106,19 +103,10 @@ public class PermissionRequestActivityExtension {
 	}
 
 	private void showAlertOKCancel(Activity activity, String message, OnClickListener okListener) {
-		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
-				.setMessage(message)
-				.setPositiveButton(R.string.ok, okListener)
-				.setNegativeButton(R.string.cancel, null)
-				.show();
+		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog)).setMessage(message).setPositiveButton(R.string.ok, okListener).setNegativeButton(R.string.cancel, null).show();
 	}
 
 	private void showAlertOKIgnoreCancel(Activity activity, String message, OnClickListener okListener, OnClickListener ignoreListener) {
-		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
-				.setMessage(message)
-				.setPositiveButton(R.string.ok, okListener)
-				.setNeutralButton(R.string.ignore, ignoreListener)
-				.setNegativeButton(R.string.cancel, null)
-				.show();
+		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog)).setMessage(message).setPositiveButton(R.string.ok, okListener).setNeutralButton(R.string.ignore, ignoreListener).setNegativeButton(R.string.cancel, null).show();
 	}
 }

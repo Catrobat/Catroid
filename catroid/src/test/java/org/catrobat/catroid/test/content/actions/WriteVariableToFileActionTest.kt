@@ -44,7 +44,6 @@ import java.io.File
 
 @RunWith(Parameterized::class)
 class WriteVariableToFileActionTest(
-    private val name: String,
     private val formula: Formula?,
     private val userVariable: UserVariable?,
     private val expectedFileContent: String,
@@ -61,18 +60,30 @@ class WriteVariableToFileActionTest(
         fun parameters() = listOf(
             arrayOf("USER_VARIABLE_NULL", Formula("file.txt"), null, "", 0, 0),
             arrayOf("FORMULA_NULL", null, UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), "", 0, 0),
-            arrayOf("VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("CANNOT_CREATE_FILE", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 0),
-            arrayOf("NO_SUFFIX", Formula("file"),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("UNICODE", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, "🐼~🐵~🐘"), "🐼~🐵~🐘", 1, 1),
-            arrayOf("NUMBER", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, -3.14), "-3.14", 1, 1)
+            arrayOf(
+                "VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME),
+                UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1
+            ),
+            arrayOf(
+                "CANNOT_CREATE_FILE", Formula(DEFAULT_FILE_NAME),
+                UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 0
+            ),
+            arrayOf(
+                "NO_SUFFIX", Formula("file"),
+                UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1
+            ),
+            arrayOf(
+                "INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
+                UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1
+            ),
+            arrayOf(
+                "UNICODE", Formula(DEFAULT_FILE_NAME),
+                UserVariable(VAR_NAME, "🐼~🐵~🐘"), "🐼~🐵~🐘", 1, 1
+            ),
+            arrayOf(
+                "NUMBER", Formula(DEFAULT_FILE_NAME),
+                UserVariable(VAR_NAME, -3.14), "-3.14", 1, 1
+            )
         )
 
         private const val DEFAULT_FILE_NAME = "file.txt"
@@ -90,12 +101,14 @@ class WriteVariableToFileActionTest(
 
     @Test
     fun testWriteVariableToFile() {
-        val action = spy(sprite.actionFactory.createWriteVariableToFileAction(
-            sprite,
-            sequence,
-            formula,
-            userVariable
-        ) as WriteVariableToFileAction)
+        val action = spy(
+            sprite.actionFactory.createWriteVariableToFileAction(
+                sprite,
+                sequence,
+                formula,
+                userVariable
+            ) as WriteVariableToFileAction
+        )
 
         if (writeToFile > 0) {
             doReturn(file).`when`(action).createFile(anyString())

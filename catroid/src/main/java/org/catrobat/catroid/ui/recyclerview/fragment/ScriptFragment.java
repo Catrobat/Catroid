@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -96,6 +95,7 @@ import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
@@ -142,8 +142,8 @@ public class ScriptFragment extends ListFragment implements
 	private String currentSpriteName;
 	private int undoBrickPosition;
 
-	private ScriptController scriptController = new ScriptController();
-	private BrickController brickController = new BrickController();
+	private final ScriptController scriptController = new ScriptController();
+	private final BrickController brickController = new BrickController();
 
 	private Parcelable savedListViewState;
 	private Brick brickToFocus;
@@ -227,12 +227,10 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -276,7 +274,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 		int bottomListPadding;
@@ -294,7 +292,7 @@ public class ScriptFragment extends ListFragment implements
 		scriptFinder = view.findViewById(R.id.findview);
 		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
 				textView
-				) -> {
+		) -> {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
 			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
@@ -449,7 +447,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		if (listView.isCurrentlyMoving()) {
 			listView.highlightMovingItem();
 			return true;
@@ -458,25 +456,25 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 		}
 		switch (item.getItemId()) {
-			case R.id.menu_undo:
+			case (R.id.menu_undo):
 				loadProjectAfterUndoOption();
 				break;
-			case R.id.backpack:
+			case (R.id.backpack):
 				prepareActionMode(BACKPACK);
 				break;
-			case R.id.copy:
+			case (R.id.copy):
 				prepareActionMode(COPY);
 				break;
-			case R.id.delete:
+			case (R.id.delete):
 				prepareActionMode(DELETE);
 				break;
-			case R.id.comment_in_out:
+			case (R.id.comment_in_out):
 				prepareActionMode(COMMENT);
 				break;
-			case R.id.catblocks:
+			case (R.id.catblocks):
 				switchToCatblocks();
 				break;
-			case R.id.find:
+			case (R.id.find):
 				scriptFinder.open();
 				break;
 			default:
@@ -527,7 +525,7 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onCategorySelected(String category) {
 		ListFragment fragment = null;
-		String tag = "";
+		String tag;
 		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
 			fragment = UserDefinedBrickListFragment.newInstance(this);
@@ -652,7 +650,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onBrickClick(Brick brick, int position) {
+	public void onBrickClick(@NonNull Brick brick, int position) {
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 			return;
@@ -660,7 +658,7 @@ public class ScriptFragment extends ListFragment implements
 
 		List<Integer> options = getContextMenuItems(brick);
 		List<String> names = new ArrayList<>();
-		for (Integer option: options) {
+		for (Integer option : options) {
 			names.add(getString(option));
 		}
 
@@ -671,13 +669,8 @@ public class ScriptFragment extends ListFragment implements
 		brick.disableSpinners();
 
 		new AlertDialog.Builder(getContext())
-			.setCustomTitle(brickView)
-			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleContextMenuItemClick(options.get(which), brick, position);
-				}
-			}).show();
+				.setCustomTitle(brickView)
+				.setAdapter(arrayAdapter, (dialog, which) -> handleContextMenuItemClick(options.get(which), brick, position)).show();
 	}
 
 	@VisibleForTesting
@@ -741,13 +734,13 @@ public class ScriptFragment extends ListFragment implements
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
 		showUndo(false);
 		switch (itemId) {
-			case R.string.backpack_add:
+			case (R.string.backpack_add):
 				List<Brick> bricksToPack = new ArrayList<>();
 				brick.addToFlatList(bricksToPack);
 				showNewScriptGroupAlert(bricksToPack);
 				break;
-			case R.string.brick_context_dialog_copy_brick:
-			case R.string.brick_context_dialog_copy_script:
+			case (R.string.brick_context_dialog_copy_brick):
+			case (R.string.brick_context_dialog_copy_script):
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
@@ -757,44 +750,42 @@ public class ScriptFragment extends ListFragment implements
 					Log.e(TAG, Log.getStackTraceString(e));
 				}
 				break;
-			case R.string.brick_context_dialog_delete_brick:
-			case R.string.brick_context_dialog_delete_script:
+			case (R.string.brick_context_dialog_delete_brick):
+			case (R.string.brick_context_dialog_delete_script):
+			case (R.string.brick_context_dialog_delete_definition):
 				showDeleteAlert(brick.getAllParts());
 				break;
-			case R.string.brick_context_dialog_delete_definition:
-				showDeleteAlert(brick.getAllParts());
-				break;
-			case R.string.brick_context_dialog_comment_in:
-			case R.string.brick_context_dialog_comment_in_script:
+			case (R.string.brick_context_dialog_comment_in):
+			case (R.string.brick_context_dialog_comment_in_script):
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(false);
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_context_dialog_comment_out:
-			case R.string.brick_context_dialog_comment_out_script:
+			case (R.string.brick_context_dialog_comment_out):
+			case (R.string.brick_context_dialog_comment_out_script):
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(true);
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_option_place_visually:
+			case (R.string.brick_option_place_visually):
 				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
 				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(),
 						visualPlacementBrick.getYBrickField());
 				break;
-			case R.string.brick_context_dialog_formula_edit_brick:
+			case (R.string.brick_context_dialog_formula_edit_brick):
 				((FormulaBrick) brick).onClick(listView);
 				break;
-			case R.string.brick_context_dialog_move_brick:
-			case R.string.brick_context_dialog_move_script:
-			case R.string.brick_context_dialog_move_definition:
+			case (R.string.brick_context_dialog_move_brick):
+			case (R.string.brick_context_dialog_move_script):
+			case (R.string.brick_context_dialog_move_definition):
 				onBrickLongClick(brick, position);
 				break;
-			case R.string.brick_context_dialog_help:
+			case (R.string.brick_context_dialog_help):
 				openWebViewWithHelpPage(brick);
 				break;
-			case R.string.brick_context_dialog_highlight_brick_parts:
+			case (R.string.brick_context_dialog_highlight_brick_parts):
 				List<Brick> bricksOfControlStructure = brick.getAllParts();
 				List<Integer> positions = new ArrayList<>();
 				for (Brick brickInControlStructure : bricksOfControlStructure) {
@@ -817,7 +808,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onBrickLongClick(Brick brick, int position) {
+	public boolean onBrickLongClick(@NonNull Brick brick, int position) {
 		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();

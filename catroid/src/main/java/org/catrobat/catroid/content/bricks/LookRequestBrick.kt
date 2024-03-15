@@ -43,7 +43,8 @@ class LookRequestBrick constructor() : FormulaBrick() {
     override fun getViewResource(): Int = R.layout.brick_look_request
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createLookRequestAction(
+        sequence.addAction(
+            sprite.actionFactory.createLookRequestAction(
                 sprite, sequence,
                 getFormulaWithBrickField(BrickField.LOOK_REQUEST)
             )
