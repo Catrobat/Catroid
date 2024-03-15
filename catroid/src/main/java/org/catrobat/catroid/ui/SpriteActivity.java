@@ -148,6 +148,7 @@ public class SpriteActivity extends BaseActivity {
 	public static final String EXTRA_TEXT_COLOR = "TEXT_COLOR";
 	public static final String EXTRA_TEXT_SIZE = "TEXT_SIZE";
 	public static final String EXTRA_TEXT_ALIGNMENT = "TEXT_ALIGNMENT";
+	public static boolean wasBackgroundClickedOnce = false;
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;

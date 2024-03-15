@@ -24,7 +24,9 @@ package org.catrobat.catroid.uiespresso.ui.fragment
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -131,5 +133,17 @@ class SpriteListFragmentWithObjectTest {
 
         onView(withText(R.string.rename_sprite_dialog))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun testShowLookListOnFirstClick() {
+        onView(withText(R.string.background)).perform(click())
+        onView(withText(R.string.new_look_dialog_title)).check(matches(isDisplayed()))
+
+        pressBack()
+        pressBack()
+
+        onView(withText(R.string.background)).perform(click())
+        onView(withText(R.string.new_look_dialog_title)).check(doesNotExist())
     }
 }
