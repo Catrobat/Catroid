@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,42 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils
 
-package org.catrobat.catroid.utils;
+import java.util.regex.Pattern
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+class StringFinder {
+    private var matcherRun = false
+    private var result: String? = null
+    fun findBetween(string: String?, start: String, end: String): Boolean {
+        val pattern = Pattern.compile("$start(.*?)$end", Pattern.DOTALL)
+        val matcher = pattern.matcher(string)
+        matcherRun = true
+        if (matcher.find()) {
+            result = matcher.group(1)
+            return true
+        }
+        result = null
+        return false
+    }
 
-public class StringFinder {
+    fun getResult(): String? {
+        check(matcherRun) {
+            "You must call findBetween(String string, String start, String end) first."
+        }
+        matcherRun = false
+        return result
+    }
 
-	private boolean matcherRun;
-	private String result;
-
-	public static String encodeSpecialChars(String string) {
-		return Pattern.quote(string);
-	}
-
-	public boolean findBetween(String string, String start, String end) {
-		Pattern pattern = Pattern.compile(start + "(.*?)" + end, Pattern.DOTALL);
-		Matcher matcher = pattern.matcher(string);
-
-		matcherRun = true;
-
-		if (matcher.find()) {
-			result = matcher.group(1);
-			return true;
-		}
-
-		result = null;
-		return false;
-	}
-
-	public String getResult() {
-		if (!matcherRun) {
-			throw new IllegalStateException("You must call findBetween(String string, String start, String end) "
-					+ "first.");
-		}
-		matcherRun = false;
-		return result;
-	}
-}
+    companion object {
+        @JvmStatic
+        fun encodeSpecialChars(string: String?): String = Pattern.quote(string)
+        }
+    }
