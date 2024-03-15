@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.web;
 
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -64,25 +64,25 @@ public class CatrobatWebClientTest {
 	}
 
 	@Test
-	public void testThrowsExceptionWhenConnectionFails() throws WebconnectionException, IOException {
+	public void testThrowsExceptionWhenConnectionFails() throws WebConnectionException, IOException {
 		Mockito.when(call.execute()).thenThrow(new IOException());
-		exception.expect(WebconnectionException.class);
+		exception.expect(WebConnectionException.class);
 
 		performCallWith(clientMock, requestMock);
 	}
 
 	@Test
-	public void testThrowsExceptionWhenResponseBodyIsNull() throws WebconnectionException, IOException {
+	public void testThrowsExceptionWhenResponseBodyIsNull() throws WebConnectionException, IOException {
 		Response response = PowerMockito.mock(Response.class);
 		Mockito.when(response.message()).thenReturn("");
 		Mockito.when(call.execute()).thenReturn(response);
 
-		exception.expect(WebconnectionException.class);
+		exception.expect(WebConnectionException.class);
 		performCallWith(clientMock, requestMock);
 	}
 
 	@Test
-	public void testThrowsExceptionWhenResponseBodyIsInvalid() throws WebconnectionException, IOException {
+	public void testThrowsExceptionWhenResponseBodyIsInvalid() throws WebConnectionException, IOException {
 		Response response = PowerMockito.mock(Response.class);
 		Mockito.when(response.message()).thenReturn("");
 		Mockito.when(call.execute()).thenReturn(response);
@@ -92,13 +92,13 @@ public class CatrobatWebClientTest {
 
 		PowerMockito.when(body.string()).thenThrow(new IOException());
 
-		exception.expect(WebconnectionException.class);
+		exception.expect(WebConnectionException.class);
 
 		performCallWith(clientMock, requestMock);
 	}
 
 	@Test
-	public void testValidRun() throws WebconnectionException, IOException {
+	public void testValidRun() throws WebConnectionException, IOException {
 		Response response = PowerMockito.mock(Response.class);
 		Mockito.when(response.isSuccessful()).thenReturn(true);
 		Mockito.when(call.execute()).thenReturn(response);

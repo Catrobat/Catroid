@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.IOException;
 
@@ -72,7 +72,7 @@ public class MediaDownloadService extends IntentService {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
 			receiver.send(Constants.UPDATE_DOWNLOAD_ERROR, null);
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			result = false;
 			errorMessage = R.string.error_internet_connection;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -96,7 +96,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		okHttpClient = httpClient;
 	}
 
-	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebconnectionException,
+	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebConnectionException,
 			WebScratchProgramException {
 
 		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -118,7 +118,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			final JSONObject jsonData = jsonObject.getJSONObject("projectData");
 			if (jsonData.length() == 0) {
-				throw new WebconnectionException(WebconnectionException.ERROR_EMPTY_PROJECT_DATA, "Field projectData "
+				throw new WebConnectionException(WebConnectionException.ERROR_EMPTY_PROJECT_DATA, "Field projectData "
 						+ "is empty.");
 			}
 			final String title = jsonData.getString("title");
@@ -181,11 +181,11 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 			return programData;
 		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
-	public ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException {
+	public ScratchSearchResult fetchDefaultScratchPrograms() throws WebConnectionException, InterruptedIOException {
 		try {
 			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL;
 			resultString = getRequestInterruptable(url);
@@ -196,22 +196,22 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return new ScratchSearchResult(programDataList, null, 0);
 		} catch (JSONException | ParseException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
-			throws WebconnectionException {
+			throws WebConnectionException {
 
 		if (query == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Query is null.");
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, "Query is null.");
 		}
 		if (numberOfItems < 1) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "numberOfItems has to be positive and"
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, "numberOfItems has to be positive and"
 					+ " non-zero.");
 		}
 		if (pageNumber < 0) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "pageNumber has to be positive.");
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, "pageNumber has to be positive.");
 		}
 
 		try {
@@ -242,7 +242,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return new ScratchSearchResult(programDataList, query, pageNumber);
 		} catch (JSONException | ParseException | UnsupportedEncodingException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -331,15 +331,15 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
-			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
+			errorCallback.onError(WebConnectionException.ERROR_NETWORK, "I/O Exception");
 		} catch (JsonSyntaxException jsonSyntaxException) {
 			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
-			errorCallback.onError(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
+			errorCallback.onError(WebConnectionException.ERROR_JSON, "JsonSyntaxException");
 		}
 	}
 
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
-			throws IOException, WebconnectionException {
+			throws IOException, WebConnectionException {
 
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -370,13 +370,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 			if (response.body() != null) {
 				bufferedSink.writeAll(response.body().source());
 			} else {
-				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FAIL");
+				throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, "FAIL");
 			}
 		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
-	private String getRequestInterruptable(String url) throws WebconnectionException {
+
+	private String getRequestInterruptable(String url) throws WebConnectionException {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
@@ -393,7 +394,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response response = httpClient.newCall(request).execute();
 			return response.body().string();
 		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -405,10 +406,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
-			WebconnectionException {
+			WebConnectionException {
 
 		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, "Context is null.");
 		}
 
 		try {
@@ -428,12 +429,12 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public boolean googleExchangeCode(String code, String id, String username,
-			String mail, String locale, String idToken) throws WebconnectionException {
+			String mail, String locale, String idToken) throws WebConnectionException {
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -451,18 +452,18 @@ public final class ServerCalls implements ScratchDataFetcher {
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
 			if (!(statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK)) {
-				throw new WebconnectionException(statusCode, resultString);
+				throw new WebConnectionException(statusCode, resultString);
 			}
 
 			return true;
 		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
+			throw new WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
-	private void checkStatusCode200(int statusCode) throws WebconnectionException {
+	private void checkStatusCode200(int statusCode) throws WebConnectionException {
 		if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-			throw new WebconnectionException(statusCode, resultString);
+			throw new WebConnectionException(statusCode, resultString);
 		}
 	}
 

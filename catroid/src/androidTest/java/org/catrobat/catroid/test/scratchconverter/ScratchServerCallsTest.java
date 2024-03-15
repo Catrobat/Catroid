@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,8 @@ import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.catrobat.catroid.web.WebScratchProgramException;
-import org.catrobat.catroid.web.WebconnectionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-import static org.catrobat.catroid.web.WebconnectionException.ERROR_EMPTY_PROJECT_DATA;
+import static org.catrobat.catroid.web.WebConnectionException.ERROR_EMPTY_PROJECT_DATA;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -72,7 +72,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchWithEmptyQueryParam() throws WebConnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -106,7 +106,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchWithQueryParam() throws WebConnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -123,7 +123,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchMaxNumberOfItemsParam() throws WebConnectionException, InterruptedIOException {
 		final int maxNumberOfItems = 10;
 
 		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", maxNumberOfItems, 0);
@@ -143,7 +143,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchPagination() throws WebConnectionException, InterruptedIOException {
 		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
 			ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", 20, pageIndex);
 			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
@@ -162,7 +162,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
+	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebConnectionException {
 		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).fetchDefaultScratchPrograms();
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -179,7 +179,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testFetchScratchProgramDetails() throws
-			WebconnectionException,
+			WebConnectionException,
 			WebScratchProgramException,
 			InterruptedIOException {
 
@@ -192,7 +192,7 @@ public class ScratchServerCallsTest {
 			assertEquals(programData.getId(), expectedProgramID);
 			assertEquals(programData.getTitle(), expectedProgramTitle);
 			assertEquals(programData.getOwner(), expectedProgramOwner);
-		} catch (WebconnectionException e) {
+		} catch (WebConnectionException e) {
 			if (e.getStatusCode() != ERROR_EMPTY_PROJECT_DATA) {
 				throw e;
 			}

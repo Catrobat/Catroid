@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,21 +30,21 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.CatrobatServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import androidx.appcompat.app.AlertDialog;
 
 public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckOAuthTokenTask.class.getSimpleName();
 
-	private Activity activity;
+	private final Activity activity;
 	private ProgressDialog progressDialog;
-	private String id;
-	private String provider;
+	private final String id;
+	private final String provider;
 
 	private Boolean tokenAvailable;
 
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	private OnCheckOAuthTokenCompleteListener onCheckOAuthTokenCompleteListener;
 
@@ -73,13 +73,13 @@ public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	protected Boolean doInBackground(String... params) {
 		try {
 			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
 			tokenAvailable = new CatrobatServerCalls().checkOAuthToken(id, provider, activity);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
 		}

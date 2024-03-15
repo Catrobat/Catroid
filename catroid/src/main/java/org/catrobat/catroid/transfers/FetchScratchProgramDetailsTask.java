@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ScratchDataFetcher;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.catrobat.catroid.web.WebScratchProgramException;
-import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.InterruptedIOException;
 
@@ -121,7 +121,7 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 				});
 
 				return null;
-			} catch (WebconnectionException e) {
+			} catch (WebConnectionException e) {
 				Log.e(TAG, e.getMessage() + "\n" + e.getStackTrace());
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
 				Log.i(TAG, "Retry #" + (attempt + 1) + " to fetch scratch project list scheduled in "

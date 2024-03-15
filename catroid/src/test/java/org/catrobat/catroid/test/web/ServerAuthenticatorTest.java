@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import android.content.SharedPreferences;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.web.CatrobatWebClientKt;
 import org.catrobat.catroid.web.ServerAuthenticator;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.codehaus.plexus.util.StringUtils;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -145,7 +145,7 @@ public class ServerAuthenticatorTest {
 
 		int expectedStatusCode = 0;
 		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), any(Request.class)))
-				.thenThrow(new WebconnectionException(expectedStatusCode, "any string"));
+				.thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
 
 		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
 		verify(taskListenerMock, times(1)).onError(eq(expectedStatusCode), eq(null));

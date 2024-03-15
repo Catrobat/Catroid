@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import com.google.common.base.Preconditions;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.web.ScratchDataFetcher;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.InterruptedIOException;
 
@@ -91,7 +91,7 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 					return fetcher.scratchSearch(query, 20, 0);
 				}
 				return fetcher.fetchDefaultScratchPrograms();
-			} catch (WebconnectionException e) {
+			} catch (WebConnectionException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
 				try {

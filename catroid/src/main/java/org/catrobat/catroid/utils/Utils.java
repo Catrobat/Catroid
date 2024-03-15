@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -126,8 +126,8 @@ public final class Utils {
 		return networkAvailable;
 	}
 
-	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
+	public static boolean checkForNetworkError(WebConnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebConnectionException.ERROR_NETWORK;
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
@@ -177,7 +177,7 @@ public final class Utils {
 	public static List<String> extractRemixUrlsFromString(String text) {
 		RemixUrlParsingState state = RemixUrlParsingState.STARTING;
 		ArrayList<String> extractedUrls = new ArrayList<>();
-		StringBuffer temp = new StringBuffer("");
+		StringBuffer temp = new StringBuffer();
 
 		for (int index = 0; index < text.length(); index++) {
 			char currentCharacter = text.charAt(index);
@@ -227,7 +227,7 @@ public final class Utils {
 	public static String getFileNameFromHttpResponse(Response httpResponse) {
 		String contentDisposition = httpResponse.header("Content-Disposition");
 		if (contentDisposition != null) {
-			Pattern fileNamePattern = Pattern.compile("filename\\*?=[\'\"]?(?:UTF-\\d[\'\"]*)?([^;\r\n\"\']*)[\'\"]?;?");
+			Pattern fileNamePattern = Pattern.compile("filename\\*?=['\"]?(?:UTF-\\d['\"]*)?([^;\r\n\"']*)['\"]?;?");
 			Matcher matcher = fileNamePattern.matcher(contentDisposition);
 			if (matcher.find()) {
 				return matcher.group(1);
@@ -277,8 +277,8 @@ public final class Utils {
 		final int height = Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT;
 		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
 
-		return url.replace(width + "x", Integer.toString(newWidth) + "x")
-				.replace("x" + height, "x" + Integer.toString(newHeight));
+		return url.replace(width + "x", newWidth + "x")
+				.replace("x" + height, "x" + newHeight);
 	}
 
 	public static String sanitizeFileName(String fileName) {

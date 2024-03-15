@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerAuthenticator;
 import org.catrobat.catroid.web.ServerAuthenticator.TaskListener;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,7 +98,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 
 	@Test
 	@Flaky
-	public void testRegistrationOk() throws WebconnectionException {
+	public void testRegistrationOk() throws WebConnectionException {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
 		verify(listenerMock, atLeastOnce()).onSuccess();
@@ -188,7 +188,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 			boolean tokenOk = new CatrobatServerCalls().checkToken(wrongToken, username, BASE_URL_TEST_HTTPS);
 
 			assertFalse(tokenOk);
-		} catch (WebconnectionException e) {
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_TOKEN_FAILED, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -197,7 +197,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 
 	@Test
 	@Flaky
-	public void testCheckTokenOk() throws WebconnectionException {
+	public void testCheckTokenOk() throws WebConnectionException {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
 		verify(listenerMock, atLeastOnce()).onSuccess();
