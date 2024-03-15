@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
@@ -78,7 +78,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 
 	private List<Object> throwAwayValue = Arrays.asList("Throw Away Value");
 	private File directory;
-	private UserList userList;
+	private UserVariable userList;
 	private DeviceUserDataAccessor accessor;
 
 	@Before
@@ -86,7 +86,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
 		directory.mkdir();
 
-		userList = new UserList("globalListX", initialValue);
+		userList = new UserVariable("globalListX", initialValue, true);
 		accessor = new DeviceListAccessor(directory);
 	}
 
@@ -126,11 +126,11 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		ProjectManager.getInstance().setCurrentProject(dummyProject);
 
 		Sprite sprite = new Sprite("sprite");
-		sprite.addUserList(userList);
+		sprite.addUserVariable(userList);
 
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
 		accessor.writeUserData(userList);
-		UserList clonedList = clone.getUserList(userList.getName());
+		UserVariable clonedList = clone.getUserVariable(userList.getName());
 		assertNotSame(userList, clonedList);
 		assertEquals(userList.getValue(), clonedList.getValue());
 	}

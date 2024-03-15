@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -203,10 +203,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			if (renameAll) {
 				formula.updateVariableName(oldName, newName);
 				formula.updateUserlistName(oldName, newName);
-			} else if (item instanceof UserVariable) {
-				formula.updateVariableName(oldName, newName);
-			} else {
+			} else if (((UserVariable) item).isList()) {
 				formula.updateUserlistName(oldName, newName);
+			} else {
+				formula.updateVariableName(oldName, newName);
 			}
 		}
 	}

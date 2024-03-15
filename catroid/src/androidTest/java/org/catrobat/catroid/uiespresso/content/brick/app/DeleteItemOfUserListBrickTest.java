@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -89,7 +89,7 @@ public class DeleteItemOfUserListBrickTest {
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariable(firstUserListName);
 
-		UserList userList = deleteItemOfUserListBrick.getUserList();
+		UserVariable userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(firstUserListName, userList.getName());
 
@@ -97,25 +97,20 @@ public class DeleteItemOfUserListBrickTest {
 				.performNewVariable(secondUserListName)
 				.checkShowsText(secondUserListName);
 
-		userList = deleteItemOfUserListBrick.getUserList();
+		userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(secondUserListName, userList.getName());
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
 
-		onFormulaEditor()
-				.performOpenDataFragment();
-		onDataList().onListAtPosition(1)
-				.checkHasName(secondUserListName)
-				.performDelete();
-		onDataList()
-				.performClose();
+		onFormulaEditor().performOpenDataFragment();
+		onDataList().onVariableAtPosition(1).checkHasName(secondUserListName).performDelete();
+		onDataList().performClose();
 		pressBack();
 
-		onView(allOf(withText(secondUserListName), isDisplayed()))
-				.check(doesNotExist());
-		userList = deleteItemOfUserListBrick.getUserList();
+		onView(allOf(withText(secondUserListName), isDisplayed())).check(doesNotExist());
+		userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(firstUserListName, userList.getName());
 	}

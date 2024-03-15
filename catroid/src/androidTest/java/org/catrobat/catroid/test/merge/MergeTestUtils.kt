@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.merge
 
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.Assert
@@ -77,7 +76,7 @@ class MergeTestUtils {
 
     data class ProjectMergeData(
         val userVariables: List<UserVariable>,
-        val userLists: List<UserList>,
+        val userLists: List<UserVariable>,
         val spriteListWithClones: List<Sprite>,
         val broadcastMessages: List<String>
     )
@@ -85,7 +84,7 @@ class MergeTestUtils {
     fun getOriginalProjectData(project: Project): ProjectMergeData {
         val originalUserVariables = ArrayList<UserVariable>()
         originalUserVariables.addAll(project.userVariables)
-        val originalUserLists = ArrayList<UserList>()
+        val originalUserLists = ArrayList<UserVariable>()
         originalUserLists.addAll(project.userLists)
         val originalSprites = ArrayList<Sprite>()
         originalSprites.addAll(project.spriteListWithClones)

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -48,11 +47,11 @@ public final class UserDataItemMatchers {
 		};
 	}
 
-	public static Matcher<UserList> withUserListName(final String expectedName) {
-		return new TypeSafeMatcher<UserList>() {
+	public static Matcher<UserVariable> withUserListName(final String expectedName) {
+		return new TypeSafeMatcher<UserVariable>() {
 			@Override
-			protected boolean matchesSafely(UserList userlist) {
-				return expectedName.equals(userlist.getName());
+			protected boolean matchesSafely(UserVariable userList) {
+				return expectedName.equals(userList.getName());
 			}
 
 			@Override

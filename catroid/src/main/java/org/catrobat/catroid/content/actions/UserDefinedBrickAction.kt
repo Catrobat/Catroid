@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
 
     fun setInputs(userDefinedBrickInputs: MutableList<UserDefinedBrickInput>) {
         this.userDefinedBrickInputs = mutableListOf()
-        userDefinedBrickInputs?.forEach {
+        userDefinedBrickInputs.forEach {
             this.userDefinedBrickInputs?.add(UserDefinedBrickInput(it))
         }
     }
@@ -51,7 +51,11 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
 
         userDefinedBrickInputs?.forEach {
             val parameter = it.value.interpretObject(scope)
-            interpretedInputs?.add(UserVariable(it.name, parameter))
+            if (parameter is List<*> && parameter.size > 1) {
+                interpretedInputs.add(UserVariable(it.name, parameter, true))
+            } else {
+                interpretedInputs.add(UserVariable(it.name, parameter, false))
+            }
         }
         return interpretedInputs
     }

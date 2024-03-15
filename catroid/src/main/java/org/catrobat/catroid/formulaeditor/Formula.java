@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
@@ -150,11 +151,17 @@ public class Formula implements Serializable {
 	}
 
 	@NotNull
-	private Double interpretDoubleInternal(Scope scope) {
+	private Double interpretDoubleInternal(Scope scope) throws InterpretationException {
 		Object o = formulaTree.interpretRecursive(scope);
 		Double doubleReturnValue;
 		if (o instanceof String) {
-			doubleReturnValue = Double.valueOf((String) o);
+			try {
+				doubleReturnValue = Double.valueOf((String) o);
+			} catch (NumberFormatException exception) {
+				throw new InterpretationException("Couldn't interpret String as Double.", exception);
+			}
+		} else if (o instanceof ArrayList) {
+			doubleReturnValue = 1d;
 		} else {
 			doubleReturnValue = (Double) o;
 		}

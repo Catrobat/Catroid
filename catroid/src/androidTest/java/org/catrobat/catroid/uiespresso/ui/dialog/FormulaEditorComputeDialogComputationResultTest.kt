@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,7 +106,6 @@ import org.catrobat.catroid.formulaeditor.Operators.PLUS
 import org.catrobat.catroid.formulaeditor.Operators.POW
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_OR_EQUAL
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_THAN
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
@@ -185,10 +184,10 @@ class FormulaEditorComputeDialogComputationResultTest(
             project.addUserVariable(UserVariable(userVariableRightName, userVariableRightValue))
         }
         if (userListLeftElements != null) {
-            project.addUserList(UserList(userListLeftName, userListLeftElements))
+            project.addUserVariable(UserVariable(userListLeftName, userListLeftElements, true))
         }
         if (userListRightElements != null) {
-            project.addUserList(UserList(userListRightName, userListRightElements))
+            project.addUserVariable(UserVariable(userListRightName, userListRightElements, true))
         }
 
         ProjectManager.getInstance().currentProject = project
@@ -221,7 +220,7 @@ class FormulaEditorComputeDialogComputationResultTest(
         )
 
         private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+            ApplicationProvider.getApplicationContext()
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)
 
@@ -878,43 +877,43 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "UserList Int",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(1, 2, 3), null,
-                    "123"
+                    "[1, 2, 3]"
                 ),
                 arrayOf(
                     "UserList Int 2000 3000000",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(1, 2_000, 3_000_000), null,
-                    "1 2000 3000000"
+                    "[1, 2000, 3000000]"
                 ),
                 arrayOf(
                     "UserList Int -2000 -3000000",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(-1, -2_000, -3_000_000), null,
-                    "-1 -2000 -3000000"
+                    "[-1, -2000, -3000000]"
                 ),
                 arrayOf(
                     "UserList Double",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(1.1, 2.2, 3.3), null,
-                    "1.1 2.2 3.3"
+                    "[1.1, 2.2, 3.3]"
                 ),
                 arrayOf(
                     "UserList Character",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf('H', 'e', 'l', 'l', 'o'), null,
-                    "Hello"
+                    "[H, e, l, l, o]"
                 ),
                 arrayOf(
                     "UserList String",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf("Hello", "world", "!"), null,
-                    "Hello world !"
+                    "[Hello, world, !]"
                 ),
                 arrayOf(
                     "UserList Mixed",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf("Hello", '!', 123, 3.1415, true), null,
-                    "Hello ! 123 3.1415 $trueString"
+                    "[Hello, !, 123, 3.1415, $trueString]"
                 )
             )
 
@@ -948,37 +947,37 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "UserList false false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, false), null,
-                    "$falseString $falseString"
+                    "[$falseString, $falseString]"
                 ),
                 arrayOf(
                     "UserList false true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, true), null,
-                    "$falseString $trueString"
+                    "[$falseString, $trueString]"
                 ),
                 arrayOf(
                     "UserList true false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, false), null,
-                    "$trueString $falseString"
+                    "[$trueString, $falseString]"
                 ),
                 arrayOf(
                     "UserList true true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, true), null,
-                    "$trueString $trueString"
+                    "[$trueString, $trueString]"
                 ),
                 arrayOf(
                     "UserList true false false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, false, false), null,
-                    "$trueString $falseString $falseString"
+                    "[$trueString, $falseString, $falseString]"
                 ),
                 arrayOf(
                     "UserList false true true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, true, true), null,
-                    "$falseString $trueString $trueString"
+                    "[$falseString, $trueString, $trueString]"
                 )
             )
 

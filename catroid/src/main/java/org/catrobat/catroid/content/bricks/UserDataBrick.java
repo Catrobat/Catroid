@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -49,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,11 +72,11 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		return clone;
 	}
 
-	public UserList getUserListWithBrickData(BrickData brickData) {
+	public UserVariable getUserListWithBrickData(BrickData brickData) {
 		if (userDataList.containsKey(brickData)) {
 			UserData result = userDataList.get(brickData);
-			if (result instanceof UserList) {
-				return (UserList) result;
+			if (result instanceof UserVariable) {
+				return (UserVariable) result;
 			} else {
 				return null;
 			}
@@ -120,26 +120,23 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		List<Nameable> lists = new ArrayList<>();
-		lists.add(new NewOption(context.getString(R.string.new_option)));
-		lists.addAll(sprite.getUserLists());
-		lists.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		List<UserVariable> allVariables = new ArrayList<>();
 
-		List<Nameable> variables = new ArrayList<>();
-		variables.add(new NewOption(context.getString(R.string.new_option)));
-		variables.addAll(sprite.getUserVariables());
-		variables.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
+		allVariables.addAll(sprite.getUserVariableList());
+		allVariables.addAll(project.getUserVariableList());
+		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
+
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(allVariables);
 
 		for (Map.Entry<BrickData, UserData> entry : userDataList.entrySet()) {
 			Integer spinnerid = brickDataToTextViewIdMap.get(entry.getKey());
 			BrickSpinner<UserData> spinner;
 
-			if (Brick.BrickData.isUserList(entry.getKey())) {
-				spinner = new BrickSpinner<>(spinnerid, view, lists);
-			} else {
-				spinner = new BrickSpinner<>(spinnerid, view, variables);
-			}
+			spinner = new BrickSpinner<>(spinnerid, view, items);
 
 			spinner.setOnItemSelectedListener(this);
 			spinner.setSelection(entry.getValue());
@@ -182,19 +179,14 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 						boolean isUserList = BrickData.isUserList(brickData);
 						UserData userData;
 						if (isUserList) {
-							userData = new UserList(textInput);
-							if (addToProjectData) {
-								currentProject.addUserList((UserList) userData);
-							} else {
-								currentSprite.addUserList((UserList) userData);
-							}
+							userData = new UserVariable(textInput, new ArrayList<>(), true);
 						} else {
 							userData = new UserVariable(textInput);
-							if (addToProjectData) {
-								currentProject.addUserVariable((UserVariable) userData);
-							} else {
-								currentSprite.addUserVariable((UserVariable) userData);
-							}
+						}
+						if (addToProjectData) {
+							currentProject.addUserVariable((UserVariable) userData);
+						} else {
+							currentSprite.addUserVariable((UserVariable) userData);
 						}
 
 						for (Map.Entry<BrickData, BrickSpinner<UserData>> entry

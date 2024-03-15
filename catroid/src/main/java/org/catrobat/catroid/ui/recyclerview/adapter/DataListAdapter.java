@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,14 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
@@ -41,10 +40,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> implements RVAdapter.SelectionListener {
@@ -52,31 +53,25 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	public boolean allowMultiSelection = true;
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
+	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL})
 	@interface DataType {}
 
 	private static final int USER_DEFINED_BRICK_INPUTS = 0;
 	private static final int VAR_MULTIPLAYER = 1;
 	private static final int VAR_GLOBAL = 2;
 	private static final int VAR_LOCAL = 3;
-	private static final int LIST_GLOBAL = 4;
-	private static final int LIST_LOCAL = 5;
 
 	private final UserDefinedBrickInputRVAdapter userDefinedBrickInputAdapter;
 	private final UserDataRVAdapter<UserVariable> multiplayerVarAdapter;
 	private final UserDataRVAdapter<UserVariable> globalVarAdapter;
 	private final UserDataRVAdapter<UserVariable> localVarAdapter;
-	private final ListRVAdapter globalListAdapter;
-	private final ListRVAdapter localListAdapter;
 
 	private RVAdapter.SelectionListener selectionListener;
 
 	public DataListAdapter(List<UserDefinedBrickInput> userDefinedBrickInputs,
 			List<UserVariable> multiplayerVars,
 			List<UserVariable> globalVars,
-			List<UserVariable> localVars,
-			List<UserList> globalLists,
-			List<UserList> localLists) {
+			List<UserVariable> localVars) {
 
 		userDefinedBrickInputAdapter = new UserDefinedBrickInputRVAdapter(userDefinedBrickInputs);
 		userDefinedBrickInputAdapter.setSelectionListener(this);
@@ -86,7 +81,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.multiplayer_vars_headline);
+					((TextView) holder.itemView.findViewById(R.id.headline))
+							.setText(R.string.multiplayer_vars_headline);
 				}
 			}
 
@@ -102,7 +98,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_vars_headline);
+					((TextView) holder.itemView.findViewById(R.id.headline))
+							.setText(R.string.global_vars_headline);
 				}
 			}
 
@@ -113,12 +110,13 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		};
 		globalVarAdapter.setSelectionListener(this);
 
-		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars){
+		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars) {
 			@Override
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
+					((TextView) holder.itemView.findViewById(R.id.headline))
+							.setText(R.string.local_vars_headline);
 				}
 			}
 
@@ -128,38 +126,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			}
 		};
 		localVarAdapter.setSelectionListener(this);
-
-		globalListAdapter = new ListRVAdapter(globalLists) {
-			@Override
-			public void onBindViewHolder(CheckableViewHolder holder, int position) {
-				super.onBindViewHolder(holder, position);
-				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_lists_headline);
-				}
-			}
-
-			@Override
-			protected void onCheckBoxClick(int position) {
-				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_GLOBAL));
-			}
-		};
-		globalListAdapter.setSelectionListener(this);
-
-		localListAdapter = new ListRVAdapter(localLists) {
-			@Override
-			public void onBindViewHolder(CheckableViewHolder holder, int position) {
-				super.onBindViewHolder(holder, position);
-				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_lists_headline);
-				}
-			}
-
-			@Override
-			protected void onCheckBoxClick(int position) {
-				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_LOCAL));
-			}
-		};
-		localListAdapter.setSelectionListener(this);
 	}
 
 	private int getRelativeItemPosition(int position, @DataType int dataType) {
@@ -175,17 +141,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 				return position - (userDefinedBrickInputAdapter.getItemCount()
 						+ multiplayerVarAdapter.getItemCount()
 						+ globalVarAdapter.getItemCount());
-			case LIST_GLOBAL:
-				return position - (userDefinedBrickInputAdapter.getItemCount()
-						+ multiplayerVarAdapter.getItemCount()
-						+ globalVarAdapter.getItemCount()
-						+ localVarAdapter.getItemCount());
-			case LIST_LOCAL:
-				return position - (userDefinedBrickInputAdapter.getItemCount()
-						+ multiplayerVarAdapter.getItemCount()
-						+ globalVarAdapter.getItemCount()
-						+ localVarAdapter.getItemCount()
-						+ globalListAdapter.getItemCount());
 			default:
 				throw new IllegalArgumentException("DataType is not specified: this would throw an index out of "
 						+ "bounds exception.");
@@ -211,21 +166,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 				+ localVarAdapter.getItemCount())) {
 			return VAR_LOCAL;
 		}
-		if (position < (userDefinedBrickInputAdapter.getItemCount()
-				+ multiplayerVarAdapter.getItemCount()
-				+ globalVarAdapter.getItemCount()
-				+ localVarAdapter.getItemCount()
-				+ globalListAdapter.getItemCount())) {
-			return LIST_GLOBAL;
-		}
-		if (position < (userDefinedBrickInputAdapter.getItemCount()
-				+ multiplayerVarAdapter.getItemCount()
-				+ globalVarAdapter.getItemCount()
-				+ localVarAdapter.getItemCount()
-				+ globalListAdapter.getItemCount()
-				+ localListAdapter.getItemCount())) {
-			return LIST_LOCAL;
-		}
 		throw new IndexOutOfBoundsException("None of the sub adapters provides this position. size:" + getItemCount()
 				+ "index: " + position);
 	}
@@ -237,10 +177,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		globalVarAdapter.showSettings = !visible;
 		localVarAdapter.showCheckBoxes = visible;
 		localVarAdapter.showSettings = !visible;
-		globalListAdapter.showCheckBoxes = visible;
-		globalListAdapter.showSettings = !visible;
-		localListAdapter.showCheckBoxes = visible;
-		localListAdapter.showSettings = !visible;
 	}
 
 	public void setSelectionListener(RVAdapter.SelectionListener selectionListener) {
@@ -252,8 +188,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		multiplayerVarAdapter.setOnItemClickListener(onItemClickListener);
 		globalVarAdapter.setOnItemClickListener(onItemClickListener);
 		localVarAdapter.setOnItemClickListener(onItemClickListener);
-		globalListAdapter.setOnItemClickListener(onItemClickListener);
-		localListAdapter.setOnItemClickListener(onItemClickListener);
 	}
 
 	@NonNull
@@ -263,9 +197,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			case R.layout.view_holder_variable_with_headline:
 			case R.layout.view_holder_variable:
 				return globalVarAdapter.onCreateViewHolder(parent, viewType);
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
-				return globalListAdapter.onCreateViewHolder(parent, viewType);
 			default:
 				throw new IllegalArgumentException("ViewType was not defined correctly.");
 		}
@@ -283,9 +214,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			case VAR_GLOBAL:
 			case VAR_LOCAL:
 				return position == 0 ? R.layout.view_holder_variable_with_headline : R.layout.view_holder_variable;
-			case LIST_GLOBAL:
-			case LIST_LOCAL:
-				return position == 0 ? R.layout.view_holder_list_with_headline : R.layout.view_holder_list;
 		}
 		throw new ArrayIndexOutOfBoundsException("position is not within any of the adapters");
 	}
@@ -296,27 +224,14 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
 
-		switch (holder.getItemViewType()) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
-				if (dataType == VAR_GLOBAL) {
-					globalVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_LOCAL) {
-					localVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_MULTIPLAYER) {
-					multiplayerVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
-					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
-				}
-				break;
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
-				if (dataType == LIST_GLOBAL) {
-					globalListAdapter.onBindViewHolder(holder, position);
-				} else {
-					localListAdapter.onBindViewHolder(holder, position);
-				}
-				break;
+		if (dataType == VAR_GLOBAL) {
+			globalVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == VAR_LOCAL) {
+			localVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == VAR_MULTIPLAYER) {
+			multiplayerVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
+			userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
 		}
 	}
 
@@ -324,9 +239,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	public void onSelectionChanged(int selectedItemCnt) {
 		selectionListener.onSelectionChanged(multiplayerVarAdapter.getSelectedItems().size()
 				+ globalVarAdapter.getSelectedItems().size()
-				+ localVarAdapter.getSelectedItems().size()
-				+ globalListAdapter.getSelectedItems().size()
-				+ localListAdapter.getSelectedItems().size());
+				+ localVarAdapter.getSelectedItems().size());
 	}
 
 	public void updateDataSet() {
@@ -334,8 +247,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		multiplayerVarAdapter.notifyDataSetChanged();
 		globalVarAdapter.notifyDataSetChanged();
 		localVarAdapter.notifyDataSetChanged();
-		globalListAdapter.notifyDataSetChanged();
-		localListAdapter.notifyDataSetChanged();
 		notifyDataSetChanged();
 	}
 
@@ -343,8 +254,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		multiplayerVarAdapter.clearSelection();
 		globalVarAdapter.clearSelection();
 		localVarAdapter.clearSelection();
-		globalListAdapter.clearSelection();
-		localListAdapter.clearSelection();
 		notifyDataSetChanged();
 	}
 
@@ -352,24 +261,20 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		multiplayerVarAdapter.selectAll();
 		globalVarAdapter.selectAll();
 		localVarAdapter.selectAll();
-		globalListAdapter.selectAll();
-		localListAdapter.selectAll();
 		notifyDataSetChanged();
 	}
 
 	public void remove(UserData item) {
-		if (item instanceof UserVariable) {
-			if (!globalVarAdapter.remove((UserVariable) item) && !localVarAdapter.remove((UserVariable) item)) {
-				multiplayerVarAdapter.remove((UserVariable) item);
-			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			new DeviceVariableAccessor(projectDir).removeDeviceValue(item);
-		} else {
-			if (!globalListAdapter.remove((UserList) item)) {
-				localListAdapter.remove((UserList) item);
-			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			new DeviceListAccessor(projectDir).removeDeviceValue(item);
+		UserVariable userVariable = (UserVariable) item;
+
+		if (!globalVarAdapter.remove(userVariable) && !localVarAdapter.remove(userVariable)) {
+			multiplayerVarAdapter.remove(userVariable);
+		}
+		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		new DeviceVariableAccessor(projectDir).removeDeviceValue(userVariable);
+
+		if (!ProjectManager.getInstance().getCurrentProject().removeUserVariable(userVariable.getName())) {
+			ProjectManager.getInstance().getCurrentSprite().getUserVariableList().remove(userVariable);
 		}
 		notifyDataSetChanged();
 	}
@@ -380,8 +285,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		items.addAll(multiplayerVarAdapter.getItems());
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
-		items.addAll(globalListAdapter.getItems());
-		items.addAll(localListAdapter.getItems());
 		return items;
 	}
 
@@ -393,10 +296,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		return items;
 	}
 
-	public List<UserList> getLists() {
-		List<UserList> items = new ArrayList<>();
-		items.addAll(globalListAdapter.getItems());
-		items.addAll(localListAdapter.getItems());
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	public List<UserVariable> getLists() {
+		List<UserVariable> items = new ArrayList<>();
+		items.addAll(globalVarAdapter.getItems().stream()
+				.filter(UserVariable::isList)
+				.collect(Collectors.toList()));
+		items.addAll(localVarAdapter.getItems().stream()
+				.filter(UserVariable::isList)
+				.collect(Collectors.toList()));
 		return items;
 	}
 
@@ -405,34 +313,23 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		selectedItems.addAll(multiplayerVarAdapter.getSelectedItems());
 		selectedItems.addAll(globalVarAdapter.getSelectedItems());
 		selectedItems.addAll(localVarAdapter.getSelectedItems());
-		selectedItems.addAll(globalListAdapter.getSelectedItems());
-		selectedItems.addAll(localListAdapter.getSelectedItems());
 		return selectedItems;
 	}
 
 	public void setSelection(UserData item, boolean selection) {
-		if (item instanceof UserVariable) {
-			if (!globalVarAdapter.setSelection((UserVariable) item, selection)
-					&& !localVarAdapter.setSelection((UserVariable) item, selection)) {
-				multiplayerVarAdapter.setSelection((UserVariable) item, selection);
-			}
-		} else {
-			if (!globalListAdapter.setSelection((UserList) item, selection)) {
-				localListAdapter.setSelection((UserList) item, selection);
-			}
+		UserVariable userVariable = (UserVariable) item;
+
+		if (!globalVarAdapter.setSelection(userVariable, selection)
+				&& !localVarAdapter.setSelection(userVariable, selection)) {
+			multiplayerVarAdapter.setSelection(userVariable, selection);
 		}
 	}
 
 	public void toggleSelection(UserData item) {
-		if (item instanceof UserVariable) {
-			if (!globalVarAdapter.toggleSelection((UserVariable) item)
-					&& !localVarAdapter.toggleSelection((UserVariable) item)) {
-				multiplayerVarAdapter.toggleSelection((UserVariable) item);
-			}
-		} else {
-			if (!globalListAdapter.toggleSelection((UserList) item)) {
-				localListAdapter.toggleSelection((UserList) item);
-			}
+		UserVariable userVariable = (UserVariable) item;
+		if (!globalVarAdapter.toggleSelection(userVariable)
+				&& !localVarAdapter.toggleSelection(userVariable)) {
+			multiplayerVarAdapter.toggleSelection(userVariable);
 		}
 		notifyDataSetChanged();
 	}
@@ -442,16 +339,12 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		return userDefinedBrickInputAdapter.getItemCount()
 				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
-				+ localVarAdapter.getItemCount()
-				+ globalListAdapter.getItemCount()
-				+ localListAdapter.getItemCount();
+				+ localVarAdapter.getItemCount();
 	}
 
 	public int getSelectedItemCount() {
 		return multiplayerVarAdapter.getSelectedItemCount()
 				+ globalVarAdapter.getSelectedItemCount()
-				+ localVarAdapter.getSelectedItemCount()
-				+ globalListAdapter.getSelectedItemCount()
-				+ localListAdapter.getSelectedItemCount();
+				+ localVarAdapter.getSelectedItemCount();
 	}
 }

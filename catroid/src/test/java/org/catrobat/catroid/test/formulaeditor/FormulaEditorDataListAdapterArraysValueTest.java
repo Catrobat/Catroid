@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.utils.NumberFormats;
@@ -59,20 +58,20 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 		UserVariable userVariable = new UserVariable(userVarName);
 		userVariable.setValue(NumberFormats.trimTrailingCharacters("1.0"));
-		UserList userList = new UserList(userListName);
+		UserVariable userList = new UserVariable(userListName);
 		UserVariable multiplayerVariable = new UserVariable(multiplayerVarName);
 		multiplayerVariable.setValue(NumberFormats.trimTrailingCharacters("2.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.05"));
-		project.addUserList(userList);
+		project.addUserVariable(userList);
 		project.addUserVariable(userVariable);
 		project.addMultiplayerVariable(multiplayerVariable);
 	}
 
 	@Test
 	public void testValuesOfUserList() {
-		List<Object> userList = project.getUserList(userListName).getValue();
+		List<Object> userList = (List<Object>) project.getUserVariable(userListName).getValue();
 
 		assertEquals(3, userList.size());
 		assertEquals(String.valueOf(1), userList.get(0));

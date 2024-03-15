@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IdRes;
@@ -86,12 +87,17 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		List<UserVariable> allVariables = new ArrayList<>();
+		allVariables.addAll(sprite.getUserVariableList());
+		allVariables.addAll(project.getUserVariableList());
+		allVariables.addAll(project.getMultiplayerVariables());
+		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(sprite.getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables());
+		items.addAll(allVariables);
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);

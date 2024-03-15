@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
@@ -554,7 +554,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					regularExpressionAssistantActivityOnButtonClick();
 				} else {
 					FormulaEditorFragment formulaEditorFragment =
-							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(
+									FORMULA_EDITOR_FRAGMENT_TAG
+							));
 					if (formulaEditorFragment != null) {
 						formulaEditorFragment.setChosenCategoryItem(item);
 					}
@@ -641,7 +643,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return formulaEditorFragment;
 	}
 
-	private void addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem, UserList lastUserList) {
+	private void addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem, UserVariable lastUserList) {
 		addResourceToActiveFormulaInFormulaEditor(categoryListItem).addUserListToActiveFormula(lastUserList.getName());
 		getActivity().onBackPressed();
 	}
@@ -649,23 +651,22 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private void onUserListFunctionSelected(CategoryListItem item) {
 		FragmentActivity activity = getActivity();
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
-		final List<UserList> projectUserList =
-				ProjectManager.getInstance().getCurrentProject().getUserLists();
-		final List<UserList> spriteUserList =
-				ProjectManager.getInstance().getCurrentSprite().getUserLists();
+		final List<UserVariable> projectUserList =
+				ProjectManager.getInstance().getCurrentProject().getUserVariableList();
+		final List<UserVariable> spriteUserList =
+				ProjectManager.getInstance().getCurrentSprite().getUserVariableList();
 		insertLastUserListToActiveFormula(item, projectUserList, spriteUserList,
 				activity, builder);
 	}
 
 	@VisibleForTesting
 	public void insertLastUserListToActiveFormula(CategoryListItem categoryListItem,
-			List<UserList> projectUserList, List<UserList> spriteUserList,
+			List<UserVariable> projectUserList, List<UserVariable> spriteUserList,
 			FragmentActivity activity,
 			TextInputDialog.Builder builder) {
 
 		if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
-			showNewUserListDialog(categoryListItem, projectUserList, spriteUserList,
-					activity, builder);
+			showNewUserListDialog(categoryListItem, activity, builder);
 			return;
 		}
 
@@ -719,15 +720,15 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
-	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,
-			FragmentActivity activity, TextInputDialog.Builder builder) {
+	private void showNewUserListDialog(CategoryListItem categoryListItem, FragmentActivity activity,
+			TextInputDialog.Builder builder) {
 
 		AddUserListDialog userListDialog = new AddUserListDialog(builder);
 		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback() {
 			@Override
 			public void onPositiveButton(DialogInterface dialog, String textInput) {
-				UserList userList = new UserList(textInput);
-				userListDialog.addUserList(dialog, userList, projectUserList, spriteUserList);
+				UserVariable userList = new UserVariable(textInput);
+				userListDialog.addUserList(dialog, userList);
 				addResourceToActiveFormulaInFormulaEditor(categoryListItem, userList);
 			}
 

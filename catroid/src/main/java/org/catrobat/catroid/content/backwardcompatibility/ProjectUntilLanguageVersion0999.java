@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
@@ -50,7 +49,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	private List<Setting> settings = new ArrayList<>();
 	private List<UserVariable> programVariableList = new ArrayList<>();
 	private List<UserVariable> programMultiplayerVariableList = new ArrayList<>();
-	private List<UserList> programListOfLists = new ArrayList<>();
+	private List<UserVariable> programListOfLists = new ArrayList<>();
 	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
 	public Project toProject() {
@@ -58,16 +57,16 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 
-		project.getUserVariables().addAll(getUserVariables());
+		project.getUserVariableList().addAll(getUserVariables());
 		project.getMultiplayerVariables().addAll(getMultiplayerVariables());
-		project.getUserLists().addAll(getUserLists());
+		project.getUserVariableList().addAll(getUserLists());
 
 		for (SceneUntilLanguageVersion0999 legacyScene : getSceneList()) {
 			Scene scene = new Scene(legacyScene.getName(), project);
 
 			for (Sprite sprite : legacyScene.getSpriteList()) {
-				sprite.getUserVariables().addAll(legacyScene.getSpriteUserVariables(sprite));
-				sprite.getUserLists().addAll(legacyScene.getSpriteUserLists(sprite));
+				sprite.getUserVariableList().addAll(legacyScene.getSpriteUserVariables(sprite));
+				sprite.getUserVariableList().addAll(legacyScene.getSpriteUserLists(sprite));
 				scene.addSprite(sprite);
 			}
 
@@ -98,7 +97,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 		return programMultiplayerVariableList;
 	}
 
-	public List<UserList> getUserLists() {
+	public List<UserVariable> getUserLists() {
 		return programListOfLists;
 	}
 

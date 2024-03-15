@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,13 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Companion.showFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface
 
 abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
     ListSelectorInterface {
-    var userLists = mutableListOf<UserList>()
+    var userLists = mutableListOf<UserVariable>()
 
     @Throws(CloneNotSupportedException::class)
     override fun clone(): Brick {
@@ -68,7 +68,7 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
         showFragment(view.context, this)
     }
 
-    override fun onUserListSelected(userLists: List<UserList>) {
+    override fun onUserListSelected(userLists: List<UserVariable>) {
         this.userLists = userLists.toMutableList()
         updateSelectorText()
     }

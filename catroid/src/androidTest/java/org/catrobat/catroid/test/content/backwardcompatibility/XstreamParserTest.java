@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,8 @@ public class XstreamParserTest {
 		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
-	private void testLoadProjectWithoutScenes(String projectName, String assetName) throws IOException, LoadingProjectException {
+	private void testLoadProjectWithoutScenes(String projectName, String assetName)
+			throws IOException, LoadingProjectException {
 		copyProjectFromAssets(assetName, projectName);
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
@@ -149,24 +150,24 @@ public class XstreamParserTest {
 
 		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
 
-		assertNotNull(UserDataWrapper.getUserList("localList", scopeLocal));
+		assertNotNull(UserDataWrapper.getUserVariable("localList", scopeLocal));
 
 		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
+		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
 
 		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
 
-		assertNotNull(UserDataWrapper.getUserList("globalList", scopeLocal));
+		assertNotNull(UserDataWrapper.getUserVariable("globalList", scopeLocal));
 
 		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
+		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
 
 		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
 				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 
-		assertNotSame(UserDataWrapper.getUserList("localList", scopeLocal),
-				UserDataWrapper.getUserList("globalList", scopeLocal));
+		assertNotSame(UserDataWrapper.getUserVariable("localList", scopeLocal),
+				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -67,12 +66,12 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 
-		project.getUserVariables().addAll(getProjectUserVariables());
-		project.getUserLists().addAll(getProjectUserLists());
+		project.getUserVariableList().addAll(getProjectUserVariables());
+		project.getUserVariableList().addAll(getProjectUserLists());
 
 		for (Sprite sprite : getSpriteList()) {
-			sprite.getUserVariables().addAll(getSpriteUserVariables(sprite));
-			sprite.getUserLists().addAll(getSpriteUserLists(sprite));
+			sprite.getUserVariableList().addAll(getSpriteUserVariables(sprite));
+			sprite.getUserVariableList().addAll(getSpriteUserLists(sprite));
 		}
 
 		Scene scene = new Scene(context.getString(R.string.default_scene_name), project);
@@ -128,7 +127,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<UserList> getProjectUserLists() {
+	public List<UserVariable> getProjectUserLists() {
 		if (data != null && data.projectLists != null) {
 			return data.projectLists;
 		}
@@ -142,7 +141,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<UserList> getSpriteUserLists(Sprite sprite) {
+	public List<UserVariable> getSpriteUserLists(Sprite sprite) {
 		if (data != null && data.spriteListOfLists.get(sprite) != null) {
 			return data.spriteListOfLists.get(sprite);
 		}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDataHashMap;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class XStreamUserDataHashMapConverter implements Converter {
@@ -66,13 +65,8 @@ public class XStreamUserDataHashMapConverter implements Converter {
 			Brick.BrickData brickData =
 					Brick.BrickData.valueOf(hierarchicalStreamReader.getAttribute(CATEGORY));
 			UserData userData;
-			if (Brick.BrickData.isUserList(brickData)) {
-				userData = (UserData) unmarshallingContext.convertAnother(userDataHashMap,
-						UserList.class);
-			} else {
-				userData = (UserData) unmarshallingContext.convertAnother(userDataHashMap,
-						UserVariable.class);
-			}
+			userData = (UserData) unmarshallingContext.convertAnother(userDataHashMap,
+					UserVariable.class);
 			hierarchicalStreamReader.moveUp();
 
 			userDataHashMap.put(brickData, userData);

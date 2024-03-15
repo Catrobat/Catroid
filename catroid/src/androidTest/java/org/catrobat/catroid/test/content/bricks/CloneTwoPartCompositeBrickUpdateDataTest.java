@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,9 @@ import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.UserListBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
@@ -55,7 +54,9 @@ import static org.junit.Assert.assertNotSame;
 @RunWith(Parameterized.class)
 public class CloneTwoPartCompositeBrickUpdateDataTest {
 	private static final UserVariable USER_VARIABLE = new UserVariable("variable");
-	private static final UserList USER_LIST = new UserList("list", Arrays.asList(new Object[]{"a", "b", "c"}));
+	private static final UserVariable USER_LIST = new UserVariable(
+			"list", Arrays.asList("a", "b", "c"), true
+	);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -104,14 +105,14 @@ public class CloneTwoPartCompositeBrickUpdateDataTest {
 
 	@Test
 	public void testUpdateUserList() {
-		sprite.addUserList(USER_LIST);
-		UserListBrick listBrick = new AddItemToUserListBrick(0.0);
-		listBrick.setUserList(USER_LIST);
+		sprite.addUserVariable(USER_LIST);
+		UserVariableBrick listBrick = new AddItemToUserListBrick(0.0);
+		listBrick.setUserVariable(USER_LIST);
 		compositeBrick.getNestedBricks().add(listBrick);
 		Sprite cloneSprite = new SpriteController().copyForCloneBrick(sprite);
 		CompositeBrick clonedCompositeBrick = (CompositeBrick) cloneSprite.getScript(0).getBrick(0);
-		UserListBrick clonedUserVariableBrick = (UserListBrick) clonedCompositeBrick.getNestedBricks().get(0);
-		assertEquals(USER_LIST, clonedUserVariableBrick.getUserList());
-		assertNotSame(USER_LIST, clonedUserVariableBrick.getUserList());
+		UserVariableBrick clonedUserVariableBrick = (UserVariableBrick) clonedCompositeBrick.getNestedBricks().get(0);
+		assertEquals(USER_LIST, clonedUserVariableBrick.getUserVariable());
+		assertNotSame(USER_LIST, clonedUserVariableBrick.getUserVariable());
 	}
 }

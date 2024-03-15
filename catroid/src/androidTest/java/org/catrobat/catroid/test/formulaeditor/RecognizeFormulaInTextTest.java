@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -83,7 +82,7 @@ public class RecognizeFormulaInTextTest {
 	Project project;
 	Sprite sprite;
 	UserVariable userVariable = new UserVariable("variable");
-	UserList userList = new UserList("list", Arrays.asList(new Object[]{"a", "b", "c"}));
+	UserVariable userList = new UserVariable("list", Arrays.asList("a", "b", "c"), true);
 
 	@Spy
 	private FormulaEditorFragment formulaEditorFragmentMock;
@@ -108,7 +107,7 @@ public class RecognizeFormulaInTextTest {
 		Scene scene = new Scene();
 		scene.addSprite(sprite);
 		sprite.addUserVariable(userVariable);
-		sprite.addUserList(userList);
+		sprite.addUserVariable(userList);
 		project.addScene(scene);
 	}
 

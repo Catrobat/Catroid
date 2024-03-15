@@ -57,7 +57,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -183,9 +182,9 @@ public class ScriptFragment extends ListFragment implements
 
 	private List<UserVariable> savedUserVariables;
 	private List<UserVariable> savedMultiplayerVariables;
-	private List<UserList> savedUserLists;
+	private List<UserVariable> savedUserLists;
 	private transient List<UserVariable> savedLocalUserVariables;
-	private transient List<UserList> savedLocalLists;
+	private transient List<UserVariable> savedLocalLists;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {

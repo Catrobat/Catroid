@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,40 +22,86 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.util.Log;
+
+import org.jetbrains.annotations.TestOnly;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 public class UserVariable implements Serializable, UserData<Object> {
 
 	private static final long serialVersionUID = 1L;
-
 	private String name;
 	private int initialIndex = -1;
 	private UUID deviceValueKey;
-	private transient Object value;
+	private boolean isList = false;
+	private final transient List<Object> value;
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
-	public UserVariable() {
-		this.value = 0d;
-	}
-
 	public UserVariable(String name) {
 		this.name = name;
-		this.value = 0d;
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
 	}
 
+	public UserVariable(final String name, final Object value, Boolean isList) {
+		this.name = name;
+		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		if (isList) {
+			this.value.addAll((Collection<?>) value);
+		} else {
+			this.value.add(value);
+		}
+		this.isList = isList;
+	}
+
+	public UserVariable(UserVariable copy) {
+		this.name = copy.name;
+		this.initialIndex = copy.initialIndex;
+		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		this.value.addAll(copy.value);
+		this.isList = copy.isList;
+	}
+
+	@TestOnly
+	public UserVariable() {
+		this.value = new ArrayList<>();
+	}
+
+	@TestOnly
+	public UserVariable(boolean isList) {
+		this.value = new ArrayList<>();
+		this.isList = isList;
+	}
+
+	@TestOnly
 	public UserVariable(final String name, final Object value) {
 		this.name = name;
-		this.value = value;
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+
+		if (value instanceof List<?>) {
+			this.value.addAll((Collection<?>) value);
+			this.isList = true;
+		} else {
+			this.value.add(value);
+		}
 	}
 
-	public UserVariable(UserVariable variable) {
-		this.name = variable.name;
-		this.value = variable.value;
+	@TestOnly
+	public UserVariable(final String name, final boolean isList) {
+		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		this.isList = isList;
 	}
 
 	public int getInitialIndex() {
@@ -78,12 +124,19 @@ public class UserVariable implements Serializable, UserData<Object> {
 
 	@Override
 	public Object getValue() {
-		return value;
+		return isList ? value : (value.isEmpty() ? 0d : value.get(0));
 	}
 
 	@Override
 	public void setValue(Object value) {
-		this.value = value;
+		this.value.clear();
+		if (value instanceof ArrayList) {
+			this.value.addAll((ArrayList<?>) value);
+			this.isList = true;
+		} else {
+			this.value.add(value);
+			this.isList = false;
+		}
 	}
 
 	public boolean getVisible() {
@@ -104,7 +157,12 @@ public class UserVariable implements Serializable, UserData<Object> {
 
 	@Override
 	public void reset() {
-		value = 0d;
+		value.clear();
+	}
+
+	public void setToEmptyList() {
+		value.clear();
+		isList = true;
 	}
 
 	@Override
@@ -122,7 +180,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	}
 
 	public boolean hasSameValue(UserVariable variableToCheck) {
-		return variableToCheck.value.equals(value);
+		return variableToCheck.value.equals(this.value);
 	}
 
 	@Override
@@ -137,4 +195,56 @@ public class UserVariable implements Serializable, UserData<Object> {
 	public void setDeviceValueKey(UUID deviceValueFileName) {
 		this.deviceValueKey = deviceValueFileName;
 	}
+
+	public boolean isList() {
+		return isList;
+	}
+
+	public int getListSize() {
+		return value.size();
+	}
+
+	public Object getListItem(int index) {
+		return (index < 0 || index >= value.size() || !isList) ? null : value.get(index);
+	}
+
+	public int getIndexOfListItem(Object item) {
+		return value.indexOf(item);
+	}
+
+	public void addListItem(Object listItem) {
+		try {
+			value.add(listItem);
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "addListItem failed", exception);
+		}
+		isList = true;
+	}
+
+	public void deleteListItemAtIndex(int index) {
+		try {
+			value.remove(index);
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "deleteListItemAtIndex failed", exception);
+		}
+	}
+
+	public void insertListItemAtIndex(int index, Object item) {
+		try {
+			value.add(index, item);
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "insertListItemAtIndex failed", exception);
+		}
+	}
+
+	public void setListItemAtIndex(int index, Object item) {
+		try {
+			value.set(index, item);
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "setListItemAtIndex failed", exception);
+		}
+	}
+
+	public static Comparator<UserVariable> userVariableNameComparator =
+			(userVariable1, userVariable2) -> userVariable1.name.compareTo(userVariable2.name);
 }

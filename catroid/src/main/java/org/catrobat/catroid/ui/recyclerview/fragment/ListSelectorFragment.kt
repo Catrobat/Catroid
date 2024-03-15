@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
@@ -58,9 +58,9 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     private var recyclerView: RecyclerView? = null
     private var adapter: DataListAdapter? = null
     private var listSelectorInterface: ListSelectorInterface? = null
-    private var preSelection: List<UserList>? = null
+    private var preSelection: List<UserVariable>? = null
 
-    private fun updateSelection(userLists: List<UserList>) {
+    private fun updateSelection(userLists: List<UserVariable>) {
         adapter?.clearSelection()
         userLists.forEach { list ->
             adapter?.setSelection(list, true)
@@ -91,7 +91,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     private fun handleContextualAction() {
         val selectedItems = adapter?.selectedItems ?: return
-        listSelectorInterface?.onUserListSelected(selectedItems.filterIsInstance<UserList>())
+        listSelectorInterface?.onUserListSelected(selectedItems.filterIsInstance<UserVariable>())
         fragmentManager?.popBackStack()
     }
 
@@ -136,10 +136,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun initializeAdapter() {
-        val globalLists = ProjectManager.getInstance().currentProject.userLists
-        val localLists = ProjectManager.getInstance().currentSprite.userLists
-
-        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
+        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList())
         adapter?.showCheckBoxes(true)
         onAdapterReady()
     }
@@ -241,7 +238,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     interface ListSelectorInterface {
-        fun onUserListSelected(userLists: List<UserList>)
+        fun onUserListSelected(userLists: List<UserVariable>)
     }
 
     companion object {

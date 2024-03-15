@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
 import org.catrobat.catroid.exceptions.ProjectException
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
@@ -58,7 +57,7 @@ class ImportLocalSpriteTest {
     private lateinit var projectWithConflicts: Project
     private var global1 = UserVariable("global1")
     private var local1 = UserVariable("local1")
-    private var userListGlobal1 = UserList("userListGlobal1")
+    private var userListGlobal1 = UserVariable("userListGlobal1", true)
     private var broadcast1 = "broadcast1"
     private lateinit var cat: Sprite
     private lateinit var dog: Sprite
@@ -262,9 +261,12 @@ class ImportLocalSpriteTest {
         }
         for ((listCounter, list) in projectToImportTo.defaultScene.spriteList[2].userLists
             .withIndex()) {
-            for ((listElementCounter, listElement) in list.value.withIndex()) {
-                Assert.assertTrue(
-                    listElement.equals(addedSprite.userLists[listCounter].value[listElementCounter]))
+            for ((listElementCounter, listElement) in (list.value as List<*>).withIndex()) {
+                if (listElement != null) {
+                    Assert.assertTrue(
+                        listElement == addedSprite.userLists[listCounter].getListItem(listElementCounter)
+                    )
+                }
             }
         }
     }
@@ -281,8 +283,8 @@ class ImportLocalSpriteTest {
         projectWithSameGlobals =
             Project(ApplicationProvider.getApplicationContext(), "projectWithSameGlobals")
         doggo = Sprite("doggo")
-        projectWithSameGlobals.userVariables.add(global1)
-        projectWithSameGlobals.userLists.add(userListGlobal1)
+        projectWithSameGlobals.userVariableList.add(global1)
+        projectWithSameGlobals.userVariableList.add(userListGlobal1)
         projectWithSameGlobals.broadcastMessageContainer.addBroadcastMessage(broadcast1)
         projectWithSameGlobals.defaultScene.addSprite(doggo)
         saveProjectSerial(projectWithSameGlobals, ApplicationProvider.getApplicationContext())
@@ -290,17 +292,17 @@ class ImportLocalSpriteTest {
         projectWithConflicts =
             Project(ApplicationProvider.getApplicationContext(), "projectWithConflicts")
         no_dog = Sprite("no_dog")
-        projectWithConflicts.userVariables.add(global1)
-        no_dog.userVariables.add(local1)
+        projectWithConflicts.userVariableList.add(global1)
+        no_dog.userVariableList.add(local1)
         saveProjectSerial(projectWithConflicts, ApplicationProvider.getApplicationContext())
 
         projectToImportTo =
             Project(ApplicationProvider.getApplicationContext(), "projectToImportTo")
         projectToImportTo.userVariables.add(global1)
         projectToImportTo.broadcastMessageContainer.addBroadcastMessage(broadcast1)
-        projectToImportTo.userLists.add(userListGlobal1)
+        projectToImportTo.userVariableList.add(userListGlobal1)
         dog = Sprite("dog")
-        dog.userVariables.add(local1)
+        dog.userVariableList.add(local1)
         dog.addScript(StartScript())
         dog.scriptList[0].addBrick(BroadcastWaitBrick(broadcast1))
         projectToImportTo.defaultScene.addSprite(dog)

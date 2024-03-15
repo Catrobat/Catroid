@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -72,9 +71,9 @@ public class ProjectLoaderTest {
 	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
 	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
 	private UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
+	private UserVariable sprite1UserList = new UserVariable("Sprite1_List", true);
+	private UserVariable sprite2UserList = new UserVariable("Sprite2_List", true);
+	private UserVariable globalUserList = new UserVariable("Global_List", true);
 	private DeviceVariableAccessor variableAccessor;
 	private DeviceUserDataAccessor userDataAccessor;
 	private File[] correctLooks;
@@ -109,13 +108,13 @@ public class ProjectLoaderTest {
 	}
 
 	private void setUpVariables() {
-		sprite1.getUserVariables().add(sprite1UserVariable);
+		sprite1.getUserVariableList().add(sprite1UserVariable);
 		ArrayList<UserVariable> allVariables = new ArrayList<>(sprite1.getUserVariables());
 
-		sprite2.getUserVariables().add(sprite2UserVariable);
+		sprite2.getUserVariableList().add(sprite2UserVariable);
 		allVariables.addAll(sprite2.getUserVariables());
 
-		project.getUserVariables().add(globalUserVariable);
+		project.getUserVariableList().add(globalUserVariable);
 		allVariables.addAll(project.getUserVariables());
 
 		project.getMultiplayerVariables().add(multiplayerUserVariable);
@@ -131,20 +130,20 @@ public class ProjectLoaderTest {
 	}
 
 	private void setUpUserLists() {
-		sprite1.getUserLists().add(sprite1UserList);
-		ArrayList<UserList> allLists = new ArrayList<>(sprite1.getUserLists());
+		sprite1.getUserVariableList().add(sprite1UserList);
+		ArrayList<UserVariable> allLists = new ArrayList<>(sprite1.getUserLists());
 
-		sprite2.getUserLists().add(sprite2UserList);
+		sprite2.getUserVariableList().add(sprite2UserList);
 		allLists.addAll(sprite2.getUserLists());
 
-		project.getUserLists().add(globalUserList);
+		project.getUserVariableList().add(globalUserList);
 		allLists.addAll(project.getUserLists());
 
 		userDataAccessor = new DeviceListAccessor(directory);
 		Map<UUID, List<Object>> map = new HashMap<>();
 
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
+		for (UserVariable userList : allLists) {
+			map.put(userList.getDeviceKey(), (List<Object>) userList.getValue());
 		}
 		userDataAccessor.writeMapToJson(map);
 	}
@@ -180,13 +179,10 @@ public class ProjectLoaderTest {
 	@Test
 	public void projectLoadTaskTest() throws IOException {
 		// Delete User Variables
-		project.getUserVariables().clear();
-		sprite1.getUserVariables().clear();
+		project.getUserVariableList().clear();
+		sprite1.getUserVariableList().clear();
 		project.removeScene(scene2);
 		project.getMultiplayerVariables().clear();
-		//Delete User Lists
-		project.getUserLists().clear();
-		sprite1.getUserLists().clear();
 		// Check Look Count (2 used, 2 unused, 1 nomediaOffset)
 		File imageDirectoryPre = new File(scene1.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
 		assertEquals(2 + 2 + 1, Objects.requireNonNull(imageDirectoryPre.listFiles()).length);

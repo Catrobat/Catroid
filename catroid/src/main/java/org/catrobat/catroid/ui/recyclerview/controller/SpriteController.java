@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -74,11 +73,8 @@ public class SpriteController {
 			sprite.getNfcTagList().add(nfcTag.clone());
 		}
 
-		for (UserVariable userVariable : spriteToCopy.getUserVariables()) {
-			sprite.getUserVariables().add(new UserVariable(userVariable));
-		}
-		for (UserList userList : spriteToCopy.getUserLists()) {
-			sprite.getUserLists().add(new UserList(userList));
+		for (UserVariable userVariable : spriteToCopy.getUserVariableList()) {
+			sprite.getUserVariableList().add(new UserVariable(userVariable));
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {
@@ -118,16 +114,10 @@ public class SpriteController {
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
 		sprite.getNfcTagList().addAll(spriteToCopy.getNfcTagList());
 
-		for (UserVariable originalVariable : spriteToCopy.getUserVariables()) {
+		for (UserVariable originalVariable : spriteToCopy.getUserVariableList()) {
 			UserVariable copyVariable = new UserVariable(originalVariable);
 			copyVariable.setDeviceValueKey(originalVariable.getDeviceKey());
-			sprite.getUserVariables().add(copyVariable);
-		}
-
-		for (UserList originalList : spriteToCopy.getUserLists()) {
-			UserList copyList = new UserList(originalList);
-			copyList.setDeviceListKey(originalList.getDeviceKey());
-			sprite.getUserLists().add(new UserList(originalList));
+			sprite.getUserVariableList().add(copyVariable);
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {

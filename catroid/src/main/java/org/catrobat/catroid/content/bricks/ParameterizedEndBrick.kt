@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
-class ParameterizedEndBrick() : UserListBrick() {
+class ParameterizedEndBrick() : UserVariableBrick() {
     init {
         addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text)
     }
@@ -51,7 +51,7 @@ class ParameterizedEndBrick() : UserListBrick() {
         sequence.addAction(
             sprite.actionFactory.createParameterizedAssertAction(
                 sprite, sequence, getFormulaWithBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL),
-                userList,
+                userVariable,
                 (parent as ParameterizedBrick).parameterizedData, positionInformation
             )
         )

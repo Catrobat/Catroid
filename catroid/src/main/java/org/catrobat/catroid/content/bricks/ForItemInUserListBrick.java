@@ -30,7 +30,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.LoopUtil;
 
@@ -141,12 +140,14 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		UserVariable userVariable = getUserVariableWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE);
-		UserList userList = getUserListWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST);
+		UserVariable userList = getUserListWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST);
 		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this, sequence.getScript());
 
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet",
-					CatroidApplication.getAppContext().getString(R.string.no_variable_selected));
+			userVariable = new UserVariable(
+					"NoVariableSet",
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected),
+					false);
 			userVariable.setDummy(true);
 		}
 

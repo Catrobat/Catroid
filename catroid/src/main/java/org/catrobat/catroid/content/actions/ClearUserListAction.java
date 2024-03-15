@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,22 +25,21 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ClearUserListAction extends TemporalAction {
 
-	private UserList userList;
+	private UserVariable userList;
 
 	@Override
 	protected void update(float percent) {
 		if (userList == null) {
 			return;
 		}
-
-		userList.reset();
+		userList.setToEmptyList();
 	}
 
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
+	public void setUserList(UserVariable userList) {
+		this.userList = userList;
 	}
 }

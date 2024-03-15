@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.actions.ClearUserListAction;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,11 +42,11 @@ public class ClearUserListActionTest {
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
 
 	private ClearUserListAction action;
-	private UserList userList;
+	private UserVariable userList;
 
 	@Before
 	public void setUp() throws Exception {
-		userList = new UserList(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
+		userList = new UserVariable(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
 		action = new ClearUserListAction();
 
 		INITIALIZED_LIST_VALUES.clear();
@@ -56,7 +56,7 @@ public class ClearUserListActionTest {
 	public void testClearEmptyUserList() {
 		action.setUserList(userList);
 		action.act(1.0f);
-		assertEquals(0, userList.getValue().size());
+		assertEquals(0, userList.getListSize());
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class ClearUserListActionTest {
 		INITIALIZED_LIST_VALUES.add(1.0);
 		action.setUserList(userList);
 		action.act(1.0f);
-		assertEquals(0, userList.getValue().size());
+		assertEquals(0, userList.getListSize());
 	}
 
 	@Test
@@ -73,6 +73,6 @@ public class ClearUserListActionTest {
 		INITIALIZED_LIST_VALUES.add(2.0);
 		action.setUserList(userList);
 		action.act(1.0f);
-		assertEquals(0, userList.getValue().size());
+		assertEquals(0, userList.getListSize());
 	}
 }

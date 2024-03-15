@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,14 +23,13 @@
 
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
 
 public class ForItemInUserListAction extends LoopAction {
 
-	private UserList userList;
+	private UserVariable userList;
 	private UserVariable currentItemVariable;
 	private boolean isCurrentLoopInitialized = false;
 	private int index = 0;
@@ -45,7 +44,7 @@ public class ForItemInUserListAction extends LoopAction {
 		if (userList == null) {
 			return true;
 		}
-		List<Object> list = userList.getValue();
+		List<Object> list = (List<Object>) userList.getValue();
 		if (list == null || index >= list.size()) {
 			return true;
 		}
@@ -69,7 +68,7 @@ public class ForItemInUserListAction extends LoopAction {
 		super.restart();
 	}
 
-	public void setUserList(UserList userList) {
+	public void setUserList(UserVariable userList) {
 		this.userList = userList;
 	}
 

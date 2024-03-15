@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,9 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.formulaeditor.UserList;
-
-import java.util.ArrayList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ReplaceItemInUserListAction extends TemporalAction {
 
@@ -37,7 +35,7 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 	private Formula formulaIndexToReplace;
 	private Formula formulaItemToInsert;
 
-	private UserList userList;
+	private UserVariable userList;
 
 	@Override
 	protected void update(float percent) {
@@ -58,14 +56,14 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 
 		indexToReplace--;
 
-		if (indexToReplace >= userList.getValue().size() || indexToReplace < 0) {
+		if (indexToReplace >= userList.getListSize() || indexToReplace < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getValue()).set(indexToReplace, value);
+		userList.setListItemAtIndex(indexToReplace, value);
 	}
 
-	public void setUserList(UserList userVariable) {
+	public void setUserList(UserVariable userVariable) {
 		this.userList = userVariable;
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,6 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -167,7 +166,7 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
 			updateBackgroundIndexTo9999995(project);
 		}
-		if (project.getCatrobatLanguageVersion() < 999.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
+		if (project.getCatrobatLanguageVersion() < 0.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
 			ProjectManager.flattenAllLists(project);
 		}
 		if (project.getCatrobatLanguageVersion() <= 1.03) {
@@ -332,12 +331,12 @@ public final class ProjectManager {
 		return conflicts;
 	}
 
-	public List<UserList> getGlobalListConflicts(Project project1, Project project2) {
-		List<UserList> project1GlobalLists = project1.getUserLists();
-		List<UserList> project2GlobalLists = project2.getUserLists();
-		List<UserList> conflicts = new ArrayList<>();
-		for (UserList project1GlobalList : project1GlobalLists) {
-			for (UserList project2GlobalList : project2GlobalLists) {
+	public List<UserVariable> getGlobalListConflicts(Project project1, Project project2) {
+		List<UserVariable> project1GlobalLists = project1.getUserLists();
+		List<UserVariable> project2GlobalLists = project2.getUserLists();
+		List<UserVariable> conflicts = new ArrayList<>();
+		for (UserVariable project1GlobalList : project1GlobalLists) {
+			for (UserVariable project2GlobalList : project2GlobalLists) {
 				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
 						.equals(project2GlobalList.getValue())) {
 					conflicts.add(project1GlobalList);

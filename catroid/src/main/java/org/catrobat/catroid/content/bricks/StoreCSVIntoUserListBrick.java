@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class StoreCSVIntoUserListBrick extends UserListBrick {
+public class StoreCSVIntoUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,9 +40,9 @@ public class StoreCSVIntoUserListBrick extends UserListBrick {
 	}
 
 	public StoreCSVIntoUserListBrick(Formula userListFormulaColumnToInsert,
-			Formula userListFormulaCSVToInsert, UserList userList) {
+			Formula userListFormulaCSVToInsert, UserVariable userList) {
 		this(userListFormulaColumnToInsert, userListFormulaCSVToInsert);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public StoreCSVIntoUserListBrick(Integer column, String csv) {
@@ -77,6 +77,6 @@ public class StoreCSVIntoUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStoreCSVIntoUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN),
-				getFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV), userList));
+				getFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV), userVariable));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,9 +27,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.widget.RadioButton;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -39,10 +40,10 @@ import java.util.List;
 
 public class AddUserListDialog {
 	private TextInputDialog.Builder builder;
-	private BrickSpinner<UserList> spinner;
-	private List<UserList> existingUserLists;
+	private BrickSpinner<UserVariable> spinner;
+	private List<UserVariable> existingUserLists;
 
-	public AddUserListDialog(TextInputDialog.Builder builder, BrickSpinner<UserList> spinner) {
+	public AddUserListDialog(TextInputDialog.Builder builder, BrickSpinner<UserVariable> spinner) {
 		this.builder = builder;
 		this.spinner = spinner;
 		this.existingUserLists = spinner.getItems();
@@ -71,14 +72,13 @@ public class AddUserListDialog {
 		builder.show();
 	}
 
-	public void addUserList(DialogInterface dialog, UserList userList,
-			List<UserList> projectUserList, List<UserList> spriteUserList) {
+	public void addUserList(DialogInterface dialog, UserVariable userList) {
 		RadioButton addToProjectListsRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 		boolean addToProjectLists = addToProjectListsRadioButton.isChecked();
 		if (addToProjectLists) {
-			projectUserList.add(userList);
+			ProjectManager.getInstance().getCurrentProject().addUserVariable(userList);
 		} else {
-			spriteUserList.add(userList);
+			ProjectManager.getInstance().getCurrentSprite().addUserVariable(userList);
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,10 +40,13 @@ public class UserDataHashMap extends HashMap<Brick.BrickData, UserData> implemen
 		for (Map.Entry<Brick.BrickData, UserData> entry : entrySet()) {
 			UserData userData = null;
 			if (entry.getValue() != null) {
+				UserVariable copy = (UserVariable) entry.getValue();
 				if (Brick.BrickData.isUserList(entry.getKey())) {
-					userData = new UserList((UserList) entry.getValue());
+					userData = new UserVariable(copy.getName(), copy.getValue(), true);
+					((UserVariable) userData).setDeviceValueKey(copy.getDeviceKey());
+					((UserVariable) userData).setInitialIndex(copy.getInitialIndex());
 				} else {
-					userData = new UserVariable((UserVariable) entry.getValue());
+					userData = copy;
 				}
 			}
 

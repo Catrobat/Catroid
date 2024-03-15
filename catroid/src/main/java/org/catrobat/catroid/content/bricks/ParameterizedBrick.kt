@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
@@ -156,7 +155,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         }
     }
 
-    override fun onUserListSelected(userLists: List<UserList>) {
+    override fun onUserListSelected(userLists: List<UserVariable>) {
         super.onUserListSelected(userLists)
         createLinkedVariables()
     }
@@ -181,8 +180,8 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         }
     }
 
-    private fun createLinkedPair(): List<Pair<UserList, UserVariable>> {
-        val result = mutableListOf<Pair<UserList, UserVariable>>()
+    private fun createLinkedPair(): List<Pair<UserVariable, UserVariable>> {
+        val result = mutableListOf<Pair<UserVariable, UserVariable>>()
         val projectManager = ProjectManager.getInstance()
         val currentProject = projectManager.currentProject
         val currentSprite = projectManager.currentSprite

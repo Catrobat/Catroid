@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,14 @@ package org.catrobat.catroid.content.actions;
 import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
 
 public class ReadListFromDeviceAction extends AsynchronousAction {
-	private UserList userList;
+	private UserVariable userList;
 	private boolean readActionFinished;
 
 	@Override
@@ -47,7 +47,9 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 	@Override
 	public void initialize() {
 		readActionFinished = false;
-		new ReadListFromDeviceAction.ReadTask().execute(userList);
+		if (userList.isList()) {
+			new ReadListFromDeviceAction.ReadTask().execute(userList);
+		}
 	}
 
 	@Override
@@ -55,18 +57,18 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 		return readActionFinished;
 	}
 
-	public void setUserList(UserList userList) {
+	public void setUserList(UserVariable userList) {
 		this.userList = userList;
 	}
 
-	private class ReadTask extends AsyncTask<UserList, Void, Void> {
+	private class ReadTask extends AsyncTask<UserVariable, Void, Void> {
 
 		@Override
-		protected Void doInBackground(UserList[] userList) {
+		protected Void doInBackground(UserVariable[] userList) {
 			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
 			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 
-			for (UserList list: userList) {
+			for (UserVariable list: userList) {
 				accessor.readUserData(list);
 			}
 			return null;

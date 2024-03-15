@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -157,8 +157,9 @@ public class InternFormulaParser {
 
 		try {
 			formulaParseTree = formula(scope);
-		} catch (InternFormulaParserException parseExeption) {
+		} catch (InternFormulaParserException parseException) {
 			errorTokenIndex = currentTokenParseIndex;
+			Log.d(TAG, "Formula parsing failed", parseException);
 		}
 		removeEndOfFileToken();
 		return formulaParseTree;
@@ -270,6 +271,12 @@ public class InternFormulaParser {
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
+		if (currentToken.isOperator()
+				&& !currentToken.getTokenStringValue().equals(Operators.EQUAL.name())
+				&& !currentToken.getTokenStringValue().equals(Operators.NOT_EQUAL.name())
+				&& userVariable.isList()) {
+			errorTokenIndex = PARSER_INPUT_SYNTAX_ERROR;
+		}
 		return lookTree;
 	}
 
@@ -283,7 +290,7 @@ public class InternFormulaParser {
 
 	private FormulaElement userList(Scope scope) throws InternFormulaParserException {
 		String listName = currentToken.getTokenStringValue();
-		UserList userList = UserDataWrapper.getUserList(listName, scope);
+		UserVariable userList = UserDataWrapper.getUserVariable(listName, scope);
 
 		if (userList == null) {
 			throw new InternFormulaParserException("Parse Error");
@@ -293,6 +300,10 @@ public class InternFormulaParser {
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
+		if (currentToken.isOperator() && !currentToken.getTokenStringValue().equals(Operators.EQUAL.name())
+				&& !currentToken.getTokenStringValue().equals(Operators.NOT_EQUAL.name())) {
+			errorTokenIndex = PARSER_INPUT_SYNTAX_ERROR;
+		}
 		return lookTree;
 	}
 

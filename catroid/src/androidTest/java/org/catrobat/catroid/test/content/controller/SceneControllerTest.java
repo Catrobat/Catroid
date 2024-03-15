@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -237,7 +236,7 @@ public class SceneControllerTest {
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		assertTrue(sprite.addUserVariable(new UserVariable(spriteListName, true)));
 
 		StartScript script = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);

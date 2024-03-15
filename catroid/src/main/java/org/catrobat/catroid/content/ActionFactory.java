@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -194,7 +194,6 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -922,7 +921,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createDeleteItemOfUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormula, UserList userList) {
+			Formula userListFormula, UserVariable userList) {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -931,14 +930,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createClearUserListAction(UserList userList) {
+	public Action createClearUserListAction(UserVariable userList) {
 		ClearUserListAction action = action(ClearUserListAction.class);
 		action.setUserList(userList);
 		return action;
 	}
 
 	public Action createAddItemToUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormula, UserList userList) {
+			Formula userListFormula, UserVariable userList) {
 		AddItemToUserListAction action = action(AddItemToUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -949,7 +948,7 @@ public class ActionFactory extends Actions {
 
 	public Action createInsertItemIntoUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormulaIndexToInsert,
-			Formula userListFormulaItemToInsert, UserList userList) {
+			Formula userListFormulaItemToInsert, UserVariable userList) {
 		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -960,7 +959,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createStoreCSVIntoUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormulaColumn, Formula userListFormulaCSV, UserList userList) {
+			Formula userListFormulaColumn, Formula userListFormulaCSV, UserVariable userList) {
 		StoreCSVIntoUserListAction action = action(StoreCSVIntoUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -972,7 +971,7 @@ public class ActionFactory extends Actions {
 
 	public Action createReplaceItemInUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormulaIndexToReplace,
-			Formula userListFormulaItemToInsert, UserList userList) {
+			Formula userListFormulaItemToInsert, UserVariable userList) {
 		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -1057,7 +1056,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createForItemInUserListAction(UserList userList,
+	public Action createForItemInUserListAction(UserVariable userList,
 			UserVariable userVariable, Action repeatedAction, boolean isLoopDelay) {
 		ForItemInUserListAction action = Actions.action(ForItemInUserListAction.class);
 		action.setAction(repeatedAction);
@@ -1417,11 +1416,15 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createAssertUserListsAction(Sprite sprite, SequenceAction sequence, UserList actual, UserList expected,
-			String position) {
+	public Action createAssertUserListsAction(Sprite sprite, SequenceAction sequence, UserVariable actual,
+			UserVariable expected, String position) {
 		AssertUserListAction action = action(AssertUserListAction.class);
-		action.setActualUserList(actual);
-		action.setExpectedUserList(expected);
+		if (actual != null) {
+			action.setActualUserList(actual);
+		}
+		if (expected != null) {
+			action.setExpectedUserList(expected);
+		}
 
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -1431,7 +1434,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createRepeatParameterizedAction(Sprite sprite, ParameterizedData data,
-			List<? extends Pair<UserList, UserVariable>> parameters,
+			List<? extends Pair<UserVariable, UserVariable>> parameters,
 			String position, Action repeatedAction, boolean isLoopDelay) {
 		RepeatParameterizedAction action = action(RepeatParameterizedAction.class);
 		action.setParameterizedData(data);
@@ -1445,8 +1448,8 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createParameterizedAssertAction(Sprite sprite, SequenceAction sequence, Formula actual, UserList expected,
-			ParameterizedData data, String position) {
+	public Action createParameterizedAssertAction(Sprite sprite, SequenceAction sequence,
+			Formula actual, UserVariable expected, ParameterizedData data, String position) {
 		ParameterizedAssertAction action = action(ParameterizedAssertAction.class);
 		action.setActualFormula(actual);
 		action.setExpectedList(expected);
@@ -1531,7 +1534,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createWriteListOnDeviceAction(UserList userList) {
+	public Action createWriteListOnDeviceAction(UserVariable userList) {
 		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
 		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
 		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
@@ -1553,7 +1556,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createReadListFromDeviceAction(UserList userList) {
+	public Action createReadListFromDeviceAction(UserVariable userList) {
 		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
 		action.setUserList(userList);
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,6 @@ import org.catrobat.catroid.common.SharedPreferenceKeys.SORT_VARIABLE_PREFERENCE
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.UiUtils
@@ -200,17 +199,12 @@ class DataListFragment : Fragment(),
             userDefinedBrickInputs =
                 (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
-        val globalVars = currentProject.userVariables
-        val localVars = currentSprite.userVariables
+        val globalVars = currentProject.userVariableList
+        val localVars = currentSprite.userVariableList
         val multiplayerVars = currentProject.multiplayerVariables
-        val globalLists = currentProject.userLists
-        val localLists = currentSprite.userLists
 
         indexAndSort()
-        adapter = DataListAdapter(
-            userDefinedBrickInputs, multiplayerVars, globalVars,
-            localVars, globalLists, localLists
-        )
+        adapter = DataListAdapter(userDefinedBrickInputs, multiplayerVars, globalVars, localVars)
         if (adapter?.hasObservers() == false) {
             adapter?.registerAdapterDataObserver(observer)
         }
@@ -228,18 +222,15 @@ class DataListFragment : Fragment(),
                 (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
 
-        val globalVars = currentProject.userVariables
-        val localVars = currentSprite.userVariables
+        val globalVars = currentProject.userVariableList
+        val localVars = currentSprite.userVariableList
         val multiplayerVars = currentProject.multiplayerVariables
-        val globalLists = currentProject.userLists
-        val localLists = currentSprite.userLists
 
         indexVariable = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
 
         if (!indexVariable) {
-            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars)
             indexVariable = true
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
@@ -247,8 +238,7 @@ class DataListFragment : Fragment(),
                 .apply()
         }
 
-        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars)
         adapter?.notifyDataSetChanged()
     }
 
@@ -258,8 +248,6 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserList>,
-        localLists: MutableList<UserList>
     ) {
         sortData = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
@@ -279,31 +267,17 @@ class DataListFragment : Fragment(),
         sortUserVariable(multiplayerVars, sortData)
         sortUserVariable(globalVars, sortData)
         sortUserVariable(localVars, sortData)
-        sortUserList(globalLists, sortData)
-        sortUserList(localLists, sortData)
     }
 
     fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
         if (sorted) {
-            data.sortWith(Comparator { item1: UserVariable, item2: UserVariable ->
+            data.sortWith { item1: UserVariable, item2: UserVariable ->
                 item1.name.compareTo(item2.name)
-            })
+            }
         } else {
-            data.sortWith(Comparator { item1: UserVariable, item2: UserVariable ->
+            data.sortWith { item1: UserVariable, item2: UserVariable ->
                 item1.initialIndex.compareTo(item2.initialIndex)
-            })
-        }
-    }
-
-    fun sortUserList(data: MutableList<UserList>, sorted: Boolean) {
-        if (sorted) {
-            data.sortWith(Comparator { item1: UserList, item2: UserList ->
-                item1.name.compareTo(item2.name)
-            })
-        } else {
-            data.sortWith(Comparator { item1: UserList, item2: UserList ->
-                item1.initialIndex.compareTo(item2.initialIndex)
-            })
+            }
         }
     }
 
@@ -313,8 +287,6 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserList>,
-        localLists: MutableList<UserList>
     ) {
         if (userDefinedBrickInputs.isNotEmpty()) {
             for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
@@ -326,21 +298,9 @@ class DataListFragment : Fragment(),
         setUserVariableIndex(globalVars)
         setUserVariableIndex(localVars)
         setUserVariableIndex(multiplayerVars)
-        setUserListIndex(globalLists)
-        setUserListIndex(localLists)
     }
 
     private fun setUserVariableIndex(data: MutableList<UserVariable>) {
-        if (data.size > 0) {
-            for ((counter, localList) in data.withIndex()) {
-                if (localList.initialIndex == -1) {
-                    localList.initialIndex = counter
-                }
-            }
-        }
-    }
-
-    private fun setUserListIndex(data: MutableList<UserList>) {
         if (data.size > 0) {
             for ((counter, localList) in data.withIndex()) {
                 if (localList.initialIndex == -1) {
@@ -457,10 +417,10 @@ class DataListFragment : Fragment(),
         renameUserData(item, name ?: "")
         indexAndSort()
         finishActionMode()
-        if (item is UserVariable) {
-            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
-        } else {
+        if (item is UserVariable && item.isList) {
             formulaEditorDataInterface?.onListRenamed(previousName, name)
+        } else {
+            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
         }
     }
 
@@ -492,8 +452,9 @@ class DataListFragment : Fragment(),
 
     override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         if (actionModeType == NONE) {
-            val formulaEditorFragment =
-                fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
+            val formulaEditorFragment = fragmentManager?.findFragmentByTag(
+                FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG
+            ) as FormulaEditorFragment?
             formulaEditorFragment?.setChosenUserDataItem(item)
             fragmentManager?.popBackStack()
         }

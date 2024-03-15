@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -63,39 +63,48 @@ public class AddUserListToActiveFormulaUITest {
 				{"MultipleSpriteAndProjectUserListsNumberOfItems",
 						R.string.formula_editor_function_number_of_items,
 						R.string.formula_editor_function_number_of_items_parameter,
-						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-								asList(new UserList("projectList1"), new UserList("projectList2")),
+						asList(new UserVariable("spriteList1", true),
+								new UserVariable("spriteList2", true)),
+								asList(new UserVariable("projectList1", true),
+										new UserVariable("projectList2", true)),
 						"spriteList2"},
 				{"MultipleSpriteAndProjectUserListsItem",
 						R.string.formula_editor_function_list_item,
 						R.string.formula_editor_function_list_item_parameter,
-						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-						asList(new UserList("projectList1"), new UserList("projectList2")),
+						asList(new UserVariable("spriteList1", true),
+								new UserVariable("spriteList2", true)),
+						asList(new UserVariable("projectList1", true),
+								new UserVariable("projectList2", true)),
 						"spriteList2"},
 				{"MultipleSpriteAndProjectUserListsContains",
 						R.string.formula_editor_function_contains,
 						R.string.formula_editor_function_contains_parameter,
-						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-						asList(new UserList("projectList1"), new UserList("projectList2")),
+						asList(new UserVariable("spriteList1", true),
+								new UserVariable("spriteList2", true)),
+						asList(new UserVariable("projectList1", true),
+								new UserVariable("projectList2", true)),
 						"spriteList2"},
 				{"MultipleSpriteAndProjectUserListsIndexOfItem",
 						R.string.formula_editor_function_index_of_item,
 						R.string.formula_editor_function_index_of_item_parameter,
-						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-						asList(new UserList("projectList1"), new UserList("projectList2")),
+						asList(new UserVariable("spriteList1", true),
+								new UserVariable("spriteList2", true)),
+						asList(new UserVariable("projectList1", true),
+								new UserVariable("projectList2", true)),
 						"spriteList2"},
 				{"NoSpriteUserLists",
 						R.string.formula_editor_function_number_of_items,
 						R.string.formula_editor_function_number_of_items_parameter,
-						new ArrayList<UserList>(),
-								asList(new UserList("projectList1"),
-										new UserList("projectList2")),
+						new ArrayList<UserVariable>(),
+						asList(new UserVariable("projectList1", true),
+								new UserVariable("projectList2", true)),
 						"projectList2"},
 				{"NoProjectUserLists",
 						R.string.formula_editor_function_number_of_items,
 						R.string.formula_editor_function_number_of_items_parameter,
-						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-						new ArrayList<UserList>(),
+						asList(new UserVariable("spriteList1", true),
+								new UserVariable("spriteList2", true)),
+						new ArrayList<UserVariable>(),
 						"spriteList2"},
 		});
 	}
@@ -110,10 +119,10 @@ public class AddUserListToActiveFormulaUITest {
 	public int formulaParameters;
 
 	@Parameterized.Parameter(3)
-	public List<UserList> spriteUserList;
+	public List<UserVariable> spriteUserList;
 
 	@Parameterized.Parameter(4)
-	public List<UserList> projectUserList;
+	public List<UserVariable> projectUserList;
 
 	@Parameterized.Parameter(5)
 	public String expectedOutput;
@@ -123,8 +132,8 @@ public class AddUserListToActiveFormulaUITest {
 		Project project = UiTestUtils.createDefaultTestProject("AddUserListToActiveFormulaUITest");
 		Script script = UiTestUtils.getDefaultTestScript(project);
 		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
-		projectUserList.forEach(project::addUserList);
-		spriteUserList.forEach(sprite::addUserList);
+		projectUserList.forEach(project::addUserVariable);
+		spriteUserList.forEach(sprite::addUserVariable);
 		script.addBrick(new SetXBrick());
 		baseActivityTestRule.launchActivity();
 	}

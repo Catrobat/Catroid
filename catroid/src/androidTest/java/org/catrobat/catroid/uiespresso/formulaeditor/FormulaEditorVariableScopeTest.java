@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -126,16 +125,8 @@ public class FormulaEditorVariableScopeTest {
 		onRecyclerView().atPosition(3).onChildView(R.id.headline)
 				.check(matches(withText(R.string.global_vars_headline)));
 
-		onRecyclerView().atPosition(4).onChildView(R.id.headline)
-				.check(matches(withText(R.string.local_vars_headline)));
-
-		onRecyclerView().perform(scrollToPosition(6));
 		onRecyclerView().atPosition(6).onChildView(R.id.headline)
-				.check(matches(withText(R.string.global_lists_headline)));
-
-		onRecyclerView().perform(scrollToPosition(8));
-		onRecyclerView().atPosition(8).onChildView(R.id.headline)
-				.check(matches(withText(R.string.local_lists_headline)));
+				.check(matches(withText(R.string.local_vars_headline)));
 	}
 
 	@Test

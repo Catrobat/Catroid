@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import com.opencsv.exceptions.CsvException
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import java.io.IOException
 import java.io.StringReader
 import java.util.regex.Pattern
@@ -43,7 +43,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
     var formulaColumnToExtract: Formula? = null
     var formulaCSVData: Formula? = null
 
-    var userList: UserList? = null
+    var userList: UserVariable? = null
 
     override fun update(percent: Float) {
         userList ?: return

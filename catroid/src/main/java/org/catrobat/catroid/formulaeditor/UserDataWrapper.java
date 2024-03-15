@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 public final class UserDataWrapper {
 
 	public static UserVariable getUserVariable(String name, Scope scope) {
-		UserVariable userVariable = null;
-		if (scope.getSprite() != null) {
-			userVariable = scope.getSprite().getUserVariable(name);
-		}
+		UserVariable userVariable;
+		userVariable = scope.getSprite().getUserVariable(name);
+
 		if (scope.getProject() != null && userVariable == null) {
 			userVariable = scope.getProject().getUserVariable(name);
 			if (userVariable == null) {
@@ -47,17 +46,6 @@ public final class UserDataWrapper {
 			}
 		}
 		return userVariable;
-	}
-
-	public static UserList getUserList(String name, Scope scope) {
-		UserList userList = null;
-		if (scope != null) {
-			userList = scope.getSprite().getUserList(name);
-		}
-		if (scope.getProject() != null && userList == null) {
-			return scope.getProject().getUserList(name);
-		}
-		return userList;
 	}
 
 	public static UserData getUserDefinedBrickInput(String value, SequenceAction sequence) {

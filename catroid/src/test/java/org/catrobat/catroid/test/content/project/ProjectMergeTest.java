@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
@@ -62,11 +61,11 @@ public class ProjectMergeTest {
 		initializedList2.add(1.0);
 		initializedList2.add(2.0);
 
-		UserList userList1 = new UserList("TestUserList", initializedList1);
-		project1.addUserList(userList1);
+		UserVariable userList1 = new UserVariable("TestUserList", initializedList1);
+		project1.addUserVariable(userList1);
 
-		UserList userList2 = new UserList("TestUserList", initializedList2);
-		project2.addUserList(userList2);
+		UserVariable userList2 = new UserVariable("TestUserList", initializedList2);
+		project2.addUserVariable(userList2);
 
 		project1.addUserVariable(new UserVariable("testVariable", 1));
 		project2.addUserVariable(new UserVariable("testVariable", 1));
@@ -74,9 +73,9 @@ public class ProjectMergeTest {
 
 	@After
 	public void tearDown() {
-		project1.removeUserList("TestUserList");
+		project1.removeUserVariable("TestUserList");
 		project1.removeUserVariable("TestVariable");
-		project2.removeUserList("TestUserList");
+		project2.removeUserVariable("TestUserList");
 		project2.removeUserVariable("TestVariable");
 	}
 
@@ -97,14 +96,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalUserListConflicts() {
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalUserListConflicts() {
-		project2.getUserList("TestUserList").addListItem(1.0);
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		project2.getUserVariable("TestUserList").addListItem(1.0);
+		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 	}
 }

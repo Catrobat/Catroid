@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class InsertItemIntoUserListBrick extends UserListBrick {
+public class InsertItemIntoUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,9 +39,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				R.id.brick_insert_item_into_userlist_at_index_edit_text);
 	}
 
-	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
+	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert,
+			Formula userListFormulaIndexToInsert, UserVariable userList) {
 		this(userListFormulaValueToInsert, userListFormulaIndexToInsert);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public InsertItemIntoUserListBrick(double value, Integer indexToInsert) {
@@ -73,6 +74,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userVariable));
 	}
 }

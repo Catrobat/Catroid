@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
@@ -70,21 +69,13 @@ class ImportProjectHelper(
             spriteToAddTo.mergeSprites(spriteToAdd, currentScene)
         }
         newProject?.let {
-            for (userList in it.userLists) {
-                if (!currentScene?.project?.userLists!!.contains(userList)) {
-                    currentScene?.project?.userLists?.add(userList)
+            for (userVariable in it.userVariableList) {
+                if (!currentScene?.project?.userVariableList!!.contains(userVariable)) {
+                    currentScene?.project?.userVariableList?.add(userVariable)
                 }
             }
         }
-        newProject?.let {
-            for (userVariable in it.userVariables) {
-                if (!currentScene?.project?.userVariables!!.contains(userVariable)) {
-                    currentScene?.project?.userVariables?.add(userVariable)
-                }
-            }
-        }
-        addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
-        addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
+        addGlobalsToProject(newProject!!.userVariableList, currentScene!!.project.userVariableList)
         addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
                             currentScene!!.project.broadcastMessageContainer.broadcastMessages)
 
@@ -108,15 +99,8 @@ class ImportProjectHelper(
         }
 
         checkForVariablesConflicts(
-            currentScene?.project?.userLists as List<Any>?,
-            spriteToAdd?.userLists as List<Any>?
-        ).forEach { elem ->
-            conflicts.add((elem as UserList).name)
-        }
-
-        checkForVariablesConflicts(
-            currentScene?.project?.userVariables as List<Any>?,
-            spriteToAdd?.userVariables as List<Any>?
+            currentScene?.project?.userVariableList as List<Any>?,
+            spriteToAdd?.userVariableList as List<Any>?
         ).forEach { elem ->
             conflicts.add((elem as UserVariable).name)
         }
@@ -124,12 +108,8 @@ class ImportProjectHelper(
         currentScene?.project?.sceneList?.forEach { scene ->
             scene.spriteList?.forEach { sprite ->
                 checkForVariablesConflicts(
-                    newProject?.userLists as List<Any>?,
-                    sprite.userLists as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserList).name) }
-                checkForVariablesConflicts(
-                    newProject?.userVariables as List<Any>?,
-                    sprite.userVariables as List<Any>?
+                    newProject?.userVariableList as List<Any>?,
+                    sprite.userVariableList as List<Any>?
                 ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
             }
         }

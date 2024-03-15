@@ -52,7 +52,6 @@ import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -107,7 +106,6 @@ public class Sprite implements Nameable, Serializable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
-	private List<UserList> userLists = new ArrayList<>();
 	private List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
@@ -228,13 +226,8 @@ public class Sprite implements Nameable, Serializable {
 	public <T> boolean checkUserData(T newUserData, List<T> oldUserData) {
 		for (T userData : oldUserData) {
 			if (userData.equals(newUserData)) {
-				if (userData.getClass() == UserVariable.class) {
-					UserVariable userVariable = (UserVariable) userData;
-					return userVariable.hasSameValue((UserVariable) newUserData);
-				} else {
-					UserList userList = (UserList) userData;
-					return userList.hasSameListSize((UserList) newUserData);
-				}
+				UserVariable userVariable = (UserVariable) userData;
+				return userVariable.hasSameValue((UserVariable) newUserData);
 			}
 		}
 
@@ -244,18 +237,10 @@ public class Sprite implements Nameable, Serializable {
 	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
 		for (T userData : currentUserDataList) {
 			for (T userDataToRestore : userDataListToRestore) {
-				if (userData.getClass() == UserVariable.class) {
-					UserVariable userVariable = (UserVariable) userData;
-					UserVariable newUserVariable = (UserVariable) userDataToRestore;
-					if (userVariable.getName().equals(newUserVariable.getName())) {
-						userVariable.setValue(newUserVariable.getValue());
-					}
-				} else {
-					UserList userList = (UserList) userData;
-					UserList newUserList = (UserList) userDataToRestore;
-					if (userList.getName().equals(newUserList.getName())) {
-						userList.setValue(newUserList.getValue());
-					}
+				UserVariable userVariable = (UserVariable) userData;
+				UserVariable newUserVariable = (UserVariable) userDataToRestore;
+				if (userVariable.getName().equals(newUserVariable.getName())) {
+					userVariable.setValue(newUserVariable.getValue());
 				}
 			}
 		}
@@ -268,13 +253,26 @@ public class Sprite implements Nameable, Serializable {
 
 		List<UserVariable> userVariablesCopy = new ArrayList<>();
 		for (UserVariable userVariable : userVariables) {
-			userVariablesCopy.add(new UserVariable(userVariable.getName(), userVariable.getValue()));
+			userVariablesCopy.add(new UserVariable(userVariable));
 		}
 
 		return userVariablesCopy;
 	}
 
 	public List<UserVariable> getUserVariables() {
+		if (userVariables == null) {
+			return new ArrayList<>();
+		}
+		ArrayList<UserVariable> userVariableList = new ArrayList<>();
+		for (UserVariable userVariable : userVariables) {
+			if (!userVariable.isList()) {
+				userVariableList.add(userVariable);
+			}
+		}
+		return userVariableList;
+	}
+
+	public List<UserVariable> getUserVariableList() {
 		return userVariables;
 	}
 
@@ -291,34 +289,36 @@ public class Sprite implements Nameable, Serializable {
 		return userVariables.add(userVariable);
 	}
 
-	public List<UserList> getUserListsCopy() {
-		if (userLists == null) {
-			userLists = new ArrayList<>();
+	public List<UserVariable> getUserListsCopy() {
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
 		}
 
-		List<UserList> userListsCopy = new ArrayList<>();
-		for (UserList userList : userLists) {
-			userListsCopy.add(new UserList(userList.getName(), userList.getValue()));
+		List<UserVariable> userListsCopy = new ArrayList<>();
+		List<UserVariable> userLists = getUserLists();
+		try {
+			for (UserVariable userList : userLists) {
+				userListsCopy.add(new UserVariable(userList.getName(), userList.getValue(), true));
+			}
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		return userListsCopy;
 	}
 
-	public List<UserList> getUserLists() {
-		return userLists;
-	}
+	public List<UserVariable> getUserLists() {
+		ArrayList<UserVariable> userLists = new ArrayList<>();
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
+		}
 
-	public UserList getUserList(String name) {
-		for (UserList list : userLists) {
-			if (list.getName().equals(name)) {
-				return list;
+		for (UserVariable variable : userVariables) {
+			if (variable.isList()) {
+				userLists.add(variable);
 			}
 		}
-		return null;
-	}
-
-	public boolean addUserList(UserList userList) {
-		return userLists.add(userList);
+		return userLists;
 	}
 
 	public List<PlaySoundBrick> getPlaySoundBricks() {
@@ -334,9 +334,6 @@ public class Sprite implements Nameable, Serializable {
 	public void resetUserData() {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
-		}
-		for (UserList userList : userLists) {
-			userList.reset();
 		}
 	}
 
@@ -473,7 +470,6 @@ public class Sprite implements Nameable, Serializable {
 		convertedSprite.scriptList = scriptList;
 
 		convertedSprite.userVariables = userVariables;
-		convertedSprite.userLists = userLists;
 		convertedSprite.userDefinedBrickList = userDefinedBrickList;
 
 		return convertedSprite;
@@ -773,7 +769,6 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 		this.userVariables.addAll(sprite.userVariables);
-		this.userLists.addAll(sprite.userLists);
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
 		sprite.look.copyTo(this.look);
 		this.myOriginal = sprite;
@@ -833,11 +828,6 @@ public class Sprite implements Nameable, Serializable {
 		for (UserVariable userVariable: sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
-			}
-		}
-		for (UserList userlist: sprite.userLists) {
-			if (!this.userLists.contains(userlist)) {
-				this.userLists.add(userlist);
 			}
 		}
 

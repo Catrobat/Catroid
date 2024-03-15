@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.io.devicelistaccessor;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
@@ -56,31 +56,31 @@ public class DeviceUserListAccessorCleanRoutineTest {
 	private Scene scene2;
 	private Sprite sprite1;
 	private Sprite sprite2;
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
+	private UserVariable sprite1UserList = new UserVariable("Sprite1_List", true);
+	private UserVariable sprite2UserList = new UserVariable("Sprite2_List", true);
+	private UserVariable globalUserList = new UserVariable("Global_List", true);
 	private DeviceUserDataAccessor accessor;
 
 	@Before
 	public void setUp() throws IOException {
 		project = createProject();
 
-		ArrayList<UserList> allLists = new ArrayList<>();
+		ArrayList<UserVariable> allLists = new ArrayList<>();
 
-		sprite1.getUserLists().add(sprite1UserList);
+		sprite1.getUserVariableList().add(sprite1UserList);
 		allLists.addAll(sprite1.getUserLists());
 
-		sprite2.getUserLists().add(sprite2UserList);
+		sprite2.getUserVariableList().add(sprite2UserList);
 		allLists.addAll(sprite2.getUserLists());
 
-		project.getUserLists().add(globalUserList);
+		project.getUserVariableList().add(globalUserList);
 		allLists.addAll(project.getUserLists());
 
 		accessor = new DeviceListAccessor(directory);
 		Map<UUID, List<Object>> map = new HashMap<>();
 
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
+		for (UserVariable userList : allLists) {
+			map.put(userList.getDeviceKey(), (List<Object>) userList.getValue());
 		}
 		accessor.writeMapToJson(map);
 	}
@@ -108,7 +108,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 	@Test
 	public void deleteGlobalListsTest() {
-		project.getUserLists().clear();
+		project.getUserVariableList().clear();
 		accessor.cleanUpDeletedUserData(project);
 		Map map = accessor.readMapFromJson();
 		assertFalse(map.containsKey(globalUserList.getDeviceKey()));
@@ -128,7 +128,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 	@Test
 	public void deleteSpriteListsTest() {
-		sprite2.getUserLists().clear();
+		sprite2.getUserVariableList().clear();
 		accessor.cleanUpDeletedUserData(project);
 		Map map = accessor.readMapFromJson();
 		assertTrue(map.containsKey(globalUserList.getDeviceKey()));

@@ -162,8 +162,11 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet",
-					CatroidApplication.getAppContext().getString(R.string.no_variable_selected));
+			userVariable = new UserVariable(
+					"NoVariableSet",
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected),
+					false
+			);
 			userVariable.setDummy(true);
 		}
 

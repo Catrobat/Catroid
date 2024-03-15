@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.exceptions.ProjectException
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
@@ -187,20 +186,20 @@ class MergeLocalSpriteTest {
         // Add conflicts to projects
         val local1 = UserVariable("local1")
         val conflictSprite = conflictProject.defaultScene?.spriteList?.get(1)
-        conflictSprite?.userVariables?.add(local1)
+        conflictSprite?.userVariableList?.add(local1)
         originalSprite = project.defaultScene?.spriteList?.get(1)!!
-        originalSprite.userVariables?.add(local1)
+        originalSprite.userVariableList?.add(local1)
 
         // Add same globals to projects
         val global1 = UserVariable("global1")
-        val userListGlobal1 = UserList("userListGlobal1")
+        val userListGlobal1 = UserVariable("userListGlobal1", true)
 
-        project.userVariables?.add(global1)
-        project.userLists?.add(userListGlobal1)
+        project.userVariableList?.add(global1)
+        project.userVariableList?.add(userListGlobal1)
         saveProjectSerial(project, ApplicationProvider.getApplicationContext())
 
-        sameGlobalsProject.userVariables?.add(global1)
-        sameGlobalsProject.userLists?.add(userListGlobal1)
+        sameGlobalsProject.userVariableList?.add(global1)
+        sameGlobalsProject.userVariableList?.add(userListGlobal1)
         saveProjectSerial(sameGlobalsProject, ApplicationProvider.getApplicationContext())
     }
 

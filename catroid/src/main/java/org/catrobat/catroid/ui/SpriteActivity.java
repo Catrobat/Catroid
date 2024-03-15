@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
@@ -847,22 +846,16 @@ public class SpriteActivity extends BaseActivity {
 					PreferenceManager.getDefaultSharedPreferences(this).edit()
 							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
-					if (makeListCheckBox.isChecked()) {
-						UserList userList = new UserList(textInput);
-						if (addToProjectUserData) {
-							currentProject.addUserList(userList);
-						} else {
-							currentSprite.addUserList(userList);
-						}
+					UserVariable userVariable = makeListCheckBox.isChecked()
+							? new UserVariable(textInput, new ArrayList<>(), true)
+							: new UserVariable(textInput);
+
+					if (addToMultiplayerData) {
+						currentProject.addMultiplayerVariable(userVariable);
+					} else if (addToProjectUserData) {
+						currentProject.addUserVariable(userVariable);
 					} else {
-						UserVariable userVariable = new UserVariable(textInput);
-						if (addToMultiplayerData) {
-							currentProject.addMultiplayerVariable(userVariable);
-						} else if (addToProjectUserData) {
-							currentProject.addUserVariable(userVariable);
-						} else {
-							currentSprite.addUserVariable(userVariable);
-						}
+						currentSprite.addUserVariable(userVariable);
 					}
 
 					if (getCurrentFragment() instanceof DataListFragment) {
@@ -918,11 +911,11 @@ public class SpriteActivity extends BaseActivity {
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 
-					UserList userList = new UserList(textInput);
+					UserVariable userList = new UserVariable(textInput, new ArrayList<>(), true);
 					if (addToProjectUserData) {
-						currentProject.addUserList(userList);
+						currentProject.addUserVariable(userList);
 					} else {
-						currentSprite.addUserList(userList);
+						currentSprite.addUserVariable(userList);
 					}
 
 					if (getCurrentFragment() instanceof ListSelectorFragment) {

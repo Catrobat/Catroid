@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,15 +27,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 
 class DeleteItemOfUserListAction : TemporalAction() {
     var scope: Scope? = null
     var formulaIndexToDelete: Formula? = null
-    var userList: UserList? = null
+    var userList: UserVariable? = null
 
     override fun update(percent: Float) {
-        val listSize = userList?.value?.size.takeUnless { it == 0 } ?: return
+        val listSize = userList?.listSize.takeUnless { it == 0 } ?: return
 
         val indexToDelete = try {
             formulaIndexToDelete?.interpretInteger(scope)?.minus(1) ?: 0
@@ -45,7 +45,7 @@ class DeleteItemOfUserListAction : TemporalAction() {
         }
 
         if (indexToDelete in 0 until listSize) {
-            userList!!.value.removeAt(indexToDelete)
+            userList!!.deleteListItemAtIndex(indexToDelete)
         }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class AddItemToUserListBrick extends UserListBrick {
+public class AddItemToUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,6 +58,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createAddItemToUserListAction(sprite, sequence,
-						getFormulaWithBrickField(BrickField.LIST_ADD_ITEM), userList));
+						getFormulaWithBrickField(BrickField.LIST_ADD_ITEM), userVariable));
 	}
 }

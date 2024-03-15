@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
@@ -35,7 +34,7 @@ class RepeatParameterizedAction : LoopAction() {
     var position = ""
     var sprite: Sprite? = null
     var parameterizedData: ParameterizedData? = null
-    var parameters: List<Pair<UserList, UserVariable>> = emptyList()
+    var parameters: List<Pair<UserVariable, UserVariable>> = emptyList()
 
     override fun delegate(delta: Float): Boolean {
         if (parameters.isNullOrEmpty()) {
@@ -86,7 +85,7 @@ class RepeatParameterizedAction : LoopAction() {
         it.currentParameters = "[${it.currentPosition + 1}] "
 
         for ((userList, userVariable) in parameters) {
-            val data = userList.value
+            val data = userList.value as ArrayList<*>
             if (data.size <= it.currentPosition) {
                 fail(
                     "Input list is missing elements\n" +

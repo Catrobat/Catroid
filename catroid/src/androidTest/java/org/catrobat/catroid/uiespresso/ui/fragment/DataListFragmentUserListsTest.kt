@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,11 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
@@ -53,8 +52,8 @@ import org.junit.runners.Parameterized
 @RunWith(Parameterized::class)
 class DataListFragmentUserListsTest(
     private val name: String,
-    private val values: List<Object>,
-    private val expectedStrings: List<String>
+    private val values: List<Any>,
+    private val expectedString: String
 ) {
     lateinit var project: Project
 
@@ -72,7 +71,7 @@ class DataListFragmentUserListsTest(
         script.addBrick(ChangeSizeByNBrick(0.0))
         project = ProjectManager.getInstance().currentProject
         baseActivityTestRule.launchActivity()
-        project.addUserList(UserList(userListName, values))
+        project.addUserVariable(UserVariable(userListName, values, true))
         openDataFragment()
         onView(withId(R.id.empty_view))
             .check(matches(not(isDisplayed())))
@@ -86,14 +85,10 @@ class DataListFragmentUserListsTest(
 
     @Test
     fun booleanUserListTest() {
-        onDataList().onListAtPosition(0)
+        onDataList().onVariableAtPosition(0)
             .checkHasName(userListName)
-        onDataList().onListAtPosition(0)
-            .performClickDetails()
-        expectedStrings.forEach { expectedString ->
-            onView(withText(expectedString))
-                .check(matches(isDisplayed()))
-        }
+        onDataList().onVariableAtPosition(0)
+            .checkHasValue(expectedString)
     }
 
     private fun openDataFragment() {
@@ -105,30 +100,29 @@ class DataListFragmentUserListsTest(
 
     companion object {
         private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+            ApplicationProvider.getApplicationContext()
 
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)
 
-        private lateinit var project: Project
         private const val projectName = "DataListFragmentBooleanUserVariablesTest"
         private const val userListName = "userList"
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("listOf(false)", listOf(false), listOf(falseString)),
-            arrayOf("listOf(true)", listOf(true), listOf(trueString)),
-            arrayOf("listOf(1)", listOf(1), listOf("1")),
-            arrayOf("listOf(1k)", listOf(1_000), listOf("1k")),
-            arrayOf("listOf(1M)", listOf(1_000_000), listOf("1M")),
-            arrayOf("listOf(1.1)", listOf(1.1), listOf("1.1")),
-            arrayOf("listOf(NaN)", listOf(Double.NaN), listOf("NaN")),
-            arrayOf("listOf(hello)", listOf("hello"), listOf("hello")),
+            arrayOf("listOf(false)", listOf(false), "[$falseString]"),
+            arrayOf("listOf(true)", listOf(true), "[$trueString]"),
+            arrayOf("listOf(1)", listOf(1), "[1]"),
+            arrayOf("listOf(1k)", listOf(1_000), "[1000]"),
+            arrayOf("listOf(1M)", listOf(1_000_000), "[1000000]"),
+            arrayOf("listOf(1.1)", listOf(1.1), "[1.1]"),
+            arrayOf("listOf(NaN)", listOf(Double.NaN), "[NaN]"),
+            arrayOf("listOf(hello)", listOf("hello"), "[hello]"),
             arrayOf(
                 "listOf(false, true, 1, 1k, 1M, 1.1, NaN, hello)",
                 listOf(false, true, 1, 1_000, 1_000_000, 1.1, Double.NaN, "hello"),
-                listOf(falseString, trueString, "1", "1k", "1M", "1.1", "NaN", "hello")
+                "[$falseString, $trueString, 1, 1000, 1000000, 1.1, NaN, hello]"
             )
         )
     }

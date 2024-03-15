@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -127,8 +127,9 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
 				.performEnterNumber(indexToInsert + 1);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
+		UserVariable userList =
+				ProjectManager.getInstance().getCurrentProject().getUserVariable(userListName);
 
-		assertEquals(0, userList.getValue().size());
+		assertEquals(0, userList.getListSize());
 	}
 }

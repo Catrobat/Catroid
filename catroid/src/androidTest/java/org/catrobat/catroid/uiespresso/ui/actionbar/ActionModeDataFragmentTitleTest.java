@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -77,9 +76,9 @@ public class ActionModeDataFragmentTitleTest {
 				.performCheckItemClick();
 		onDataList().onVariableAtPosition(1)
 				.performCheckItemClick();
-		onDataList().onListAtPosition(2)
+		onDataList().onVariableAtPosition(2)
 				.performCheckItemClick();
-		onDataList().onListAtPosition(2)
+		onDataList().onVariableAtPosition(2)
 				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 2");
@@ -92,7 +91,7 @@ public class ActionModeDataFragmentTitleTest {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.addUserVariable(new UserVariable("var1"));
 		currentProject.addUserVariable(new UserVariable("var2"));
-		currentProject.addUserList(new UserList("list1"));
-		currentProject.addUserList(new UserList("list2"));
+		currentProject.addUserVariable(new UserVariable("list1", true));
+		currentProject.addUserVariable(new UserVariable("list2", true));
 	}
 }

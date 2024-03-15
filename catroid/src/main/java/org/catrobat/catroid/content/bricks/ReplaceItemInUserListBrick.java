@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ReplaceItemInUserListBrick extends UserListBrick {
+public class ReplaceItemInUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,9 +43,9 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		this(new Formula(value), new Formula(indexToReplace));
 	}
 
-	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula, UserList userList) {
+	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula, UserVariable userList) {
 		this(valueFormula, indexFormula);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula) {
@@ -73,6 +73,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userVariable));
 	}
 }

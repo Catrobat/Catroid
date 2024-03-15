@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
 
@@ -35,13 +36,21 @@ public class DuplicateInputTextWatcher<T extends Nameable> extends InputWatcher.
 		this.originalScope = originalScope;
 		getScopeFromOriginalScope();
 	}
+
 	public void setOriginalScope(List<T> scope) {
 		this.originalScope = scope;
 		getScopeFromOriginalScope();
 	}
+
 	private void getScopeFromOriginalScope() {
 		if (originalScope != null) {
 			for (Nameable item : this.originalScope) {
+
+				// Needed for variable-deletion undo-functionality
+				if ((item instanceof UserVariable && !((UserVariable) item).getVisible())) {
+					continue;
+				}
+
 				scope.add(item.getName());
 			}
 		}

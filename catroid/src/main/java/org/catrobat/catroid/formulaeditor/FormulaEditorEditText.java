@@ -370,7 +370,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public boolean onCheckIsTextEditor() {
 		return false;
 	}
-
 	public InternFormulaParser getFormulaParser() {
 		return internFormula.getInternFormulaParser();
 	}

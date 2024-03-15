@@ -70,7 +70,6 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
@@ -632,8 +631,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return false;
 	}
 
-	private boolean stringContainsUserList(String string, List<UserList> userList) {
-		for (UserList list : userList) {
+	private boolean stringContainsUserList(String string, List<UserVariable> userList) {
+		for (UserVariable list : userList) {
 			if (string.contains(list.getName())) {
 				return true;
 			}
@@ -837,7 +836,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				input.getValue().getUserFriendlyString(
 						new AndroidStringProvider(getContext()),
 						null
-				)
+				),
+				false
 		);
 	}
 
@@ -976,6 +976,16 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				.commit();
 	}
 
+	public void onDataItemSelected(UserData item) {
+		if (item instanceof UserVariable && ((UserVariable) item).isList()) {
+			addUserListToActiveFormula(item.getName());
+		} else if (item instanceof UserVariable) {
+			addUserVariableToActiveFormula(item.getName());
+		} else if (item instanceof UserDefinedBrickInput) {
+			addUserDefinedBrickInputToActiveFormula(item.getName());
+		}
+	}
+
 	@Override
 	public void onVariableRenamed(String previousName, String newName) {
 		formulaEditorEditText.updateVariableReferences(previousName, newName);
@@ -1069,10 +1079,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				chosenCategoryItem = null;
 			}
 			if (chosenUserDataItem != null) {
-				if (chosenUserDataItem instanceof UserVariable) {
-					addUserVariableToActiveFormula(chosenUserDataItem.getName());
-				} else if (chosenUserDataItem instanceof UserList) {
+				if (chosenUserDataItem instanceof UserVariable
+						&& ((UserVariable) chosenUserDataItem).isList()) {
 					addUserListToActiveFormula(chosenUserDataItem.getName());
+				} else if (chosenUserDataItem instanceof UserVariable) {
+					addUserVariableToActiveFormula(chosenUserDataItem.getName());
 				} else if (chosenUserDataItem instanceof UserDefinedBrickInput) {
 					addUserDefinedBrickInputToActiveFormula(chosenUserDataItem.getName());
 				}
