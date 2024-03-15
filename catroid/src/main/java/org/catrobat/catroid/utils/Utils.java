@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -422,21 +422,23 @@ public final class Utils {
 
 			StringFinder stringFinder = new StringFinder();
 
-			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
+			String defaultProjectSpriteList = stringFinder.findBetween(defaultProjectXml,
+					"<scenes>", "</scenes>");
+
+			if (defaultProjectSpriteList == null) {
 				return false;
 			}
-
-			String defaultProjectSpriteList = stringFinder.getResult();
 
 			saveProjectSerial(projectToCheck, context);
 
 			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 
-			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
+			String projectToCheckSpriteList = stringFinder.findBetween(projectToCheckXML,
+					"<scenes>", "</scenes");
+
+			if (projectToCheckSpriteList == null) {
 				return false;
 			}
-
-			String projectToCheckSpriteList = stringFinder.getResult();
 
 			String scriptIdRegex = "((?s)<scriptId>.*?</scriptId>)";
 			String brickIdRegex = "(?s)<brickId>.*?</brickId>";

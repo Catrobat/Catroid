@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -703,11 +703,13 @@ public final class XstreamSerializer {
 		String currentXml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
 		StringFinder stringFinder = new StringFinder();
 
-		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
+		String sourceName = stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG,
+				PROGRAM_NAME_END_TAG);
+
+		if (sourceName == null) {
 			return false;
 		}
 
-		String sourceName = stringFinder.getResult();
 		destinationName = getXMLEncodedString(destinationName);
 
 		if (sourceName.equals(destinationName)) {
@@ -894,11 +896,7 @@ public final class XstreamSerializer {
 
 		try {
 			String xml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
-			if (!stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>")) {
-				return null;
-			} else {
-				return stringFinder.getResult();
-			}
+			return stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>");
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
