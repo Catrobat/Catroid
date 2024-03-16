@@ -86,7 +86,8 @@
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
 
     <!-- PocketMusic -->
-    <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>
+    <dimen name="pocketmusic_trackrow_margin">1dp</dimen>
+    <dimen name="pocketmusic_pianoWhiteKeyRowView_nameLabelPadding">20dp</dimen>
     <dimen name="plus_button_size">82sp</dimen>
     <dimen name="pocketmusic_fastscroller_bubble_corner">20dp</dimen>
     <dimen name="pocketmusic_fastscroller_handle_corner">3dp</dimen>

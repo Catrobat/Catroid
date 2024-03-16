@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,51 +21,87 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:weightSum="1">
 
-	<Button
-        android:id="@+id/note_picker_button_cancel"
-		android:text="@string/cancel"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
-		android:background="@drawable/button_background_selector"
-        android:src="@drawable/ic_play" />
-	<Button
-        android:id="@+id/note_picker_button_ok"
-		android:text="@string/ok"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_gravity="center"
-        android:layout_above="@id/note_picker_button_cancel"
-        android:background="@drawable/button_background_selector"
-        android:src="@drawable/ic_play" />
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:id="@+id/musicdroid_scrollview"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:weightSum="1"
-        android:layout_above="@id/note_picker_button_ok"
-        android:orientation="horizontal"> 
-        <org.catrobat.catroid.pocketmusic.ui.PianoView
-            android:id="@+id/musicdroid_piano_notepicker"
+        android:layout_weight="0.7"
+        android:background="@color/solid_black"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal">
+        <org.catrobat.catroid.pocketmusic.ui.NotePickerPianoWhiteKeysView
+            android:id="@+id/musicdroid_piano_notepickerWhiteKeyView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".22" />
-        <FrameLayout
+            android:layout_weight=".4"
+            app:whiteKeyViewBaseMidiValue="c1"
+            app:whiteKeyOctaveCount="7"/>
+        <org.catrobat.catroid.pocketmusic.ui.NotePickerView
+            android:id="@+id/musicdroid_piano_notepickerView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".78"
-            android:background="@color/solid_black">
-            <org.catrobat.catroid.pocketmusic.ui.NotePickerView
-                android:id="@+id/note_picker_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"/>
-        </FrameLayout>
+            android:scrollbars="none"
+            android:layout_weight=".6"
+            app:notePickerViewBaseMidiValue="c1"
+            app:notePickerOctaveCount="7"/>
+        </LinearLayout>
+
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@color/note_picker_background">
+             <FrameLayout
+                 android:id="@+id/musicdroid_miniPianoPreview"
+                 android:layout_width="match_parent"
+                 android:layout_height="500dp"
+                 android:layout_gravity="center"
+                 android:background="@color/solid_black"
+                 android:padding="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:background="@color/solid_white"/>
+
+                <org.catrobat.catroid.pocketmusic.ui.NotePickerView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:layout_weight=".5"
+                    app:notePickerViewBaseMidiValue="c1"
+                    app:notePickerOctaveCount="7"/>
+                </LinearLayout>
+            </FrameLayout>
     </LinearLayout>
-</RelativeLayout>
+
+    <org.catrobat.catroid.ui.RotatedToolbar
+        android:id="@+id/musicdroid_piano_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".10">
+    </org.catrobat.catroid.ui.RotatedToolbar>
+</LinearLayout>

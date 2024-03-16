@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 @SuppressLint("AppCompatCustomView")
 public class NoteView extends ImageView implements View.OnClickListener {
@@ -44,18 +45,36 @@ public class NoteView extends ImageView implements View.OnClickListener {
 	private Drawable noteDrawable;
 	private TrackRowView trackRowView;
 
+	private ActiveNoteViewMode noteViewMode;
+
 	public NoteView(Context context) {
-		this(context, null, 0);
+		this(context, null, 0, ActiveNoteViewMode.SHOW_NOTE);
 	}
 
-	public NoteView(Context context, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
+	public NoteView(Context context, TrackRowView trackRowView,
+			int horizontalIndexInGridRowPosition, ActiveNoteViewMode noteViewMode) {
 		super(context);
 		setOnClickListener(this);
 		setAdjustViewBounds(true);
 		setScaleType(ScaleType.CENTER_INSIDE);
-		initNoteDrawable();
 		this.trackRowView = trackRowView;
 		this.horizontalIndexInGridRowPosition = horizontalIndexInGridRowPosition;
+		this.noteViewMode = noteViewMode;
+
+		if (this.noteViewMode == ActiveNoteViewMode.SHOW_NOTE) {
+			this.initNoteDrawable();
+		}
+	}
+
+	private void invokeSelectedNoteAction() {
+		switch (this.noteViewMode) {
+			case SHOW_NOTE:
+				this.showNote();
+				break;
+			case TINT_BACKGROUND:
+				this.showBackgroundColorFilter();
+				break;
+		}
 	}
 
 	private void initNoteDrawable() {
@@ -69,7 +88,7 @@ public class NoteView extends ImageView implements View.OnClickListener {
 	public void setNoteActive(boolean active, boolean updateData) {
 		if (toggled != active) {
 			toggled = active;
-			showNote();
+			invokeSelectedNoteAction();
 			if (updateData) {
 				updateGridRow();
 			}
@@ -87,7 +106,7 @@ public class NoteView extends ImageView implements View.OnClickListener {
 
 	public void toggle() {
 		toggled = !toggled;
-		showNote();
+		invokeSelectedNoteAction();
 		updateGridRow();
 	}
 
@@ -104,7 +123,23 @@ public class NoteView extends ImageView implements View.OnClickListener {
 		invalidate();
 	}
 
+	private void showBackgroundColorFilter() {
+		if (toggled) {
+			int tintedColor = ContextCompat.getColor(getContext(), R.color.turquoise_play_line);
+			Drawable tintedDrawable = DrawableCompat.wrap(getBackground());
+			DrawableCompat.setTint(tintedDrawable, tintedColor);
+			setBackground(tintedDrawable);
+		} else {
+			DrawableCompat.setTintList(getBackground(), null);
+		}
+		invalidate();
+	}
+
 	public boolean isToggled() {
 		return toggled;
+	}
+
+	public enum ActiveNoteViewMode {
+		SHOW_NOTE, TINT_BACKGROUND
 	}
 }

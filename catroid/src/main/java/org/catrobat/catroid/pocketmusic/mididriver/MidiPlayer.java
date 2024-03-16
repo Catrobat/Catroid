@@ -35,7 +35,6 @@ import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
-import org.catrobat.catroid.pocketmusic.ui.TrackView;
 
 import java.io.File;
 import java.io.IOException;
@@ -240,27 +239,16 @@ public class MidiPlayer {
 	}
 
 	public static int getAdjustedMidiValue(MusicalInstrument instrument, int originalMidiValue) {
-		float preparedMidiValue = 0;
-		if (originalMidiValue < TrackView.HIGHEST_MIDI && originalMidiValue > 0) {
-			preparedMidiValue = (float) TrackView.HIGHEST_MIDI / originalMidiValue;
-		} else if (originalMidiValue >= TrackView.HIGHEST_MIDI) {
-			preparedMidiValue = 1;
-		}
-
 		int start = instrument.getLowEnd();
 		int end = instrument.getHighEnd();
-		float instrumentRange = end - start;
 
-		float proportion = 1 / preparedMidiValue;
-
-		int adjustedMidiValue = start + (int) (proportion * instrumentRange);
-		if (adjustedMidiValue < start) {
-			adjustedMidiValue = start;
-		} else if (adjustedMidiValue > end) {
-			adjustedMidiValue = end;
+		if (originalMidiValue > end) {
+			return end;
 		}
-
-		return adjustedMidiValue;
+		if (start > originalMidiValue) {
+			return start;
+		}
+		return originalMidiValue;
 	}
 
 	public void resume() {

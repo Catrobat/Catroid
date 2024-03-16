@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:weightSum="1"
             android:layout_above="@id/pocketmusic_play_button"
-            android:orientation="horizontal"> 
+            android:orientation="horizontal">
             <org.catrobat.catroid.pocketmusic.ui.PianoView
                 android:id="@+id/musicdroid_piano"
                 android:layout_width="0dp"
