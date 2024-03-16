@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
@@ -119,6 +120,7 @@ class MainMenuFragment : Fragment(),
         binding.newProjectFloatingActionButton.setOnClickListener(this)
         binding.myProjectsTextView.setOnClickListener(this)
         binding.projectImageView.setOnClickListener(this)
+        binding.playProject.setOnClickListener(this)
         binding.featuredProjectsTextView.setOnClickListener(this)
 
         setFragment(this)
@@ -327,6 +329,11 @@ class MainMenuFragment : Fragment(),
                         )
                     )
                 startActivity(intent)
+            }
+
+            R.id.playProject -> {
+                viewModel.setIsLoading(true)
+                StageActivity.handlePlayButton(projectManager, activity)
             }
 
             R.id.myProjectsTextView -> {
