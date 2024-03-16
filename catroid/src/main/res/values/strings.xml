@@ -597,7 +597,8 @@
     </plurals>
     <!-- Renamed -->
     <string name="renamed_project">Renamed project</string>
-    <!--  -->
+    <!-- Shared project -->
+    <string name="shared_project">Imported shared project</string>
 
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projects</string>
