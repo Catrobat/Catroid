@@ -35,11 +35,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import name.antonsmirnov.firmata.message.SetPinModeMessage;
-import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
-import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
-import name.antonsmirnov.firmata.writer.ReportAnalogPinMessageWriter;
-import name.antonsmirnov.firmata.writer.SetPinModeMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.message.SetPinModeMessage;
+import org.catrobat.catroid.firmata.Firmata.writer.AnalogMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.DigitalMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.ReportAnalogPinMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.SetPinModeMessageWriter;
 
 import static junit.framework.Assert.assertEquals;
 

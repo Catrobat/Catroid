@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,14 @@ package org.catrobat.catroid.devices.arduino.phiro;
 
 import android.util.Log;
 
-import name.antonsmirnov.firmata.IFirmata;
-import name.antonsmirnov.firmata.message.AnalogMessage;
-import name.antonsmirnov.firmata.message.DigitalMessage;
-import name.antonsmirnov.firmata.message.FirmwareVersionMessage;
-import name.antonsmirnov.firmata.message.I2cReplyMessage;
-import name.antonsmirnov.firmata.message.ProtocolVersionMessage;
-import name.antonsmirnov.firmata.message.StringSysexMessage;
-import name.antonsmirnov.firmata.message.SysexMessage;
+import org.catrobat.catroid.firmata.Firmata.IFirmata;
+import org.catrobat.catroid.firmata.Firmata.message.AnalogMessage;
+import org.catrobat.catroid.firmata.Firmata.message.DigitalMessage;
+import org.catrobat.catroid.firmata.Firmata.message.FirmwareVersionMessage;
+import org.catrobat.catroid.firmata.Firmata.message.I2cReplyMessage;
+import org.catrobat.catroid.firmata.Firmata.message.ProtocolVersionMessage;
+import org.catrobat.catroid.firmata.Firmata.message.StringSysexMessage;
+import org.catrobat.catroid.firmata.Firmata.message.SysexMessage;
 
 class PhiroListener implements IFirmata.Listener {
 
