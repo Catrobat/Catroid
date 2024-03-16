@@ -40,8 +40,7 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String ERROR_STRING = "ERROR";
 	private FormulaElement formulaTree;
-
-	private transient InternFormula internFormula = null;
+	public transient InternFormula internFormula = null;
 
 	private boolean sceneFirstStart = false;
 

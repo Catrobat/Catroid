@@ -186,8 +186,13 @@
                 android:resource="@xml/searchable"/>
         </activity>
 
+         <activity
+             android:name=".ui.SignInActivity"
+             android:screenOrientation="portrait"
+             android:windowSoftInputMode="adjustNothing" />
+
         <activity
-            android:name=".ui.SignInActivity"
+            android:name=".ui.FormulaEditorActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
 

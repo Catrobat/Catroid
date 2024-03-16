@@ -24,7 +24,9 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -117,6 +120,9 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
+import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -131,16 +137,21 @@ import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -301,7 +312,7 @@ public class BrickSingleFormulaFieldTest {
 		createProject(activity);
 		activityController.create().resume();
 
-		assertCurrentFragmentEquals(ScriptFragment.class);
+		assertCurrentFragmentEquals(activity, ScriptFragment.class);
 	}
 
 	@After
@@ -313,22 +324,86 @@ public class BrickSingleFormulaFieldTest {
 	public void openFormulaEditorTest() {
 		clickOnBricksFormulaTextView();
 
-		assertCurrentFragmentEquals(FormulaEditorFragment.class);
+		Intent startedIntent = shadowOf(activity).getNextStartedActivity();
+		String targetActivityClassName = startedIntent.getComponent().getClassName();
 
-		enterSomeValueAndSave();
+		assertEquals(FormulaEditorActivity.class.getName(), targetActivityClassName);
 
-		assertCurrentFragmentEquals(ScriptFragment.class);
+		Intent intent = makeIntentForFormulaEditorActivity();
 
-		assertBricksFormulaTextView();
+		FormulaEditorActivity formulaEditorActivity = Robolectric
+				.buildActivity(FormulaEditorActivity.class, intent)
+				.create().start().resume().get();
+
+		assertNotNull(formulaEditorActivity);
+
+		assertCurrentFragmentEquals(formulaEditorActivity, FormulaEditorFragment.class);
+
+		enterSomeValueAndSaveFormula(formulaEditorActivity);
+
+		assertBricksFormulaTextView(formulaEditorActivity);
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) formulaEditorActivity
+				.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		assertNotNull(formulaEditorFragment);
+
+		Intent intentForResult = makeIntentForResult(formulaEditorFragment, formulaEditorActivity);
+		activity.onActivityResult(SpriteActivity.REQUEST_CODE_EDIT_FORMULA, RESULT_OK, intentForResult);
+
+		assertCurrentFragmentEquals(activity, ScriptFragment.class);
+
+		assertBricksFormulaTextView(activity);
 	}
 
-	private void assertBricksFormulaTextView() {
-		View brickView = brick.getView(activity);
-		assertNotNull(brickView);
+	private Intent makeIntentForResult(FormulaEditorFragment fragment, FormulaEditorActivity activity) {
+		Bundle extras = new Bundle();
 
+		Intent intent = activity.getIntent();
+
+		extras.putInt(EXTRA_BRICK_HASH, intent.getIntExtra(EXTRA_BRICK_HASH, FormulaEditorActivity.BRICK_HASH_DEFAULT_VALUE));
+		extras.putBoolean(FormulaEditorActivity.FORMULA_HAS_CHANGED, true);
+		extras.putBoolean(FormulaEditorActivity.SET_UNDO_MENU_ITEM_VISIBILITY, false);
+		extras.putSerializable(FormulaEditorActivity.FORMULA_MAP, fragment.getFormulaBrick().getFormulaMap());
+
+		return new Intent().putExtras(extras);
+	}
+
+	private Intent makeIntentForFormulaEditorActivity() {
+		View brickView = brick.getView(activity);
 		TextView brickFormulaTextView = brickView.findViewById(formulaTextFieldId);
-		assertNotNull(brickFormulaTextView);
-		assertEquals("5 ", brickFormulaTextView.getText().toString());
+
+		Brick.FormulaField formulaField =
+				brick.brickFieldToTextViewIdMap.inverse().containsKey(brickFormulaTextView.getId())
+						? brick.getBrickFieldFromTextViewId(brickFormulaTextView.getId())
+						: brick.getDefaultBrickField();
+
+		Intent intent = new Intent();
+		intent.putExtra(FormulaEditorFragment.SHOW_CUSTOM_VIEW, false);
+		intent.putExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT, brick);
+		intent.putExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
+
+		intent.putExtra(
+				FormulaEditorFragment.BRICK_FIELD_TO_TEXT_VIEW_ID_MAP,
+				new HashMap<>(brick.brickFieldToTextViewIdMap)
+		);
+
+		intent.putExtra(FormulaEditorFragment.FORMULA_MAP_BUNDLE_ARGUMENT, brick.getFormulaMap());
+
+		FormulaBrick formulaBrick = (FormulaBrick) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT);
+
+		Brick.FormulaField currentFormulaField = (Brick.FormulaField) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT);
+
+		intent.putExtra(
+				FormulaEditorFragment.CURRENT_BRICK_INTERN_FORMULA,
+				formulaBrick.getFormulaWithBrickField(currentFormulaField).internFormula
+		);
+
+		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+
+		return intent;
 	}
 
 	private void clickOnBricksFormulaTextView() {
@@ -341,20 +416,33 @@ public class BrickSingleFormulaFieldTest {
 		brick.onClick(brickFormulaTextView);
 	}
 
-	private void enterSomeValueAndSave() {
-		Fragment formulaEditorFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+	private void assertCurrentFragmentEquals(BaseActivity activity, Class fragmentClazz) {
+		Fragment fragment = activity
+				.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-		((FormulaEditorFragment) formulaEditorFragment)
-				.getFormulaEditorEditText().handleKeyEvent(R.id.formula_editor_keyboard_5, "");
-
-		((FormulaEditorFragment) formulaEditorFragment)
-				.endFormulaEditor();
-	}
-
-	private void assertCurrentFragmentEquals(Class fragmentClazz) {
-		Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		assertNotNull(fragment);
 		assertThat(fragment, is(instanceOf(fragmentClazz)));
+	}
+
+	private void assertBricksFormulaTextView(BaseActivity activity) {
+		View brickView = brick.getView(activity);
+		assertNotNull(brickView);
+
+		TextView brickFormulaTextView = brickView.findViewById(formulaTextFieldId);
+		assertNotNull(brickFormulaTextView);
+		assertEquals("5 ", brickFormulaTextView.getText().toString());
+	}
+
+	private void enterSomeValueAndSaveFormula(BaseActivity activity) {
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment)
+				activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		assertNotNull(formulaEditorFragment);
+
+		FormulaEditorEditText formulaEditorEditText = formulaEditorFragment.getFormulaEditorEditText();
+		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_5, "");
+
+		formulaEditorFragment.endFormulaEditor();
 	}
 
 	private void createProject(Activity activity) {

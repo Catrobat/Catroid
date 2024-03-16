@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -105,15 +105,20 @@ public class FormulaEditorFragmentTest {
 	public void testFailParse() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
+		onView(withText(R.string.formula_editor_title))
+				.check(matches(isDisplayed()));
 		onFormulaEditor()
 				.performEnterFormula("3+");
 		pressBack();
 		UiTestUtils.onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
-		onView(withText(R.string.formula_editor_title))
-				.check(matches(isDisplayed()));
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
+				.check(matches(withText("1 ")));
+
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
+				.perform(click());
 		onFormulaEditor()
-				.performBackspace();
+				.performEnterFormula("3");
 		pressBack();
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("3 ")));

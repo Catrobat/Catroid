@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
@@ -36,9 +37,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -46,12 +49,16 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.CallSuper;
-import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_EDIT_FORMULA;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -65,7 +72,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			return formulaMap.get(formulaField);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field: " + this.getClass().getSimpleName()
-					+ " does not have BrickField." + formulaField.toString());
+					+ " does not have BrickField." + formulaField);
 		}
 	}
 
@@ -74,7 +81,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			formulaMap.replace(formulaField, formula);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field: Cannot set BrickField."
-					+ formulaField.toString() + " for " + this.getClass().getSimpleName());
+					+ formulaField + " for " + this.getClass().getSimpleName());
 		}
 	}
 
@@ -127,7 +134,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return new ArrayList<>(formulaMap.values());
 	}
 
-	@VisibleForTesting
 	public ConcurrentFormulaHashMap getFormulaMap() {
 		return formulaMap;
 	}
@@ -151,10 +157,79 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {
-		if (brickFieldToTextViewIdMap.inverse().containsKey(view.getId())) {
-			FormulaEditorFragment.showFragment(view.getContext(), this, getBrickFieldFromTextViewId(view.getId()));
-		} else {
-			FormulaEditorFragment.showFragment(view.getContext(), this, getDefaultBrickField());
+		if (view != null) {
+			Brick.FormulaField formulaField =
+					brickFieldToTextViewIdMap.inverse().containsKey(view.getId())
+							? getBrickFieldFromTextViewId(view.getId())
+							: getDefaultBrickField();
+
+			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			if (activity instanceof FormulaEditorActivity) {
+				Fragment fragment = activity
+						.getSupportFragmentManager()
+						.findFragmentById(R.id.fragment_container);
+
+				if (fragment instanceof FormulaEditorFragment) {
+					FormulaEditorFragment
+							.handleNextEditedFormulaOnBrick(view.getContext(), formulaField);
+				}
+			} else {
+				startFormulaEditorActivity(formulaField);
+			}
+		}
+	}
+
+	private void startFormulaEditorActivity(Brick.FormulaField formulaField) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
+		Intent intent = makeIntentForFormulaEditorActivity(view.getContext(), formulaField);
+		activity.startActivityForResult(intent, REQUEST_CODE_EDIT_FORMULA);
+	}
+
+	private Intent makeIntentForFormulaEditorActivity(Context context, Brick.FormulaField formulaField) {
+		Intent intent = new Intent(context, FormulaEditorActivity.class);
+
+		intent.putExtra(FormulaEditorFragment.SHOW_CUSTOM_VIEW, false);
+
+		//TODO revert(only for testing)
+		//TODO Issue: ChangeSizeByNBrick can't be serialized
+		intent.putExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT, this);
+
+		intent.putExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
+		intent.putExtra(FormulaEditorFragment.BRICK_FIELD_TO_TEXT_VIEW_ID_MAP, new HashMap<>(brickFieldToTextViewIdMap));
+		intent.putExtra(FormulaEditorFragment.FORMULA_MAP_BUNDLE_ARGUMENT, formulaMap);
+
+		/*
+		Get 'internFormula' from 'currentFormula' and pass it to the FormulaEditorActivity as
+		data via the intent ('internFormula' is declared as transient in 'Formula' and therefore
+		is not serializable). Do the same from 'FormulaEditorActivity' to 'FormulaEditorFragment'
+		and set the value of 'internFormula' to the 'currentFormula' in 'onCreate'.
+		In InternFormula,'internFormulaTokenSelection' needs to be serializable. Also mark
+		'externInternRepresentationMapping' as transient.
+		 */
+
+		FormulaBrick formulaBrick = (FormulaBrick) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT);
+
+		Brick.FormulaField currentFormulaField = (Brick.FormulaField) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT);
+
+		Formula currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+		InternFormula internFormula = currentFormula.internFormula;
+		intent.putExtra(FormulaEditorFragment.CURRENT_BRICK_INTERN_FORMULA, internFormula);
+
+		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+
+		return intent;
+	}
+
+	public void updateEditedFormulas(HashMap editedFormulaMap) {
+		for (Object key : editedFormulaMap.keySet()) {
+			Formula updatedFormula = (Formula) editedFormulaMap.get(key);
+			Formula oldFormula = formulaMap.get(key);
+			oldFormula.setRoot(updatedFormula.getFormulaTree());
 		}
 	}
 

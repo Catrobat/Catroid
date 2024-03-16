@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,6 +33,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InternFormula;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
+
+import java.util.HashMap;
 
 public class SingleSeekBar {
 
@@ -56,7 +61,7 @@ public class SingleSeekBar {
 		seekBarTitle.setText(seekBarTitleId);
 
 		valueTextView = view.findViewById(R.id.single_seekbar_value);
-		valueTextView.setOnClickListener(view1 -> FormulaEditorFragment.showFragment(context, formulaBrick, brickField));
+		valueTextView.setOnClickListener(view1 -> showFormulaEditorToEditFormula(context, formulaBrick, brickField));
 
 		SeekBar seekBar = view.findViewById(R.id.single_seekbar_seekbar);
 		String currentStringValue = formulaBrick.getFormulaWithBrickField(brickField).getTrimmedFormulaString(context);
@@ -79,5 +84,19 @@ public class SingleSeekBar {
 		});
 
 		return view;
+	}
+
+	public static void showFormulaEditorToEditFormula(Context context, FormulaBrick formulaBrick, Brick.FormulaField brickField) {
+		Intent intent = new Intent(context, FormulaEditorActivity.class);
+		intent.putExtra(FormulaEditorFragment.SHOW_CUSTOM_VIEW, false);
+		intent.putExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
+		intent.putExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT, brickField);
+		intent.putExtra(FormulaEditorFragment.BRICK_FIELD_TO_TEXT_VIEW_ID_MAP, new HashMap<>(formulaBrick.brickFieldToTextViewIdMap));
+
+		Formula currentFormula = formulaBrick.getFormulaWithBrickField(brickField);
+		InternFormula internFormula = currentFormula.internFormula;
+		intent.putExtra(FormulaEditorFragment.CURRENT_BRICK_INTERN_FORMULA, internFormula);
+
+		context.startActivity(intent);
 	}
 }

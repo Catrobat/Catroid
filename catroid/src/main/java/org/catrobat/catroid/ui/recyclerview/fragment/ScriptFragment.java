@@ -984,7 +984,7 @@ public class ScriptFragment extends ListFragment implements
 		refreshFragmentAfterUndo();
 	}
 
-	private void saveVariables() {
+	public void saveVariables() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();

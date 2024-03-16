@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
-	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
+	private transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public ShowTextColorSizeAlignmentBrick() {
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
@@ -97,6 +97,9 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	public void showFormulaEditorToEditFormula(View view) {
 		if (view.getId() == R.id.brick_show_variable_color_size_edit_color && isValidColorString(getColor())) {
 			ShowFormulaEditorStrategy.Callback callback = new ShowTextColorSizeAlignmentBrickCallback(view);
+			if (showFormulaEditorStrategy == null) {
+				showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
+			}
 			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
 			superShowFormulaEditor(view);

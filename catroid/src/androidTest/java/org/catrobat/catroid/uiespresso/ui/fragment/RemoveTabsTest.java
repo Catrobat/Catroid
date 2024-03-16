@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,6 @@ public class RemoveTabsTest {
 	public void testRemoveTabsInFormulaEditorFragmentTest() {
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		assertTabLayoutIsNotShown();
 		pressBack();
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}

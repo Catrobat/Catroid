@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -33,10 +34,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
+import java.util.HashMap;
+
+import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
+
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_EDIT_FORMULA;
 
 public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
@@ -93,10 +104,33 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		if (isSpeedOnlyANumber()) {
-			FormulaEditorFragment.showCustomFragment(view.getContext(), this, BrickField.PHIRO_SPEED);
+			showCustomFragment(view.getContext(), this, BrickField.PHIRO_SPEED);
 		} else {
 			super.showFormulaEditorToEditFormula(view);
 		}
+	}
+
+	private void showCustomFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
+		Intent intent = new Intent(context, FormulaEditorActivity.class);
+		intent.putExtra(FormulaEditorFragment.SHOW_CUSTOM_VIEW, true);
+		intent.putExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
+		intent.putExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
+		intent.putExtra(FormulaEditorFragment.BRICK_FIELD_TO_TEXT_VIEW_ID_MAP, new HashMap<>(brickFieldToTextViewIdMap));
+		intent.putExtra(FormulaEditorFragment.FORMULA_MAP_BUNDLE_ARGUMENT, formulaMap);
+
+		Brick.FormulaField currentFormulaField = (Brick.FormulaField) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT);
+
+		Formula currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+		InternFormula internFormula = currentFormula.internFormula;
+		intent.putExtra(FormulaEditorFragment.CURRENT_BRICK_INTERN_FORMULA, internFormula);
+		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
+		activity.startActivityForResult(intent, REQUEST_CODE_EDIT_FORMULA);
 	}
 
 	private boolean isSpeedOnlyANumber() {

@@ -52,6 +52,7 @@ import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
+import org.catrobat.catroid.ui.FormulaEditorActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
@@ -482,6 +483,7 @@ class DataListFragment : Fragment(),
         updateUserVariableValue(value, item)
         adapter?.updateDataSet()
         finishActionMode()
+        (activity as? FormulaEditorActivity)?.setUserVariableHasChanged(true)
     }
 
     override fun onSelectionChanged(selectedItemCnt: Int) {
