@@ -34,6 +34,7 @@ import java.util.Set;
 
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClassesOf;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
+import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeElseBrick;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeEndBrick;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -52,6 +53,7 @@ public class BricksXmlSerializerTest {
 		brickClasses = removeAbstractClasses(brickClasses);
 		brickClasses = removeInnerClasses(brickClasses);
 		brickClasses = removeEndBrick(brickClasses);
+		brickClasses = removeElseBrick(brickClasses);
 
 		for (Class<?> brickClazz : brickClasses) {
 			parameters.add(new Object[] {brickClazz.getName(), brickClazz});

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,10 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.ElseBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -365,7 +368,8 @@ class BrickAdapter(private val sprite: Sprite) :
         if (source !is ScriptBrick && targetPosition == 0) {
             return false
         }
-        if (source.allParts.contains(items[targetPosition])) {
+        if (source !is ElseBrick && source !is EndBrick &&
+            source.allParts.contains(items[targetPosition])) {
             return false
         }
         Collections.swap(items, sourcePosition, targetPosition)
@@ -377,6 +381,8 @@ class BrickAdapter(private val sprite: Sprite) :
 
         if (itemToMove is ScriptBrick) {
             moveScript(itemToMove, brickAboveTargetPosition)
+        } else if (itemToMove is ElseBrick) {
+            moveElseTo(position, itemToMove, brickAboveTargetPosition)
         } else {
             for (script in scripts) {
                 script.removeBrick(itemToMove)
@@ -391,6 +397,76 @@ class BrickAdapter(private val sprite: Sprite) :
             }
         }
         updateItemsFromCurrentScripts()
+    }
+
+    private fun getParentBrickInDragAndDropList(
+        brickAboveTarget: Brick,
+        enclosureBrick: Brick
+    ): Pair<Brick, Int>? {
+
+        if (brickAboveTarget == enclosureBrick) {
+            return brickAboveTarget to 0
+        }
+
+        var brickInEnclosure = brickAboveTarget
+        while (brickInEnclosure.parent !== null &&
+            brickInEnclosure.parent !in enclosureBrick.allParts &&
+            brickInEnclosure !in enclosureBrick.dragAndDropTargetList
+        ) {
+
+            brickInEnclosure = brickInEnclosure.parent
+        }
+
+        var dragAndDropTargetList = enclosureBrick.dragAndDropTargetList.toList()
+        if (enclosureBrick is CompositeBrick && enclosureBrick.hasSecondaryList()) {
+            dragAndDropTargetList += enclosureBrick.secondaryNestedBricks.toList()
+        }
+
+        if (brickInEnclosure.parent !== enclosureBrick &&
+            brickInEnclosure !in dragAndDropTargetList
+        ) {
+            return null
+        }
+
+        return brickInEnclosure to
+            dragAndDropTargetList.indexOf(brickInEnclosure) + 1
+    }
+
+    private fun moveElseTo(position: Int, elseBrick: ElseBrick, brickAboveTargetPosition: Brick) {
+        val (parentOfBrickAboveTargetPosition, destinationPosition) =
+            getParentBrickInDragAndDropList(brickAboveTargetPosition, elseBrick.parent)
+                ?: null to 0
+
+        if (elseBrick.script !== brickAboveTargetPosition.script ||
+            parentOfBrickAboveTargetPosition == null ||
+            parentOfBrickAboveTargetPosition is EndBrick) {
+            return
+        }
+
+        if (parentOfBrickAboveTargetPosition is CompositeBrick &&
+            parentOfBrickAboveTargetPosition !== elseBrick.parent) {
+            val brickBelowTargetPosition = getBrickBelowPosition(position)
+            val (parentOfBrickBelowTargetPosition, destinationBelowPosition) =
+                getParentBrickInDragAndDropList(brickBelowTargetPosition, elseBrick.parent) ?: null to 0
+
+            if (parentOfBrickBelowTargetPosition is CompositeBrick &&
+                parentOfBrickBelowTargetPosition !== elseBrick.parent) {
+                return
+            }
+        }
+
+        val parent = elseBrick.parent as CompositeBrick
+        if (parent.nestedBricks.size >= destinationPosition) {
+            while (parent.nestedBricks.size > destinationPosition) {
+                parent.secondaryNestedBricks.add(0, parent.nestedBricks.last())
+                parent.nestedBricks.removeLast()
+            }
+        } else {
+            while (destinationPosition - parent.nestedBricks.size > 0) {
+                parent.nestedBricks.add(parent.secondaryNestedBricks.first())
+                parent.secondaryNestedBricks.removeFirst()
+            }
+        }
     }
 
     private fun moveScript(itemToMove: ScriptBrick, brickAboveTargetPosition: Brick) {
@@ -422,6 +498,14 @@ class BrickAdapter(private val sprite: Sprite) :
         } else {
             scripts.add(destinationPosition, scriptToMove)
         }
+    }
+
+    private fun getBrickBelowPosition(position: Int): Brick {
+        var position = position
+        if (position < items.size - 1) {
+            position++
+        }
+        return items[position]
     }
 
     private fun getBrickAbovePosition(position: Int): Brick {

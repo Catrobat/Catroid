@@ -36,9 +36,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import androidx.annotation.VisibleForTesting;
 
 public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
@@ -221,58 +218,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 		for (Brick brick : elseBranchBricks) {
 			brick.addRequiredResources(requiredResourcesSet);
-		}
-	}
-
-	@VisibleForTesting
-	public static class ElseBrick extends BrickBaseType {
-
-		ElseBrick(IfLogicBeginBrick ifBrick) {
-			parent = ifBrick;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return ((IfLogicBeginBrick) parent).elseBranchBricks;
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return -1;
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_if_else;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
-
-		@Override
-		public UUID getBrickID() {
-			return parent.getBrickID();
 		}
 	}
 }
