@@ -22,16 +22,14 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.os.SystemClock;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.sensor.SensorTimer;
 
 public class ResetTimerAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
+		SensorTimer.Companion.getInstance().resetTimer();
 	}
 }

@@ -100,7 +100,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_object_rotation_look,
 			R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness,
-			R.string.formula_editor_object_color);
+			R.string.formula_editor_object_color, R.string.formula_editor_object_distance_to);
 	private static final List<Integer> OBJECT_LOOK = asList(R.string.formula_editor_object_look_number,
 			R.string.formula_editor_object_look_name, R.string.formula_editor_object_number_of_looks);
 	private static final List<Integer> OBJECT_BACKGROUND = asList(R.string.formula_editor_object_background_number,

@@ -30,8 +30,8 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.formulaeditor.sensor.SensorSpeechRecognition
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageActivity.IntentListener
 
@@ -58,7 +58,7 @@ class AskSpeechAction : Action(), IntentListener {
             )
             intent.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE,
-                SensorHandler.getListeningLanguageSensor()
+                SensorSpeechRecognition.getInstance().getListeningLanguageSensor()
             )
             if (question.isNotBlank()) {
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, question)

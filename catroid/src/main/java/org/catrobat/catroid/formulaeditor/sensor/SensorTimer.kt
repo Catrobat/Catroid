@@ -1,0 +1,68 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2023 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.catrobat.catroid.formulaeditor.sensor
+
+import android.os.SystemClock
+
+open class SensorTimer : Sensor {
+
+    var timerReferenceValue: Double = 0.0
+    var timerPauseValue: Double = 0.0
+
+    override fun getSensorValue(): Double = calculateTime(SystemClock.uptimeMillis())
+
+    protected fun calculateTime(clockValue: Long): Double =
+        (clockValue - timerReferenceValue) / millieSecondToSecond
+
+    fun resetTimer() {
+        setRevValue(SystemClock.uptimeMillis())
+    }
+
+    fun pauseTimer() {
+        setPauseValue(SystemClock.uptimeMillis())
+    }
+
+    fun continueTimer() {
+        timerReferenceValue += SystemClock.uptimeMillis() - timerPauseValue
+    }
+
+    private fun setRevValue(clockValue: Long) {
+        timerReferenceValue = clockValue.toDouble()
+    }
+
+    private fun setPauseValue(clockValue: Long) {
+        timerPauseValue = clockValue.toDouble()
+    }
+
+    companion object {
+        @Volatile
+        private var instance: SensorTimer? = null
+        const val millieSecondToSecond = 1000.toDouble()
+
+        fun getInstance() =
+            instance ?: synchronized(this) {
+                instance ?: SensorTimer().also { instance = it }
+            }
+    }
+}

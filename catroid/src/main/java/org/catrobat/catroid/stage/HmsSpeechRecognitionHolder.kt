@@ -32,7 +32,7 @@ import com.huawei.hms.mlsdk.asr.MLAsrConstants
 import com.huawei.hms.mlsdk.asr.MLAsrListener
 import com.huawei.hms.mlsdk.asr.MLAsrRecognizer
 import org.catrobat.catroid.R
-import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.sensor.SensorSpeechRecognition
 import org.catrobat.catroid.utils.ToastUtil
 import java.lang.ref.WeakReference
 
@@ -67,7 +67,7 @@ class HmsSpeechRecognitionHolder : SpeechRecognitionHolderInterface {
     override fun forceSetLanguage() {
         speechIntent?.putExtra(
             MLAsrCaptureConstants.LANGUAGE,
-            SensorHandler.getListeningLanguageSensor()
+            SensorSpeechRecognition.getInstance().getListeningLanguageSensor()
         )
     }
 
@@ -79,7 +79,7 @@ class HmsSpeechRecognitionHolder : SpeechRecognitionHolderInterface {
         speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             .putExtra(
                 MLAsrCaptureConstants.LANGUAGE,
-                SensorHandler.getListeningLanguageSensor()
+                SensorSpeechRecognition.getInstance().getListeningLanguageSensor()
             )
             .putExtra(MLAsrConstants.FEATURE, MLAsrConstants.FEATURE_ALLINONE)
     }

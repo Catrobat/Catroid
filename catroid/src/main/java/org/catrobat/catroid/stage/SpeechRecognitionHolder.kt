@@ -41,6 +41,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.sensor.SensorSpeechRecognition
 import java.util.Locale
 
 class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
@@ -59,7 +60,7 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
 
     override fun forceSetLanguage() {
         speechIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE, SensorHandler.getListeningLanguageSensor()
+            RecognizerIntent.EXTRA_LANGUAGE, SensorSpeechRecognition.getInstance().getListeningLanguageSensor()
         )
     }
 
@@ -70,7 +71,7 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
 
         speechIntent = Intent(ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, SensorHandler.getListeningLanguageSensor())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, SensorSpeechRecognition.getInstance().getListeningLanguageSensor())
             putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, stageActivity.packageName)
             putExtra(EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, ONE_SECOND)

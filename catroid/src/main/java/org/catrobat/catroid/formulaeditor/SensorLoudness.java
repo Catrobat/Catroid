@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.os.Handler;
 import android.util.Log;
 
+import org.catrobat.catroid.formulaeditor.sensor.Sensor;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class SensorLoudness {
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
-	private List<SensorCustomEventListener> listenerList = new ArrayList<>();
+	private List<Sensor> listenerList = new ArrayList<>();
 
 	private SoundRecorder recorder;
 	private final Handler handler;
@@ -55,17 +56,15 @@ public class SensorLoudness {
 			Double loudness = ((SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude());
 			if (!loudness.equals(lastValue) && !loudness.equals(0.0)) {
 				lastValue = loudness;
-				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
-
-				for (SensorCustomEventListener listener : listenerList) {
-					listener.onCustomSensorChanged(event);
+				for (Sensor sensor : listenerList) {
+					sensor.updateSensorValue(loudness);
 				}
 			}
 			handler.postDelayed(statusChecker, UPDATE_INTERVAL);
 		}
 	};
 
-	public synchronized boolean registerListener(SensorCustomEventListener listener) {
+	public synchronized boolean registerListener(Sensor listener) {
 		if (listenerList.contains(listener)) {
 			return true;
 		}
@@ -89,7 +88,7 @@ public class SensorLoudness {
 		return true;
 	}
 
-	public synchronized void unregisterListener(SensorCustomEventListener listener) {
+	public synchronized void unregisterListener(Sensor listener) {
 		if (listenerList.contains(listener)) {
 			listenerList.remove(listener);
 			if (listenerList.size() == 0) {

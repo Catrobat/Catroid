@@ -501,7 +501,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
 		BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		if (btService.connectDevice(service, stageActivity, REQUEST_CONNECT_DEVICE)
+		if (btService.connectDeviceOnActivity(service, stageActivity, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
 		}

@@ -36,10 +36,10 @@ public interface BluetoothDeviceService extends CatroidService, StageResourceInt
 		CONNECTION_REQUESTED
 	}
 
-	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceType,
+	ConnectDeviceResult connectDeviceOnActivity(Class<? extends BluetoothDevice> deviceType,
 			Activity activity, int requestCode);
 
-	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+	ConnectDeviceResult connectDeviceOnContext(Class<? extends BluetoothDevice> deviceToConnect,
 			Context context);
 
 	void deviceConnected(BluetoothDevice device) throws MindstormsException;

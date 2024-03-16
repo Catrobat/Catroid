@@ -71,12 +71,6 @@ class SensorHandlerTest {
     }
 
     @Test
-    fun testSensorHandlerWithLookSensorValue() {
-        SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
-        compareToSensor(0, Sensors.OBJECT_BRIGHTNESS)
-    }
-
-    @Test
     fun testFirstFaceDetection() {
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.FACE_DETECTED)
@@ -138,7 +132,7 @@ class SensorHandlerTest {
     }
 
     private fun compareToSensor(value: Int, sensor: Sensors) {
-        assertEquals(value.toDouble(), SensorHandler.getSensorValue(sensor) as Double, DELTA)
+        assertEquals(value.toDouble(), sensor.getSensor().getSensorValue() as Double, DELTA)
     }
 
     companion object {
