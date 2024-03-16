@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,9 @@ import android.net.Uri
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -45,7 +48,6 @@ import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.catrobat.catroid.utils.Utils.checkForDuplicates
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -174,43 +176,43 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
-        Assert.assertTrue(importProjectHelper.checkForConflicts())
+        assertTrue(importProjectHelper.checkForConflicts())
 
         importProjectHelper.addObjectDataToNewSprite(anySpriteOfProject)
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].userVariables.size,
             importedLocalVariableList + oldLocalVariableList
         )
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].userLists.size,
             importedLocalListList + oldLocalListList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.userLists.size,
             importedGlobalListList + oldGlobalListList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.userVariables.size,
             importedGlobalVariableList + oldGlobalVariableList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].scriptList.size,
             importedScriptList + oldScriptList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].soundList.size,
             importedSoundList + oldSoundList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].lookList.size,
             importedLookList + oldLookList
         )
@@ -246,43 +248,43 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
         if (importProjectHelper.checkForConflicts()) {
             importProjectHelper.addObjectDataToNewSprite(anySpriteOfProject)
         }
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].userVariables.size,
             oldLocalVariableList
         )
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].userLists.size,
             oldLocalListList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.userLists.size,
             oldGlobalListList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.userVariables.size,
             oldGlobalVariableList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].scriptList.size,
             oldScriptList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].soundList.size,
             oldSoundList
         )
 
-        Assert.assertEquals(
+        assertEquals(
             project!!.defaultScene.spriteList[1].lookList.size,
             oldLookList
         )
@@ -298,12 +300,12 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
-        Assert.assertTrue(importProjectHelper.checkForConflicts())
+        assertTrue(importProjectHelper.checkForConflicts())
         importProjectHelper.addObjectDataToNewSprite(anySpriteOfProject)
-        Assert.assertFalse(checkForDuplicates(anySpriteOfProject.lookList as List<Any>?))
-        Assert.assertFalse(checkForDuplicates(anySpriteOfProject.soundList as List<Any>?))
+        assertFalse(checkForDuplicates(anySpriteOfProject.lookList as List<Any>?))
+        assertFalse(checkForDuplicates(anySpriteOfProject.soundList as List<Any>?))
     }
 }
