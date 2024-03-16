@@ -134,11 +134,21 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        this.itemCountThreshold = 2
         when (item.itemId) {
             R.id.new_group -> showNewGroupDialog()
-            else -> super.onOptionsItemSelected(item)
+            else -> handleSelectedOptionItem(item)
         }
         return true
+    }
+
+    private fun handleSelectedOptionItem(item: MenuItem) {
+        if (adapter.items.size == 1) {
+            ToastUtil.showError(activity, R.string.am_empty_list)
+            resetActionModeParameters()
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun showNewGroupDialog() {
@@ -231,6 +241,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     override fun deleteItems(selectedItems: List<Sprite?>) {
         setShowProgressBar(true)
+        var deletedItemsCount = 0
         for (item in selectedItems) {
             if (item is GroupSprite) {
                 for (sprite in item.groupItems) {
@@ -242,12 +253,13 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             }
             spriteController.delete(item)
             adapter.remove(item)
+            deletedItemsCount++
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
                 R.plurals.deleted_sprites,
-                selectedItems.size,
-                selectedItems.size
+                deletedItemsCount,
+                deletedItemsCount
             )
         )
         finishActionMode()
@@ -368,7 +380,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_library -> addFromLibrary(item)
                 R.id.from_local -> addFromLocalProject(item)
-                else -> {}
             }
             true
         }
