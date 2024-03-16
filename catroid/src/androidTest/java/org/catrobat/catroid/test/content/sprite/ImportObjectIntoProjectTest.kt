@@ -27,7 +27,7 @@ import android.net.Uri
 import android.preference.PreferenceManager
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
@@ -178,9 +178,9 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
-        Espresso.onView(withText(R.string.ok)).perform(click())
+        onView(withText(R.string.ok)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, importedProject, importedProject
@@ -204,9 +204,9 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
-        Espresso.onView(withText(R.string.ok)).perform(click())
+        onView(withText(R.string.ok)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, importedProject, importedProject
@@ -229,9 +229,9 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
-        Espresso.onView(withText(R.string.ok)).perform(click())
+        onView(withText(R.string.ok)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withId(R.id.confirm)).perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, importedProject, importedProject
@@ -256,7 +256,7 @@ class ImportObjectIntoProjectTest {
         val original = MergeTestUtils().getOriginalProjectData(project)
 
         addObjectFromUri()
-        Espresso.onView(withText(R.string.ok)).perform(click())
+        onView(withText(R.string.ok)).perform(click())
 
         MergeTestUtils().assertRejectedImport(project, original)
     }
@@ -291,7 +291,7 @@ class ImportObjectIntoProjectTest {
         val originScriptList = originLastSprite.scriptList
 
         addObjectFromUri()
-        Espresso.onView(withText(R.string.merge_automatically)).perform(click())
+        onView(withText(R.string.merge_automatically)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
         assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)
@@ -336,7 +336,7 @@ class ImportObjectIntoProjectTest {
         val original = MergeTestUtils().getOriginalProjectData(project)
 
         addObjectFromUri()
-        Espresso.onView(withText(R.string.ok)).perform(click())
+        onView(withText(R.string.ok)).perform(click())
 
         MergeTestUtils().assertRejectedImport(project, original)
     }
@@ -355,13 +355,13 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(project)
 
         addObjectFromUri()
-        Espresso.onView(withId(R.id.import_conflicting_variables)).check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.import_conflicting_variables_try_again))
+        onView(withId(R.id.import_conflicting_variables)).check(matches(isDisplayed()))
+        onView(withId(R.id.import_conflicting_variables_try_again))
             .check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.conflicting_variables)).check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.import_conflicting_variables_reason))
+        onView(withId(R.id.conflicting_variables)).check(matches(isDisplayed()))
+        onView(withId(R.id.import_conflicting_variables_reason))
             .check(matches(isDisplayed()))
-        Espresso.onView(withText(R.string.ok)).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).inRoot(isDialog()).check(matches(isDisplayed()))
             .perform(click())
     }
 }
