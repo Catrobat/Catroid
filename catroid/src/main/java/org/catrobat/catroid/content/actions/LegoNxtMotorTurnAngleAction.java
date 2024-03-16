@@ -48,7 +48,7 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 	protected void update(float percent) {
 		int degreesValue;
 		try {
-			degreesValue = degrees.interpretInteger(scope);
+			degreesValue = degrees.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			degreesValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

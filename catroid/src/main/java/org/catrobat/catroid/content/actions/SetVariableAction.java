@@ -51,7 +51,7 @@ public class SetVariableAction extends TemporalAction {
 			return;
 		}
 		Object value = changeVariable == null ? Double.valueOf(0d)
-				: changeVariable.interpretObject(scope);
+				: changeVariable.getInterpreter().interpretObject(scope);
 
 		if (changeVariable != null && changeVariable.getRoot().isBoolean(scope)) {
 			value = (Double) value != 0;

@@ -40,7 +40,7 @@ public class PointInDirectionAction extends TemporalAction {
 	protected void update(float percent) {
 		try {
 			Float degreeInterpretation = degrees == null ? Float.valueOf(0f)
-					: degrees.interpretFloat(scope);
+					: degrees.getInterpreter().interpretFloat(scope);
 			if (scope.getSprite().look instanceof PhysicsLook) {
 				((PhysicsLook) scope.getSprite().look).setFlippedByDirection(degreeInterpretation);
 			}

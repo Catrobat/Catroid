@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.content.actions.WebRequestAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.formulaeditor.FormulaInterpreter
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
@@ -216,6 +217,15 @@ class WebRequestActionTest {
                 )
             )
         )
+        val formulaInterpreter = Mockito.spy(
+            FormulaInterpreter(
+                FormulaElement(
+                    FormulaElement.ElementType.USER_VARIABLE,
+                    TEST_INPUT_VARIABLE,
+                    null
+                )
+            )
+        )
         testSprite.addUserVariable(userVariable)
         testSprite.addUserVariable(UserVariable(TEST_INPUT_VARIABLE, TEST_URL))
 
@@ -229,11 +239,12 @@ class WebRequestActionTest {
         doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
             .addConnection(webConnection)
 
+        doReturn(formulaInterpreter).`when`(formula).interpreter
         Mockito.doAnswer { invocation: InvocationOnMock ->
             val scope = invocation.getArgument<Scope>(0)
 //            val sprite = invocation.getArgument<Sprite>(0)
             scope.sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
-        }.`when`(formula).interpretString(any(Scope::class.java))
+        }.`when`(formulaInterpreter).interpretString(any(Scope::class.java))
 
         Mockito.doAnswer {
             action.onRequestSuccess(response)

@@ -70,8 +70,8 @@ public class MoveNStepsBrick extends FormulaBrick {
 						projectManager.getCurrentSprite(), null);
 				label.setText(view.getResources().getQuantityString(
 						R.plurals.brick_move_n_step_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-								scope))
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS)
+								.getInterpreter().interpretDouble(scope))
 				));
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);

@@ -43,9 +43,9 @@ public class SetTextAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		try {
-			String string = text.interpretString(scope);
-			int posX = endX.interpretInteger(scope);
-			int posY = endY.interpretInteger(scope);
+			String string = text.getInterpreter().interpretString(scope);
+			int posX = endX.getInterpreter().interpretInteger(scope);
+			int posY = endY.getInterpreter().interpretInteger(scope);
 
 			actor = new TextActor(string, posX, posY);
 			StageActivity.stageListener.addActor(actor);
@@ -57,9 +57,9 @@ public class SetTextAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			String str = text.interpretString(scope);
-			int posX = endX.interpretInteger(scope);
-			int posY = endY.interpretInteger(scope);
+			String str = text.getInterpreter().interpretString(scope);
+			int posX = endX.getInterpreter().interpretInteger(scope);
+			int posY = endY.getInterpreter().interpretInteger(scope);
 
 			actor.setText(str);
 			actor.setPosX(posX);

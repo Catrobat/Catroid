@@ -41,7 +41,7 @@ open class SetLookByIndexAction : SetLookAction() {
     override fun getEventId(): EventId? {
         try {
             if (sprite != null && scope?.sprite != null && scope?.sequence != null) {
-                val lookPosition = formula?.interpretInteger(scope) ?: 0
+                val lookPosition = formula?.interpreter?.interpretInteger(scope) ?: 0
                 lookData = sprite!!.lookList?.getOrNull(lookPosition - 1)
             }
         } catch (e: InterpretationException) {

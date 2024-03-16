@@ -38,7 +38,7 @@ class VibrateAction : TemporalAction() {
 
     override fun begin() {
         try {
-            var newDuration = duration?.interpretFloat(scope) ?: return
+            var newDuration = duration?.interpreter?.interpretFloat(scope) ?: return
             if (newDuration.toLong() > MAX_TIME_TO_VIBRATE) {
                 newDuration = MAX_TIME_TO_VIBRATE.toFloat()
             }

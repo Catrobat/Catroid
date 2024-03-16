@@ -64,7 +64,7 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 		AndroidStringProvider stringProvider = new AndroidStringProvider(
 				CatroidApplication.getAppContext()
 		);
-		String result = item.getValue().getUserFriendlyString(stringProvider, null);
+		String result = item.getValue().getInterpreter().getUserFriendlyString(stringProvider, null);
 		result = ShowTextUtils.convertStringToMetricRepresentation(result);
 		variableViewHolder.value.setText(result);
 	}

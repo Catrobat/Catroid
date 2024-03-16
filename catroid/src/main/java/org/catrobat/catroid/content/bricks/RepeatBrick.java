@@ -163,7 +163,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 				label.setText(view.getResources().getQuantityString(
 						R.plurals.time_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-								.interpretDouble(scope))
+								.getInterpreter().interpretDouble(scope))
 				));
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);

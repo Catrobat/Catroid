@@ -41,7 +41,7 @@ class AskAction : Action() {
         StageActivity.messageHandler ?: return
         var question = ""
         try {
-            question = questionFormula?.interpretString(scope) ?: ""
+            question = questionFormula?.interpreter?.interpretString(scope) ?: ""
         } catch (e: InterpretationException) {
             Log.e(
                 javaClass.simpleName,

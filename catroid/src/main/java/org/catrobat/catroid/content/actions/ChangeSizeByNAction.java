@@ -38,7 +38,7 @@ public class ChangeSizeByNAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			Float newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(scope);
+			Float newSize = size == null ? Float.valueOf(0f) : size.getInterpreter().interpretFloat(scope);
 			scope.getSprite().look.changeSizeInUserInterfaceDimensionUnit(newSize);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

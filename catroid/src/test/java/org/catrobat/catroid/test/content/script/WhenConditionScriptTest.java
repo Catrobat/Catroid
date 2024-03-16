@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaInterpreter;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
@@ -49,6 +50,7 @@ import static org.mockito.Mockito.when;
 public class WhenConditionScriptTest {
 	private static final int POSITION_DELTA = 15;
 	private Formula formula;
+	private FormulaInterpreter formulaInterpreter;
 	private Sprite sprite;
 	private WhenConditionScript conditionScript;
 
@@ -59,6 +61,7 @@ public class WhenConditionScriptTest {
 		createProjectWithSprite(sprite);
 
 		formula = Mockito.mock(Formula.class);
+		formulaInterpreter = Mockito.mock(FormulaInterpreter.class);
 		conditionScript = new WhenConditionScript(formula);
 		sprite.addScript(conditionScript);
 	}
@@ -71,7 +74,8 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptOnce() throws InterpretationException {
-		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true);
+		when(formula.getInterpreter()).thenReturn(formulaInterpreter);
+		when(formulaInterpreter.interpretBoolean(any(Scope.class))).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -86,7 +90,8 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptMultipleTimes() throws InterpretationException {
-		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
+		when(formula.getInterpreter()).thenReturn(formulaInterpreter);
+		when(formulaInterpreter.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -100,7 +105,8 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptBeforeAndAfterBeingStopped() throws InterpretationException {
-		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
+		when(formula.getInterpreter()).thenReturn(formulaInterpreter);
+		when(formulaInterpreter.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
 		sprite.initializeEventThreads(EventId.START);
