@@ -1015,7 +1015,7 @@
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_loop_for_values_from">Für Werte von</string>
     <string name="brick_loop_for_each_value_from">Für jeden Wert von</string>
-    <string name="brick_loop_in">Im</string>
+    <string name="brick_loop_in">In</string>
     <string name="brick_loop_to">auf</string>
     <string name="brick_repeat">Wiederhole</string>
     <string name="brick_repeat_until">Wiederholen bis</string>
