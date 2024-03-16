@@ -400,7 +400,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							formulaEditorClipboard.paste();
 							return true;
 						case R.id.formula_editor_keyboard_copy:
-							formulaEditorClipboard.copy();
+							formulaEditorClipboard.checkIfSelectedAndCopy();
 							return true;
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
