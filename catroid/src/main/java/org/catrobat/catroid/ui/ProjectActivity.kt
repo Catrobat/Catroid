@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -316,14 +316,16 @@ class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectList
             if (!importProjectHelper.checkForConflicts()) {
                 return
             }
-            openNewSpriteDialogFragment(lookDataName, lookFileName, uri, importProjectHelper)
         }
+        openNewSpriteDialogFragment(isObject, lookDataName, lookFileName, uri, importProjectHelper)
     }
+
     private fun openNewSpriteDialogFragment(
+        isObject: Boolean,
         lookDataName: String,
         lookFileName: String,
         uri: Uri?,
-        importProjectHelper: ImportProjectHelper
+        importProjectHelper: ImportProjectHelper?
     ) {
         NewSpriteDialogFragment(
             false,
@@ -332,7 +334,7 @@ class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectList
             contentResolver,
             uri,
             currentFragment!!,
-            true,
+            isObject,
             importProjectHelper
         ).show(supportFragmentManager, NewSpriteDialogFragment.TAG)
     }
@@ -483,8 +485,10 @@ class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectList
     override fun onResolvedConflicts(importProjectHelper: ImportProjectHelper) {
         importProjectHelper.lookDataName?.let {
             openNewSpriteDialogFragment(
+                true,
                 it, importProjectHelper
-                    .lookFileName, importProjectHelper.uri, importProjectHelper)
+                    .lookFileName, importProjectHelper.uri, importProjectHelper
+            )
         }
     }
 }
