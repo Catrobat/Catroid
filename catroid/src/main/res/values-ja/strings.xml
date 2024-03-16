@@ -830,6 +830,9 @@
     <string name="brick_go_to">移動</string>
     <string name="brick_go_to_touch_position">タッチ位置</string>
     <string name="brick_go_to_random_position">ランダムな位置</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">タッチ位置</string>
+    <string name="brick_glide_to_random_position">ランダムな位置</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">動きの種類を設定</string>

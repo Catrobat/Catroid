@@ -20,28 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.actions.conditional.GlideToPositionAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+package org.catrobat.catroid.content.actions
 
-public class GlideToPhysicsAction extends GlideToPositionAction {
+import org.catrobat.catroid.common.ScreenValues
+import org.catrobat.catroid.formulaeditor.Formula
 
-	private PhysicsLook physicsLook;
+class GlideToRandomPositionAction : GlideToActionBase() {
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
-	}
-
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
-	}
+    override fun setEndPosition() {
+        val randomXPosition = Math.random()
+            .toFloat() * (ScreenValues.SCREEN_WIDTH + 1) - ScreenValues.SCREEN_WIDTH / 2
+        val randomYPosition = Math.random()
+            .toFloat() * (ScreenValues.SCREEN_HEIGHT + 1) - ScreenValues.SCREEN_HEIGHT / 2
+        endX = Formula(randomXPosition)
+        endY = Formula(randomYPosition)
+    }
 }

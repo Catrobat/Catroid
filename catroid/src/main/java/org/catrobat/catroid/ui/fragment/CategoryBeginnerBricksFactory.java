@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -114,6 +115,7 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
+		motionBrickList.add(new GlideToActionBrick(null, BrickValues.GLIDE_SECONDS));
 		return motionBrickList;
 	}
 

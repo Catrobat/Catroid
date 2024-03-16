@@ -40,7 +40,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
-public class GlideToActionTest {
+public class GlideToPositionActionTest {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -69,7 +69,7 @@ public class GlideToActionTest {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), xPosition, yPosition, duration);
+		Action action = sprite.getActionFactory().createGlideToPositionAction(sprite, new SequenceAction(), xPosition, yPosition, duration);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
@@ -82,7 +82,7 @@ public class GlideToActionTest {
 	@Test(expected = NullPointerException.class)
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createGlideToAction(null, new SequenceAction(), xPosition, yPosition, duration);
+		Action action = factory.createGlideToPositionAction(null, new SequenceAction(), xPosition, yPosition, duration);
 		action.act(1.0f);
 	}
 
@@ -102,7 +102,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testBrickWithStringFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(String.valueOf(Y_POSITION)),
+		Action action = sprite.getActionFactory().createGlideToPositionAction(sprite, new SequenceAction(), new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
 
 		long currentTimeDelta = System.currentTimeMillis();
@@ -113,7 +113,7 @@ public class GlideToActionTest {
 		assertEquals(Y_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(DURATION, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING), new Formula(
+		action = sprite.getActionFactory().createGlideToPositionAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING), new Formula(
 				NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
 
 		currentTimeDelta = System.currentTimeMillis();
@@ -127,7 +127,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testNullFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), null, null, null);
+		Action action = sprite.getActionFactory().createGlideToPositionAction(sprite, new SequenceAction(), null, null, null);
 
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -140,7 +140,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testNotANumberFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(Double.NaN),
+		Action action = sprite.getActionFactory().createGlideToPositionAction(sprite, new SequenceAction(), new Formula(Double.NaN),
 				new Formula(Double.NaN), new Formula(Double.NaN));
 
 		long currentTimeDelta = System.currentTimeMillis();

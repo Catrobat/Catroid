@@ -855,6 +855,9 @@
     <string name="brick_go_to">کے پاس جاؤ</string>
     <string name="brick_go_to_touch_position">ٹچ پوزیشن</string>
     <string name="brick_go_to_random_position">بے ترتیب پوزیشن</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">ٹچ پوزیشن</string>
+    <string name="brick_glide_to_random_position">بے ترتیب پوزیشن</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">اپنی حرکت کی قسم مقرر کریں</string>

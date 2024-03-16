@@ -871,6 +871,9 @@
     <string name="brick_go_to">Aller à</string>
     <string name="brick_go_to_touch_position">Position touchée</string>
     <string name="brick_go_to_random_position">Position aléatoire</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">Position touchée</string>
+    <string name="brick_glide_to_random_position">Position aléatoire</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Définissez votre type de mouvement à</string>

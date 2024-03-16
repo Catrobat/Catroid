@@ -81,6 +81,7 @@ import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -310,6 +311,10 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
 		brickInfoMap.put("glideToBrick", brickInfo);
+
+		brickInfo = new BrickInfo(GlideToActionBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("glideToActionBrick", brickInfo);
 
 		brickInfo = new BrickInfo(GoNStepsBackBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("steps", BrickField.STEPS);

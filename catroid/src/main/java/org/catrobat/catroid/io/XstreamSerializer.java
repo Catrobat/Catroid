@@ -118,6 +118,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -473,6 +474,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", PenUpBrick.class);
 		xstream.alias("brick", PlaceAtBrick.class);
 		xstream.alias("brick", GoToBrick.class);
+		xstream.alias("brick", GlideToActionBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
 		xstream.alias("brick", PlaySoundAtBrick.class);

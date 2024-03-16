@@ -957,6 +957,9 @@
     <string name="brick_go_to">Перейти в</string>
     <string name="brick_go_to_touch_position">місце положення дотику</string>
     <string name="brick_go_to_random_position">випадкова позиція</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">місце положення дотику</string>
+    <string name="brick_glide_to_random_position">випадкова позиція</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Встановити тип переміщення</string>

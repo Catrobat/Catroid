@@ -867,6 +867,9 @@
     <string name="brick_go_to">செல்லுங்கள்</string>
     <string name="brick_go_to_touch_position">தொடு நிலை</string>
     <string name="brick_go_to_random_position">சீரற்ற நிலை</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">தொடு நிலை</string>
+    <string name="brick_glide_to_random_position">சீரற்ற நிலை</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">உங்கள் இயக்க வகையை அமைக்கவும்</string>

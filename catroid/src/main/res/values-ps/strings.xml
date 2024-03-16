@@ -872,6 +872,9 @@
     <string name="brick_go_to">ورتګ</string>
     <string name="brick_go_to_touch_position">د لمس موقعیت</string>
     <string name="brick_go_to_random_position">تصادفي موقعیت</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">د لمس موقعیت</string>
+    <string name="brick_glide_to_random_position">تصادفي موقعیت</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">د خپل حرکت ډول ترتیب کړئ</string>

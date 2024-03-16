@@ -67,7 +67,10 @@ import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
+import org.catrobat.catroid.content.actions.GlideToOtherSpriteAction;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
+import org.catrobat.catroid.content.actions.GlideToRandomPositionAction;
+import org.catrobat.catroid.content.actions.GlideToTouchPositionAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
@@ -176,7 +179,7 @@ import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
 import org.catrobat.catroid.content.actions.WriteUserDataOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
-import org.catrobat.catroid.content.actions.conditional.GlideToAction;
+import org.catrobat.catroid.content.actions.conditional.GlideToPositionAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
@@ -352,9 +355,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createGlideToAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y,
+	public Action createGlideToPositionAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y,
 			Formula duration) {
-		GlideToAction action = Actions.action(GlideToAction.class);
+		GlideToPositionAction action = Actions.action(GlideToPositionAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
@@ -362,8 +365,45 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createGlideToRandomAction(Sprite sprite,
+			SequenceAction sequence, Formula duration) {
+
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+
+		GlideToRandomPositionAction randomPositionAction =
+				Actions.action(GlideToRandomPositionAction.class);
+		randomPositionAction.setDuration(duration);
+		randomPositionAction.setScope(scope);
+		return randomPositionAction;
+	}
+
+	public Action createGlideToTouchAction(Sprite sprite,
+			SequenceAction sequence, Formula duration) {
+
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+
+		GlideToTouchPositionAction touchPositionAction =
+				Actions.action(GlideToTouchPositionAction.class);
+		touchPositionAction.setDuration(duration);
+		touchPositionAction.setScope(scope);
+		return touchPositionAction;
+	}
+
+	public Action createGlideToSpriteAction(Sprite sprite, Sprite destinationSprite,
+			SequenceAction sequence, Formula duration) {
+
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+
+		GlideToOtherSpriteAction otherSpritePositionAction = Actions
+				.action(GlideToOtherSpriteAction.class);
+		otherSpritePositionAction.setDuration(duration);
+		otherSpritePositionAction.setScope(scope);
+		otherSpritePositionAction.setDestinationSprite(destinationSprite);
+		return otherSpritePositionAction;
+	}
+
 	public Action createPlaceAtAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y) {
-		GlideToAction action = Actions.action(GlideToAction.class);
+		GlideToPositionAction action = Actions.action(GlideToPositionAction.class);
 		action.setPosition(x, y);
 		action.setDuration(0);
 		action.setInterpolation(null);

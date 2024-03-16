@@ -848,6 +848,9 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_go_to">Git</string>
     <string name="brick_go_to_touch_position">Dokunma pozisyonu</string>
     <string name="brick_go_to_random_position">Rastgele pozisyon</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">Dokunma pozisyonu</string>
+    <string name="brick_glide_to_random_position">Rastgele pozisyon</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Hareket türüne ayarla</string>
