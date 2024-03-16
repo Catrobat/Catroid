@@ -50,6 +50,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
+import java.lang.Thread.sleep
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
@@ -110,6 +111,7 @@ class ImportLocalSpriteTest {
         Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        sleep(1000)
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
@@ -177,11 +179,10 @@ class ImportLocalSpriteTest {
         Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
         Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-
+        sleep(500)
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
@@ -208,7 +209,7 @@ class ImportLocalSpriteTest {
 
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList[1], cat)
-
+        sleep(500)
         Espresso.onView(ViewMatchers.withText("cat"))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText("dog"))
@@ -243,6 +244,7 @@ class ImportLocalSpriteTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_place_visually))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        sleep(500)
         Espresso.onView(ViewMatchers.withId(R.id.place_visually_sprite_switch))
             .perform(ViewActions.swipeLeft())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()

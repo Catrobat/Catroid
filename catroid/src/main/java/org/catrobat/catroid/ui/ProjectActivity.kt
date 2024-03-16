@@ -298,7 +298,7 @@ class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectList
             resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName)
             lookFileName = resolvedFileName
         }
-        val lookDataName = UniqueNameProvider().getUniqueNameInNameables(
+        var lookDataName = UniqueNameProvider().getUniqueNameInNameables(
             resolvedName,
             currentScene.spriteList
         )
@@ -308,7 +308,11 @@ class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectList
                 lookFileName, currentScene, this, lookDataName, uri
             )
             importProjectHelper.setMergeProjectListener(this)
-
+            lookDataName = UniqueNameProvider().getUniqueNameInNameables(
+                importProjectHelper.getSpriteToAddName(),
+                currentScene.spriteList
+            )
+            importProjectHelper.lookDataName = lookDataName
             if (!importProjectHelper.checkForConflicts()) {
                 return
             }

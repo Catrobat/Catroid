@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.content.sprite
 
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -40,6 +41,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY
 import org.catrobat.catroid.common.DefaultProjectHandler
+import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
@@ -54,11 +56,14 @@ import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
+import java.lang.Thread.sleep
 
 class ImportObjectIntoProjectTest {
     private lateinit var project: Project
@@ -70,6 +75,7 @@ class ImportObjectIntoProjectTest {
     private lateinit var scriptForVisualPlacement: Script
     private val projectManager: ProjectManager = inject(ProjectManager::class.java).value
     val tag: String = ImportObjectIntoProjectTest::class.java.simpleName
+    val importObjectTime: Long = 1000
 
     @get:Rule
     var baseActivityTestRule: FragmentActivityTestRule<ProjectActivity> = FragmentActivityTestRule(
@@ -118,6 +124,13 @@ class ImportObjectIntoProjectTest {
         projectManager.currentProject = project
         projectManager.currentSprite = project.defaultScene.spriteList[1]
         Intents.init()
+
+        val sharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+        sharedPreferences.edit()
+            .putBoolean(SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY, true)
+            .apply()
+
         baseActivityTestRule.launchActivity()
     }
 
@@ -139,10 +152,14 @@ class ImportObjectIntoProjectTest {
         }
     }
 
+    private fun addObjectFromUri() {
+        baseActivityTestRule.activity.addObjectFromUri(uri)
+        sleep(importObjectTime)
+    }
+
     @After
     fun tearDown() {
         Intents.release()
-        baseActivityTestRule.finishActivity()
         TestUtils.deleteProjects(defaultProjectName, importName)
     }
 
@@ -238,7 +255,7 @@ class ImportObjectIntoProjectTest {
 
         val original = MergeTestUtils().getOriginalProjectData(project)
 
-        baseActivityTestRule.activity.addObjectFromUri(uri)
+        addObjectFromUri()
         Espresso.onView(withText(R.string.ok)).perform(click())
 
         MergeTestUtils().assertRejectedImport(project, original)
@@ -273,7 +290,7 @@ class ImportObjectIntoProjectTest {
         val originSoundList = originLastSprite.soundList
         val originScriptList = originLastSprite.scriptList
 
-        baseActivityTestRule.activity.addObjectFromUri(uri)
+        addObjectFromUri()
         Espresso.onView(withText(R.string.merge_automatically)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
@@ -318,7 +335,7 @@ class ImportObjectIntoProjectTest {
 
         val original = MergeTestUtils().getOriginalProjectData(project)
 
-        baseActivityTestRule.activity.addObjectFromUri(uri)
+        addObjectFromUri()
         Espresso.onView(withText(R.string.ok)).perform(click())
 
         MergeTestUtils().assertRejectedImport(project, original)
@@ -337,7 +354,7 @@ class ImportObjectIntoProjectTest {
         project.addUserList(UserList("globalList2"))
         XstreamSerializer.getInstance().saveProject(project)
 
-        baseActivityTestRule.activity.addObjectFromUri(uri)
+        addObjectFromUri()
         Espresso.onView(withId(R.id.import_conflicting_variables)).check(matches(isDisplayed()))
         Espresso.onView(withId(R.id.import_conflicting_variables_try_again))
             .check(matches(isDisplayed()))
