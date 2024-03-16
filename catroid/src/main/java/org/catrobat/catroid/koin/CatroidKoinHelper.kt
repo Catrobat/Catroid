@@ -75,11 +75,11 @@ val componentsModules = module(createdAtStart = true, override = false) {
 
     single { BackpackListManager.getInstance() }
     single {
-        DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
+        DefaultFeaturedProjectSync(get(), get(), get())
     }
 
     single {
-        DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
+        DefaultProjectsCategoriesSync(get(), get(), get())
     }
 }
 
