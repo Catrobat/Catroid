@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,9 +34,12 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
@@ -45,13 +48,10 @@ import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectio
 import java.util.ArrayList
 import java.util.Collections
 
-class BrickAdapter(private val sprite: Sprite) :
-    BaseAdapter(),
-    BrickAdapterInterface,
-    AdapterView.OnItemClickListener,
-    OnItemLongClickListener {
+class BrickAdapter(private val sprite: Sprite) : BaseAdapter(), BrickAdapterInterface,
+    AdapterView.OnItemClickListener, OnItemLongClickListener {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
-    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY)
+    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY, ALL_DELETE)
     internal annotation class CheckBoxMode
 
     @CheckBoxMode
@@ -79,6 +79,7 @@ class BrickAdapter(private val sprite: Sprite) :
         const val ALL = 1
         const val SCRIPTS_ONLY = 2
         const val CONNECTED_ONLY = 3
+        const val ALL_DELETE = 4
 
         @JvmStatic
         fun colorAsCommentedOut(background: Drawable) {
@@ -106,6 +107,11 @@ class BrickAdapter(private val sprite: Sprite) :
     fun updateItems(sprite: Sprite?) {
         sprite?.scriptList?.let { scripts = it }
         updateItemsFromCurrentScripts()
+    }
+
+    fun selectClickedBrick(brick: Brick) {
+        val position = items.indexOf(brick)
+        setSelectionTo(true, position)
     }
 
     private fun updateItemsFromCurrentScripts() {
@@ -151,6 +157,7 @@ class BrickAdapter(private val sprite: Sprite) :
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
+            ALL_DELETE -> handleCheckBoxModeAll(item)
         }
     }
 
@@ -228,7 +235,10 @@ class BrickAdapter(private val sprite: Sprite) :
         for (i in flatItems.indices) {
             adapterPosition = items.indexOf(flatItems[i])
             selectionManager.setSelectionTo(selected, adapterPosition)
-            if (i > 0) {
+            if (i == 0) {
+                continue
+            }
+            if (checkBoxMode != ALL_DELETE || !isChildBrickOfSelectedCompositeBrick(adapterPosition)) {
                 viewStateManager.setEnabled(!selected, adapterPosition)
             }
         }
@@ -236,11 +246,7 @@ class BrickAdapter(private val sprite: Sprite) :
         if (checkBoxMode == CONNECTED_ONLY) {
             val firstFlatListPosition = items.indexOf(flatItems[0])
             updateConnectedItems(
-                position,
-                firstFlatListPosition,
-                adapterPosition,
-                selected,
-                scriptSelected
+                position, firstFlatListPosition, adapterPosition, selected, scriptSelected
             )
         }
     }
@@ -273,27 +279,39 @@ class BrickAdapter(private val sprite: Sprite) :
         for (item in items) {
             val brickPosition = items.indexOf(item)
             viewStateManager.setEnabled(
-                selectableForCopy(brickPosition, scriptSelected),
-                brickPosition
+                selectableForCopy(brickPosition, scriptSelected), brickPosition
             )
         }
     }
 
+    private fun isChildBrickOfSelectedCompositeBrick(brickPosition: Int): Boolean {
+        val childBrick = items[brickPosition]
+        val parent = childBrick.parent
+        return selectedItems.contains(parent) && (parent is IfLogicBeginBrick.ElseBrick ||
+            parent is PhiroIfLogicBeginBrick.ElseBrick ||
+            parent is CompositeBrick && checkNestedBricks(parent, childBrick))
+    }
+
+    private fun checkNestedBricks(parent: CompositeBrick, childBrick: Brick): Boolean =
+        parent.nestedBricks.contains(childBrick) || parent.hasSecondaryList() &&
+            parent.secondaryNestedBricks.contains(childBrick)
+
     private fun selectableForCopy(brickPosition: Int, scriptSelected: Boolean): Boolean =
-        noConnectedItemsSelected() || isItemWithinConnectedRange(
+        !scriptSelected && isChildBrickOfSelectedCompositeBrick(brickPosition) ||
+            noConnectedItemsSelected() || isItemWithinConnectedRange(
             brickPosition,
             scriptSelected
-        ) && !isItemOfNewScript(brickPosition, scriptSelected)
+        ) &&
+            !isItemOfNewScript(brickPosition, scriptSelected)
 
-    private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 ||
-            brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected
-    }
+    private fun isItemWithinConnectedRange(brickPosition: Int, scriptSelected: Boolean): Boolean =
+        brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1 ||
+            brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 &&
+            !scriptSelected
 
-    private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean {
-        return lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick ||
+    private fun isItemOfNewScript(brickPosition: Int, scriptSelected: Boolean): Boolean =
+        lastConnectedItem == brickPosition && items[brickPosition] is ScriptBrick ||
             scriptSelected && brickPosition <= firstConnectedItem
-    }
 
     private fun noConnectedItemsSelected(): Boolean =
         firstConnectedItem == -1 && lastConnectedItem == -1
