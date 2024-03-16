@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -55,6 +56,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -71,6 +73,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class ScriptFragmentTest {
+
+	ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -238,6 +242,54 @@ public class ScriptFragmentTest {
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 	}
 
+	@Test
+	public void testCommentOutScriptWhenAddingBrick() {
+		onBrickAtPosition(0)
+				.performClick();
+		onView(withText(R.string.brick_context_dialog_comment_out_script))
+				.perform(click());
+
+		onView(withId(R.id.button_add))
+				.perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(R.string.category_motion))))
+				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
+				.perform(click());
+		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.perform(click());
+		onBrickAtPosition(0).performClick();
+
+		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
+				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		assert scriptFragment != null;
+		Brick targetBrick = (Brick) scriptFragment.getListView().getItemAtPosition(3);
+
+		assertTrue(targetBrick.isCommentedOut());
+	}
+
+	@Test
+	public void testCommentOutCompositeBrickWhenAddingBrick() {
+		onBrickAtPosition(1)
+				.performClick();
+		onView(withText(R.string.brick_context_dialog_comment_out))
+				.perform(click());
+
+		onView(withId(R.id.button_add))
+				.perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(R.string.category_motion))))
+				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
+				.perform(click());
+		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.perform(click());
+		onBrickAtPosition(0).performClick();
+
+		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
+				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		assert scriptFragment != null;
+		Brick targetBrick = (Brick) scriptFragment.getListView().getItemAtPosition(3);
+
+		assertTrue(targetBrick.isCommentedOut());
+	}
+
 	private void createProject() {
 		String projectName = getClass().getSimpleName();
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
@@ -254,7 +306,7 @@ public class ScriptFragmentTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 }
