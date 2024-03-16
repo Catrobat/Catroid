@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public final class FormulaEditorWrapper extends ViewInteractionWrapper {
-	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER = withId(R.id.formula_editor_keyboardview);
+	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER =
+			withId(R.id.formula_editor_keyboard_view);
 	public static final Matcher<View> FORMULA_EDITOR_TEXT_FIELD_MATCHER = withId(R.id.formula_editor_edit_field);
 
 	private FormulaEditorWrapper() {
@@ -81,7 +82,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public FormulaEditorWrapper performEnterFormula(String formulaString) {
 		for (Character item : formulaString.toCharArray()) {
-			if (!charToButtonMapping.keySet().contains(item)) {
+			if (!charToButtonMapping.containsKey(item)) {
 				throw new IllegalArgumentException("Formula or Number contained illegal character: " + item
 						+ " contained in: " + formulaString);
 			}
@@ -126,9 +127,14 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public FormulaEditorCategoryListWrapper performOpenCategory(Matcher<View> category) {
-		onView(category)
-				.perform(click());
+		pressFunctionalToggleButton();
+		onView(category).perform(click());
 		return onCategoryList();
+	}
+
+	public void pressFunctionalToggleButton() {
+		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
+				.perform(click());
 	}
 
 	public void performCloseFormulaStringWarning() {
@@ -146,6 +152,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public void performOpenDataFragment() {
+		pressFunctionalToggleButton();
 		onView(Control.DATA)
 				.perform(click());
 	}
@@ -165,8 +172,8 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 				.perform(click());
 	}
 
-	public void performOpenFunctions() {
-		performOpenCategory(Category.FUNCTIONS);
+	public void performOpenMathematics() {
+		performOpenCategory(Category.MATHEMATICS);
 	}
 
 	public void performUndo() {
@@ -180,6 +187,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	private static Map<Character, Matcher<View>> charToButtonMapping;
+
 	static {
 		Map<Character, Matcher<View>> numpad = new HashMap<>();
 		numpad.put('0', NumPad.NUM0);
@@ -237,7 +245,10 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public static final class Category {
 		public static final Matcher<View> OBJECT = withId(R.id.formula_editor_keyboard_object);
-		public static final Matcher<View> FUNCTIONS = withId(R.id.formula_editor_keyboard_function);
+		public static final Matcher<View> MATHEMATICS =
+				withId(R.id.formula_editor_keyboard_mathematics);
+		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_text);
+		public static final Matcher<View> LISTS = withId(R.id.formula_editor_keyboard_lists);
 		public static final Matcher<View> LOGIC = withId(R.id.formula_editor_keyboard_logic);
 		public static final Matcher<View> DEVICE = withId(R.id.formula_editor_keyboard_sensors);
 	}

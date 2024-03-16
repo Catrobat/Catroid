@@ -31,6 +31,7 @@
         android:id="@+id/formula_editor_brick_and_formula"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="-40dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -70,10 +71,11 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/formula_editor_keyboardview"
+        android:id="@+id/formula_editor_keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/formula_editor_keyboard_margin_top"
         android:layout_gravity="bottom"
         layout="@layout/formula_editor_keyboard" />
 

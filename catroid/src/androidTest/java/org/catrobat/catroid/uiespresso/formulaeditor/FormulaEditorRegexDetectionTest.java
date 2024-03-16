@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -137,7 +137,8 @@ public class FormulaEditorRegexDetectionTest {
 
 	private void prepareUntilButton(String nameOfFunction) {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(nameOfFunction);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(nameOfFunction);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.TEXT);
 	}
 

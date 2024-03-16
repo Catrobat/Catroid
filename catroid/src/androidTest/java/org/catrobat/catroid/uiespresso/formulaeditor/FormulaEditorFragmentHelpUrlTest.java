@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -101,12 +101,12 @@ public class FormulaEditorFragmentHelpUrlTest {
 	}
 
 	@Test
-	public void testFunctionsHelpUrl() {
+	public void testMathematicsHelpUrl() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		String helpUrl = onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.getHelpUrl(CategoryListFragment.FUNCTION_TAG, baseActivityTestRule.getActivity());
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
+				.getHelpUrl(CategoryListFragment.MATHEMATICS_TAG, baseActivityTestRule.getActivity());
 		assertEquals(functionsHelpUrl, helpUrl);
 	}
 

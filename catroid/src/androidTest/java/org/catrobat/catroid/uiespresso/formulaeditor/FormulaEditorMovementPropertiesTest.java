@@ -69,6 +69,7 @@ public class FormulaEditorMovementPropertiesTest {
 		onFormulaEditor()
 				.performOpenCategory(FormulaEditorWrapper.Category.OBJECT)
 				.performSelect(R.string.formula_editor_function_collides_with_edge);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview))

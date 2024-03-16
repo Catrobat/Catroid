@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -142,6 +142,9 @@ public final class Constants {
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_MATHEMATICS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_TEXT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/TextFunctions/";
+	public static final String CATROBAT_LISTS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Lists/";
 	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
 	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
 	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";

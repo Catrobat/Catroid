@@ -65,7 +65,7 @@ class FormulaEditorSensorListTest(
 ) {
     @Rule
     @JvmField
-    var baseActivityTestRule = FragmentActivityTestRule<SpriteActivity>(
+    var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
         SpriteActivity.EXTRA_FRAGMENT_POSITION,
         SpriteActivity.FRAGMENT_SCRIPTS
@@ -175,7 +175,7 @@ class FormulaEditorSensorListTest(
 
             onFormulaEditor().checkShows(getSelectedSensorString(sensor))
             true
-        } ?: onFormulaEditor().checkShows(getSelectedSensorString(sensorName))
+        }
     }
 
     private fun getSelectedSensorString(functionString: String): String {
@@ -188,7 +188,7 @@ class FormulaEditorSensorListTest(
 
     @Suppress("LargeClass")
     companion object {
-        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId) ?: ""
+        private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId)
 
         @JvmStatic
         @Parameterized.Parameters(name = "{3}\n{index}. {1}")
@@ -206,6 +206,7 @@ class FormulaEditorSensorListTest(
             paramsData.addAll(listOfFaceDetection)
             paramsData.addAll(listOfPoseDetection)
             paramsData.addAll(listOfTextRecognition)
+            paramsData.addAll(listOfObject)
             paramsData.addAll(listOfDevice)
             paramsData.addAll(listOfTouch)
             paramsData.addAll(listOfDateTime)
@@ -707,6 +708,14 @@ class FormulaEditorSensorListTest(
             )
         )
 
+        private val listOfObject = listOf(
+            listOf(
+                str(R.string.formula_editor_function_get_id_of_detected_object),
+                "", str(R.string.formula_editor_device_object_recognition)
+            ),
+            listOf(str(R.string.formula_editor_function_object_with_id_visible), "", "")
+        )
+
         private val listOfDevice = listOf(
             listOf(
                 str(R.string.formula_editor_sensor_loudness),
@@ -803,7 +812,8 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS
         )
     }
 }
