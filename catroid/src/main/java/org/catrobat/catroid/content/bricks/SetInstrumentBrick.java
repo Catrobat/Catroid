@@ -28,19 +28,33 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<PickableMusicalInstrument> {
+@CatrobatLanguageBrick(command = "Set")
+public class SetInstrumentBrick extends BrickBaseType
+		implements BrickSpinner.OnItemSelectedListener<PickableMusicalInstrument>, UpdateableSpinnerBrick {
+
+	private static final String INSTRUMENT_CATLANG_PARAMETER_NAME = "instrument";
 
 	public PickableMusicalInstrument instrumentSelection = PickableMusicalInstrument.values()[0];
+
+	private transient BrickSpinner<PickableMusicalInstrument> spinner;
 
 	@Override
 	public int getViewResource() {
@@ -61,7 +75,7 @@ public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.On
 			items.add(instrument);
 		}
 
-		BrickSpinner<PickableMusicalInstrument> spinner = new BrickSpinner<>(R.id.set_instrument_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.set_instrument_spinner, view, items);
 		spinner.setSelection(PickableMusicalInstrument.getIndexByValue(instrumentSelection.getValue()));
 		spinner.setOnItemSelectedListener(this);
 
@@ -89,6 +103,37 @@ public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.On
 	public void onItemSelected(Integer spinnerId, @Nullable PickableMusicalInstrument item) {
 		if (item != null) {
 			instrumentSelection = item;
+		}
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(INSTRUMENT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableMusicalInstrument.catrobatLanguageMap.get(instrumentSelection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(INSTRUMENT_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		instrumentSelection = PickableMusicalInstrument.catrobatLanguageMap.inverse().get(arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
+		if (instrumentSelection == null) {
+			throw new CatrobatLanguageParsingException("Invalid instrument: " + arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
 		}
 	}
 }

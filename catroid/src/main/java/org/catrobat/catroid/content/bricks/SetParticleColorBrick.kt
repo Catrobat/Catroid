@@ -22,12 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks
 
+import android.content.Context
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 
+@CatrobatLanguageBrick(command = "Set")
 class SetParticleColorBrick() : FormulaBrick() {
     constructor(color: String) : this(Formula(color))
 
@@ -47,11 +54,22 @@ class SetParticleColorBrick() : FormulaBrick() {
         )
     }
 
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == PARTICLE_COLOR_CATLANG_PARAMETER_NAME) {
+            val color = getFormulaWithBrickField(BrickField.COLOR)
+            val colorString = color.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim()
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatHexColorString(colorString))
+        }
+        return super.getArgumentByCatlangName(name)
+    }
+
     companion object {
         private const val serialVersionUID = 1L
+        private const val PARTICLE_COLOR_CATLANG_PARAMETER_NAME = "particle color";
+
     }
 
     init {
-        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text)
+        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, PARTICLE_COLOR_CATLANG_PARAMETER_NAME)
     }
 }

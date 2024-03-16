@@ -28,15 +28,30 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import java.util.AbstractMap
 
-class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
+@CatrobatLanguageBrick(command = "Turn")
+class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {
 
     companion object {
         const val ON = 0
         const val OFF = 1
+        private const val PARTICLE_EFFECT_CATLANG_PARAMETER_NAME = "particle effect additivity"
+        private val SPINNER_VALUE_MAP = HashBiMap.create(
+            mapOf(
+                OFF to "off",
+                ON to "on"
+            )
+        )
     }
 
     private var fadeSpinnerSelectionId: Int = fadeType
@@ -96,5 +111,39 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
                 fadeSpinnerSelectionId == ON
             )
         )
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (itemIndex == ON || itemIndex == OFF) {
+            fadeSpinnerSelectionId = itemIndex
+        }
+    }
+
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        return if (name == PARTICLE_EFFECT_CATLANG_PARAMETER_NAME) {
+            CatrobatLanguageUtils.getCatlangArgumentTuple(name, SPINNER_VALUE_MAP[fadeSpinnerSelectionId])
+        } else super.getArgumentByCatlangName(name)
+    }
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
+        requiredArguments.add(PARTICLE_EFFECT_CATLANG_PARAMETER_NAME)
+        return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val particleEffect = arguments[PARTICLE_EFFECT_CATLANG_PARAMETER_NAME]
+        val selectedParticleEffect = SPINNER_VALUE_MAP.inverse()[particleEffect]
+        if (selectedParticleEffect != null) {
+            fadeSpinnerSelectionId = selectedParticleEffect
+        } else {
+            throw CatrobatLanguageParsingException("Invalid particle effect additivity value: $particleEffect")
+        }
     }
 }

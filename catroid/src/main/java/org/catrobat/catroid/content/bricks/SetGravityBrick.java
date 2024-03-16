@@ -28,14 +28,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set gravity for all actors and objects to")
 public class SetGravityBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetGravityBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x, "x steps/second²");
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y, "y steps/second²");
 	}
 
 	public SetGravityBrick(Vector2 gravity) {
@@ -43,8 +45,7 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	public SetGravityBrick(Formula gravityX, Formula gravityY) {
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X, gravityX);
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y, gravityY);
 	}

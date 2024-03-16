@@ -27,18 +27,50 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class LegoEv3SetLedBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Set EV3 LED")
+public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String LED_STATUS_CATLANG_PARAMETER_NAME = "status";
+
+	private static final BiMap<LedStatus, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<LedStatus, String>()
+	{{
+		put(LedStatus.LED_OFF, "off");
+		put(LedStatus.LED_GREEN, "green");
+		put(LedStatus.LED_RED, "red");
+		put(LedStatus.LED_ORANGE, "orange");
+		put(LedStatus.LED_GREEN_FLASHING, "green flashing");
+		put(LedStatus.LED_RED_FLASHING, "red flashing");
+		put(LedStatus.LED_ORANGE_FLASHING, "orange flashing");
+		put(LedStatus.LED_GREEN_PULSE, "green pulse");
+		put(LedStatus.LED_RED_PULSE, "red pulse");
+		put(LedStatus.LED_ORANGE_PULSE, "orange pulse");
+	}});
+
 	private String ledStatus;
+	private int spinnerSelectionIndex;
 
 	public enum LedStatus {
 		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
@@ -48,10 +80,12 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 
 	public LegoEv3SetLedBrick() {
 		ledStatus = LedStatus.LED_GREEN.name();
+		spinnerSelectionIndex = LedStatus.LED_GREEN.ordinal();
 	}
 
 	public LegoEv3SetLedBrick(LedStatus ledStatusEnum) {
 		ledStatus = ledStatusEnum.name();
+		spinnerSelectionIndex = ledStatusEnum.ordinal();
 	}
 
 	@Override
@@ -71,6 +105,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			ledStatus = LedStatus.values()[position].name();
+			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		spinner.setSelection(LedStatus.valueOf(ledStatus).ordinal());
@@ -85,5 +120,43 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SetLedAction(LedStatus.valueOf(ledStatus)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < LedStatus.values().length) {
+			ledStatus = LedStatus.values()[itemIndex].name();
+			spinnerSelectionIndex = itemIndex;
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LED_STATUS_CATLANG_PARAMETER_NAME))
+			return new HashMap.SimpleEntry<>(LED_STATUS_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(LedStatus.valueOf(ledStatus)));
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(LED_STATUS_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String ledStatus = arguments.get(LED_STATUS_CATLANG_PARAMETER_NAME);
+		if (ledStatus != null) {
+			LedStatus selectedLedStatus = CATLANG_SPINNER_VALUES.inverse().get(ledStatus);
+			if (selectedLedStatus != null) {
+				this.ledStatus = selectedLedStatus.name();
+				spinnerSelectionIndex = selectedLedStatus.ordinal();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid LED status: " + ledStatus);
+			}
+		}
 	}
 }

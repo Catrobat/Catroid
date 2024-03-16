@@ -26,26 +26,48 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
+@CatrobatLanguageBrick(command = "Go to")
+public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TARGET_CATLANG_PARAMETER_NAME = "target";
+
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
+		put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
+	}});
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
+	private transient BrickSpinner<Sprite> brickSpinner;
 
 	public GoToBrick() {
 	}
@@ -70,16 +92,16 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
 		items.remove(ProjectManager.getInstance().getCurrentSprite());
 
-		BrickSpinner<Sprite> spinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
-		spinner.setOnItemSelectedListener(this);
+		brickSpinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
+		brickSpinner.setOnItemSelectedListener(this);
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
-			spinner.setSelection(0);
+			brickSpinner.setSelection(0);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
-			spinner.setSelection(1);
+			brickSpinner.setSelection(1);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_OTHER_SPRITE_POSITION) {
-			spinner.setSelection(destinationSprite);
+			brickSpinner.setSelection(destinationSprite);
 		}
 		return view;
 	}
@@ -114,5 +136,49 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		brickSpinner.setSelection(itemName);
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(TARGET_CATLANG_PARAMETER_NAME)) {
+			String currentSelectionString = "";
+			if (CATLANG_SPINNER_VALUES.containsKey(spinnerSelection)) {
+				currentSelectionString = CATLANG_SPINNER_VALUES.get(spinnerSelection);
+			} else if (destinationSprite != null) {
+				currentSelectionString = CatrobatLanguageUtils.formatActorOrObject(destinationSprite.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, currentSelectionString);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(TARGET_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		if (arguments.containsKey(TARGET_CATLANG_PARAMETER_NAME)) {
+			String target = arguments.get(TARGET_CATLANG_PARAMETER_NAME);
+			BiMap<String, Integer> spinnerValues = CATLANG_SPINNER_VALUES.inverse();
+			if (spinnerValues.containsKey(target)) {
+				spinnerSelection = spinnerValues.get(target);
+			} else {
+				destinationSprite = scene.getSprite(target);
+				if (destinationSprite == null) {
+					throw new CatrobatLanguageParsingException("Target sprite '" + target + "' not found.");
+				}
+				spinnerSelection = BrickValues.GO_TO_OTHER_SPRITE_POSITION;
+			}
+		}
 	}
 }

@@ -33,13 +33,17 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+@CatrobatLanguageBrick(command = "If")
 public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -51,11 +55,20 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	protected List<Brick> elseBranchBricks = new ArrayList<>();
 
 	public IfLogicBeginBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		this("condition");
 	}
 
 	public IfLogicBeginBrick(Formula formula) {
 		this();
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
+	}
+
+	public IfLogicBeginBrick(String catrobatLanguageName) {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text, catrobatLanguageName);
+	}
+
+	public IfLogicBeginBrick(Formula formula, String catrobatLanguageName) {
+		this(catrobatLanguageName);
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
@@ -72,6 +85,16 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
 		return elseBranchBricks;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return elseBrick;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
+		return "else";
 	}
 
 	public boolean addBrickToIfBranch(Brick brick) {

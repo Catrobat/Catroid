@@ -58,6 +58,8 @@ import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR
@@ -104,6 +106,7 @@ class ProjectOptionsFragment : Fragment() {
         setupProjectSaveExternal()
         setupProjectMoreDetails()
         setupProjectOptionDelete()
+        setupProjectToCatrobatLanguage()
 
         hideBottomBar(requireActivity())
     }
@@ -167,6 +170,12 @@ class ProjectOptionsFragment : Fragment() {
     private fun setupProjectSaveExternal() {
         binding.projectOptionsSaveExternal.setOnClickListener {
             exportProject()
+        }
+    }
+
+    private fun setupProjectToCatrobatLanguage() {
+        binding.projectOptionsSerializeCatrobatLanguage.setOnClickListener {
+            serializeProjectToCatrobatLanguage()
         }
     }
 
@@ -303,6 +312,15 @@ class ProjectOptionsFragment : Fragment() {
         intent.putExtra(PROJECT_DIR, currentProject.directory)
 
         startActivity(intent)
+    }
+
+    private fun serializeProjectToCatrobatLanguage() {
+        try {
+            val projectString = CatrobatLanguageProjectSerializer(project!!, this.requireContext()).serialize()
+            Log.i(TAG, projectString)
+        } catch (t: Throwable) {
+            Log.i(TAG, "")
+        }
     }
 
     private fun exportProject() {

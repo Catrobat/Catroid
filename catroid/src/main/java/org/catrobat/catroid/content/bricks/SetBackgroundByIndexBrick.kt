@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Set background to")
 class SetBackgroundByIndexBrick : FormulaBrick {
     constructor()
     constructor(index: Int) : this(Formula(index))
@@ -36,7 +38,7 @@ class SetBackgroundByIndexBrick : FormulaBrick {
     }
 
     init {
-        addAllowedBrickField(BrickField.BACKGROUND_INDEX, R.id.brick_set_background_by_index_edit_text)
+        addAllowedBrickField(BrickField.BACKGROUND_INDEX, R.id.brick_set_background_by_index_edit_text, "look by number")
     }
 
     override fun getViewResource() = R.layout.brick_set_background_by_index

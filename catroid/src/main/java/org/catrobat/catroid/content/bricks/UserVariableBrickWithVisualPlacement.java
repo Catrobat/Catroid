@@ -32,17 +32,24 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,7 +62,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.getStringAsInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isNumberAndInteger;
 
-public abstract class UserVariableBrickWithVisualPlacement extends VisualPlacementBrick implements UserVariableBrickInterface {
+public abstract class UserVariableBrickWithVisualPlacement extends VisualPlacementBrick implements UserVariableBrickInterface, UpdateableSpinnerBrick {
 
 	protected UserVariable userVariable;
 
@@ -158,5 +165,53 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, ALIGNMENT_STYLE_CENTERED);
 
 		return intent;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId() && spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	protected String getCatLangVariableArgumentName() {
+		return "variable";
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(getCatLangVariableArgumentName())) {
+			String variableName = "";
+			if (userVariable != null) {
+				variableName = CatrobatLanguageUtils.formatVariable(userVariable.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, variableName);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> arguments = new ArrayList<>();
+		arguments.add(getCatLangVariableArgumentName());
+		arguments.addAll(super.getRequiredCatlangArgumentNames());
+		return arguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String variableName = arguments.get(getCatLangVariableArgumentName());
+		variableName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(variableName);
+		userVariable = sprite.getUserVariable(variableName);
+		if (userVariable == null) {
+			userVariable = project.getUserVariable(variableName);
+			if (userVariable == null) {
+				userVariable = project.getMultiplayerVariable(variableName);
+				if (userVariable == null) {
+					throw new CatrobatLanguageParsingException("No variable found with name: " + variableName);
+				}
+			}
+		}
 	}
 }

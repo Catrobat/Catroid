@@ -26,15 +26,21 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
+@CatrobatLanguageBrick(command = "Ask question and store written answer to variable")
 public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String VARIABLE_CATLANG_PARAMETER_NAME = "variable";
+
 	public AskSpeechBrick() {
-		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text);
+		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text, "question");
 	}
 
 	public AskSpeechBrick(String questionText) {
@@ -57,6 +63,11 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	protected String getUserVariableCatlangArgumentName() {
+		return VARIABLE_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.addAll(Arrays.asList(
 				Brick.MICROPHONE,
@@ -69,5 +80,13 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory()
 				.createAskSpeechAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> arguments = new ArrayList<>();
+		arguments.addAll(this.catrobatLanguageFormulaParameters.values());
+		arguments.add(getUserVariableCatlangArgumentName());
+		return arguments;
 	}
 }

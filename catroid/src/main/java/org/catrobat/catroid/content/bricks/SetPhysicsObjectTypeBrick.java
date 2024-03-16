@@ -27,18 +27,42 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.physics.PhysicsObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Set")
+public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String MOTION_TYPE_CATLANG_PARAMETER_NAME = "motion type";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
+	{{
+		put(0, "moving and bouncing under gravity");
+		put(1, "not moving under gravity, but others bounce off you under gravity");
+		put(2, "not moving or bouncing under gravity (default)");
+	}});
+
+	private int selection;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 
@@ -67,12 +91,17 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
-			if (position < PhysicsObject.Type.values().length) {
-				type = PhysicsObject.Type.values()[position];
-			}
+			updateSelectedType(position);
 			return Unit.INSTANCE;
 		}));
 		return view;
+	}
+
+	private void updateSelectedType(int position) {
+		if (position < PhysicsObject.Type.values().length) {
+			type = PhysicsObject.Type.values()[position];
+			selection = position;
+		}
 	}
 
 	private ArrayAdapter<String> createAdapter(Context context) {
@@ -94,5 +123,39 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	@VisibleForTesting
 	public PhysicsObject.Type getType() {
 		return type;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		updateSelectedType(itemIndex);
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(MOTION_TYPE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(selection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(MOTION_TYPE_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String motionType = arguments.get(MOTION_TYPE_CATLANG_PARAMETER_NAME);
+		if (motionType != null) {
+			Integer selectedMotionType = CATLANG_SPINNER_VALUES.inverse().get(motionType);
+			if (selectedMotionType != null) {
+				selection = selectedMotionType;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid motion type: " + motionType);
+			}
+		}
 	}
 }

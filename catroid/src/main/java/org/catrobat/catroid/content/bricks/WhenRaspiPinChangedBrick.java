@@ -30,19 +30,30 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
+@CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")
+public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String PIN_CATLANG_PARAMETER_NAME = "pin";
+	private static final String POSITION_CATLANG_PARAMETER_NAME = "position";
 
 	private RaspiInterruptScript script;
 
@@ -97,7 +108,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 	}
 
 	private void setupValueSpinner(final Context context) {
-
 		final Spinner valueSpinner = view.findViewById(R.id.brick_raspi_when_valuespinner);
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
@@ -137,5 +147,43 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (script != null) {
+			if (spinnerId == R.id.brick_raspi_when_pinspinner) {
+				script.setPin(itemName);
+			} else if (spinnerId == R.id.brick_raspi_when_valuespinner) {
+				script.setEventValue(BrickValues.RASPI_EVENTS[itemIndex]);
+			}
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(PIN_CATLANG_PARAMETER_NAME)) {
+			String pin = script.getPin() == null ? "" : script.getPin();
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, pin);
+		}
+		if (name.equals(POSITION_CATLANG_PARAMETER_NAME)) {
+			String position = script.getEventValue() == null ? "" : script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low";
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, position);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(PIN_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(POSITION_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		
 	}
 }

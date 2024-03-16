@@ -27,20 +27,34 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<PickableDrum> {
+@CatrobatLanguageBrick(command = "Play")
+public class PlayDrumForBeatsBrick extends FormulaBrick
+		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick {
+
+	private static final String DRUM_CATLANG_PARAMETER_NAME = "drum";
 
 	private PickableDrum drumSelection = PickableDrum.values()[0];
+	private transient BrickSpinner<PickableDrum> spinner;
 
 	@Override
 	public int getViewResource() {
@@ -52,7 +66,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 	}
 
 	public PlayDrumForBeatsBrick() {
-		addAllowedBrickField(BrickField.PLAY_DRUM, R.id.brick_play_drum_for_beats_edit_text);
+		addAllowedBrickField(BrickField.PLAY_DRUM, R.id.brick_play_drum_for_beats_edit_text, "number of beats");
 	}
 
 	public PlayDrumForBeatsBrick(int value) {
@@ -74,7 +88,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 			items.add(drum);
 		}
 
-		BrickSpinner<PickableDrum> spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
 		spinner.setSelection(PickableDrum.getIndexByValue(drumSelection.getValue()));
 		spinner.setOnItemSelectedListener(this);
 
@@ -103,6 +117,42 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 	public void onItemSelected(Integer spinnerId, @Nullable PickableDrum item) {
 		if (item != null) {
 			drumSelection = item;
+		}
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DRUM_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableDrum.getCatrobatLanguageStringByDrum(drumSelection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(DRUM_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String drum = arguments.get(DRUM_CATLANG_PARAMETER_NAME);
+		if (drum != null) {
+			drumSelection = PickableDrum.getDrumByCatrobatLanguageString(drum);
+			if (drumSelection == null) {
+				throw new CatrobatLanguageParsingException("Invalid drum argument: " + drum);
+			}
 		}
 	}
 }

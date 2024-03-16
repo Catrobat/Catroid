@@ -37,19 +37,27 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData> {
+@CatrobatLanguageBrick(command = "When NFC gets scanned")
+public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String NFC_TAG_CATLANG_PARAMETER_NAME = "nfc tag";
 
 	private WhenNfcScript script;
+
+	private transient BrickSpinner<NfcTagData> spinner;
 
 	public WhenNfcBrick() {
 		this(new WhenNfcScript());
@@ -88,7 +96,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));
 		items.add(new StringOption(context.getString(R.string.brick_when_nfc_default_all)));
 		items.addAll(currentSprite.getNfcTagList());
-		BrickSpinner<NfcTagData> spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getNfcTag());
 
@@ -129,5 +137,33 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(NFC_TAG_CATLANG_PARAMETER_NAME)) {
+			String nfcTagName = "";
+			if (script.getMatchAll()) {
+				nfcTagName = "all";
+			} else if (script.getNfcTag() != null) {
+				nfcTagName = CatrobatLanguageUtils.formatNFCTag(script.getNfcTag().getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(NFC_TAG_CATLANG_PARAMETER_NAME, nfcTagName);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(NFC_TAG_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
 	}
 }

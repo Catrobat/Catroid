@@ -23,17 +23,23 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Set")
 public class SetColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetColorBrick() {
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text);
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, "color");
 	}
 
 	public SetColorBrick(double color) {

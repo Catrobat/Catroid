@@ -33,10 +33,14 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "If")
 public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +50,8 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 	private List<Brick> ifBranchBricks = new ArrayList<>();
 
 	public IfThenLogicBeginBrick() {
-		addAllowedBrickField(Brick.BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		addAllowedBrickField(Brick.BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text,
+				"condition");
 	}
 
 	public IfThenLogicBeginBrick(Formula formula) {
@@ -66,6 +71,16 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
+		return null;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
 		return null;
 	}
 

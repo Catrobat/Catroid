@@ -258,6 +258,11 @@ public class BrickControllerTest {
 		}
 
 		@Override
+		public Brick getSecondaryNestedBricksParent() {
+			return null;
+		}
+
+		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		}
 	}

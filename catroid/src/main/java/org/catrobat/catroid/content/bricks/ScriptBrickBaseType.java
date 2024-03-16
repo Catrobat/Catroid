@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public abstract class ScriptBrickBaseType extends BrickBaseType implements ScriptBrick {
 
 	@Override

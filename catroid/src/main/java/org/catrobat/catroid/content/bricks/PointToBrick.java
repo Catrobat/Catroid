@@ -28,24 +28,37 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Point towards")
 public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>,
-		NewItemInterface<Sprite> {
+		NewItemInterface<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
 
 	private Sprite pointedObject;
 
@@ -119,5 +132,42 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
+			String actorOrObjectName = "";
+			if (pointedObject != null) {
+				actorOrObjectName = CatrobatLanguageUtils.formatActorOrObject(pointedObject.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, actorOrObjectName);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String spriteName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		spriteName = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(spriteName);
+		pointedObject = scene.getSprite(spriteName);
+		if (pointedObject == null) {
+			throw new CatrobatLanguageParsingException("No sprite found with name " + arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME) + " in scene " + scene.getName());
+		}
 	}
 }

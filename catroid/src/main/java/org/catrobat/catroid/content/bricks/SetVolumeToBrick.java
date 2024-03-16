@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetVolumeToBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetVolumeToBrick() {
-		addAllowedBrickField(BrickField.VOLUME, R.id.brick_set_volume_to_edit_text);
+		addAllowedBrickField(BrickField.VOLUME, R.id.brick_set_volume_to_edit_text, "volume percentage");
 	}
 
 	public SetVolumeToBrick(double volume) {

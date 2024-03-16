@@ -27,9 +27,11 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.List;
 
+@CatrobatLanguageBrick(command = "When you receive")
 public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;

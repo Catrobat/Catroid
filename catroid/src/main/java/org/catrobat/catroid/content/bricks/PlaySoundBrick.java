@@ -29,24 +29,37 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Start")
 public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
-		NewItemInterface<SoundInfo> {
+		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
 
 	protected SoundInfo sound;
 
@@ -125,5 +138,44 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
+			String soundName = "";
+			if (sound != null) {
+				soundName = sound.getName();
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatSoundName(soundName));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(SOUND_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String soundName = arguments.get(SOUND_CATLANG_PARAMETER_NAME);
+		if (soundName.isEmpty()) {
+			return;
+		}
+		this.sound = sprite.getSoundByName(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(soundName));
+		if (this.sound == null) {
+			throw new CatrobatLanguageParsingException("No sound found with name " + soundName);
+		}
 	}
 }

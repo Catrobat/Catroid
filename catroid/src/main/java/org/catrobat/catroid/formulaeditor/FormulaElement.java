@@ -59,6 +59,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
@@ -104,8 +105,10 @@ public class FormulaElement implements Serializable {
 
 	private ElementType type;
 	private String value;
-	private FormulaElement leftChild = null;
-	private FormulaElement rightChild = null;
+	@VisibleForTesting
+	public FormulaElement leftChild = null;
+	@VisibleForTesting
+	public FormulaElement rightChild = null;
 	public List<FormulaElement> additionalChildren;
 	private transient FormulaElement parent;
 	private transient Map<Functions, FormulaFunction> formulaFunctions;

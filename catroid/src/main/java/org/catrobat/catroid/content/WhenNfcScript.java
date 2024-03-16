@@ -65,6 +65,10 @@ public class WhenNfcScript extends Script {
 		return nfcTag;
 	}
 
+	public boolean getMatchAll() {
+		return matchAll;
+	}
+
 	public void setNfcTag(NfcTagData nfcTag) {
 		this.nfcTag = nfcTag;
 	}

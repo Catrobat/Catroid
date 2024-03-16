@@ -36,33 +36,44 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserData> {
+public abstract class UserDataBrick extends FormulaBrick
+		implements BrickSpinner.OnItemSelectedListener<UserData>, UpdateableSpinnerBrick {
 
 	public transient BiMap<BrickData, Integer> brickDataToTextViewIdMap = HashBiMap.create(2);
 
 	protected UserDataHashMap userDataList = new UserDataHashMap();
+	protected LinkedHashMap<BrickData, String> catrobatLanguageUserDataParameters = new LinkedHashMap<>();
 
 	private transient HashMap<BrickData, BrickSpinner<UserData>> spinnerMap = new HashMap<>();
+	private transient HashMap<Integer, BrickSpinner<UserData>> viewToSpinnerMap = new HashMap<>();
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
@@ -104,11 +115,12 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		return userDataList;
 	}
 
-	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId) {
+	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId, String catrobatLanguageParameterName) {
 		if (!userDataList.containsKey(brickData)) {
 			userDataList.put(brickData, null);
 		}
 		brickDataToTextViewIdMap.put(brickData, textViewResourceId);
+		catrobatLanguageUserDataParameters.put(brickData, catrobatLanguageParameterName);
 	}
 
 	public Brick.BrickData getBrickDataFromTextViewId(int textViewId) {
@@ -144,6 +156,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 			spinner.setOnItemSelectedListener(this);
 			spinner.setSelection(entry.getValue());
 			spinnerMap.put(entry.getKey(), spinner);
+			viewToSpinnerMap.put(spinnerid, spinner);
 		}
 
 		return view;
@@ -242,5 +255,83 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserData item) {
 		userDataList.put(getBrickDataFromTextViewId(spinnerId), item);
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (viewToSpinnerMap.containsKey(spinnerId)) {
+			viewToSpinnerMap.get(spinnerId).setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.addAll(catrobatLanguageUserDataParameters.values());
+		return requiredArguments;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
+		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
+		if (brickData != null) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, getUserDataNameFormatted(brickData));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	private String getUserDataNameFormatted(BrickData brickData) {
+		if (brickData == null) {
+			return "";
+		}
+		UserData userData = userDataList.get(brickData);
+		if (BrickData.isUserList(brickData)) {
+			return CatrobatLanguageUtils.formatList(userData.getName());
+		} else {
+			return CatrobatLanguageUtils.formatVariable(userData.getName());
+		}
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		Map<String, BrickData> catrobatLanguageParameterNameToBrickdata = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
+		for (Map.Entry<String, String> entry : arguments.entrySet()) {
+			String catrobatLanguageParameterName = entry.getKey();
+			String userDataName = entry.getValue();
+			if (userDataName.isEmpty()) {
+				continue;
+			}
+			BrickData brickData = catrobatLanguageParameterNameToBrickdata.get(catrobatLanguageParameterName);
+			if (brickData == null) {
+				throw new CatrobatLanguageParsingException("Unknown parameter name: " + catrobatLanguageParameterName);
+			}
+			UserData userData;
+			if (BrickData.isUserList(brickData)) {
+				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userDataName);
+				userData = sprite.getUserList(userDataName);
+				if (userData == null) {
+					userData = project.getUserList(userDataName);
+					if (userData == null) {
+						throw new CatrobatLanguageParsingException("Unknown user list: " + userDataName);
+					}
+				}
+
+			} else {
+				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userDataName);
+				userData = sprite.getUserVariable(userDataName);
+				if (userData == null) {
+					userData = project.getUserVariable(userDataName);
+					if (userData == null) {
+						userData = project.getMultiplayerVariable(userDataName);
+						if (userData == null) {
+							throw new CatrobatLanguageParsingException("Unknown variable: " + userDataName);
+						}
+					}
+				}
+			}
+			userDataList.put(brickData, userData);
+		}
 	}
 }

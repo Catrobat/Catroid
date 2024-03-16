@@ -26,14 +26,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Start triple stitch")
 public class TripleStitchBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public TripleStitchBrick() {
 		addAllowedBrickField(BrickField.EMBROIDERY_LENGTH,
-				R.id.brick_triple_stitch_edit_text_steps);
+				R.id.brick_triple_stitch_edit_text_steps, "length");
 	}
 
 	public TripleStitchBrick(Formula steps) {

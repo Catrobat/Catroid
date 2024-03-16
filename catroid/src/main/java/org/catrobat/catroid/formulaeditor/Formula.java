@@ -197,7 +197,11 @@ public class Formula implements Serializable {
 	}
 
 	public String getTrimmedFormulaString(Context context) {
-		return internFormula.trimExternFormulaString(context);
+		return internFormula.trimExternFormulaString(context, false);
+	}
+
+	public String getTrimmedFormulaStringForCatrobatLanguage(Context context) {
+		return internFormula.trimExternFormulaStringForCatrobatLanguage(context);
 	}
 
 	public InternFormulaState getInternFormulaState() {

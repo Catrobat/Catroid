@@ -28,22 +28,47 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
-public class PhiroRGBLightBrick extends FormulaBrick {
+@CatrobatLanguageBrick(command = "Set Phiro")
+public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
+	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
+	private final static BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>()
+	{{
+		put(Eye.LEFT, "left");
+		put(Eye.RIGHT, "right");
+		put(Eye.BOTH, "both");
+	}});
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -54,9 +79,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	public PhiroRGBLightBrick() {
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text, "red");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text, "green");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text, "blue");
 		eye = Eye.BOTH.name();
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
@@ -133,6 +158,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
 	}
 
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Eye.values().length) {
+			eye = Eye.values()[itemIndex].name();
+		}
+	}
+
 	private final class SetPhiroRGBLightBrickCallback implements ShowFormulaEditorStrategy.Callback {
 		private final View view;
 
@@ -171,6 +203,93 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			} catch (InterpretationException e) {
 				return 0;
 			}
+		}
+	}
+
+	private String getColorValueFromBrickField(BrickField brickField) {
+		Formula formula = getFormulaWithBrickField(brickField);
+		try {
+			int value = formula.interpretInteger(null);
+			int minimum = Math.max(0, Math.min(255, value));
+			return String.format("%02X", minimum);
+		} catch (InterpretationException e) {
+			return "00";
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LIGHT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(Eye.valueOf(eye)));
+		}
+		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
+			String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
+			String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
+			String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
+			String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(COLOR_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		Collection<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+		requiredArguments.add("red");
+		requiredArguments.add("green");
+		requiredArguments.add("blue");
+		Collection<String> argumentsPresent = arguments.keySet();
+
+		if (requiredArguments.size() == argumentsPresent.size()) {
+			List<String> missingArguments = new ArrayList<>();
+			for (String requiredArgument : requiredArguments) {
+				if (!argumentsPresent.contains(requiredArgument)) {
+					missingArguments.add(requiredArgument);
+				}
+			}
+			if (!missingArguments.isEmpty()) {
+				String requiredArgumentsString = String.join(", ", requiredArguments);
+				String missingArgumentsString = String.join(", ", missingArguments);
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+			}
+		} else {
+			if (requiredArguments.size() == 0) {
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+			}
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+		}
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		if (!arguments.containsKey(COLOR_CATLANG_PARAMETER_NAME)) {
+			throw new CatrobatLanguageParsingException("No color value given");
+		}
+		int[] convertedColor = CatrobatLanguageParserUtils.Companion.hexToRgb(arguments.get(COLOR_CATLANG_PARAMETER_NAME));
+		arguments.remove(COLOR_CATLANG_PARAMETER_NAME);
+		arguments.put("red", String.valueOf(convertedColor[0]));
+		arguments.put("green", String.valueOf(convertedColor[1]));
+		arguments.put("blue", String.valueOf(convertedColor[2]));
+
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String eye = arguments.get(LIGHT_CATLANG_PARAMETER_NAME);
+		if (eye != null) {
+			 Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);
+			 if (selectedEye != null) {
+				 this.eye = selectedEye.name();
+			 } else {
+				 throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
+			 }
 		}
 	}
 }

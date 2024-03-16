@@ -30,23 +30,34 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick {
+
+	private static final String LIST_CATLANG_PARAMETER_NAME = "list";
 
 	protected UserList userList;
 
@@ -137,5 +148,51 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserList item) {
 		userList = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	protected String getListCatlangParameterName() {
+		return LIST_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(getListCatlangParameterName())) {
+			String listName = "";
+			if (userList != null) {
+				listName = CatrobatLanguageUtils.formatList(userList.getName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, listName);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(getListCatlangParameterName());
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String userListName = arguments.get(getListCatlangParameterName());
+		userListName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userListName);
+		if (userListName != null) {
+			userList = sprite.getUserList(userListName);
+			if (userList == null) {
+				userList = project.getUserList(userListName);
+			} else {
+				throw new CatrobatLanguageParsingException("Unkown list: " + userListName);
+			}
+		}
 	}
 }

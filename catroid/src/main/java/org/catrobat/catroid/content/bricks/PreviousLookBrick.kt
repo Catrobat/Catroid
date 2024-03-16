@@ -29,7 +29,9 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Previous look")
 class PreviousLookBrick : BrickBaseType() {
     override fun getViewResource() = R.layout.brick_previous_look
 

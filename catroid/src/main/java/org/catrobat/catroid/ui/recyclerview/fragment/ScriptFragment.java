@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -604,6 +605,19 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void handleAddButton() {
+
+//		List<Brick> bricks = new CategoryBricksFactory().getAllBricks(true, requireContext());
+//		Script lastScript = new WhenScript();
+//		ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
+//		for (Brick brick : bricks) {
+//			if (brick instanceof ScriptBrick) {
+//				lastScript = ((ScriptBrick) brick).getScript();
+//				ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
+//			} else {
+//				lastScript.addBrick(brick);
+//			}
+//		}
+
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		}
@@ -1039,10 +1053,16 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void scrollToFocusItem() {
-		if (scriptToFocus == null && brickToFocus == null) {
-			return;
+		if (scriptToFocus != null) {
+			focusBrick(scriptToFocus.getScriptBrick());
+		} else if (brickToFocus != null) {
+			focusBrick(brickToFocus);
 		}
+		scriptToFocus = null;
+		brickToFocus = null;
+	}
 
+	public void focusBrick(Brick brickToFocus) {
 		int scrollToIndex = -1;
 		for (int i = 0; i < listView.getAdapter().getCount(); ++i) {
 			Object item = listView.getItemAtPosition(i);
@@ -1050,8 +1070,7 @@ public class ScriptFragment extends ListFragment implements
 				continue;
 			}
 			Brick brick = (Brick) item;
-			if ((brickToFocus != null && brick == brickToFocus)
-					|| (scriptToFocus != null && brick.getScript() == scriptToFocus)) {
+			if (brick == brickToFocus) {
 				scrollToIndex = i;
 				break;
 			}
@@ -1068,8 +1087,6 @@ public class ScriptFragment extends ListFragment implements
 				}
 			});
 		}
-		scriptToFocus = null;
-		brickToFocus = null;
 	}
 
 	public int getActionModeType() {
