@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ import java.util.ArrayList
 class WriteEmbroideryToFileAction : Action(), IntentListener {
     var scope: Scope? = null
     var formula: Formula? = null
-    val context: Context = CatroidApplication.getAppContext()
+    val context: Context? = CatroidApplication.getAppContext()
 
     override fun act(delta: Float): Boolean {
         if (formula == null) {
@@ -89,7 +89,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     }
 
     private fun showMessageEmbroideryIsMissing() {
-        val message = context.getString(R.string.error_embroidery_data_not_found)
+        val message = context?.getString(R.string.error_embroidery_data_not_found)
         val params = ArrayList<Any>(listOf(message))
         StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params)
             .sendToTarget()
@@ -105,11 +105,11 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
 
     @VisibleForTesting
     fun writeToFile(file: File) {
-        var message = context.getString(R.string.brick_write_variable_to_file_success, file)
+        var message = context?.getString(R.string.brick_write_variable_to_file_success, file)
         try {
             writeEmbroideryDataToFile(file)
         } catch (e: IOException) {
-            message = context.getString(R.string.error_embroidery_file_write)
+            message = context?.getString(R.string.error_embroidery_file_write)
             Log.e(javaClass.simpleName, "Writing embroidery data to file failed")
         } finally {
             val params = ArrayList<Any>(listOf(message))
@@ -119,9 +119,9 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     }
 
     private fun writeEmbroideryDataToUri(uri: Uri) {
-        val contentResolver = context.contentResolver
+        val contentResolver = context?.contentResolver
         val fileName = StorageOperations.resolveFileName(contentResolver, uri) ?: return
-        var message = context.getString(R.string.brick_write_variable_to_file_success, fileName)
+        var message = context!!.getString(R.string.brick_write_variable_to_file_success, fileName)
         try {
             val cacheFile = File(Constants.CACHE_DIRECTORY, fileName)
             if (!cacheFile.exists()) {
@@ -158,7 +158,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val fileName = getFileName()
-        val title = context.getString(R.string.brick_write_embroidery)
+        val title = context?.getString(R.string.brick_write_embroidery)
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             type = "*/*"
             putExtra(Intent.EXTRA_TITLE, fileName)

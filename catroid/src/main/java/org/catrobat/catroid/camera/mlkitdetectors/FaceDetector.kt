@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@ object FaceDetector : Detector {
                 val context = CatroidApplication.getAppContext()
                 StageActivity.messageHandler.obtainMessage(
                     StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
+                    arrayListOf(context?.getString(R.string.camera_error_face_detection))
                 ).sendToTarget()
                 Log.e(
                     javaClass.simpleName,
