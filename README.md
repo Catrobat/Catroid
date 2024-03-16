@@ -1,11 +1,29 @@
 # Catroid #
 
-**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.
+**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.**Catrobat** is a visual programming language and a set of creativity tools for smartphones. Catrobat aims to allow easy and very user friendly app development through the use of a mobile device. It wants to lift nations out of poverty through innovation through the usage of Pocket Code, users can develop and execute Catrobat programs on both Android and iOS devices. The mission is to promote computational thinking skills and the free and open-source software philosophy in a fun and engaging way worldwide.For more information oriented towards developers, check out our [developers page](https://developer.catrobat.org/).
 
-**Catrobat** is a visual programming language and a set of creativity tools for smartphones. 
-Catrobat projects can be created using Catrobat's Android apps available on [Google Play](https://catrob.at/gp) and iPhone apps available on [Apple's app store](https://catrob.at/ca).
+# Getting Started #
 
-For more information oriented towards developers, check out our [developers page](https://developer.catrobat.org/).
+Adding new features and fixing bugs is a great way to contribute to Catroid and the mission it is trying to fulfill. To get started we advise first downloading the Pocket Code app on your mobile device through the links below:
+[Google Play](https://catrob.at/gp)
+[Apple's app store](https://catrob.at/ca)
+
+Getting Started advanced: 
+The best next step is to fork the repository by clicking on the green Code tap at the top right and cloning it into your computer by running 
+Git clone https://github.com/Catrobat/Catroid.git
+Make sure to have Git installed in your computer as well as any other necessary downloads.
+
+Getting Started beginner: 
+In order to setup yourself up for success we heavily advise following the best practices to set your work environment through this link https://github.com/Catrobat/Catroid/wiki/Setup-working-environment. You can dive deeper into the contributing section in order to see more details and a better expanded version of some of these items. 
+
+Getting Started Contributions:
+Starters:
+Finding issues to get acquainted with the codebase can be done by following this link [Issue-Tracker](https://jira.catrob.at/secure/RapidBoard.jspa?rapidView=60). Please refer to the Contribution section to understand best practices for contributing to Catroid.
+
+Intermediate/Advanced:
+If you have acquired some knowledge and feel a bit more comfortable with the codebase, then we advise trying to implement a new feature. In order to do this first start by navigating to 
+https://catrob.at/mailinglist in order to read on the details of a new feature. Make sure to follow pull request guidelines within the contribution section.
+
 
 # Issues #
 
@@ -28,6 +46,7 @@ A first training ticket usually consists of writing a new Catrobat language test
 
 # Resources and links #
 * [Google Play Store Download](https://catrob.at/gp)
+* [Apple App Store Downloads](https://catrob.at/ca)
 * [Community website with sample programs](https://share.catrob.at/)
 * [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions-(Developers))
 * [Credits](https://catrob.at/credits)
