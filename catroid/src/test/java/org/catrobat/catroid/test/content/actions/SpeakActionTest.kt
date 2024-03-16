@@ -48,6 +48,7 @@ import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
@@ -74,9 +75,11 @@ class SpeakActionTest(
 ) {
     lateinit var sprite: Sprite
     private var scope: Scope? = null
-    private val temporaryFolder = TemporaryFolder()
     lateinit var mobileServiceAvailability: MobileServiceAvailability
     lateinit var contextMock: Context
+
+    @get:Rule
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
 
     companion object {
         private const val SPEAK = "hello world!"
@@ -104,10 +107,8 @@ class SpeakActionTest(
     @Throws(Exception::class)
     fun setUp() {
         contextMock = mockStaticAppContextAndInitializeStaticSingletons()
-        temporaryFolder.create()
-        val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir)
-            .thenAnswer { temporaryCacheFolder }
+            .thenAnswer { tmpFolder.root }
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")

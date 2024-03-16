@@ -41,6 +41,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.File
@@ -63,6 +64,10 @@ class CatrobatTestRunner {
         permission.READ_EXTERNAL_STORAGE,
         permission.WRITE_EXTERNAL_STORAGE
     )
+
+    @Rule
+    @JvmField
+    var tmpFolder: TemporaryFolder = TemporaryFolder()
 
     @JvmField
     @Parameterized.Parameter
@@ -106,12 +111,12 @@ class CatrobatTestRunner {
         val projectName = assetName.replace(Constants.CATROBAT_EXTENSION, "")
         TestUtils.deleteProjects(projectName)
         FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir()
-        Constants.CACHE_DIRECTORY.mkdir()
+
         val inputStream = InstrumentationRegistry.getInstrumentation().context.assets
             .open("$assetPath/$assetName")
         val projectArchive = StorageOperations
-            .copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, assetName)
-        Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
+            .copyStreamToDir(inputStream, tmpFolder.root, assetName)
+        Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive), tmpFolder.root))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
         Assert.assertTrue(
             loadProject(projectDir, ApplicationProvider.getApplicationContext())
@@ -121,7 +126,6 @@ class CatrobatTestRunner {
     @After
     @Throws(IOException::class)
     fun tearDown() {
-        StorageOperations.deleteDir(Constants.CACHE_DIRECTORY)
         TestUtils.deleteProjects(assetName.replace(Constants.CATROBAT_EXTENSION, ""))
     }
 

@@ -48,15 +48,14 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -73,7 +72,6 @@ import androidx.test.rule.GrantPermissionRule;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY;
@@ -87,13 +85,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class LookDataTest {
 	private final String fileName = "collision_donut.png";
+
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
 	@Rule
 	public GrantPermissionRule writeExternalStoragePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+	@Rule
+	public TemporaryFolder imageFolder = new TemporaryFolder();
+
 	private LookData lookData;
-	private File imageFolder;
 
 	private Uri getImageContentUri(Context context, File imageFile) {
 		String filePath = imageFile.getAbsolutePath();
@@ -120,35 +122,25 @@ public class LookDataTest {
 
 	@Before
 	public void setUp() throws Exception {
-		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
-		imageFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), IMAGE_DIRECTORY_NAME);
-		if (!imageFolder.exists()) {
-			imageFolder.mkdirs();
-		}
-
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.collision_donut,
-				imageFolder, fileName, 1.0);
+				imageFolder.getRoot(), fileName, 1.0);
 
 		lookData = new LookData("test", imageFile);
 	}
 
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
-	}
-
 	@Test
 	public void testCollisionInformation() {
-		String metadata = ImageEditing.readMetaDataStringFromPNG(imageFolder.getAbsolutePath() + "/" + fileName,
+		String metadata =
+				ImageEditing.readMetaDataStringFromPNG(imageFolder.getRoot().getAbsolutePath() + "/" + fileName,
 				Constants.COLLISION_PNG_META_TAG_KEY);
 
 		assertEquals("", metadata);
 
 		lookData.getCollisionInformation().loadCollisionPolygon();
 
-		metadata = ImageEditing.readMetaDataStringFromPNG(imageFolder.getAbsolutePath() + "/" + fileName,
+		metadata = ImageEditing.readMetaDataStringFromPNG(imageFolder.getRoot().getAbsolutePath() + "/" + fileName,
 				Constants.COLLISION_PNG_META_TAG_KEY);
 
 		final String expectedMetadata = "0.0;228.0;9.0;321.0;57.0;411.0;136.0;474.0;228.0;500.0;305.0;495.0;375.0;"

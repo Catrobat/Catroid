@@ -23,11 +23,10 @@
 
 package org.catrobat.catroid.test.io.ziparchiver;
 
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -41,24 +40,11 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-
 @RunWith(AndroidJUnit4.class)
 public class UnzipProjectFromAssetsTest {
 
-	private File projectDir;
-
-	@Before
-	public void setUp() {
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, UnzipProjectFromAssetsTest.class.getSimpleName());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		if (projectDir.isDirectory()) {
-			StorageOperations.deleteDir(projectDir);
-		}
-	}
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Test
 	public void testUnzipProjectFromAssets() throws IOException {
@@ -66,16 +52,14 @@ public class UnzipProjectFromAssetsTest {
 		InputStream inputStream =
 				InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
 
-		new ZipArchiver().unzip(inputStream, projectDir);
-
-		assertTrue(projectDir.exists());
+		new ZipArchiver().unzip(inputStream, tmpFolder.getRoot());
 
 		inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
 		ZipInputStream zipInputStream = new ZipInputStream(inputStream);
 		ZipEntry entry;
 
 		while ((entry = zipInputStream.getNextEntry()) != null) {
-			assertTrue(new File(projectDir, entry.getName()).exists());
+			assertTrue(new File(tmpFolder.getRoot(), entry.getName()).exists());
 		}
 
 		zipInputStream.close();

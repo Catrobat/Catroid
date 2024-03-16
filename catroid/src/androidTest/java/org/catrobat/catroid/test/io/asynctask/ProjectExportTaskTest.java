@@ -31,7 +31,6 @@ import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
@@ -41,6 +40,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
@@ -70,7 +70,9 @@ public class ProjectExportTaskTest {
 
 	private Project project;
 	private Context contextMock;
-	private File projectZip;
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
@@ -98,8 +100,9 @@ public class ProjectExportTaskTest {
 		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
 
 		String fileName = project.getDirectory().getName() + "_destination" + CATROBAT_EXTENSION;
+		File projectZip;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-			projectZip = new File(Constants.CACHE_DIRECTORY, fileName);
+			projectZip = new File(tmpFolder.getRoot(), fileName);
 		} else {
 			projectZip = new File(DOWNLOAD_DIRECTORY, fileName);
 		}
@@ -121,8 +124,8 @@ public class ProjectExportTaskTest {
 	}
 
 	private void createUndoCodeXmlFile() {
-		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
-		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		File currentCodeFile = new File(tmpFolder.getRoot(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(tmpFolder.getRoot(), UNDO_CODE_XML_FILE_NAME);
 
 		try {
 			StorageOperations.transferData(currentCodeFile, undoCodeFile);
@@ -154,7 +157,7 @@ public class ProjectExportTaskTest {
 		if (project.getDirectory().isDirectory()) {
 			StorageOperations.deleteDir(project.getDirectory());
 		}
-		projectZip.delete();
+
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
 				&& DOWNLOAD_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(DOWNLOAD_DIRECTORY);

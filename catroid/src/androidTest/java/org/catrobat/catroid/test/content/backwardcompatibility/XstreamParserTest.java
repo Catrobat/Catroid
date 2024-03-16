@@ -31,11 +31,11 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,29 +47,24 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 public class XstreamParserTest {
 
-	private File projectDir;
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
-	@After
-	public void tearDown() throws IOException {
-		if (projectDir != null && projectDir.isDirectory()) {
-			StorageOperations.deleteDir(projectDir);
-		}
-	}
-
-	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {
+	private File copyProjectFromAssets(String assetName, String projectName) throws IOException {
+		File projectDir = new File(tmpFolder.getRoot(), projectName);
 		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
-		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, projectName));
+		new ZipArchiver().unzip(inputStream, projectDir);
+
+		return projectDir;
 	}
 
 	private void testLoadProjectWithoutScenes(String projectName, String assetName) throws IOException, LoadingProjectException {
-		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = copyProjectFromAssets(assetName, projectName);
 
 		Project project = XstreamSerializer.getInstance()
 				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
@@ -121,8 +116,7 @@ public class XstreamParserTest {
 		String projectName = "TestUserDataConversion0999To09991";
 		String assetName = "TestUserDataConversion0999To09991.catrobat";
 
-		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = copyProjectFromAssets(assetName, projectName);
 
 		Project project = XstreamSerializer.getInstance()
 				.loadProject(projectDir, ApplicationProvider.getApplicationContext());

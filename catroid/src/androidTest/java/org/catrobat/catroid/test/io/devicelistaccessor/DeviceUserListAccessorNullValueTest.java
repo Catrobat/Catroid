@@ -24,21 +24,18 @@ package org.catrobat.catroid.test.io.devicelistaccessor;
 
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.DeviceListAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -51,16 +48,16 @@ public class DeviceUserListAccessorNullValueTest {
 	private List<Object> initialNullValue = null;
 	private List<Object> expectedValue = new ArrayList<>();
 	private List<Object> throwAwayValue = new ArrayList<>();
-	private File directory;
 	private UserList userList;
 	private DeviceListAccessor accessor;
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
-		directory.mkdir();
 		userList = new UserList("UserList", initialNullValue);
-		accessor = new DeviceListAccessor(directory);
+		accessor = new DeviceListAccessor(tmpFolder.getRoot());
 	}
 
 	@Test
@@ -97,10 +94,5 @@ public class DeviceUserListAccessorNullValueTest {
 		userList.setValue(throwAwayValue);
 		assertFalse(accessor.readUserData(userList));
 		assertEquals(expectedValue, userList.getValue());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
 	}
 }

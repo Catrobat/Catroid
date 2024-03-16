@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -47,6 +46,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -81,8 +81,9 @@ public class LookFromGalleryIntentTest {
 	private Matcher<Intent> expectedGetContentIntent;
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
-	private final File tmpPath = new File(
-			Constants.CACHE_DIRECTORY.getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -109,14 +110,10 @@ public class LookFromGalleryIntentTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpPath.exists()) {
-			tmpPath.mkdirs();
-		}
-
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				tmpPath,
+				tmpFolder.getRoot(),
 				lookFileName,
 				1);
 
@@ -133,7 +130,6 @@ public class LookFromGalleryIntentTest {
 	public void tearDown() throws IOException {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
-		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {

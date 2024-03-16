@@ -22,10 +22,11 @@
  */
 package org.catrobat.catroid.catrobattestrunner
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -35,6 +36,10 @@ class CatrobatTestRunnerTest {
     @Rule
     @JvmField
     val exception: ExpectedException = ExpectedException.none()
+
+    @Rule
+    @JvmField
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
 
     @Test
     @Throws(Exception::class)
@@ -306,6 +311,7 @@ class CatrobatTestRunnerTest {
         catrobatTestRunner.assetName = assetName
         catrobatTestRunner.assetPath = assetPath
         catrobatTestRunner.retries = 1
+        catrobatTestRunner.tmpFolder = tmpFolder
         catrobatTestRunner.setUp()
         catrobatTestRunner.run()
         catrobatTestRunner.tearDown()

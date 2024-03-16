@@ -24,19 +24,17 @@ package org.catrobat.catroid.test.io.devicevariableaccessor;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -49,16 +47,16 @@ public class DeviceVariableAccessorNullValueTest {
 	private Object initialNullValue = null;
 	private Double expectedValue = 0.0;
 	private Object throwAwayValue = new Object();
-	private File directory;
 	private UserVariable userVariable;
 	private DeviceVariableAccessor accessor;
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
-		directory.mkdir();
 		userVariable = new UserVariable("UserVariable", initialNullValue);
-		accessor = new DeviceVariableAccessor(directory);
+		accessor = new DeviceVariableAccessor(tmpFolder.getRoot());
 	}
 
 	@Test
@@ -95,10 +93,5 @@ public class DeviceVariableAccessorNullValueTest {
 		userVariable.setValue(throwAwayValue);
 		assertFalse(accessor.readUserData(userVariable));
 		assertEquals(expectedValue, userVariable.getValue());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
 	}
 }

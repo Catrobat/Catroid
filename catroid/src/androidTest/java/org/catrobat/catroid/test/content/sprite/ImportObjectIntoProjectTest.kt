@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.content.sprite
 
 import android.net.Uri
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
@@ -38,7 +37,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY
 import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
@@ -57,6 +55,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
@@ -78,15 +77,12 @@ class ImportObjectIntoProjectTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
+    @get:Rule
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
+
     @Throws(Exception::class)
     @Before
     fun setUp() {
-        try {
-            MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
-        } catch (e: Exception) {
-            Log.e(tag, Log.getStackTraceString(e))
-        }
-
         TestUtils.deleteProjects(defaultProjectName, importName)
 
         project = DefaultProjectHandler
@@ -108,7 +104,7 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(importedProject)
 
         val projectZip = File(
-            MEDIA_LIBRARY_CACHE_DIRECTORY,
+            tmpFolder.root,
             importedProject.name + Constants.CATROBAT_EXTENSION
         )
 

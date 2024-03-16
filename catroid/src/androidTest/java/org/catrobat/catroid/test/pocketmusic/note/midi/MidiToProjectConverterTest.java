@@ -31,10 +31,10 @@ import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.test.pocketmusic.note.TrackTestDataFactory;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -51,23 +51,22 @@ public class MidiToProjectConverterTest {
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	private Project project;
 	private File file;
 
 	@Before
 	public void setUp() {
 		project = createProjectWithSemiComplexTracks();
-		file = new File(ProjectToMidiConverter.midiFolder + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-	}
-
-	@After
-	public void tearDown() {
-		file.delete();
+		file = new File(tmpFolder.getRoot().getAbsolutePath(),
+						project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 	}
 
 	@Test
 	public void testConvertToMidiToProject() throws MidiException, IOException {
-		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
+		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter(tmpFolder.getRoot());
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 
 		projectConverter.writeProjectAsMidi(project);
