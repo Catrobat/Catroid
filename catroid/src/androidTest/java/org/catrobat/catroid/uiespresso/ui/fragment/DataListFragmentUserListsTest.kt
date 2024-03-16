@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -119,16 +119,20 @@ class DataListFragmentUserListsTest(
         fun parameters() = listOf(
             arrayOf("listOf(false)", listOf(false), listOf(falseString)),
             arrayOf("listOf(true)", listOf(true), listOf(trueString)),
-            arrayOf("listOf(1)", listOf(1), listOf("1")),
-            arrayOf("listOf(1k)", listOf(1_000), listOf("1k")),
-            arrayOf("listOf(1M)", listOf(1_000_000), listOf("1M")),
+            arrayOf("listOf(1)", listOf(1), listOf("1.0")),
+            arrayOf("listOf(1k)", listOf(1_000), listOf("1.0k")),
+            arrayOf("listOf(1M)", listOf(1_000_000), listOf("1.0M")),
             arrayOf("listOf(1.1)", listOf(1.1), listOf("1.1")),
             arrayOf("listOf(NaN)", listOf(Double.NaN), listOf("NaN")),
             arrayOf("listOf(hello)", listOf("hello"), listOf("hello")),
+            arrayOf("listOf(2.5k)", listOf(2_500), listOf("2.5k")),
+            arrayOf("listOf(2.57k)", listOf(2_570), listOf("2.57k")),
+            arrayOf("listOf(1.5M)", listOf(1_500_000), listOf("1.5M")),
+            arrayOf("listOf(1.005M)", listOf(1_005_000), listOf("1.005M")),
             arrayOf(
                 "listOf(false, true, 1, 1k, 1M, 1.1, NaN, hello)",
                 listOf(false, true, 1, 1_000, 1_000_000, 1.1, Double.NaN, "hello"),
-                listOf(falseString, trueString, "1", "1k", "1M", "1.1", "NaN", "hello")
+                listOf(falseString, trueString, "1.0", "1.0k", "1.0M", "1.1", "NaN", "hello")
             )
         )
     }

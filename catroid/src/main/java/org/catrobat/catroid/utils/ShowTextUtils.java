@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -127,7 +127,7 @@ public final class ShowTextUtils {
 	public static String convertStringToMetricRepresentation(String value) {
 		String result = value;
 		try {
-			result = toMetricUnitRepresentation(Integer.parseInt(value));
+			result = toMetricUnitRepresentation(Double.parseDouble(value));
 		} catch (NumberFormatException ignored) {
 		}
 		return result;
