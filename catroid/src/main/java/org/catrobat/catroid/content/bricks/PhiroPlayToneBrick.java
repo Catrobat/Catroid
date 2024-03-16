@@ -35,7 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import kotlin.Unit;
 
-public class PhiroPlayToneBrick extends FormulaBrick {
+public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -98,5 +98,13 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createDelayAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Tone[] tones = Tone.values();
+		if (itemIndex >= 0 && itemIndex < tones.length) {
+			tone = tones[itemIndex].name();
+		}
 	}
 }

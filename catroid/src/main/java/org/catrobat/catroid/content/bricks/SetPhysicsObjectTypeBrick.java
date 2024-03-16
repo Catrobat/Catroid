@@ -36,7 +36,7 @@ import org.catrobat.catroid.physics.PhysicsObject;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType {
+public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,12 +67,16 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
-			if (position < PhysicsObject.Type.values().length) {
-				type = PhysicsObject.Type.values()[position];
-			}
+			updateSelectedType(position);
 			return Unit.INSTANCE;
 		}));
 		return view;
+	}
+
+	private void updateSelectedType(int position) {
+		if (position < PhysicsObject.Type.values().length) {
+			type = PhysicsObject.Type.values()[position];
+		}
 	}
 
 	private ArrayAdapter<String> createAdapter(Context context) {
@@ -94,5 +98,10 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	@VisibleForTesting
 	public PhysicsObject.Type getType() {
 		return type;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		updateSelectedType(itemIndex);
 	}
 }

@@ -36,7 +36,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import kotlin.Unit;
 
-public class JumpingSumoSoundBrick extends FormulaBrick {
+public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -86,5 +86,13 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Sounds[] sounds = Sounds.values();
+		if (itemIndex >= 0 && itemIndex < sounds.length) {
+			soundName = sounds[itemIndex].name();
+		}
 	}
 }

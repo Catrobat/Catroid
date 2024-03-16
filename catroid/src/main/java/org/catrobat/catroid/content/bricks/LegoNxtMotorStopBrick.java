@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import kotlin.Unit;
 
-public class LegoNxtMotorStopBrick extends BrickBaseType {
+public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,5 +83,12 @@ public class LegoNxtMotorStopBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(Motor.valueOf(motor)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
+			motor = Motor.values()[itemIndex].name();
+		}
 	}
 }

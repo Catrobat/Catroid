@@ -48,7 +48,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
 		BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData> {
+		NewItemInterface<LookData>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -162,5 +162,12 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	@Override
 	public int getPositionInDragAndDropTargetList() {
 		return -1;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

@@ -49,7 +49,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements
-		BrickSpinner.OnItemSelectedListener<StringOption> {
+		BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
 
 	private transient BrickSpinner<StringOption> spinner;
 
@@ -188,5 +188,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 			items.add(new StringOption(message));
 		}
 		return items;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == R.id.brick_broadcast_spinner && spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

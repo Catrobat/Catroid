@@ -40,12 +40,13 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
+public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
+	private transient BrickSpinner<Sprite> brickSpinner;
 
 	public GoToBrick() {
 	}
@@ -70,16 +71,16 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
 		items.remove(ProjectManager.getInstance().getCurrentSprite());
 
-		BrickSpinner<Sprite> spinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
-		spinner.setOnItemSelectedListener(this);
+		brickSpinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
+		brickSpinner.setOnItemSelectedListener(this);
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
-			spinner.setSelection(0);
+			brickSpinner.setSelection(0);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
-			spinner.setSelection(1);
+			brickSpinner.setSelection(1);
 		}
 		if (spinnerSelection == BrickValues.GO_TO_OTHER_SPRITE_POSITION) {
-			spinner.setSelection(destinationSprite);
+			brickSpinner.setSelection(destinationSprite);
 		}
 		return view;
 	}
@@ -114,5 +115,10 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		brickSpinner.setSelection(itemName);
 	}
 }
