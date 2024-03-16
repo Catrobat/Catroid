@@ -82,7 +82,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAccelerationY;
 	private float linearAccelerationZ;
 	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
-
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
@@ -91,7 +90,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private boolean isGpsConnected;
 	private Location lastLocationGps;
 	private long lastLocationGpsMillis;
-
 	public static double timerReferenceValue;
 	public static double timerPauseValue;
 
@@ -373,6 +371,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return listeningLanguageSensor;
 			case USER_LANGUAGE:
 				return userLocaleTag;
+			case DEVICE_MODEL:
+				return SensorHandlerDevice.Companion.getInstance().getSensorValue(sensor);
 			case STAGE_WIDTH:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 			case STAGE_HEIGHT:
