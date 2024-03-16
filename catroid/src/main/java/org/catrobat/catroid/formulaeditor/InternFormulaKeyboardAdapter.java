@@ -49,6 +49,7 @@ public class InternFormulaKeyboardAdapter {
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 3;
+	public static final int FORMULA_EDITOR_DISTANCE_RESOURCE_ID = 4;
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
@@ -66,6 +67,10 @@ public class InternFormulaKeyboardAdapter {
 
 		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildCollideWithFormula(name);
+		}
+
+		if ((resource == FORMULA_EDITOR_DISTANCE_RESOURCE_ID) && !name.isEmpty()) {
+			return buildSingleParameterFunction(Functions.DISTANCE_TO_OBJECT, STRING, name);
 		}
 
 		if ((resource == R.id.formula_editor_keyboard_string)) {

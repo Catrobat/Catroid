@@ -415,6 +415,14 @@ public class Look extends Image {
 		return (float) Math.hypot(dx, dy);
 	}
 
+	public float getDistanceToLookPositionInUserInterfaceDimensions(Look secondLook) {
+
+		float dx = secondLook.getXInUserInterfaceDimensionUnit() - getXInUserInterfaceDimensionUnit();
+		float dy = secondLook.getYInUserInterfaceDimensionUnit() - getYInUserInterfaceDimensionUnit();
+
+		return (float) Math.hypot(dx, dy);
+	}
+
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {
 		// only available in physicsLook
 		return 0;
