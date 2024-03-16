@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -46,6 +47,7 @@ class ReadVariableFromFileActionTest(
     private val formula: Formula?,
     private val userVariable: UserVariable?,
     private val fileContent: String,
+    private val expectedFileName: String,
     private val expectedValue: Any?,
     private val createFile: Int,
     private val readFromFile: Int,
@@ -56,26 +58,99 @@ class ReadVariableFromFileActionTest(
 
     companion object {
         @JvmStatic
+        @Suppress("LongMethod")
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("USER_VARIABLE_NULL", Formula("file.txt"), null, DEFAULT_FILE_CONTENT,
-                    null, 0, 0, false),
-            arrayOf("FORMULA_NULL", null, UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, 0.0, 0,
-                    0, false),
-            arrayOf("VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("DELETE_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, true),
-            arrayOf("CANNOT_READ_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, 0.0, 1, 0, false),
-            arrayOf("NO_SUFFIX", Formula("file"), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
-                    UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("UNICODE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "🐼~🐵~🐘", "🐼~🐵~🐘", 1, 1, false),
-            arrayOf("NUMBER", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "-3.14", -3.14, 1, 1, false)
+            arrayOf("USER_VARIABLE_NULL",
+                    Formula("file.txt"),
+                    null,
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    null,
+                    0,
+                    0,
+                    false),
+            arrayOf("FORMULA_NULL",
+                    null,
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    0.0,
+                    0,
+                    0,
+                    false),
+            arrayOf("VALID_FILE_NAME",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_FILE_CONTENT,
+                    1,
+                    1,
+                    false),
+            arrayOf("DELETE_FILE",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_FILE_CONTENT,
+                    1,
+                    1,
+                    true),
+            arrayOf("CANNOT_READ_FILE",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    0.0,
+                    1,
+                    0,
+                    false),
+            arrayOf("NO_SUFFIX",
+                    Formula("file"),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_FILE_CONTENT,
+                    1,
+                    1,
+                    false),
+            arrayOf("NON_TXT_SUFFIX",
+                    Formula("file.in"),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    "file.in",
+                    DEFAULT_FILE_CONTENT,
+                    1,
+                    1,
+                    false),
+            arrayOf("INVALID_FILE_NAME",
+                    Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
+                    UserVariable(VAR_NAME),
+                    DEFAULT_FILE_CONTENT,
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_FILE_CONTENT,
+                    1,
+                    1,
+                    false),
+            arrayOf("UNICODE",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME),
+                    "🐼~🐵~🐘",
+                    DEFAULT_FILE_NAME,
+                    "🐼~🐵~🐘",
+                    1,
+                    1,
+                    false),
+            arrayOf("NUMBER",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME),
+                    "-3.14",
+                    DEFAULT_FILE_NAME,
+                    -3.14,
+                    1,
+                    1,
+                    false)
         )
 
         private const val DEFAULT_FILE_NAME = "file.txt"
@@ -85,6 +160,7 @@ class ReadVariableFromFileActionTest(
 
     @Before
     fun setUp() {
+        initializeStaticSingletonMethods()
         sprite = Sprite("testSprite")
         file = Mockito.mock(File::class.java)
         doReturn(true).`when`(file).delete()
@@ -110,7 +186,7 @@ class ReadVariableFromFileActionTest(
         Assert.assertTrue(action.act(1f))
         Assert.assertEquals(expectedValue, userVariable?.value)
 
-        verify(action, times(createFile)).getFile(DEFAULT_FILE_NAME)
+        verify(action, times(createFile)).getFile(expectedFileName)
         verify(action, times(readFromFile)).readFromFile(file)
 
         if (readFromFile > 0 && deleteFile) {
