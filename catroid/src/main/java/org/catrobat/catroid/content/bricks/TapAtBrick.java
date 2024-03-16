@@ -57,6 +57,11 @@ public class TapAtBrick extends VisualPlacementBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.DEVICE;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createTapAtAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.X_POSITION),

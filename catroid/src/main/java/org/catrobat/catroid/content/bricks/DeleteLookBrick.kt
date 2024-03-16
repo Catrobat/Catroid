@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 
 class DeleteLookBrick : BrickBaseType() {
 
@@ -38,6 +39,8 @@ class DeleteLookBrick : BrickBaseType() {
     }
 
     override fun getViewResource(): Int = R.layout.brick_delete_look
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.LOOKS
 
     override fun getView(context: Context): View {
         super.getView(context)

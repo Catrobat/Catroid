@@ -30,6 +30,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 
 class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType() {
@@ -47,6 +48,8 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
         }
         return view
     }
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.LOOKS
 
     private fun createArrayAdapter(context: Context): ArrayAdapter<String?> {
         val spinnerValues = arrayOf(

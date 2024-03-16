@@ -46,6 +46,8 @@ class PaintNewLookBrick constructor() : FormulaBrick() {
 
     override fun getViewResource(): Int = R.layout.brick_paint_new_look
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.LOOKS
+
     override fun getView(context: Context): View {
         super.getView(context)
         if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {

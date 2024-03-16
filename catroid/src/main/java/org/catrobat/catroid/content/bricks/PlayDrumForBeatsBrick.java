@@ -47,6 +47,11 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 		return R.layout.brick_play_drum_for_beats;
 	}
 
+	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
 	protected int getSpinnerId() {
 		return R.id.play_drum_for_beats_spinner;
 	}

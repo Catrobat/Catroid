@@ -59,6 +59,12 @@
         android:icon="@drawable/ic_placeholder"
         app:showAsAction="never" />
     <item
+        android:id="@+id/collapse_expand"
+        android:title="@string/collapse_expand"
+        android:visible="false"
+        android:icon="@drawable/ic_placeholder"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/comment_in_out"
         android:title="@string/comment_in_out"
         android:visible="false"

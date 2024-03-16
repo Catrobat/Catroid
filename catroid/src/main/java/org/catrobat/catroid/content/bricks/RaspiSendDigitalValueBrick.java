@@ -52,6 +52,11 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.ARDUINO_RASPI_PHIRO;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(SOCKET_RASPI);
 		super.addRequiredResources(requiredResourcesSet);

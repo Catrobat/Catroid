@@ -121,6 +121,11 @@ public interface Brick extends Serializable, Cloneable {
 		}
 	}
 
+	enum BrickVisualizationType {
+		ARDUINO_RASPI_PHIRO, CHROMECAST, CONTROL, DATA, DEVICE, EMBROIDERY, EVENT, LEGO, LOOKS, MOTION, PEN,
+		SOUND, SUMO, USERDEFINED;
+	}
+
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION,
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATION, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
@@ -176,6 +181,8 @@ public interface Brick extends Serializable, Cloneable {
 
 	CheckBox getCheckBox();
 
+	void setCheckBox(CheckBox checkBox);
+
 	void disableSpinners();
 
 	Brick clone() throws CloneNotSupportedException;
@@ -203,6 +210,12 @@ public interface Brick extends Serializable, Cloneable {
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
+
+	boolean isCollapsed();
+
+	void setCollapsed(boolean collapsed);
+
+	BrickVisualizationType getVisualizationType();
 
 	boolean hasHelpPage();
 

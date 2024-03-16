@@ -50,6 +50,11 @@ public class SetVolumeToBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetVolumeToAction(sprite, sequence, getFormulaWithBrickField(BrickField.VOLUME)));

@@ -52,6 +52,11 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	protected int getSpinnerId() {
 		return R.id.brick_ask_speech_spinner;
 	}

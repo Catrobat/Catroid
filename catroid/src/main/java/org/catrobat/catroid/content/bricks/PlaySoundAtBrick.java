@@ -96,6 +96,11 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

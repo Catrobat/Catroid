@@ -55,6 +55,11 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		Spinner spinner = view.findViewById(R.id.brick_stop_script_spinner);

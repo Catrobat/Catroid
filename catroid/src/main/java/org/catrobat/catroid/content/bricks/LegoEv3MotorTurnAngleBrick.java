@@ -66,6 +66,11 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
 		super.addRequiredResources(requiredResourcesSet);

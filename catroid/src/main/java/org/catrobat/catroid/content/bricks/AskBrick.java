@@ -56,6 +56,11 @@ public class AskBrick extends UserVariableBrickWithFormula {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	protected int getSpinnerId() {
 		return R.id.brick_ask_spinner;
 	}

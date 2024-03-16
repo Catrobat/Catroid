@@ -59,6 +59,11 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public BrickField getDefaultBrickField() {
 		return BrickField.STRING;
 	}

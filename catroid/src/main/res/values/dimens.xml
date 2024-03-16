@@ -39,6 +39,9 @@
     <dimen name="scratch_project_image_width">144dp</dimen>
 
     <dimen name="brick_edit_text_min_width" >48dp</dimen >
+    <dimen name="brick_collapsed_margin_top">-7dp</dimen>
+    <dimen name="brick_collapsed_margin_bottom">-2dp</dimen>
+    <dimen name="brick_height_collapsed">10dp</dimen>
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
     <dimen name="brick_height_big" >120dp</dimen >

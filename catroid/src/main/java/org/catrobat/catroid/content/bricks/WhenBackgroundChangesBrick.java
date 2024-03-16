@@ -99,6 +99,11 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EVENT;
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 

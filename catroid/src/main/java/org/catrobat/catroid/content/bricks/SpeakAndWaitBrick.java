@@ -57,6 +57,11 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSpeakAndWaitAction(
 				sprite, sequence, getFormulaWithBrickField(BrickField.SPEAK)));

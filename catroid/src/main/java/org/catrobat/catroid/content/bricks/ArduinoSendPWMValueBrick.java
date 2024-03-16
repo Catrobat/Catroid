@@ -54,6 +54,11 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.ARDUINO_RASPI_PHIRO;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_SENSORS_ARDUINO);
 		super.addRequiredResources(requiredResourcesSet);

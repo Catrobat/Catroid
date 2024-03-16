@@ -67,6 +67,11 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

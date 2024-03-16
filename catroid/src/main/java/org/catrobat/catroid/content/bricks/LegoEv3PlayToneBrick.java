@@ -57,6 +57,11 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
 		super.addRequiredResources(requiredResourcesSet);
