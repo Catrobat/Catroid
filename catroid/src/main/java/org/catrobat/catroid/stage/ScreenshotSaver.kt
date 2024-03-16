@@ -60,6 +60,7 @@ class ScreenshotSaver(
         callback: ScreenshotSaverCallback,
         coroutineScope: CoroutineScope
     ) {
+
         if (data == null) {
             Log.d(TAG, "Screenshot data is null")
             callback.screenshotSaved(false)
