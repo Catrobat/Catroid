@@ -698,7 +698,6 @@
     <string name="comment_in_out">Desativar/Habilitar</string>
     <string name="catblocks">Alternar 2D</string>
     <string name="catblocks_reorder">Organizar scripts</string>
-    <string name="switch_to_1d">Vista 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Iniciar cena:</string>
