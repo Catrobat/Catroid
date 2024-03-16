@@ -35,6 +35,13 @@
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
+        <ImageView
+            android:id="@+id/place_visually_axes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon"
+            android:scaleType="center"/>
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/transparent_toolbar"
             android:layout_width="match_parent"
