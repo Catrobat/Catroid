@@ -83,6 +83,13 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
 
+    <string name="web_brick_warning_dialog_msg">WARNING The project you have downloaded uses a
+        "Send web request", "Get image from" or "Open in browser" brick, which can send your data
+        to the internet. This may be harmless, and necessary for its intended behavior. In any
+        case, please be cautious about what data you provide, as it may be misused. In case of
+        any doubt, please delete the downloaded project. You shall also report the project on its
+        page on the Catrobat community platform in case you are sure that it is harmful.</string>
+
     <!-- Replace Api dialog -->
     <string name="api_replacement_dialog_neutral">Upload without change</string>
     <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
