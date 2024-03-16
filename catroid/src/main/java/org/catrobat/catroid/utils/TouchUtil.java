@@ -25,9 +25,18 @@ package org.catrobat.catroid.utils;
 import android.graphics.PointF;
 import android.util.SparseIntArray;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Pools;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.ArrayList;
 
@@ -60,7 +69,7 @@ public final class TouchUtil {
 		currentlyTouchingPointersToTouchIndex.put(pointer, touches.size());
 		touches.add(new PointF(x, y));
 		isTouching.add(true);
-		fireTouchEvent();
+		fireTouchEvent(x, y, pointer);
 	}
 
 	public static void touchUp(int pointer) {
@@ -113,9 +122,46 @@ public final class TouchUtil {
 		isTouching.add(false);
 	}
 
-	private static void fireTouchEvent() {
-		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), false);
-		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+	private static void fireTouchEvent(float x, float y, int pointer) {
+		EventWrapper event = new EventWrapper(new EventId(EventId.TAP), false);
+
+		if (StageActivity.stageListener == null
+				|| StageActivity.stageListener.getStage() == null) {
+			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+			return;
+		}
+		Stage stage = StageActivity.stageListener.getStage();
+		Actor target = stage.hit(x, y, true);
+		if (target == null) {
+			if (stage.getRoot().getTouchable() == Touchable.enabled) {
+				stage.getRoot().fire(event);
+				if (event.isHandled()) {
+					return;
+				}
+			}
+			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+		} else {
+			Vector2 localCoordinates = target.parentToLocalCoordinates(new Vector2(x, y));
+			if (!((Look) target).doTouchDown(localCoordinates.x, localCoordinates.y, pointer)) {
+				target.setTouchable(Touchable.disabled);
+				Actor newTarget = target.getParent().hit(x, y, true);
+				if (newTarget != null) {
+					newTarget.fire(event);
+				}
+				target.setTouchable(Touchable.enabled);
+			} else {
+				target.fire(event);
+			}
+		}
+
+		if (!event.isHandled()) {
+			Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+			Vector2 localCoordinates = backgroundSprite.look.parentToLocalCoordinates(new Vector2(x, y));
+			backgroundSprite.look.doTouchDown(localCoordinates.x, localCoordinates.y,
+					pointer);
+		}
+
+		Pools.free(event);
 	}
 
 	public static ArrayList<PointF> getCurrentTouchingPoints() {

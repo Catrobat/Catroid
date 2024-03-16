@@ -24,16 +24,14 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.utils.TouchUtil
 
 class TapAtAction : TemporalAction() {
 
-    private lateinit var stage: Stage
     private var touchCoords: Vector2 = Vector2(0f, 0f)
     private var dragCoords: Vector2? = null
     private var errorDetected: Boolean = false
@@ -66,12 +64,7 @@ class TapAtAction : TemporalAction() {
 
         if (!errorDetected) {
             pointer = scope.sprite.unusedPointer
-            stage = StageActivity.stageListener.stage
-            if (!skipUpdate) {
-                stage.stageToScreenCoordinates(dragCoords)
-            }
-            stage.stageToScreenCoordinates(touchCoords)
-            stage.touchDown(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
+            TouchUtil.touchDown(touchCoords.x, touchCoords.y, pointer)
         } else {
             duration = 0f
         }
@@ -79,24 +72,17 @@ class TapAtAction : TemporalAction() {
 
     override fun update(percent: Float) {
         if (!skipUpdate) {
-            val x: Int =
-                (touchCoords.x * (1 - percent) + (dragCoords?.x?.times(percent) ?: 0f)).toInt()
-            val y: Int =
-                (touchCoords.y * (1 - percent) + (dragCoords?.y?.times(percent) ?: 0f)).toInt()
-            stage.touchDragged(x, y, pointer)
+            val x: Float =
+                touchCoords.x * (1 - percent) + (dragCoords?.x?.times(percent) ?: 0f)
+            val y: Float =
+                touchCoords.y * (1 - percent) + (dragCoords?.y?.times(percent) ?: 0f)
+            TouchUtil.updatePosition(x, y, pointer)
         }
     }
 
     override fun end() {
         if (!errorDetected) {
-            if (skipUpdate) {
-                stage.touchUp(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
-            } else {
-                stage.touchUp(
-                    dragCoords?.x?.toInt() ?: touchCoords.x.toInt(),
-                    dragCoords?.y?.toInt() ?: touchCoords.y.toInt(), pointer, 0
-                )
-            }
+            TouchUtil.touchUp(pointer)
             scope.sprite.releaseUsedPointer(pointer)
             pointer = -1
         }
@@ -104,14 +90,15 @@ class TapAtAction : TemporalAction() {
 
     override fun restart() {
         if (pointer != -1) {
-            stage.touchUp(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
-            scope?.sprite?.releaseUsedPointer(pointer)
+            TouchUtil.updatePosition(touchCoords.x, touchCoords.y, pointer)
+            TouchUtil.touchUp(pointer)
+            scope.sprite.releaseUsedPointer(pointer)
             pointer = -1
         }
         super.restart()
     }
 
     companion object {
-        val TAG = TapAtAction::class.java.simpleName
+        val TAG: String = TapAtAction::class.java.simpleName
     }
 }

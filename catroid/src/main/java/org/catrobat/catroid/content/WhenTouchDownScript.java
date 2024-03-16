@@ -40,6 +40,6 @@ public class WhenTouchDownScript extends Script {
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		return new EventId(EventId.TAP_BACKGROUND);
+		return new EventId(EventId.TAP);
 	}
 }
