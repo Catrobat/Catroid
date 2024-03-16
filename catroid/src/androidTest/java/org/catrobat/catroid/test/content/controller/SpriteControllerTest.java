@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@ package org.catrobat.catroid.test.content.controller;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.GroupItemSprite;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -54,6 +56,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -63,6 +66,7 @@ import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesN
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteControllerTest {
@@ -71,6 +75,7 @@ public class SpriteControllerTest {
 	private Scene scene;
 	private Sprite sprite;
 	private BackpackListManager backpackListManager;
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws IOException {
@@ -135,6 +140,8 @@ public class SpriteControllerTest {
 		assertTrue(sprite.addUserList(new UserList(spriteListName)));
 		sprite.addUserDefinedBrick(userDefinedBrick);
 
+		GroupSprite parent = new GroupSprite();
+		sprite.setParent(parent);
 		sprite.setConvertToGroupItemSprite(true);
 		Sprite groupItemSprite = controller.convert(sprite);
 
@@ -156,6 +163,42 @@ public class SpriteControllerTest {
 
 		assertFileExists(groupItemSprite.getLookList().get(0).getFile());
 		assertFileExists(groupItemSprite.getSoundList().get(0).getFile());
+	}
+
+	@Test
+	public void testConvertGroupItemSpriteToSprite() {
+		SpriteController controller = new SpriteController();
+		GroupSprite parent = new GroupSprite();
+		GroupItemSprite groupItemSprite = new GroupItemSprite();
+		groupItemSprite.setParent(parent);
+
+		String spriteVarName = "spriteVar";
+		String spriteListName = "spriteList";
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
+		assertTrue(groupItemSprite.addUserVariable(new UserVariable(spriteVarName)));
+		assertTrue(groupItemSprite.addUserList(new UserList(spriteListName)));
+		groupItemSprite.addUserDefinedBrick(userDefinedBrick);
+
+		groupItemSprite.setConvertToSprite(true);
+		sprite = controller.convert(groupItemSprite);
+
+		assertNull(sprite.getParent());
+
+		assertEquals(2, scene.getSpriteList().size());
+
+		assertEquals(groupItemSprite.getLookList().size(), sprite.getLookList().size());
+		assertEquals(groupItemSprite.getSoundList().size(), sprite.getSoundList().size());
+		assertEquals(groupItemSprite.getNumberOfScripts(), sprite.getNumberOfScripts());
+		assertEquals(groupItemSprite.getNumberOfBricks(), sprite.getNumberOfBricks());
+
+		assertNotNull(groupItemSprite.getUserVariable(spriteVarName));
+		assertNotNull(sprite.getUserVariable(spriteVarName));
+
+		assertNotNull(groupItemSprite.getUserList(spriteListName));
+		assertNotNull(sprite.getUserList(spriteListName));
+
+		assertNotNull(groupItemSprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+		assertNotNull(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
 	}
 
 	@Test
@@ -266,7 +309,7 @@ public class SpriteControllerTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 
 		sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);

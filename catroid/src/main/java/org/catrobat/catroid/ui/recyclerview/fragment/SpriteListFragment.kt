@@ -36,6 +36,7 @@ import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -97,7 +98,9 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                             item.isCollapsed = item.isCollapsed
                         }
                     }
-                    adapter.notifyDataSetChanged()
+                    if (!recyclerView.isComputingLayout && recyclerView.scrollState == SCROLL_STATE_IDLE) {
+                        adapter.notifyDataSetChanged()
+                    }
                 }
             }
         }
@@ -233,7 +236,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         setShowProgressBar(true)
         for (item in selectedItems) {
             if (item is GroupSprite) {
-                for (sprite in item.groupItems) {
+                for (sprite in item.childrenSpriteList) {
                     sprite.setConvertToSprite(true)
                     val convertedSprite = spriteController.convert(sprite)
                     adapter.items[adapter.items.indexOf(sprite)] = convertedSprite

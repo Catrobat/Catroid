@@ -120,6 +120,7 @@ public class Sprite implements Nameable, Serializable {
 	private transient boolean isGliding = false;
 	private transient float glidingVelocityX = 0f;
 	private transient float glidingVelocityY = 0f;
+	private transient GroupSprite parent = null;
 
 	public Sprite() {
 	}
@@ -453,6 +454,7 @@ public class Sprite implements Nameable, Serializable {
 		Sprite convertedSprite;
 
 		if (convertToSprite) {
+			parent.removeFromChildrenSpriteList((GroupItemSprite) this);
 			convertedSprite = new Sprite(name);
 		} else if (convertToGroupItemSprite) {
 			convertedSprite = new GroupItemSprite(name);
@@ -475,6 +477,11 @@ public class Sprite implements Nameable, Serializable {
 		convertedSprite.userVariables = userVariables;
 		convertedSprite.userLists = userLists;
 		convertedSprite.userDefinedBrickList = userDefinedBrickList;
+
+		if (convertedSprite instanceof GroupItemSprite) {
+			parent.addToChildrenSpriteList((GroupItemSprite) convertedSprite);
+			convertedSprite.parent = parent;
+		}
 
 		return convertedSprite;
 	}
@@ -872,5 +879,11 @@ public class Sprite implements Nameable, Serializable {
 	}
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
+	}
+	public GroupSprite getParent() {
+		return parent;
+	}
+	public void setParent(GroupSprite parentGroup) {
+		parent = parentGroup;
 	}
 }
