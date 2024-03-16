@@ -56,6 +56,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.R.id.currentProjectLayout;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
 
@@ -74,7 +75,8 @@ public class DisableHintDialogTest {
 
 	private boolean hintSetting;
 	private Set<String> hintList;
-	int bufferedPreferenceSetting;
+	private int bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedOnBoardingWelcomeScreenShownSetting;
 
 	@Rule
 	public BaseActivityTestRule<MainMenuActivity> baseActivityTestRule = new
@@ -87,13 +89,16 @@ public class DisableHintDialogTest {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		hintSetting = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
 		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
-		bufferedPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		bufferedOnBoardingWelcomeScreenShownSetting =
+				sharedPreferences.getBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, false);
 
 		getDefaultSharedPreferences()
 				.edit()
 				.putBoolean(SETTINGS_SHOW_HINTS, true)
 				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>())
 				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, false)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, true)
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
 
@@ -109,7 +114,8 @@ public class DisableHintDialogTest {
 				.putBoolean(SETTINGS_SHOW_HINTS, hintSetting)
 				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList)
 				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPreferenceSetting)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, bufferedOnBoardingWelcomeScreenShownSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
 				.apply();
 	}
 

@@ -125,6 +125,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.OnBoardingWelcomeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.NfcTagsActivity"
             android:screenOrientation="portrait" />
 
