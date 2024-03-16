@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
 		for (Sprite item : selectedItems) {
-			spriteController.delete(item);
+			spriteController.delete(item, false);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,

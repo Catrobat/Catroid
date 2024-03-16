@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(Parameterized.class)
-public class UndoTest {
+public class ScriptUndoTest {
 
 	private final long waitThreshold = 5000;
 
@@ -87,7 +87,7 @@ public class UndoTest {
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(UndoTest.class.getSimpleName());
+		TestUtils.deleteProjects(ScriptUndoTest.class.getSimpleName());
 	}
 
 	@Before
@@ -141,7 +141,7 @@ public class UndoTest {
 	}
 
 	private void createProject() {
-		Script script = UiTestUtils.createProjectAndGetStartScript(UndoTest.class.getSimpleName());
+		Script script = UiTestUtils.createProjectAndGetStartScript(ScriptUndoTest.class.getSimpleName());
 		IfLogicBeginBrick compositeBrick = new IfLogicBeginBrick();
 		compositeBrick.addBrickToIfBranch(new SetXBrick());
 		compositeBrick.addBrickToElseBranch(new SetXBrick());
