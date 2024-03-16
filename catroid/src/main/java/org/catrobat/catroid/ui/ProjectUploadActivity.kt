@@ -43,10 +43,12 @@ import com.google.common.base.Charsets
 import com.google.common.io.Files
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.ActivityUploadBinding
+import org.catrobat.catroid.databinding.DialogPrivacyAwarenessWarningBinding
 import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
@@ -63,6 +65,7 @@ import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
 import org.catrobat.catroid.ui.controller.ProjectUploadController
 import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.ProjectImages
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.web.ServerAuthenticationConstants
@@ -119,6 +122,7 @@ open class ProjectUploadActivity : BaseActivity(),
     private lateinit var binding: ActivityUploadBinding
     private lateinit var dialogUploadUnchangedProjectBinding: DialogUploadUnchangedProjectBinding
     private lateinit var dialogReplaceApiKeyBinding: DialogReplaceApiKeyBinding
+    private lateinit var dialogPrivacyAwarenessWarningBinding: DialogPrivacyAwarenessWarningBinding
     private var tags: List<String> = ArrayList()
 
     @JvmField
@@ -416,10 +420,7 @@ open class ProjectUploadActivity : BaseActivity(),
             }
             .setPositiveButton(getText(R.string.next)) { _, _ ->
                 project.tags = checkedTags
-                projectUploadController?.startUpload(
-                    projectName, projectDescription,
-                    notesAndCredits, project
-                )
+                analyzeProjectImages()
             }
             .setNegativeButton(getText(R.string.cancel)) { dialog, which ->
                 Utils.invalidateLoginTokenIfUserRestricted(this)
@@ -428,6 +429,54 @@ open class ProjectUploadActivity : BaseActivity(),
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun analyzeProjectImages() {
+        var imagePaths: ArrayList<String> = ArrayList()
+        imagePaths = ProjectImages.getImagePathsFromDirectory(imagePaths, project.directory)
+
+        if (imagePaths.size == 0) {
+            showPrivacyAwarenessWarningDialog(false)
+        } else {
+            FaceDetector.analyzeProjectImages(
+                imagePaths, this::showPrivacyAwarenessWarningDialog, 0)
+        }
+    }
+
+    private fun showPrivacyAwarenessWarningDialog(containsFaces: Boolean) {
+        if (containsFaces) {
+            dialogPrivacyAwarenessWarningBinding = DialogPrivacyAwarenessWarningBinding.inflate(layoutInflater)
+            dialogPrivacyAwarenessWarningBinding.dialogPrivacyAwarenessTextViewUrl.movementMethod =
+                LinkMovementMethod.getInstance()
+
+            val privacyAwarenessUrl = getString(
+                R.string.privacy_awareness_link_template, Constants.PRIVACY_AWARENESS_WIKI_URL,
+                getString(R.string.dialog_privacy_awareness_link_text)
+            )
+            dialogPrivacyAwarenessWarningBinding.dialogPrivacyAwarenessTextViewUrl.text = Html.fromHtml(privacyAwarenessUrl)
+
+            val alertDialog = AlertDialog.Builder(this)
+                .setTitle(R.string.warning_privacy_awareness_title)
+                .setView(dialogPrivacyAwarenessWarningBinding.root)
+                .setPositiveButton(getString(R.string.upload_project)) { _, _ ->
+                    projectUploadController?.startUpload(
+                        projectName, projectDescription,
+                        notesAndCredits, project
+                    )
+                }
+                .setNegativeButton(getText(R.string.cancel)) { _, _ ->
+                    finish()
+                }
+                .setCancelable(false)
+                .create()
+
+            alertDialog.show()
+        } else {
+            projectUploadController?.startUpload(
+                projectName, projectDescription,
+                notesAndCredits, project
+            )
+        }
     }
 
     private fun setScreen(screen: Boolean) {

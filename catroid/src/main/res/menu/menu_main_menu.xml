@@ -51,6 +51,11 @@
         app:showAsAction="never"
         android:icon="@drawable/ic_policy" />
     <item
+        android:id="@+id/menu_privacy_awareness_guide"
+        android:title="@string/main_menu_privacy_awareness_guide"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder" />
+    <item
         android:id="@+id/menu_about"
         android:title="@string/main_menu_about"
         app:showAsAction="never"

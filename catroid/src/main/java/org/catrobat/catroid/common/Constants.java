@@ -137,6 +137,7 @@ public final class Constants {
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String CATROBAT_FORMULA_WIKI_URL = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
+	public static final String PRIVACY_AWARENESS_WIKI_URL = "https://wiki.catrobat.org/bin/view/Privacy%20Awareness%20Guide/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
