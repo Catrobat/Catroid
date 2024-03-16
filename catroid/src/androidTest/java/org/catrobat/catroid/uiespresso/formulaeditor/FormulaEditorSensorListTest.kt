@@ -190,25 +190,22 @@ class FormulaEditorSensorListTest(
     companion object {
         private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId) ?: ""
 
+        private fun createParamsList(vararg params: List<List<String>>):
+            MutableList<List<String>> {
+            val paramslist = mutableListOf<List<String>>()
+            for (param in params) {
+                paramslist.addAll(param)
+            }
+            return paramslist
+        }
+
         @JvmStatic
         @Parameterized.Parameters(name = "{3}\n{index}. {1}")
         fun params() = arrayListOf<Array<String>>().run {
-            val paramsData = mutableListOf<List<String>>()
-            paramsData.addAll(listOfNXT)
-            paramsData.addAll(listOfEV3)
-            paramsData.addAll(listOfPhiro)
-            paramsData.addAll(listOfArduino)
-            paramsData.addAll(listOfDrone)
-            paramsData.addAll(listOfRaspberry)
-            paramsData.addAll(listOfNFC)
-            paramsData.addAll(listOfCast)
-            paramsData.addAll(listOfSpeech)
-            paramsData.addAll(listOfFaceDetection)
-            paramsData.addAll(listOfPoseDetection)
-            paramsData.addAll(listOfTextRecognition)
-            paramsData.addAll(listOfDevice)
-            paramsData.addAll(listOfTouch)
-            paramsData.addAll(listOfDateTime)
+            val paramsData = createParamsList(listOfNXT, listOfEV3, listOfPhiro, listOfArduino,
+                listOfDrone, listOfRaspberry, listOfNFC, listOfCast, listOfSpeech,
+                listOfFaceDetection, listOfPoseDetection, listOfTextRecognition, listOfDevice,
+                listOfTouch, listOfDateTime)
 
             paramsData.forEachIndexed { index, sensor ->
                 this.add(arrayListOf(index.toString()).run {
@@ -733,7 +730,8 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_longitude), "", ""),
             listOf(str(R.string.formula_editor_sensor_location_accuracy), "", ""),
             listOf(str(R.string.formula_editor_sensor_altitude), "", ""),
-            listOf(str(R.string.formula_editor_sensor_user_language), "", "")
+            listOf(str(R.string.formula_editor_sensor_user_language), "", ""),
+            listOf(str(R.string.formula_editor_sensor_device_operating_system), "", "")
         )
 
         private val listOfTouch = listOf(
@@ -803,7 +801,8 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS,
+            SettingsFragment.SETTINGS_TEST_BRICKS,
         )
     }
 }

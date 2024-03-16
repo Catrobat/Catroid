@@ -56,6 +56,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -83,6 +85,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAccelerationZ;
 	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
 
+	private static String deviceOperatingSystem = getOSName();
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
@@ -373,6 +376,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return listeningLanguageSensor;
 			case USER_LANGUAGE:
 				return userLocaleTag;
+			case DEVICE_OS:
+				return deviceOperatingSystem;
 			case STAGE_WIDTH:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 			case STAGE_HEIGHT:
@@ -544,6 +549,17 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			return ProjectManager.getInstance().isCurrentProjectLandscapeMode() ? 1 : -1;
 		}
 		return 0;
+	}
+
+	private static String getOSName() {
+		String os = System.getProperty("os.version");
+		Pattern osPattern = Pattern.compile("(?<=-).+?(?=-)", Pattern.CASE_INSENSITIVE);
+		Matcher osVersion = osPattern.matcher(os);
+		if (osVersion.find()) {
+			return osVersion.group();
+		} else {
+			return "Unknown System";
+		}
 	}
 
 	public static Position getPositionAccordingToRotation(Position original) {
