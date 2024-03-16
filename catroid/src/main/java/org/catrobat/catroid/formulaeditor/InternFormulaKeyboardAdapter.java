@@ -40,6 +40,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.PERIOD;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.SENSOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_BRICK_INPUT;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_FUNCTION_NAME;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_VARIABLE;
 
@@ -49,6 +50,11 @@ public class InternFormulaKeyboardAdapter {
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 3;
+
+	public List<InternToken> createInternTokenForUserDefinedBrick(String functionName,
+			List<String> functionParameters) {
+		return buildUserDefinedBrickFormula(functionName, functionParameters);
+	}
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
@@ -733,6 +739,21 @@ public class InternFormulaKeyboardAdapter {
 			returnList.add(new InternToken(OPERATOR, Operators.MINUS.name()));
 		}
 		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		return returnList;
+	}
+
+	private List<InternToken> buildUserDefinedBrickFormula(String functionName,
+			List<String> functionParameters) {
+		List<InternToken> returnList = new LinkedList<>();
+		returnList.add(new InternToken(USER_DEFINED_FUNCTION_NAME, functionName));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
+		for (int index = 0; index < functionParameters.size(); ++index) {
+			returnList.add(new InternToken(NUMBER, String.valueOf(0)));
+			if (index != functionParameters.size() - 1) {
+				returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
+			}
+		}
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}

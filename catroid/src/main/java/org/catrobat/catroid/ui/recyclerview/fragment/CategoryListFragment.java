@@ -23,15 +23,11 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,16 +52,15 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.util.FormulaEditorRecyclerViewUtils;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 import org.catrobat.catroid.utils.MobileServiceAvailability;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -76,10 +71,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG;
 import static org.koin.java.KoinJavaComponent.get;
 
@@ -573,7 +564,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	public void onOptionsMenuClick(String tag) {
-		String language = getLanguage(getActivity());
+		String language = FormulaEditorRecyclerViewUtils.getLanguage(getActivity());
 		switch (tag) {
 			case FUNCTION_TAG:
 				startActivity(new Intent(Intent.ACTION_VIEW,
@@ -595,7 +586,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	public String getHelpUrl(String tag, SpriteActivity activity) {
-		String language = getLanguage(activity);
+		String language = FormulaEditorRecyclerViewUtils.getLanguage(activity);
 		switch (tag) {
 			case FUNCTION_TAG:
 				return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language;
@@ -609,40 +600,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return null;
 	}
 
-	private static SharedPreferences getSharedPreferences(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context);
-	}
-
-	public String getLanguage(Activity activity) {
-		String language = "?language=";
-		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
-		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
-		Locale mLocale;
-		if (languageTag.equals(DEVICE_LANGUAGE)) {
-			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
-		} else {
-			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
-					? Locale.forLanguageTag(languageTag)
-					: Locale.forLanguageTag(defaultSystemLanguage);
-		}
-		language = language + mLocale.getLanguage();
-		return language;
-	}
-
-	private FormulaEditorFragment addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem) {
-		FormulaEditorFragment formulaEditorFragment = null;
-		if (getFragmentManager() != null) {
-			formulaEditorFragment = ((FormulaEditorFragment) getFragmentManager()
-					.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
-			if (formulaEditorFragment != null) {
-				formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId);
-			}
-		}
-		return formulaEditorFragment;
-	}
-
 	private void addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem, UserList lastUserList) {
-		addResourceToActiveFormulaInFormulaEditor(categoryListItem).addUserListToActiveFormula(lastUserList.getName());
+		FormulaEditorRecyclerViewUtils.addResourceToActiveFormulaInFormulaEditor(getFragmentManager(),
+				categoryListItem).addUserListToActiveFormula(lastUserList.getName());
 		getActivity().onBackPressed();
 	}
 
@@ -699,7 +659,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			if (indexOfCorrespondingRegularExpression >= 0) {
 				formulaEditorFragment.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfCorrespondingRegularExpression);
 			} else {
-				addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
+				FormulaEditorRecyclerViewUtils.addResourceToActiveFormulaInFormulaEditor(getFragmentManager(),
+						getRegularExpressionItem());
 			}
 
 			getActivity().onBackPressed();

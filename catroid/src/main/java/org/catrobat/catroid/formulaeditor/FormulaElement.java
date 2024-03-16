@@ -73,6 +73,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.SENSOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_BRICK_INPUT;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_FUNCTION_NAME;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_VARIABLE;
 import static org.catrobat.catroid.formulaeditor.common.Conversions.FALSE;
@@ -99,7 +100,8 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, USER_DEFINED_FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST,
+		USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	private ElementType type;
@@ -186,6 +188,9 @@ public class FormulaElement implements Serializable {
 			case FUNCTION:
 				addFunctionTokens(tokens, value, leftChild, rightChild);
 				break;
+			case USER_DEFINED_FUNCTION:
+				addUserDefinedFunctionTokens(tokens, value, leftChild, rightChild);
+				break;
 			case USER_VARIABLE:
 				addToken(tokens, USER_VARIABLE, value);
 				break;
@@ -233,6 +238,30 @@ public class FormulaElement implements Serializable {
 
 	private void addFunctionTokens(List<InternToken> tokens, String value, FormulaElement leftChild, FormulaElement rightChild) {
 		addToken(tokens, FUNCTION_NAME, value);
+		boolean functionHasParameters = false;
+		if (leftChild != null) {
+			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_OPEN);
+			functionHasParameters = true;
+			tokens.addAll(leftChild.getInternTokenList());
+		}
+		if (rightChild != null) {
+			addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
+			tokens.addAll(rightChild.getInternTokenList());
+		}
+		for (FormulaElement child : additionalChildren) {
+			if (child != null) {
+				addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
+				tokens.addAll(child.getInternTokenList());
+			}
+		}
+		if (functionHasParameters) {
+			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_CLOSE);
+		}
+	}
+
+	private void addUserDefinedFunctionTokens(List<InternToken> tokens, String value,
+			FormulaElement leftChild, FormulaElement rightChild) {
+		addToken(tokens, USER_DEFINED_FUNCTION_NAME, value);
 		boolean functionHasParameters = false;
 		if (leftChild != null) {
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_OPEN);

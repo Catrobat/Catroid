@@ -116,7 +116,28 @@ public class InternFormula {
 
 		if (resourceId == R.id.formula_editor_keyboard_delete) {
 			cursorTokenPropertiesAfterInput = handleDeletion();
-		} else if (isTokenSelected()) {
+			generateExternFormulaStringAndInternExternMapping(context);
+			updateExternCursorPosition(cursorTokenPropertiesAfterInput);
+			updateInternCursorPosition();
+			return;
+		}
+		processKeyInput(cursorTokenPropertiesAfterInput, keyInputInternTokenList, context);
+	}
+
+	public void handleKeyInputUserDefinedFunction(Context context, String functionName,
+			List<String> functionParameters) {
+		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
+				.createInternTokenForUserDefinedBrick(functionName, functionParameters);
+
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification
+				.DO_NOT_MODIFY;
+
+		processKeyInput(cursorTokenPropertiesAfterInput, keyInputInternTokenList, context);
+	}
+
+	public void processKeyInput(CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput,
+			List<InternToken> keyInputInternTokenList, Context context) {
+		if (isTokenSelected()) {
 			cursorTokenPropertiesAfterInput = replaceSelection(keyInputInternTokenList);
 		} else if (cursorTokenPosition == null) {
 			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);

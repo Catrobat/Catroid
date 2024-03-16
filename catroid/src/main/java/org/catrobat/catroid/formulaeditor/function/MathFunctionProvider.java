@@ -52,9 +52,17 @@ public class MathFunctionProvider implements FunctionProvider {
 		formulaFunctions.put(Functions.CEIL, new UnaryFunction(Math::ceil));
 		formulaFunctions.put(Functions.MAX, new BinaryFunction(Math::max));
 		formulaFunctions.put(Functions.MIN, new BinaryFunction(Math::min));
+		formulaFunctions.put(Functions.USER_DEFINED,
+				new UnaryFunction(this::userDefinedFunction));
 		formulaFunctions.put(Functions.TRUE, args -> TRUE);
 		formulaFunctions.put(Functions.FALSE, args -> FALSE);
 		formulaFunctions.put(Functions.MOD, new BinaryFunction(this::interpretFunctionMod));
+	}
+
+	// Function skeleton for the userDefinedBrick functions in the formula editor
+	@SuppressWarnings("unused")
+	private double userDefinedFunction(double value) {
+		return 0;
 	}
 
 	private double interpretFunctionMod(double dividend, double divisor) {

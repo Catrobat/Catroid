@@ -417,6 +417,8 @@ public class InternToExternGenerator {
 				String collisionTag = CatroidApplication.getAppContext().getString(R.string
 						.formula_editor_function_collision);
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
+			case USER_DEFINED_FUNCTION_NAME:
+				return internToken.getTokenStringValue();
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

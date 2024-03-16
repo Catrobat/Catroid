@@ -281,6 +281,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		pushToHistoryAndRefreshPreviewString();
 	}
 
+	public void handleKeyEvent(String functionName, List<String> functionParameters) {
+		internFormula.handleKeyInputUserDefinedFunction(context, functionName, functionParameters);
+		pushToHistoryAndRefreshPreviewString();
+	}
+
 	public String getStringFromInternFormula() {
 		return internFormula.getExternFormulaString();
 	}

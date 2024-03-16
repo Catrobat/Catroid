@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -50,6 +51,7 @@ import android.widget.TableRow;
 
 import com.google.common.io.Files;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -85,6 +87,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.YourFunctionsListFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -304,6 +307,86 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			activity.getSupportActionBar().setTitle(R.string.formula_editor_title);
 		}
 
+		if (!BuildConfig.FEATURE_USER_REPORTERS_ENABLED) {
+			View hideButton =
+					fragmentView.findViewById(R.id.formula_editor_keyboard_your_functions);
+			((TableRow) hideButton.getParent()).removeView(hideButton);
+
+			Button bt0 = fragmentView.findViewById(R.id.formula_editor_keyboard_0);
+			TableRow.LayoutParams params = (TableRow.LayoutParams) bt0.getLayoutParams();
+			params.span = 1;
+			bt0.setLayoutParams(params);
+
+			Button bt1 = fragmentView.findViewById(R.id.formula_editor_keyboard_1);
+			params = (TableRow.LayoutParams) bt1.getLayoutParams();
+			params.span = 1;
+			bt1.setLayoutParams(params);
+
+			Button bt2 = fragmentView.findViewById(R.id.formula_editor_keyboard_2);
+			params = (TableRow.LayoutParams) bt2.getLayoutParams();
+			params.span = 1;
+			bt2.setLayoutParams(params);
+
+			Button bt3 = fragmentView.findViewById(R.id.formula_editor_keyboard_3);
+			params = (TableRow.LayoutParams) bt3.getLayoutParams();
+			params.span = 1;
+			bt3.setLayoutParams(params);
+
+			Button bt4 = fragmentView.findViewById(R.id.formula_editor_keyboard_4);
+			params = (TableRow.LayoutParams) bt4.getLayoutParams();
+			params.span = 1;
+			bt4.setLayoutParams(params);
+
+			Button bt5 = fragmentView.findViewById(R.id.formula_editor_keyboard_5);
+			params = (TableRow.LayoutParams) bt5.getLayoutParams();
+			params.span = 1;
+			bt5.setLayoutParams(params);
+
+			Button bt6 = fragmentView.findViewById(R.id.formula_editor_keyboard_6);
+			params = (TableRow.LayoutParams) bt6.getLayoutParams();
+			params.span = 1;
+			bt6.setLayoutParams(params);
+
+			Button bt7 = fragmentView.findViewById(R.id.formula_editor_keyboard_7);
+			params = (TableRow.LayoutParams) bt7.getLayoutParams();
+			params.span = 1;
+			bt7.setLayoutParams(params);
+
+			Button bt8 = fragmentView.findViewById(R.id.formula_editor_keyboard_8);
+			params = (TableRow.LayoutParams) bt8.getLayoutParams();
+			params.span = 1;
+			bt8.setLayoutParams(params);
+
+			Button bt9 = fragmentView.findViewById(R.id.formula_editor_keyboard_9);
+			params = (TableRow.LayoutParams) bt9.getLayoutParams();
+			params.span = 1;
+			bt9.setLayoutParams(params);
+
+			Button btKeyboardCompute =
+					fragmentView.findViewById(R.id.formula_editor_keyboard_compute);
+			params = (TableRow.LayoutParams) btKeyboardCompute.getLayoutParams();
+			params.span = 2;
+			btKeyboardCompute.setLayoutParams(params);
+
+			Button btKeyboardObject =
+					fragmentView.findViewById(R.id.formula_editor_keyboard_object);
+			params = (TableRow.LayoutParams) btKeyboardObject.getLayoutParams();
+			params.span = 3;
+			btKeyboardObject.setLayoutParams(params);
+
+			Button btKeyboardFunc =
+					fragmentView.findViewById(R.id.formula_editor_keyboard_function);
+			params = (TableRow.LayoutParams) btKeyboardFunc.getLayoutParams();
+			params.span = 2;
+			btKeyboardFunc.setLayoutParams(params);
+
+			Button btSensorsFunc =
+					fragmentView.findViewById(R.id.formula_editor_keyboard_sensors);
+			params = (TableRow.LayoutParams) btKeyboardFunc.getLayoutParams();
+			params.span = 2;
+			btSensorsFunc.setLayoutParams(params);
+		}
+
 		return fragmentView;
 	}
 
@@ -395,6 +478,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							return handleLongClick(view, event);
 						case R.id.formula_editor_keyboard_color_picker:
 							showColorPickerDialog(view);
+							return true;
+						case R.id.formula_editor_keyboard_your_functions:
+							showYourFunctions();
 							return true;
 						case R.id.formula_editor_keyboard_paste:
 							formulaEditorClipboard.paste();
@@ -960,6 +1046,23 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				.commit();
 	}
 
+	private void showYourFunctions() {
+		YourFunctionsListFragment fragment = new YourFunctionsListFragment();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Bundle bundle = new Bundle();
+		bundle.putString(YourFunctionsListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+				getActivity().getString(R.string.formula_editor_your_functions));
+		bundle.putSerializable(YourFunctionsListFragment.CURRENT_SPRITE_BUNDLE_ARGUMENT,
+				currentSprite);
+		fragment.setArguments(bundle);
+
+		getFragmentManager().beginTransaction()
+				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
+				.add(R.id.fragment_container, fragment, YourFunctionsListFragment.TAG)
+				.addToBackStack(YourFunctionsListFragment.TAG)
+				.commit();
+	}
+
 	private void showDataFragment() {
 		DataListFragment fragment = new DataListFragment();
 		fragment.setFormulaEditorDataInterface(this);
@@ -1003,6 +1106,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		if (requiresCollisionPolygons) {
 			ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
 		}
+	}
+
+	public void addUserDefinedResourceToActiveFormula(String functionName,
+			List<String> functionParameters) {
+		formulaEditorEditText.handleKeyEvent(functionName, functionParameters);
 	}
 
 	public void addUserListToActiveFormula(String userListName) {
