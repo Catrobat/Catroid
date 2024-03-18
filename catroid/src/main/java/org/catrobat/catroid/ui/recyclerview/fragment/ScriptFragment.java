@@ -120,16 +120,18 @@ public class ScriptFragment extends ListFragment implements
 	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
+	@IntDef({NONE, BACKPACK, MOVE, COPY, DELETE, COMMENT, CATBLOCKS})
 	@interface ActionModeType {
 	}
 
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
-	private static final int COPY = 2;
-	private static final int DELETE = 3;
-	private static final int COMMENT = 4;
-	private static final int CATBLOCKS = 5;
+
+	private static final int MOVE = 2;
+	private static final int COPY = 3;
+	private static final int DELETE = 4;
+	private static final int COMMENT = 5;
+	private static final int CATBLOCKS = 6;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -197,6 +199,10 @@ public class ScriptFragment extends ListFragment implements
 				adapter.setCheckBoxMode(BrickAdapter.SCRIPTS_ONLY);
 				mode.setTitle(getString(R.string.am_backpack));
 				break;
+			case MOVE:
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				mode.setTitle(getString(R.string.am_move));
+				break;
 			case COPY:
 				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
 				mode.setTitle(getString(R.string.am_copy));
@@ -252,6 +258,9 @@ public class ScriptFragment extends ListFragment implements
 		switch (actionModeType) {
 			case BACKPACK:
 				showNewScriptGroupAlert(adapter.getSelectedItems());
+				break;
+			case MOVE:
+				moveMultipleBricks(adapter.getSelectedItems());
 				break;
 			case COPY:
 				copy(adapter.getSelectedItems());
@@ -464,6 +473,9 @@ public class ScriptFragment extends ListFragment implements
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
 				break;
+			case R.id.move:
+				prepareActionMode(MOVE);
+				break;
 			case R.id.copy:
 				prepareActionMode(COPY);
 				break;
@@ -575,6 +587,9 @@ public class ScriptFragment extends ListFragment implements
 		switch (actionModeType) {
 			case BACKPACK:
 				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
+				break;
+			case MOVE:
+				actionMode.setTitle(getString(R.string.am_move) + " " + selectedItemCnt);
 				break;
 			case COPY:
 				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
@@ -903,6 +918,12 @@ public class ScriptFragment extends ListFragment implements
 		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
 				CatblocksScriptFragment.Companion.getTAG());
 		fragmentTransaction.commit();
+	}
+
+	private void moveMultipleBricks(List<Brick> selectedBricks) {
+		//listView.startMoving(selectedBricks.get(0));
+		//listView.startMoving(selectedBricks.get(1));
+		finishActionMode();
 	}
 
 	private void copy(List<Brick> selectedBricks) {
