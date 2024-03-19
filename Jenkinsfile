@@ -18,9 +18,11 @@ def startEmulator(String android_version, String stageName) {
     sh "echo no | avdmanager create avd -f --name android${android_version} --package " +
             "'system-images;android-${android_version};google_apis;x86_64' || true"
 
-    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version} -wipe-data -no-window -no-boot-anim -noaudio" +
+    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version}" +
+            " -logcat *:w" +
+            " -wipe-data -no-window -no-boot-anim -noaudio" +
             " -camera-back emulated -camera-front emulated " +
-            " -no-snapshot-save -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
+            " -no-snapshot-save -accel on -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
 }
 
 def waitForEmulatorAndPressWakeUpKey() {
@@ -112,6 +114,7 @@ pipeline {
 
     environment {
         ANDROID_VERSION = 33
+        ADB_INSTALL_TIMEOUT = 60
     }
 
     parameters {
