@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -683,8 +683,8 @@
     <string name="brick_context_dialog_move_script">Skript bewegen</string>
     <string name="brick_context_dialog_move_definition">Verschiebe diese Definition</string>
     <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
-    <string name="brick_context_dialog_copy_brick">Baustein kopiert</string>
-    <string name="brick_context_dialog_copy_script">Skript kopiert</string>
+    <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
+    <string name="brick_context_dialog_copy_script">Skript kopieren</string>
     <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string name="brick_context_dialog_delete_script">Skript löschen</string>
     <string name="brick_context_dialog_delete_definition">Lösche diese Definition</string>
