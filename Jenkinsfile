@@ -18,7 +18,8 @@ def startEmulator(String android_version, String stageName) {
     sh "echo no | avdmanager create avd -f --name android${android_version} --package " +
             "'system-images;android-${android_version};google_apis;x86_64' || true"
 
-    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version} -wipe-data -no-window -no-boot-anim -noaudio" +
+    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version}" + 
+            " -wipe-data -no-window -no-boot-anim -noaudio" +
             " -camera-back emulated -camera-front emulated " +
             " -no-snapshot-save -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
 }
@@ -66,6 +67,9 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 }
 
 def killRunningEmulator() {
+    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version} " +
+       "-verbose -debug-all -debug-no-metrics -logcat *:w > verbose_emulator.log"
+    archiveArtifacts 'verbose_emulator.log'
     sh '''adb emu kill || true'''
     sh '''#!/bin/bash 
 while : 
