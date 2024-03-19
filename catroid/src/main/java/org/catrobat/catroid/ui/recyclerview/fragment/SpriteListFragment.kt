@@ -334,8 +334,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                         if (item?.isBackgroundSprite(context) == true &&
                                 !SpriteActivity.wasBackgroundClickedOnce) {
                             SpriteActivity.FRAGMENT_LOOKS
-                        }
-                        else SpriteActivity.FRAGMENT_SCRIPTS
+                        } else SpriteActivity.FRAGMENT_SCRIPTS
                     )
                     SpriteActivity.EXTRA_FRAGMENT_POSITION
                     startActivity(intent)
