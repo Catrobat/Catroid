@@ -26,6 +26,7 @@ ENV ANDROID_AVD_HOME=$USER_HOME/avds
 ENV ANDROID_HOME=$ANDROID_SDK_ROOT
 ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 ARG _SDKMANAGER=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager
+ENV ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL=60
 # System Packages
 # ---------------
 #
