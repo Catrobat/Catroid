@@ -109,9 +109,7 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 	}
 
 	public void performDeleteBrick() {
-		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
-				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
-				Press.FINGER));
+		dataInteraction.perform(click());
 		onView(anyOf(withText(R.string.brick_context_dialog_delete_brick),
 				withText(R.string.brick_context_dialog_delete_script),
 				withText(R.string.brick_context_dialog_delete_definition)))
