@@ -4,8 +4,7 @@ class DockerParameters {
     // 'docker build' would normally copy the whole build-dir to the container, changing the
     // docker build directory avoids that overhead
     def dir = 'docker'
-    def args = '--device /dev/kvm:/dev/kvm ' +
-            '-m=8G '
+    def args = '--device /dev/kvm:/dev/kvm -m=8G --name catrobat-android'
     def label = 'LimitedEmulator'
     def image = 'catrobat/catrobat-android:api33'
 }
@@ -19,7 +18,7 @@ def startEmulator(String android_version, String stageName) {
             "'system-images;android-${android_version};google_apis;x86_64' || true"
 
     sh "/home/user/android/sdk/emulator/emulator -avd android${android_version}" +
-            " -verbose -debug-all -debug-no-metrics -logcat *:w" +
+            " -debug-all  -debug-no-metrics -logcat *:w" +
             " -wipe-data -no-window -no-boot-anim -noaudio" +
             " -camera-back emulated -camera-front emulated " +
             " -no-snapshot-save -accel on -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
@@ -201,6 +200,12 @@ pipeline {
                     }
 
                     stages {
+                        stage('Clean working space') {
+                            steps {
+                                cleanWs()
+                            }
+                        }
+
                         stage('APKs') {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
@@ -394,6 +399,12 @@ pipeline {
                     }
 
                     stages {
+                        stage('Clean working space') {
+                            steps {
+                                cleanWs()
+                            }
+                        }
+
                         stage('Pull Request Suite') {
                             when {
                                 expression { params.PULL_REQUEST_SUITE == true }
