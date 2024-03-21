@@ -203,6 +203,7 @@ pipeline {
                         stage('Clean working space') {
                             steps {
                                 cleanWs()
+                                checkout scm
                             }
                         }
 
@@ -402,6 +403,7 @@ pipeline {
                         stage('Clean working space') {
                             steps {
                                 cleanWs()
+                                checkout scm
                             }
                         }
 
