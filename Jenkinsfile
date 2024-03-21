@@ -200,13 +200,6 @@ pipeline {
                     }
 
                     stages {
-                        stage('Clean working space') {
-                            steps {
-                                cleanWs()
-                                checkout scm
-                            }
-                        }
-
                         stage('APKs') {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
@@ -384,6 +377,9 @@ pipeline {
                     post {
                         always {
                             stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                            script {
+                                sh 'docker stop catrobat-android && docker rm catrobat-android'
+                            }
                         }
                     }
                 }
@@ -400,13 +396,6 @@ pipeline {
                     }
 
                     stages {
-                        stage('Clean working space') {
-                            steps {
-                                cleanWs()
-                                checkout scm
-                            }
-                        }
-
                         stage('Pull Request Suite') {
                             when {
                                 expression { params.PULL_REQUEST_SUITE == true }
@@ -422,6 +411,9 @@ pipeline {
                                 always {
                                     killRunningEmulator()
                                     postEmulator 'pull_request_suite'
+                                    script {
+                                        sh 'docker stop catrobat-android && docker rm catrobat-android'
+                                    }
                                 }
                             }
                         }
