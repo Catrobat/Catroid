@@ -100,6 +100,6 @@ public class AddBrickFloatingBehaviorTest {
 	@Test
 	public void testAddBrickFloatingBehaviour() {
 		scriptFragmentMock.addBrick(brickToAdd, spriteMock, brickAdapterMock, brickListViewMock);
-		Mockito.verify(brickListViewMock, Mockito.times(expectedFloating)).startMoving(brickToAdd);
+		Mockito.verify(brickListViewMock, Mockito.times(expectedFloating)).startMoving(Arrays.asList(brickToAdd));
 	}
 }

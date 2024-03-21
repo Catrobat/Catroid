@@ -92,6 +92,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -200,7 +201,7 @@ public class ScriptFragment extends ListFragment implements
 				mode.setTitle(getString(R.string.am_backpack));
 				break;
 			case MOVE:
-				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
 				mode.setTitle(getString(R.string.am_move));
 				break;
 			case COPY:
@@ -662,7 +663,7 @@ public class ScriptFragment extends ListFragment implements
 			int position = (1 + lastVisibleBrick - firstVisibleBrick) / 2;
 			position += firstVisibleBrick;
 			brickAdapter.addItem(position, brick);
-			brickListView.startMoving(brick);
+			brickListView.startMoving(Arrays.asList(brick));
 		}
 	}
 
@@ -766,7 +767,7 @@ public class ScriptFragment extends ListFragment implements
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
-					listView.startMoving(clonedBrick);
+					listView.startMoving(Arrays.asList(clonedBrick));
 				} catch (CloneNotSupportedException e) {
 					ToastUtil.showError(getContext(), R.string.error_copying_brick);
 					Log.e(TAG, Log.getStackTraceString(e));
@@ -837,7 +838,7 @@ public class ScriptFragment extends ListFragment implements
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
-			listView.startMoving(brick);
+			listView.startMoving(Arrays.asList(brick));
 		}
 		return true;
 	}
@@ -921,8 +922,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void moveMultipleBricks(List<Brick> selectedBricks) {
-		//listView.startMoving(selectedBricks.get(0));
-		//listView.startMoving(selectedBricks.get(1));
+		listView.startMoving(selectedBricks);
 		finishActionMode();
 	}
 
