@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.settingsfragments.LegoSensors;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
@@ -743,11 +744,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		new LegoSensorPortConfigDialog.Builder(getContext(), type, itemNameResId)
 				.setPositiveButton(getString(R.string.ok), (dialog, selectedPort, selectedSensor) -> {
 					if (type == Constants.NXT) {
-						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
-								(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
+						SettingsFragment.setLegoMindstormsNXTSensors(getActivity(),
+								(NXTSensor.Sensor) selectedSensor, LegoSensors.NXT_SENSORS[selectedPort]);
 					} else if (type == Constants.EV3) {
-						SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
-								(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
+						SettingsFragment.setLegoMindstormsEV3Sensors(getActivity(),
+								(EV3Sensor.Sensor) selectedSensor, LegoSensors.EV3_SENSORS[selectedPort]);
 					}
 
 					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()

@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">ਆਈਕਾਨ</string>
     <string name="preference_title_accessibility_category_icons">ਆਈਕਾਨ ਵੇਖਾਓ</string>
     <string name="preference_description_accessibility_category_icons">ਸ਼੍ਰੇਣੀਆਂ ਅਤੇ ਇੱਟਾਂ ਤੇ ਆਈਕਾਨ ਸ਼ਾਮਲ ਕਰੋ.</string>
-    <string name="preference_title_accessibility_high_contrast">ਉੱਚ ਵਿਪਰੀਤ</string>
     <string name="preference_description_accessibility_high_contrast">ਟੈਕਸਟ ਦੇ ਵਿਪਰੀਤ ਨੂੰ ਵਧਾਓ.</string>
     <string name="preference_description_accessibility_large_text">ਟੈਕਸਟ ਦਾ ਆਕਾਰ ਵਧਾਓ.</string>
     <string name="preference_title_accessibility_large_text">ਵੱਡਾ ਟੈਕਸਟ</string>
@@ -343,7 +342,7 @@
     <string name="list_headline_sprites">ਅਦਾਕਾਰ ਅਤੇ ਆਬਜੈਕਟ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ਬੈਕਪੈਕ</string>
-    <string name="copy">ਕਾੱਪੀ</string>
+    <string name="copy_deafult">ਕਾੱਪੀ</string>
     <string name="delete">ਮਿਟਾਓ</string>
     <string name="rename">ਨਾਮ ਬਦਲੋ</string>
     <string name="merge">ਮਿਲਾਓ</string>

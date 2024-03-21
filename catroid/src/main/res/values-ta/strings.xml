@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">ஐகான்கள்</string>
     <string name="preference_title_accessibility_category_icons">ஐகான்களை காண்பி</string>
     <string name="preference_description_accessibility_category_icons">பிரிவுகள் மற்றும் செங்கற்களுக்கு ஐகான்களைச் சேர்க்கவும்.</string>
-    <string name="preference_title_accessibility_high_contrast">அதிக வேறுபாடு</string>
     <string name="preference_description_accessibility_high_contrast">உரை மாறுபாட்டை அதிகரிக்கவும்.</string>
     <string name="preference_description_accessibility_large_text">உரை அளவை அதிகரிக்கவும்.</string>
     <string name="preference_title_accessibility_large_text">பெரிய உரை</string>
@@ -334,7 +333,7 @@
     <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
-    <string name="copy">நகல்</string>
+    <string name="copy_deafult">நகல்</string>
     <string name="delete">அழித்துவிடு</string>
     <string name="rename">மறுபெயர்</string>
     <string name="merge">ஒன்றுசேர்</string>

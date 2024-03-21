@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikone</string>
     <string name="preference_title_accessibility_category_icons">Prikaži ikone</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">Visoki kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Povecaj kontrast teksta.</string>
     <string name="preference_description_accessibility_large_text">Povecaj velicinu teksta.</string>
     <string name="preference_title_accessibility_large_text">Veliki tekst</string>
@@ -344,7 +343,7 @@
     <string name="list_headline_sprites">Likovi i objekti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ostava</string>
-    <string name="copy">Kopirati</string>
+    <string name="copy_deafult">Kopirati</string>
     <string name="delete">Izbrisati</string>
     <string name="rename">Preimenovati</string>
     <string name="merge">Spoji</string>

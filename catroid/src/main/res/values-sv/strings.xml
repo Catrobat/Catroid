@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikoner</string>
     <string name="preference_title_accessibility_category_icons">Visa ikoner</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">Hög kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Öka textkontrasten.</string>
     <string name="preference_description_accessibility_large_text">Öka textstorleken.</string>
     <string name="preference_title_accessibility_large_text">Stor text</string>
@@ -343,7 +342,7 @@
     <string name="list_headline_sprites">Aktörer och objekt</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ryggsäck</string>
-    <string name="copy">Kopiera</string>
+    <string name="copy_deafult">Kopiera</string>
     <string name="delete">Radera</string>
     <string name="rename">Byt namn</string>
     <string name="merge">Slå ihop</string>

@@ -155,7 +155,6 @@
     <string name="preference_title_accessibility_Brick_icons">ايقونات اللبّنات البرمجية</string>
     <string name="preference_title_accessibility_category_icons">إظهار الايقونات</string>
     <string name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللبّنات البرمجية.</string>
-    <string name="preference_title_accessibility_high_contrast">تباين عالي</string>
     <string name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللبّنات البرمجية.</string>
     <string name="preference_description_accessibility_large_text">زيادة حجم النص.</string>
     <string name="preference_title_accessibility_large_text">نص عريض</string>
@@ -364,7 +363,7 @@
     <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
     <string name="backpack">حقيبة الظهر</string>
-    <string name="copy">نسخ</string>
+    <string name="copy_deafult">نسخ</string>
     <string name="delete">حذف</string>
     <string name="rename">إعادة تسمية</string>
     <string name="merge">دمج</string>

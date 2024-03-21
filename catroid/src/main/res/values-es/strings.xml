@@ -156,7 +156,6 @@
     <string name="preference_title_accessibility_Brick_icons">Iconos</string>
     <string name="preference_title_accessibility_category_icons">Mostrar iconos</string>
     <string name="preference_description_accessibility_category_icons">Añadir iconos a las categorías y los bloques.</string>
-    <string name="preference_title_accessibility_high_contrast">Alto contraste</string>
     <string name="preference_description_accessibility_high_contrast">Aumentar el contraste del texto.</string>
     <string name="preference_description_accessibility_large_text">Aumentar el tamaño del texto.</string>
     <string name="preference_title_accessibility_large_text">Texto grande</string>
@@ -336,7 +335,7 @@
     <string name="list_headline_sprites">Actores y objetos</string>
     <!-- Options Menu Options -->
     <string name="backpack">Mochila</string>
-    <string name="copy">Copiar</string>
+    <string name="copy_deafult">Copiar</string>
     <string name="delete">Borrar</string>
     <string name="rename">Renombrar</string>
     <string name="merge">Fusionar</string>

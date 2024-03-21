@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Icons</string>
     <string name="preference_title_accessibility_category_icons">Show icons</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
     <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string name="preference_description_accessibility_large_text">Increase the text size.</string>
     <string name="preference_title_accessibility_large_text">Large text</string>
@@ -335,7 +334,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
+    <string name="copy_deafult">Copy</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
     <string name="merge">Merge</string>

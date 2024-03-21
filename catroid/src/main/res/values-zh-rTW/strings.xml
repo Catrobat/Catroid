@@ -154,7 +154,6 @@
     <string name="preference_title_accessibility_Brick_icons">圖標</string>
     <string name="preference_title_accessibility_category_icons">顯示圖標</string>
     <string name="preference_description_accessibility_category_icons">為類別和積木添加圖標。</string>
-    <string name="preference_title_accessibility_high_contrast">高對比度</string>
     <string name="preference_description_accessibility_high_contrast">增加文字對比度。</string>
     <string name="preference_description_accessibility_large_text">增加文字大小。</string>
     <string name="preference_title_accessibility_large_text">大文本</string>
@@ -332,7 +331,7 @@
     <string name="list_headline_sprites">演員和對象</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">複製</string>
+    <string name="copy_deafult">複製</string>
     <string name="delete">刪除</string>
     <string name="rename">更名</string>
     <string name="merge">合併</string>

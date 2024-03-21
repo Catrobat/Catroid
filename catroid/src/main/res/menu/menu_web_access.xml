@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,24 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding"
-    android:paddingEnd="@dimen/dialog_content_area_padding">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:layout_gravity="end">
 
-        <TextView
-            android:id="@+id/dialog_google_play_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="" />
+        <item
+            android:id="@+id/menu_delete"
+            android:enabled="true"
+            android:title="@string/delete"
+            app:showAsAction="never" />
 
-    </LinearLayout>
-</ScrollView>
+        <item
+            android:id="@+id/menu_done"
+            android:icon="@drawable/ic_done"
+            android:title="@string/main_menu_help"
+            android:visibility="gone"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/menu_help"
+            android:icon="@drawable/ic_main_menu_help"
+            android:title="@string/main_menu_help"
+            app:showAsAction="ifRoom"/>
+    </group>
+</menu>

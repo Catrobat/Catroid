@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">砖图标</string>
     <string name="preference_title_accessibility_category_icons">显示图标</string>
     <string name="preference_description_accessibility_category_icons">将图标添加到类别和砖块。</string>
-    <string name="preference_title_accessibility_high_contrast">高对比度</string>
     <string name="preference_description_accessibility_high_contrast">增加砖块上的文本对比度。</string>
     <string name="preference_description_accessibility_large_text">增大表格字号</string>
     <string name="preference_title_accessibility_large_text">大号字体</string>
@@ -326,7 +325,7 @@
     <string name="list_headline_sprites">对象和物体</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">复制</string>
+    <string name="copy_deafult">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
     <string name="merge">合并</string>

@@ -310,7 +310,7 @@ class BrickSearchFragment : ListFragment() {
             if (!onlyBeginnerBricks()) {
                 availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_user_bricks), backgroundSprite.equals(sprite), requireContext()))
             }
-            if (SettingsFragment.isTestSharedPreferenceEnabled(activity)) {
+            if (SettingsFragment.isTestSharedPreferenceEnabled(requireActivity())) {
                 availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_assertions), backgroundSprite.equals(sprite), requireContext()))
             }
         }

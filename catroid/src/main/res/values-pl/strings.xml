@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikony</string>
     <string name="preference_title_accessibility_category_icons">Pokaż ikony</string>
     <string name="preference_description_accessibility_category_icons">Dodawanie ikon do kategorii i bloczków.</string>
-    <string name="preference_title_accessibility_high_contrast">Wysoki kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Zwiększ kontrast tekstu na bloczkach.</string>
     <string name="preference_description_accessibility_large_text">Zwiększ rozmiar czcionki.</string>
     <string name="preference_title_accessibility_large_text">Duży tekst</string>
@@ -339,7 +338,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Plecak</string>
-    <string name="copy">Kopiuj</string>
+    <string name="copy_deafult">Kopiuj</string>
     <string name="delete">Usuń</string>
     <string name="rename">Zmień nazwę</string>
     <string name="merge">Scal</string>

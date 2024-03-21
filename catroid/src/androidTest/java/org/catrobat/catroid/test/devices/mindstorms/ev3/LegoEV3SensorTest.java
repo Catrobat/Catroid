@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorType;
+import org.catrobat.catroid.ui.settingsfragments.LegoSensors;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +67,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.EV3_TOUCH;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.TOUCH, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.TOUCH, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -80,7 +82,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_LIGHT_ACTIVE, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_LIGHT_ACTIVE, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -94,7 +97,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_LIGHT, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_LIGHT, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -108,7 +112,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE2;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.COLOR, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -122,7 +127,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR_REFLECT, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.COLOR_REFLECT, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -136,7 +142,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR_AMBIENT, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.COLOR_AMBIENT, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -149,7 +156,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.IIC;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.HT_NXT_COLOR, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.HT_NXT_COLOR, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -163,7 +171,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_TEMPERATURE_F, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_TEMPERATURE_F, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -177,7 +186,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_TEMPERATURE_C, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_TEMPERATURE_C, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -191,7 +201,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_SOUND;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_SOUND, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_SOUND, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -205,7 +216,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.EV3_INFRARED;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.INFRARED, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.INFRARED, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();
@@ -219,7 +231,8 @@ public class LegoEV3SensorTest {
 		final EV3SensorType expectedType = EV3SensorType.NXT_ULTRASONIC;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_ULTRASONIC, SettingsFragment.EV3_SENSORS[0]);
+		SettingsFragment.setLegoMindstormsEV3Sensors(applicationContext,
+				EV3Sensor.Sensor.NXT_ULTRASONIC, LegoSensors.EV3_SENSORS[0]);
 
 		initSensor();
 		ev3.getSensor1().updateLastSensorValue();

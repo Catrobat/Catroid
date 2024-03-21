@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Піктограми</string>
     <string name="preference_title_accessibility_category_icons">Показати піктограми</string>
     <string name="preference_description_accessibility_category_icons">Додати піктограми до категорій і блоків.</string>
-    <string name="preference_title_accessibility_high_contrast">Високий контраст</string>
     <string name="preference_description_accessibility_high_contrast">Збільшити контраст на текст.</string>
     <string name="preference_description_accessibility_large_text">Збільшити розмір тексту.</string>
     <string name="preference_title_accessibility_large_text">Великий текст</string>
@@ -359,7 +358,7 @@
     <string name="list_headline_sprites">Актори та об\'єкти</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Скопіювати</string>
+    <string name="copy_deafult">Скопіювати</string>
     <string name="delete">Видалити</string>
     <string name="rename">Перейменувати</string>
     <string name="merge">Об’єднати</string>

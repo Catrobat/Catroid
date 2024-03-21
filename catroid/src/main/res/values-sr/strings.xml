@@ -121,7 +121,6 @@
     <string name="preference_title_accessibility_Brick_icons">Иконице</string>
     <string name="preference_title_accessibility_category_icons">Прикажи иконице</string>
     <string name="preference_description_accessibility_category_icons">Додај иконице у categories и bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">Велики контраст</string>
     <string name="preference_description_accessibility_high_contrast">Повећај текст контраст.</string>
     <string name="preference_description_accessibility_large_text">Повећај текст величину.</string>
     <string name="preference_title_accessibility_large_text">Велики текст</string>
@@ -304,7 +303,7 @@
     <string name="list_headline_sprites">Actors и objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ранац</string>
-    <string name="copy">Копирај</string>
+    <string name="copy_deafult">Копирај</string>
     <string name="delete">Обриши</string>
     <string name="rename">Преименуј</string>
     <string name="merge">Обједини</string>

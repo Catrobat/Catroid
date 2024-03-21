@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">ไอคอน</string>
     <string name="preference_title_accessibility_category_icons">แสดงไอคอน</string>
     <string name="preference_description_accessibility_category_icons">เพิ่มไอคอนให้กับหมวดหมู่และคำสั่ง</string>
-    <string name="preference_title_accessibility_high_contrast">ความคมชัดสูง</string>
     <string name="preference_description_accessibility_high_contrast">เพิ่มความคมชัดข้อความ</string>
     <string name="preference_description_accessibility_large_text">เพิ่มขนาดตัวอักษร</string>
     <string name="preference_title_accessibility_large_text">ข้อความขนาดใหญ่</string>
@@ -324,7 +323,7 @@
     <string name="list_headline_sprites">นักแสดงและวัตถุ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ชุดข้อมูล</string>
-    <string name="copy">คัด​ลอก</string>
+    <string name="copy_deafult">คัด​ลอก</string>
     <string name="delete">ลบ</string>
     <string name="rename">เปลี่ยนชื่อ</string>
     <string name="merge">รวม</string>

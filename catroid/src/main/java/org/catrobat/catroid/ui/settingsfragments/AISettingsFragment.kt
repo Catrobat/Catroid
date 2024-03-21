@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,33 +23,19 @@
 package org.catrobat.catroid.ui.settingsfragments
 
 import android.os.Bundle
-import android.preference.PreferenceFragment
-import android.preference.PreferenceScreen
-import androidx.appcompat.app.AppCompatActivity
-import org.catrobat.catroid.BuildConfig
+import androidx.preference.PreferenceFragmentCompat
 import org.catrobat.catroid.R
 
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.AI_SENSORS_SCREEN_KEY
-
-class AISettingsFragment : PreferenceFragment() {
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.title = preferenceScreen.title
+class AISettingsFragment : PreferenceFragmentCompat() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        SettingsFragment.setToChosenLanguage(requireActivity())
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        SettingsFragment.setToChosenLanguage(activity)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.ai_preferences)
-        if (!BuildConfig.FEATURE_AI_SENSORS_ENABLED) {
-            val aiSensorsPreference =
-                findPreference(AI_SENSORS_SCREEN_KEY) as PreferenceScreen
-            aiSensorsPreference.isEnabled = false
-            preferenceScreen.removePreference(aiSensorsPreference)
-        }
     }
 
     companion object {
-        val TAG = AISettingsFragment::class.java.simpleName
+        val AI_SETTINGS_FRAGMENT_TAG: String = AISettingsFragment::class.java.simpleName
     }
 }

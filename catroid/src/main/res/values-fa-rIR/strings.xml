@@ -148,7 +148,6 @@
     <string name="preference_title_accessibility_Brick_icons">آیکون‌ها</string>
     <string name="preference_title_accessibility_category_icons">نمایش نماد</string>
     <string name="preference_description_accessibility_category_icons">اضافه کردن آیکون به دسته ها و آجر.</string>
-    <string name="preference_title_accessibility_high_contrast">کنتراست بالا</string>
     <string name="preference_description_accessibility_high_contrast">کنتراست متن را افزایش دهید.</string>
     <string name="preference_description_accessibility_large_text">اندازه متن را افزایش دهید.</string>
     <string name="preference_title_accessibility_large_text">متن بزرگ</string>
@@ -327,7 +326,7 @@
     <string name="list_headline_sprites">بازیگران و اشیاء</string>
     <!-- Options Menu Options -->
     <string name="backpack">کوله پشتی</string>
-    <string name="copy">کپی کردن</string>
+    <string name="copy_deafult">کپی کردن</string>
     <string name="delete">حذف</string>
     <string name="rename">تغییر نام</string>
     <string name="merge">ادغام</string>

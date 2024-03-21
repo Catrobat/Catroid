@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.ui.hints
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -36,10 +37,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_HINTS
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
@@ -67,6 +69,8 @@ class HintsShownInCorrectActivityTest {
     private var savedBooleanValue: Boolean = false
     private lateinit var savedShownHintsList: Set<String>
 
+    private val SNACKBAR_ANIMATION_DURATION: Long = 300
+
     @Before
     fun setUp() {
         savedBooleanValue = sharedPreferences.getBoolean(SETTINGS_SHOW_HINTS, false)
@@ -74,6 +78,7 @@ class HintsShownInCorrectActivityTest {
 
         sharedPreferences.edit()
             .remove(SnackbarUtil.SHOWN_HINT_LIST)
+            .putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
             .putBoolean(SETTINGS_SHOW_HINTS, true)
             .apply()
 
@@ -93,8 +98,7 @@ class HintsShownInCorrectActivityTest {
 
     @Test
     fun scriptsHintNotShownInFormulaEditorTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withId(R.id.brick_set_x_edit_text))
             .perform(click())
@@ -102,83 +106,77 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.formula_editor_intro_summary_formula_editor))
             .check(matches(isDisplayed()))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun hintsChangeCorrectlyBeforeDismissTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        onView(withText(R.string.hint_looks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_looks)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS))
 
-        onView(withText(R.string.hint_sounds))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_sounds)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
-        onView(withText(R.string.hint_sounds))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_sounds)
 
-        onView(withText(R.string.hint_looks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_looks)
     }
 
     @Test
     fun looksHintNotShownInScriptFragment() {
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
+
         onView(withText(R.string.got_it))
             .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
-        onView(withText(R.string.hint_looks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_looks)
+
+        onView(withText(R.string.got_it))
+            .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
 
-        onView(withText(R.string.hint_looks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_looks)
     }
 
     @Test
     fun soundsHintNotShownInScriptFragment() {
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
+
         onView(withText(R.string.got_it))
             .perform(click())
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS))
 
-        onView(withText(R.string.hint_sounds))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_sounds)
 
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS))
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun brickCategoriesHintNotShownInScriptFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -186,19 +184,16 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         pressBack()
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
     }
 
     @Test
     fun bricksHintNotShownInScriptFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -206,8 +201,7 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -215,24 +209,20 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
     }
 
     @Test
     fun bricksHintNotShownInBrickCategoryFragment() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -240,8 +230,7 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -249,22 +238,18 @@ class HintsShownInCorrectActivityTest {
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
     }
 
     @Test
     fun brickAndCategoryHintsChangeCorrectlyBeforeDismissTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -272,28 +257,23 @@ class HintsShownInCorrectActivityTest {
         onView(withId(R.id.button_add))
             .perform(click())
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
 
         onView(withText(R.string.category_event))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         pressBack()
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_category)
     }
 
     @Test
     fun bricksHintIsNotShownAfterChoosingBrickTest() {
-        onView(withText(R.string.hint_scripts))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_scripts)
 
         onView(withText(R.string.got_it))
             .perform(click())
@@ -302,21 +282,29 @@ class HintsShownInCorrectActivityTest {
             .perform(click())
 
         onView(withText(R.string.category_motion))
-            .perform(click())
+            .perform(scrollTo(), click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(matches(isDisplayed()))
+        checkIfSnackBarIsDisplayed(R.string.hint_bricks)
 
         onView(withText(R.string.brick_set_y))
             .perform(click())
 
-        onView(withText(R.string.hint_bricks))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_bricks)
 
-        onView(withText(R.string.hint_category))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_category)
 
-        onView(withText(R.string.hint_scripts))
-            .check(doesNotExist())
+        checkIfSnackBarIsNotDisplayed(R.string.hint_scripts)
+    }
+
+    fun checkIfSnackBarIsDisplayed(snackBarText: Int) {
+        Thread.sleep(SNACKBAR_ANIMATION_DURATION)
+        onView(withText(snackBarText)).check(matches(isDisplayed()))
+        Thread.sleep(50)
+    }
+
+    fun checkIfSnackBarIsNotDisplayed(snackBarText: Int) {
+        Thread.sleep(SNACKBAR_ANIMATION_DURATION)
+        onView(withText(snackBarText)).check(doesNotExist())
+        Thread.sleep(50)
     }
 }

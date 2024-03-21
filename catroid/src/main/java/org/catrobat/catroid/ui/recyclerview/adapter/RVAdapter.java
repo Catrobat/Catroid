@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -180,6 +180,12 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		notifyDataSetChanged();
 	}
 
+	public void update(T oldValue, T newValue) {
+		int index = items.indexOf(oldValue);
+		items.set(index, newValue);
+		notifyItemChanged(index);
+	}
+
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
 		if (Math.abs(sourcePosition - targetPosition) <= 1) {
@@ -207,6 +213,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 			return false;
 		}
 		selectionManager.setSelectionTo(selection, items.indexOf(item));
+		notifyItemChanged(items.indexOf(item));
 		return true;
 	}
 

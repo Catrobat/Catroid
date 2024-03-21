@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Ikone</string>
     <string name="preference_title_accessibility_category_icons">Prikaži ikone</string>
     <string name="preference_description_accessibility_category_icons">Dodajte ikone kategorijama i kockama.</string>
-    <string name="preference_title_accessibility_high_contrast">Veliki kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Povećajte kontrast teksta.</string>
     <string name="preference_description_accessibility_large_text">Povećajte veličinu teksta.</string>
     <string name="preference_title_accessibility_large_text">Veliki tekst</string>
@@ -351,7 +350,7 @@
     <string name="list_headline_sprites">Glumci i objekti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ranac</string>
-    <string name="copy">kopiraj</string>
+    <string name="copy_deafult">kopiraj</string>
     <string name="delete">Obriši</string>
     <string name="rename">Preimenuj</string>
     <string name="merge">Spojiti</string>

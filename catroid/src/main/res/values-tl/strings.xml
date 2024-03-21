@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Icons</string>
     <string name="preference_title_accessibility_category_icons">Ipakita ang icons</string>
     <string name="preference_description_accessibility_category_icons">Magdagdag ng icons sa mga kategorya at bricks</string>
-    <string name="preference_title_accessibility_high_contrast">Mataas na kontras</string>
     <string name="preference_description_accessibility_high_contrast">Palakihin ang kontras ng text</string>
     <string name="preference_description_accessibility_large_text">Palakihin ang sukat ng text.</string>
     <string name="preference_title_accessibility_large_text">Malaking sulat</string>
@@ -344,7 +343,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="list_headline_sprites">Aktor at mga bagay</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopyahin</string>
+    <string name="copy_deafult">Kopyahin</string>
     <string name="delete">Burahin</string>
     <string name="rename">Pangalanan muli</string>
     <string name="merge">Pagsamahin</string>

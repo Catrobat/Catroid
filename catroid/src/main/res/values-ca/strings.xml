@@ -157,7 +157,6 @@
     <string name="preference_title_accessibility_Brick_icons">Icones</string>
     <string name="preference_title_accessibility_category_icons">Mostra icones</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
     <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string name="preference_description_accessibility_large_text">Increase the text size.</string>
     <string name="preference_title_accessibility_large_text">Large text</string>
@@ -343,7 +342,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Motxilla</string>
-    <string name="copy">Copia</string>
+    <string name="copy_deafult">Copia</string>
     <string name="delete">Elimina</string>
     <string name="rename">Canvia el nom</string>
     <string name="merge">Merge</string>

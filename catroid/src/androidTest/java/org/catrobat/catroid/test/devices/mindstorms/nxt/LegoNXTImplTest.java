@@ -50,7 +50,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTImplTest {
@@ -80,10 +80,10 @@ public class LegoNXTImplTest {
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, false);
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, true)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.commit();
 
 		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
@@ -105,7 +105,7 @@ public class LegoNXTImplTest {
 		logger.disconnectAndDestroy();
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, nxtSettingBuffer)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
 				.commit();
 		setSensorMapping(sensorMappingBuffer);
 	}
@@ -145,7 +145,7 @@ public class LegoNXTImplTest {
 		setSensorMapping(defaultSensorMapping);
 		nxt.initialise();
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
+		SettingsFragment.setLegoMindstormsNXTSensors(applicationContext,
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
@@ -153,7 +153,7 @@ public class LegoNXTImplTest {
 		assertNotNull(nxt.getSensor1());
 		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
+		SettingsFragment.setLegoMindstormsNXTSensors(applicationContext,
 				NXTSensor.Sensor.TOUCH, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
