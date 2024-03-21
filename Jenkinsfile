@@ -186,7 +186,68 @@ pipeline {
     }
 
     stages {
-        stage('All') {
+        stage('Sequential stage') {
+            agent {
+                docker {
+                    image d.image
+                    args d.args
+                    label d.label
+                    alwaysPull true
+                    // reuseNode false
+                }
+            }
+
+            stages {
+                stage('APKs') {
+                    steps {
+                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                            script {
+                                def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                                    it
+                                }.collect()
+                                if (additionalParameters) {
+                                    currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                }
+                                if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                    sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                                }
+                            }
+
+                            // Build the flavors so that they can be installed next independently of older versions.
+                            sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+
+                            renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                            archiveArtifacts '**/*.apk'
+                        }
+                    }
+                }
+
+                stage('Build with Paintroid') {
+                    when {
+                        expression {
+                            params.BUILD_WITH_PAINTROID
+                        }
+                    }
+
+                    steps {
+                        sh 'rm -rf Paintroid; mkdir Paintroid'
+                        dir('Paintroid') {
+                            git branch: params.PAINTROID_BRANCH, url: 'https://github' +
+                                '.com/Catrobat/Paintroid.git'
+                            sh "./gradlew assembleDebug"
+                            sh 'rm -f ../catroid/src/main/libs/*.aar'
+                            sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                            sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                            archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                            archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                        }
+                    }
+                }
+
+            }
+        }
+
+        stage('Parallel stage') {
             parallel {
                 stage('1') {
                     agent {
@@ -195,58 +256,10 @@ pipeline {
                             args d.args
                             label d.label
                             alwaysPull true
-                            // reuseNode false
                         }
                     }
 
                     stages {
-                        stage('APKs') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    script {
-                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
-                                            it
-                                        }.collect()
-                                        if (additionalParameters) {
-                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
-                                        }
-                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
-                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
-                                        }
-                                    }
-
-                                    // Build the flavors so that they can be installed next independently of older versions.
-                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
-
-                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/*.apk'
-                                }
-                            }
-                        }
-
-                        stage('Build with Paintroid') {
-                            when {
-                                expression {
-                                    params.BUILD_WITH_PAINTROID
-                                }
-                            }
-
-                            steps {
-                                sh 'rm -rf Paintroid; mkdir Paintroid'
-                                dir('Paintroid') {
-                                    git branch: params.PAINTROID_BRANCH, url: 'https://github' +
-                                            '.com/Catrobat/Paintroid.git'
-                                    sh "./gradlew assembleDebug"
-
-                                    sh 'rm -f ../catroid/src/main/libs/*.aar'
-                                    sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
-
-                                    archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'}
-                            }
-                        }
-
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -264,7 +277,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('2') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Unit Tests') {
                             when {
                                 expression { params.UNIT_TESTS == true }
@@ -276,8 +302,21 @@ pipeline {
                                     junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
                                 }
                             }
-                        }
+                        } 
+                    }
+                }
 
+                stage('3') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages { 
                         stage('Instrumented Unit Tests') {
                             when {
                                 expression { params.INSTRUMENTED_UNIT_TESTS == true }
@@ -297,7 +336,19 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('4') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+                    stages {
                         stage('Testrunner Tests') {
                             when {
                                 expression { params.TESTRUNNER_TESTS == true }
@@ -316,7 +367,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('5') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Quarantined Tests') {
                             when {
                                 expression { params.QUARANTINED_TESTS == true }
@@ -335,7 +399,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('6') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Outgoing Network Call Tests') {
                             when {
                                 expression { params.OUTGOING_NETWORK_CALL_TESTS == true }
@@ -353,7 +430,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('7') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+                    
+                    stages {
                         stage('RTL Tests') {
                             when {
                                 expression { params.RTL_TESTS == true }
@@ -373,54 +463,60 @@ pipeline {
                             }
                         }
                     }
-
-                    post {
-                        always {
-                            stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
-                            script {
-                                sh 'docker stop catrobat-android && docker rm catrobat-android'
-                            }
-                        }
-                    }
                 }
 
-                stage('2') {
-                    agent {
-                        docker {
-                            image d.image
-                            args d.args
-                            label d.label
-                            alwaysPull true
-                            // reuseNode false
-                        }
-                    }
 
-                    stages {
-                        stage('Pull Request Suite') {
-                            when {
-                                expression { params.PULL_REQUEST_SUITE == true }
-                            }
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    startEmulator(ANDROID_VERSION, 'pull_request_suite')
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
-                                }
-                            }
 
-                            post {
-                                always {
-                                    killRunningEmulator()
-                                    postEmulator 'pull_request_suite'
-                                    script {
-                                        sh 'docker stop catrobat-android && docker rm catrobat-android'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+
+
+
             }
+
+                    // post {
+                    //     always {
+                    //         stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                    //         script {
+                    //             //sh 'docker stop catrobat-android && docker rm catrobat-android'
+                    //         }
+                    //     }
+                    // }
         }
+
+                // stage('2') {
+                //     agent {
+                //         docker {
+                //             image d.image
+                //             args d.args
+                //             label d.label
+                //             alwaysPull true
+                //             // reuseNode false
+                //         }
+                //     }
+
+                //     stages {
+                //         stage('Pull Request Suite') {
+                //             when {
+                //                 expression { params.PULL_REQUEST_SUITE == true }
+                //             }
+                //             steps {
+                //                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                //                     startEmulator(ANDROID_VERSION, 'pull_request_suite')
+                //                     runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
+                //                 }
+                //             }
+
+                //             post {
+                //                 always {
+                //                     killRunningEmulator()
+                //                     postEmulator 'pull_request_suite'
+                //                     script {
+                //                         sh 'docker stop catrobat-android && docker rm catrobat-android'
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
     }
 
     post {
