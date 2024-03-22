@@ -38,7 +38,7 @@ echo "Emulator started"
 }
 
 def runTestsWithEmulator(String testClass) {
-    sh " ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources"
+    //sh " ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources"
 
     waitForEmulatorAndPressWakeUpKey()
 
@@ -186,64 +186,89 @@ pipeline {
     }
 
     stages {
-        stage('Sequential stage') {
-            agent {
-                docker {
-                    image d.image
-                    args d.args
-                    label d.label
-                    alwaysPull true
-                    // reuseNode false
-                }
-            }
+        stage('Compile APK and Debug Sources') {
+            parallel {
+                stage(1) {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                            // reuseNode false
+                        }
+                    }
 
-            stages {
-                stage('APKs') {
-                    steps {
-                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                            script {
-                                def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
-                                    it
-                                }.collect()
-                                if (additionalParameters) {
-                                    currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                    stages {
+                        stage('Compile APK') {
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    script {
+                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                                            it
+                                        }.collect()
+                                        if (additionalParameters) {
+                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                        }
+                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                                        }
+                                    }
+
+                                    // Build the flavors so that they can be installed next independently of older versions.
+                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+
+                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                                    archiveArtifacts '**/*.apk'
                                 }
-                                if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
-                                    sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                            }
+                        }
+
+                        stage('Build with Paintroid') {
+                            when {
+                                expression {
+                                    params.BUILD_WITH_PAINTROID
                                 }
                             }
 
-                            // Build the flavors so that they can be installed next independently of older versions.
-                            sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                            steps {
+                                sh 'rm -rf Paintroid; mkdir Paintroid'
+                                dir('Paintroid') {
+                                    git branch: params.PAINTROID_BRANCH, url: 'https://github' +
+                                        '.com/Catrobat/Paintroid.git'
+                                    sh "./gradlew assembleDebug"
+                                    sh 'rm -f ../catroid/src/main/libs/*.aar'
+                                    sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                    sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                                    archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                    archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                                }
+                            }
+                        }
 
-                            renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                            archiveArtifacts '**/*.apk'
+                    }
+                }
+                stage(2) {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                            // reuseNode false
+                        }
+                    }
+
+                    stages {
+                        stage('Compule Debug Sources') {
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    sh "./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources --build-cache"
+                                }
+                            }
                         }
                     }
                 }
-
-                stage('Build with Paintroid') {
-                    when {
-                        expression {
-                            params.BUILD_WITH_PAINTROID
-                        }
-                    }
-
-                    steps {
-                        sh 'rm -rf Paintroid; mkdir Paintroid'
-                        dir('Paintroid') {
-                            git branch: params.PAINTROID_BRANCH, url: 'https://github' +
-                                '.com/Catrobat/Paintroid.git'
-                            sh "./gradlew assembleDebug"
-                            sh 'rm -f ../catroid/src/main/libs/*.aar'
-                            sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                            sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
-                            archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                            archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'
-                        }
-                    }
-                }
-
             }
         }
 
