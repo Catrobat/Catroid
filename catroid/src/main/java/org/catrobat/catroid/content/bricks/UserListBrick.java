@@ -189,8 +189,9 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		userList = sprite.getUserList(userListName);
 		if (userList == null) {
 			userList = project.getUserList(userListName);
-		} else {
-			throw new CatrobatLanguageParsingException("Unkown list: " + userListName);
+			if (userList == null) {
+				throw new CatrobatLanguageParsingException("Unkown list: " + userListName);
+			}
 		}
 	}
 }

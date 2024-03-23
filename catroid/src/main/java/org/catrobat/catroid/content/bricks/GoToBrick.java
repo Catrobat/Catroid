@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
@@ -167,6 +168,7 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 			if (spinnerValues.containsKey(target)) {
 				spinnerSelection = spinnerValues.get(target);
 			} else {
+				target = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(target);
 				destinationSprite = scene.getSprite(target);
 				if (destinationSprite == null) {
 					throw new CatrobatLanguageParsingException("Target sprite '" + target + "' not found.");

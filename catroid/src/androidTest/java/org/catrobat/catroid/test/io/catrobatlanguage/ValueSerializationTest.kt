@@ -285,7 +285,7 @@ class ValueSerializationTest(
                 arrayOf(PaintNewLookBrick::class.simpleName, PaintNewLookBrick(testString), "Paint new look (name: ('$testString'));\n"),
                 arrayOf(CopyLookBrick::class.simpleName, CopyLookBrick(testString), "Copy look (name of copy: ('$testString'));\n"),
                 arrayOf(SetPenSizeBrick::class.simpleName, SetPenSizeBrick(testDouble), "Set (pen size: ($testDouble));\n"),
-                arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(255, 0, 0), "Set (pen color code: (#$testColor));\n"),
+                arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(255, 0, 0), "Set pen color (red: (255), green: (0), blue(0));\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(testString), "Return (value: ('$testString'));\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(testFormulaNumber), "Return (value: (${formulaToString(testFormulaNumber)}));\n"),
                 arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(testDouble), "Set (variable: (\"${testVariable.name}\"), value: ($testDouble));\n"),

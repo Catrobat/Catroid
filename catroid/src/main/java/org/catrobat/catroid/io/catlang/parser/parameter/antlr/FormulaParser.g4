@@ -49,5 +49,4 @@ literal
 	| LIST
 	| UDB_PARAMETER
 	| STRING
-	| HEX_NUMBER
 	;

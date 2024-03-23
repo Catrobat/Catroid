@@ -95,6 +95,19 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
             programString.appendLine()
         }
         programString.appendLine(level1IndentionLevelEnd)
+
+        if (!project.multiplayerVariables.isNullOrEmpty()) {
+            programString.appendLine()
+            programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Multiplayer variables {")
+            for (i in project.multiplayerVariables.indices) {
+                programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}${CatrobatLanguageUtils.formatVariable(project.multiplayerVariables[i].name)}")
+                if (i < project.multiplayerVariables.size - 1) {
+                    programString.append(",")
+                }
+                programString.appendLine()
+            }
+            programString.appendLine(level1IndentionLevelEnd)
+        }
     }
 
     private fun serializeScenes() {

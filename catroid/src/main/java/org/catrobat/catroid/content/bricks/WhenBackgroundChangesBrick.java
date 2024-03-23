@@ -197,6 +197,10 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String lookName = arguments.get(LOOK_CATLANG_PARAMETER_NAME);
+		if (lookName != null && lookName.isEmpty()) {
+			setLook(null);
+			return;
+		}
 		lookName = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(lookName);
 		LookData look = sprite.getLookByName(lookName);
 		if (look == null) {

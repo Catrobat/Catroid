@@ -74,6 +74,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.BrickCategoryListBuilder;
 import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
@@ -605,16 +606,17 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void handleAddButton() {
-
-//		List<Brick> bricks = new CategoryBricksFactory().getAllBricks(true, requireContext());
-//		Script lastScript = new WhenScript();
-//		ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
-//		for (Brick brick : bricks) {
-//			if (brick instanceof ScriptBrick) {
-//				lastScript = ((ScriptBrick) brick).getScript();
-//				ProjectManager.getInstance().getCurrentSprite().addScript(lastScript);
-//			} else {
-//				lastScript.addBrick(brick);
+//		Script whenScript = new WhenScript();
+//		ProjectManager.getInstance().getCurrentSprite().addScript(whenScript);
+//		List<String> categories = new BrickCategoryListBuilder(getActivity()).getCategoryNames();
+//		for (String category : categories) {
+//			List<Brick> bricks = new CategoryBricksFactory().getBricks(category, ProjectManager.getInstance().getCurrentSprite().isBackgroundSprite(), getContext());
+//			for (Brick brick : bricks) {
+//				if (brick instanceof ScriptBrick) {
+//					ProjectManager.getInstance().getCurrentSprite().addScript((brick).getScript());
+//				} else {
+//					whenScript.addBrick(brick);
+//				}
 //			}
 //		}
 

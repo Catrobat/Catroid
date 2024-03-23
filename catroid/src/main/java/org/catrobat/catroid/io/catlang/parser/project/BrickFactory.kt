@@ -117,6 +117,7 @@ object BrickFactory {
             "Set gravity for all actors and objects to" -> SetGravityBrick()
             "Set next NFC tag" -> SetNfcTagBrick()
             "Set NXT" -> LegoNxtMotorMoveBrick()
+            "Set pen color" -> SetPenColorBrick()
             "Set Phiro" -> PhiroRGBLightBrick()
             "Set velocity to" -> SetVelocityBrick()
             "Sew up" -> SewUpBrick()
@@ -345,13 +346,10 @@ object BrickFactory {
         if (arguments.containsKey("size percentage")) {
             return SetSizeToBrick()
         }
-        if (arguments.containsKey("pen color code")) {
-            return SetPenColorBrick()
-        }
         if (arguments.containsKey("friction percentage")) {
             return SetFrictionBrick()
         }
-        throw CatrobatLanguageParsingException("Set requires either parameter 'bounce factor percentage', 'particle color', 'brightness percentage', 'transparency percentage', 'variable', 'x', 'pen size', 'text', 'Raspberry Pi PWM~ pin', 'mass in kilograms', 'color', 'y', 'volume percentage', 'tempo', 'instrument', 'thread color', 'Raspberry Pi pin', 'motion type', 'rotation style', 'size percentage', 'pen color code' or 'friction percentage'")
+        throw CatrobatLanguageParsingException("Set requires either parameter 'bounce factor percentage', 'particle color', 'brightness percentage', 'transparency percentage', 'variable', 'x', 'pen size', 'text', 'Raspberry Pi PWM~ pin', 'mass in kilograms', 'color', 'y', 'volume percentage', 'tempo', 'instrument', 'thread color', 'Raspberry Pi pin', 'motion type', 'rotation style', 'size percentage' or 'friction percentage'")
     }
 
     private fun createSetArduinoBrick(arguments: Map<String, String>) : BrickBaseType {

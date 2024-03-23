@@ -62,7 +62,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	{{
 		put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
 		put(Look.ROTATION_STYLE_ALL_AROUND, "all-around");
-		put(ROTATION_STYLE_NONE, "don't rotate");
+		put(ROTATION_STYLE_NONE, "do not rotate");
 	}});
 
 	@Look.RotationStyle

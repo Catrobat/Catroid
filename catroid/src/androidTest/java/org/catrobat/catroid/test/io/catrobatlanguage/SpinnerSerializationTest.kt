@@ -1496,14 +1496,14 @@ class SpinnerSerializationTest {
             baseActivityTestRule.launchActivity()
             val keys = getStringArrayForResourceId(R.array.brick_phiro_select_light_spinner)
             val mapOfValues = mapOf(
-                keys[0] to "Set Phiro (light: (left), color: (#000000));\n",
-                keys[1] to "Set Phiro (light: (right), color: (#000000));\n",
-                keys[2] to "Set Phiro (light: (both), color: (#000000));\n"
+                keys[0] to "Set Phiro (light: (left), red: (0), green: (0), blue: (0));\n",
+                keys[1] to "Set Phiro (light: (right), red: (0), green: (0), blue: (0));\n",
+                keys[2] to "Set Phiro (light: (both), red: (0), green: (0), blue: (0));\n"
             )
             executeTest(
                 R.id.brick_phiro_rgb_light_spinner,
                 brick,
-                "Set Phiro (light: (both), color: (#000000));\n",
+                "Set Phiro (light: (both), red: (0), green: (0), blue: (0));\n",
                 mapOfValues
             )
             checkSpinnerValueCount(brick, R.id.brick_phiro_rgb_light_spinner, mapOfValues.size)

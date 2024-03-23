@@ -199,28 +199,10 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		}
 	}
 
-	private String getColorValueFromBrickField(BrickField brickField) {
-		Formula formula = getFormulaWithBrickField(brickField);
-		try {
-			int value = formula.interpretInteger(null);
-			int minimum = Math.max(0, Math.min(255, value));
-			return String.format("%02X", minimum);
-		} catch (InterpretationException e) {
-			return "00";
-		}
-	}
-
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(LIGHT_CATLANG_PARAMETER_NAME)) {
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(Eye.valueOf(eye)));
-		}
-		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
-			String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
-			String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
-			String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
-			String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -229,52 +211,42 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	protected Collection<String> getRequiredCatlangArgumentNames() {
 		ArrayList<String> requiredArguments = new ArrayList<>();
 		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
-		requiredArguments.add(COLOR_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
 		return requiredArguments;
 	}
 
-	@Override
-	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		Collection<String> requiredArguments = new ArrayList<>();
-		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
-		requiredArguments.add("red");
-		requiredArguments.add("green");
-		requiredArguments.add("blue");
-		Collection<String> argumentsPresent = arguments.keySet();
-
-		if (requiredArguments.size() == argumentsPresent.size()) {
-			List<String> missingArguments = new ArrayList<>();
-			for (String requiredArgument : requiredArguments) {
-				if (!argumentsPresent.contains(requiredArgument)) {
-					missingArguments.add(requiredArgument);
-				}
-			}
-			if (!missingArguments.isEmpty()) {
-				String requiredArgumentsString = String.join(", ", requiredArguments);
-				String missingArgumentsString = String.join(", ", missingArguments);
-				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
-			}
-		} else {
-			if (requiredArguments.size() == 0) {
-				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
-			}
-			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
-		}
-	}
+//	@Override
+//	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
+//		Collection<String> requiredArguments = new ArrayList<>();
+//		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+//		requiredArguments.add("red");
+//		requiredArguments.add("green");
+//		requiredArguments.add("blue");
+//		Collection<String> argumentsPresent = arguments.keySet();
+//
+//		if (requiredArguments.size() == argumentsPresent.size()) {
+//			List<String> missingArguments = new ArrayList<>();
+//			for (String requiredArgument : requiredArguments) {
+//				if (!argumentsPresent.contains(requiredArgument)) {
+//					missingArguments.add(requiredArgument);
+//				}
+//			}
+//			if (!missingArguments.isEmpty()) {
+//				String requiredArgumentsString = String.join(", ", requiredArguments);
+//				String missingArgumentsString = String.join(", ", missingArguments);
+//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+//			}
+//		} else {
+//			if (requiredArguments.size() == 0) {
+//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+//			}
+//			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+//		}
+//	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		if (!arguments.containsKey(COLOR_CATLANG_PARAMETER_NAME)) {
-			throw new CatrobatLanguageParsingException("No color value given");
-		}
-		int[] convertedColor = CatrobatLanguageParserUtils.Companion.hexToRgb(arguments.get(COLOR_CATLANG_PARAMETER_NAME));
-		arguments.remove(COLOR_CATLANG_PARAMETER_NAME);
-		arguments.put("red", String.valueOf(convertedColor[0]));
-		arguments.put("green", String.valueOf(convertedColor[1]));
-		arguments.put("blue", String.valueOf(convertedColor[2]));
-
 		super.setParameters(context, project, scene, sprite, arguments);
-
 		String eye = arguments.get(LIGHT_CATLANG_PARAMETER_NAME);
 		if (eye != null) {
 			 Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);

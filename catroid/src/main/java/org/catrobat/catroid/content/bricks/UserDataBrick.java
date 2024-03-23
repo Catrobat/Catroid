@@ -264,8 +264,8 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		BiMap<String, BrickData> catrobatLanguageParameterNameToBrickData = HashBiMap.create(catrobatLanguageUserDataParameters).inverse();
-		BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
-		if (brickData != null) {
+		if (catrobatLanguageParameterNameToBrickData.containsKey(name)) {
+			BrickData brickData = catrobatLanguageParameterNameToBrickData.get(name);
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, getUserDataNameFormatted(brickData));
 		}
 		return super.getArgumentByCatlangName(name);

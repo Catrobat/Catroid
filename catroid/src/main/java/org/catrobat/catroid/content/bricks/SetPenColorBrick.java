@@ -48,11 +48,10 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-@CatrobatLanguageBrick(command = "Set")
+@CatrobatLanguageBrick(command = "Set pen color")
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String PEN_COLOR_CATLANG_PARAMETER_NAME = "pen color code";
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -152,46 +151,5 @@ public class SetPenColorBrick extends FormulaBrick {
 				return 0;
 			}
 		}
-	}
-
-	private String getColorValueFromBrickField(BrickField brickField) {
-		Formula formula = getFormulaWithBrickField(brickField);
-		try {
-			int value = formula.interpretInteger(null);
-			int minimum = Math.max(0, Math.min(255, value));
-			return String.format("%02X", minimum);
-		} catch (InterpretationException e) {
-			return "00";
-		}
-	}
-
-	@Override
-	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(PEN_COLOR_CATLANG_PARAMETER_NAME)) {
-			String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
-			String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
-			String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
-			String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(PEN_COLOR_CATLANG_PARAMETER_NAME, hexColor);
-		}
-		return super.getArgumentByCatlangName(name);
-	}
-
-	@Override
-	protected Collection<String> getRequiredCatlangArgumentNames() {
-		ArrayList<String> requiredArguments = new ArrayList<>();
-		requiredArguments.add(PEN_COLOR_CATLANG_PARAMETER_NAME);
-		return requiredArguments;
-	}
-
-	@Override
-	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
-		validateParametersPresent(arguments);
-		String hexColor = arguments.get(PEN_COLOR_CATLANG_PARAMETER_NAME);
-		int[] rgb = CatrobatLanguageParserUtils.Companion.hexToRgb(hexColor);
-		arguments.put("red", String.valueOf(rgb[0]));
-		arguments.put("green", String.valueOf(rgb[1]));
-		arguments.put("blue", String.valueOf(rgb[2]));
-		super.setParameters(context, project, scene, sprite, arguments);
 	}
 }

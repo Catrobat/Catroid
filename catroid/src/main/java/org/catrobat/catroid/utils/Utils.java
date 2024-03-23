@@ -607,6 +607,10 @@ public final class Utils {
 	}
 
 	public static void showStandardSystemKeyboard(Activity activity) {
-		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		try {
+			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		} catch (Exception exception) {
+			Log.e(TAG, "showStandardSystemKeyboard: Failed to show standard system keyboard");
+		}
 	}
 }
