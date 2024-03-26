@@ -37,7 +37,7 @@ public final class SharedPreferenceKeys {
 	public static final String[] LANGUAGE_TAGS = {DEVICE_LANGUAGE, "af", "az", "ms", "bs", "ca",
 			"da", "de", "en-AU", "en-CA", "en-GB", "en", "es", "fr", "gl", "ha", "hr", "ig", "id",
 			"it", "sw", "lt", "hu", "nl", "no", "pl", "pt-BR", "pt", "ro", "sq", "sk", "sl", "fi",
-			"sv", "vi", "tw", "tr", "cs", "el", "bg", "mk", "ru", "sr-CS", "sr", "sr-SP", "uk",
+			"sv", "vi", "tw", "tr", "cs", "el", "bg", "mk", "ru", "sr-CS", "sr-SP", "uk",
 			"kk", "he", "ur", "ar", "sd", "fa", "ps", "hi", "bn", "gu", "ta", "te", "kn", "ml",
 			"si", "th", "zh-CN", "zh-TW", "ja", "ko"};
 
