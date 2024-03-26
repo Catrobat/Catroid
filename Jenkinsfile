@@ -4,8 +4,7 @@ class DockerParameters {
     // 'docker build' would normally copy the whole build-dir to the container, changing the
     // docker build directory avoids that overhead
     def dir = 'docker'
-    def args = '--device /dev/kvm:/dev/kvm ' +
-            ' -v /var/local/container_shared/huawei:/home/user/huawei -m=8G '
+    def args = '--device /dev/kvm:/dev/kvm -m=8G --name catrobat-android'
     def label = 'LimitedEmulator'
     def image = 'catrobat/catrobat-android:api33'
 }
@@ -18,9 +17,11 @@ def startEmulator(String android_version, String stageName) {
     sh "echo no | avdmanager create avd -f --name android${android_version} --package " +
             "'system-images;android-${android_version};google_apis;x86_64' || true"
 
-    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version} -wipe-data -no-window -no-boot-anim -noaudio" +
+    sh "/home/user/android/sdk/emulator/emulator -avd android${android_version}" +
+            " -debug-all  -debug-no-metrics -logcat *:w" +
+            " -wipe-data -no-window -no-boot-anim -noaudio" +
             " -camera-back emulated -camera-front emulated " +
-            " -no-snapshot-save -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
+            " -no-snapshot-save -accel on -gpu swiftshader_indirect  > ${stageName}_emulator.log 2>&1 &"
 }
 
 def waitForEmulatorAndPressWakeUpKey() {
@@ -37,7 +38,7 @@ echo "Emulator started"
 }
 
 def runTestsWithEmulator(String testClass) {
-    sh " ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources"
+    //sh " ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources"
 
     waitForEmulatorAndPressWakeUpKey()
 
@@ -112,6 +113,7 @@ pipeline {
 
     environment {
         ANDROID_VERSION = 33
+        ADB_INSTALL_TIMEOUT = 60
     }
 
     parameters {
@@ -184,20 +186,21 @@ pipeline {
     }
 
     stages {
-        stage('All') {
+        stage('Compile APK and Debug Sources') {
             parallel {
-                stage('1') {
+                stage(1) {
                     agent {
                         docker {
                             image d.image
                             args d.args
                             label d.label
                             alwaysPull true
+                            // reuseNode false
                         }
                     }
 
                     stages {
-                        stage('APKs') {
+                        stage('Compile APK') {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     script {
@@ -232,18 +235,56 @@ pipeline {
                                 sh 'rm -rf Paintroid; mkdir Paintroid'
                                 dir('Paintroid') {
                                     git branch: params.PAINTROID_BRANCH, url: 'https://github' +
-                                            '.com/Catrobat/Paintroid.git'
+                                        '.com/Catrobat/Paintroid.git'
                                     sh "./gradlew assembleDebug"
-
                                     sh 'rm -f ../catroid/src/main/libs/*.aar'
                                     sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
                                     sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
-
                                     archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'}
+                                    archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                                }
                             }
                         }
 
+                    }
+                }
+                stage(2) {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                            // reuseNode false
+                        }
+                    }
+
+                    stages {
+                        stage('Compule Debug Sources') {
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    sh "./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources --build-cache"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Parallel stage') {
+            parallel {
+                stage('1') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -261,7 +302,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('2') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Unit Tests') {
                             when {
                                 expression { params.UNIT_TESTS == true }
@@ -273,8 +327,21 @@ pipeline {
                                     junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
                                 }
                             }
-                        }
+                        } 
+                    }
+                }
 
+                stage('3') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages { 
                         stage('Instrumented Unit Tests') {
                             when {
                                 expression { params.INSTRUMENTED_UNIT_TESTS == true }
@@ -294,7 +361,19 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('4') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+                    stages {
                         stage('Testrunner Tests') {
                             when {
                                 expression { params.TESTRUNNER_TESTS == true }
@@ -313,7 +392,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('5') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Quarantined Tests') {
                             when {
                                 expression { params.QUARANTINED_TESTS == true }
@@ -332,7 +424,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('6') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+
+                    stages {
                         stage('Outgoing Network Call Tests') {
                             when {
                                 expression { params.OUTGOING_NETWORK_CALL_TESTS == true }
@@ -350,7 +455,20 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
 
+                stage('7') {
+                    agent {
+                        docker {
+                            image d.image
+                            args d.args
+                            label d.label
+                            alwaysPull true
+                        }
+                    }
+                    
+                    stages {
                         stage('RTL Tests') {
                             when {
                                 expression { params.RTL_TESTS == true }
@@ -370,47 +488,60 @@ pipeline {
                             }
                         }
                     }
-
-                    post {
-                        always {
-                            stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
-                        }
-                    }
                 }
 
-                stage('2') {
-                    agent {
-                        docker {
-                            image d.image
-                            args d.args
-                            label d.label
-                            alwaysPull true
-                        }
-                    }
 
-                    stages {
-                        stage('Pull Request Suite') {
-                            when {
-                                expression { params.PULL_REQUEST_SUITE == true }
-                            }
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    startEmulator(ANDROID_VERSION, 'pull_request_suite')
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
-                                }
-                            }
 
-                            post {
-                                always {
-                                    killRunningEmulator()
-                                    postEmulator 'pull_request_suite'
-                                }
-                            }
-                        }
-                    }
-                }
+
+
+
             }
+
+                    // post {
+                    //     always {
+                    //         stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                    //         script {
+                    //             //sh 'docker stop catrobat-android && docker rm catrobat-android'
+                    //         }
+                    //     }
+                    // }
         }
+
+                // stage('2') {
+                //     agent {
+                //         docker {
+                //             image d.image
+                //             args d.args
+                //             label d.label
+                //             alwaysPull true
+                //             // reuseNode false
+                //         }
+                //     }
+
+                //     stages {
+                //         stage('Pull Request Suite') {
+                //             when {
+                //                 expression { params.PULL_REQUEST_SUITE == true }
+                //             }
+                //             steps {
+                //                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                //                     startEmulator(ANDROID_VERSION, 'pull_request_suite')
+                //                     runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
+                //                 }
+                //             }
+
+                //             post {
+                //                 always {
+                //                     killRunningEmulator()
+                //                     postEmulator 'pull_request_suite'
+                //                     script {
+                //                         sh 'docker stop catrobat-android && docker rm catrobat-android'
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
     }
 
     post {
