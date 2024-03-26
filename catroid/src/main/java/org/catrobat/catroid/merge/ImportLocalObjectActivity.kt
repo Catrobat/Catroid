@@ -118,16 +118,21 @@ class ImportLocalObjectActivity : BaseActivity() {
     override fun onBackPressed() {
         when (type) {
             REQUEST_SPRITE -> {
-                loadSelector(REQUEST_SCENE)
+                if (projectToImportFrom.hasMultipleScenes()) {
+                    loadSelector(REQUEST_SCENE)
+                } else {
+                    loadSelector(REQUEST_PROJECT)
+                }
             }
+
             REQUEST_SCENE -> {
                 loadSelector(REQUEST_PROJECT)
             }
-        }
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
+
+            REQUEST_PROJECT -> {
+                setResult(RESULT_CANCELED)
+                super.onBackPressed()
+            }
         }
     }
 
