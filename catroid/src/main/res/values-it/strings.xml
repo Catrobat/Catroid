@@ -186,6 +186,15 @@
        e Drop</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Modalità principiante</string>
+    <string name="preference_dialog_use_full_features">Usa le funzionalità complete</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">Per utilizzare apppieno le funzionalità delle estensioni Lego
+        Mindstorms, usa l\'app di Catrobat: Mindstorms Code EV3 NXT.</string>
+    <string name="preference_embroidery_dialog_text">Per utilizzare appieno le funzionalità dell\'estensione
+        per il ricamo,usa l\'app di Catrobat: Embroidery Designer.</string>
+    <string name="preference_phiro_dialog_text">Per utilizzare appieno le funzionalità dell\'estensione Phiro
+        robotics, usa l\'app di Catrobat: Phiro Code.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Estensione di Parrot AR. Drone 2.0</string>
     <string name="preference_description_quadcopter_bricks">Consenti all\'app di controllare i quadricotteri Parrot AR.Drone 2.0</string>
@@ -606,7 +615,11 @@
     <string name="unpack">Scompatta</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Crea progetto</string>
     <string name="new_project_dialog_example_project">Progetto campione</string>
+    <string name="new_project_dialog_portrait">Orizzontale</string>
+    <string name="new_project_dialog_landscape">Orizzontale</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Progetto fuso</string>
@@ -623,6 +636,7 @@
     <string name="add_look_choose_image">Galleria</string>
     <string name="add_look_media_library">Aspetti</string>
     <string name="add_look_from_local_project">Progetti locali</string>
+    <string name="add_look_empty_object">Empty Object</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Aggiungi suono</string>
@@ -1610,6 +1624,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_length_parameter">(\'ciao mondo\')</string>
     <string name="formula_editor_function_letter">lettera</string>
     <string name="formula_editor_function_letter_parameter">(1,\'ciao mondo\')</string>
+    <string name="formula_editor_function_subtext">sottostringa</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string name="formula_editor_function_join">concatena</string>
     <string name="formula_editor_function_join_parameter">(\'ciao\', \'mondo\')</string>
     <string name="formula_editor_function_join3">concatena</string>
@@ -1716,6 +1732,8 @@ con tolleranza %        </string>
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_premuto_giù</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_premuto_sinistra</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_premuto_destra</string>
+    <string name="formula_editor_sensor_stage_width">larghezza stage</string>
+    <string name="formula_editor_sensor_stage_height">altezza stage</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_sensore_frontale_sinistro</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_sensore_frontale_destro</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_sensore_laterale_sinistro</string>
@@ -1917,8 +1935,8 @@ con tolleranza %        </string>
     <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo        progetto possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
     <string name="formula_editor_listening_language_sensor">lingua di ascolto</string>
     <string name="formula_editor_speech_recognition">Riconoscimento vocale</string>
-    <string name="camera_error_text_detection">        Si è verificato un problema con il rilevamento del testo. Alcuni componenti potrebbero essere ancora in fase di download
-        . Assicurati di essere connesso a internet e controlla più tardi.</string>
+    <string name="camera_error_text_detection">        Si è verificato un problema durante il riconoscimento del testo. Alcuni componenti potrebbero continuare il download
+        in background. Assicurati di essere connesso ad internet e controlla più tardi.</string>
     <string name="warning_formula_recognized">Hai inserito un testo simile a una formula. Se desideri usare le funzioni,
         i sensori, le variabili e altri elementi della formula, sei pregato di selezionarli invece di usare i
         pulsanti nell\'editor della formula.</string>
@@ -1943,10 +1961,11 @@ con tolleranza %        </string>
     <string name="brick_choose_camera">Usa la videocamera</string>
     <string name="choose_camera_front">anteriore</string>
     <string name="choose_camera_back">posteriore</string>
-    <string name="camera_error_generic">        Qualcosa è andato storto durante il tentativo di utilizzare la fotocamera.
+    <string name="camera_error_generic">        C\'è stato un errore durante il tentativo di usare la fotocamera.
     </string>
-    <string name="camera_error_face_detection">        Si è verificato un problema con il rilevamento del volto. Alcuni componenti potrebbero essere ancora in fase di download
-        . Assicurati di essere connesso a internet e controlla più tardi.</string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -2041,5 +2060,5 @@ con tolleranza %        </string>
     <string name="set_particle_color_to">Imposta il colore delle particelle a</string>
     <string name="undo_sort">Annulla ordinamento</string>
     <string name="sort">Ordina</string>
-    <string name="checkbox">checkbox</string>
+    <string name="checkbox">casella di controllo</string>
 </resources>

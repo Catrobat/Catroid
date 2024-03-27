@@ -181,6 +181,15 @@
        Verzögerung</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Beginner modus</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 Bausteine</string>
     <string name="preference_description_quadcopter_bricks">Erlaubt die Steuerung von ARDrone 2.0 Quadcoptern</string>
@@ -597,7 +606,11 @@
     <string name="unpack">Auspacken</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string name="new_project_dialog_example_project">Beispielprojekt</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">Querformat</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Zusammengeführtes Projekt</string>
@@ -614,6 +627,7 @@
     <string name="add_look_choose_image">Bild auswählen</string>
     <string name="add_look_media_library">Medienbibliothek</string>
     <string name="add_look_from_local_project">Lokale Projekte</string>
+    <string name="add_look_empty_object">Empty Object</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Klang hinzufügen</string>
@@ -975,7 +989,7 @@
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
     <string name="brick_write_embroidery">Schreibe Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
-    <string name="brick_sew_up">Vernähen</string>
+    <string name="brick_sew_up">vernähen</string>
     <string name="brick_thread_color">Setze auf Farbe </string>
     <!--  -->
     <!-- Device bricks -->
@@ -1021,7 +1035,7 @@
     <string name="brick_repeat_until">Wiederholen bis</string>
     <string name="brick_when_touched">Wenn der Bildschirm berührt wird</string>
     <string name="brick_clone">Erzeuge Klon von</string>
-    <string name="brick_clone_this">mir</string>
+    <string name="brick_clone_this">aktueller Figur/aktuellem Objekt</string>
     <string name="brick_when_cloned">Wenn ich als Klon starte</string>
     <string name="brick_delete_this_clone">Lösche diesen Klon</string>
     <string name="brick_assert_that">Behaupten</string>
@@ -1577,6 +1591,8 @@
     <string name="formula_editor_function_length_parameter">(\'Hallo Welt\')</string>
     <string name="formula_editor_function_letter">Buchstabe</string>
     <string name="formula_editor_function_letter_parameter">(1,\'Hallo Welt\')</string>
+    <string name="formula_editor_function_subtext">subtext</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string name="formula_editor_function_join">verbinde</string>
     <string name="formula_editor_function_join_parameter">(\'Hallo\',\'Welt\')</string>
     <string name="formula_editor_function_join3">verbinde</string>
@@ -1683,6 +1699,8 @@
     <string name="formula_editor_sensor_gamepad_down_pressed">Gamepad nach unten gedrückt</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">Gamepad links gedrückt</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">Gamepad rechts gedrückt</string>
+    <string name="formula_editor_sensor_stage_width">Bühnenbreite</string>
+    <string name="formula_editor_sensor_stage_height">Bühnenhöhe</string>
     <string name="formula_editor_phiro_sensor_front_left">Phiro sensor vorne links</string>
     <string name="formula_editor_phiro_sensor_front_right">Phiro Sensor vorne rechts</string>
     <string name="formula_editor_phiro_sensor_side_left">Phiro Sensor seitlich links</string>
@@ -1911,7 +1929,7 @@
     <string name="brick_choose_camera">Verwende Kamera</string>
     <string name="choose_camera_front">Frontkamera</string>
     <string name="choose_camera_back">Hauptkamera</string>
-    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string name="camera_error_generic">        Etwas ist schiefgelaufen beim Versuch, die Kamera zu verwenden.
     </string>
     <string name="camera_error_face_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
         heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuche es später erneut.
@@ -2005,5 +2023,5 @@
     <string name="set_particle_color_to">Setze Partikelfarbe auf</string>
     <string name="undo_sort">sortieren rückgängig machen </string>
     <string name="sort">Sortieren</string>
-    <string name="checkbox">checkbox</string>
+    <string name="checkbox">Häkchen</string>
 </resources>

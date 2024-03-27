@@ -180,6 +180,12 @@
     <string name="preference_access_summary_profile_fenrir">بڑے عنصر کی جگہ، ڈریگن ڈراپ تاخیر</string>
     <string name="preference_access_title_profile_tiro">ٹارو</string>
     <string name="preference_access_summary_profile_tiro">ابتدائی موڈ</string>
+    <string name="preference_dialog_use_full_features"> تمام خصوصیات استعمال کریں</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">  Lego Mindstorms extensions کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Mindstorms Code EV3 NXT app کواستعمال کریں  </string>
+    <string name="preference_embroidery_dialog_text">   embroidery extension کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Embroidery Designer app کواستعمال کریں          </string>
+    <string name="preference_phiro_dialog_text">     Phiro robotics extension کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Phiro Code app کواستعمال کریں  </string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">توتے AR.ڈرون2.0 توسیع</string>
     <string name="preference_description_quadcopter_bricks">AR.ڈرون 2.0 کوارڈ کاپٹر کو سمبھالنے کی اجازت دیں</string>
@@ -587,7 +593,11 @@
     <string name="unpack">غیر پیکنگ</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string name="new_project_dialog_example_project">مثال کے طور پر منصوبے</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">افقی انداز</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">ضمنی منصوبے</string>
@@ -604,6 +614,7 @@
     <string name="add_look_choose_image">تصویر منتخب کریں</string>
     <string name="add_look_media_library">میڈیا لائبریری</string>
     <string name="add_look_from_local_project">مقامی منصوبے</string>
+    <string name="add_look_empty_object">Empty Object</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">آواز ا ضافہ کریں</string>
@@ -1585,6 +1596,8 @@
     <string name="formula_editor_function_length_parameter">(\'ہیلو دنیا\')</string>
     <string name="formula_editor_function_letter">حرف</string>
     <string name="formula_editor_function_letter_parameter">(1، \'ہیلو دنیا\')</string>
+    <string name="formula_editor_function_subtext">بین السطّور</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string name="formula_editor_function_join">شامل ہوں</string>
     <string name="formula_editor_function_join_parameter">(\'ہیلو دنیا\')</string>
     <string name="formula_editor_function_join3">شامل ہوں</string>
@@ -1688,6 +1701,8 @@
     <string name="formula_editor_sensor_gamepad_down_pressed">گیم پیڈ نیچے دباؤ</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">گیم پیڈ پر بائیں دبائیں</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">گیم پیڈ پر دائیں دبائیں</string>
+    <string name="formula_editor_sensor_stage_width">stage width</string>
+    <string name="formula_editor_sensor_stage_height">stage height</string>
     <string name="formula_editor_phiro_sensor_front_left">فیرو سامنے بائیں سینسر</string>
     <string name="formula_editor_phiro_sensor_front_right">فیرو سامنے دائیں سینسر</string>
     <string name="formula_editor_phiro_sensor_side_left">فیرو بائیں طرف سینسر</string>
@@ -1914,9 +1929,8 @@
     <string name="choose_camera_back">پیچھے</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
+    <string name="camera_error_face_detection">چہرہ شناخت کرنے میں مسئلہ تھا۔ کچھ اجزاء اب بھی پس منظر میں ڈاؤن لوڈ ہو سکتے ہیں۔
+          براہ کرم یقینی بنائیں کہ آپ انٹرنیٹ سے منسلک ہیں اور بعد میں دوبارہ چیک کریں۔</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">اے</string>
@@ -1988,7 +2002,7 @@
     <string name="search">تلاش کریں…</string>
     <string name="no_results_found">کوئی نتیجہ نہیں</string>
     <string name="query_field_is_empty">سوال کا میدان خالی ہے۔</string>
-    <string name="paste">پیسٹ</string>
+    <string name="paste"> چسپاں کریں</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">دھندلا ذرہ اثر</string>
     <string name="particle_effects_fade_in">میں</string>
