@@ -186,6 +186,15 @@
        ล่าช้า</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">โหมดเริ่มต้น</string>
+    <string name="preference_dialog_use_full_features">ใช้คุณสมบัติทั้งหมด</string>
+    <string name="preference_dialog_appgallery">แอพแกลเลอรี</string>
+    <string name="preference_dialog_google_play">กูเกิลเพลย์</string>
+    <string name="preference_lego_dialog_text">เพื่อใช้ประโยชน์จากคุณสมบัติทั้งหมดของเลโก้
+         ส่วนขยาย Mindstorms โปรดใช้แอป Mindstorms Code EV3 NXT ของ Catrobat</string>
+    <string name="preference_embroidery_dialog_text">เพื่อใช้ประโยชน์จากคุณสมบัติทั้งหมดของ
+         ส่วนต่อขยายการปัก โปรดใช้แอป ออกแบบการปักของ Catrobat</string>
+    <string name="preference_phiro_dialog_text">เพื่อใช้ประโยชน์จากฟีเจอร์ทั้งหมดของ Piro
+         ส่วนขยายวิทยาการหุ่นยนต์ โปรดใช้แอป Phiro Code ของ Catrobat</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string name="preference_description_quadcopter_bricks">อนุญาตให้แอปควบคุม Parrot AR.Drone 2.0 quadcopters</string>
@@ -556,7 +565,11 @@
     <string name="unpack">นำไปใช้</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">สร้างโครงการ</string>
     <string name="new_project_dialog_example_project">ตัวอย่างโครงการ</string>
+    <string name="new_project_dialog_portrait">แนวตั้ง</string>
+    <string name="new_project_dialog_landscape">แนวนอน</string>
+    <string name="new_project_dialog_cast">ทิ้ง</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">รวมโครงการแล้ว</string>
@@ -573,6 +586,7 @@
     <string name="add_look_choose_image">แกลลอรี่</string>
     <string name="add_look_media_library">ไลบรารีสื่อ</string>
     <string name="add_look_from_local_project">โครงการในความจำเครื่อง</string>
+    <string name="add_look_empty_object">ไม่มีวัตถุ</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">เพิ่มเสียง</string>
@@ -1545,6 +1559,8 @@
     <string name="formula_editor_function_length_parameter">(\'สวัสดีโลก\')</string>
     <string name="formula_editor_function_letter">ตัวอักษร</string>
     <string name="formula_editor_function_letter_parameter">(1 \'สวัสดีโลก\')</string>
+    <string name="formula_editor_function_subtext">ข้อความย่อย</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'สวัสดีชาวโลก\')</string>
     <string name="formula_editor_function_join">รวม</string>
     <string name="formula_editor_function_join_parameter">(\'สวัสดีชาวโลก\')</string>
     <string name="formula_editor_function_join3">เข้าร่วม</string>
@@ -1651,6 +1667,8 @@
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad ลง ที่ถูกกด</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">กดซ้ายค้างไว้</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">กดขวาค้างไว้</string>
+    <string name="formula_editor_sensor_stage_width">ความกว้างของหน้าจอ</string>
+    <string name="formula_editor_sensor_stage_height">ความสูงของหน้าจอ</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro เซ็นเซอร์ด้านหน้าซ้าย</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro เซ็นเซอร์ด้านหน้าขวา</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro เซ็นเซอร์ด้านซ้าย</string>
@@ -1852,8 +1870,8 @@
         \n คุณสามารถแทรกสิ่งเหล่านี้ในสูตรของคุณหรือเพิ่มใหม่ได้</string>
     <string name="formula_editor_listening_language_sensor">ภาษาที่ใช้ในการฟัง</string>
     <string name="formula_editor_speech_recognition">การเรียนรู้จดจำเสียง</string>
-    <string name="camera_error_text_detection">        มีปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังดาวน์โหลดอยู่ในไฟล์
-         พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่ออินเทอร์เน็ตแล้วและกลับมาตรวจสอบในภายหลัง</string>
+    <string name="camera_error_text_detection">       เกิดปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ใน
+         พื้นหลัง. โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับอินเทอร์เน็ตแล้วและกลับมาตรวจสอบอีกครั้งในภายหลัง</string>
     <string name="warning_formula_recognized">คุณป้อนข้อความที่ดูเหมือนสูตร หากคุณต้องการใช้ฟังก์ชัน
          เซ็นเซอร์ ตัวแปร และองค์ประกอบสูตรอื่นๆ โปรดเลือกแทนโดยใช้
          ปุ่มในตัวแก้ไขสูตร</string>
@@ -1878,11 +1896,9 @@
     <string name="brick_choose_camera">ใช้กล้องถ่ายรูป</string>
     <string name="choose_camera_front">ด้านหน้า</string>
     <string name="choose_camera_back">ด้านหลัง</string>
-    <string name="camera_error_generic">        เกิดข้อผิดพลาดขณะพยายามใช้กล้อง
-    </string>
-    <string name="camera_error_face_detection">        มีปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ในไฟล์
-        พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่อกับอินเทอร์เน็ตและกลับมาตรวจสอบในภายหลัง
-    </string>
+    <string name="camera_error_generic">        เกิดข้อผิดพลาดขณะพยายามใช้กล้อง    </string>
+    <string name="camera_error_face_detection">        เกิดปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ใน
+         พื้นหลัง. โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับอินเทอร์เน็ตแล้วและกลับมาตรวจสอบอีกครั้งในภายหลัง</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1975,5 +1991,5 @@
     <string name="set_particle_color_to">ตั้งค่าสีอนุภาคเป็น</string>
     <string name="undo_sort">เลิกทำการเรียงลำดับ</string>
     <string name="sort">เรียงลำดับ</string>
-    <string name="checkbox">checkbox</string>
+    <string name="checkbox">ทำเครื่องหมาย</string>
 </resources>

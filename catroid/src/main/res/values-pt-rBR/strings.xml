@@ -182,6 +182,15 @@
     <string name="preference_access_summary_profile_fenrir">Grande spaçamento entre elementos, atraso de arrastamento</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Modo iniciante</string>
+    <string name="preference_dialog_use_full_features">Usar todas as funções</string>
+    <string name="preference_dialog_appgallery">App Galeria</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">Para aproveitar todos os recursos das extensões
+        Lego Mindstorms, por favor use o aplicativo Mindstorms Code EV3 NXT da Catrobat.</string>
+    <string name="preference_embroidery_dialog_text">Para aproveitar todos os recursos da extensão
+        embroidery, por favor use o aplicativo Embroidery Designer da Catrobat.</string>
+    <string name="preference_phiro_dialog_text">Para aproveitar todos os recursos da extensão Phiro
+        Robotics, por favor use o aplicativo Phiro Code da Catrobat.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Extensão Parrot AR.Drone 2.0</string>
     <string name="preference_description_quadcopter_bricks">Permite ao aplicativo controlar os quadricópteros Parrot AR.Drone 2.0</string>
@@ -520,8 +529,8 @@
     </plurals>
     <!-- Imported -->
     <plurals name="imported_projects">
-        <item quantity="one">Projeto %d importado.</item>
-        <item quantity="other">Projetos %d importados.</item>
+        <item quantity="one">%d projeto importado.</item>
+        <item quantity="other">%d projetos importados.</item>
     </plurals>
     <!-- Renamed -->
     <string name="renamed_project">Projeto renomeado</string>
@@ -602,7 +611,11 @@
     <string name="unpack">Descompactar</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Criar projeto</string>
     <string name="new_project_dialog_example_project">Projetos de exemplo</string>
+    <string name="new_project_dialog_portrait">Retrato</string>
+    <string name="new_project_dialog_landscape">Modo paisagem</string>
+    <string name="new_project_dialog_cast">Transmitir</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Projeto mesclado</string>
@@ -619,6 +632,7 @@
     <string name="add_look_choose_image">Selecionar Imagem</string>
     <string name="add_look_media_library">Biblioteca de mídia</string>
     <string name="add_look_from_local_project">Projetos locais</string>
+    <string name="add_look_empty_object">Objeto vazio</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Adicionar som</string>
@@ -1608,6 +1622,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_length_parameter">(\'olá mundo\')</string>
     <string name="formula_editor_function_letter">Letra</string>
     <string name="formula_editor_function_letter_parameter">(1,\'olá mundo\')</string>
+    <string name="formula_editor_function_subtext">subtítulo</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'olá mundo\')</string>
     <string name="formula_editor_function_join">Juntar</string>
     <string name="formula_editor_function_join_parameter">(\'Olá,\',\' mundo!\')</string>
     <string name="formula_editor_function_join3">juntar</string>
@@ -1713,6 +1729,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_gamepad_down_pressed">Tecla PARA BAIXO do controle pressionada</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">Tecla ESQUERDA do controle pressionada</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">Tecla DIREITA do controle pressionada</string>
+    <string name="formula_editor_sensor_stage_width">largura do estágio</string>
+    <string name="formula_editor_sensor_stage_height">altura do estágio</string>
     <string name="formula_editor_phiro_sensor_front_left">sensor frontal esquerdo do phiro</string>
     <string name="formula_editor_phiro_sensor_front_right">sensor frontal direito do phiro</string>
     <string name="formula_editor_phiro_sensor_side_left">sensor esquerdo do phiro</string>
@@ -2041,5 +2059,5 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="set_particle_color_to">Define a cor da partícula para</string>
     <string name="undo_sort">Desfazer ordenação</string>
     <string name="sort">Ordenar</string>
-    <string name="checkbox">checkbox</string>
+    <string name="checkbox">caixa de seleção</string>
 </resources>

@@ -184,6 +184,15 @@
     <string name="preference_access_summary_profile_fenrir">Duże odstępy między blokami, opóźnienie przeciągania bloczków</string>
     <string name="preference_access_title_profile_tiro">Tyr</string>
     <string name="preference_access_summary_profile_tiro">Bloczki dla początkujących</string>
+    <string name="preference_dialog_use_full_features">Użyj pełnych funkcji</string>
+    <string name="preference_dialog_appgallery">Galeria Aplikacji</string>
+    <string name="preference_dialog_google_play">Sklep Play</string>
+    <string name="preference_lego_dialog_text">Aby wykorzystać wszystkie funkcje rozszerzeń Lego
+        Mindstorms, użyj aplikacji Catrobat Mindstorms Code EV3 NXT.</string>
+    <string name="preference_embroidery_dialog_text">Aby skorzystać ze wszystkich funkcji rozszerzenia
+        haftu, użyj aplikacji Catrobat Embroidery Designer.</string>
+    <string name="preference_phiro_dialog_text">Aby skorzystać ze wszystkich funkcji rozszerzenia robotyki Phiro
+        użyj aplikacji Catrobat Phiro Code.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Bloki Parrot AR.Drone 2.0</string>
     <string name="preference_description_quadcopter_bricks">Pozwala aplikacji kontrolę quadrocopterów ARDrone 2.0</string>
@@ -664,7 +673,11 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="unpack">Rozpakuj</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Utwórz projekt</string>
     <string name="new_project_dialog_example_project">Przykładowy projekt</string>
+    <string name="new_project_dialog_portrait">Pionowo</string>
+    <string name="new_project_dialog_landscape">Poziomo</string>
+    <string name="new_project_dialog_cast">Rzuć</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Scal projekt</string>
@@ -677,10 +690,11 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="new_look_dialog_title">Dodaj wygląd</string>
     <string name="add_look_from_camera">Kamera</string>
     <string name="add_look_object_library">Biblioteka</string>
-    <string name="add_look_draw_new_image">Rysju obraz</string>
+    <string name="add_look_draw_new_image">Rysuj obraz</string>
     <string name="add_look_choose_image">Galeria</string>
     <string name="add_look_media_library">Wygląd</string>
     <string name="add_look_from_local_project">Projekty lokalne</string>
+    <string name="add_look_empty_object">Pusty obiekt</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Dodaj dźwięk</string>
@@ -1665,6 +1679,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter">litera</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string name="formula_editor_function_subtext">podtekst</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'witaj świecie\')</string>
     <string name="formula_editor_function_join">połącz</string>
     <string name="formula_editor_function_join_parameter">(\'witaj\',\'świecie\')</string>
     <string name="formula_editor_function_join3">połącz</string>
@@ -1769,6 +1785,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_dół_naciśnięto</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_lewo_naciśnięto</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_prawo_naciśnięto</string>
+    <string name="formula_editor_sensor_stage_width">szerokość sceny</string>
+    <string name="formula_editor_sensor_stage_height">wysokość sceny</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_przedni_lewy_czujnik</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_przedni_prawy_czujnik</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_boczny_lewy_czujnik</string>
