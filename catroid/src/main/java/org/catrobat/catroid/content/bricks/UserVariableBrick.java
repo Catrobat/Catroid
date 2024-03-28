@@ -167,6 +167,5 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 				}
 			}
 		}
-
 	}
 }

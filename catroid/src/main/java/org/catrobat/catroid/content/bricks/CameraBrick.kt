@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
-import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Turn")
 class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType() {

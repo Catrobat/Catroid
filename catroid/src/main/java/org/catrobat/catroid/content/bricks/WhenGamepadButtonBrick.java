@@ -69,7 +69,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		}
 	});
 
-	private static BiMap<Integer, Integer> GAMEPAD_BUTTON_VALUES = HashBiMap.create(new HashMap<Integer, Integer>() {
+	private static BiMap<Integer, Integer> gamepadButtonValues = HashBiMap.create(new HashMap<Integer, Integer>() {
 		{
 			put(0, R.string.cast_gamepad_A);
 			put(1, R.string.cast_gamepad_B);
@@ -159,7 +159,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		if (name.equals(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME)) {
 			Context context = CatroidApplication.getAppContext();
 			String selectedAction = script.getAction();
-			Map<Integer, Integer> resourceToValue = GAMEPAD_BUTTON_VALUES.inverse();
+			Map<Integer, Integer> resourceToValue = gamepadButtonValues.inverse();
 			for (Map.Entry<Integer, Integer> entry : resourceToValue.entrySet()) {
 				if (context.getString(entry.getKey()).equals(selectedAction)) {
 					return CatrobatLanguageUtils.getCatlangArgumentTuple(name, gamepadButtonCatlangValues.get(entry.getValue()));
@@ -181,7 +181,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		if (selectedItemValue == null) {
 			throw new CatrobatLanguageParsingException("Invalid gamepad button selected");
 		}
-		script.setAction(context.getString(GAMEPAD_BUTTON_VALUES.get(selectedItemValue)));
+		script.setAction(context.getString(gamepadButtonValues.get(selectedItemValue)));
 	}
 
 	@Override

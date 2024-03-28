@@ -145,7 +145,6 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 				throw new CatrobatLanguageParsingException("Invalid rotation style: " + rotationStyle);
 			}
 		}
-
 	}
 
 	class RotationStyleOption implements Nameable {

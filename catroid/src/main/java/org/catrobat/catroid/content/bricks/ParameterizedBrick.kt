@@ -57,12 +57,10 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
     override fun getSecondaryNestedBricksParent(): Brick {
-        TODO("Not yet implemented")
+        return null as Brick
     }
 
-    override fun getSecondaryBrickCommand(): String? {
-        return null
-    }
+    override fun getSecondaryBrickCommand(): String? = null
 
     fun getEndBrick(): ParameterizedEndBrick = endBrick
 
@@ -214,9 +212,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
         try {
             return endBrick.getArgumentByCatlangNameForCallingBrick(name)
-        } catch (_: IllegalArgumentException) {
-
-        }
+        } catch (_: IllegalArgumentException) {}
         return super.getArgumentByCatlangName(name)
     }
 

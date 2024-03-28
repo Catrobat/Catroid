@@ -42,7 +42,7 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
     ListSelectorInterface {
 
     companion object {
-        private const val LISTS_CATLANG_PARAMETER_NAME = "lists";
+        private const val LISTS_CATLANG_PARAMETER_NAME = "lists"
     }
 
     var userLists = mutableListOf<UserList>()
