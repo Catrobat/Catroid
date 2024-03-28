@@ -43,8 +43,7 @@ import org.catrobat.catroid.io.catlang.parser.parameter.context.OperatorVisitRes
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterListVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
-import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownFunctionException
-import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorException
+import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.Stack
 
@@ -318,15 +317,15 @@ internal class CatrobatFormulaParserVisitor(
         val sensorPropertyOrMethod = context.SENSOR_OR_PROPERTY_OR_METHOD().text.trim()
 
         if (!externToInternValues.containsKey(sensorPropertyOrMethod)) {
-            throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
+            throw UnkownSensorOrFunctionException(sensorPropertyOrMethod)
         }
 
-        val sensorPropertyOrMethodIntern = externToInternValues[sensorPropertyOrMethod] ?: throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
+        val sensorPropertyOrMethodIntern = externToInternValues[sensorPropertyOrMethod] ?: throw UnkownSensorOrFunctionException(sensorPropertyOrMethod)
 
         val sensor = tryParseSensor(sensorPropertyOrMethodIntern)
         if (sensor != null) {
             if (context.methodParameters() != null) {
-                throw UnkownSensorException("Referencing sensor $sensorPropertyOrMethod with parameters is not possible.")
+                throw FormulaParsingException("Referencing sensor $sensorPropertyOrMethod with parameters is not possible.")
             }
             val sensorFormulaElement = FormulaElement(FormulaElement.ElementType.SENSOR, sensor.name, tryGetParentFormulaElement())
             return FormulaElementVisitResult(sensorFormulaElement)
@@ -336,7 +335,7 @@ internal class CatrobatFormulaParserVisitor(
             val functionFormulaElement = parseFunction(sensorPropertyOrMethod, function, context)
             return FormulaElementVisitResult(functionFormulaElement)
         }
-        throw UnkownSensorException("Unknown sensor, property or method: $sensorPropertyOrMethod")
+        throw UnkownSensorOrFunctionException(sensorPropertyOrMethod)
     }
 
     private fun parseFunction(functionText: String, function: Functions, context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElement {
@@ -344,9 +343,9 @@ internal class CatrobatFormulaParserVisitor(
         parentFormulaStack.push(functionFormulaElement)
 
         if (!FUNCTION_TO_NUMBER_OF_PARAMETER_MAP.containsKey(function)) {
-            throw UnkownFunctionException("Unknown number of parameters for function: $functionText")
+            throw UnkownSensorOrFunctionException("Unknown number of parameters for function: $functionText")
         }
-        val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function] ?: throw UnkownFunctionException("Unknown function: $function")
+        val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function] ?: throw UnkownSensorOrFunctionException("Unknown function: $function")
 
         if (numberOfParametersExpected == 0 && context.methodParameters() != null) {
             throw FormulaParsingException("No parameters allowed for function $functionText.")

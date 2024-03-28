@@ -352,9 +352,17 @@ public class UserDefinedBrick extends FormulaBrick {
 		for (int i = 0; i < userDefinedBrickDataList.size(); i++) {
 			UserDefinedBrickData userDefinedBrickData = userDefinedBrickDataList.get(i);
 			if (userDefinedBrickData.isLabel()) {
-				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(userDefinedBrickData.getName()));
+				String labelContent = userDefinedBrickData.getName().trim();
+				if (labelContent.isEmpty()) {
+					continue;
+				}
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(labelContent).trim());
 			} else {
-				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(userDefinedBrickData.getName()));
+				String inputName = userDefinedBrickData.getName().trim();
+				if (inputName.isEmpty()) {
+					continue;
+				}
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(inputName).trim());
 			}
 			if (i < userDefinedBrickDataList.size() - 1) {
 				catrobatLanguage.append(' ');

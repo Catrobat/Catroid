@@ -430,7 +430,7 @@ class FormulaParserTest {
             parameterParser.parseArgument("undefinedFunction(1,2,3)")
             Assert.fail("Expected ArgumentParsingException")
         } catch (e: FormulaParsingException) {
-            Assert.assertEquals("Unknown sensor found in argument: Unknown sensor, property or method: undefinedFunction", e.message)
+            Assert.assertEquals("Unknown sensor, property or method: undefinedFunction", e.message)
         }
     }
 

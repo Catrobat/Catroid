@@ -177,7 +177,7 @@ object BrickFactory {
             "Turn Jumping Sumo" -> createTurnJumpingSumoBrick(arguments)
             "Write on device" -> createWriteOnDeviceBrick(arguments)
 
-            else -> throw CatrobatLanguageParsingException("Unknown brick $brickName")
+            else -> throw CatrobatLanguageParsingException("Unknown brick: ${brickName.trim()}")
         }
     }
 

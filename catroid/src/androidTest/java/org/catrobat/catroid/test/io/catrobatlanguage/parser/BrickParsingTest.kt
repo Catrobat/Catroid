@@ -1138,21 +1138,22 @@ class BrickParsingTest {
     }
     @Test
     fun testWriteVariableToFileBrick() {
-        val inputBrickFormat = "Write to file (variable: (#PARAM_0#), file: (#PARAM_1#));"
+        val inputBrickFormat = "Write to file (file: (#PARAM_1#), variable: (#PARAM_0#));"
         val inputValues = listOf(
-            listOf<String>("\"var1\"", "'variable.txt'"),
-            listOf<String>("\"localVar1\"", "'variable1.txt'"),
-            listOf<String>("\"multiplayerVar1\"", "'variable2.txt'")
+            listOf("\"var1\"", "'variable.txt'"),
+            listOf("\"localVar1\"", "'variable1.txt'"),
+            listOf("\"multiplayerVar1\"", "'variable2.txt'")
         )
-        executeTest(inputBrickFormat, inputValues, WriteVariableToFileBrick())
+        val expectedBrickFormat = "Write to file (variable: (#PARAM_0#), file: (#PARAM_1#));"
+        executeTest(inputBrickFormat, inputValues, WriteVariableToFileBrick(), expectedBrickFormat)
     }
     @Test
     fun testReadVariableFromFileBrick() {
         val inputBrickFormat = "Read from file (variable: (#PARAM_0#), file: (#PARAM_1#), action: (#PARAM_2#));"
         val inputValues = listOf(
-            listOf<String>("\"var1\"", "'variable.txt'", "keep the file"),
-            listOf<String>("\"localVar1\"", "'variable1.txt'", "delete the file"),
-            listOf<String>("\"multiplayerVar1\"", "'variable2.txt'", "keep the file")
+            listOf("\"var1\"", "'variable.txt'", "keep the file"),
+            listOf("\"localVar1\"", "'variable1.txt'", "delete the file"),
+            listOf("\"multiplayerVar1\"", "'variable2.txt'", "keep the file")
         )
         executeTest(inputBrickFormat, inputValues, ReadVariableFromFileBrick())
     }
@@ -1194,12 +1195,13 @@ class BrickParsingTest {
     }
     @Test
     fun testReplaceItemInUserListBrick() {
-        val inputBrickFormat = "Replace (list: (#PARAM_0#), position: (#PARAM_1#), value: (#PARAM_2#));"
+        val inputBrickFormat = "Replace (value: (#PARAM_2#), list: (#PARAM_0#), position: (#PARAM_1#));"
         val inputValues = listOf(
             listOf("*list1*", "1", "\"var1\""),
             listOf("*localList1*", "1", "\"localVar1\""),
         )
-        executeTest(inputBrickFormat, inputValues, ReplaceItemInUserListBrick())
+        val expectedBrickFormat = "Replace (list: (#PARAM_0#), position: (#PARAM_1#), value: (#PARAM_2#));"
+        executeTest(inputBrickFormat, inputValues, ReplaceItemInUserListBrick(), expectedBrickFormat)
     }
     @Test
     fun testWriteListOnDeviceBrick() {
