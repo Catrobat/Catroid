@@ -121,8 +121,7 @@ class BrickListView : ListView {
                 relativePositionOfMovingBricks.add(0)
             } else {
                 relativePositionOfMovingBricks.add(
-                    brickAdapterInterface!!.getPosition(brickFlatList[0])
-                        - lastPosition
+                    brickAdapterInterface!!.getPosition(brickFlatList[0]) - lastPosition
                 )
             }
             lastPosition = brickAdapterInterface!!.getPosition(brickFlatList[0])
@@ -215,7 +214,8 @@ class BrickListView : ListView {
             hoveringDrawables.clear()
             viewBounds.clear()
             for (i in bricksToMove.indices) {
-                val childAtVisiblePosition = getChildAtVisiblePosition(currentPositionOfHoveringBrick + i)
+                val childAtVisiblePosition =
+                    getChildAtVisiblePosition(currentPositionOfHoveringBrick + i)
                 if (childAtVisiblePosition != null) {
                     invalidateHoveringItem = false
                     prepareHoveringItem(childAtVisiblePosition)
@@ -262,11 +262,15 @@ class BrickListView : ListView {
     }
 
     private fun setOffsetToCenter() {
-        var viewBoundHeight = 0
+        offsetToCenter = getCombinedViewboundHeight() / 2
+    }
+
+    private fun getCombinedViewboundHeight(): Int {
+        var height = 0
         for (viewBound in viewBounds) {
-            viewBoundHeight += viewBound.height()
+            height += viewBound.height()
         }
-        offsetToCenter = viewBoundHeight / 2
+        return height
     }
 
     @Suppress("ComplexMethod")
@@ -278,51 +282,49 @@ class BrickListView : ListView {
         val itemAbove: View? =
             if (isPositionValid(itemPositionAbove)) getChildAtVisiblePosition(itemPositionAbove) else null
 
-        var downYAdd = 0
-        for (viewBound in viewBounds) {
-            downYAdd += viewBound.height()
-        }
+        var downYAdd = getCombinedViewboundHeight()
         downYAdd -= viewBounds.last().height()
 
         val isAbove = itemBelow != null && downY + downYAdd > itemBelow.y
         val isBelow = itemAbove != null && downY < itemAbove.y
 
-        if (isAbove || isBelow) {
-            var viewBoundsHeight = 0
-            for (viewBound in viewBounds) {
-                viewBoundsHeight += viewBound.height()
+        if (isAbove) {
+            var currentSwapPos = itemPositionBelow
+            for (i in bricksToMove.lastIndex downTo 0) {
+                if (brickAdapterInterface?.onItemMove(
+                        currentPositionOfHoveringBrick + i,
+                        currentSwapPos
+                    ) == false
+                ) {
+                    return
+                }
+                currentSwapPos -= 1
             }
+            brickAdapterInterface?.setItemVisible(currentSwapPos, true)
+            currentPositionOfHoveringBrick += 1
+        }
+
+        if (isBelow) {
+            var currentSwapPos = itemPositionAbove
+            for (i in bricksToMove.indices) {
+                if (brickAdapterInterface?.onItemMove(
+                        currentPositionOfHoveringBrick + i,
+                        currentSwapPos
+                    ) == false
+                ) {
+                    return
+                }
+                currentSwapPos += 1
+            }
+            brickAdapterInterface?.setItemVisible(currentSwapPos, true)
+            currentPositionOfHoveringBrick -= 1
+        }
+
+        if (isAbove || isBelow) {
+            val viewBoundsHeight = getCombinedViewboundHeight()
             val translationY =
                 if (isAbove) Y_TRANSLATION_CONSTANT - viewBoundsHeight else viewBoundsHeight -
                     Y_TRANSLATION_CONSTANT
-
-            if (isAbove) {
-                var currentSwapPos = itemPositionBelow
-                for (i in bricksToMove.lastIndex downTo 0) {
-                    if (brickAdapterInterface?.onItemMove(
-                            currentPositionOfHoveringBrick + i,
-                            currentSwapPos
-                        ) == false) {
-                            return
-                        }
-                    currentSwapPos -= 1
-                }
-                brickAdapterInterface?.setItemVisible(currentSwapPos, true)
-                currentPositionOfHoveringBrick += 1
-            } else {
-                var currentSwapPos = itemPositionAbove
-                for (i in bricksToMove.indices) {
-                    if (brickAdapterInterface?.onItemMove(
-                            currentPositionOfHoveringBrick + i,
-                            currentSwapPos
-                        ) == false) {
-                        return
-                    }
-                    currentSwapPos += 1
-                }
-                brickAdapterInterface?.setItemVisible(currentSwapPos, true)
-                currentPositionOfHoveringBrick -= 1
-            }
 
             for (i in bricksToMove.indices) {
                 brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick + i, false)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -22,8 +22,8 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
+    android:width="56dp"
+    android:height="46dp"
     android:tint="?attr/colorControlNormal"
     android:viewportHeight="960"
     android:viewportWidth="960">

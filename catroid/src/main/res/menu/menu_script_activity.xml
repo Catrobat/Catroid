@@ -40,6 +40,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/move"
+        android:visible="true"
         android:title="@string/move"
         android:icon="@drawable/ic_drag_move"
         app:showAsAction="never" />
