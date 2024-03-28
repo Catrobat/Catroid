@@ -29,12 +29,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Turn Jumping Sumo")
 public class JumpingSumoRotateLeftBrick extends FormulaBrick {

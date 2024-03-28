@@ -30,7 +30,6 @@ import android.view.View;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -79,12 +78,13 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	private static final long serialVersionUID = 1L;
 	private static final String ALIGNMENT_CATLANG_PARAMETER_NAME = "alignment";
 	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
-	private static final BiMap<Integer, String> ALIGNMENT_SPINNER_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(ALIGNMENT_STYLE_LEFT, "left");
-		put(ALIGNMENT_STYLE_CENTERED, "centered");
-		put(ALIGNMENT_STYLE_RIGHT, "right");
-	}});
+	private static final BiMap<Integer, String> ALIGNMENT_SPINNER_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(ALIGNMENT_STYLE_LEFT, "left");
+			put(ALIGNMENT_STYLE_CENTERED, "centered");
+			put(ALIGNMENT_STYLE_RIGHT, "right");
+		}
+	});
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 

@@ -52,7 +52,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

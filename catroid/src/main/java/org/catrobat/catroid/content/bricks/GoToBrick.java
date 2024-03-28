@@ -44,7 +44,6 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

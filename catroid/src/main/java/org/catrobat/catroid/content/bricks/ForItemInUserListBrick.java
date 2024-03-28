@@ -38,8 +38,6 @@ import org.catrobat.catroid.utils.LoopUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "For each value in list")
 public class ForItemInUserListBrick extends UserDataBrick implements CompositeBrick {
 

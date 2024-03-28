@@ -28,7 +28,6 @@ import android.view.View;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;

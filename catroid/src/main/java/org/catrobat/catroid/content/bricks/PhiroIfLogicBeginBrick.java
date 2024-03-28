@@ -58,15 +58,16 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME = "activated phiro";
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(0, "front left sensor");
-		put(1, "front right sensor");
-		put(2, "side left sensor");
-		put(3, "side right sensor");
-		put(4, "bottom left sensor");
-		put(5, "bottom right sensor");
-	}});
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(0, "front left sensor");
+			put(1, "front right sensor");
+			put(2, "side left sensor");
+			put(3, "side right sensor");
+			put(4, "bottom left sensor");
+			put(5, "bottom right sensor");
+		}
+	});
 
 	private int sensorSpinnerPosition = 0;
 

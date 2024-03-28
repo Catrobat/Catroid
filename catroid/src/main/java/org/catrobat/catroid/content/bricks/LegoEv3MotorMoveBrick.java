@@ -56,14 +56,15 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
 
-	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>()
-	{{
-		put(Motor.MOTOR_A, "A");
-		put(Motor.MOTOR_B, "B");
-		put(Motor.MOTOR_C, "C");
-		put(Motor.MOTOR_D, "D");
-		put(Motor.MOTOR_B_C, "B+C");
-	}});
+	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>() {
+		{
+			put(Motor.MOTOR_A, "A");
+			put(Motor.MOTOR_B, "B");
+			put(Motor.MOTOR_C, "C");
+			put(Motor.MOTOR_D, "D");
+			put(Motor.MOTOR_B_C, "B+C");
+		}
+	});
 
 	private String motor;
 

@@ -32,11 +32,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Show")
 public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 

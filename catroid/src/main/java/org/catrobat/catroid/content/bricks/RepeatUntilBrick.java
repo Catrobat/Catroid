@@ -36,8 +36,6 @@ import org.catrobat.catroid.utils.LoopUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Repeat until")
 public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 

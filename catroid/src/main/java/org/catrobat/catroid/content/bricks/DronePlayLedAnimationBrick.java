@@ -31,7 +31,6 @@ import android.widget.Spinner;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Project;
@@ -57,7 +56,7 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private static final String FLASH_ANIMATION_CATLANG_PARAMETER_NAME = "flash animation";
 	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
-	{
+		{
 			put(0, "blink green red");
 			put(1, "blink green");
 			put(2, "blink red");
@@ -79,7 +78,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 			put(18, "left green right red");
 			put(19, "left red right green");
 			put(20, "blink standard");
-	}});
+		}
+	});
 
 	private String ledAnimationName = "";
 	private int spinnerSelectionIndex;

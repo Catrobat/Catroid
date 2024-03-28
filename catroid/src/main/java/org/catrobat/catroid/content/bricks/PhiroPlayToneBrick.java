@@ -54,16 +54,17 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TONE_CATLANG_PARAMETER_NAME = "tone";
-	private static final BiMap<Tone, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Tone, String>()
-	{{
-		put(Tone.DO, "do");
-		put(Tone.RE, "re");
-		put(Tone.MI, "mi");
-		put(Tone.FA, "fa");
-		put(Tone.SO, "so");
-		put(Tone.LA, "la");
-		put(Tone.TI, "ti");
-	}});
+	private static final BiMap<Tone, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Tone, String>() {
+		{
+			put(Tone.DO, "do");
+			put(Tone.RE, "re");
+			put(Tone.MI, "mi");
+			put(Tone.FA, "fa");
+			put(Tone.SO, "so");
+			put(Tone.LA, "la");
+			put(Tone.TI, "ti");
+		}
+	});
 
 	private String tone;
 

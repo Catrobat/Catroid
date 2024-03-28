@@ -63,12 +63,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
 	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
-	private final static BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>()
-	{{
-		put(Eye.LEFT, "left");
-		put(Eye.RIGHT, "right");
-		put(Eye.BOTH, "both");
-	}});
+	private final static BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>() {
+		{
+			put(Eye.LEFT, "left");
+			put(Eye.RIGHT, "right");
+			put(Eye.BOTH, "both");
+		}
+	});
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 

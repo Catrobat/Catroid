@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Jump Jumping Sumo")
 public class JumpingSumoJumpHighBrick extends BrickBaseType {
 

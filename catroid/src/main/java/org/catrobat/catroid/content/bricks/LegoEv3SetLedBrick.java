@@ -55,19 +55,20 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 
 	private static final String LED_STATUS_CATLANG_PARAMETER_NAME = "status";
 
-	private static final BiMap<LedStatus, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<LedStatus, String>()
-	{{
-		put(LedStatus.LED_OFF, "off");
-		put(LedStatus.LED_GREEN, "green");
-		put(LedStatus.LED_RED, "red");
-		put(LedStatus.LED_ORANGE, "orange");
-		put(LedStatus.LED_GREEN_FLASHING, "green flashing");
-		put(LedStatus.LED_RED_FLASHING, "red flashing");
-		put(LedStatus.LED_ORANGE_FLASHING, "orange flashing");
-		put(LedStatus.LED_GREEN_PULSE, "green pulse");
-		put(LedStatus.LED_RED_PULSE, "red pulse");
-		put(LedStatus.LED_ORANGE_PULSE, "orange pulse");
-	}});
+	private static final BiMap<LedStatus, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<LedStatus, String>() {
+		{
+			put(LedStatus.LED_OFF, "off");
+			put(LedStatus.LED_GREEN, "green");
+			put(LedStatus.LED_RED, "red");
+			put(LedStatus.LED_ORANGE, "orange");
+			put(LedStatus.LED_GREEN_FLASHING, "green flashing");
+			put(LedStatus.LED_RED_FLASHING, "red flashing");
+			put(LedStatus.LED_ORANGE_FLASHING, "orange flashing");
+			put(LedStatus.LED_GREEN_PULSE, "green pulse");
+			put(LedStatus.LED_RED_PULSE, "red pulse");
+			put(LedStatus.LED_ORANGE_PULSE, "orange pulse");
+		}
+	});
 
 	private String ledStatus;
 

@@ -54,13 +54,14 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
-	private static final BiMap<String, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<String, String>()
-	{{
-		put("DEFAULT", "normal");
-		put("ROBOT", "robot");
-		put("INSECT", "insect");
-		put("MONSTER", "monster");
-	}});
+	private static final BiMap<String, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<String, String>() {
+		{
+			put("DEFAULT", "normal");
+			put("ROBOT", "robot");
+			put("INSECT", "insect");
+			put("MONSTER", "monster");
+		}
+	});
 
 	private String soundName;
 

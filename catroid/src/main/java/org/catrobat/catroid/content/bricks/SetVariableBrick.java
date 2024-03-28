@@ -31,11 +31,6 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Set")
 public class SetVariableBrick extends UserVariableBrickWithFormula {
 
