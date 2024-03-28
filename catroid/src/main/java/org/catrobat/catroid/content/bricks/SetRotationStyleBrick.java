@@ -58,12 +58,13 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 
 	private static final long serialVersionUID = 1L;
 	private static final String ROTATION_STYLE_CATLANG_PARAMETER_NAME = "rotation style";
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
-		put(Look.ROTATION_STYLE_ALL_AROUND, "all-around");
-		put(ROTATION_STYLE_NONE, "do not rotate");
-	}});
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
+			put(Look.ROTATION_STYLE_ALL_AROUND, "all-around");
+			put(ROTATION_STYLE_NONE, "do not rotate");
+		}
+	});
 
 	@Look.RotationStyle
 	private int selection;

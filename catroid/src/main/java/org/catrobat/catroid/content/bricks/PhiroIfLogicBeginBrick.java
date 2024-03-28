@@ -266,8 +266,9 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME))
+		if (name.equals(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME)) {
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(sensorSpinnerPosition));
+		}
 		return super.getArgumentByCatlangName(name);
 	}
 
@@ -282,11 +283,13 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String sensorValue = arguments.get(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
-		if (sensorValue == null)
+		if (sensorValue == null) {
 			throw new CatrobatLanguageParsingException("No value found for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		}
 		Integer sensorIndex = CATLANG_SPINNER_VALUES.inverse().get(sensorValue);
-		if (sensorIndex == null)
+		if (sensorIndex == null) {
 			throw new CatrobatLanguageParsingException("Unknown value " + sensorValue + " for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		}
 		sensorSpinnerPosition = sensorIndex;
 	}
 

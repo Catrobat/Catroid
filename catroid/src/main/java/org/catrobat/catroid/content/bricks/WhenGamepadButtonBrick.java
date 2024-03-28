@@ -58,25 +58,27 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 
 	private static final long serialVersionUID = 1L;
 	private static final String GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME = "gamepad button";
-	private static BiMap<Integer, String> GAMEPAD_BUTTON_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(0, "A");
-		put(1, "B");
-		put(2, "up");
-		put(3, "down");
-		put(4, "left");
-		put(5, "right");
-	}});
+	private static BiMap<Integer, String> gamepadButtonCatlangValues = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(0, "A");
+			put(1, "B");
+			put(2, "up");
+			put(3, "down");
+			put(4, "left");
+			put(5, "right");
+		}
+	});
 
-	private static BiMap<Integer, Integer> GAMEPAD_BUTTON_VALUES = HashBiMap.create(new HashMap<Integer, Integer>()
-	{{
-		put(0, R.string.cast_gamepad_A);
-		put(1, R.string.cast_gamepad_B);
-		put(2, R.string.cast_gamepad_up);
-		put(3, R.string.cast_gamepad_down);
-		put(4, R.string.cast_gamepad_left);
-		put(5, R.string.cast_gamepad_right);
-	}});
+	private static BiMap<Integer, Integer> GAMEPAD_BUTTON_VALUES = HashBiMap.create(new HashMap<Integer, Integer>() {
+		{
+			put(0, R.string.cast_gamepad_A);
+			put(1, R.string.cast_gamepad_B);
+			put(2, R.string.cast_gamepad_up);
+			put(3, R.string.cast_gamepad_down);
+			put(4, R.string.cast_gamepad_left);
+			put(5, R.string.cast_gamepad_right);
+		}
+	});
 
 	private WhenGamepadButtonScript script;
 
@@ -160,10 +162,10 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 			Map<Integer, Integer> resourceToValue = GAMEPAD_BUTTON_VALUES.inverse();
 			for (Map.Entry<Integer, Integer> entry : resourceToValue.entrySet()) {
 				if (context.getString(entry.getKey()).equals(selectedAction)) {
-					return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(entry.getValue()));
+					return CatrobatLanguageUtils.getCatlangArgumentTuple(name, gamepadButtonCatlangValues.get(entry.getValue()));
 				}
 			}
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, GAMEPAD_BUTTON_CATLANG_VALUES.get(0));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, gamepadButtonCatlangValues.get(0));
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -175,7 +177,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		if (selectedItem == null) {
 			throw new CatrobatLanguageParsingException("No gamepad button selected");
 		}
-		Integer selectedItemValue = GAMEPAD_BUTTON_CATLANG_VALUES.inverse().get(selectedItem);
+		Integer selectedItemValue = gamepadButtonCatlangValues.inverse().get(selectedItem);
 		if (selectedItemValue == null) {
 			throw new CatrobatLanguageParsingException("Invalid gamepad button selected");
 		}

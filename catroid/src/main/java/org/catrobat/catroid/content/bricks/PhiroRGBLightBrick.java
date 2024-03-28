@@ -220,9 +220,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		if (eye != null) {
 			Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);
 			if (selectedEye != null) {
-			 this.eye = selectedEye.name();
+				this.eye = selectedEye.name();
 			} else {
-			 throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
+				throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
 			}
 		}
 	}

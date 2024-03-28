@@ -309,7 +309,6 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 						throw new CatrobatLanguageParsingException("Unknown user list: " + userDataName);
 					}
 				}
-
 			} else {
 				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userDataName);
 				userData = sprite.getUserVariable(userDataName);
