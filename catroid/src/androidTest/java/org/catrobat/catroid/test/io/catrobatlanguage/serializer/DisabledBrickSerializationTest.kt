@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.io.catrobatlanguage
+package org.catrobat.catroid.test.io.catrobatlanguage.serializer
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView

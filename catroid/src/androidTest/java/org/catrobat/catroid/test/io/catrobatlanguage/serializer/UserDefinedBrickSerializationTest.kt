@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.io.catrobatlanguage
+package org.catrobat.catroid.test.io.catrobatlanguage.serializer
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.content.StartScript

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.io.catrobatlanguage
+package org.catrobat.catroid.test.io.catrobatlanguage.serializer
 
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
