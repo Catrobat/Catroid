@@ -56,29 +56,29 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String FLASH_ANIMATION_CATLANG_PARAMETER_NAME = "flash animation";
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(0, "blink green red");
-		put(1, "blink green");
-		put(2, "blink red");
-		put(3, "blink orange");
-		put(4, "snake green red");
-		put(5, "fire");
-		put(6, "standard");
-		put(7, "red");
-		put(8, "green");
-		put(9, "red snake");
-		put(10, "blank");
-		put(11, "right missile");
-		put(12, "left missile");
-		put(13, "double missle");
-		put(14, "front left green others red");
-		put(15, "front right green others red");
-		put(16, "rear right green others red");
-		put(17, "rear left green others red");
-		put(18, "left green right red");
-		put(19, "left red right green");
-		put(20, "blink standard");
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+	{
+			put(0, "blink green red");
+			put(1, "blink green");
+			put(2, "blink red");
+			put(3, "blink orange");
+			put(4, "snake green red");
+			put(5, "fire");
+			put(6, "standard");
+			put(7, "red");
+			put(8, "green");
+			put(9, "red snake");
+			put(10, "blank");
+			put(11, "right missile");
+			put(12, "left missile");
+			put(13, "double missle");
+			put(14, "front left green others red");
+			put(15, "front right green others red");
+			put(16, "rear right green others red");
+			put(17, "rear left green others red");
+			put(18, "left green right red");
+			put(19, "left red right green");
+			put(20, "blink standard");
 	}});
 
 	private String ledAnimationName = "";
