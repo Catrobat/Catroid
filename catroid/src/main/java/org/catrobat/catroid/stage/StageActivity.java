@@ -88,6 +88,7 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NA
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -124,6 +125,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +180,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	protected void onDestroy() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		if (projectManager.getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
 		super.onDestroy();
@@ -295,14 +298,14 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
 
 		Resolution projectResolution = new Resolution(
-				ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth,
-				ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight);
+				projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth,
+				projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight);
 
 		ScreenValues.currentScreenResolution =
 				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
 
 		resizePossible = ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
-						|| ProjectManager.getInstance().getCurrentProject().isCastProject();
+						|| projectManager.getCurrentProject().isCastProject();
 
 		if (resizePossible) {
 			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));
@@ -392,7 +395,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					projectManager.getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -410,7 +413,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void adaptToDeniedPermissions(List<String> deniedPermissions) {
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = projectManager.getCurrentProject();
 
 		for (Scene scene: project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
