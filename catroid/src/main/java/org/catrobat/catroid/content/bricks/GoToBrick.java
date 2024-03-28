@@ -59,11 +59,12 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	private static final long serialVersionUID = 1L;
 	private static final String TARGET_CATLANG_PARAMETER_NAME = "target";
 
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
-		put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
-	}});
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
+			put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
+		}
+	});
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;

@@ -109,8 +109,9 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(ANIMATION_CATLANG_PARAMETER_NAME))
+		if (name.equals(ANIMATION_CATLANG_PARAMETER_NAME)) {
 			return new HashMap.SimpleEntry<>(ANIMATION_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(Animation.valueOf(animationName)));
+		}
 		return super.getArgumentByCatlangName(name);
 	}
 

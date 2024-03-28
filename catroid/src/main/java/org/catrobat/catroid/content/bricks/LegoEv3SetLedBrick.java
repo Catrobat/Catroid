@@ -30,7 +30,6 @@ import android.widget.Spinner;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Project;
@@ -121,8 +120,9 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(LED_STATUS_CATLANG_PARAMETER_NAME))
+		if (name.equals(LED_STATUS_CATLANG_PARAMETER_NAME)) {
 			return new HashMap.SimpleEntry<>(LED_STATUS_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(LedStatus.valueOf(ledStatus)));
+		}
 		return super.getArgumentByCatlangName(name);
 	}
 
