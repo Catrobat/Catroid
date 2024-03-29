@@ -28,6 +28,8 @@ import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.tree.TerminalNode
+import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Functions
@@ -36,22 +38,24 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParser
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParserVisitor
+import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaBaseVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaElementVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
-import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaBaseVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.OperatorVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterListVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import java.util.Locale
 import java.util.Stack
 
 internal class CatrobatFormulaParserVisitor(
     context: Context,
     private val variables: List<String>,
     private val userLists: List<String>,
-    private val userDefinedBrickParameters: List<String>
+    private val userDefinedBrickParameters: List<String>,
+    private val scene: Scene
     ) : FormulaParserVisitor<FormulaBaseVisitResult> {
 
     companion object {
@@ -92,7 +96,7 @@ internal class CatrobatFormulaParserVisitor(
             Functions.RASPIDIGITAL to 1,
             Functions.MULTI_FINGER_X to 1,
             Functions.MULTI_FINGER_Y to 1,
-            Functions.MULTI_FINGER_TOUCHED to 0,
+            Functions.MULTI_FINGER_TOUCHED to 1,
             Functions.INDEX_CURRENT_TOUCH to 1,
             Functions.LIST_ITEM to 2,
             Functions.CONTAINS to 2,
@@ -111,6 +115,7 @@ internal class CatrobatFormulaParserVisitor(
         )
     }
     private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
+    private val collisionFormulaString = CatrobatLanguageUtils.getEnglishContextForFormulas(context).getString(R.string.formula_editor_function_collision)
 
     private val parentFormulaStack = Stack<FormulaElement>()
     private fun tryGetParentFormulaElement(): FormulaElement? {
@@ -316,6 +321,10 @@ internal class CatrobatFormulaParserVisitor(
 
         val sensorPropertyOrMethod = context.SENSOR_OR_PROPERTY_OR_METHOD().text.trim()
 
+        if (sensorPropertyOrMethod == collisionFormulaString) {
+            return parseCollisionFormula(context)
+        }
+
         if (!externToInternValues.containsKey(sensorPropertyOrMethod)) {
             throw UnkownSensorOrFunctionException(sensorPropertyOrMethod)
         }
@@ -336,6 +345,22 @@ internal class CatrobatFormulaParserVisitor(
             return FormulaElementVisitResult(functionFormulaElement)
         }
         throw UnkownSensorOrFunctionException(sensorPropertyOrMethod)
+    }
+
+    private fun parseCollisionFormula(context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElementVisitResult {
+        if (context.methodParameters() == null) {
+            throw FormulaParsingException("$collisionFormulaString needs a parameter")
+        }
+        val parameters = visitMethodParameters(context.methodParameters()) as ParameterListVisitResult
+        if (parameters.numberOfParameters != 1) {
+            throw InvalidNumberOfFunctionArgumentsException(collisionFormulaString, 1, parameters.numberOfParameters)
+        }
+        val spriteName = parameters.leftChild!!.value.trim();
+        if (!scene.spriteList.any { it.name.equals(spriteName, ignoreCase = true) }) {
+            throw FormulaParsingException("Unkown sprite found in $collisionFormulaString formula: $spriteName")
+        }
+        val collisionFormula = FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, spriteName, tryGetParentFormulaElement())
+        return FormulaElementVisitResult(collisionFormula)
     }
 
     private fun parseFunction(functionText: String, function: Functions, context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElement {

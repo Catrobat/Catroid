@@ -27,6 +27,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
@@ -222,7 +223,8 @@ class ProgramSerializationTest {
             IsCollectionContaining.hasItems(projectName)
         )
         val projectDir = File(DEFAULT_ROOT_DIRECTORY, projectName)
-        val project = XstreamSerializer.getInstance().loadProject(projectDir, ApplicationProvider.getApplicationContext())
+        ProjectManager.getInstance().loadProject(projectDir)
+        val project = ProjectManager.getInstance().currentProject
         TestCase.assertNotNull(project)
 
         projectManager.currentProject = project
@@ -237,7 +239,7 @@ class ProgramSerializationTest {
         val serializedLines = serializedProject.split('\n')
         Assert.assertEquals("Equal Line Count", referenceLines.size, serializedLines.size)
         for (i in referenceLines.indices) {
-            Assert.assertEquals("Error in Line " + i, referenceLines[i], serializedLines[i])
+            Assert.assertEquals("Error in Line " + (i+1), referenceLines[i], serializedLines[i])
         }
 
         StorageOperations.deleteDir(CACHE_DIRECTORY)

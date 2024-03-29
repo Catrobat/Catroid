@@ -445,6 +445,9 @@ public class InternToExternGenerator {
 			case COLLISION_FORMULA:
 				String collisionTag = context.getString(R.string
 						.formula_editor_function_collision);
+				if (isCatrobatLanguageMode) {
+					return collisionTag + "(" + CatrobatLanguageUtils.formatActorOrObject(internToken.getTokenStringValue()) + ")";
+				}
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
 
 			default:

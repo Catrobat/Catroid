@@ -72,7 +72,7 @@ public class CatrobatFormulaParser(private val context: Context, private val pro
         throwArgumentParsingException(argument, lexerErrorListener.errors)
         throwArgumentParsingException(argument, parserErrorListener.errors)
 
-        val visitor = CatrobatFormulaParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters())
+        val visitor = CatrobatFormulaParserVisitor(context, getVariables(), getLists(), getUserDefinedBrickParameters(), scene)
         return (visitor.visitFormula(argumentContext) as FormulaVisitResult).formula
     }
 

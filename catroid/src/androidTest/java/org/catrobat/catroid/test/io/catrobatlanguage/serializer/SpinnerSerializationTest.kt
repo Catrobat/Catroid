@@ -349,7 +349,7 @@ class SpinnerSerializationTest {
             baseActivityTestRule.launchActivity()
             val mapOfValues = mapOf(
                 getStringForResourceId(R.string.brick_set_rotation_style_normal) to "Set (rotation style: (all-around));\n",
-                getStringForResourceId(R.string.brick_set_rotation_style_no) to "Set (rotation style: (don't rotate));\n",
+                getStringForResourceId(R.string.brick_set_rotation_style_no) to "Set (rotation style: (do not rotate));\n",
                 getStringForResourceId(R.string.brick_set_rotation_style_lr) to "Set (rotation style: (left-right only));\n",
             )
             executeTest(
@@ -592,17 +592,17 @@ class SpinnerSerializationTest {
             executeTest(
                 R.id.brick_show_variable_color_size_align_spinner,
                 brick,
-                "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
+                "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n",
                 mapOf(
-                    getStringForResourceId(R.string.brick_show_variable_aligned_left) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (left));\n",
-                    getStringForResourceId(R.string.brick_show_variable_aligned_right) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (right));\n",
-                    getStringForResourceId(R.string.brick_show_variable_aligned_centered) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n"
+                    getStringForResourceId(R.string.brick_show_variable_aligned_left) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (left));\n",
+                    getStringForResourceId(R.string.brick_show_variable_aligned_right) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (right));\n",
+                    getStringForResourceId(R.string.brick_show_variable_aligned_centered) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n"
                 ),
                 R.id.show_variable_color_size_spinner,
                 mapOf(
-                    "var2" to "Show (variable: (\"var2\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
-                    "var3" to "Show (variable: (\"var3\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
-                    "var1" to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n"
+                    "var2" to "Show (variable: (\"var2\"), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n",
+                    "var3" to "Show (variable: (\"var3\"), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n",
+                    "var1" to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n"
                 )
             )
             baseActivityTestRule.finishActivity()
