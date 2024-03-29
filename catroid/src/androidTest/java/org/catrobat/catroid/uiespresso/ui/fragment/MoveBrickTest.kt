@@ -149,6 +149,29 @@ class MoveBrickTest {
         onBrickAtPosition(1).check(matches(isDisplayed()))
 
         onView(withId(R.id.confirm)).perform(click())
+
+        onView(withText(R.string.brick_set_x))
+    }
+
+    @Test
+    fun testSelectScriptBrick() {
+        UiTestUtils.openActionBarMenu()
+        onView(withText(R.string.move)).perform(click())
+
+        getCheckbox(0).perform(click()).check(matches(isChecked())).check(matches(isEnabled()))
+
+        for (i in 1..brickEndIndex) {
+            onBrickAtPosition(i).check(matches(isDisplayed()))
+        }
+
+        onView(withId(R.id.confirm)).perform(click())
+
+        onView(withText(R.string.brick_set_x)).check(doesNotExist())
+        onView(withText(R.string.brick_set_y)).check(doesNotExist())
+        onView(withText(R.string.brick_forever)).check(doesNotExist())
+        onView(withText(R.string.brick_set_friction)).check(doesNotExist())
+        onView(withText(R.string.brick_loop_end)).check(doesNotExist())
+        onView(withText(R.string.brick_glide)).check(doesNotExist())
     }
 
     @Test
@@ -174,13 +197,39 @@ class MoveBrickTest {
         onView(withText(R.string.brick_loop_end)).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun testSelectMultipleBricks() {
+        UiTestUtils.openActionBarMenu()
+        onView(withText(R.string.move)).perform(click())
+
+        getCheckbox(2).perform(click()).check(matches(isChecked()))
+
+        getCheckbox(3).perform(click()).check(matches(isChecked()))
+
+        onView(withText(R.string.brick_set_y)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_forever)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_set_friction)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_loop_end)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.confirm)).perform(click())
+
+        onView(withText(R.string.brick_set_friction)).check(doesNotExist())
+        onView(withText(R.string.brick_loop_end)).check(doesNotExist())
+
+        onView(withText(R.string.brick_set_x)).perform(click())
+
+        onView(withText(R.string.brick_set_y)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_forever)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_set_friction)).check(matches(isDisplayed()))
+        onView(withText(R.string.brick_loop_end)).check(matches(isDisplayed()))
+    }
+
     private fun getCheckbox(brickIndex: Int): DataInteraction {
         return onBrickAtPosition(brickIndex).onChildView(
-                allOf(
-                    withId(R.id.brick_checkbox),
-                    isDisplayed()
-                )
+            allOf(
+                withId(R.id.brick_checkbox), isDisplayed()
             )
+        )
     }
 
     private fun createProject(projectName: String) {
