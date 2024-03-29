@@ -23,13 +23,9 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage.parser
 
-import android.content.Context
 import android.content.res.Configuration
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick
 import org.catrobat.catroid.content.bricks.*
-import org.catrobat.catroid.content.bricks.WebRequestBrick
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Assert.assertEquals
@@ -1508,6 +1504,7 @@ Program 'Brick Parsing Test' {
         }
     }
 
+    @Suppress("TooManyParameters")
     private fun executeLocalizedTest(
         inputBrickFormat: String,
         inputValues: List<List<String>>,

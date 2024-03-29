@@ -28,7 +28,6 @@ import android.content.Context;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 
@@ -103,27 +102,29 @@ public enum PickableMusicalInstrument implements Nameable, Serializable {
 		return context.getString(nameStringId);
 	}
 
-	public static final BiMap<PickableMusicalInstrument, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableMusicalInstrument, String>(){{
-		put(PIANO, "piano");
-		put(ELECTRIC_PIANO, "electric piano");
-		put(CELLO, "cello");
-		put(FLUTE, "flute");
-		put(VIBRAPHONE, "vibraphone");
-		put(ORGAN, "organ");
-		put(GUITAR, "guitar");
-		put(ELECTRIC_GUITAR, "electric guitar");
-		put(BASS, "bass");
-		put(PIZZICATO, "pizzicato");
-		put(SYNTH_PAD, "synth pad");
-		put(CHOIR, "choir");
-		put(SYNTH_LEAD, "synth lead");
-		put(WOODEN_FLUTE, "wooden flute");
-		put(TROMBONE, "trombone");
-		put(SAXOPHONE, "saxophone");
-		put(BASSOON, "bassoon");
-		put(CLARINET, "clarinet");
-		put(MUSIC_BOX, "music box");
-		put(STEEL_DRUM, "steel drum");
-		put(MARIMBA, "marimba");
-	}});
+	public static final BiMap<PickableMusicalInstrument, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableMusicalInstrument, String>() {
+		{
+			put(PIANO, "piano");
+			put(ELECTRIC_PIANO, "electric piano");
+			put(CELLO, "cello");
+			put(FLUTE, "flute");
+			put(VIBRAPHONE, "vibraphone");
+			put(ORGAN, "organ");
+			put(GUITAR, "guitar");
+			put(ELECTRIC_GUITAR, "electric guitar");
+			put(BASS, "bass");
+			put(PIZZICATO, "pizzicato");
+			put(SYNTH_PAD, "synth pad");
+			put(CHOIR, "choir");
+			put(SYNTH_LEAD, "synth lead");
+			put(WOODEN_FLUTE, "wooden flute");
+			put(TROMBONE, "trombone");
+			put(SAXOPHONE, "saxophone");
+			put(BASSOON, "bassoon");
+			put(CLARINET, "clarinet");
+			put(MUSIC_BOX, "music box");
+			put(STEEL_DRUM, "steel drum");
+			put(MARIMBA, "marimba");
+		}
+	});
 }

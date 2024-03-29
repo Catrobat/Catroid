@@ -33,7 +33,7 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 @CatrobatLanguageBrick(command = "Write to file")
 class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     companion object {
-        private const val VARIABLE_CATLANG_PARAMETER_NAME = "variable";
+        private const val VARIABLE_CATLANG_PARAMETER_NAME = "variable"
     }
 
     constructor(value: String) : this(Formula(value))
@@ -63,7 +63,5 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
         super.addRequiredResources(requiredResourcesSet)
     }
 
-    override fun getUserVariableCatlangArgumentName(): String {
-        return VARIABLE_CATLANG_PARAMETER_NAME
-    }
+    override fun getUserVariableCatlangArgumentName(): String = VARIABLE_CATLANG_PARAMETER_NAME
 }

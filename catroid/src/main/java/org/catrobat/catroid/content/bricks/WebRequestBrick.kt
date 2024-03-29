@@ -43,7 +43,7 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     companion object {
-        private const val ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable";
+        private const val ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable"
         private const val URL_CATLANG_PARAMETER_NAME = "url"
     }
 
@@ -63,9 +63,7 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     override fun getSpinnerId(): Int = R.id.web_request_spinner
-    override fun getUserVariableCatlangArgumentName(): String {
-        return ANSWER_VARIABLE_CATLANG_PARAMETER_NAME
-    }
+    override fun getUserVariableCatlangArgumentName(): String = ANSWER_VARIABLE_CATLANG_PARAMETER_NAME
 
     override fun getRequiredCatlangArgumentNames(): Collection<String>? {
         val requiredArguments = arrayListOf<String>()
