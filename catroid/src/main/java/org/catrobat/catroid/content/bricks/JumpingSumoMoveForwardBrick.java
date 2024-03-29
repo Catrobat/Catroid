@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Move Jumping Sumo")
 public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 

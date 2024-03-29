@@ -38,8 +38,6 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "If")
 public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 

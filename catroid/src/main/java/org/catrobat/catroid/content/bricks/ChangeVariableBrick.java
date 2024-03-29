@@ -29,9 +29,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 @CatrobatLanguageBrick(command = "Change")
 public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 

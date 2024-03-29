@@ -58,12 +58,13 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
 	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
-	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>()
-	{{
-		put(Motor.MOTOR_LEFT, "left");
-		put(Motor.MOTOR_RIGHT, "right");
-		put(Motor.MOTOR_BOTH, "both");
-	}});
+	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>() {
+		{
+			put(Motor.MOTOR_LEFT, "left");
+			put(Motor.MOTOR_RIGHT, "right");
+			put(Motor.MOTOR_BOTH, "both");
+		}
+	});
 
 	private String motor;
 

@@ -39,7 +39,6 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -118,7 +117,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if(name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
+		if (name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
 			String currentObject = "yourself";
 			if (objectToClone != null) {
 				currentObject = CatrobatLanguageUtils.formatActorOrObject(objectToClone.getName());

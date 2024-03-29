@@ -29,11 +29,8 @@ import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "When condition becomes true")
 public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {

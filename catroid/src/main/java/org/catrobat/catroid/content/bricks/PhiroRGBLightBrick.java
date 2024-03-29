@@ -41,7 +41,6 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
@@ -50,7 +49,6 @@ import org.catrobat.catroid.ui.UiUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -62,13 +60,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
-	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
-	private final static BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>()
-	{{
-		put(Eye.LEFT, "left");
-		put(Eye.RIGHT, "right");
-		put(Eye.BOTH, "both");
-	}});
+	private static final BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>() {
+		{
+			put(Eye.LEFT, "left");
+			put(Eye.RIGHT, "right");
+			put(Eye.BOTH, "both");
+		}
+	});
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -215,46 +213,17 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		return requiredArguments;
 	}
 
-//	@Override
-//	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
-//		Collection<String> requiredArguments = new ArrayList<>();
-//		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
-//		requiredArguments.add("red");
-//		requiredArguments.add("green");
-//		requiredArguments.add("blue");
-//		Collection<String> argumentsPresent = arguments.keySet();
-//
-//		if (requiredArguments.size() == argumentsPresent.size()) {
-//			List<String> missingArguments = new ArrayList<>();
-//			for (String requiredArgument : requiredArguments) {
-//				if (!argumentsPresent.contains(requiredArgument)) {
-//					missingArguments.add(requiredArgument);
-//				}
-//			}
-//			if (!missingArguments.isEmpty()) {
-//				String requiredArgumentsString = String.join(", ", requiredArguments);
-//				String missingArgumentsString = String.join(", ", missingArguments);
-//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
-//			}
-//		} else {
-//			if (requiredArguments.size() == 0) {
-//				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
-//			}
-//			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
-//		}
-//	}
-
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String eye = arguments.get(LIGHT_CATLANG_PARAMETER_NAME);
 		if (eye != null) {
-			 Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);
-			 if (selectedEye != null) {
-				 this.eye = selectedEye.name();
-			 } else {
-				 throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
-			 }
+			Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);
+			if (selectedEye != null) {
+				this.eye = selectedEye.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
+			}
 		}
 	}
 }

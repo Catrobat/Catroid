@@ -45,8 +45,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Repeat")
 public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 

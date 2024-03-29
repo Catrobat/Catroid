@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
-import java.util.AbstractMap
 
 @CatrobatLanguageBrick(command = "Fade particle")
 class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
@@ -46,7 +45,7 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
         const val FADE_IN = 0
         const val FADE_OUT = 1
 
-        const val EFFECT_CATLANG_PARAMETER_NAME = "effect";
+        const val EFFECT_CATLANG_PARAMETER_NAME = "effect"
         val spinnerValuesCatrobatLanguageMap = HashBiMap.create(mapOf(FADE_IN to "in", FADE_OUT to "out"))
     }
 

@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Assert lists")
 public class AssertUserListsBrick extends UserDataBrick {
 

@@ -34,13 +34,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 @CatrobatLanguageBrick(command = "If")

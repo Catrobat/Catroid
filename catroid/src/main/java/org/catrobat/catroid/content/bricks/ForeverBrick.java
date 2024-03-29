@@ -35,8 +35,6 @@ import org.catrobat.catroid.utils.LoopUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Forever")
 public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 

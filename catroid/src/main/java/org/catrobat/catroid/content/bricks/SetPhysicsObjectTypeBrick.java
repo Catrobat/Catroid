@@ -55,12 +55,13 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MOTION_TYPE_CATLANG_PARAMETER_NAME = "motion type";
-	private static final BiMap<PhysicsObject.Type, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<PhysicsObject.Type, String>()
-	{{
-		put(PhysicsObject.Type.DYNAMIC, "moving and bouncing under gravity");
-		put(PhysicsObject.Type.FIXED, "not moving under gravity, but others bounce off you under gravity");
-		put(PhysicsObject.Type.NONE, "not moving or bouncing under gravity (default)");
-	}});
+	private static final BiMap<PhysicsObject.Type, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<PhysicsObject.Type, String>() {
+		{
+			put(PhysicsObject.Type.DYNAMIC, "moving and bouncing under gravity");
+			put(PhysicsObject.Type.FIXED, "not moving under gravity, but others bounce off you under gravity");
+			put(PhysicsObject.Type.NONE, "not moving or bouncing under gravity (default)");
+		}
+	});
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 

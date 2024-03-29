@@ -22,30 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
-import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Set pen color")

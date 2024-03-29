@@ -36,8 +36,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Move AR.Drone 2.0")
 public class DroneMoveUpBrick extends FormulaBrick {
 

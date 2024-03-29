@@ -44,7 +44,6 @@ import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguagePars
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,11 +59,12 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	private static final long serialVersionUID = 1L;
 	private static final String TARGET_CATLANG_PARAMETER_NAME = "target";
 
-	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>()
-	{{
-		put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
-		put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
-	}});
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(BrickValues.GO_TO_TOUCH_POSITION, "touch position");
+			put(BrickValues.GO_TO_RANDOM_POSITION, "random position");
+		}
+	});
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
