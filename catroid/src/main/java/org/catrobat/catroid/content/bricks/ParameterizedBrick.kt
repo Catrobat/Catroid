@@ -56,9 +56,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun getNestedBricks(): List<Brick> = loopBricks
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
-    override fun getSecondaryNestedBricksParent(): Brick {
-        return null as Brick
-    }
+    override fun getSecondaryNestedBricksParent(): Brick = null as Brick
 
     override fun getSecondaryBrickCommand(): String? = null
 

@@ -41,7 +41,8 @@ import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParser
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 
-public class CatrobatFormulaParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
+class CatrobatFormulaParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
+    @Suppress("FunctionOverloading")
     class LexerErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
@@ -49,6 +50,7 @@ public class CatrobatFormulaParser(private val context: Context, private val pro
         }
     }
 
+    @Suppress("FunctionOverloading")
     class ParserErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
