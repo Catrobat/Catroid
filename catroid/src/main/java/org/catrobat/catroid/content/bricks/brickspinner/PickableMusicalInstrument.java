@@ -102,7 +102,7 @@ public enum PickableMusicalInstrument implements Nameable, Serializable {
 		return context.getString(nameStringId);
 	}
 
-	public static final BiMap<PickableMusicalInstrument, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableMusicalInstrument, String>() {
+	public static final BiMap<PickableMusicalInstrument, String> CATROBAT_LANGUAGE_MAP = HashBiMap.create(new HashMap<PickableMusicalInstrument, String>() {
 		{
 			put(PIANO, "piano");
 			put(ELECTRIC_PIANO, "electric piano");

@@ -181,7 +181,7 @@ import java.util.Locale
 
 @Suppress("LargeClass")
 class BrickParsingTest {
-    private val brickIndention = "          ";
+    private val brickIndention = "          "
 
     @Test
     fun testWaitBrick() {
@@ -277,7 +277,7 @@ class BrickParsingTest {
     fun testLegoEv3MotorStopBrick() {
         val inputBrickFormat = "Stop EV3 (motor: (#PARAM_0#));"
         val inputValues = listOf(
-            listOf("A",),
+            listOf("A"),
             listOf("B"),
             listOf("C"),
             listOf("D"),
@@ -1642,8 +1642,8 @@ Program 'Brick Parsing Test' {
         inputValues: List<List<String>>,
         expectedBrickType: Brick,
         expectedBrickFormat: String? = null,
-        expectedValues: List<List<String>>? = null) {
-
+        expectedValues: List<List<String>>? = null
+    ) {
         val locales = listOf(Locale.ROOT, Locale.GERMAN, Locale.CHINA)
 
         for (locale in locales) {
@@ -1651,15 +1651,15 @@ Program 'Brick Parsing Test' {
         }
     }
 
-    @Suppress("TooManyParameters")
+    @Suppress("detekt.TooManyParameters")
     private fun executeLocalizedTest(
         inputBrickFormat: String,
         inputValues: List<List<String>>,
         expectedBrickType: Brick,
         locale: Locale,
         expectedBrickFormat: String? = null,
-        expectedValues: List<List<String>>? = null) {
-
+        expectedValues: List<List<String>>? = null
+    ) {
         for (testIndex in inputValues.indices) {
             var inputBrickString = inputBrickFormat
             for (valueIndex in inputValues[testIndex].indices) {
@@ -1678,24 +1678,20 @@ Program 'Brick Parsing Test' {
 
             val programString = serializedProgram.replace("#BRICK_PLACEHOLDER#", inputBrickString)
             val expectedProgram = serializedProgram.replace("#BRICK_PLACEHOLDER#", expectedBrickString)
-            try {
-                val context = CatroidApplication.getAppContext()
-                var configuration = context.resources.configuration
-                configuration = Configuration(configuration)
-                configuration.setLocale(locale)
-                context.createConfigurationContext(configuration)
+            val context = CatroidApplication.getAppContext()
+            var configuration = context.resources.configuration
+            configuration = Configuration(configuration)
+            configuration.setLocale(locale)
+            context.createConfigurationContext(configuration)
 
-                val parsedProgram = CatrobatLanguageParser.parseProgramFromString(programString, context)
+            val parsedProgram = CatrobatLanguageParser.parseProgramFromString(programString, context)
 
-                val parsedBrick = parsedProgram!!.sceneList[0].spriteList[1].scriptList[0].brickList[0]
-                assertEquals(expectedBrickType::class.java, parsedBrick::class.java)
+            val parsedBrick = parsedProgram!!.sceneList[0].spriteList[1].scriptList[0].brickList[0]
+            assertEquals(expectedBrickType::class.java, parsedBrick::class.java)
 
-                val serializedProgram = CatrobatLanguageProjectSerializer(parsedProgram, context).serialize()
+            val serializedProgram = CatrobatLanguageProjectSerializer(parsedProgram, context).serialize()
 
-                assertEquals(expectedProgram, serializedProgram)
-            } catch (throwable: Throwable) {
-                throw throwable
-            }
+            assertEquals(expectedProgram, serializedProgram)
         }
     }
 }

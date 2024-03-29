@@ -1890,7 +1890,7 @@ class SpinnerSerializationTest {
         var defaultCatLangValue = ""
         for (instrument in PickableMusicalInstrument.values()) {
             val spinnerItemName = getStringForResourceId(instrument.nameStringId)
-            val instrumentName = PickableMusicalInstrument.catrobatLanguageMap[instrument]!!
+            val instrumentName = PickableMusicalInstrument.CATROBAT_LANGUAGE_MAP[instrument]!!
             if (spinnerItemName == defaultValue) {
                 defaultCatLangValue = expectedValue.replace("{{INSTRUMENT}}", instrumentName)
                 continue

@@ -101,7 +101,7 @@ public enum PickableDrum implements Nameable, Serializable {
 		return context.getString(nameStringId);
 	}
 
-	public static final BiMap<PickableDrum, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableDrum, String>() {
+	public static final BiMap<PickableDrum, String> CATROBAT_LANGUAGE_MAP = HashBiMap.create(new HashMap<PickableDrum, String>() {
 		{
 			put(SNARE_DRUM, "snare drum");
 			put(BASS_DRUM, "bass drum");
@@ -125,10 +125,10 @@ public enum PickableDrum implements Nameable, Serializable {
 	});
 
 	public static PickableDrum getDrumByCatrobatLanguageString(String catrobatLanguageString) {
-		return catrobatLanguageMap.inverse().get(catrobatLanguageString);
+		return CATROBAT_LANGUAGE_MAP.inverse().get(catrobatLanguageString);
 	}
 
 	public static String getCatrobatLanguageStringByDrum(PickableDrum drum) {
-		return catrobatLanguageMap.get(drum);
+		return CATROBAT_LANGUAGE_MAP.get(drum);
 	}
 }

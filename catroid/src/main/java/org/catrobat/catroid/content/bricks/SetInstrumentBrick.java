@@ -107,7 +107,7 @@ public class SetInstrumentBrick extends BrickBaseType
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(INSTRUMENT_CATLANG_PARAMETER_NAME)) {
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableMusicalInstrument.catrobatLanguageMap.get(instrumentSelection));
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, PickableMusicalInstrument.CATROBAT_LANGUAGE_MAP.get(instrumentSelection));
 		}
 		return super.getArgumentByCatlangName(name);
 	}
@@ -122,7 +122,7 @@ public class SetInstrumentBrick extends BrickBaseType
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
-		instrumentSelection = PickableMusicalInstrument.catrobatLanguageMap.inverse().get(arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
+		instrumentSelection = PickableMusicalInstrument.CATROBAT_LANGUAGE_MAP.inverse().get(arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
 		if (instrumentSelection == null) {
 			throw new CatrobatLanguageParsingException("Invalid instrument: " + arguments.get(INSTRUMENT_CATLANG_PARAMETER_NAME));
 		}
