@@ -195,7 +195,7 @@ Program 'The Binding of Krishna' {
           Wait (seconds: (0.1));
           Set (variable: ("savedlanguage"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList- Play* )));
-          Show (variable: ("displaytext"), x: (5), y: (52), size: (90), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (5), y: (52), size: (90), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (80));
@@ -216,7 +216,7 @@ Program 'The Binding of Krishna' {
           Place at (x: (21), y: (- 128));
           Wait (seconds: (0.2));
           Set (variable: ("displayedtexr"), value: (item( "Global-CurrentLanguage" , *LanguageList-Options* )));
-          Show (variable: ("displayedtexr"), x: (21), y: (- 110), size: (90), color: (#000000), alignment: (centered));
+          Show (variable: ("displayedtexr"), x: (21), y: (- 110), size: (90), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (80));
@@ -736,7 +736,7 @@ Program 'The Binding of Krishna' {
           Place at (x: (- 505), y: (60));
           Set (variable: ("displaytext"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList-Languages* )));
-          Show (variable: ("displaytext"), x: (- 506), y: (80), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (- 506), y: (80), size: (100), color: (0), alignment: (centered));
         }
       }
     }
@@ -751,7 +751,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (100));
           Set (variable: ("local-displaytext"), value: ('English'));
-          Show (variable: ("local-displaytext"), x: (- 127), y: (110), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 127), y: (110), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -773,7 +773,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (- 182));
           Set (variable: ("Local-DisplayText"), value: ('हिंदी'));
-          Show (variable: ("Local-DisplayText"), x: (- 127), y: (- 172), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("Local-DisplayText"), x: (- 127), y: (- 172), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -795,7 +795,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (- 88));
           Set (variable: ("local-displaytext"), value: ('Português'));
-          Show (variable: ("local-displaytext"), x: (204), y: (- 78), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (204), y: (- 78), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -817,7 +817,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (288));
           Set (variable: ("local-displaytexts"), value: ('Italiano'));
-          Show (variable: ("local-displaytexts"), x: (204), y: (298), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytexts"), x: (204), y: (298), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -839,7 +839,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (533), y: (194));
           Set (variable: ("local-displaytext"), value: ('සිංහල'));
-          Show (variable: ("local-displaytext"), x: (533), y: (204), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (533), y: (204), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -861,7 +861,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (- 88));
           Set (variable: ("local-displaytext"), value: ('Deutsch'));
-          Show (variable: ("local-displaytext"), x: (- 127), y: (- 78), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 127), y: (- 78), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -883,7 +883,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (194));
           Set (variable: ("Local-DisplayText"), value: ('日本語'));
-          Show (variable: ("Local-DisplayText"), x: (204), y: (204), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("Local-DisplayText"), x: (204), y: (204), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -905,7 +905,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (6));
           Set (variable: ("Local-DisplayText"), value: ('français'));
-          Show (variable: ("Local-DisplayText"), x: (- 127), y: (16), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("Local-DisplayText"), x: (- 127), y: (16), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -927,7 +927,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (194));
           Set (variable: ("local-displaytext"), value: ('বাংলা'));
-          Show (variable: ("local-displaytext"), x: (- 127), y: (204), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 127), y: (204), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -949,7 +949,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (533), y: (6));
           Set (variable: ("local-displaytexts"), value: ('தமிழ்'));
-          Show (variable: ("local-displaytexts"), x: (533), y: (16), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytexts"), x: (533), y: (16), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -971,7 +971,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (533), y: (288));
           Set (variable: ("local-displaytext"), value: ('سنڌي'));
-          Show (variable: ("local-displaytext"), x: (533), y: (298), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (533), y: (298), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -993,7 +993,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (533), y: (- 88));
           Set (variable: ("local-displaytexts"), value: ('اردو'));
-          Show (variable: ("local-displaytexts"), x: (533), y: (- 78), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytexts"), x: (533), y: (- 78), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1015,7 +1015,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (531), y: (- 184));
           Set (variable: ("local-displaytext"), value: ('bahasa Indonesia'));
-          Show (variable: ("local-displaytext"), x: (533), y: (- 172), size: (80), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (533), y: (- 172), size: (80), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1037,7 +1037,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (288));
           Set (variable: ("local-displaytext"), value: ('عربى'));
-          Show (variable: ("local-displaytext"), x: (- 127), y: (298), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 127), y: (298), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1056,7 +1056,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 127), y: (- 279));
           Set (variable: ("KrishnaX"), value: ('汉语'));
-          Show (variable: ("KrishnaX"), x: (- 127), y: (- 267), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("KrishnaX"), x: (- 127), y: (- 267), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1078,7 +1078,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (- 182));
           Set (variable: ("local-displaytexts"), value: ('русский'));
-          Show (variable: ("local-displaytexts"), x: (204), y: (- 172), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytexts"), x: (204), y: (- 172), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1100,7 +1100,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (6));
           Set (variable: ("local-displaytext"), value: ('Polskie'));
-          Show (variable: ("local-displaytext"), x: (204), y: (16), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (204), y: (16), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1122,7 +1122,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (533), y: (100));
           Set (variable: ("local-displaytext"), value: ('Español'));
-          Show (variable: ("local-displaytext"), x: (533), y: (110), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (533), y: (110), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1144,7 +1144,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (- 283));
           Set (variable: ("local-displaytext"), value: ('한국어'));
-          Show (variable: ("local-displaytext"), x: (204), y: (- 274), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (204), y: (- 274), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1166,7 +1166,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (531), y: (- 281));
           Set (variable: ("local-displaytext"), value: ('Türkçe'));
-          Show (variable: ("local-displaytext"), x: (531), y: (- 270), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (531), y: (- 270), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1188,7 +1188,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 443), y: (- 279));
           Set (variable: ("local-displaytext"), value: ('tiếng Việt'));
-          Show (variable: ("local-displaytext"), x: (- 443), y: (- 265), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 443), y: (- 265), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1210,7 +1210,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (- 444), y: (- 183));
           Set (variable: ("local-displaytext"), value: ('ਪੰਜਾਬੀ'));
-          Show (variable: ("local-displaytext"), x: (- 444), y: (- 170), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (- 444), y: (- 170), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1232,7 +1232,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Place at (x: (204), y: (100));
           Set (variable: ("local-displaytext"), value: ('ಕನ್ನಡ'));
-          Show (variable: ("local-displaytext"), x: (204), y: (110), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("local-displaytext"), x: (204), y: (110), size: (100), color: (0), alignment: (centered));
         }
         When tapped {
           Set (size percentage: (70));
@@ -1692,7 +1692,7 @@ Program 'The Binding of Krishna' {
         }
         When you bounce off (actor or object: (any edge, actor, or object)) {
           Set velocity to (x steps/second: (x velocity × 0.5), y steps/second: (y velocity × 0.5));
-          Repeat until (condition: (angular velocity = 0 && null = 90)) {
+          Repeat until (condition: (angular velocity = 0 && motion direction = 90)) {
             Spin (direction: (left), degrees/second: (0));
             Point in direction (degrees: (90));
           }
@@ -1784,7 +1784,7 @@ Program 'The Binding of Krishna' {
         When scene starts {
           Wait (seconds: (1));
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("DoorLockedStatus" = 'Unlocked')) {
                 Write on device (variable: ("Actual number of bombs"));
                 Write on device (variable: ("actual number of agility potions"));
@@ -1924,17 +1924,17 @@ Program 'The Binding of Krishna' {
           Point in direction (degrees: ("Direction of shooting"));
           Go to (target: ('Krishna'));
           Show;
-          Set velocity to (x steps/second: (sine( null ) × "Local: arrow velocity"), y steps/second: (cosine( null ) × "Local: arrow velocity"));
+          Set velocity to (x steps/second: (sine( motion direction ) × "Local: arrow velocity"), y steps/second: (cosine( motion direction ) × "Local: arrow velocity"));
           Repeat until (condition: (absolute value( position x ) > 800 || absolute value( position y ) > 400)) {
-            If (condition: (touches actor or object(firedemon1))) {
+            If (condition: (touches actor or object('firedemon1'))) {
               Broadcast (message: ('Fire demon hit'));
               Delete this clone;
             }
-            If (condition: (touches actor or object(putna))) {
+            If (condition: (touches actor or object('putna'))) {
               Broadcast (message: ('putna hit'));
               Delete this clone;
             }
-            If (condition: (touches actor or object(putna shield) || touches actor or object(Rock instance))) {
+            If (condition: (touches actor or object('putna shield') || touches actor or object('Rock instance'))) {
               Delete this clone;
             }
           }
@@ -1978,7 +1978,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(bomb))) {
+            If (condition: (touches actor or object('Bomb'))) {
               Switch to (look by number: (2));
               Start (sound: ('Blastwave_FX_GrenadeExplosion_S08WA.229_229'));
               Set (size percentage: (200));
@@ -2026,7 +2026,7 @@ Program 'The Binding of Krishna' {
           Set (transparency percentage: (99));
           Set (size percentage: (150));
           Set (variable: ("Bomb wait time"), value: (0.1));
-          Set (motion type: (moving and bouncing under gravity));
+          Set (motion type: (not moving under gravity, but others bounce off you under gravity));
         }
         When you start as a clone {
           Place at (x: (( "Global-RockSpawnX" × 145 ) - 650), y: (( "Global-RockSpawnY" × 155 ) - 250));
@@ -2036,19 +2036,19 @@ Program 'The Binding of Krishna' {
         When you start as a clone {
           Wait (seconds: (0.1));
           Forever {
-            If (condition: (( "Global-ItemspawnX" = position x && "Global-ItemspawnY" = position y ) || ! touches actor or object(Rock instance))) {
+            If (condition: (( "Global-ItemspawnX" = position x && "Global-ItemspawnY" = position y ) || ! touches actor or object('Rock instance'))) {
               Delete this clone;
             }
             If (condition: (position y > "KrishnaY")) {
-              Set (motion type: (moving and bouncing under gravity));
+              Set (motion type: (not moving or bouncing under gravity (default)));
               If (condition: ("Local: is bouncing")) {
                 Set (variable: ("Local: is bouncing"), value: (false));
               }
             } else {
-              Set (motion type: (moving and bouncing under gravity));
+              Set (motion type: (not moving under gravity, but others bounce off you under gravity));
               If (condition: (! "Local: is bouncing")) {
                 Set (variable: ("Local: is bouncing"), value: (true));
-                If (condition: (touches actor or object(Krishna))) {
+                If (condition: (touches actor or object('Krishna'))) {
                   Broadcast (message: ('Bounce off behindRock from below!'));
                 }
               }
@@ -2189,8 +2189,8 @@ Program 'The Binding of Krishna' {
                 Create clone of (actor or object: ('behind rock'));
               }
             }
-            Add (list: (*Local-Allrockpositions*), item: (*Local-Allrockpositions*));
-            Set (variable: ("Local-RockNumber"), value: (item( 1 , item( 1 , *tmp-testlist* ) )));
+            Add (list: (*Local-Allrockpositions*), item: (flatten( *Local-Allrockpositions* )));
+            Set (variable: ("Local-RockNumber"), value: (item( 1 , item( 1 , *Item spawn positions* ) )));
           }
         }
       }
@@ -2302,7 +2302,7 @@ Program 'The Binding of Krishna' {
             Wait (seconds: (0.01));
             Change size by (value: (2));
           }
-          If (condition: (touches actor or object(Krishna))) {
+          If (condition: (touches actor or object('Krishna'))) {
             Broadcast (message: ('Krishna is hurt'));
             Broadcast (message: ('HC:Remove half a health'));
           }
@@ -2344,7 +2344,7 @@ Program 'The Binding of Krishna' {
           Set (variable: ("Coin Wait Time"), value: (0.1));
           Set (size percentage: (150));
         }
-        When condition becomes true (condition: (touches actor or object(Krishna))) {
+        When condition becomes true (condition: (touches actor or object('Krishna'))) {
           Broadcast (message: ('Update Coin Controller'));
           Start (sound: ('166184__drminky__retro-coin-collect'));
           Delete this clone;
@@ -2703,7 +2703,7 @@ Program 'The Binding of Krishna' {
           Set (variable: ("Item spawned"), value: (true));
           Show;
         }
-        When condition becomes true (condition: (touches actor or object(Krishna))) {
+        When condition becomes true (condition: (touches actor or object('Krishna'))) {
           Change (variable: ("actual number of agility potions"), value: (1));
           Broadcast (message: ('updateagilitypotionnumber'));
           Delete this clone;
@@ -2724,7 +2724,7 @@ Program 'The Binding of Krishna' {
           Set (variable: ("Item spawned"), value: (true));
           Show;
         }
-        When condition becomes true (condition: (touches actor or object(Krishna))) {
+        When condition becomes true (condition: (touches actor or object('Krishna'))) {
           Change (variable: ("actual number of invulnerability potions"), value: (1));
           Broadcast (message: ('UpdateInvulnerabilityNumber'));
           Delete this clone;
@@ -2789,7 +2789,7 @@ Program 'The Binding of Krishna' {
           Set (variable: ("Item spawned"), value: (true));
           Show;
         }
-        When condition becomes true (condition: (touches actor or object(Krishna))) {
+        When condition becomes true (condition: (touches actor or object('Krishna'))) {
           Change (variable: ("global-actualnumberofHealthPotions"), value: (1));
           Broadcast (message: ('UpdateHealthPotionNumber'));
           Delete this clone;
@@ -2888,7 +2888,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -2899,7 +2899,7 @@ Program 'The Binding of Krishna' {
             }
           }
         }
-        When condition becomes true (condition: (touches actor or object(Arrow) || touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Arrow') || touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -2981,7 +2981,7 @@ Program 'The Binding of Krishna' {
         When you start as a clone {
           Set (volume percentage: (60));
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -2998,7 +2998,7 @@ Program 'The Binding of Krishna' {
             Next look;
           }
         }
-        When condition becomes true (condition: (touches actor or object(Arrow) || touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Arrow') || touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -3258,7 +3258,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -3269,7 +3269,7 @@ Program 'The Binding of Krishna' {
             }
           }
         }
-        When condition becomes true (condition: (touches actor or object(Arrow) || touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Arrow') || touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -3334,7 +3334,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -3345,7 +3345,7 @@ Program 'The Binding of Krishna' {
             }
           }
         }
-        When condition becomes true (condition: (touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -3353,7 +3353,7 @@ Program 'The Binding of Krishna' {
           Start (sound: ('Crow'));
           Delete this clone;
         }
-        When condition becomes true (condition: (touches actor or object(Arrow))) {
+        When condition becomes true (condition: (touches actor or object('Arrow'))) {
           Change (variable: ("Initial hp"), value: (- 1));
           If (condition: ("Initial hp" < 1)) {
             Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
@@ -3416,7 +3416,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -3433,7 +3433,7 @@ Program 'The Binding of Krishna' {
             Next look;
           }
         }
-        When condition becomes true (condition: (touches actor or object(Arrow) || touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Arrow') || touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -3489,7 +3489,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               If (condition: ("KrishnaProtected" = 0)) {
                 Broadcast and wait (message: ('Krishna is hurt'));
                 Broadcast and wait (message: ('HC:Remove half a health'));
@@ -3511,14 +3511,14 @@ Program 'The Binding of Krishna' {
           Forever {
             Wait (seconds: (random value from to( 4 , 8 )));
             Change volume by (value: (0));
-            # This should be changed to list based scheduling as well. 
+            # This should be changed to list based scheduling as well.
             Change volume by (value: (0));
             Set (variable: ("Orange Crow X"), value: (position x));
             Set (variable: ("Orange Crow Y"), value: (position y));
             Broadcast and wait (message: ('Fire Orange Crow Projectile'));
           }
         }
-        When condition becomes true (condition: (touches actor or object(Arrow) || touches actor or object(Bomb))) {
+        When condition becomes true (condition: (touches actor or object('Arrow') || touches actor or object('Bomb'))) {
           Add (list: (*Bats death positions*), item: (join( join( position x , '#' ) , position y )));
           Change (variable: ("Total Number of Enemies"), value: (- 1));
           Hide;
@@ -3548,7 +3548,7 @@ Program 'The Binding of Krishna' {
         }
         When you start as a clone {
           Forever {
-            If (condition: (touches actor or object(Krishna))) {
+            If (condition: (touches actor or object('Krishna'))) {
               Broadcast (message: ('HC:Remove half a health'));
               Delete this clone;
             }
@@ -3617,7 +3617,7 @@ Program 'The Binding of Krishna' {
       Scripts {
         When scene starts {
           Set (variable: ("local-putnaposition"), value: (- 1));
-          Set (motion type: (moving and bouncing under gravity));
+          Set (motion type: (not moving under gravity, but others bounce off you under gravity));
           Set (rotation style: (left-right only));
           Hide;
         }
@@ -3779,7 +3779,7 @@ Program 'The Binding of Krishna' {
       }
       Scripts {
         When scene starts {
-          Set (motion type: (moving and bouncing under gravity));
+          Set (motion type: (not moving under gravity, but others bounce off you under gravity));
           Place at (x: (0), y: (830));
           Create clone of (actor or object: (yourself));
           Place at (x: (0), y: (- 830));
@@ -3914,7 +3914,7 @@ Program 'The Binding of Krishna' {
           Place at (x: (- 14), y: (274));
           Set (variable: ("saved_language"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList-Shop* )));
-          Show (variable: ("displaytext"), x: (0), y: (300), size: (100), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (0), y: (300), size: (100), color: (0), alignment: (centered));
         }
         When condition becomes true (condition: ("saved_language" ≠ "Global-CurrentLanguage")) {
           Set (variable: ("saved_language"), value: ("Global-CurrentLanguage"));
@@ -3942,7 +3942,7 @@ Program 'The Binding of Krishna' {
           Place at (x: (- 482), y: (- 58));
           Set (variable: ("savedlanguage"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList-HealthPotion* )));
-          Show (variable: ("displaytext"), x: (- 480), y: (125), size: (60), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (- 480), y: (125), size: (60), color: (0), alignment: (centered));
         }
       }
     }
@@ -3967,7 +3967,7 @@ Program 'The Binding of Krishna' {
           Switch to (look by number: ("Global-CurrentLanguage"));
           Set (variable: ("savedlanguage"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList-AgilityPotion* )));
-          Show (variable: ("displaytext"), x: (0), y: (125), size: (60), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (0), y: (125), size: (60), color: (0), alignment: (centered));
         }
       }
     }
@@ -3988,7 +3988,7 @@ Program 'The Binding of Krishna' {
           Place at (x: (471), y: (- 61));
           Set (variable: ("savedlanguage"), value: ("Global-CurrentLanguage"));
           Set (variable: ("displaytext"), value: (item( "Global-CurrentLanguage" , *LanguageList-InvulnerabilityPotion* )));
-          Show (variable: ("displaytext"), x: (450), y: (125), size: (60), color: (#000000), alignment: (centered));
+          Show (variable: ("displaytext"), x: (450), y: (125), size: (60), color: (0), alignment: (centered));
         }
       }
     }
@@ -4184,7 +4184,7 @@ Program 'The Binding of Krishna' {
       Scripts {
         When scene starts {
           Set (size percentage: (90));
-          Set background to (look: ('2019_07_14_125650'));
+          Set background to (look: ('cutscene2-1'));
           Start (sound: ('376532_womb-affliction_flute-trill (online-audio-converter'));
         }
         When you receive (message: ('next scene')) {

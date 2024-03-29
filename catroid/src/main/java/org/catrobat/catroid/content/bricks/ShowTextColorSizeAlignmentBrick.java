@@ -236,10 +236,6 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		if (name.equals(ALIGNMENT_CATLANG_PARAMETER_NAME)) {
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, ALIGNMENT_SPINNER_CATLANG_VALUES.get(alignmentSelection));
 		}
-		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
-			String hexColor = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
-		}
 		return super.getArgumentByCatlangName(name);
 	}
 

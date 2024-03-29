@@ -85,20 +85,6 @@ public class SetThreadColorBrick extends FormulaBrick {
 				sprite, sequence, getFormulaWithBrickField(BrickField.THREAD_COLOR)));
 	}
 
-	@Override
-	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
-		if (name.equals(COLOR_CATLANG_PARAMETER_NAME)) {
-			String hexColor = "#000000";
-			Formula color = formulaMap.get(BrickField.THREAD_COLOR);
-			if (color != null) {
-				String colorString = color.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
-				hexColor = CatrobatLanguageUtils.formatHexColorString(colorString);
-			}
-			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, hexColor);
-		}
-		return super.getArgumentByCatlangName(name);
-	}
-
 	private final class SetThreadColorBrickCallback implements ShowFormulaEditorStrategy.Callback {
 		private final View view;
 

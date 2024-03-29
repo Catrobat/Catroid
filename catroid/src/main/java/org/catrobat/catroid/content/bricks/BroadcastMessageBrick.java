@@ -36,6 +36,8 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.EditOption;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser;
+import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -220,7 +222,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		super.setParameters(context, project, scene, sprite, arguments);
 		String message = arguments.get(MESSAGE_CATLANG_PARAMETER_NAME);
 		if (message != null) {
-			setBroadcastMessage(message.substring(1, message.length() - 1));
+			setBroadcastMessage(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(message));
 		}
 	}
 }

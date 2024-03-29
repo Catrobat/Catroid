@@ -33,17 +33,17 @@ class CatrobatLanguageParserUtils {
 
         fun getAndValidateStringContent(name: String): String {
             val variableMatch = stringRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid string: $name. Expected format: 'string content'")
-            return variableMatch.groupValues[1]
+            return variableMatch.groupValues[1].replace("\\'", "'")
         }
 
         fun getAndValidateVariableName(name: String): String {
             val variableMatch = variableRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid variable name: $name. Expected format: \"variable name\"")
-            return variableMatch.groupValues[1]
+            return variableMatch.groupValues[1].replace("\\\"", "\"")
         }
 
         fun getAndValidateListName(name: String): String {
             val listMatch = listRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid list name: $name. Expected format: *list name*")
-            return listMatch.groupValues[1]
+            return listMatch.groupValues[1].replace("\\*", "*")
         }
 
         fun hexToRgb(hex: String): IntArray? {
