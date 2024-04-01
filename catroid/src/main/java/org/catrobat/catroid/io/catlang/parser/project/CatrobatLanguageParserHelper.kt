@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.io.catlang.parser.project
 
-class CatrobatLanguageParserHelper {
+class CatrobatLanguageParserHelper private constructor() {
     companion object {
         fun getStringContent(value: String): String = value.substring(1, value.length - 1).replace("\\n", "\n").replace("\\r", "\r")
         fun getStringToDouble(value: String): Double = getStringContent(value).toDouble()

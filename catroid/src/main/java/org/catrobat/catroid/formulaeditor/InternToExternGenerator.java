@@ -25,7 +25,6 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.util.Log;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.utils.FormatNumberUtil;
@@ -335,8 +334,9 @@ public class InternToExternGenerator {
 	public static final HashMap<String, String> getExternToInternValueMapping(Context ctx) {
 		HashMap<String, String> valueToKeyMap = new HashMap<>();
 		for (Map.Entry<String, Integer> entry : INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.entrySet()) {
-			if (!valueToKeyMap.containsKey(ctx.getString(entry.getValue())))
+			if (!valueToKeyMap.containsKey(ctx.getString(entry.getValue()))) {
 				valueToKeyMap.put(ctx.getString(entry.getValue()), entry.getKey());
+			}
 		}
 		return valueToKeyMap;
 	}

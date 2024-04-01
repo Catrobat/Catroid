@@ -28,13 +28,11 @@ import android.content.Context;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -103,32 +101,34 @@ public enum PickableDrum implements Nameable, Serializable {
 		return context.getString(nameStringId);
 	}
 
-	public static final BiMap<PickableDrum, String> catrobatLanguageMap = HashBiMap.create(new HashMap<PickableDrum, String>(){{
-		put(SNARE_DRUM, "snare drum");
-		put(BASS_DRUM, "bass drum");
-		put(SIDE_STICK, "side stick");
-		put(CRASH_CYMBAL, "crash cymbal");
-		put(OPEN_HI_HAT, "open hi-hat");
-		put(CLOSED_HI_HAT, "closed hi-hat");
-		put(TAMBOURINE, "tambourine");
-		put(HAND_CLAP, "hand clap");
-		put(CLAVES, "claves");
-		put(WOOD_BLOCK, "wood block");
-		put(COWBELL, "cowbell");
-		put(TRIANGLE, "triangle");
-		put(BONGO, "bongo");
-		put(CONGA, "conga");
-		put(CABASA, "cabasa");
-		put(GUIRO, "guiro");
-		put(VIBRASLAP, "vibraslap");
-		put(OPEN_CUICA, "open cuica");
-	}});
+	public static final BiMap<PickableDrum, String> CATROBAT_LANGUAGE_MAP = HashBiMap.create(new HashMap<PickableDrum, String>() {
+		{
+			put(SNARE_DRUM, "snare drum");
+			put(BASS_DRUM, "bass drum");
+			put(SIDE_STICK, "side stick");
+			put(CRASH_CYMBAL, "crash cymbal");
+			put(OPEN_HI_HAT, "open hi-hat");
+			put(CLOSED_HI_HAT, "closed hi-hat");
+			put(TAMBOURINE, "tambourine");
+			put(HAND_CLAP, "hand clap");
+			put(CLAVES, "claves");
+			put(WOOD_BLOCK, "wood block");
+			put(COWBELL, "cowbell");
+			put(TRIANGLE, "triangle");
+			put(BONGO, "bongo");
+			put(CONGA, "conga");
+			put(CABASA, "cabasa");
+			put(GUIRO, "guiro");
+			put(VIBRASLAP, "vibraslap");
+			put(OPEN_CUICA, "open cuica");
+		}
+	});
 
 	public static PickableDrum getDrumByCatrobatLanguageString(String catrobatLanguageString) {
-		return catrobatLanguageMap.inverse().get(catrobatLanguageString);
+		return CATROBAT_LANGUAGE_MAP.inverse().get(catrobatLanguageString);
 	}
 
 	public static String getCatrobatLanguageStringByDrum(PickableDrum drum) {
-		return catrobatLanguageMap.get(drum);
+		return CATROBAT_LANGUAGE_MAP.get(drum);
 	}
 }

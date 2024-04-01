@@ -25,11 +25,11 @@ package org.catrobat.catroid.io.catlang.parser.project
 
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
-class CatrobatLanguageParserUtils {
+class CatrobatLanguageParserUtils private constructor() {
     companion object {
-        val variableRegex = Regex("^\"(.*)\"$");
-        val listRegex = Regex("^\\*(.*)\\*$");
-        val stringRegex = Regex("^'(.*)'$");
+        val variableRegex = Regex("^\"(.*)\"$")
+        val listRegex = Regex("^\\*(.*)\\*$")
+        val stringRegex = Regex("^'(.*)'$")
 
         fun getAndValidateStringContent(name: String): String {
             val variableMatch = stringRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid string: $name. Expected format: 'string content'")
@@ -44,16 +44,6 @@ class CatrobatLanguageParserUtils {
         fun getAndValidateListName(name: String): String {
             val listMatch = listRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid list name: $name. Expected format: *list name*")
             return listMatch.groupValues[1].replace("\\*", "*")
-        }
-
-        fun hexToRgb(hex: String): IntArray? {
-            if (!hex.matches(Regex("^#[0-9a-fA-F]{6}$"))) {
-                throw CatrobatLanguageParsingException("Invalid hex code: $hex. Expected format: #RRGGBB")
-            }
-            val red = Integer.parseInt(hex.substring(1, 3), 16)
-            val green = Integer.parseInt(hex.substring(3, 5), 16)
-            val blue = Integer.parseInt(hex.substring(5, 7), 16)
-            return intArrayOf(red, green, blue)
         }
     }
 }

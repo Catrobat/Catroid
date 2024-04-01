@@ -67,9 +67,8 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder(60);
-		catrobatLanguage.append(indention);
-
-		catrobatLanguage.append(getCatrobatLanguageCommand())
+		catrobatLanguage.append(indention)
+				.append(getCatrobatLanguageCommand())
 				.append(' ');
 
 		String formulaString =

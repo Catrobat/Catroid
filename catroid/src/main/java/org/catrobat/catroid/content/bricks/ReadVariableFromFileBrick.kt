@@ -58,8 +58,8 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
         private const val KEEP = 0
         private const val DELETE = 1
 
-        private const val VARIABLE_CATLANG_PARAMETER_NAME = "variable";
-        private const val ACTION_CATLANG_PARAMETER_NAME = "action";
+        private const val VARIABLE_CATLANG_PARAMETER_NAME = "variable"
+        private const val ACTION_CATLANG_PARAMETER_NAME = "action"
 
         private val CATLANG_SPINNER_VALUES = HashBiMap.create(hashMapOf(KEEP to "keep the file", DELETE to "delete the file"))
     }
@@ -109,9 +109,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
         super.addRequiredResources(requiredResourcesSet)
     }
 
-    override fun getUserVariableCatlangArgumentName(): String {
-        return VARIABLE_CATLANG_PARAMETER_NAME
-    }
+    override fun getUserVariableCatlangArgumentName(): String = VARIABLE_CATLANG_PARAMETER_NAME
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
         if (name == ACTION_CATLANG_PARAMETER_NAME) {

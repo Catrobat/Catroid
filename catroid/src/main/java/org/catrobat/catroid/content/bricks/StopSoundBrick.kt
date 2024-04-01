@@ -48,7 +48,7 @@ class StopSoundBrick : BrickBaseType(),
     BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo> {
 
     companion object {
-        private const val SOUND_CATLANG_PARAMETER_NAME = "sound";
+        private const val SOUND_CATLANG_PARAMETER_NAME = "sound"
     }
 
     var sound: SoundInfo? = null
@@ -97,7 +97,7 @@ class StopSoundBrick : BrickBaseType(),
 
     override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
         if (name == SOUND_CATLANG_PARAMETER_NAME) {
-            var soundName = "";
+            var soundName = ""
             if (sound != null) {
                 soundName = formatSoundName(sound!!.name)
             }
