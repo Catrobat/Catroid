@@ -24,6 +24,7 @@
 package org.catrobat.catroid.io.catlang.parser.parameter
 
 import android.content.Context
+import android.util.Log
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
@@ -47,17 +48,13 @@ import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingExce
 import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
-import java.lang.Exception
 import java.util.Stack
 
-internal class CatrobatFormulaParserVisitor
-    (
-    context: Context,
+internal class CatrobatFormulaParserVisitor(context: Context,
     private val variables: List<String>,
     private val userLists: List<String>,
     private val userDefinedBrickParameters: List<String>,
-    private val scene: Scene
-    ) : FormulaParserVisitor<FormulaBaseVisitResult> {
+    private val scene: Scene) : FormulaParserVisitor<FormulaBaseVisitResult> {
 
     companion object {
         val FUNCTION_TO_NUMBER_OF_PARAMETER_MAP = mapOf(
@@ -126,19 +123,19 @@ internal class CatrobatFormulaParserVisitor
     }
 
     override fun visit(tree: ParseTree?): FormulaBaseVisitResult {
-        throw Exception("visit() method not implemented, and should not be used.")
+        throw IllegalAccessException("visit() method not implemented, and should not be used.")
     }
 
     override fun visitChildren(node: RuleNode?): FormulaBaseVisitResult {
-        throw Exception("visitChildren() method not implemented, and should not be used.")
+        throw IllegalAccessException("visitChildren() method not implemented, and should not be used.")
     }
 
     override fun visitTerminal(node: TerminalNode?): FormulaBaseVisitResult {
-        throw Exception("visitTerminal() method not implemented, and should not be used.")
+        throw IllegalAccessException("visitTerminal() method not implemented, and should not be used.")
     }
 
     override fun visitErrorNode(node: ErrorNode?): FormulaBaseVisitResult {
-        throw Exception("visitErrorNode() method not implemented, and should not be used.")
+        throw IllegalAccessException("visitErrorNode() method not implemented, and should not be used.")
     }
 
     override fun visitFormula(ctx: FormulaParser.FormulaContext?): FormulaBaseVisitResult {
@@ -271,6 +268,7 @@ internal class CatrobatFormulaParserVisitor
         throw FormulaParsingException("No known multiplicative operator found")
     }
 
+    @Suppress("ComplexMethod")
     override fun visitComparisonOperator(context: FormulaParser.ComparisonOperatorContext?): FormulaBaseVisitResult {
         if (context == null) {
             throw FormulaParsingException("No comparison operator found")
@@ -349,68 +347,71 @@ internal class CatrobatFormulaParserVisitor
     }
 
     private fun parseCollisionFormula(context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElementVisitResult {
-        if (context.methodParameters() == null) {
-            throw FormulaParsingException("$collisionFormulaString needs a parameter")
+        var parameters: ParameterListVisitResult? = null
+        if (context.methodParameters() != null) {
+            parameters = visitMethodParameters(context.methodParameters()) as ParameterListVisitResult
         }
-        val parameters = visitMethodParameters(context.methodParameters()) as ParameterListVisitResult
-        if (parameters.numberOfParameters != 1) {
-            throw InvalidNumberOfFunctionArgumentsException(collisionFormulaString, 1, parameters.numberOfParameters)
+        if (parameters == null || parameters.numberOfParameters != 1) {
+            val numberOfParametersPresent = if (parameters?.numberOfParameters == null) 0 else parameters.numberOfParameters
+            throw InvalidNumberOfFunctionArgumentsException(collisionFormulaString, 1, numberOfParametersPresent)
         }
         val spriteName = parameters.leftChild!!.value.trim()
         if (!scene.spriteList.any { it.name.equals(spriteName, ignoreCase = true) }) {
-            throw FormulaParsingException("Unkown sprite found in $collisionFormulaString formula: $spriteName")
+            throw FormulaParsingException("Unknown sprite found in $collisionFormulaString formula: $spriteName")
         }
         val collisionFormula = FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, spriteName, tryGetParentFormulaElement())
         return FormulaElementVisitResult(collisionFormula)
     }
 
+    @Suppress("ComplexMethod")
     private fun parseFunction(functionText: String, function: Functions, context: FormulaParser.SensorPropertyOrMethodInvocationContext): FormulaElement {
         val functionFormulaElement = FormulaElement(FormulaElement.ElementType.FUNCTION, function.name, tryGetParentFormulaElement())
         parentFormulaStack.push(functionFormulaElement)
+        val parameters = parseAndValidateFunctionParameters(functionText, function, context, functionFormulaElement)
+        if (parameters.leftChild != null) {
+            functionFormulaElement.setLeftChild(parameters.leftChild)
+        }
+        if (parameters.rightChild != null) {
+            functionFormulaElement.setRightChild(parameters.rightChild)
+        }
+        if (!parameters.additionalChildren.isNullOrEmpty()) {
+            functionFormulaElement.additionalChildren = parameters.additionalChildren
+        }
+        parentFormulaStack.pop()
+        return functionFormulaElement
+    }
 
+    private fun parseAndValidateFunctionParameters(functionText: String, function: Functions,
+        context: FormulaParser.SensorPropertyOrMethodInvocationContext,
+        functionFormulaElement: FormulaElement): ParameterListVisitResult {
         if (!FUNCTION_TO_NUMBER_OF_PARAMETER_MAP.containsKey(function)) {
             throw UnkownSensorOrFunctionException("Unknown number of parameters for function: $functionText")
         }
-        val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function] ?: throw UnkownSensorOrFunctionException("Unknown function: $function")
+        val numberOfParametersExpected = FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[function]!!
 
-        if (numberOfParametersExpected == 0 && context.methodParameters() != null) {
-            throw FormulaParsingException("No parameters allowed for function $functionText.")
-        }
         val parameters = visitMethodParameters(context.methodParameters()) as ParameterListVisitResult
         if (numberOfParametersExpected != parameters.numberOfParameters) {
+            var expectedNumberOfParametersString: String? = null
             if (function == Functions.JOIN || function == Functions.JOIN3) {
                 if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]) {
                     functionFormulaElement.value = Functions.JOIN.name
                 } else if (parameters.numberOfParameters == FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]) {
                     functionFormulaElement.value = Functions.JOIN3.name
                 } else {
-                    val expectedJoinParameters = "${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]} or ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]}"
-                    throw InvalidNumberOfFunctionArgumentsException(functionText, expectedJoinParameters, parameters.numberOfParameters)
+                    expectedNumberOfParametersString = "${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN]} or ${FUNCTION_TO_NUMBER_OF_PARAMETER_MAP[Functions.JOIN3]}"
                 }
             } else {
-                throw InvalidNumberOfFunctionArgumentsException(functionText, numberOfParametersExpected, parameters.numberOfParameters)
+                expectedNumberOfParametersString = numberOfParametersExpected.toString()
+            }
+            if (expectedNumberOfParametersString != null) {
+                throw InvalidNumberOfFunctionArgumentsException(functionText, expectedNumberOfParametersString, parameters.numberOfParameters)
             }
         }
-
-        val leftChild = parameters.leftChild
-        val rightChild = parameters.rightChild
-        val additionalChildren = parameters.additionalChildren
-
-        if (leftChild != null) {
-            functionFormulaElement.setLeftChild(leftChild)
-        }
-        if (rightChild != null) {
-            functionFormulaElement.setRightChild(rightChild)
-        }
-        if (!additionalChildren.isNullOrEmpty()) {
-            functionFormulaElement.additionalChildren = additionalChildren
-        }
-
-        parentFormulaStack.pop()
-        return functionFormulaElement
+        return parameters
     }
 
     private fun tryParseSensor(sensor: String): Sensors? {
+        @Suppress("SwallowedException")
         return try {
             Sensors.valueOf(sensor)
         } catch (exception: IllegalArgumentException) {
@@ -419,6 +420,7 @@ internal class CatrobatFormulaParserVisitor
     }
 
     private fun tryParseFunction(function: String): Functions? {
+        @Suppress("SwallowedException")
         return try {
             Functions.valueOf(function)
         } catch (exception: IllegalArgumentException) {
@@ -426,9 +428,7 @@ internal class CatrobatFormulaParserVisitor
         }
     }
 
-    override fun visitMethodParameters(context: FormulaParser.MethodParametersContext?): FormulaBaseVisitResult {
-        return visitParameterList(context?.parameterList())
-    }
+    override fun visitMethodParameters(context: FormulaParser.MethodParametersContext?): FormulaBaseVisitResult = visitParameterList(context?.parameterList())
 
     override fun visitParameterList(context: FormulaParser.ParameterListContext?): FormulaBaseVisitResult {
         if (context?.expression() == null) {
@@ -480,6 +480,7 @@ internal class CatrobatFormulaParserVisitor
         throw FormulaParsingException("Cannot parse unary expression. No valid operator found.")
     }
 
+    @Suppress("ComplexMethod", "ThrowsCount")
     override fun visitLiteral(context: FormulaParser.LiteralContext?): FormulaBaseVisitResult {
         if (context == null) {
             throw FormulaParsingException("No literal found")
@@ -515,7 +516,5 @@ internal class CatrobatFormulaParserVisitor
         throw FormulaParsingException("No literal found")
     }
 
-    private fun trimFirstAndLastCharacter(string: String): String {
-        return string.substring(1, string.length - 1)
-    }
+    private fun trimFirstAndLastCharacter(string: String) = string.substring(1, string.length - 1)
 }

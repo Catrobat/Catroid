@@ -599,7 +599,7 @@ class FormulaParserTest {
         script.addBrick(brick)
         baseActivityTestRule.launchActivity()
     }
-    
+
     private fun createProject() {
         val projectName = javaClass.simpleName
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)

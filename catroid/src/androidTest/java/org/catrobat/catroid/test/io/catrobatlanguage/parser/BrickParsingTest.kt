@@ -1665,7 +1665,7 @@ Program 'Brick Parsing Test' {
             for (valueIndex in inputValues[testIndex].indices) {
                 inputBrickString = inputBrickString.replace("#PARAM_$valueIndex#", inputValues[testIndex][valueIndex])
             }
-            var expectedBrickString = (expectedFormats?.expectedBrickFormat) ?: inputBrickFormat
+            var expectedBrickString = expectedFormats?.expectedBrickFormat ?: inputBrickFormat
             if (expectedFormats?.expectedValues != null) {
                 for (valueIndex in expectedFormats.expectedValues[testIndex].indices) {
                     expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", expectedFormats.expectedValues[testIndex][valueIndex])
