@@ -26,7 +26,16 @@ package org.catrobat.catroid.test.io.catrobatlanguage.parser
 import android.content.res.Configuration
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.*
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenBrick
+import org.catrobat.catroid.content.bricks.WhenClonedBrick
+import org.catrobat.catroid.content.bricks.WhenConditionBrick
+import org.catrobat.catroid.content.bricks.WhenNfcBrick
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
+import org.catrobat.catroid.content.bricks.WhenStartedBrick
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Assert.assertEquals
@@ -133,7 +142,7 @@ class ScriptParsingTest {
     }
 
     private val serializedProgram = """#! Catrobat Language Version 0.1
-Program 'SpinnerSerializationTest' {
+Program 'Script Parser Test' {
   Metadata {
     Description: '',
     Catrobat version: '1.12',
@@ -212,14 +221,11 @@ Program 'SpinnerSerializationTest' {
     private fun executeTest(
         inputBrickFormat: String,
         inputValues: List<List<String>>,
-        expectedBrickType: Brick,
-        expectedBrickFormat: String? = null,
-        expectedValues: List<List<String>>? = null) {
-
+        expectedBrickType: Brick
+    ) {
         val locales = listOf(Locale.ROOT, Locale.GERMAN, Locale.CHINA)
-
         for (locale in locales) {
-            executeLocalizedTest(inputBrickFormat, inputValues, expectedBrickType, locale, expectedBrickFormat, expectedValues)
+            executeLocalizedTest(inputBrickFormat, inputValues, expectedBrickType, locale)
         }
     }
 
@@ -227,46 +233,29 @@ Program 'SpinnerSerializationTest' {
         inputScriptFormat: String,
         inputValues: List<List<String>>,
         expectedScriptBrickType: Brick,
-        locale: Locale,
-        expectedScriptFormat: String? = null,
-        expectedValues: List<List<String>>? = null) {
-
+        locale: Locale
+    ) {
         for (testIndex in inputValues.indices) {
             var inputBrickString = inputScriptFormat
             for (valueIndex in inputValues[testIndex].indices) {
                 inputBrickString = inputBrickString.replace("#PARAM_$valueIndex#", inputValues[testIndex][valueIndex])
             }
-            var expectedBrickString = expectedScriptFormat ?: inputScriptFormat
-            if (expectedValues != null) {
-                for (valueIndex in expectedValues[testIndex].indices) {
-                    expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", expectedValues[testIndex][valueIndex])
-                }
-            } else {
-                for (valueIndex in inputValues[testIndex].indices) {
-                    expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", inputValues[testIndex][valueIndex])
-                }
+            var expectedBrickString = inputScriptFormat
+            for (valueIndex in inputValues[testIndex].indices) {
+                expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", inputValues[testIndex][valueIndex])
             }
-
             val programString = serializedProgram.replace("#SCRIPT_PLACEHOLDER#", inputBrickString)
             val expectedProgram = serializedProgram.replace("#SCRIPT_PLACEHOLDER#", expectedBrickString)
-            try {
-                val context = CatroidApplication.getAppContext()
-                var configuration = context.resources.configuration
-                configuration = Configuration(configuration)
-                configuration.setLocale(locale)
-                context.createConfigurationContext(configuration)
-
-                val parsedProgram = CatrobatLanguageParser.parseProgramFromString(programString, context)
-
-                val parsedScriptBrick = parsedProgram!!.sceneList[0].spriteList[1].scriptList[0].scriptBrick
-                assertEquals(expectedScriptBrickType::class.java, parsedScriptBrick::class.java)
-
-                val serializedProgram = CatrobatLanguageProjectSerializer(parsedProgram, context).serialize()
-
-                assertEquals(expectedProgram, serializedProgram)
-            } catch (throwable: Throwable) {
-                throw throwable
-            }
+            val context = CatroidApplication.getAppContext()
+            var configuration = context.resources.configuration
+            configuration = Configuration(configuration)
+            configuration.setLocale(locale)
+            context.createConfigurationContext(configuration)
+            val parsedProgram = CatrobatLanguageParser.parseProgramFromString(programString, context)
+            val parsedScriptBrick = parsedProgram!!.sceneList[0].spriteList[1].scriptList[0].scriptBrick
+            assertEquals(expectedScriptBrickType::class.java, parsedScriptBrick::class.java)
+            val serializedProgram = CatrobatLanguageProjectSerializer(parsedProgram, context).serialize()
+            assertEquals(expectedProgram, serializedProgram)
         }
     }
 }

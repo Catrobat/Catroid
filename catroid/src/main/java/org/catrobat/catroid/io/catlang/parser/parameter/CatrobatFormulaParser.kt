@@ -24,11 +24,8 @@
 package org.catrobat.catroid.io.catlang.parser.parameter
 
 import android.content.Context
-import org.antlr.v4.runtime.BaseErrorListener
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
@@ -36,28 +33,14 @@ import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.parser.parameter.error.LexerErrorListener
+import org.catrobat.catroid.io.catlang.parser.parameter.error.ParserErrorListener
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaLexer
 import org.catrobat.catroid.io.catlang.parser.parameter.antlr.gen.FormulaParser
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 
 class CatrobatFormulaParser(private val context: Context, private val project: Project, private val scene: Scene, private val sprite: Sprite, private val brick: Brick) {
-    @Suppress("FunctionOverloading")
-    class LexerErrorListener : BaseErrorListener() {
-        val errors: ArrayList<String> = arrayListOf()
-        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
-            errors.add("Error at argument position $charPositionInLine: $msg")
-        }
-    }
-
-    @Suppress("FunctionOverloading")
-    class ParserErrorListener : BaseErrorListener() {
-        val errors: ArrayList<String> = arrayListOf()
-        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
-            errors.add("Error at argument position $charPositionInLine: $msg")
-        }
-    }
-
     fun parseArgument(argument: String): Formula {
         val lexerErrorListener = LexerErrorListener()
         val parserErrorListener = ParserErrorListener()
@@ -66,7 +49,7 @@ class CatrobatFormulaParser(private val context: Context, private val project: P
         lexer.removeErrorListeners()
         lexer.addErrorListener(lexerErrorListener)
 
-        var parser = FormulaParser(CommonTokenStream(lexer))
+        val parser = FormulaParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
         parser.addErrorListener(parserErrorListener)
 

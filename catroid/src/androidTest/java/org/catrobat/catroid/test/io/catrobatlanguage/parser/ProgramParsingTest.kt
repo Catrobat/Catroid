@@ -46,7 +46,7 @@ class ProgramParsingTest {
         val serializedLines = serializedKrishnaProject.split('\n')
         Assert.assertEquals("Equal Line Count", referenceLines.size, serializedLines.size)
         for (i in referenceLines.indices) {
-            Assert.assertEquals("Error in Line " + (i+1), referenceLines[i], serializedLines[i])
+            Assert.assertEquals("Error in Line " + (i + 1), referenceLines[i], serializedLines[i])
         }
     }
 }

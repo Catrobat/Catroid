@@ -47,10 +47,11 @@ import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingExce
 import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
-import java.util.Locale
+import java.lang.Exception
 import java.util.Stack
 
-internal class CatrobatFormulaParserVisitor(
+internal class CatrobatFormulaParserVisitor
+    (
     context: Context,
     private val variables: List<String>,
     private val userLists: List<String>,
@@ -125,19 +126,19 @@ internal class CatrobatFormulaParserVisitor(
     }
 
     override fun visit(tree: ParseTree?): FormulaBaseVisitResult {
-        throw NotImplementedError("visit() method not implemented, and should not be used.")
+        throw Exception("visit() method not implemented, and should not be used.")
     }
 
     override fun visitChildren(node: RuleNode?): FormulaBaseVisitResult {
-        throw NotImplementedError("visitChildren() method not implemented, and should not be used.")
+        throw Exception("visitChildren() method not implemented, and should not be used.")
     }
 
     override fun visitTerminal(node: TerminalNode?): FormulaBaseVisitResult {
-        throw NotImplementedError("visitTerminal() method not implemented, and should not be used.")
+        throw Exception("visitTerminal() method not implemented, and should not be used.")
     }
 
     override fun visitErrorNode(node: ErrorNode?): FormulaBaseVisitResult {
-        throw NotImplementedError("visitErrorNode() method not implemented, and should not be used.")
+        throw Exception("visitErrorNode() method not implemented, and should not be used.")
     }
 
     override fun visitFormula(ctx: FormulaParser.FormulaContext?): FormulaBaseVisitResult {
@@ -172,7 +173,7 @@ internal class CatrobatFormulaParserVisitor(
             if (additiveExpressionStack.isNotEmpty()) {
                 additiveExpressionStack.peek().setLeftChild(formulaElement)
             }
-            val rightMultiplicativeExpression = (visitMultiplicativeExpression(context.multiplicativeExpression(i+1)) as FormulaElementVisitResult).formulaElement
+            val rightMultiplicativeExpression = (visitMultiplicativeExpression(context.multiplicativeExpression(i + 1)) as FormulaElementVisitResult).formulaElement
             formulaElement.setRightChild(rightMultiplicativeExpression)
             if (i == 0) {
                 val firstMultiplicativeExpression = (visitMultiplicativeExpression(context.multiplicativeExpression(i)) as FormulaElementVisitResult).formulaElement
@@ -199,7 +200,7 @@ internal class CatrobatFormulaParserVisitor(
             if (multiplicativeExpressionStack.isNotEmpty()) {
                 multiplicativeExpressionStack.peek().setLeftChild(formulaElement)
             }
-            val rightSimpleExpression = (visitComparisonExpression(context.comparisonExpression(i+1)) as FormulaElementVisitResult).formulaElement
+            val rightSimpleExpression = (visitComparisonExpression(context.comparisonExpression(i + 1)) as FormulaElementVisitResult).formulaElement
             formulaElement.setRightChild(rightSimpleExpression)
             if (i == 0) {
                 val firstSimpleExpression = (visitComparisonExpression(context.comparisonExpression(i)) as FormulaElementVisitResult).formulaElement
@@ -226,7 +227,7 @@ internal class CatrobatFormulaParserVisitor(
             if (multiplicativeExpressionStack.isNotEmpty()) {
                 multiplicativeExpressionStack.peek().setLeftChild(formulaElement)
             }
-            val rightSimpleExpression = (visitSimpleExpression(context.simpleExpression(i+1)) as FormulaElementVisitResult).formulaElement
+            val rightSimpleExpression = (visitSimpleExpression(context.simpleExpression(i + 1)) as FormulaElementVisitResult).formulaElement
             formulaElement.setRightChild(rightSimpleExpression)
             if (i == 0) {
                 val firstSimpleExpression = (visitSimpleExpression(context.simpleExpression(i)) as FormulaElementVisitResult).formulaElement
@@ -275,7 +276,7 @@ internal class CatrobatFormulaParserVisitor(
             throw FormulaParsingException("No comparison operator found")
         }
         if (context.OPERATOR_LOGIC_EQUAL() != null) {
-        return OperatorVisitResult(Operators.EQUAL);
+            return OperatorVisitResult(Operators.EQUAL)
         } else if (context.OPERATOR_LOGIC_NOT_EQUAL() != null) {
             return OperatorVisitResult(Operators.NOT_EQUAL)
         } else if (context.OPERATOR_LOGIC_LOWER() != null) {
@@ -355,7 +356,7 @@ internal class CatrobatFormulaParserVisitor(
         if (parameters.numberOfParameters != 1) {
             throw InvalidNumberOfFunctionArgumentsException(collisionFormulaString, 1, parameters.numberOfParameters)
         }
-        val spriteName = parameters.leftChild!!.value.trim();
+        val spriteName = parameters.leftChild!!.value.trim()
         if (!scene.spriteList.any { it.name.equals(spriteName, ignoreCase = true) }) {
             throw FormulaParsingException("Unkown sprite found in $collisionFormulaString formula: $spriteName")
         }

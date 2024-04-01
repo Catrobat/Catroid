@@ -43,7 +43,6 @@ import org.catrobat.catroid.content.bricks.NoteBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.catrobat.catroid.test.utils.TestUtils
@@ -239,7 +238,7 @@ class ProgramSerializationTest {
         val serializedLines = serializedProject.split('\n')
         Assert.assertEquals("Equal Line Count", referenceLines.size, serializedLines.size)
         for (i in referenceLines.indices) {
-            Assert.assertEquals("Error in Line " + (i+1), referenceLines[i], serializedLines[i])
+            Assert.assertEquals("Error in Line " + (i + 1), referenceLines[i], serializedLines[i])
         }
 
         StorageOperations.deleteDir(CACHE_DIRECTORY)

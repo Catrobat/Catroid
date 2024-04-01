@@ -23,22 +23,13 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage.parser
 
-import android.content.Context
-import android.content.res.Configuration
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick
-import org.catrobat.catroid.content.bricks.*
-import org.catrobat.catroid.content.bricks.WebRequestBrick
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
 import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.lang.Exception
-import java.util.Locale
 
 @Suppress("LargeClass")
 class FailingParserTests {

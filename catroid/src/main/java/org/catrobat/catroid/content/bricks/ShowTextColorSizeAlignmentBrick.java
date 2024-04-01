@@ -227,10 +227,6 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		return intent;
 	}
 
-	private String convertFieldToString(BrickField brickField) {
-		return getFormulaWithBrickField(brickField).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
-	}
-
 	@Override
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		if (name.equals(ALIGNMENT_CATLANG_PARAMETER_NAME)) {

@@ -196,7 +196,7 @@ class BrickParsingTest {
             listOf("random value from to( 0 , random value from to( 10 , 20 ) )"),
             listOf("modulo( \"var1\" , 20 )"),
         )
-        executeTest(inputBrickFormat, inputValues, WaitBrick(), null, expectedValues)
+        executeTest(inputBrickFormat, inputValues, WaitBrick(), ExpectedFormat(null, expectedValues))
     }
     @Test
     fun testLegoNxtMotorTurnAngleBrick() {
@@ -213,7 +213,7 @@ class BrickParsingTest {
             listOf("C", "if then else( true , 90 , 180 )"),
             listOf("B+C", "item( \"var2\" , *list1* )"),
         )
-        executeTest(inputBrickFormat, inputValues, LegoNxtMotorTurnAngleBrick(), null, expectedValues)
+        executeTest(inputBrickFormat, inputValues, LegoNxtMotorTurnAngleBrick(), ExpectedFormat(null, expectedValues))
     }
     @Test
     fun testLegoNxtMotorStopBrick() {
@@ -225,7 +225,7 @@ class BrickParsingTest {
             listOf("B+C"),
             listOf("all")
         )
-        executeTest(inputBrickFormat, inputValues, LegoNxtMotorStopBrick(), null, null)
+        executeTest(inputBrickFormat, inputValues, LegoNxtMotorStopBrick())
     }
     @Test
     fun testLegoNxtMotorMoveBrick() {
@@ -708,7 +708,7 @@ class BrickParsingTest {
         val expectedValues = listOf(
             listOf("0", "0"),
         )
-        executeTest(inputBrickFormat, inputValues, SetVelocityBrick(), null, expectedValues)
+        executeTest(inputBrickFormat, inputValues, SetVelocityBrick(), ExpectedFormat(null, expectedValues))
     }
     @Test
     fun testTurnLeftSpeedBrick() {
@@ -1288,7 +1288,7 @@ class BrickParsingTest {
             listOf("\"multiplayerVar1\"", "'variable2.txt'")
         )
         val expectedBrickFormat = "Write to file (variable: (#PARAM_0#), file: (#PARAM_1#));"
-        executeTest(inputBrickFormat, inputValues, WriteVariableToFileBrick(), expectedBrickFormat)
+        executeTest(inputBrickFormat, inputValues, WriteVariableToFileBrick(), ExpectedFormat(expectedBrickFormat, null))
     }
     @Test
     fun testReadVariableFromFileBrick() {
@@ -1344,7 +1344,7 @@ class BrickParsingTest {
             listOf("*localList1*", "1", "\"localVar1\""),
         )
         val expectedBrickFormat = "Replace (list: (#PARAM_0#), position: (#PARAM_1#), value: (#PARAM_2#));"
-        executeTest(inputBrickFormat, inputValues, ReplaceItemInUserListBrick(), expectedBrickFormat)
+        executeTest(inputBrickFormat, inputValues, ReplaceItemInUserListBrick(), ExpectedFormat(expectedBrickFormat, null))
     }
     @Test
     fun testWriteListOnDeviceBrick() {
@@ -1637,17 +1637,18 @@ Program 'Brick Parsing Test' {
 }
 """
 
+    private data class ExpectedFormat(val expectedBrickFormat: String?, val expectedValues: List<List<String>>?)
+
     private fun executeTest(
         inputBrickFormat: String,
         inputValues: List<List<String>>,
         expectedBrickType: Brick,
-        expectedBrickFormat: String? = null,
-        expectedValues: List<List<String>>? = null
+        expectedFormats: ExpectedFormat? = null
     ) {
         val locales = listOf(Locale.ROOT, Locale.GERMAN, Locale.CHINA)
 
         for (locale in locales) {
-            executeLocalizedTest(inputBrickFormat, inputValues, expectedBrickType, locale, expectedBrickFormat, expectedValues)
+            executeLocalizedTest(inputBrickFormat, inputValues, expectedBrickType, locale, expectedFormats)
         }
     }
 
@@ -1657,18 +1658,17 @@ Program 'Brick Parsing Test' {
         inputValues: List<List<String>>,
         expectedBrickType: Brick,
         locale: Locale,
-        expectedBrickFormat: String? = null,
-        expectedValues: List<List<String>>? = null
+        expectedFormats: ExpectedFormat? = null
     ) {
         for (testIndex in inputValues.indices) {
             var inputBrickString = inputBrickFormat
             for (valueIndex in inputValues[testIndex].indices) {
                 inputBrickString = inputBrickString.replace("#PARAM_$valueIndex#", inputValues[testIndex][valueIndex])
             }
-            var expectedBrickString = expectedBrickFormat ?: inputBrickFormat
-            if (expectedValues != null) {
-                for (valueIndex in expectedValues[testIndex].indices) {
-                    expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", expectedValues[testIndex][valueIndex])
+            var expectedBrickString = (expectedFormats?.expectedBrickFormat) ?: inputBrickFormat
+            if (expectedFormats?.expectedValues != null) {
+                for (valueIndex in expectedFormats.expectedValues[testIndex].indices) {
+                    expectedBrickString = expectedBrickString.replace("#PARAM_$valueIndex#", expectedFormats.expectedValues[testIndex][valueIndex])
                 }
             } else {
                 for (valueIndex in inputValues[testIndex].indices) {

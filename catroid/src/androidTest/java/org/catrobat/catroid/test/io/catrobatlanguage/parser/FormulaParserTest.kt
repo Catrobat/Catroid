@@ -315,7 +315,7 @@ class FormulaParserTest {
             )
         )
         val brick = WaitBrick(expectedFormula)
-        createProject(brick)
+        createBrickTestProject(brick)
         UiTestCatroidApplication.projectManager.currentProject.userVariables.add(UserVariable("\"va\"r1\""))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
@@ -331,7 +331,7 @@ class FormulaParserTest {
             )
         )
         val brick = WaitBrick(expectedFormula)
-        createProject(brick)
+        createBrickTestProject(brick)
         UiTestCatroidApplication.projectManager.currentProject.userVariables.add(UserVariable("va\\\"r1"))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
@@ -376,7 +376,7 @@ class FormulaParserTest {
             )
         )
         val brick = WaitBrick(expectedFormula)
-        createProject(brick)
+        createBrickTestProject(brick)
         UiTestCatroidApplication.projectManager.currentProject.userLists.add(UserList("***list1****"))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
@@ -392,7 +392,7 @@ class FormulaParserTest {
             )
         )
         val brick = WaitBrick(expectedFormula)
-        createProject(brick)
+        createBrickTestProject(brick)
         UiTestCatroidApplication.projectManager.currentProject.userLists.add(UserList("\\*\\*\\*list1****"))
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
@@ -418,7 +418,7 @@ class FormulaParserTest {
     @Test
     fun failForUndefinedFunction() {
         val brick = WaitBrick()
-        createProject(brick)
+        createBrickTestProject(brick)
         val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
@@ -437,7 +437,7 @@ class FormulaParserTest {
     @Test
     fun failForJoinFunctionParameterCount() {
         val brick = WaitBrick()
-        createProject(brick)
+        createBrickTestProject(brick)
         val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
@@ -456,7 +456,7 @@ class FormulaParserTest {
     @Test
     fun failForWrongParameterNumber() {
         val brick = WaitBrick()
-        createProject(brick)
+        createBrickTestProject(brick)
         val parameterParser = CatrobatFormulaParser(
             ApplicationProvider.getApplicationContext(),
             UiTestCatroidApplication.projectManager.currentProject,
@@ -487,7 +487,7 @@ class FormulaParserTest {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, input.name, null))
         val brick = ChangeSizeByNBrick(expectedFormula)
         userDefinedScript.addBrick(brick)
-        createProject(userDefinedScript)
+        createScriptTestProject(userDefinedScript)
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
     }
@@ -507,7 +507,7 @@ class FormulaParserTest {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, input.name, null))
         val brick = ChangeSizeByNBrick(expectedFormula)
         userDefinedScript.addBrick(brick)
-        createProject(userDefinedScript)
+        createScriptTestProject(userDefinedScript)
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
     }
@@ -527,7 +527,7 @@ class FormulaParserTest {
         val expectedFormula = Formula(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, "Input2", null))
         val brick = ChangeSizeByNBrick(expectedFormula)
         userDefinedScript.addBrick(brick)
-        createProject(userDefinedScript)
+        createScriptTestProject(userDefinedScript)
         try {
             getParsedFormula(brick)
             Assert.fail("Expected ArgumentParsingException")
@@ -538,7 +538,7 @@ class FormulaParserTest {
 
     private fun testFormula(expectedFormula: Formula) {
         val brick = WaitBrick(expectedFormula)
-        createProject(brick)
+        createBrickTestProject(brick)
         val actualFormula = getParsedFormula(brick)
         compareFormulas(expectedFormula, actualFormula)
     }
@@ -551,6 +551,7 @@ class FormulaParserTest {
         compareFormulaElement(expectedFormula.formulaTree, actualFormula.formulaTree)
     }
 
+    @Suppress("ComplexMethod")
     private fun compareFormulaElement(expectedElement: FormulaElement, actualElement: FormulaElement) {
         Assert.assertEquals("Value Mismatch", expectedElement.value, actualElement.value)
         Assert.assertEquals("Type Mismatch", expectedElement.elementType, actualElement.elementType)
@@ -585,16 +586,14 @@ class FormulaParserTest {
         return parameterParser.parseArgument(brick.formulas[0].getTrimmedFormulaStringForCatrobatLanguage(ApplicationProvider.getApplicationContext()))
     }
 
-    private fun createProject(script: Script) {
+    private fun createScriptTestProject(script: Script) {
         createProject()
-        
         UiTestCatroidApplication.projectManager.currentSprite.addScript(script)
         baseActivityTestRule.launchActivity()
     }
 
-    private fun createProject(brick: Brick) {
+    private fun createBrickTestProject(brick: Brick) {
         createProject()
-
         val script = StartScript()
         UiTestCatroidApplication.projectManager.currentSprite.addScript(script)
         script.addBrick(brick)
