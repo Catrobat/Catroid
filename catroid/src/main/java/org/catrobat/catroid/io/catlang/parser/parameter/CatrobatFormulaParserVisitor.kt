@@ -24,7 +24,6 @@
 package org.catrobat.catroid.io.catlang.parser.parameter
 
 import android.content.Context
-import android.util.Log
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
@@ -50,11 +49,13 @@ import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunc
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import java.util.Stack
 
-internal class CatrobatFormulaParserVisitor(context: Context,
+internal class CatrobatFormulaParserVisitor(
+    context: Context,
     private val variables: List<String>,
     private val userLists: List<String>,
     private val userDefinedBrickParameters: List<String>,
-    private val scene: Scene) : FormulaParserVisitor<FormulaBaseVisitResult> {
+    private val scene: Scene
+    ) : FormulaParserVisitor<FormulaBaseVisitResult> {
 
     companion object {
         val FUNCTION_TO_NUMBER_OF_PARAMETER_MAP = mapOf(
@@ -381,9 +382,13 @@ internal class CatrobatFormulaParserVisitor(context: Context,
         return functionFormulaElement
     }
 
-    private fun parseAndValidateFunctionParameters(functionText: String, function: Functions,
+    @Suppress("ComplexMethod")
+    private fun parseAndValidateFunctionParameters(
+        functionText: String,
+        function: Functions,
         context: FormulaParser.SensorPropertyOrMethodInvocationContext,
-        functionFormulaElement: FormulaElement): ParameterListVisitResult {
+        functionFormulaElement: FormulaElement
+    ): ParameterListVisitResult {
         if (!FUNCTION_TO_NUMBER_OF_PARAMETER_MAP.containsKey(function)) {
             throw UnkownSensorOrFunctionException("Unknown number of parameters for function: $functionText")
         }
