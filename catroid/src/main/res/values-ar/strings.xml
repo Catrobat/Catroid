@@ -67,7 +67,7 @@
     <!-- Replace Api dialog -->
     <string name="api_replacement_dialog_neutral">تحميل بدون تغيير</string>
     <string name="api_replacement_dialog_accept">تم استبدال الرفع مع المفاتيح</string>
-    <string name="api_replacement_dialog_warning">يحتوي المشروع على الطوب التي تصل إلى
+    <string name="api_replacement_dialog_warning">يحتوي المشروع على اللّبنات التي تصل إلى
         الويب، ويبدو أيضا أنها تحتوي على مفاتيح API. يرجى رؤية %1s لماذا
         تحميل هذه المفاتيح يمكن أن يكون خطيراً.</string>
     <string name="api_replacement">أدخل مفتاح API هنا</string>
@@ -98,15 +98,15 @@
     <string name="main_menu_login">تسجيل الدخول</string>
     <string name="main_menu_logout">خروج</string>
     <string name="main_menu_scratch_converter">محول سكراتش</string>
-    <string name="main_menu_play_store_not_installed">لم يتم العثور على متجر جوجل بلي</string>
+    <string name="main_menu_play_store_not_installed">لم يتم العثور على متجر جوجل بلاي</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">تم إنشاؤها بواسطة</string>
     <string name="marketing_app_details">تفاصيل حول هذا التطبيق</string>
-    <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلي</string>
+    <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلاي</string>
     <string name="error_cannot_open_huawei_app_gallery">عذرًا! فشل في فتح متجر تطبيقات Huawei ،
         الرجاء معاودة المحاولة في وقت لاحق.</string>
-    <string name="google_play_store_logo">متجرجوجل</string>
+    <string name="google_play_store_logo">متجر جوجل</string>
     <string name="huawei_app_gallery">معرض تطبيقات هواوي</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">وسوم NFC</string>
@@ -118,26 +118,26 @@
     <string name="preference_description_web_access">تعديل لإضافة أو حذف النطاقات الموثوقة</string>
     <string name="preference_screen_web_access_title">تعديل النطاقات الموثوقة</string>
     <string name="preference_title_ai">امتداد الذكاء الاصطناعي (AI)</string>
-    <string name="preference_description_ai">تمكين طوب ومستشعرات الذكاء الاصطناعي</string>
-    <string name="preference_title_ai_speech_recognition">خطاب
-        التعرف على</string>
-    <string name="preference_description_ai_speech_recognition">ممكن
-        طوب التعرف على الكلام وأجهزة الاستشعار</string>
+    <string name="preference_description_ai">تمكين لبنات ومستشعرات الذكاء الاصطناعي</string>
+    <string name="preference_title_ai_speech_recognition">التعرف
+        علي الكلام</string>
+    <string name="preference_description_ai_speech_recognition">تمكين
+        لبنات التعرف على الكلام وأجهزة الاستشعار</string>
     <string name="preference_title_ai_speech_synthetization">خطاب
         التوليف</string>
-    <string name="preference_description_ai_speech_synthetization">ممكن
-        طوب تركيب الكلام وأجهزة الاستشعار</string>
-    <string name="preference_title_ai_face_detection">وجه
-        كشف</string>
-    <string name="preference_description_ai_face_detection">ممكن
-        طوب الكشف عن الوجه وأجهزة الاستشعار</string>
+    <string name="preference_description_ai_speech_synthetization">تمكين
+        لبنات تركيب الكلام وأجهزة الاستشعار</string>
+    <string name="preference_title_ai_face_detection">الكشف
+        عن الوجه</string>
+    <string name="preference_description_ai_face_detection">تمكين
+        لبنات الكشف عن الوجه وأجهزة الاستشعار</string>
     <string name="preference_title_ai_pose_detection">كشف الوقفة</string>
-    <string name="preference_description_ai_pose_detection">ممكن
-        تشكل طوب الكشف وأجهزة الاستشعار</string>
-    <string name="preference_title_ai_text_recognition">نص
-        التعرف على</string>
-    <string name="preference_description_ai_text_recognition">ممكن
-        طوب التعرف على النص وأجهزة الاستشعار</string>
+    <string name="preference_description_ai_pose_detection">تمكين
+        لبنات الكشف عن الوقفة وأجهزة الاستشعار</string>
+    <string name="preference_title_ai_text_recognition">التعرف
+        علي النص</string>
+    <string name="preference_description_ai_text_recognition">تمكين
+        لبنات التعرف على النص وأجهزة الاستشعار</string>
     <string name="preference_title_ai_object_recognition">التعرف على الكائن</string>
     <string name="preference_description_ai_object_recognition">تمكين التعرف على الكائن ومستشعرات التتبع</string>
     <string name="preference_title_accessibility">إمكانية الوصول</string>
@@ -152,19 +152,19 @@
     <string name="preference_title_accessibility_category_icons_big">أيقونات كبيرة</string>
     <string name="preference_description_accessibility_category_icons_big">زيادة حجم الأيقونات.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">أيقونات التباين العالي</string>
-    <string name="preference_title_accessibility_Brick_icons">ايقونات اللبّنات البرمجية</string>
+    <string name="preference_title_accessibility_Brick_icons">ايقونات اللّبنات البرمجية</string>
     <string name="preference_title_accessibility_category_icons">إظهار الايقونات</string>
-    <string name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللبّنات البرمجية.</string>
+    <string name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللّبنات البرمجية.</string>
     <string name="preference_title_accessibility_high_contrast">تباين عالي</string>
-    <string name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللبّنات البرمجية.</string>
+    <string name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللّبنات البرمجية.</string>
     <string name="preference_description_accessibility_large_text">زيادة حجم النص.</string>
     <string name="preference_title_accessibility_large_text">نص عريض</string>
     <string name="preference_title_accessibility_element_spacing">تباعد عريض للكائنات</string>
     <string name="preference_description_accessibility_element_spacing">زيادة مسافة التباعد في القوائم.</string>
     <string name="preference_title_accessibility_dragndrop_delay">تأخير السحب والإفلات</string>
-    <string name="preference_description_accessibility_dragndrop_delay">تأخير السحب والإفلات لـ اللبّنات البرمجية.</string>
-    <string name="preference_title_accessibility_beginner_bricks">البّنات البرمجية للمبتدئين</string>
-    <string name="preference_description_accessibility_beginner_bricks">إظهار اللبّنات البرمجية الأساسية فقط.</string>
+    <string name="preference_description_accessibility_dragndrop_delay">تأخير السحب والإفلات لـ اللّبنات البرمجية.</string>
+    <string name="preference_title_accessibility_beginner_bricks">ابّنات البرمجية للمبتدئين</string>
+    <string name="preference_description_accessibility_beginner_bricks">إظهار اللّبنات البرمجية الأساسية فقط.</string>
     <string name="preference_title_accessibility_font_style">اختر نوع خط</string>
     <string name="accessibility_font_regular">عادي</string>
     <string name="accessibility_font_serif">Serif</string>
@@ -182,22 +182,22 @@
     <string name="preference_access_summary_profile_fenrir">مسافة تباعد بين العناصر, تأخير مدة
        السحب واللإفلات</string>
     <string name="preference_access_title_profile_tiro">مبتدىء</string>
-    <string name="preference_access_summary_profile_tiro">اللبّنات البرمجية للمبتدئين</string>
+    <string name="preference_access_summary_profile_tiro">اللّبنات البرمجية للمبتدئين</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">اللبّنات البرمجية للطائرة بدون طيار</string>
+    <string name="preference_title_enable_quadcopter_bricks">اللّبنات البرمجية للطائرة بدون طيار</string>
     <string name="preference_description_quadcopter_bricks">السماح للتطبيق بالتحكم في الطائرة بدون طيار 2.0 كوادكوبتر</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">اللبّنات البرمجية لـ Parrot Jumping Sumo</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">اللّبنات البرمجية لـ Parrot Jumping Sumo</string>
     <string name="preference_description_jumpingsumo_bricks">السماح للتطبيق بالتحكم في Parrots Jumping Sumo</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">لبّنات برمجية لـ ليغو مايندستورمز (NXT)</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">لبّنات برمجية لـ ليغو مايندستورمز (EV3)</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">لبنات برمجية لـ ليغو مايندستورمز (NXT)</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">لبنات برمجية لـ ليغو مايندستورمز (EV3)</string>
     <string name="preference_description_mindstorms_nxt_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
     <string name="preference_description_mindstorms_ev3_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(EV3)</string>
     <string name="preference_title_mindstorms_nxt_sensors">أجهزة إستشعار ليغو (NXT)</string>
     <string name="preference_title_mindstorms_ev3_sensors">أجهزة إستشعار ليغو (EV3)</string>
     <string name="preference_title_drone_config_properties">إعدادات ضبط طائرة بدون طيار 2.0</string>
-    <string name="preference_title_enable_phiro_bricks">لبّنات روبوت الأطفال البرمجية</string>
+    <string name="preference_title_enable_phiro_bricks">لبنات روبوت الأطفال البرمجية</string>
     <string name="preference_description_phiro_bricks">للسماح للتطبيق بالتحكم في روبوت الأطفال</string>
-    <string name="preference_title_enable_arduino_bricks">لبّنات برمجية لـ اردوينو</string>
+    <string name="preference_title_enable_arduino_bricks">لبنات برمجية لـ اردوينو</string>
     <string name="preference_description_arduino_bricks">السماح للتطبيق بالتحكم في لوحات الاردوينو</string>
     <string name="preference_title_enable_embroidery_bricks">التطريز</string>
     <string name="preference_description_embroidery_bricks">إنشاء أنماط لآلات الخياطة</string>
@@ -208,7 +208,7 @@
     <string name="preference_title_enable_crash_reports">إرسال تقارير الأعطال الغير معروفة</string>
     <string name="preference_description_crash_reports">السماح للتطبيق بإرسال تقارير الأعطال تلقائياً</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">لبّنات راسبيري باي البرمجية</string>
+    <string name="preference_title_enable_raspi_bricks">لبنات راسبيري باي البرمجية</string>
     <string name="preference_description_raspi_bricks">السماح للتطبيق بالتحكم بأجهزة راسبيري باي</string>
     <string name="preference_raspi_enable_bricks">تفعيل لّبنات راسبيري باي البرمجية</string>
     <string name="preference_raspi_help">مساعدة/الشروع في البدء</string>
@@ -458,7 +458,7 @@
     <string name="project_details">آخر وصول: %s، الحجم: %s</string>
     <string name="last_access_today">اليوم، %s</string>
     <string name="scene_details">العناصر: %d، المظاهر: %d, الملفات الصوتية: %d</string>
-    <string name="sprite_details">لبّنات برمجية:%d, مظاهر:%d, ملفات صوتية:%d</string>
+    <string name="sprite_details">لبنات برمجية:%d, مظاهر:%d, ملفات صوتية:%d</string>
     <string name="look_details">القياس: %s, الحجم:%s</string>
     <string name="sound_duration">المدة: %s</string>
     <string name="sound_details">المدة: %s، الحجم: %s</string>
@@ -733,12 +733,12 @@
     <string name="local_lists_headline">قوائم لهذا الكائن فقط</string>
     <string name="fragment_data_text_description">انقر فوق \"+\"  \nلإضافة متغيرات وقوائم</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="zero">الإدخال لهذه الطوبة</item>
-        <item quantity="one">الإدخال لهذه الطوبة</item>
-        <item quantity="two">الإدخال لهذه الطوبة</item>
-        <item quantity="few">الإدخال لهذه الطوبة</item>
-        <item quantity="many">الإدخال لهذه الطوبة</item>
-        <item quantity="other">المدخلات لهذه الطوبة</item>
+        <item quantity="zero">الإدخال لهذه اللّبنة</item>
+        <item quantity="one">الإدخال لهذه اللّبنة</item>
+        <item quantity="two">الإدخال لهذه اللّبنة</item>
+        <item quantity="few">الإدخال لهذه اللّبنة</item>
+        <item quantity="many">الإدخال لهذه اللّبنة</item>
+        <item quantity="other">المدخلات لهذه اللّبنة</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">لكل الكائنات</string>
@@ -832,18 +832,18 @@
     <string name="soundrecorder_text_view">اضغط على الأيقونة أعلاه لبدء وإيقاف التسجيل.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">نقل الطوب</string>
+    <string name="brick_context_dialog_move_brick">نقل اللّبنة</string>
     <string name="brick_context_dialog_move_script">نقل النص البرمجي</string>
     <string name="brick_context_dialog_move_definition">نقل هذا التعريف</string>
-    <string name="brick_context_dialog_delete_brick">حذف الطوب</string>
-    <string name="brick_context_dialog_copy_brick">نسخ الطوب</string>
+    <string name="brick_context_dialog_delete_brick">حذف اللّبنة</string>
+    <string name="brick_context_dialog_copy_brick">نسخ اللّبنة</string>
     <string name="brick_context_dialog_copy_script">نسخ النص البرمجي</string>
     <string name="brick_context_dialog_formula_edit_brick">تعديل الصيغة</string>
     <string name="brick_context_dialog_delete_script">حذف البرنامج النصي</string>
     <string name="brick_context_dialog_delete_definition">حذف هذا التعريف</string>
-    <string name="brick_context_dialog_comment_in">تمكين الطوب</string>
-    <string name="brick_context_dialog_comment_out">تعطيل الطوب</string>
-    <string name="brick_context_dialog_highlight_brick_parts">إبراز أجزاء اللبّنة البرمجية</string>
+    <string name="brick_context_dialog_comment_in">تمكين اللّبنة</string>
+    <string name="brick_context_dialog_comment_out">تعطيل اللّبنة</string>
+    <string name="brick_context_dialog_highlight_brick_parts">إبراز أجزاء اللّبنة البرمجية</string>
     <string name="brick_context_dialog_comment_in_script">تفعيل النص البرمجي</string>
     <string name="brick_context_dialog_comment_out_script">تعطيل النص البرمجي</string>
     <string name="brick_context_dialog_help">المساعدة</string>
@@ -958,7 +958,7 @@
     <string name="category_sound">الصوت</string>
     <string name="category_control">التحكم</string>
     <string name="category_event">الحدث</string>
-    <string name="category_user_bricks">الطوب الخاص بك</string>
+    <string name="category_user_bricks">اللّبنات الخاصة بك</string>
     <string name="category_data">البيانات</string>
     <string name="category_device">الجهاز</string>
     <string name="category_lego_nxt">ليغو NXT</string>
@@ -970,13 +970,13 @@
     <string name="category_cast">بث وإرسال</string>
     <string name="category_raspi">راسبيري باي</string>
     <string name="category_assertions">اختبار</string>
-    <string name="category_search_bricks">طوب البحث</string>
+    <string name="category_search_bricks">لبنات البحث</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">إضافة تسمية</string>
     <string name="brick_user_defined_add_input">أضف المدخلات</string>
-    <string name="brick_user_defined_add_input_description">إضافة إدخال لهذه الطوبة:</string>
-    <string name="brick_user_defined_add_label_description">إضافة تسمية لهذه الطوبة:</string>
+    <string name="brick_user_defined_add_input_description">إضافة إدخال لهذه اللّبنة:</string>
+    <string name="brick_user_defined_add_label_description">إضافة تسمية لهذه اللّبنة:</string>
     <string name="brick_user_defined_default_input_name">اسم المدخل</string>
     <string name="brick_user_defined_default_label">نص التسمية</string>
     <string name="brick_user_defined_already_exists">طُوبة بهذه التسميات موجودة بالفعل. الرجاء إضافة المزيد من التسميات أو المدخلات.</string>
@@ -984,7 +984,8 @@
     <string name="brick_user_defined_script_screen_refresh_as">تحديث الشاشة كـ</string>
     <string name="brick_user_defined_with_screen_refreshing">مع</string>
     <string name="brick_user_defined_without_screen_refreshing">بدون</string>
-    <string name="brick_user_defined_list_empty">انقر فوق \"+\" لإضافة الطوب الجديد الخاص بك.</string>
+    <string name="brick_user_defined_list_empty">انقر فوق \"+\" لإضافة اللّبنات الجديدة الخاصة بك
+        .</string>
     <string name="brick_report">تقرير</string>
     <!--  -->
     <!-- Motion bricks -->
@@ -1456,8 +1457,8 @@
         من فضلك قم بإعادة تسمية المشروع.</string>
     <string name="error_upload_default_project">لا يمكنك رفع المشروع الإفتراضي. فضلاً
         قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
-    <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
-    <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
+    <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللّبنة البرمجية</string>
+    <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللّبنة البرمجية</string>
     <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
     <string name="error_embroidery_file_export">حدث خطأ أثناء مشاركة ملف التطريز.</string>
     <string name="error_embroidery_file_write">حدث خطأ أثناء كتابة ملف التطريز.</string>
@@ -1537,7 +1538,7 @@
     <string name="preference_disable_nxt_info_dialog">تعطيل مربع حوار المعلومات</string>
     <string name="preference_disable_nxt_info_dialog_description">إعدادات برنامج (NXT) المُحدد لن تُعرض عند فتح البرنامج.</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">مسح أجهزة استشعار (NXT) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
-    <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
+    <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللّبنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
     <string name="lego_port_1">المنفذ 1</string>
     <string name="lego_port_2">المنفذ 2</string>
     <string name="lego_port_3">المنفذ 3</string>
@@ -1547,7 +1548,7 @@
     <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>
     <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج EV3 المُحدد لن تُعرض عند فتح البرنامج.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">مسح أجهزة استشعار (EV3) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
-    <string name="lego_ev3_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(EV3). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
+    <string name="lego_ev3_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللّبنات البرمجية لـ ليغو مايندستورمز(EV3). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
     <string name="ev3_choose_sensor_1">جهاز الإستشعار المُتصل بالمنفذ 1</string>
     <string name="ev3_choose_sensor_2">جهاز الإستشعار المُتصل بالمنفذ 2</string>
     <string name="ev3_choose_sensor_3">جهاز الإستشعار المُتصل بالمنفذ 3</string>
@@ -2160,8 +2161,8 @@
     <string name="got_it">فهمت ذلك</string>
     <string name="preference_description_hints">التفعيل لإظهار التلميحات</string>
     <string name="preference_title_enable_hints">إظهار التلميحات </string>
-    <string name="hint_category">تم فرز كل اللبّنات البرمجية ضمن فئات. اختر الفئة التي تريدها.</string>
-    <string name="hint_bricks">لإضافة لبّنة برمجية إلى النص البرمجي الخاص بك فقط انقر على اللبّنة البرمجية التي تريد استخدامها.</string>
+    <string name="hint_category">تم فرز كل اللّبنات البرمجية ضمن فئات. اختر الفئة التي تريدها.</string>
+    <string name="hint_bricks">لإضافة لبّنة برمجية إلى النص البرمجي الخاص بك فقط انقر على اللّبنة البرمجية التي تريد استخدامها.</string>
     <string name="hint_scripts">النص البرمجي يحدد سلوك العنصر الخاص بك. لإضافة لّبنات برمجية إلى النص البرمجي,
          انقر على الرمز \"+\".</string>
     <string name="hint_looks">هنا يمكنك أن تجد المظاهر المختلفة للعنصر الخاص بك. لإضافة منظر جديد,
