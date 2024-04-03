@@ -152,11 +152,13 @@ public class SetBounceFactorActionTest {
 			physicsWorld.step(0.3f);
 		}
 
-		float y = physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.SCREEN_HEIGHT / 2);
+		float y =
+				physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.currentScreenResolution.getHeight() / 2);
 		physicsWorld.step(0.3f);
 
-		while (y < (physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.SCREEN_HEIGHT / 2))) {
-			y = physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.SCREEN_HEIGHT / 2);
+		while (y < (physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.currentScreenResolution.getHeight() / 2))) {
+			y =
+					physicsWorld.getPhysicsObject(sprite).getY() + (ScreenValues.currentScreenResolution.getHeight() / 2);
 			physicsWorld.step(0.3f);
 		}
 

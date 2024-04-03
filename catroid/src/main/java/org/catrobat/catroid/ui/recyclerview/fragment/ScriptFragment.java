@@ -281,9 +281,9 @@ public class ScriptFragment extends ListFragment implements
 		listView = view.findViewById(android.R.id.list);
 		int bottomListPadding;
 		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
-			bottomListPadding = (int) (ScreenValues.SCREEN_HEIGHT / 2.5);
+			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
 		} else {
-			bottomListPadding = ScreenValues.SCREEN_HEIGHT / 3;
+			bottomListPadding = ScreenValues.currentScreenResolution.getHeight() / 3;
 		}
 		listView.setPadding(0, 0, 0, bottomListPadding);
 		listView.setClipToPadding(false);

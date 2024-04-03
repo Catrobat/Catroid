@@ -52,9 +52,10 @@ fun ProjectManager.getProjectBitmap(): Bitmap {
         BitmapFactory.decodeFile(backgroundBitmapPath, bitmapOptions)
     } catch (e: IndexOutOfBoundsException) {
         Log.w("getProjectBitmap", "backgroundSprite has no looks! ${e.message}")
-        val screenWidth = ScreenValues.SCREEN_WIDTH
-        val screenHeight = ScreenValues.SCREEN_HEIGHT
-        val bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            ScreenValues.currentScreenResolution.width,
+            ScreenValues.currentScreenResolution.height,
+            Bitmap.Config.ARGB_8888)
         bitmap.eraseColor(Color.WHITE)
         bitmap
     }
