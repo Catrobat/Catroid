@@ -57,8 +57,7 @@ class AdvancedModeSettingsTest {
     @Before
     fun setUp() {
         CatblocksScriptFragment.testingMode = true
-        SettingsFragment.setCatBlocksAdvancedMode(ApplicationProvider.getApplicationContext(),
-                                                  true)
+        SettingsFragment.setCatBlocksAdvancedMode(ApplicationProvider.getApplicationContext(), true)
         createProject()
         baseActivityTestRule.launchActivity()
     }
