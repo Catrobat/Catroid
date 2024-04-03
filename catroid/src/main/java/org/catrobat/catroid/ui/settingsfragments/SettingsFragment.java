@@ -627,7 +627,7 @@ public class SettingsFragment extends PreferenceFragment {
 			getPreferenceScreen().removePreference(simplePreferenceField);
 		}
 	}
-	
+
 	public static boolean getCatBlocksAdvancedMode(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_ADVANCED_MODE, context);
 	}
