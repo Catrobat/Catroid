@@ -204,6 +204,9 @@
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Changes applied</string>
 
+    <string name="preference_title_catblocks_advanced_mode">Advanced mode</string>
+    <string name="preference_description_catblocks_advanced_mode">Change to text-oriented interface</string>
+
     <string name="preference_access_title_profile_default">Default</string>
     <string name="preference_access_summary_profile_default">Default settings</string>
     <string name="preference_access_title_profile_custom">My custom profile</string>
