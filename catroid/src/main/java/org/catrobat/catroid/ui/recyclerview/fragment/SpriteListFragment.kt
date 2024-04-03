@@ -350,6 +350,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     super.onItemClick(item, null)
                     return
                 }
+
                 NONE -> {
                     projectManager.currentSprite = item
                     val intent = Intent(requireContext(), SpriteActivity::class.java)
@@ -359,12 +360,13 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     )
                     startActivity(intent)
                 }
-                IMPORT_LOCAL -> {
+
+                IMPORT_LOCAL ->
                     if (item != null) {
                         ImportLocalObjectActivity.spriteToImport = item
                         (activity as ImportLocalObjectActivity).finishImport()
                     }
-                }
+
                 else -> super.onItemClick(item, selectionManager)
             }
         }

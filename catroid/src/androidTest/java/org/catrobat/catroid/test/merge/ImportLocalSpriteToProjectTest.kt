@@ -140,13 +140,15 @@ class ImportLocalSpriteToProjectTest {
             ViewAssertions.matches(isDisplayed())
         ).perform(ViewActions.click())
 
+        Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
+
         Espresso.onView(withText("cat"))
             .check(ViewAssertions.matches(isDisplayed()))
         MergeTestUtils().assertSuccessfulSpriteImport(
             projectToImportTo,
             singleSceneProjectToImportFrom, cat,
             projectToImportTo.defaultScene.spriteList
-                .last(), false
+                .last(), true
         )
     }
 
@@ -167,11 +169,13 @@ class ImportLocalSpriteToProjectTest {
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
+        Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
+
         Espresso.onView(withText("cat")).check(ViewAssertions.matches(isDisplayed()))
         MergeTestUtils().assertSuccessfulSpriteImport(
             projectToImportTo,
             multipleSceneProjectToImportFrom, cat,
-            projectToImportTo.defaultScene.spriteList.last(), false
+            projectToImportTo.defaultScene.spriteList.last(), true
         )
     }
 

@@ -225,12 +225,13 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                     .addToBackStack(SpriteListFragment.TAG)
                     .commit()
             }
-            IMPORT_LOCAL -> {
+
+            IMPORT_LOCAL ->
                 if (item != null) {
                     ImportLocalObjectActivity.sceneToImportFrom = item
                     (activity as ImportLocalObjectActivity).loadSelector(REQUEST_SPRITE)
                 }
-            }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }

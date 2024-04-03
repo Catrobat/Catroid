@@ -64,7 +64,7 @@ class ImportLocalObjectActivity : BaseActivity() {
     }
 
     private fun setTypeFromIntent() {
-        if(intent.hasExtra(TAG) && type == null) {
+        if (intent.hasExtra(TAG) && type == null) {
             type = intent.extras?.getString(TAG)!!
         }
     }
@@ -117,17 +117,14 @@ class ImportLocalObjectActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when (type) {
-            REQUEST_SPRITE -> {
+            REQUEST_SPRITE ->
                 if (projectToImportFrom.hasMultipleScenes()) {
                     loadSelector(REQUEST_SCENE)
                 } else {
                     loadSelector(REQUEST_PROJECT)
                 }
-            }
 
-            REQUEST_SCENE -> {
-                loadSelector(REQUEST_PROJECT)
-            }
+            REQUEST_SCENE -> loadSelector(REQUEST_PROJECT)
 
             REQUEST_PROJECT -> {
                 setResult(RESULT_CANCELED)
