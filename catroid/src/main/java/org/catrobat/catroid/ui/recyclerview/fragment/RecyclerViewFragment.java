@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -387,7 +387,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case RENAME:
 				break;
 			case IMPORT_LOCAL:
-				actionMode.setTitle(getString(R.string.am_import) + " " + selectedItemCnt);
+				if (selectedItemCnt != 0) {
+					actionMode.setTitle(getString(R.string.am_import) + " " + selectedItemCnt);
+				} else {
+					actionMode.setTitle(getString(R.string.import_objects));
+				}
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");

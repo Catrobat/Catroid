@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ class ImportLocalObjectActivity : BaseActivity() {
         loadSelector(type)
     }
 
-    fun loadSelector(type: String?) {
+    private fun loadSelector(type: String?) {
         this.type = type
         listFragment = when (type) {
             REQUEST_PROJECT -> ProjectListFragment()
@@ -119,6 +119,7 @@ class ImportLocalObjectActivity : BaseActivity() {
                     sceneToImportFrom = projectToImportFrom?.defaultScene
                     loadSelector(REQUEST_SPRITE)
                 }
+
             REQUEST_SCENE -> loadSelector(REQUEST_SPRITE)
             else -> throw java.lang.IllegalStateException(
                 TAG + "Other Types can't navigate to " +

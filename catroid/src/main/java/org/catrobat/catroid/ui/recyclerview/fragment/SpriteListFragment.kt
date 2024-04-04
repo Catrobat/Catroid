@@ -419,7 +419,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     override fun onImport(menu: Menu?, mode: ActionMode?) {
         super.onImport(menu, mode)
-        mode!!.setTitle(R.string.import_object)
+        mode!!.setTitle(R.string.import_objects)
         adapter.selectionMode = RVAdapter.MULTIPLE
         menu!!.findItem(R.id.confirm).isVisible = true
         menu.findItem(R.id.overflow).isVisible = true

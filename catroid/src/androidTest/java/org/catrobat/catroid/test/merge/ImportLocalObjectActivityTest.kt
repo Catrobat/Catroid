@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
 
-        Espresso.onView(ViewMatchers.withText(R.string.import_object))
+        Espresso.onView(ViewMatchers.withText(R.string.import_objects))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(withId(R.id.bottom_bar)).check(
             ViewAssertions.matches
@@ -147,7 +147,7 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.projectToImportFrom = baseProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
-        Espresso.onView(ViewMatchers.withText(R.string.import_object))
+        Espresso.onView(ViewMatchers.withText(R.string.import_objects))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withText(R.string.import_from_project))
@@ -159,7 +159,7 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.projectToImportFrom = testProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
-        Espresso.onView(ViewMatchers.withText(R.string.import_object))
+        Espresso.onView(ViewMatchers.withText(R.string.import_objects))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withText(R.string.import_from_scene))
