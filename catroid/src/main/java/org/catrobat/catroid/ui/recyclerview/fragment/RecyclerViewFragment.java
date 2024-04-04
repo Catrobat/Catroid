@@ -85,7 +85,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
 	protected String sharedPreferenceDetailsKey = "";
-	protected String importFragmentTitle;
+
 	protected UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	protected ItemTouchHelper touchHelper;
 	protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {

@@ -145,7 +145,6 @@ class ImportLocalObjectActivity : BaseActivity() {
         var projectToImportFrom: Project? = null
         var sceneToImportFrom: Scene? = null
         var spritesToImport: ArrayList<String>? = null
-        var backPressedInActionMode: Boolean = false
 
         val REQUEST_PROJECT = ProjectListFragment.TAG
         val REQUEST_SCENE = SceneListFragment.TAG
