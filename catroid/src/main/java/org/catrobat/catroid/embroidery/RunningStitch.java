@@ -71,4 +71,9 @@ public class RunningStitch {
 	public boolean isRunning() {
 		return isRunning;
 	}
+	public RunningStitchType getType() {
+		return type;
+	}
 }
+
+

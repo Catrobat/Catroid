@@ -32,7 +32,8 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class SetPenColorAction extends TemporalAction {
+public class
+SetPenColorAction extends TemporalAction {
 
 	private Scope scope;
 	private Formula red;
