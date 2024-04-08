@@ -211,26 +211,6 @@
            android:showDividers="end">
 
            <TextView
-               android:id="@+id/project_options_serialize_catrobat_language"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:paddingBottom="@dimen/material_design_spacing_x_large"
-               android:paddingEnd="@dimen/material_design_spacing_x_large"
-               android:paddingStart="@dimen/material_design_spacing_x_large"
-               android:paddingTop="@dimen/material_design_spacing_x_large"
-               android:background="@drawable/button_background_selector_dark"
-               android:text="@string/serialize_to_catrobat_language" />
-
-       </LinearLayout>
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:divider="@drawable/divider"
-           android:orientation="vertical"
-           android:showDividers="end">
-
-           <TextView
                android:id="@+id/project_options_more_details"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"

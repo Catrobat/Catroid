@@ -218,7 +218,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
             if (script is UserDefinedScript) {
                 try {
                     script.scriptBrick.getView(context)
-                } catch(_: Exception) {
+                } catch (_: Exception) {
                 }
                 programString.append(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
             }
