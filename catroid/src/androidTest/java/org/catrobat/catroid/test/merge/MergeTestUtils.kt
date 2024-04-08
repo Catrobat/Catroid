@@ -69,15 +69,13 @@ class MergeTestUtils {
             it.name
         }))
         spritesToBeMerged.forEach { sprite ->
-            assertTrue(mergedSprite.lookList.map { it.name }
-                           .containsAll(sprite.lookList.map { it.name }))
+            assertTrue(mergedSprite.lookList.map { it.name }.containsAll(sprite.lookList.map { it.name }))
         }
         assertTrue(mergedSprite.soundList.map { it.name }.containsAll(sprite1.soundList.map {
             it.name
         }))
         spritesToBeMerged.forEach { sprite ->
-            assertTrue(mergedSprite.soundList.map { it.name }
-                           .containsAll(sprite.soundList.map { it.name }))
+            assertTrue(mergedSprite.soundList.map { it.name }.containsAll(sprite.soundList.map { it.name }))
         }
 
         var scriptListSize = 0

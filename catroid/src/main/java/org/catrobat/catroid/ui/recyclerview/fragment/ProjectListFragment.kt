@@ -431,7 +431,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
 
-            IMPORT_LOCAL -> {
+            IMPORT_LOCAL ->
                 try {
                     ImportLocalObjectActivity.projectToImportFrom = XstreamSerializer.getInstance()
                         .loadProject(item!!.directory.absoluteFile, context)
@@ -439,7 +439,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 } catch (e: IOException) {
                     Log.e(TAG, Log.getStackTraceString(e))
                 }
-            }
 
             else -> super.onItemClick(item, selectionManager)
         }
