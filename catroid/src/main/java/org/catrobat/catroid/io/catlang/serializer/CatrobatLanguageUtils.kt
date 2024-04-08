@@ -75,30 +75,11 @@ object CatrobatLanguageUtils {
     fun getEscapedString(string: String?): String = "'${escapeCharacters(string, "'\t\r\n")}'"
 
     @JvmStatic
-    fun formatHexColorString(hexColorString: String): String {
-        val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase(Locale.ROOT)
-        if (trimmedString == "0") {
-            return "#000000"
-        }
-
-        if (Regex("^([a-f0-9]{6}|[a-f0-9]{3})$").matches(trimmedString)) {
-            return "#$trimmedString"
-        }
-
-        return hexColorString
-    }
-
-    @JvmStatic
     fun getEnglishContextForFormulas(context: Context): Context {
         var configuration = context.resources.configuration
         configuration = Configuration(configuration)
         configuration.setLocale(Locale.ROOT)
         return context.createConfigurationContext(configuration)
-    }
-
-    @JvmStatic
-    fun escapeFormula(formula: String?): String {
-        return escapeCharacters(formula, "\r\n")
     }
 
     fun escapeCharacters(string: String?, charactersToEscape: String): String {

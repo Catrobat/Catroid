@@ -54,12 +54,11 @@ import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExportTask
-import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR
@@ -73,7 +72,6 @@ import java.io.File
 import java.io.IOException
 
 class ProjectOptionsFragment : Fragment() {
-
     private val projectManager: ProjectManager by inject()
     private var _binding: FragmentProjectOptionsBinding? = null
     private val binding get() = _binding!!
@@ -319,7 +317,7 @@ class ProjectOptionsFragment : Fragment() {
             val projectString = CatrobatLanguageProjectSerializer(project!!, this.requireContext()).serialize()
             Log.i(TAG, projectString)
         } catch (t: Throwable) {
-            Log.i(TAG, "")
+            Log.i(TAG, t.message.toString())
         }
     }
 

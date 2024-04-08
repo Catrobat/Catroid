@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.error
 
-open class CatrobatLanguageParsingException(message: String) : Exception(message) {
-}
+open class CatrobatLanguageParsingException(message: String) : Exception(message)
