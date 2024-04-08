@@ -63,6 +63,7 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUs
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVariableResult
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import java.io.File
+import java.util.Locale
 import java.util.Stack
 
 @Suppress("LargeClass")
@@ -933,12 +934,10 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         val userDefinedReceiverBrick = UserDefinedReceiverBrick(userDefinedBrick)
 
         val screenRefreshState = argumentResult.arguments[UserDefinedReceiverBrick.SCREEN_REFRESH_CATLANG_PARAMETER_NAME]!!
-        (userDefinedReceiverBrick.script as UserDefinedScript).screenRefresh = if (screenRefreshState.toLowerCase() == "on") {
-            true
-        } else if (screenRefreshState.toLowerCase() == "off") {
-            false
-        } else {
-            throw CatrobatLanguageParsingException("Screen refresh state must be either on or off.")
+        (userDefinedReceiverBrick.script as UserDefinedScript).screenRefresh = when (screenRefreshState.toLowerCase(Locale.ROOT)) {
+            "on" -> true
+            "off" -> false
+            else -> throw CatrobatLanguageParsingException("Screen refresh state must be either on or off.")
         }
 
         parentBrickStack.push(userDefinedReceiverBrick)
