@@ -127,7 +127,7 @@ class ResolutionTest {
         val screen = Resolution(640, 480)
         val scaledResolution = Resolution(1280, 720).resizeToFit(screen)
 
-        assertThat(scaledResolution.aspectRatio, `is`(1280.0f / 720.0f))
+        assertThat(scaledResolution.aspectRatio(), `is`(1280.0f / 720.0f))
     }
 
     @Test
