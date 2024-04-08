@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.parameter.error
 
-class UnkownSensorOrFunctionException(function: String) : FormulaParsingException("Unknown sensor, property or method: $function") {
-}
+class UnkownSensorOrFunctionException(function: String) : FormulaParsingException("Unknown sensor, property or method: $function")

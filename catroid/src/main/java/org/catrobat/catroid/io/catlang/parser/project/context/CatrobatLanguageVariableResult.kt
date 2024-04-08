@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageVariableResult(val variableName: String) : CatrobatLanguageStringResult(variableName) {
-}
+class CatrobatLanguageVariableResult(val variableName: String) : CatrobatLanguageStringResult(variableName)

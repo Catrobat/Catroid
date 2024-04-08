@@ -25,5 +25,4 @@ package org.catrobat.catroid.io.catlang.parser.project.context
 
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 
-class CatrobatLanguageUserDefinedScriptResult(val userDefinedScript: UserDefinedReceiverBrick) : CatrobatLanguageBaseResult() {
-}
+class CatrobatLanguageUserDefinedScriptResult(val userDefinedScript: UserDefinedReceiverBrick) : CatrobatLanguageBaseResult()

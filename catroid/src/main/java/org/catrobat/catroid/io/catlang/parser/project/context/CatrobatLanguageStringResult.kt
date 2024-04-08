@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-open class CatrobatLanguageStringResult(val string: String) : CatrobatLanguageBaseResult() {
-}
+open class CatrobatLanguageStringResult(val string: String) : CatrobatLanguageBaseResult()

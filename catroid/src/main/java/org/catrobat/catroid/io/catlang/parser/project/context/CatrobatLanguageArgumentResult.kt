@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageArgumentResult(val arguments: Map<String, String>, val userDefinedBricks: Map<String, CatrobatLanguageUserDefinedBrickResult>) : CatrobatLanguageBaseResult() {
-}
+class CatrobatLanguageArgumentResult(val arguments: Map<String, String>, val userDefinedBricks: Map<String, CatrobatLanguageUserDefinedBrickResult>) : CatrobatLanguageBaseResult()

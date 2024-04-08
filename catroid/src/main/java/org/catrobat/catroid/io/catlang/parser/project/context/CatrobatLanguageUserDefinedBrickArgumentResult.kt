@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageUserDefinedBrickArgumentResult(argumentName: String, argumentValue: String): CatrobatLanguageKeyValueResult(argumentName, argumentValue) {
-}
+class CatrobatLanguageUserDefinedBrickArgumentResult(argumentName: String, argumentValue: String): CatrobatLanguageKeyValueResult(argumentName, argumentValue)

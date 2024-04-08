@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageUserDefinedBrickInputResult(val input: String) : CatrobatLanguageBaseResult() {
-}
+class CatrobatLanguageUserDefinedBrickInputResult(val input: String) : CatrobatLanguageBaseResult()
