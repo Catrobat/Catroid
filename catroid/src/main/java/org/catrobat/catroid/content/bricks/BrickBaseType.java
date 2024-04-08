@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,8 +182,9 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	void notifyDataSetChanged(AppCompatActivity activity) {
-		ScriptFragment parentFragment = (ScriptFragment) activity
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		ScriptFragment parentFragment =
+				(ScriptFragment) ((TabLayoutContainerFragment)activity.getSupportFragmentManager()
+						.findFragmentById(R.id.fragment_container)).getSelectedTabFragment();
 		if (parentFragment != null) {
 			parentFragment.notifyDataSetChanged();
 		}
