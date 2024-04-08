@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -212,6 +212,8 @@ import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 object BrickFactory {
+    private const val DIRECTION = "direction"
+
     @Suppress("ComplexMethod", "LongMethod")
     fun createBrickFromCatrobatLanguage(brickName: String, arguments: Map<String, String>, hasSecondaryList: Boolean): BrickBaseType {
         return when (brickName.trim()) {
@@ -391,23 +393,23 @@ object BrickFactory {
     }
 
     private fun createMoveARDrone2Brick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "up") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "up") {
                 return DroneMoveUpBrick()
             }
-            if (arguments["direction"] == "down") {
+            if (arguments[DIRECTION] == "down") {
                 return DroneMoveDownBrick()
             }
-            if (arguments["direction"] == "left") {
+            if (arguments[DIRECTION] == "left") {
                 return DroneMoveLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == "right") {
                 return DroneMoveRightBrick()
             }
-            if (arguments["direction"] == "forward") {
+            if (arguments[DIRECTION] == "forward") {
                 return DroneMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == "backward") {
                 return DroneMoveBackwardBrick()
             }
         }
@@ -415,11 +417,11 @@ object BrickFactory {
     }
 
     private fun createMoveJumpingSumoBrick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "forward") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "forward") {
                 return JumpingSumoMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == "backward") {
                 return JumpingSumoMoveBackwardBrick()
             }
         }
@@ -427,11 +429,11 @@ object BrickFactory {
     }
 
     private fun createMovePhiroBrick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "forward") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "forward") {
                 return PhiroMotorMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == "backward") {
                 return PhiroMotorMoveBackwardBrick()
             }
         }
@@ -570,11 +572,11 @@ object BrickFactory {
     }
 
     private fun createSpinBrick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "left") {
                 return TurnLeftSpeedBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == "right") {
                 return TurnRightSpeedBrick()
             }
         }
@@ -621,11 +623,11 @@ object BrickFactory {
         if (arguments.containsKey("particle effect additivity")) {
             return ParticleEffectAdditivityBrick()
         }
-        if (arguments.containsKey("direction") && arguments.containsKey("degrees")) {
-            if (arguments["direction"] == "left") {
+        if (arguments.containsKey(DIRECTION) && arguments.containsKey("degrees")) {
+            if (arguments[DIRECTION] == "left") {
                 return TurnLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == "right") {
                 return TurnRightBrick()
             }
             throw CatrobatLanguageParsingException("Turn requires parameter 'direction' with the either one of the following values: 'left' or 'right'")
@@ -634,11 +636,11 @@ object BrickFactory {
     }
 
     private fun createTurnARDrone2Brick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "left") {
                 return DroneTurnLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == "right") {
                 return DroneTurnRightBrick()
             }
         }
@@ -646,11 +648,11 @@ object BrickFactory {
     }
 
     private fun createTurnJumpingSumoBrick(arguments: Map<String, String>): BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "left") {
                 return JumpingSumoRotateLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == "right") {
                 return JumpingSumoRotateRightBrick()
             }
         }
