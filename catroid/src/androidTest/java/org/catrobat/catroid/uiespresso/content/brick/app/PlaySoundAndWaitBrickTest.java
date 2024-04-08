@@ -128,6 +128,8 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
+		onView(withId(R.id.tab_layout)).perform(CustomActions.wait(500));
+
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
 		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
@@ -174,6 +176,8 @@ public class PlaySoundAndWaitBrickTest {
 
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+
+		onView(withId(R.id.tab_layout)).perform(CustomActions.wait(500));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newName);

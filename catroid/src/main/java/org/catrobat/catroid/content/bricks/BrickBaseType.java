@@ -183,7 +183,7 @@ public abstract class BrickBaseType implements Brick {
 
 	void notifyDataSetChanged(AppCompatActivity activity) {
 		ScriptFragment parentFragment =
-				(ScriptFragment) ((TabLayoutContainerFragment)activity.getSupportFragmentManager()
+				(ScriptFragment) ((TabLayoutContainerFragment) activity.getSupportFragmentManager()
 						.findFragmentById(R.id.fragment_container)).getSelectedTabFragment();
 		if (parentFragment != null) {
 			parentFragment.notifyDataSetChanged();

@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
@@ -70,8 +71,9 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 					spinner.add(userVariable);
 					spinner.setSelection(userVariable);
 
-					ScriptFragment parentFragment = (ScriptFragment) activity
-							.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+					ScriptFragment parentFragment =
+							(ScriptFragment) ((TabLayoutContainerFragment) activity.getSupportFragmentManager()
+							.findFragmentById(R.id.fragment_container)).getSelectedTabFragment();
 					if (parentFragment != null) {
 						parentFragment.notifyDataSetChanged();
 					}
