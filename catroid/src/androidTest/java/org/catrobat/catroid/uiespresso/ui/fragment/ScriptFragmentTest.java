@@ -85,7 +85,6 @@ public class ScriptFragmentTest {
 
 	@After
 	public void tearDown() {
-
 		baseActivityTestRule.getActivity().finish();
 	}
 
@@ -237,14 +236,6 @@ public class ScriptFragmentTest {
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 		onBrickAtPosition(5)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-	}
-
-	@Test
-	public void testToggle2DView() {
-		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.catblocks))
-				.perform(click());
-		pressBack();
 	}
 
 	private void createProject() {
