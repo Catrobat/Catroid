@@ -184,7 +184,7 @@ class ImportUtils(val context: Context) {
         } catch (e: FileNotFoundException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-       return null
+        return null
     }
 
     fun showRejectToast() {
