@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,18 +31,21 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.TabLayoutFragmentAdapter
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import java.util.UUID
 
-class TabLayoutContainerFragment : Fragment() {
+class TabLayoutContainerFragment(
+    private val catblocksId: UUID? = null, private val scriptFragment: ScriptFragment? = null
+) : Fragment() {
     private lateinit var adapter: TabLayoutFragmentAdapter
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_tab_layout_container, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +73,21 @@ class TabLayoutContainerFragment : Fragment() {
     }
 
     private fun addFragmentsToAdapter() {
-        adapter.addFragment(ScriptFragment())
+        if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED || !SettingsFragment.useCatBlocks(context)) {
+            if (scriptFragment != null) {
+                adapter.addFragment(scriptFragment)
+            } else {
+                adapter.addFragment(ScriptFragment())
+            }
+        } else {
+            if (catblocksId != null) {
+                val catblocksFragment = CatblocksScriptFragment(catblocksId)
+                adapter.addFragment(catblocksFragment)
+            } else {
+                val catblocksFragment = CatblocksScriptFragment(null)
+                adapter.addFragment(catblocksFragment)
+            }
+        }
         adapter.addFragment(LookListFragment())
         adapter.addFragment(SoundListFragment())
     }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -895,12 +895,13 @@ public class ScriptFragment extends ListFragment implements
 
 		SettingsFragment.setUseCatBlocks(getContext(), true);
 
-		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
-
-		FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
-				CatblocksScriptFragment.Companion.getTAG());
-		fragmentTransaction.commit();
+		activity.getSupportFragmentManager()
+				.beginTransaction()
+				.replace(
+						R.id.fragment_container,
+						new TabLayoutContainerFragment(firstVisibleBrickID, null),
+						TabLayoutContainerFragment.TAG)
+				.commit();
 	}
 
 	private void copy(List<Brick> selectedBricks) {
