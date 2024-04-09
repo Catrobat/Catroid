@@ -68,6 +68,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
@@ -76,6 +77,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -88,7 +90,9 @@ public class LookDataTest {
 	private final String fileName = "collision_donut.png";
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
+	@Rule
+	public GrantPermissionRule writeExternalStoragePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 	private LookData lookData;
 	private File imageFolder;
 
@@ -166,6 +170,7 @@ public class LookDataTest {
 		File outFile = new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "penguin.webp");
 		FileOutputStream outputStream = new FileOutputStream(outFile);
 		BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
+		onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS));
 		onView(withId(R.id.button_add))
 				.perform(click());
 

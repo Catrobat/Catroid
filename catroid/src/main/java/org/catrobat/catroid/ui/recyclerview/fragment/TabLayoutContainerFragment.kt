@@ -38,14 +38,17 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import java.util.UUID
 
 class TabLayoutContainerFragment(
-    private val catblocksId: UUID? = null, private val scriptFragment: ScriptFragment? = null
+    private val catblocksId: UUID? = null,
+    private val scriptFragment: ScriptFragment? = null
 ) : Fragment() {
     private lateinit var adapter: TabLayoutFragmentAdapter
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_tab_layout_container, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

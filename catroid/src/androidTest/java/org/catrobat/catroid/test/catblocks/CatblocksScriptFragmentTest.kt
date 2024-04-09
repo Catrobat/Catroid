@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.catblocks
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -44,6 +43,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -77,10 +77,10 @@ class CatblocksScriptFragmentTest {
 
     @Test
     fun testContextMenuItems() {
-        openContextualActionModeOverflowMenu()
+        openActionBarMenu()
         onView(withText(R.string.catblocks_reorder)).check(doesNotExist())
         onView(withText(R.string.catblocks)).perform(click())
-        openContextualActionModeOverflowMenu()
+        openActionBarMenu()
         onView(withText(R.string.catblocks_reorder))
             .check(matches(isDisplayed()))
         onView(withText(R.string.undo)).check(doesNotExist())
@@ -91,7 +91,7 @@ class CatblocksScriptFragmentTest {
         onView(withText(R.string.show_details)).check(doesNotExist())
         onView(withText(R.string.comment_in_out)).check(doesNotExist())
         onView(withText(R.string.catblocks)).perform(click())
-        openContextualActionModeOverflowMenu()
+        openActionBarMenu()
         onView(withText(R.string.catblocks_reorder)).check(doesNotExist())
         onView(withText(R.string.backpack))
             .check(matches(isDisplayed()))
@@ -105,7 +105,7 @@ class CatblocksScriptFragmentTest {
 
     @Test
     fun testReorderScript() {
-        openContextualActionModeOverflowMenu()
+        openActionBarMenu()
         onView(withText(R.string.catblocks)).perform(click())
 
         val webViewUtils = WebViewUtils(baseActivityTestRule.activity)
@@ -115,7 +115,7 @@ class CatblocksScriptFragmentTest {
 
         UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX = 50f
         UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY = 50f
-        openContextualActionModeOverflowMenu()
+        openActionBarMenu()
         onView(withText(R.string.catblocks_reorder)).perform(click())
         assertEquals(UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX, 0.0f)
         assertEquals(UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY, 0.0f)
