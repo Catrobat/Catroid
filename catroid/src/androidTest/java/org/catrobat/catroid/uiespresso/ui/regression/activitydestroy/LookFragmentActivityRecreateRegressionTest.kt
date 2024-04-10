@@ -29,6 +29,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 
@@ -46,7 +47,9 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
+import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 
 import org.junit.Before
@@ -64,7 +67,7 @@ class LookFragmentActivityRecreateRegressionTest {
     @JvmField
     var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_LOOKS
+        FRAGMENT_LOOKS
     )
 
     @Rule
@@ -84,6 +87,7 @@ class LookFragmentActivityRecreateRegressionTest {
     @Flaky
     @Test
     fun testActivityRecreateRenameLookDialog() {
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS))
         openActionBarOverflowOrOptionsMenu(
             InstrumentationRegistry.getInstrumentation().targetContext)
         onView(ViewMatchers.withText(R.string.rename)).perform(ViewActions.click())
@@ -100,10 +104,11 @@ class LookFragmentActivityRecreateRegressionTest {
     @Flaky
     @Test
     fun testActivityRecreateNewLookDialog() {
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS))
         RecyclerViewInteractionWrapper
             .onRecyclerView().atPosition(0).onChildView(R.id.title_view)
             .check(ViewAssertions.matches(ViewMatchers.withText(lookName)))
-        onView(ViewMatchers.withId(R.id.button_add))
+        onView(withId(R.id.button_add))
             .perform(ViewActions.click())
         onView(ViewMatchers.withText(R.string.new_look_dialog_title))
             .inRoot(RootMatchers.isDialog())

@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
-import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;

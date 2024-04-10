@@ -35,6 +35,7 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,8 +51,12 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static android.os.SystemClock.sleep;
+
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
@@ -69,7 +74,7 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SOUNDS);
+			FRAGMENT_SOUNDS);
 
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
@@ -86,6 +91,7 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateRenameSoundDialog() {
+		onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_SOUNDS));
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 
 		onView(withText(R.string.rename))
@@ -102,6 +108,8 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewSoundDialog() {
+		onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_SOUNDS));
+		onView(withId(R.id.tab_layout)).perform(CustomActions.wait(500));
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
 				.check(matches(withText(soundName)));
 
