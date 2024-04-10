@@ -112,8 +112,6 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 		SettingsFragment
 				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMappingBuffer);
-
-		TestUtils.deleteProjects(getClass().getSimpleName());
 	}
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {

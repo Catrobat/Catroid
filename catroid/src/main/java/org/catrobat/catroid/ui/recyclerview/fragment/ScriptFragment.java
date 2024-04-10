@@ -526,7 +526,7 @@ public class ScriptFragment extends ListFragment implements
 	public void onCategorySelected(String category) {
 		ListFragment fragment = null;
 		String tag = "";
-		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
 			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;

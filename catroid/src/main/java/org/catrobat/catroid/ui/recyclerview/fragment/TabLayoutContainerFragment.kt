@@ -96,6 +96,7 @@ class TabLayoutContainerFragment(
     }
 
     fun removeTabLayout() {
+        if (!this::tabLayout.isInitialized) return
         val viewGroup = tabLayout.parent
         if (viewGroup is ViewGroup) {
             viewGroup.removeView(tabLayout)
@@ -103,6 +104,7 @@ class TabLayoutContainerFragment(
     }
 
     fun addTabLayout() {
+        if (!this::viewPager.isInitialized) return
         val viewGroup = viewPager.parent
         if (viewGroup is ViewGroup) {
             viewGroup.addView(tabLayout, 0)
