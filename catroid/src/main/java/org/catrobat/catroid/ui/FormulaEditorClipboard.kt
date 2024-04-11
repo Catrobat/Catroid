@@ -54,6 +54,14 @@ class FormulaEditorClipboard(private val formulaEditorEditText: FormulaEditorEdi
         copyTokens(formulaEditorEditText.selectedTokens)
     }
 
+    fun checkIfSelectedAndCopy() {
+        if (formulaEditorEditText.selectedTokens != null) {
+            copyTokens(formulaEditorEditText.selectedTokens)
+        } else {
+            copyTokens(formulaEditorEditText.internFormula.internTokenFormulaList)
+        }
+    }
+
     fun paste() {
         clipboard?.let { formulaEditorEditText.addTokens(cloneTokens(it)); }
     }
