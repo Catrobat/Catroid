@@ -42,7 +42,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 			new HashMap<>();
 
 	@Override
-	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+	public ConnectDeviceResult connectDeviceOnActivity(Class<? extends BluetoothDevice> deviceToConnect,
 			Activity activity, int requestCode) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {
@@ -56,7 +56,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	}
 
 	@Override
-	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+	public ConnectDeviceResult connectDeviceOnContext(Class<? extends BluetoothDevice> deviceToConnect,
 			Context context) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {

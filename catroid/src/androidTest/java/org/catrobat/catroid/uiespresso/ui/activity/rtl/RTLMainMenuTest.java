@@ -30,7 +30,7 @@ import android.view.View;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.formulaeditor.sensor.SensorUserLanguage;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -105,7 +105,7 @@ public class RTLMainMenuTest {
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
-		assertEquals(arabicLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
+		assertEquals(arabicLanguageTag, SensorUserLanguage.Companion.getInstance().getSensorValue());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -119,6 +119,6 @@ public class RTLMainMenuTest {
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());
 		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_LTR, conf.getLayoutDirection());
-		assertEquals(germanLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
+		assertEquals(germanLanguageTag, SensorUserLanguage.Companion.getInstance().getSensorValue());
 	}
 }

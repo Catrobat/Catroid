@@ -24,7 +24,7 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.sensor.SensorSpeechRecognition
 import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
 import org.koin.java.KoinJavaComponent.get
 
@@ -41,7 +41,7 @@ class SetListeningLanguageAction : Action() {
     }
 
     private fun changeLanguage() {
-        SensorHandler.setListeningLanguageSensor(listeningLanguageTag)
+        SensorSpeechRecognition.getInstance().updateSensorValue(listeningLanguageTag)
         get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
         languageChanged = true
     }
