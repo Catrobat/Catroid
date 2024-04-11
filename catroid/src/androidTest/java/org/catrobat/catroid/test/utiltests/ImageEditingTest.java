@@ -28,11 +28,12 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.BufferedOutputStream;
@@ -50,6 +51,9 @@ import static org.junit.Assert.assertNotEquals;
 @RunWith(AndroidJUnit4.class)
 public class ImageEditingTest {
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Test
 	public void testScaleImage() throws Exception {
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
@@ -62,7 +66,7 @@ public class ImageEditingTest {
 
 	@Test
 	public void testGetImageDimensions() throws IOException {
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(tmpFolder.getRoot(), "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
 
@@ -86,7 +90,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 100;
 		int bitmapHeight = 200;
 
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(tmpFolder.getRoot(), "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
@@ -143,7 +147,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 1000;
 		int bitmapHeight = 900;
 
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(tmpFolder.getRoot(), "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 

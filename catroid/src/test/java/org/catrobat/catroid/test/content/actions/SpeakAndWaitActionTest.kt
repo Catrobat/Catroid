@@ -40,6 +40,7 @@ import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.mockito.Mockito
@@ -49,17 +50,17 @@ import java.lang.reflect.Method
 class SpeakAndWaitActionTest {
     private lateinit var sprite: Sprite
     private var scope: Scope? = null
-    private val temporaryFolder = TemporaryFolder()
     lateinit var mobileServiceAvailability: MobileServiceAvailability
     lateinit var contextMock: Context
+
+    @get:Rule
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
         contextMock = MockUtil.mockContextForProject()
-        temporaryFolder.create()
-        val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
-        Mockito.`when`(contextMock.cacheDir).thenAnswer { temporaryCacheFolder }
+        Mockito.`when`(contextMock.cacheDir).thenAnswer { tmpFolder }
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")

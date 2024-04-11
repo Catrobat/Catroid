@@ -53,8 +53,9 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	private List<UserList> programListOfLists = new ArrayList<>();
 	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
-	public Project toProject() {
+	public Project toProject(File projectDir) {
 		Project project = new Project();
+		project.setDirectory(projectDir);
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 

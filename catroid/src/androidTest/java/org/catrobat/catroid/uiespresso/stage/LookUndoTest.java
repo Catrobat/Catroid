@@ -28,7 +28,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -47,6 +46,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,8 +84,9 @@ public class LookUndoTest {
 	private final String projectName = getClass().getSimpleName();
 	private final String spriteName = "testSprite";
 	private File imageFile;
-	private final File tmpDir = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -112,14 +113,10 @@ public class LookUndoTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpDir.exists()) {
-			tmpDir.mkdirs();
-		}
-
 		imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				tmpDir,
+				tmpFolder.getRoot(),
 				lookFileName,
 				1);
 
@@ -193,11 +190,5 @@ public class LookUndoTest {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(projectName);
-		if (imageFile != null && imageFile.exists()) {
-			imageFile.delete();
-		}
-		if (tmpDir.exists()) {
-			tmpDir.delete();
-		}
 	}
 }

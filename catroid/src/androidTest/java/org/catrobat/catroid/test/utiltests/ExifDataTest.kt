@@ -23,14 +23,11 @@
 
 package org.catrobat.catroid.test.utiltests
 
-import android.content.Context
 import androidx.exifinterface.media.ExifInterface
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.paintroid.FileIO
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -41,29 +38,28 @@ import java.io.OutputStream
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertEquals
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 
 class ExifDataTest {
 
     companion object {
         private const val IMAGE_NAME = "Exif.jpg"
-        private val CACHE_FOLDER = File(ApplicationProvider.getApplicationContext<Context>().cacheDir.absolutePath)
     }
 
     private lateinit var cacheFile: File
 
+    @get:Rule
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
+
     @Before
     fun setUp() {
-        cacheFile = File(CACHE_FOLDER, IMAGE_NAME)
+        cacheFile = File(tmpFolder.root, IMAGE_NAME)
         val originalImage = InstrumentationRegistry.getInstrumentation().context.assets.open(IMAGE_NAME)
         val buf = ByteArray(originalImage.available())
         originalImage.read(buf)
         val outputStream: OutputStream = FileOutputStream(cacheFile)
         outputStream.write(buf)
-    }
-
-    @After
-    fun tearDown() {
-        assertTrue(cacheFile.delete())
     }
 
     @Test
@@ -72,12 +68,12 @@ class ExifDataTest {
         assertFalse(exif.getAttribute(ExifInterface.TAG_ARTIST)!!.isEmpty())
         assertFalse(exif.getAttribute(ExifInterface.TAG_DATETIME)!!.isEmpty())
 
-        Utils.removeExifData(CACHE_FOLDER, IMAGE_NAME)
+        Utils.removeExifData(tmpFolder.root, IMAGE_NAME)
         exif = ExifInterface(cacheFile.absolutePath)
 
         Constants.EXIFTAGS_FOR_EXIFREMOVER.forEach { exifTag ->
             val tag = exif.getAttribute(exifTag)
-            assertTrue(tag == null || tag.isEmpty())
+            assertTrue(tag.isNullOrEmpty())
         }
     }
 

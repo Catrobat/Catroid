@@ -37,7 +37,9 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -78,6 +80,9 @@ public class ProjectLoaderTest {
 	private DeviceVariableAccessor variableAccessor;
 	private DeviceUserDataAccessor userDataAccessor;
 	private File[] correctLooks;
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws IOException {
@@ -215,7 +220,7 @@ public class ProjectLoaderTest {
 
 	@Test
 	public void projectInvalidLoadTaskTest() throws IOException {
-		File directory = new File("");
+		File directory = tmpFolder.newFolder();
 		assertNotNull(directory);
 		assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()));
 	}

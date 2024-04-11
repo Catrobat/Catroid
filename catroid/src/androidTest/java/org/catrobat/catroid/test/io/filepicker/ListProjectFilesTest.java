@@ -27,16 +27,15 @@ import android.os.Build;
 
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertTrue;
@@ -51,54 +50,27 @@ import static org.hamcrest.core.IsCollectionContaining.hasItem;
 @RunWith(AndroidJUnit4.class)
 public class ListProjectFilesTest {
 
-	private File tmpFolder;
-
-	@Before
-	public void setUp() throws IOException {
-		tmpFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "ListProjectFilesTestTmp");
-		if (tmpFolder.isDirectory()) {
-			StorageOperations.deleteDir(tmpFolder);
-		}
-		tmpFolder.mkdirs();
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-			if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
-				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
-			}
-			EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
-		}
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		if (tmpFolder.isDirectory()) {
-			StorageOperations.deleteDir(tmpFolder);
-		}
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
-				&& EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
-			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
-		}
-	}
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Test
 	public void testListCatrobatFiles() throws IOException {
 
-		File file0 = new File(tmpFolder, "projectWithoutExtension");
+		File file0 = new File(tmpFolder.getRoot(), "projectWithoutExtension");
 		assertTrue(file0.createNewFile());
-		File file1 = new File(tmpFolder, "projectA.catrobat");
+		File file1 = new File(tmpFolder.getRoot(), "projectA.catrobat");
 		assertTrue(file1.createNewFile());
-		File file2 = new File(tmpFolder, "project.catrobat.somethingelse");
+		File file2 = new File(tmpFolder.getRoot(), "project.catrobat.somethingelse");
 		assertTrue(file2.createNewFile());
 
-		File subFolder = new File(tmpFolder, "subfolder");
+		File subFolder = new File(tmpFolder.getRoot(), "subfolder");
 		assertTrue(subFolder.mkdirs());
 		File file3 = new File(subFolder, "projectB.catrobat");
 		assertTrue(file3.createNewFile());
 		File file4 = new File(subFolder, ".projectB.catrobat.somethingelse");
 		assertTrue(file4.createNewFile());
 
-		List<File> projectFiles = ListProjectFilesTask.task(tmpFolder);
+		List<File> projectFiles = ListProjectFilesTask.task(tmpFolder.getRoot());
 
 		assertThat(projectFiles, hasItem(file1));
 		assertThat(projectFiles, hasItem(file3));
@@ -111,6 +83,11 @@ public class ListProjectFilesTest {
 	@Test
 	public void testListProjectsOnExternalStorage() throws IOException {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+			if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+			}
+			EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
+
 			File backpackFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "backpack");
 			assertTrue(backpackFolder.mkdirs());
 
@@ -129,7 +106,7 @@ public class ListProjectFilesTest {
 			assertTrue(someFolder.mkdirs());
 
 			List<File> projectFiles = ListProjectFilesTask
-					.task(tmpFolder);
+					.task(tmpFolder.getRoot());
 
 			assertThat(projectFiles, hasItem(projectFolder1));
 			assertThat(projectFiles, hasItem(projectFolder2));
@@ -137,6 +114,8 @@ public class ListProjectFilesTest {
 			assertThat(projectFiles, not(hasItem(backpackFolder)));
 			assertThat(projectFiles, not(hasItem(tempFolder)));
 			assertThat(projectFiles, not(hasItem(someFolder)));
+
+			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
 		}
 	}
 }

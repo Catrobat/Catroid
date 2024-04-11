@@ -27,7 +27,6 @@ import com.android.dex.util.FileUtils;
 import com.badlogic.gdx.graphics.Color;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
 import org.catrobat.catroid.embroidery.DSTHeader;
@@ -35,7 +34,9 @@ import org.catrobat.catroid.embroidery.DSTStream;
 import org.catrobat.catroid.embroidery.EmbroideryStream;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -53,21 +54,18 @@ import static org.junit.Assert.assertEquals;
 public class DSTFileGeneratorTest {
 
 	private final String projectName = DSTFileGeneratorTest.class.getSimpleName();
+
 	private File dstFile;
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws IOException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		dstFile = new File(Constants.CACHE_DIRECTORY, projectName + ".dst");
-		if (dstFile.exists()) {
-			dstFile.delete();
-		}
-		if (!Constants.CACHE_DIRECTORY.exists()) {
-			Constants.CACHE_DIRECTORY.mkdirs();
-		}
-		dstFile.createNewFile();
+		dstFile = tmpFolder.newFile(projectName + ".dst");
 	}
 
 	@Test
@@ -87,7 +85,8 @@ public class DSTFileGeneratorTest {
 
 		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, "sample_dst_file.dst");
+		File compareFile = StorageOperations.copyStreamToDir(inputStream, tmpFolder.getRoot(),
+				"sample_dst_file.dst");
 
 		assertEquals(compareFile.length(), dstFile.length());
 
@@ -125,7 +124,7 @@ public class DSTFileGeneratorTest {
 
 		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.complex_sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY,
+		File compareFile = StorageOperations.copyStreamToDir(inputStream, tmpFolder.getRoot(),
 				"complex_sample_dst_file.dst");
 
 		assertEquals(compareFile.length(), dstFile.length());

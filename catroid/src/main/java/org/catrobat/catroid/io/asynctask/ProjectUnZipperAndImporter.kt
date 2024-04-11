@@ -47,7 +47,7 @@ class ProjectUnZipperAndImporter @JvmOverloads constructor(
 ) {
     fun unZipAndImportAsync(files: Array<File>) {
         scope.launch {
-            val success = unzipAndImportProjects(files)
+            val success = unzipAndImportProjects(files, CACHE_DIRECTORY)
             withContext(Dispatchers.Main) {
                 onImportFinished(success)
             }
@@ -55,16 +55,16 @@ class ProjectUnZipperAndImporter @JvmOverloads constructor(
     }
 }
 
-fun unzipAndImportProjects(files: Array<File>): Boolean {
+fun unzipAndImportProjects(files: Array<File>, chacheDir: File): Boolean {
     var success = true
     files.forEach { projectDir ->
-        success = success && unzipAndImportProject(projectDir)
+        success = success && unzipAndImportProject(projectDir, chacheDir)
     }
     return success
 }
 
-private fun unzipAndImportProject(projectDir: File): Boolean = try {
-    val cachedProjectDir = File(CACHE_DIRECTORY, StorageOperations.getSanitizedFileName(projectDir.name))
+private fun unzipAndImportProject(projectDir: File, chacheDir: File): Boolean = try {
+    val cachedProjectDir = File(chacheDir, StorageOperations.getSanitizedFileName(projectDir.name))
     if (cachedProjectDir.isDirectory) {
         StorageOperations.deleteDir(cachedProjectDir)
     }

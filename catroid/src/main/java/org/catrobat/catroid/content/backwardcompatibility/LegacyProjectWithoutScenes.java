@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +47,6 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @XStreamAlias("program")
 public class LegacyProjectWithoutScenes implements Serializable {
@@ -60,10 +58,9 @@ public class LegacyProjectWithoutScenes implements Serializable {
 	private LegacyDataContainer data = null;
 	private List<Setting> settings = new ArrayList<>();
 
-	public Project toProject(Context context) throws IOException {
-		File projectDir = getDirectory();
-
+	public Project toProject(File projectDir, Context context) throws IOException {
 		Project project = new Project();
+		project.setDirectory(projectDir);
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 
@@ -110,11 +107,6 @@ public class LegacyProjectWithoutScenes implements Serializable {
 
 	public List<Setting> getSettings() {
 		return settings;
-	}
-
-	public File getDirectory() {
-		return new File(DEFAULT_ROOT_DIRECTORY,
-				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(header.getProjectName()));
 	}
 
 	public List<Sprite> getSpriteList() {
