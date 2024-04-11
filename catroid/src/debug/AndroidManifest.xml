@@ -21,29 +21,245 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<manifest xmlns:tools="http://schemas.android.com/tools"
-    package="org.catrobat.catroid"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--  -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="auto">
 
-    <!-- screengrab -->
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"
-        tools:ignore="ProtectedPermissions" />
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="false" />
 
-    <application>
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="YOUR_API_KEY"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+
+    <!-- bluetooth -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- gps -->
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- nfc -->
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" /><uses-feature
+    android:name="android.hardware.camera"
+    android:required="false" />
+
+    <application
+        android:name=".CatroidApplication"
+        android:allowBackup="false"
+        android:icon="${appIcon}"
+        android:label="${appName}"
+        android:theme="@style/Catroid"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="false"
+        tools:ignore="UnusedAttribute"
+        tools:replace="android:label,android:allowBackup,android:name"
+        android:usesCleartextTraffic="true">
+
+<!--
         <activity
-            android:name=".uiespresso.ui.activity.ProjectUploadDialogTest$ProjectUploadTestActivity"
+            android:name=".ui.SettingsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+-->
+
+        <!--<activity
+            android:exported="true"
+            android:name=".ui.MainMenuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="${intentFilterScheme}"
+                    android:host="${intentFilterHost}"
+                    android:pathPattern="${intentFilterPathPattern}"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="vnd.android.nfc"
+                    android:host="ext"
+                    android:pathPrefix="/catrobat.com:catroid" />
+            </intent-filter>
+        </activity>-->
 
-        <activity
-            android:name=".uiespresso.ui.activity.ConnectBluetoothDeviceActivityTest$ConnectBluetoothDeviceTestActivity" />
+       <!-- <activity
+            android:name=".ui.MarketingActivity"
+            android:screenOrientation="portrait" />-->
+
+<!--        <activity
+            android:name=".ui.NfcTagsActivity"
+            android:screenOrientation="portrait" />-->
+
+<!--        <activity
+            android:name=".ui.WebViewActivity"
+            android:screenOrientation="portrait" />-->
+
+<!--        <activity
+            android:name=".ui.ProjectUploadActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>-->
+
+<!--        <activity
+            android:name=".stage.StageActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/stage"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />-->
+
+<!--        <activity
+            android:exported="true"
+            android:name=".ui.ProjectListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" >
+            <intent-filter
+                android:icon="${appIcon}"
+                android:label="Import Catrobat Project">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.catrobat" />
+            </intent-filter>
+            <intent-filter
+                android:icon="${appIcon}"
+                android:label="Import Catrobat Project">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/x-zip" />
+                <data android:mimeType="application/octet-stream"/>
+            </intent-filter>
+        </activity>-->
+
+<!--        <activity
+            android:name=".ui.ProjectActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />-->
+
+<!--        <activity
+            android:exported="true"
+            android:name=".ui.SpriteActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>-->
+
+<!--        <activity
+            android:name=".ui.SignInActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />-->
+
+<!--        <activity
+            android:name=".ui.recyclerview.backpack.BackpackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />-->
+
+<!--        <activity
+            android:name=".ui.ScratchConverterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>-->
+
+<!--        <activity
+            android:name=".ui.ScratchProgramDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />-->
+
+<!--        <activity
+            android:name=".soundrecorder.SoundRecorderActivity"
+            android:exported="true"
+            android:label="@string/soundrecorder_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+        </activity>-->
+
+<!--        <activity
+            android:name=".visualplacement.VisualPlacementActivity"
+            />-->
+
+<!--        <activity
+            android:name=".pocketmusic.PocketMusicActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:label="@string/add_sound_music"
+            android:icon="@drawable/ic_pocketmusic"/>-->
+
+<!--        <activity
+            android:name=".bluetooth.ConnectBluetoothDeviceActivity"
+            />-->
+
+<!--        <activity
+            android:name=".ui.filepicker.FilePickerActivity"
+            />-->
+
+<!--        <service android:name=".transfers.project.ProjectUploadService" />
+        <service android:name=".transfers.project.ProjectDownloadService" />
+        <service android:name=".transfers.MediaDownloadService" />
+        <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
+        <service android:name=".cast.CastService" android:exported="false"/>-->
+
+        <provider
+            android:authorities="${applicationId}.fileProvider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
-
 </manifest>

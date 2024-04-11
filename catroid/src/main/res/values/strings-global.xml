@@ -26,38 +26,38 @@
 <resources>
    
     <!-- Language independent -->
-    <string name="android_version_prefix" translateable="false">Andr.</string>
+    <string formatted="false" name="android_version_prefix" translateable="false">Andr.</string>
     <!--  -->
 
 
     <!-- Symbols -->
-     <string name="degree_symbol" translatable="false">°</string>
-     <string name="punctuation_mark" translatable="false">…</string>
+     <string formatted="false" name="degree_symbol" translatable="false">°</string>
+     <string formatted="false" name="punctuation_mark" translatable="false">…</string>
     <!--  -->
 
     <!-- Numbers -->
-    <string name="number_0" translatable="false">0</string>
-    <string name="number_1" translatable="false">1</string>
-    <string name="number_2" translatable="false">2</string>
-    <string name="number_3" translatable="false">3</string>
-    <string name="number_4" translatable="false">4</string>
-    <string name="number_5" translatable="false">5</string>
-    <string name="number_6" translatable="false">6</string>
-    <string name="number_7" translatable="false">7</string>
-    <string name="number_8" translatable="false">8</string>
-    <string name="number_9" translatable="false">9</string>
+    <string formatted="false" name="number_0" translatable="false">0</string>
+    <string formatted="false" name="number_1" translatable="false">1</string>
+    <string formatted="false" name="number_2" translatable="false">2</string>
+    <string formatted="false" name="number_3" translatable="false">3</string>
+    <string formatted="false" name="number_4" translatable="false">4</string>
+    <string formatted="false" name="number_5" translatable="false">5</string>
+    <string formatted="false" name="number_6" translatable="false">6</string>
+    <string formatted="false" name="number_7" translatable="false">7</string>
+    <string formatted="false" name="number_8" translatable="false">8</string>
+    <string formatted="false" name="number_9" translatable="false">9</string>
     <!--  -->
 
 
-    <string name="about_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
-    <string name="terms_of_use_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
-    <string name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
+    <string formatted="false" name="about_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
+    <string formatted="false" name="terms_of_use_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
+    <string formatted="false" name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
 
     <!-- name of shared preference file used for storing names of approved projects -->
-    <string name="preference_approved_list_file_key" translatable="false">
+    <string formatted="false" name="preference_approved_list_file_key" translatable="false">
         security_warning_approved_projects</string>
 
-    <string name="featured_project_image" translatable="false">featured project image</string>
-    <string name="no_internet_image" translatable="false">no internet image</string>
+    <string formatted="false" name="featured_project_image" translatable="false">featured project image</string>
+    <string formatted="false" name="no_internet_image" translatable="false">no internet image</string>
 
 </resources>

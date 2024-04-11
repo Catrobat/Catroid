@@ -29,16 +29,17 @@ check.dependsOn 'pmd'
 check.dependsOn 'detekt'
 
 dependencies {
-    pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
-    pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
+    pmd 'net.sourceforge.pmd:pmd-core:6.55.0'
+    pmd 'net.sourceforge.pmd:pmd-java:6.55.0'
 
-    checkstyle 'com.puppycrawl.tools:checkstyle:8.26'
+    checkstyle 'com.puppycrawl.tools:checkstyle:10.12.1'
 
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.1"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0"
 }
 
 task checkstyle(type: Checkstyle) {
-    configFile file('config/checkstyle.xml')
+    configDirectory = file(".")
+    configFile = file("./config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
     exclude '**/gen/**', '**/build/**', 'libraryProjects/**', '**/.idea/**'
@@ -50,7 +51,7 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures true
 
     reports {
-        xml.enabled = true
+        xml.required = true
         xml.destination file("build/reports/checkstyle.xml")
     }
 }
@@ -66,15 +67,15 @@ task pmd(type: Pmd) {
     ignoreFailures true
 
     reports {
-        xml.enabled = true
+        xml.required = true
         html.enabled = false
         xml.destination file("build/reports/pmd.xml")
     }
 }
 
 detekt {
-    toolVersion = "1.1.1"
+    toolVersion = "1.23.0"
     config = files("config/detekt.yml")
     input = files("src")
-    filters = ".*/resources/.*,.*/build/.*"
+    ignoreFailures true
 }

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
@@ -349,8 +351,18 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 		stageActivity.setupAskHandler();
 		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
-		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
-				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		Intent intent = new Intent(stageActivity, getClass());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			int flags = PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP;
+			intent.addFlags(PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0, intent,
+					flags);
+		} else {
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
+					new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+		}
+
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
 		StageActivity.stageListener.setPaused(false);
 	}

@@ -78,8 +78,16 @@ public final class StatusBarNotificationManager {
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
 		uploadIntent.setAction(Intent.ACTION_MAIN);
 		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		PendingIntent pendingIntent;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			pendingIntent = PendingIntent.getActivity(context, notificationId,
+					uploadIntent,
+					PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		} else {
+			pendingIntent = PendingIntent.getActivity(context, notificationId,
+					uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		}
 
 		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
@@ -196,7 +204,7 @@ public final class StatusBarNotificationManager {
 				actionIntentRetryUpload.putExtra("bundle", bundle);
 
 				PendingIntent actionPendingIntentRetryUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-						actionIntentRetryUpload, PendingIntent.FLAG_CANCEL_CURRENT);
+						actionIntentRetryUpload, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
 				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_popup_sync,
 						context.getResources().getString(R.string.notification_upload_retry), actionPendingIntentRetryUpload));
 
@@ -204,7 +212,7 @@ public final class StatusBarNotificationManager {
 						.setAction(ACTION_CANCEL_UPLOAD);
 				actionIntentCancelUpload.putExtra("bundle", bundle);
 				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT);
+						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT| PendingIntent.FLAG_MUTABLE);
 				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel,
 						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload));
 
@@ -216,7 +224,8 @@ public final class StatusBarNotificationManager {
 						.setAction(ACTION_UPDATE_POCKET_CODE_VERSION)
 						.putExtra("notificationId", NOTIFICATION_PENDING_INTENT_REQUEST_CODE);
 				PendingIntent actionPendingIntentUpdatePocketCodeVersion = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-						actionIntentUpdatePocketCodeVersion, PendingIntent.FLAG_ONE_SHOT);
+						actionIntentUpdatePocketCodeVersion,
+						PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
 				builder.addAction(new NotificationCompat.Action(R.drawable.pc_toolbar_icon,
 						context.getResources().getString(R.string.notification_open_play_store), actionPendingIntentUpdatePocketCodeVersion));
 				break;
@@ -226,8 +235,16 @@ public final class StatusBarNotificationManager {
 				openIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 						.putExtra(EXTRA_PROJECT_NAME, bundle.getString("projectName"));
 
-				PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, openIntent,
-						PendingIntent.FLAG_CANCEL_CURRENT);
+				PendingIntent pendingIntent;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+					pendingIntent = PendingIntent.getActivity(context, notificationId,
+							openIntent,
+							PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+				} else {
+					pendingIntent = PendingIntent.getActivity(context, notificationId,
+							openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+				}
+
 				builder.setContentIntent(pendingIntent);
 				break;
 		}

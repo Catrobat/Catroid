@@ -1,13 +1,14 @@
-FROM debian:buster
+FROM debian:bullseye
 # Android Dependencies
 # --------------------
 # Adapt the paramters below to change the dependencies.
 #
-# Android SDK 26.1.1
-ARG ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-# No Android NDK needed
-ARG ANDROID_NDK_URL
-ARG SDKMANAGER_PACKAGES="build-tools;30.0.3 emulator platform-tools platforms;android-28 system-images;android-28;default;x86_64"
+ARG ANDROID_API_LEVEL=33
+ARG ANDROID_BUILD_TOOLS_LEVEL=33.0.2
+ARG ANDROID_NDK_VERSION=25.2.9519653
+ARG ANDROID_CLI_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip"
+ARG SDKMANAGER_PACKAGES="build-tools;${ANDROID_BUILD_TOOLS_LEVEL} platforms;android-$ANDROID_API_LEVEL cmake;3.6.4111459 system-images;android-${ANDROID_API_LEVEL};google_apis;x86_64 platform-tools"
+
 # Arguments, Environment
 # ----------------------
 #
@@ -23,34 +24,28 @@ ENV ANDROID_SDK_ROOT=$USER_HOME/android/sdk
 ENV ANDROID_AVD_HOME=$USER_HOME/avds
 # Deprecated: Still used by gradle, once gradle respects ANDROID_SDK_ROOT, this can be removed
 ENV ANDROID_HOME=$ANDROID_SDK_ROOT
-ARG _SDKMANAGER=$ANDROID_SDK_ROOT/tools/bin/sdkmanager
+ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+ARG _SDKMANAGER=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager
 # System Packages
 # ---------------
 #
 # curl/openssh-client: upload to web/share
 # x11-commons/x11-utils/libpulse0 needed to start emulator
+# fastlane is used for releases
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
-#        openjdk-8-jdk \
         unzip \
         openssh-client \
-         x11-common \
-         x11-utils \
-         libpulse0 \
-         libxcursor-dev \
-         libnss3-dev \
-         libasound2 \
-         wget \
-         gnupg \
-         software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-# Install Fastlane
-RUN wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
-RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-
-RUN apt-get update && apt-get install -y adoptopenjdk-8-hotspot
-RUN apt-get install -y python2
-RUN apt-get install -y --no-install-recommends \
+        x11-common \
+        x11-utils \
+        libpulse0 \
+        libxcursor-dev \
+        libnss3-dev \
+        libasound2 \
+        wget \
+        adb \
+        gnupg \
+        software-properties-common \
         rubygems \
         ruby-dev \
         g++ \
@@ -58,13 +53,16 @@ RUN apt-get install -y --no-install-recommends \
         less \
         git \
     && rm -rf /var/lib/apt/lists/* \
-    #&& gem update --system \
     && gem install rake \
-    && gem install fastlane -NV
-    #&& apt-get purge -y --auto-remove \
-    #    ruby-dev \
-    #    g++ \
-    #    make
+    && gem install fastlane -NV \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openjdk-11-jdk-headless 
+
 # User Management
 # ---------------
 #
@@ -79,27 +77,22 @@ RUN useradd -m -u $USER_ID -g $GROUP_ID -G $KVM_GROUP_ID -d $USER_HOME -s /usr/s
 # Run all other commands as user
 USER user
 RUN mkdir -p $ANDROID_AVD_HOME
+
 # Android SDK
 # ------------------
 #
-RUN curl $ANDROID_SDK_URL --output /tmp/android_sdk.zip \
+ARG _CMD_LINE=$ANDROID_SDK_ROOT/cmdline-tools
+RUN curl $ANDROID_CLI_TOOLS_URL --output /tmp/android_sdk.zip \
     && mkdir -p $ANDROID_SDK_ROOT \
     && unzip -d $ANDROID_SDK_ROOT /tmp/android_sdk.zip \
-    && rm /tmp/android_sdk.zip
-# Android NDK
-# ----------------
-#
-RUN if [ ! -z "$ANDROID_NDK_URL" ]; then \
-        curl $ANDROID_NDK_URL --output /tmp/android_ndk.zip \
-        && mkdir -p $ANDROID_SDK_ROOT /tmp/ndk \
-        && unzip -d /tmp/ndk /tmp/android_ndk.zip \
-        && mv /tmp/ndk/* $ANDROID_SDK_ROOT/ndk-bundle \
-        && rm /tmp/android_ndk.zip; \
-    fi
+    && rm /tmp/android_sdk.zip \
+                && mkdir -p $_CMD_LINE/latest \
+                && mv $_CMD_LINE/bin $_CMD_LINE/lib $_CMD_LINE/source.properties $_CMD_LINE/latest/
 # Installing SDK Packages
 # -----------------------
 #
-RUN if [ ! -z "$SDKMANAGER_PACKAGES" ]; then yes | $_SDKMANAGER $SDKMANAGER_PACKAGES; fi
+#RUN if [ ! -z $SDKMANAGER_PACKAGES ]; then yes | $_SDKMANAGER $SDKMANAGER_PACKAGES; fi
+RUN yes | $_SDKMANAGER $SDKMANAGER_PACKAGES
 # Performance related settings for the JVM
 # - Respect the cgroup settings for memory.
 #
@@ -108,4 +101,5 @@ RUN if [ ! -z "$SDKMANAGER_PACKAGES" ]; then yes | $_SDKMANAGER $SDKMANAGER_PACK
 #       JAVA_TOOL_OPTIONS and the command line parameters.
 #       We still use it here to ensure that these settings
 #       are respected, no matter what is configured elsewhere.
-ENV _JAVA_OPTIONS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+# Accept SDK licenses
+RUN yes | $_SDKMANAGER --licenses

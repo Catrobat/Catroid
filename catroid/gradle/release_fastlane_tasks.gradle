@@ -167,13 +167,13 @@ task uploadAPKToPlayStore(type:Exec) {
 }
 
 afterEvaluate {
-    makeScreenshotsCatroid.shouldRunAfter(unpackCrowdinFiles)
-    makeScreenshotsLunaAndCat.shouldRunAfter(unpackCrowdinFiles)
-    renameScreenshotFolders.mustRunAfter(makeScreenshotsCatroid)
-    renameScreenshotFolders.mustRunAfter(makeScreenshotsLunaAndCat)
-    addStaticContentCatroid.mustRunAfter(renameScreenshotFolders)
-    addStaticContentLunaAndCat.mustRunAfter(renameScreenshotFolders)
-    uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoCatroid, renameScreenshotFolders)
-    uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoLunaAndCat, renameScreenshotFolders)
-    uploadAPKToPlayStore.mustRunAfter(uploadMetadataToPlayStore)
+    //makeScreenshotsCatroid.shouldRunAfter(unpackCrowdinFiles)
+    //makeScreenshotsLunaAndCat.shouldRunAfter(unpackCrowdinFiles)
+    // renameScreenshotFolders.mustRunAfter(makeScreenshotsCatroid)
+    // renameScreenshotFolders.mustRunAfter(makeScreenshotsLunaAndCat)
+    // addStaticContentCatroid.mustRunAfter(renameScreenshotFolders)
+    // addStaticContentLunaAndCat.mustRunAfter(renameScreenshotFolders)
+    // uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoCatroid, renameScreenshotFolders)
+    // uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoLunaAndCat, renameScreenshotFolders)
+    // uploadAPKToPlayStore.mustRunAfter(uploadMetadataToPlayStore)
 }
