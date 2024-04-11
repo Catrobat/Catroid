@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.web
 
-class WebConnectionException(val statusCode: Int, message: String? = "Unknown Error, no exception message given.") : Exception(message) {
+class WebConnectionException(
+    val statusCode: Int,
+    message: String? = "Unknown Error, no exception message given."
+) : Exception(message) {
     companion object {
         private const val serialVersionUID = 1L
         const val ERROR_JSON = 1001
