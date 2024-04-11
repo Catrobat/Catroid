@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,6 +54,7 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.ui.BottomBar
+import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.UiUtils
@@ -81,7 +82,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         filesForUnzipAndImportTask = ArrayList()
         hasUnzipAndImportTaskFinished = true
         if (arguments != null) {
-            importProject(requireArguments().getParcelable("intent"))
+            requireArguments().getParcelable<Uri>("shareUri")?.let {
+                Log.d(TAG, "Importing shared project from device...")
+                importSharedProject(it)
+            }
+            requireArguments().getParcelable<Intent>("intent")?.let {
+                importProject(it)
+            }
         }
         if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
             adapter.showSettings = false
@@ -89,7 +96,14 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         }
     }
 
+    private fun importSharedProject(uri: Uri) {
+        val uris: ArrayList<Uri> = ArrayList()
+        uris.add(uri)
+        importProjectUris(uris)
+    }
+
     private fun onImportProjectFinished(success: Boolean) {
+        Log.d(TAG, "onImportProjectFinished...")
         setAdapterItems(adapter.projectsSorted)
         if (!success) {
             ToastUtil.showError(requireContext(), R.string.error_import_project)
@@ -105,6 +119,14 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         }
         filesForUnzipAndImportTask?.clear()
         setShowProgressBar(false)
+
+        if (success && arguments != null && requireArguments().getParcelable<Uri>("shareUri") != null) {
+            val intent = Intent(requireContext(), MainMenuActivity::class.java).apply {
+                action = Intent.ACTION_MAIN
+                putExtra("importSharedProject", true)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun onRenameFinished(success: Boolean) {
@@ -222,11 +244,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
+            Log.d(TAG, "onActivityResult...")
             importProject(data)
         }
     }
 
     private fun importProject(data: Intent?) {
+        Log.d(TAG, "Importing project from device...")
         if (data == null) {
             onImportError()
             return
