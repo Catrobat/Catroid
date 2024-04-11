@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,16 +27,14 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.common.io.Files;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -48,11 +46,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
@@ -66,7 +65,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
-import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -79,13 +77,16 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -93,11 +94,11 @@ import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
@@ -138,6 +139,7 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
 	public static final int EDIT_LOOK = 2020;
+	public static final int REQUEST_CODE_EDIT_FORMULA = 2021;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
@@ -158,7 +160,6 @@ public class SpriteActivity extends BaseActivity {
 	private Sprite currentSprite;
 	private Scene currentScene;
 	private LookData currentLookData;
-	private String generatedVariableName;
 
 	private boolean isUndoMenuItemVisible = false;
 
@@ -320,9 +321,18 @@ public class SpriteActivity extends BaseActivity {
 		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
+	private void closeScriptFinder() {
+		Fragment currentFragment = getCurrentFragment();
+		if (((ScriptFragment) currentFragment).isFinderOpen()) {
+			((ScriptFragment) currentFragment).closeFinder();
+		}
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		closeScriptFinder();
 
 		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
 				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
@@ -437,7 +447,55 @@ public class SpriteActivity extends BaseActivity {
 				setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES));
 
 				break;
+			case REQUEST_CODE_EDIT_FORMULA:
+				if (data.getExtras() == null) {
+					return;
+				}
+				handleIntentFromResultEditFormula(data.getExtras());
+				break;
 		}
+	}
+
+	private void handleIntentFromResultEditFormula(Bundle extras) {
+		FormulaBrick formulaBrick = (FormulaBrick) ((ScriptFragment) getCurrentFragment())
+				.findBrickByHash(extras.getInt(EXTRA_BRICK_HASH));
+
+		if (formulaBrick != null) {
+			HashMap editedFormulaMap = (HashMap) extras
+					.getSerializable(FormulaEditorActivity.FORMULA_MAP);
+			formulaBrick.updateEditedFormulas(editedFormulaMap);
+
+			XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+
+			ScriptFragment fragment = (ScriptFragment) getCurrentFragment();
+			boolean setUndoMenuItemVisibility =
+					hasFileChanged() || fragment.checkVariables() || extras
+							.getBoolean(FormulaEditorActivity.SET_UNDO_MENU_ITEM_VISIBILITY);
+
+			setUndoMenuItemVisibility(setUndoMenuItemVisibility);
+		}
+
+		saveProject();
+
+		BottomBar.showBottomBar(this);
+		BottomBar.showPlayButton(this);
+	}
+
+	private boolean hasFileChanged() {
+		File currentCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists() && undoCodeFile.exists()) {
+			try {
+				List<String> currentFile = Files.readLines(currentCodeFile, StandardCharsets.UTF_8);
+				List<String> undoFile = Files.readLines(undoCodeFile, StandardCharsets.UTF_8);
+
+				return !currentFile.equals(undoFile);
+			} catch (IOException exception) {
+				Log.e(TAG, "Comparing project files failed.", exception);
+			}
+		}
+		return false;
 	}
 
 	public void registerOnNewSpriteListener(NewItemInterface<Sprite> listener) {
@@ -637,10 +695,6 @@ public class SpriteActivity extends BaseActivity {
 			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof DataListFragment) {
-			handleAddUserDataButton();
-			return;
-		}
 		if (getCurrentFragment() instanceof LookListFragment) {
 			handleAddLookButton();
 			return;
@@ -800,106 +854,6 @@ public class SpriteActivity extends BaseActivity {
 				alertDialog.dismiss();
 			});
 		}
-		alertDialog.show();
-	}
-
-	public void handleAddUserDataButton() {
-		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
-
-		CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
-		makeListCheckBox.setVisibility(View.VISIBLE);
-
-		RadioButton multiplayerRadioButton = view.findViewById(R.id.multiplayer);
-		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(getApplicationContext())) {
-			multiplayerRadioButton.setVisibility(View.VISIBLE);
-			multiplayerRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-				makeListCheckBox.setEnabled(!isChecked);
-			});
-		}
-
-		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
-
-		List<UserData> variables = new ArrayList<>();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		currentSprite = projectManager.getCurrentSprite();
-		currentProject = projectManager.getCurrentProject();
-
-		variables.addAll(currentProject.getUserVariables());
-		variables.addAll(currentProject.getMultiplayerVariables());
-		variables.addAll(currentSprite.getUserVariables());
-
-		List<UserData> lists = new ArrayList<>();
-		lists.addAll(currentProject.getUserLists());
-		lists.addAll(currentSprite.getUserLists());
-
-		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher(variables);
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-		UniqueNameProvider uniqueVariableNameProvider = builder.createUniqueNameProvider(R.string.default_variable_name);
-		UniqueNameProvider uniqueListNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
-		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name), null);
-		builder.setTextWatcher(textWatcher)
-				.setText(generatedVariableName)
-				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
-					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
-					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
-
-					PreferenceManager.getDefaultSharedPreferences(this).edit()
-							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
-
-					if (makeListCheckBox.isChecked()) {
-						UserList userList = new UserList(textInput);
-						if (addToProjectUserData) {
-							currentProject.addUserList(userList);
-						} else {
-							currentSprite.addUserList(userList);
-						}
-					} else {
-						UserVariable userVariable = new UserVariable(textInput);
-						if (addToMultiplayerData) {
-							currentProject.addMultiplayerVariable(userVariable);
-						} else if (addToProjectUserData) {
-							currentProject.addUserVariable(userVariable);
-						} else {
-							currentSprite.addUserVariable(userVariable);
-						}
-					}
-
-					if (getCurrentFragment() instanceof DataListFragment) {
-						((DataListFragment) getCurrentFragment()).notifyDataSetChanged();
-						((DataListFragment) getCurrentFragment()).indexAndSort();
-					}
-				});
-
-		final AlertDialog alertDialog = builder.setTitle(R.string.formula_editor_variable_dialog_title)
-				.setView(view)
-				.setNegativeButton(getString(R.string.cancel), null)
-				.create();
-
-		makeListCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
-			TextInputEditText textInputEditText = alertDialog.findViewById(R.id.input_edit_text);
-			String currentName = textInputEditText.getText().toString();
-			if (checked) {
-				alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title));
-				textWatcher.setOriginalScope(lists);
-				if (currentName.equals(generatedVariableName)) {
-					generatedVariableName = uniqueListNameProvider.getUniqueName(getString(R.string.default_list_name),
-							null);
-					textInputEditText.setText(generatedVariableName);
-				}
-			} else {
-				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
-				textWatcher.setOriginalScope(variables);
-				if (currentName.equals(generatedVariableName)) {
-					generatedVariableName =
-							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-									null);
-					textInputEditText.setText(generatedVariableName);
-				}
-			}
-			multiplayerRadioButton.setEnabled(!checked);
-		});
-
 		alertDialog.show();
 	}
 

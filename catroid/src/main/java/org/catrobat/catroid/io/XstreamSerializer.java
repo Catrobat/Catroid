@@ -809,7 +809,6 @@ public final class XstreamSerializer {
 					String previousXml = Files.asCharSource(currentCodeFile, Charsets.UTF_8).read();
 
 					if (previousXml.equals(currentXml)) {
-						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
 						return false;
 					} else {
 						String languageRegex = "<catrobatLanguageVersion>.*</catrobatLanguageVersion>";

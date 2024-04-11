@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.junit.After;
 import org.junit.Before;
@@ -49,12 +51,15 @@ import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
 
 import java.util.Arrays;
 
 import androidx.annotation.IdRes;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -119,9 +124,21 @@ public class FormulaEditorEditTextGenericTest {
 	public void openFormulaEditorTest() {
 		MotionEvent touchDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 				MotionEvent.ACTION_DOWN, 1, 1, 0);
-		View formulaKeyboardItemView = activity.findViewById(formulaKeyboardItemId);
+
+		// Start monitoring activities
+		ShadowActivity shadowActivity = shadowOf(activity);
+		Intent startedIntent = shadowActivity.getNextStartedActivity();
+		assertNotNull(startedIntent);
+		assertEquals(FormulaEditorActivity.class.getName(), startedIntent.getComponent().getClassName());
+
+		// Build the activity controller for the started activity
+		ActivityController<FormulaEditorActivity> formulaEditorActivityController = Robolectric.buildActivity(FormulaEditorActivity.class, startedIntent);
+		FormulaEditorActivity formulaEditorActivity = formulaEditorActivityController.get();
+		formulaEditorActivityController.create().resume();
+
+		View formulaKeyboardItemView = formulaEditorActivity.findViewById(formulaKeyboardItemId);
 		formulaKeyboardItemView.dispatchTouchEvent(touchDown);
-		EditText formulaEditField = activity.findViewById(R.id.formula_editor_edit_field);
+		EditText formulaEditField = formulaEditorActivity.findViewById(R.id.formula_editor_edit_field);
 		assertEquals(expectedFormulaText, formulaEditField.getText().toString().trim());
 	}
 

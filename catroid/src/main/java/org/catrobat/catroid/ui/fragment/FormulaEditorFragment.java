@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.google.common.collect.HashBiMap;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
@@ -59,12 +60,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
+import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -74,8 +79,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
 import org.catrobat.catroid.ui.FormulaEditorClipboard;
-import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
@@ -84,7 +89,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -99,6 +103,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -135,7 +140,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
 	public static final String FORMULA_FIELD_BUNDLE_ARGUMENT = "formula_field";
+	public static final String FORMULA_MAP_BUNDLE_ARGUMENT = "formula_map";
 	public static final String DO_NOT_SHOW_WARNING = "DO_NOT_SHOW_WARNING";
+	public static final String SHOW_CUSTOM_VIEW = "show_custom_view";
+	public static final String BRICK_FIELD_TO_TEXT_VIEW_ID_MAP = "BrickFieldToTextViewIdMap";
+	public static final String CURRENT_BRICK_INTERN_FORMULA = "InternFormula";
 
 	private FormulaEditorEditText formulaEditorEditText;
 	private TableLayout formulaEditorKeyboard;
@@ -167,9 +176,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			return;
 		}
 
-		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
-		currentFormulaField = (Brick.FormulaField) getArguments().getSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT);
-		currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+		setFormulaBrickData();
 	}
 
 	@Override
@@ -184,30 +191,57 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		SettingsFragment.setToChosenLanguage(getActivity());
 	}
 
-	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField, boolean showCustomView) {
+	private void setFormulaBrickData() {
+		formulaBrick = (FormulaBrick) getArguments()
+				.getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
+
+		HashMap<Brick.FormulaField, Integer> hashMap =
+				(HashMap<Brick.FormulaField, Integer>) getArguments()
+						.getSerializable(BRICK_FIELD_TO_TEXT_VIEW_ID_MAP);
+
+		formulaBrick.brickFieldToTextViewIdMap = HashBiMap.create(hashMap);
+
+		if (formulaBrick instanceof UserDefinedBrick) {
+			((UserDefinedBrick) formulaBrick).formulaFieldToTextViewMap = HashBiMap.create(2);
+		}
+
+		currentFormulaField = (Brick.FormulaField) getArguments()
+				.getSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT);
+
+		currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+
+		currentFormula.internFormula = (InternFormula) getArguments()
+				.getSerializable(CURRENT_BRICK_INTERN_FORMULA);
+
+		currentFormula.internFormula.externInternRepresentationMapping =
+				new ExternInternRepresentationMapping();
+
+		setInternFormulas(formulaBrick.getFormulaMap());
+	}
+
+	private void setInternFormulas(ConcurrentFormulaHashMap formulaMap) {
+		for (Brick.FormulaField key : formulaMap.keySet()) {
+			if (key != currentFormulaField) {
+				Formula formula = formulaMap.get(key);
+				if (formula != null) {
+					FormulaElement formulaElement = formula.getFormulaTree();
+					formula.internFormula = new InternFormula(formulaElement.getInternTokenList());
+				}
+			}
+		}
+	}
+
+	public static void handleNextEditedFormulaOnBrick(Context context, Brick.FormulaField formulaField) {
 		AppCompatActivity activity = UiUtils.getActivityFromContextWrapper(context);
 		if (activity == null) {
 			return;
 		}
 
-		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity
+				.getSupportFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
 
-		if (formulaEditorFragment == null) {
-			formulaEditorFragment = new FormulaEditorFragment();
-			formulaEditorFragment.showCustomView = showCustomView;
-			Bundle bundle = new Bundle();
-			bundle.putSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
-			bundle.putSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
-			formulaEditorFragment.setArguments(bundle);
-
-			activity.getSupportFragmentManager().beginTransaction()
-					.replace(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG)
-					.addToBackStack(FORMULA_EDITOR_FRAGMENT_TAG)
-					.commit();
-
-			BottomBar.hideBottomBar(activity);
-		} else {
+		if (formulaEditorFragment != null) {
 			formulaEditorFragment.showCustomView = false;
 			formulaEditorFragment.updateBrickView();
 			formulaEditorFragment.setInputFormula(formulaField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
@@ -229,14 +263,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private boolean showCustomView = false;
-
-	public static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
-		showFragment(context, formulaBrick, formulaField, false);
-	}
-
-	public static void showCustomFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
-		showFragment(context, formulaBrick, formulaField, true);
-	}
 
 	public void updateBrickView() {
 		formulaEditorBrick.removeAllViews();
@@ -273,10 +299,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
 		getFragmentManager().popBackStack();
-		if (getActivity() != null) {
-			BottomBar.showBottomBar(getActivity());
-			BottomBar.showPlayButton(getActivity());
-		}
 	}
 
 	@Override
@@ -295,6 +317,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateBrickView();
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_CREATE_VIEW);
 
 		formulaEditorEditText.init(this);
@@ -514,6 +537,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@VisibleForTesting
 	public FormulaEditorEditText getFormulaEditorEditText() {
 		return formulaEditorEditText;
+	}
+
+	@VisibleForTesting
+	public Formula getCurrentFormula() {
+		return currentFormula;
 	}
 
 	@Override
@@ -766,7 +794,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void setInputFormula(Brick.FormulaField formulaField, int mode) {
-
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
 				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
@@ -889,7 +916,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	private boolean hasFileChanged() {
+	public boolean hasFileChanged() {
 		File currentCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
 
@@ -908,22 +935,25 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void exitFormulaEditorFragment() {
-		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		FormulaEditorActivity activity = (FormulaEditorActivity) getActivity();
+
 		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
+				if (activity != null) {
+					activity.setFormulaHasChanged(true);
+				}
 				hasFormulaBeenChanged = false;
 			} else {
 				return;
 			}
 		}
-		onUserDismiss();
 
-		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		onUserDismiss();
 
 		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
-		if (hasFileChanged() || fragment.checkVariables()) {
-			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
+		if (activity != null && hasFileChanged()) {
+			activity.setUndoMenuItemVisibility(true);
 		}
 	}
 

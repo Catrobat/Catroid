@@ -27,13 +27,14 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.VisibleForTesting;
 
-public class InternFormula {
+public class InternFormula implements Serializable {
 	private static final String TAG = InternFormula.class.getSimpleName();
 
 	public enum CursorTokenPosition {
@@ -49,7 +50,9 @@ public class InternFormula {
 	}
 
 	@VisibleForTesting
-	public ExternInternRepresentationMapping externInternRepresentationMapping;
+	/* Property needs to be transient to be able to pass the internFormula via an intent
+	   whe starting the FormulaEditorActivity */
+	public transient ExternInternRepresentationMapping externInternRepresentationMapping;
 
 	private List<InternToken> internTokenFormulaList;
 	private String externFormulaString;

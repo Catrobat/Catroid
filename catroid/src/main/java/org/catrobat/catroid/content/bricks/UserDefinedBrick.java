@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
@@ -36,7 +37,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.FormulaEditorActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -47,13 +53,17 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_EDIT_FORMULA;
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 
 public class UserDefinedBrick extends FormulaBrick {
@@ -232,6 +242,9 @@ public class UserDefinedBrick extends FormulaBrick {
 				addAllowedBrickField(formulaField, textView);
 				textView.setText(getFormulaWithBrickField(formulaField).getTrimmedFormulaString(context));
 			}
+
+			setInterFormulaInUserDefinedBrickData(userDefinedBrickData);
+
 			userDefinedBrickLayout.addView(textView);
 			if (userDefinedBrickData.isInput()) {
 				((BrickLayout.LayoutParams) textView.getLayoutParams()).setEditText(true);
@@ -246,6 +259,25 @@ public class UserDefinedBrick extends FormulaBrick {
 		}
 
 		return view;
+	}
+
+	private void setInterFormulaInUserDefinedBrickData(UserDefinedBrickData userDefinedBrickData) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity instanceof FormulaEditorActivity) {
+			Fragment fragment = activity
+					.getSupportFragmentManager()
+					.findFragmentById(R.id.fragment_container);
+
+			if (fragment instanceof FormulaEditorFragment
+					&& userDefinedBrickData instanceof UserDefinedBrickInput) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+
+				if (input.value.internFormula == null) {
+					FormulaElement formulaElement = input.value.getFormulaTree();
+					input.value.internFormula = new InternFormula(formulaElement.getInternTokenList());
+				}
+			}
+		}
 	}
 
 	private void addTextViewForUserData(Context context, TextView textView, UserDefinedBrickDataType dataType) {
@@ -310,11 +342,47 @@ public class UserDefinedBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (formulaFieldToTextViewMap.inverse().containsKey(view)) {
-			FormulaEditorFragment.showFragment(view.getContext(), this, getBrickFieldFromTextView((TextView) view));
-		} else {
-			FormulaEditorFragment.showFragment(view.getContext(), this, getDefaultBrickField());
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
 		}
+
+		Context context = view.getContext();
+		Brick.FormulaField formulaField =
+				formulaFieldToTextViewMap.inverse().containsKey(view)
+						? getBrickFieldFromTextView((TextView) view)
+						: getDefaultBrickField();
+
+		Intent intent = makeIntentForFormulaEditorActivity(context, formulaField);
+		activity.startActivityForResult(intent, REQUEST_CODE_EDIT_FORMULA);
+	}
+
+	private Intent makeIntentForFormulaEditorActivity(Context context, Brick.FormulaField formulaField) {
+		Intent intent = new Intent(context, FormulaEditorActivity.class);
+
+		intent.putExtra(FormulaEditorFragment.SHOW_CUSTOM_VIEW, false);
+		intent.putExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT, this);
+		intent.putExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT, formulaField);
+
+		//Pass empty map to intent
+		BiMap<FormulaField, String> brickFieldToTextViewIDMap = HashBiMap.create(2);
+		intent.putExtra(FormulaEditorFragment.BRICK_FIELD_TO_TEXT_VIEW_ID_MAP,
+				new HashMap<>(brickFieldToTextViewIDMap));
+
+		intent.putExtra(FormulaEditorFragment.FORMULA_MAP_BUNDLE_ARGUMENT, formulaMap);
+
+		FormulaBrick formulaBrick = (FormulaBrick) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_BRICK_BUNDLE_ARGUMENT);
+
+		Brick.FormulaField currentFormulaField = (Brick.FormulaField) intent
+				.getSerializableExtra(FormulaEditorFragment.FORMULA_FIELD_BUNDLE_ARGUMENT);
+
+		Formula currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+		InternFormula internFormula = currentFormula.internFormula;
+		intent.putExtra(FormulaEditorFragment.CURRENT_BRICK_INTERN_FORMULA, internFormula);
+		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+
+		return intent;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,7 +86,8 @@ public class VisualPlacementBrickTest {
 				{"GlideToBrick", R.string.brick_glide, new GlideToBrick()},
 				{"PlaceAtBrick", R.string.brick_place_at, new PlaceAtBrick()},
 				{"ShowTextBrick", R.string.brick_show_variable, new ShowTextBrick()},
-				{"ShowTextColorSizeAlignment", R.string.brick_show_variable_size, new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#FFFF00")}
+				{"ShowTextColorSizeAlignment", R.string.brick_show_variable_size,
+						new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#FFFF00")}
 		});
 	}
 
@@ -141,6 +142,44 @@ public class VisualPlacementBrickTest {
 	}
 
 	@Test
+	public void testIsVisualPlacementShownInSpriteFragmentForEditTextY() {
+		onBrickAtPosition(1).checkShowsText(brickString);
+		onView(withId(brick.getYEditTextId())).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testDialogIsShownForVisualPlacementBricksOnEditTextX() {
+		onBrickAtPosition(brickPosition).checkShowsText(brickString);
+		openFormulaEditorActivityFromEditTextX();
+		onFormulaEditor().check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testVisualPlacementActivityReturnsCorrectlyToScriptFragment() {
+		openVisualPlacementActivityFromEditTextX();
+		intended(hasComponent(VisualPlacementActivity.class.getName()));
+		pressBack();
+
+		isBackInScriptFragment();
+	}
+
+	@Test
+	public void testFormulaEditorActivityReturnsCorrectlyToScriptFragment() {
+		openFormulaEditorActivityFromEditTextX();
+		onFormulaEditor().check(matches(isDisplayed()));
+		pressBack();
+
+		isBackInScriptFragment();
+	}
+
+	@Test
+	public void testIsVisualPlacementActivityShownInSpriteFragment() {
+		openVisualPlacementActivityFromEditTextX();
+		intended(hasComponent(VisualPlacementActivity.class.getName()));
+	}
+
+	@Test
 	public void testIsVisualPlacementShownForEditTextX() {
 		onBrickAtPosition(1).checkShowsText(brickString);
 		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
@@ -160,15 +199,8 @@ public class VisualPlacementBrickTest {
 	}
 
 	@Test
-	public void testVisualPlacementAfterFormulaNotANumber() {
-		openFormulaEditorFragmentFromEditTextX();
-		onFormulaEditor().performEnterFormula("1+2");
-		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getYEditTextId());
-	}
-
-	@Test
 	public void testVisualPlacementAfterNumberEntered() {
-		openFormulaEditorFragmentFromEditTextX();
+		openFormulaEditorActivityFromEditTextX();
 		onFormulaEditor()
 				.performEnterNumber(42);
 		pressBack();
@@ -182,50 +214,8 @@ public class VisualPlacementBrickTest {
 	}
 
 	@Test
-	public void testIsVisualPlacementShownInFormulaFragmentForEditTextX() {
-		onBrickAtPosition(brickPosition).checkShowsText(brickString);
-		openFormulaEditorFragmentFromEditTextX();
-		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
-	}
-
-	@Test
-	public void testIsVisualPlacementShownInFormulaFragmentForEditTextY() {
-		onBrickAtPosition(1).checkShowsText(brickString);
-		openFormulaEditorFragmentFromEditTextX();
-		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getYEditTextId());
-	}
-
-	@Test
-	public void testIsVisualPlacementActivityShownInFormulaFragment() {
-		openFormulaEditorFragmentFromEditTextX();
-		openVisualPlacementActivityFromEditTextX();
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
-	}
-
-	@Test
-	public void testVisualPlacementInFormulaFragmentAfterFormulaNotANumber() {
-		openFormulaEditorFragmentFromEditTextX();
-		enterFormulaInFormulaEditor("1+2");
-		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getXEditTextId());
-		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getYEditTextId());
-	}
-
-	@Test
-	public void testDoesFormulaFragmentReturnCorrectlyAfterVisualPlacement() {
-		openFormulaEditorFragmentFromEditTextX();
-		openVisualPlacementActivityFromEditTextX();
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
-		pressBack();
-		onFormulaEditor()
-				.check(matches(isDisplayed()));
-		pressBack();
-		isBackInScriptFragment();
-	}
-
-	@Test
 	public void testNoRecursiveOpeningOfFormulaEditors() {
-		openFormulaEditorFragmentFromEditTextX();
-		openFormulaEditorFragmentFromEditTextX();
+		openFormulaEditorActivityFromEditTextX();
 		pressBack();
 		isBackInScriptFragment();
 	}
@@ -238,14 +228,7 @@ public class VisualPlacementBrickTest {
 	}
 
 	private void isBackInScriptFragment() {
-		onBrickAtPosition(brickPosition)
-				.check(matches(isDisplayed()));
-	}
-
-	private void enterFormulaInFormulaEditor(String formula) {
-		onFormulaEditor()
-				.performEnterFormula(formula);
-		pressBack();
+		onBrickAtPosition(brickPosition).check(matches(isDisplayed()));
 	}
 
 	private void openVisualPlacementActivityFromEditTextX() {
@@ -255,7 +238,7 @@ public class VisualPlacementBrickTest {
 				.perform(click());
 	}
 
-	private void openFormulaEditorFragmentFromEditTextX() {
+	private void openFormulaEditorActivityFromEditTextX() {
 		onView(withId(brick.getXEditTextId()))
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
