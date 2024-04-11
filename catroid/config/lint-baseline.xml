@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -456,17 +456,6 @@
 
     <issue
         id="ClickableViewAccessibility"
-        message="Custom view `BrickListView` overrides `onTouchEvent` but not `performClick`"
-        errorLine1=" public boolean onTouchEvent(MotionEvent event) {"
-        errorLine2="                ~~~~~~~~~~~~">
-        <location
-            file="src\main\java\org\catrobat\catroid\ui\dragndrop\BrickListView.java"
-            line="168"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="ClickableViewAccessibility"
         message="`onTouch` should call `View#performClick` when a click is detected"
         errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                   ~~~~~~~">
@@ -527,7 +516,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="342"
+            line="344"
             column="19"/>
     </issue>
 
