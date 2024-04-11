@@ -114,6 +114,8 @@ public class FormulaEditorKeyboardTest {
 
 		onView(withText(R.string.formula_editor_logic_equal)).perform(click());
 
+		onFormulaEditor().pressFunctionalToggleButton();
+
 		onFormulaEditor().performEnterFormula("1");
 
 		pressBack();
@@ -143,13 +145,26 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
-		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow1))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow3))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow4))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow5))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+
+		onView(withId(R.id.tableRowFunctionButtons1))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withId(R.id.tableRowFunctionButtons2))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
-		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withId(R.id.tableRowFunctionButtons1))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRowFunctionButtons2))
+				.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -163,6 +178,7 @@ public class FormulaEditorKeyboardTest {
 		onFormulaEditor()
 				.performOpenCategory(FormulaEditorWrapper.Category.DEVICE)
 				.performSelect(R.string.formula_editor_sensor_x_acceleration);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performEnterFormula("+2");
 		pressBack();

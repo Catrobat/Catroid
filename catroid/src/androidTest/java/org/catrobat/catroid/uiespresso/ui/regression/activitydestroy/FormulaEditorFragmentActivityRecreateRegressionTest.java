@@ -95,7 +95,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
 	@Test
 	public void testActivityRecreateCategoryFragment() {
-		onFormulaEditor().performOpenFunctions();
+		onFormulaEditor().performOpenMathematics();
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		recreateActivity();
 		checkInitialListeners();

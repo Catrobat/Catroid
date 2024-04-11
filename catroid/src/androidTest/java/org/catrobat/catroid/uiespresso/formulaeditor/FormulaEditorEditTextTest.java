@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.FUNCTIONS;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.MATHEMATICS;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.BACKSPACE;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.COMPUTE;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER;
@@ -108,15 +108,17 @@ public class FormulaEditorEditTextTest {
 	public void testFunctionDeletion() {
 		String random = getResourcesString(R.string.formula_editor_function_rand) + getResourcesString(R.string.formula_editor_function_rand_parameter);
 		onFormulaEditor()
-				.performOpenCategory(FUNCTIONS)
+				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
-				.performOpenCategory(FUNCTIONS)
+				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
+		onFormulaEditor().pressFunctionalToggleButton();
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
@@ -192,10 +194,12 @@ public class FormulaEditorEditTextTest {
 				.performEnterFormula("1+");
 
 		onFormulaEditor()
-				.performClickOn(FUNCTIONS);
+				.performOpenMathematics();
 
 		onView(withText("pi"))
 				.perform(click());
+
+		onFormulaEditor().pressFunctionalToggleButton();
 
 		onView(withId(R.id.brick_change_size_by_edit_text))
 				.check(matches(withText("1 + pi ")));

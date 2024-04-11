@@ -130,6 +130,7 @@ public class SetVariableBrickTest {
 	private void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
+		onFormulaEditor().pressFunctionalToggleButton();
 		onView(withId(R.id.formula_editor_keyboard_data))
 				.perform(click());
 		onView(withId(R.id.button_add))

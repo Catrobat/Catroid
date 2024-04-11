@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.FUNCTIONS;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.LISTS;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 
@@ -139,7 +139,7 @@ public class AddUserListToActiveFormulaUITest {
 		onBrickAtPosition(1).performEditFormula();
 		String listFunction =
 				getResourcesString(formulaName) + getResourcesString(formulaParameters);
-		onFormulaEditor().performOpenCategory(FUNCTIONS).performSelect(listFunction);
+		onFormulaEditor().performOpenCategory(LISTS).performSelect(listFunction);
 		onFormulaEditor().checkShows(generateExpectedOutput(expectedOutput));
 	}
 

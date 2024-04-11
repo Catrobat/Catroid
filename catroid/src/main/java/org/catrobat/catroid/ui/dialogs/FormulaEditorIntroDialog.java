@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -210,7 +210,7 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 		introSlides.add(new IntroSlide(
 				R.string.formula_editor_intro_title_functions,
 				R.string.formula_editor_intro_summary_functions,
-				R.id.formula_editor_keyboard_function));
+				R.id.formula_editor_keyboard_mathematics));
 
 		introSlides.add(new IntroSlide(
 				R.string.formula_editor_intro_title_logic,
