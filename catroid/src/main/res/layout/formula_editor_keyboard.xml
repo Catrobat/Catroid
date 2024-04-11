@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -29,31 +29,28 @@
 
     <TableRow
         android:id="@+id/tableRow11"
-        android:layout_width="match_parent"
+        android:layout_width="325dp"
         android:layout_weight="1">
 
         <Button
             android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorCategoryButton"
-            android:layout_span="2"
+            android:layout_width="188dp"
+            android:layout_span="3"
             android:text="@string/formula_editor_functions" />
 
         <Button
-            android:id="@+id/formula_editor_keyboard_object"
+            android:id="@+id/formula_editor_keyboard_your_functions"
             style="@style/FormulaEditorCategoryButton"
-            android:layout_span="2"
-            android:text="@string/formula_editor_object" />
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_copy"
-            style="@style/FormulaEditorSymbolButton"
-            android:contentDescription="@string/copy"
-            android:src="@drawable/ic_formula_editor_content_copy" />
-
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_paste"
-            style="@style/FormulaEditorSymbolButton"
-            android:contentDescription="@string/paste"
-            android:src="@drawable/ic_formula_editor_content_paste" />
+            android:layout_width="223dp"
+            android:layout_height="match_parent"
+            android:layout_span="3"
+            android:text="@string/formula_editor_your_functions" /><Button
+        android:id="@+id/formula_editor_keyboard_object"
+        style="@style/FormulaEditorCategoryButton"
+        android:layout_width="119dp"
+        android:layout_span="3"
+        android:text="@string/formula_editor_object" />
 
 
     </TableRow>
@@ -66,7 +63,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_sensors"
             style="@style/FormulaEditorCategoryButton"
-            android:layout_span="2"
+            android:layout_span="3"
             android:text="@string/formula_editor_device" />
 
         <Button
@@ -79,9 +76,18 @@
             android:id="@+id/formula_editor_keyboard_data"
             style="@style/FormulaEditorCategoryButton"
             android:layout_span="2"
-            android:text="@string/formula_editor_data" />
+            android:text="@string/formula_editor_data" /><ImageButton
+        android:id="@+id/formula_editor_keyboard_copy"
+        style="@style/FormulaEditorSymbolButton"
+        android:contentDescription="@string/copy"
+        android:src="@drawable/ic_formula_editor_content_copy" /><ImageButton
+        android:id="@+id/formula_editor_keyboard_paste"
+        style="@style/FormulaEditorSymbolButton"
+        android:layout_width="2dp"
+        android:contentDescription="@string/paste"
+        android:src="@drawable/ic_formula_editor_content_paste" />
 
-    </TableRow>
+        </TableRow>
 
     <TableRow
         android:id="@+id/tableRow2"
@@ -98,19 +104,19 @@
         <Button
             android:id="@+id/formula_editor_keyboard_7"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_7" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_8"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_8" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_9"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_9" />
 
 
@@ -137,19 +143,19 @@
         <Button
             android:id="@+id/formula_editor_keyboard_4"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_4" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_5"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_5" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_6"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_6" />
 
         <Button
@@ -181,19 +187,19 @@
         <Button
             android:id="@+id/formula_editor_keyboard_1"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_1" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_2"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_2" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_3"
             style="@style/FormulaEditorNumberButton"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_3" />
 
         <Button
@@ -233,7 +239,7 @@
             android:id="@+id/formula_editor_keyboard_0"
             style="@style/FormulaEditorNumberButton"
             android:layout_marginBottom="@dimen/key_margin"
-            android:layout_span="1"
+            android:layout_span="2"
             android:text="@string/number_0" />
 
         <Button
@@ -247,7 +253,7 @@
             android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorComputeButton"
             android:layout_marginBottom="@dimen/key_margin"
-            android:layout_span="2"
+            android:layout_span="4"
             android:text="@string/formula_editor_compute" />
     </TableRow>
 </TableLayout>

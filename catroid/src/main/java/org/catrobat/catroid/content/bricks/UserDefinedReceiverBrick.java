@@ -53,6 +53,7 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 	private Brick userDefinedBrick;
 
 	public int spinnerSelection;
+	private String formulaEditorName;
 
 	public UserDefinedReceiverBrick(UserDefinedScript userDefinedScript) {
 		this.spinnerSelection = userDefinedScript.getScreenRefresh() ? BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH
@@ -157,5 +158,13 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
+	}
+
+	public void setNameForFormulaEditor(String name) {
+		this.formulaEditorName = name;
+	}
+
+	public String getNameForFormulaEditor() {
+		return this.formulaEditorName;
 	}
 }
