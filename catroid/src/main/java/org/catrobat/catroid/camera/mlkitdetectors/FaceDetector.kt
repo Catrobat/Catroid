@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.camera.mlkitdetectors
 
+import android.graphics.BitmapFactory
 import android.media.Image
 import android.util.Log
 import com.google.mlkit.vision.common.InputImage
@@ -76,5 +77,45 @@ object FaceDetector : Detector {
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
             }
+    }
+
+    fun analyzeProjectImages(
+        imagePaths: java.util.ArrayList<String>,
+        imageFoundCallback: (Boolean) -> Unit,
+        i: Int
+    ) {
+        val bitmap = BitmapFactory.decodeFile(imagePaths[i])
+        if (bitmap != null) {
+            val image = InputImage.fromBitmap(bitmap, 0)
+
+            val detector = FaceDetection.getClient()
+            detector.process(image)
+                .addOnSuccessListener { faces ->
+                    if (faces.size > 0) {
+                        imageFoundCallback(true)
+                    } else if (i + 1 < imagePaths.size) {
+                        analyzeProjectImages(imagePaths, imageFoundCallback, i + 1)
+                    } else {
+                        imageFoundCallback(false)
+                    }
+                }
+                .addOnFailureListener { _ ->
+                    analyzeProjectImagesHelper(imagePaths, imageFoundCallback, i + 1)
+                }
+        } else {
+            analyzeProjectImagesHelper(imagePaths, imageFoundCallback, i + 1)
+        }
+    }
+
+    private fun analyzeProjectImagesHelper(
+        imagePaths: java.util.ArrayList<String>,
+        imageFoundCallback: (Boolean) -> Unit,
+        i: Int
+    ) {
+        if (i + 1 < imagePaths.size) {
+            analyzeProjectImages(imagePaths, imageFoundCallback, i + 1)
+        } else {
+            imageFoundCallback(false)
+        }
     }
 }
