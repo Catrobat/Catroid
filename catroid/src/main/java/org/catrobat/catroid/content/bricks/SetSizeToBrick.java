@@ -35,7 +35,7 @@ public class SetSizeToBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.SIZE, R.id.brick_set_size_to_edit_text);
 	}
 
-	public SetSizeToBrick(double size) {
+	public SetSizeToBrick(float size) {
 		this(new Formula(size));
 	}
 
