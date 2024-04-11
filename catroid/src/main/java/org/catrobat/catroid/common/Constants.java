@@ -65,7 +65,7 @@ public final class Constants {
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
 			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_DIRECTORY_NAME);
 	public static final File DOWNLOAD_DIRECTORY =
-			new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
+			Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String ZIP_EXTENSION = ".zip";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
@@ -73,6 +73,7 @@ public final class Constants {
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
 	public static final String TEXT_FILE_EXTENSION = ".txt";
+	public static final String ANY_EXTENSION_REGEX = "\\.\\w+$";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
 	public static final char REMIX_URL_SEPARATOR = ',';
