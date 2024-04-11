@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.web.CatrobatServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
 
@@ -42,7 +42,7 @@ public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
 	protected Boolean[] doInBackground(String... arg0) {
 		try {
 			return new Boolean[]{new CatrobatServerCalls().checkToken(arg0[0], arg0[1], FlavoredConstants.BASE_URL_HTTPS), false};
-		} catch (WebconnectionException e) {
+		} catch (WebConnectionException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			return new Boolean[]{false, true};
 		}

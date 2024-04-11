@@ -55,7 +55,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -126,8 +126,8 @@ public final class Utils {
 		return networkAvailable;
 	}
 
-	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
+	public static boolean checkForNetworkError(WebConnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebConnectionException.ERROR_NETWORK;
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
