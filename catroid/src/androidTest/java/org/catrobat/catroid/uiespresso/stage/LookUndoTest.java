@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -47,13 +45,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -84,15 +82,13 @@ public class LookUndoTest {
 	private final String projectName = getClass().getSimpleName();
 	private final String spriteName = "testSprite";
 	private File imageFile;
-	private final File tmpDir = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -112,14 +108,10 @@ public class LookUndoTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpDir.exists()) {
-			tmpDir.mkdirs();
-		}
-
 		imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				tmpDir,
+				tmpFolder.getRoot(),
 				lookFileName,
 				1);
 
@@ -193,11 +185,5 @@ public class LookUndoTest {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(projectName);
-		if (imageFile != null && imageFile.exists()) {
-			imageFile.delete();
-		}
-		if (tmpDir.exists()) {
-			tmpDir.delete();
-		}
 	}
 }

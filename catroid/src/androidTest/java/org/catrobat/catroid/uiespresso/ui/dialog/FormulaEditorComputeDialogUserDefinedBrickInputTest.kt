@@ -58,7 +58,6 @@ import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogUserDefinedBrickInputTest(
-    private val name: String,
     private val formula: Formula,
     private val expectedString: String
 ) {

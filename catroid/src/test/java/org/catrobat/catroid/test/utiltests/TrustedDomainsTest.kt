@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.utiltests
 
+import android.content.Context
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.TrustedDomainManager.isURLTrusted
 import org.catrobat.catroid.common.Constants
@@ -32,6 +34,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
@@ -42,45 +45,41 @@ import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.InputStream
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 @RunWith(PowerMockRunner::class)
-@PrepareForTest(Utils::class, TrustedDomainManager::class)
+@PrepareForTest(Utils::class, TrustedDomainManager::class, CatroidApplication::class)
 class TrustedDomainsTest {
-    private lateinit var userTrustListMatcher: Matcher
 
     @Before
     fun setUp() {
-        userTrustListMatcher = mock(Matcher::class.java)
-        TrustedDomainManager.userTrustListPattern = mock(Pattern::class.java)
-        doReturn(userTrustListMatcher).`when`(TrustedDomainManager.userTrustListPattern)!!
-            .matcher(anyString())
-
         mockStatic(Utils::class.java)
         val stream = mock(InputStream::class.java)
         val trustList = constructTrustList(listOf("tugraz.at", "net", "wikipedia.org", "ac.at"))
         given(Utils.getInputStreamFromAsset(any(), anyString())).willReturn(stream)
         given(Utils.getJsonObjectFromInputStream(stream)).willReturn(trustList)
+        mockStatic(CatroidApplication::class.java)
+        val context = mock(Context::class.java)
+        val directory = TemporaryFolder()
+        directory.create()
+        given(CatroidApplication.getAppContext()).willReturn(context)
+        doReturn(directory.newFolder("filesDir")).`when`(context).filesDir
+        doReturn(directory.newFolder("cacheDir")).`when`(context).cacheDir
     }
 
     @Test
     fun testNoProtocol() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertTrue(isURLTrusted("https://www.tugraz.at"))
         assertFalse(isURLTrusted("www.tugraz.at"))
     }
 
     @Test
     fun testEnding() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
         assertFalse(isURLTrusted("https://something.net.com/blabla"))
     }
 
     @Test
     fun testCommonInternetScheme() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertTrue(isURLTrusted("http://www.ist.tugraz.at:8080/blablabla"))
         assertTrue(isURLTrusted("http://www.ist.tugraz.at:8080/"))
         assertTrue(isURLTrusted("http://connect4.ist.tugraz.at"))
@@ -92,7 +91,6 @@ class TrustedDomainsTest {
 
     @Test
     fun testDomainEndsWithEntry() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertTrue(isURLTrusted("https://www.wikipedia.org/hallo"))
         assertFalse(isURLTrusted("https://wikipedia.org.darknet.com/trallala"))
         assertFalse(isURLTrusted("https://wikipedia.orgxxx/trallala"))
@@ -101,22 +99,13 @@ class TrustedDomainsTest {
 
     @Test
     fun testDomainExtension() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertFalse(isURLTrusted("https://wwwwikipedia.org/hallo"))
     }
 
     @Test
     fun testEscapedDots() {
-        doReturn(false).`when`(userTrustListMatcher).matches()
         assertTrue(isURLTrusted("https://www.tugraz.ac.at/hallo"))
         assertFalse(isURLTrusted("https://www.tugraz.acbat/hallo"))
-    }
-
-    @Test
-    fun testUserDomain() {
-        doReturn(true).`when`(userTrustListMatcher).matches()
-        assertTrue(isURLTrusted("https://something.net.com/blabla"))
-        assertTrue(isURLTrusted("https://www.darknet.com/wikipedia.org/"))
     }
 
     private fun constructTrustList(domains: List<String>): JSONObject =

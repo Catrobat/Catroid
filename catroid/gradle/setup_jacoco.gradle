@@ -45,9 +45,9 @@ project.afterEvaluate {
             description = "Generate Jacoco coverage reports for the ${variantName} build."
 
             reports {
-                csv.enabled = false
-                html.enabled = true
-                xml.enabled = true
+                csv.required = false
+                html.required = true
+                xml.required = true
             }
 
             def excludes = [
@@ -71,7 +71,10 @@ project.afterEvaluate {
                     "$project.projectDir/src/${variantName}/kotlin"
             ]))
 
-            getExecutionData().from(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
+            getExecutionData().from(files(
+                    "${project.buildDir}/code_coverage/**/*.ec",
+                    "${project.buildDir}/outputs/unit_test_code_coverage/${variant.name}UnitTest/${testTaskName}.exec",
+            ))
         }
     }
 }
