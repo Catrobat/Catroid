@@ -28,20 +28,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.ui.RotatedToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
-public class NotePickerDialog extends AppCompatDialogFragment implements NotePickerView.OnNoteChangedListener {
+public class NotePickerDialog extends DialogFragment implements NotePickerView.OnNoteChangedListener {
 	private static final String CURRENT_NOTE = "CurrentNote";
 	private static final String INITIAL_NOTE = "InitialNote";
 	private static final String SHOW_ACTION_BAR = "ShowActionBar";
@@ -51,12 +55,15 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 	private MidiNotePlayer midiDriver;
 
 	private NotePickerView notePickerView;
-	private Button buttonApply;
-	private Button buttonCancel;
+
+	private NotePickerPianoWhiteKeysView notePickerPianoWhiteKeysView;
+	private RotatedToolbar toolbar;
 	private int noteToApply;
 
+	private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
+
 	public static NotePickerDialog newInstance(int initialNote) {
-		return newInstance(initialNote, false);
+		return newInstance(initialNote, true);
 	}
 
 	public static NotePickerDialog newInstance(int initialNote, boolean showActionBar) {
@@ -72,6 +79,7 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setStyle(DialogFragment.STYLE_NORMAL, R.style.NotePickerDialogTheme);
 
 		midiDriver = new MidiNotePlayer();
 	}
@@ -79,7 +87,8 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.dialog_notepicker, container, false);
+		View rootView = inflater.inflate(R.layout.dialog_notepicker, container, false);
+		return rootView;
 	}
 
 	@Override
@@ -93,33 +102,56 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 			midiDriver.setInstrument((byte) 0, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		}
 
-		notePickerView = view.findViewById(R.id.note_picker_view);
+		ScrollView scrollView = view.findViewById(R.id.musicdroid_scrollview);
+
+		notePickerView = view.findViewById(R.id.musicdroid_piano_notepickerView);
 		notePickerView.setOnNoteChangedListener(this);
 
-		buttonApply = view.findViewById(R.id.note_picker_button_ok);
-		buttonCancel = view.findViewById(R.id.note_picker_button_cancel);
+		FrameLayout miniPianoView = view.findViewById(R.id.musicdroid_miniPianoPreview);
+		NotePickerViewHighlightedRectangle rectangle =
+				new NotePickerViewHighlightedRectangle(getContext(), scrollView,
+						notePickerView.getRowCount() / NoteName.NOTES_PER_OCTAVE);
+		miniPianoView.addView(rectangle);
 
-		buttonApply.setOnClickListener(v -> {
+		notePickerPianoWhiteKeysView = view.findViewById(R.id.musicdroid_piano_notepickerWhiteKeyView);
+		notePickerPianoWhiteKeysView.duplicateOnClickAction(notePickerView);
+
+		toolbar = view.findViewById(R.id.musicdroid_piano_toolbar);
+		toolbar.setAcceptButtonOnClickListener(v -> {
 			updateNoteChange(noteToApply);
 			dismiss();
 		});
+		toolbar.setCloseButtonOnClickListener(v -> {
+			dismiss();
+		});
 
-		buttonCancel.setOnClickListener(v -> dismiss());
+		NoteView noteView;
 
 		if (savedInstanceState != null) {
-			notePickerView.setSelectedNote(savedInstanceState.getInt(CURRENT_NOTE,
-					TrackRowView.getMidiValueForRow(0)));
+			int currentNote = savedInstanceState.getInt(CURRENT_NOTE,
+					TrackRowView.getMidiValueForRow(0));
+			notePickerView.setSelectedNote(currentNote);
 			notePickerView.setInitialNote(savedInstanceState.getInt(INITIAL_NOTE,
 					TrackRowView.getMidiValueForRow(0)));
+			notePickerPianoWhiteKeysView.setActiveNoteByMidi(currentNote);
+
+			noteView = notePickerView.getNoteViewForMidi(currentNote);
 		} else {
 			Bundle arguments = getArguments();
-			notePickerView.setSelectedNote(arguments.getInt(CURRENT_NOTE,
-					TrackRowView.getMidiValueForRow(0)));
+			int currentNote = arguments.getInt(CURRENT_NOTE,
+					TrackRowView.getMidiValueForRow(0));
+			notePickerView.setSelectedNote(currentNote);
 			notePickerView.setInitialNote(arguments.getInt(INITIAL_NOTE,
 					TrackRowView.getMidiValueForRow(0)));
+			notePickerPianoWhiteKeysView.setActiveNoteByMidi(currentNote);
+
+			noteView = notePickerView.getNoteViewForMidi(currentNote);
 		}
 
+		scrollToCurrentNote(scrollView, noteView);
+
 		noteToApply = notePickerView.getInitialNote();
+		updateTitle(noteToApply);
 	}
 
 	@NonNull
@@ -150,12 +182,33 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 	@Override
 	public void noteChanged(int note) {
 		noteToApply = note;
+		updateTitle(noteToApply);
+		if (notePickerPianoWhiteKeysView != null) {
+			notePickerPianoWhiteKeysView.resetAllActiveNotes();
+			notePickerPianoWhiteKeysView.setActiveNoteByMidi(note);
+		}
+	}
+
+	private void updateTitle(int note) {
+		toolbar.setTitle(NoteName.getNoteNameFromMidiValue(note).getPrettyPrintName());
 	}
 
 	private void updateNoteChange(int note) {
 		for (NotePickerDialog.OnNotePickedListener listener : onNotePickedListener) {
 			listener.noteChanged(note);
 		}
+	}
+
+	private void scrollToCurrentNote(ScrollView scrollView, NoteView noteView) {
+		globalLayoutListener =
+				() -> {
+			scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+			int[] location = new int[2];
+			noteView.getLocationOnScreen(location);
+			int yPositionOfNoteView = location[1];
+			scrollView.scrollTo(0, yPositionOfNoteView);
+		};
+		scrollView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
 	}
 }
 

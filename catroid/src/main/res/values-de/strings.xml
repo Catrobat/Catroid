@@ -1902,7 +1902,7 @@
     <string name="brick_show_variable_aligned_left">links</string>
     <string name="brick_show_variable_aligned_right">rechts</string>
     <string name="brick_context_dialog_pick_color">Farbe auswählen</string>
-    <string name="brick_context_dialog_pick_note">Notiz auswählen</string>
+    <string name="brick_context_dialog_pick_note">Note auswählen</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Schalte Kamera</string>
