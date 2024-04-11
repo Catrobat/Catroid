@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.utils
 
-import java.math.BigDecimal;
+import java.math.BigDecimal
 
-public final class FormatNumberUtil {
+object FormatNumberUtil {
+    @JvmStatic
+    fun cutTrailingZeros(number: String): String {
+        var decimal = BigDecimal(number.trim { it <= ' ' })
+        decimal = decimal.stripTrailingZeros()
 
-	private FormatNumberUtil() {
-		throw new AssertionError();
-	}
+        // compare with Zero because of faulty implementation of stripTrailingZeros in the library
+        if (decimal.compareTo(BigDecimal.ZERO) == 0) {
+            decimal = BigDecimal.ZERO
+        }
 
-	public static String cutTrailingZeros(String number) {
-		BigDecimal decimal = new BigDecimal(number.trim());
-		decimal = decimal.stripTrailingZeros();
-
-		// compare with Zero because of faulty implementation of stripTrailingZeros in the library
-		if (decimal.compareTo(BigDecimal.ZERO) == 0) {
-			decimal = BigDecimal.ZERO;
-		}
-
-		return decimal.toPlainString();
-	}
+        return decimal.toPlainString()
+    }
 }
