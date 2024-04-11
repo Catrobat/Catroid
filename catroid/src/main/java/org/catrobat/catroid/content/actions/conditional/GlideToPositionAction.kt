@@ -20,28 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions.conditional
 
-import org.catrobat.catroid.content.actions.conditional.GlideToPositionAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.content.actions.GlideToActionBase
+import org.catrobat.catroid.formulaeditor.Formula
 
-public class GlideToPhysicsAction extends GlideToPositionAction {
+open class GlideToPositionAction : GlideToActionBase() {
 
-	private PhysicsLook physicsLook;
+    private var targetX: Formula? = null
+    private var targetY: Formula? = null
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
-	}
+    fun setPosition(x: Formula?, y: Formula?) {
+        targetX = x
+        targetY = y
+    }
 
-	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
-	}
-
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
-	}
+    override fun setEndPosition() {
+        endX = targetX
+        endY = targetY
+    }
 }

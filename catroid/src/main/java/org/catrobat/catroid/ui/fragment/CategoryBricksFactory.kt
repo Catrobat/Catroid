@@ -85,6 +85,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
+import org.catrobat.catroid.content.bricks.GlideToActionBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
@@ -390,6 +391,7 @@ open class CategoryBricksFactory {
         motionBrickList.add(PointToBrick(null))
         motionBrickList.add(SetRotationStyleBrick())
         motionBrickList.add(GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION, BrickValues.GLIDE_SECONDS))
+        motionBrickList.add(GlideToActionBrick(null, BrickValues.GLIDE_SECONDS))
         if (!isBackgroundSprite) {
             motionBrickList.add(GoNStepsBackBrick(BrickValues.GO_BACK))
             motionBrickList.add(ComeToFrontBrick())

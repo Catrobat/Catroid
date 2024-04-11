@@ -859,6 +859,9 @@
     <string name="brick_go_to">برو به</string>
     <string name="brick_go_to_touch_position">موقعیت لمسی</string>
     <string name="brick_go_to_random_position">موقعیت تصادفی</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">موقعیت لمسی</string>
+    <string name="brick_glide_to_random_position">موقعیت تصادفی</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">نوع حرکت خود را روی</string>

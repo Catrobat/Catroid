@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.GlideToActionBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick
@@ -64,7 +65,7 @@ import kotlin.reflect.KClass
 object LoopUtil {
     private val loopDelayBricks: List<KClass<out BrickBaseType>> = listOf(
         PlaceAtBrick::class, SetXBrick::class, SetYBrick::class, ChangeXByNBrick::class,
-        ChangeYByNBrick::class, GoToBrick::class, IfOnEdgeBounceBrick::class,
+        ChangeYByNBrick::class, GoToBrick::class, GlideToActionBrick::class, IfOnEdgeBounceBrick::class,
         MoveNStepsBrick::class, TurnLeftBrick::class, TurnRightBrick::class,
         PointInDirectionBrick::class, PointToBrick::class, SetLookBrick::class,
         SetLookByIndexBrick::class, NextLookBrick::class, PreviousLookBrick::class,

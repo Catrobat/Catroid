@@ -20,28 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.actions.conditional.GlideToPositionAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+package org.catrobat.catroid.content.actions
 
-public class GlideToPhysicsAction extends GlideToPositionAction {
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.utils.TouchUtil
 
-	private PhysicsLook physicsLook;
+class GlideToTouchPositionAction : GlideToActionBase() {
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
-	}
-
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
-	}
+    override fun setEndPosition() {
+        val touchIndex = TouchUtil.getLastTouchIndex()
+        endX = Formula(TouchUtil.getX(touchIndex))
+        endY = Formula(TouchUtil.getY(touchIndex))
+    }
 }

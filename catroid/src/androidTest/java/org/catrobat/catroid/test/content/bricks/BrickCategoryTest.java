@@ -83,6 +83,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -270,6 +271,7 @@ public class BrickCategoryTest {
 						PointToBrick.class,
 						SetRotationStyleBrick.class,
 						GlideToBrick.class,
+						GlideToActionBrick.class,
 						GoNStepsBackBrick.class,
 						ComeToFrontBrick.class,
 						SetCameraFocusPointBrick.class,
