@@ -93,11 +93,11 @@ public class DefaultExampleProject extends DefaultProjectCreator {
 		return project;
 	}
 
-		int needleDrawableId;
-		int backgroundDrawableId;
-		int screenshotDrawableId;
+	int needleDrawableId;
+	int backgroundDrawableId;
+	int screenshotDrawableId;
 
-		if (landscapeMode) {
+	if (landscapeMode) {
 		backgroundDrawableId = R.drawable.default_project_background_landscape;
 		needleDrawableId = R.drawable.default_project_needle;
 		screenshotDrawableId = R.drawable.default_project_screenshot_landscape;
