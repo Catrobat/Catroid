@@ -22,35 +22,33 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
+import android.util.Log
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.InterpretationException
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-
-public class ChangeTransparencyByNAction extends TemporalAction {
-
-	private Scope scope;
-	private Formula changeTransparency;
-
-	@Override
-	protected void update(float delta) {
-		try {
-			Float newChangeTransparency = changeTransparency == null ? Float.valueOf(0f) : changeTransparency
-					.interpretFloat(scope);
-			scope.getSprite().look.changeTransparencyInUserInterfaceDimensionUnit(newChangeTransparency);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+class ChangeTransparencyByNAction : TemporalAction(){
+private lateinit var scope:Scope
+private lateinit var changeTransparency:Formula
+		override fun update(delta:Float){
+		try{
+		val newChangeTransparency=changeTransparency.interpretFloat(scope)
+		scope.sprite.look.changeTransparencyInUserInterfaceDimensionUnit(newChangeTransparency)
+		}catch(interpretationException:InterpretationException){
+		Log.d(
+		javaClass.simpleName,
+		"Formula interpretation for this specific Brick failed.",
+		interpretationException
+		)
 		}
-	}
+		}
 
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
+		fun setScope(scope:Scope){
+		this.scope=scope
+		}
 
-	public void setTransparency(Formula value) {
-		this.changeTransparency = value;
-	}
-}
+		fun setTransparency(value:Formula?){
+		changeTransparency=value?:Formula(0f)
+		}
+		}
