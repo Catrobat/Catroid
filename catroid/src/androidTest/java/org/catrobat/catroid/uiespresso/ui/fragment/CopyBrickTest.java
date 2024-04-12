@@ -63,6 +63,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -129,7 +130,74 @@ public class CopyBrickTest {
 					.check(matches(not(isChecked())));
 		}
 	}
+	@Test
+	public void testSelectWholeScriptByClickingOnTheBrick(){
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.copy)).perform(click());
 
+		int brickIndex = 0;
+		onBrickAtPosition(brickIndex).performClick();
+
+		getCheckbox(brickIndex).check(matches(isChecked()));
+
+		for (brickIndex++; brickIndex <= firstScriptEndIndex; brickIndex++) {
+			getCheckbox(brickIndex)
+					.check(matches(not(isEnabled())))
+					.check(matches(isChecked()));
+		}
+		for (; brickIndex <= secondScriptEndIndex; brickIndex++) {
+			getCheckbox(brickIndex)
+					.check(matches(not(isEnabled())))
+					.check(matches(not(isChecked())));
+		}
+	}
+	@Test
+	public void testIfCheckboxSetAfterClickingOnBrick(){
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.copy)).perform(click());
+
+		int brickIndex = 0;
+		onBrickAtPosition(brickIndex).performClick();
+		getCheckbox(brickIndex).check(matches(isChecked()));
+		onBrickAtPosition(brickIndex).performClick();
+		getCheckbox(brickIndex).check(matches(isNotChecked()));
+
+		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
+			if(brickIndex == 3){
+				onBrickAtPosition(brickIndex).performClick();
+				getCheckbox(brickIndex).check(matches(isChecked()));
+				onBrickAtPosition(brickIndex - 2).performClick();
+				getCheckbox(brickIndex).check(matches(isNotChecked()));
+				continue;
+			}
+			onBrickAtPosition(brickIndex).performClick();
+			getCheckbox(brickIndex).check(matches(isChecked()));
+			onBrickAtPosition(brickIndex).performClick();
+			getCheckbox(brickIndex).check(matches(isNotChecked()));
+		}
+	}
+	@Test
+	public void testIfDisabledBricksNotClickable(){
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.copy)).perform(click());
+
+		int brickIndex = 0;
+		onBrickAtPosition(brickIndex).performClick();
+
+		getCheckbox(brickIndex).check(matches(isChecked()));
+
+		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
+			getCheckbox(brickIndex).check(matches(not(isEnabled()))).
+					check(matches(isChecked()));
+		}
+
+		brickIndex = 0;
+		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
+			onBrickAtPosition(brickIndex).performClick();
+			getCheckbox(brickIndex).check(matches(not(isEnabled()))).
+					check(matches(isChecked()));
+		}
+	}
 	@Test
 	public void testSelectSingleBrick() {
 		openContextualActionModeOverflowMenu();

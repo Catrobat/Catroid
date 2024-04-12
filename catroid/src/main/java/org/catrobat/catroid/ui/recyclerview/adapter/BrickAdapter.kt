@@ -146,8 +146,16 @@ class BrickAdapter(private val sprite: Sprite) :
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
         item.checkBox.setOnClickListener { onCheckBoxClick(position) }
+        if (viewStateManager.isEnabled(position)) {
+            itemView.setOnClickListener { onCheckBoxClick(position) }
+        } else {
+            itemView.setOnClickListener(null)
+        }
         when (checkBoxMode) {
-            NONE -> handleCheckBoxModeNone(item)
+            NONE -> {
+                itemView.setOnClickListener { onItemClickListener?.onBrickClick(item, position) }
+                handleCheckBoxModeNone(item)
+            }
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
