@@ -594,7 +594,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid note brick found.")
         }
-        val noteBrick = NoteBrick(ctx.NODE_BRICK_TEXT().text.trim())
+        val noteBrick = NoteBrick(ctx.NODE_BRICK_TEXT().text)
         noteBrick.isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR() != null
         noteBrick.parent = if (parentBrickStack.isEmpty()) {
             null

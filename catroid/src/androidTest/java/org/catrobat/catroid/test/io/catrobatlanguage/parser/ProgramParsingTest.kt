@@ -30,7 +30,6 @@ import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSeriali
 import org.junit.Assert
 import org.junit.Test
 
-@Suppress("LargeClass")
 class ProgramParsingTest {
     @Test
     fun krishnaParserTest() {
