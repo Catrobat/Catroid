@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.merge.ImportSceneHelper;
 import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
@@ -86,6 +87,8 @@ public final class ProjectManager {
 	private Sprite currentSprite;
 	private HashMap<String, Boolean> downloadedProjects;
 	private final String downloadedProjectsName = "downloaded_projects";
+
+	private ImportSceneHelper currentImportSceneHelper = null;
 
 	private Context applicationContext;
 
@@ -646,6 +649,14 @@ public final class ProjectManager {
 	public void setCurrentlyEditedScene(Scene scene) {
 		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
+	}
+
+	public void setCurrentImportSceneHelper(ImportSceneHelper importSceneHelper) {
+		currentImportSceneHelper = importSceneHelper;
+	}
+
+	public ImportSceneHelper getCurrentImportSceneHelper() {
+		return currentImportSceneHelper;
 	}
 
 	public void addNewDownloadedProject(String projectName) {

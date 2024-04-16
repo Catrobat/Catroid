@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -615,6 +615,8 @@
     <string formatted="false" name="only_select_catrobat_files">Only select project files</string>
     <string formatted="false" name="error_no_files_found">No project files found.</string>
     <string formatted="false" name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string formatted="false" name="import_scene_from_project_launcher">Import Scene from Local
+        Project</string>
 
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">Description</string>
@@ -701,6 +703,12 @@
 
     <!-- NewSpriteDialog -->
     <string formatted="false" name="new_sprite_dialog_title">New actor or object</string>
+    <!--  -->
+
+    <!-- NewSceneDialog -->
+    <string formatted="false" name="add_scene_blank">Blank Scene</string>
+    <string formatted="false" name="add_scene_backpack">Backpack</string>
+    <string formatted="false" name="add_scene_local_projects">Local projects</string>
     <!--  -->
 
     <!-- NewLookDialog -->
