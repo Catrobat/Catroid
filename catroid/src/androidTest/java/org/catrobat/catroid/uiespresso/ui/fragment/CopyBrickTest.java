@@ -131,7 +131,7 @@ public class CopyBrickTest {
 		}
 	}
 	@Test
-	public void testSelectWholeScriptByClickingOnTheBrick(){
+	public void testSelectWholeScriptByClickingOnTheBrick() {
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
@@ -152,7 +152,7 @@ public class CopyBrickTest {
 		}
 	}
 	@Test
-	public void testIfCheckboxSetAfterClickingOnBrick(){
+	public void testIfCheckboxSetAfterClickingOnBrick() {
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
@@ -162,8 +162,8 @@ public class CopyBrickTest {
 		onBrickAtPosition(brickIndex).performClick();
 		getCheckbox(brickIndex).check(matches(isNotChecked()));
 
-		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
-			if(brickIndex == 3){
+		for (++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++) {
+			if (brickIndex == 3) {
 				onBrickAtPosition(brickIndex).performClick();
 				getCheckbox(brickIndex).check(matches(isChecked()));
 				onBrickAtPosition(brickIndex - 2).performClick();
@@ -177,7 +177,7 @@ public class CopyBrickTest {
 		}
 	}
 	@Test
-	public void testIfDisabledBricksNotClickable(){
+	public void testIfDisabledBricksNotClickable() {
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
@@ -186,16 +186,16 @@ public class CopyBrickTest {
 
 		getCheckbox(brickIndex).check(matches(isChecked()));
 
-		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
-			getCheckbox(brickIndex).check(matches(not(isEnabled()))).
-					check(matches(isChecked()));
+		for (++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++) {
+			getCheckbox(brickIndex).check(matches(not(isEnabled())))
+					.check(matches(isChecked()));
 		}
 
 		brickIndex = 0;
-		for(++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++){
+		for (++brickIndex; brickIndex <= firstScriptEndIndex; brickIndex++) {
 			onBrickAtPosition(brickIndex).performClick();
-			getCheckbox(brickIndex).check(matches(not(isEnabled()))).
-					check(matches(isChecked()));
+			getCheckbox(brickIndex).check(matches(not(isEnabled())))
+					.check(matches(isChecked()));
 		}
 	}
 	@Test

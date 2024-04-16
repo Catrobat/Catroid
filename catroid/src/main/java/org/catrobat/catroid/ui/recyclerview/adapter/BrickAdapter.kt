@@ -137,8 +137,9 @@ class BrickAdapter(private val sprite: Sprite) :
         } else {
             background.clearColorFilter()
         }
-
-        checkBoxClickListener(item, itemView, position)
+        if(checkBoxMode != NONE) {
+            checkBoxClickListener(item, itemView, position)
+        }
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
         return itemView
@@ -153,7 +154,7 @@ class BrickAdapter(private val sprite: Sprite) :
         }
         when (checkBoxMode) {
             NONE -> {
-                itemView.setOnClickListener { onItemClickListener?.onBrickClick(item, position) }
+                itemView.setOnClickListener {onItemClickListener?.onBrickClick(item, position)}
                 handleCheckBoxModeNone(item)
             }
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
