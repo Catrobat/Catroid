@@ -154,7 +154,6 @@ class BrickAdapter(private val sprite: Sprite) :
         }
         when (checkBoxMode) {
             NONE -> {
-                itemView.setOnClickListener {onItemClickListener?.onBrickClick(item, position)}
                 handleCheckBoxModeNone(item)
             }
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
