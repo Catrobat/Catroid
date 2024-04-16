@@ -68,7 +68,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
@@ -90,8 +89,6 @@ public class LookDataTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-	@Rule
-	public GrantPermissionRule writeExternalStoragePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 	private LookData lookData;
 	private File imageFolder;
 
@@ -99,9 +96,9 @@ public class LookDataTest {
 		String filePath = imageFile.getAbsolutePath();
 		Cursor cursor = context.getContentResolver().query(
 				MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				new String[]{MediaStore.Images.Media._ID},
+				new String[] {MediaStore.Images.Media._ID},
 				MediaStore.Images.Media.DATA + "=? ",
-				new String[]{filePath}, null);
+				new String[] {filePath}, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
 			cursor.close();

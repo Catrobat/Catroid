@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -141,6 +142,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -339,6 +341,8 @@ public class BrickSingleFormulaFieldTest {
 		assertNotNull(brickFormulaTextView);
 
 		brick.onClick(brickFormulaTextView);
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	private void enterSomeValueAndSave() {
@@ -349,6 +353,8 @@ public class BrickSingleFormulaFieldTest {
 
 		((FormulaEditorFragment) formulaEditorFragment)
 				.endFormulaEditor();
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	private void assertCurrentFragmentEquals(Class fragmentClazz) {
