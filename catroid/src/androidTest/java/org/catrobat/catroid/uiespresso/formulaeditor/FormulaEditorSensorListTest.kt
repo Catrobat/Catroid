@@ -23,14 +23,17 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor
 
+import android.Manifest
 import android.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat
@@ -74,6 +77,7 @@ class FormulaEditorSensorListTest(
     private val itemIndex: Int = index.toInt()
     private var sensorName: String = name + param
     private var isHeader = sensorHeader.isNotBlank()
+    private var isGpsSensor = false
 
     private var sensorNumber: String? = null
 
@@ -85,6 +89,12 @@ class FormulaEditorSensorListTest(
         if (sensorName.contains("^(NXT|EV3)\\s?.*".toRegex())) {
             sensorName = name
             sensorNumber = param
+        }
+        if (sensorName.contains(str(R.string.formula_editor_sensor_longitude)) ||
+            sensorName.contains(str(R.string.formula_editor_sensor_latitude)) ||
+            sensorName.contains(str(R.string.formula_editor_sensor_altitude)) ||
+            sensorName.contains(str(R.string.formula_editor_sensor_location_accuracy))) {
+            isGpsSensor = true
         }
     }
 
@@ -132,6 +142,11 @@ class FormulaEditorSensorListTest(
         restoreInitialSettings()
     }
 
+    @JvmField
+    @Rule
+    var permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
     @Test
     fun testSensorListElements() {
         onBrickAtPosition(1).onChildView(withId(R.id.brick_change_size_by_edit_text))
@@ -162,6 +177,13 @@ class FormulaEditorSensorListTest(
             )
 
         onCategoryList().performSelect(sensorName)
+
+        if (isGpsSensor) {
+            onView(withId(R.id.formula_editor_keyboard_compute))
+                .perform(click())
+            pressBack()
+        }
+
         sensorNumber?.let { sensor ->
             val portNumber = when (sensor.trim()[sensor.length - 1]) {
                 '1' -> str(R.string.lego_port_1)
