@@ -137,9 +137,9 @@ class BrickAdapter(private val sprite: Sprite) :
         } else {
             background.clearColorFilter()
         }
-        if (checkBoxMode != NONE) {
+        if (checkBoxMode != NONE)
             checkBoxClickListener(item, itemView, position)
-        } else {
+        else {
             if (item is FormulaBrick) {
                 item.setClickListeners()
             } else if (item is ListSelectorBrick) {
@@ -159,10 +159,7 @@ class BrickAdapter(private val sprite: Sprite) :
             itemView.setOnClickListener(null)
         }
         when (checkBoxMode) {
-            NONE -> {
-                handleCheckBoxModeNone(item)
-            }
-
+            NONE -> handleCheckBoxModeNone(item)
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
