@@ -140,6 +140,13 @@ class BrickAdapter(private val sprite: Sprite) :
         if(checkBoxMode != NONE) {
             checkBoxClickListener(item, itemView, position)
         }
+        else {
+            if (item is FormulaBrick) {
+                item.setClickListeners()
+            } else if (item is ListSelectorBrick) {
+                item.setClickListeners()
+            }
+        }
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
         return itemView
