@@ -33,12 +33,13 @@ import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
@@ -100,7 +101,9 @@ class ImportSceneHelper(
             currentProject.sceneList
         )
         sceneToAdd?.name = newSceneToAddName
-        currentProject.addScene(sceneToAdd)
+
+        val sceneController = SceneController()
+        currentProject.addScene(sceneController.copy(sceneToAdd, currentProject))
     }
 
     fun getSceneCount(): Int? {
