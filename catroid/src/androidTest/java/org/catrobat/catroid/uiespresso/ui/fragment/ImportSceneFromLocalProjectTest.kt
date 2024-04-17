@@ -100,7 +100,7 @@ class ImportSceneFromLocalProjectTest {
             .perform(click())
 
         onView(withText(R.string.default_scene_name)).check(matches(isDisplayed()))
-        onView(withText(secondSceneName)).check(matches(isDisplayed()))
+        onView(withText(secondSceneName)).check(matches(isDisplayed())).perform(click())
 
         onView(withText(R.string.default_scene_name)).check(matches(isDisplayed()))
         onView(withText(secondSceneName)).check(matches(isDisplayed()))

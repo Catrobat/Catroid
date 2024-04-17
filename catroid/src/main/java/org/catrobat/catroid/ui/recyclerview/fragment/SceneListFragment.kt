@@ -50,7 +50,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
-class SceneListFragment() :
+class SceneListFragment:
     RecyclerViewFragment<Scene?>(),
     ProjectLoadListener {
 

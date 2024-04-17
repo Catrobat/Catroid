@@ -91,8 +91,10 @@ class ImportSceneHelper(
 
         addGlobalsToProject(newProject!!.userLists, currentProject.userLists)
         addGlobalsToProject(newProject!!.userVariables, currentProject.userVariables)
-        addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
-                            currentProject.broadcastMessageContainer.broadcastMessages)
+        addGlobalsToProject(
+            newProject!!.broadcastMessageContainer.broadcastMessages,
+            currentProject.broadcastMessageContainer.broadcastMessages
+        )
 
         currentProject.broadcastMessageContainer?.update()
 
@@ -106,9 +108,7 @@ class ImportSceneHelper(
         currentProject.addScene(sceneController.copy(sceneToAdd, currentProject))
     }
 
-    fun getSceneCount(): Int? {
-        return newProject?.sceneList?.size
-    }
+    fun getSceneCount(): Int? = newProject?.sceneList?.size
 
     fun getProject(resolvedName: String): Project? {
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, resolvedName)
