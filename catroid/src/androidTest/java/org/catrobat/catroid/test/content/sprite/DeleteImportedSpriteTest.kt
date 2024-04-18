@@ -40,13 +40,14 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf
 import org.junit.After
@@ -79,14 +80,26 @@ class DeleteImportedSpriteTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(IntentMatchers.hasExtra(
-            ProjectListActivity.IMPORT_LOCAL_INTENT,
-            baseActivityTestRule.activity.getString(R.string.import_sprite_from_project_launcher)
-        ))
+        expectedIntent = AllOf.allOf(
+            IntentMatchers.hasExtra(
+                CoreMatchers.equalTo(ImportLocalObjectActivity.TAG),
+                CoreMatchers.equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
+            )
+        )
 
         val resultData = Intent()
-        resultData.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT,
-                            localProject.directory.absoluteFile.absolutePath)
+        resultData.putExtra(
+            ImportLocalObjectActivity.REQUEST_PROJECT,
+            localProject.directory.absoluteFile
+        )
+        resultData.putExtra(ImportLocalObjectActivity.REQUEST_SCENE, localProject.defaultScene.name)
+        resultData.putExtra(
+            ImportLocalObjectActivity.REQUEST_SPRITE,
+            arrayListOf(
+                localProject.defaultScene.backgroundSprite.name,
+                localProject.defaultScene.spriteList[1].name
+            )
+        )
 
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         Intents.intending(expectedIntent).respondWith(result)
@@ -105,7 +118,6 @@ class DeleteImportedSpriteTest {
     fun testDeleteOriginalAndImportedSprites() {
         importSprite()
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.confirm)).perform(ViewActions.click())
         SpriteController().delete(localProject.defaultScene.getSprite("Animal"))
         project.defaultScene.spriteList[1].lookList.forEach {
             assertTrue(it.file.exists())
@@ -119,8 +131,8 @@ class DeleteImportedSpriteTest {
     @Test
     fun testOriginalLooksAndSoundsExistAfterDeleteImport() {
         importSprite()
-        Espresso.onView(ViewMatchers.withId(R.id.confirm)).perform(ViewActions.click())
         SpriteController().delete(project.defaultScene.getSprite("Animal"))
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         localProject.defaultScene.spriteList[1].lookList.forEach {
             assertTrue(it.file.exists())
         }
@@ -132,14 +144,15 @@ class DeleteImportedSpriteTest {
     private fun importSprite() {
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
             .perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        Espresso.onView(withText(R.string.new_sprite_dialog_title))
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(withText(R.string.import_sprite_dialog_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(withText(R.string.ok))
             .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
     private fun createProjects(projectName: String) {

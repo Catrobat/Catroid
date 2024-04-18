@@ -526,7 +526,6 @@
     <string formatted="false" name="no_projects_selected">درآمد کے لیے کوئی پروجیکٹ منتخب نہیں کیا گیا۔</string>
     <string formatted="false" name="only_select_catrobat_files">صرف پروجیکٹ فائلوں کو منتخب کریں۔</string>
     <string formatted="false" name="error_no_files_found">کوئی پروجیکٹ فائل نہیں ملی.</string>
-    <string formatted="false" name="import_sprite_from_project_launcher">مقامی پروجیکٹ سے آبجیکٹ درآمد کریں۔</string>
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">تفصیل (وضاحت)</string>
     <string formatted="false" name="project_options_notes_and_credits">Credits</string>

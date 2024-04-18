@@ -397,6 +397,7 @@
     <string formatted="false" name="am_rename">Rename</string>
     <string formatted="false" name="am_convert">Convert</string>
     <string formatted="false" name="am_merge">Merge</string>
+    <string formatted="false" name="am_import">Import</string>
     <string formatted="false" name="dialog_confirm_delete">You can\'t undo this!</string>
 
     <string formatted="false" name="list_headline_sprites">Actors and objects</string>
@@ -414,7 +415,6 @@
     <string formatted="false" name="from_local">Add from local</string>
     <string formatted="false" name="sort_projects">Sort</string>
     <string formatted="false" name="unsort_projects">Unsort</string>
-    <string formatted="false" name= "import_from_project">Select project to import from</string>
 
     <!-- New Dialog Titles -->
     <string formatted="false" name="new_scene_dialog">New scene</string>
@@ -468,6 +468,10 @@
         list names are in conflict because they are used for
         all actors and objects and with the same name also for only one of the actors or objects: </string>
     <string formatted="false" name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
+    <string name="import_unresolvable_project_name_reason">The reason is that the project
+        from which you are trying to import has an unresolvable name.</string>
+    <string name="import_unresolvable_project_name_try_again">Please rename the project and try
+        again. Try to remove . in project names.</string>
     <!-- Details -->
     <string formatted="false" name="project_details">Last access: %s, size: %s</string>
     <string formatted="false" name="last_access_today">today, %s</string>
@@ -493,6 +497,12 @@
 
     <!-- New Scene Menu -->
     <string formatted="false" name="new_scene">New scene</string>
+
+    <!-- Import Local Sprite -->
+    <string name= "import_from_project">Select project to import from</string>
+    <string name="import_from_scene">Select scene to import from</string>
+    <string name="import_objects">Select objects to import</string>
+    <string name="import_sprite_dialog_title">Import Actors and Objects</string>
 
     <!-- Action Toasts -->
     <!-- Backpack -->
@@ -614,7 +624,6 @@
     <string formatted="false" name="no_projects_selected">No projects selected for import</string>
     <string formatted="false" name="only_select_catrobat_files">Only select project files</string>
     <string formatted="false" name="error_no_files_found">No project files found.</string>
-    <string formatted="false" name="import_sprite_from_project_launcher">Import Object from Local Project</string>
 
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">Description</string>
