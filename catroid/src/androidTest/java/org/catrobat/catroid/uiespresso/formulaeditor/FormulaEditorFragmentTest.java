@@ -176,17 +176,13 @@ public class FormulaEditorFragmentTest {
 	public void testScrolling() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
-		//onFormulaEditor().performEnterString("test".repeat(150));
-		onFormulaEditor().performEnterString(
-				"testtttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
-						+
-						"ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
-						+
-						"ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
+		onView(withId(R.id.formula_editor_brick_space)).check(matches(isDisplayed()));
 
-		onFormulaEditor().perform(swipeUp());
+		onFormulaEditor().performEnterString("test".repeat(150));
+		onView(withId(R.id.formula_editor_brick_and_formula)).perform(swipeUp());
 		onView(withId(R.id.formula_editor_brick_space)).check(matches(not(isDisplayed())));
-		onFormulaEditor().perform(swipeDown());
+
+		onView(withId(R.id.formula_editor_brick_and_formula)).perform(swipeDown());
 		onView(withId(R.id.formula_editor_brick_space)).check(matches(isDisplayed()));
 	}
 
