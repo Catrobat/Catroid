@@ -169,8 +169,6 @@ public class LookDataTest {
 		File outFile = new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "penguin.webp");
 		FileOutputStream outputStream = new FileOutputStream(outFile);
 		BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
-		onView(withId(R.id.button_add))
-				.perform(click());
 
 		Intent chooserResultData = new Intent();
 		Uri uri = getImageContentUri(baseActivityTestRule.getActivity(), outFile);
