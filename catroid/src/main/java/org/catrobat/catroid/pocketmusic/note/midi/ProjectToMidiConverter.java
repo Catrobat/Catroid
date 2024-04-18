@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.pocketmusic.note.midi;
-
-import android.content.Context;
 
 import com.pdrogfer.mididroid.MidiFile;
 import com.pdrogfer.mididroid.MidiTrack;
@@ -59,6 +57,10 @@ public class ProjectToMidiConverter {
 		nextChannel = 0;
 	}
 
+	public static String removeMidiExtensionFromString(String input) {
+		return input.split(MIDI_FILE_EXTENSION)[0];
+	}
+
 	public void writeProjectAsMidi(Project project) throws IOException, MidiException {
 		MidiFile midiFile = convertProject(project);
 
@@ -82,10 +84,6 @@ public class ProjectToMidiConverter {
 		return new File(midiFolder + File.separator + name + MIDI_FILE_EXTENSION);
 	}
 
-	public static String removeMidiExtensionFromString(String input) {
-		return input.split(MIDI_FILE_EXTENSION)[0];
-	}
-
 	public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 		midi.writeToFile(file);
@@ -100,7 +98,7 @@ public class ProjectToMidiConverter {
 			}
 		}
 
-		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
+		ArrayList<MidiTrack> tracks = new ArrayList<>();
 
 		MidiTrack tempoTrack = createTempoTrackWithMetaInfo(project.getBeat(), project.getBeatsPerMinute());
 		tracks.add(tempoTrack);
