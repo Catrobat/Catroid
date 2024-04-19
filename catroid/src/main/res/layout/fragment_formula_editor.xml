@@ -22,13 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
     
-    <LinearLayout
+    <ScrollView
         android:id="@+id/formula_editor_brick_and_formula"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,15 +36,10 @@
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="UselessParent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/formula_editor_brick_space"
@@ -78,8 +72,7 @@
                         android:textSize="?attr/x_large" />
                 </FrameLayout>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/formula_editor_keyboardview"
