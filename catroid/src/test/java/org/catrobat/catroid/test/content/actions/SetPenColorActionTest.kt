@@ -87,7 +87,7 @@ class SetPenColorActionTest {
 
         action.update(1f)
 
-        // Verify that no interactions occur with penConfiguration
+
         verify(penConfiguration).setPenColor(PenColor(0f, 0.5f, 1f, 1f))
     }
 
@@ -96,8 +96,6 @@ class SetPenColorActionTest {
         `when`(redFormula.interpretInteger(scope)).thenThrow(InterpretationException::class.java)
 
         action.update(1f)
-
-        // Verify that no interactions occur with penConfiguration when an InterpretationException occurs
         verify(penConfiguration).setPenColor(PenColor(0f, 0f, 0f, 1f))
     }
 }
