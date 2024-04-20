@@ -263,6 +263,11 @@ public class BrickControllerTest {
 		}
 
 		@Override
+		public String getSecondaryBrickCommand() {
+			return null;
+		}
+
+		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		}
 	}

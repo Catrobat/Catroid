@@ -25,5 +25,4 @@ package org.catrobat.catroid.io.catlang.parser.project.context
 
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 
-class CatrobatLanguageUserDefinedBrickResult(val userDefinedBrickText: String, val userDefinedBrick: UserDefinedBrick) : CatrobatLanguageBaseResult() {
-}
+class CatrobatLanguageUserDefinedBrickResult(val userDefinedBrickText: String, val userDefinedBrick: UserDefinedBrick) : CatrobatLanguageBaseResult()

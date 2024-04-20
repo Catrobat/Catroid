@@ -424,6 +424,17 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		return arguments;
 	}
 
+	private String joinString(String delimiter, List<String> strings) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i = 0; i < strings.size(); i++) {
+			stringBuilder.append(strings.get(i));
+			if (i < strings.size() - 1) {
+				stringBuilder.append(delimiter);
+			}
+		}
+		return stringBuilder.toString();
+	}
+
 	private String getArgumentListFormatted() {
 		List<Map.Entry<String, String>> arguments = getArgumentList();
 		if (!arguments.isEmpty()) {
@@ -431,7 +442,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 			for (Map.Entry<String, String> argument : arguments) {
 				argumentStrings.add(argument.getKey() + ": (" + argument.getValue() + ")");
 			}
-			return " (" + String.join(", ", argumentStrings) + ')';
+			return " (" + joinString(", ", argumentStrings) + ')';
 		}
 		return "";
 	}
@@ -439,114 +450,6 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
 		throw new IllegalArgumentException("The argument " + name + " does not exist in brick " + getCatrobatLanguageCommand());
 	}
-
-	//	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
-//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-//
-//		StringBuilder catrobatLanguage = new StringBuilder();
-//		catrobatLanguage.append(indention);
-//
-//		if (commentedOut) {
-//			catrobatLanguage.append("// ");
-//		}
-//
-//		catrobatLanguage.append(getCatrobatLanguageCommand());
-//
-//		if (withBody) {
-//			catrobatLanguage.append(" {\n");
-//		} else {
-//			catrobatLanguage.append(";\n");
-//		}
-//
-//		return catrobatLanguage;
-//	}
-//
-//	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
-//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-//		catrobatLanguage.append(indention);
-//		if (commentedOut) {
-//			catrobatLanguage.append("// ");
-//		}
-//		catrobatLanguage.append("}");
-//		catrobatLanguage.append("\n");
-//	}
-//
-//	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-//		throw new NotImplementedException("This method needs to be overwritten in the brick classes");
-//	}
-//
-//	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
-//			String parameterName, int spinnerIndex) {
-//		return getCatrobatLanguageParameterCall(indentionLevel, parameterName,
-//				getCatrobatLanguageSpinnerValue(spinnerIndex));
-//	}
-//
-//	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
-//			String value) {
-//		StringBuilder catrobatLanguage = new StringBuilder(100);
-//		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
-//
-//		if (commentedOut) {
-//			catrobatLanguage.append("// ");
-//		}
-//
-//		catrobatLanguage.append(getCatrobatLanguageCommand())
-//				.append(" (")
-//				.append(parameterName)
-//				.append(": (")
-//				.append(value)
-//				.append("));\n");
-//
-//		return catrobatLanguage.toString();
-//	}
-//
-//	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
-//			boolean withBody) {
-//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-//
-//		StringBuilder catrobatLanguage = new StringBuilder(100);
-//		catrobatLanguage.append(indention);
-//
-//		if (commentedOut) {
-//			catrobatLanguage.append("// ");
-//		}
-//
-//		catrobatLanguage.append(getCatrobatLanguageCommand());
-//
-//		if (this instanceof CatrobatLanguageAttributes) {
-//			CatrobatLanguageAttributes brick = (CatrobatLanguageAttributes) this;
-//			catrobatLanguage.append(" (");
-//			brick.appendCatrobatLanguageArguments(catrobatLanguage);
-//			catrobatLanguage.append(')');
-//		}
-//
-//		if (withBody) {
-//			catrobatLanguage.append(" {");
-//		} else {
-//			catrobatLanguage.append(';');
-//		}
-//
-//		catrobatLanguage.append('\n');
-//		return catrobatLanguage;
-//	}
-//
-//	// TODO: remove from brick base type!
-//	// or keep for only comment bricks?
-//	@NonNull
-//	@Override
-//	public String serializeToCatrobatLanguage(int indentionLevel) {
-//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-//		StringBuilder catrobatLanguage = new StringBuilder(100);
-//		catrobatLanguage.append(indention);
-//
-//		if (commentedOut) {
-//			catrobatLanguage.append("// ");
-//		}
-//
-//		catrobatLanguage.append(getCatrobatLanguageCommand())
-//				.append(";\n");
-//		return catrobatLanguage.toString();
-//	}
 
 	@Override
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
@@ -565,15 +468,15 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 				}
 			}
 			if (!missingArguments.isEmpty()) {
-				String requiredArgumentsString = String.join(", ", requiredArguments);
-				String missingArgumentsString = String.join(", ", missingArguments);
+				String requiredArgumentsString = joinString(", ", (List<String>) requiredArguments);
+				String missingArgumentsString = joinString(", ", missingArguments);
 				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
 			}
 		} else {
 			if (requiredArguments.size() == 0) {
 				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
 			}
-			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + String.join(", ", requiredArguments));
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + joinString(", ", (List<String>) requiredArguments));
 		}
 	}
 }

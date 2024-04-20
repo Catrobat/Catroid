@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.error
 
-class CatrobatLanguageDoubleDefinitionException(val variableName: String) : CatrobatLanguageParsingException("Variable $variableName is already defined!") {
-}
+class CatrobatLanguageDoubleDefinitionException(val variableName: String) : CatrobatLanguageParsingException("Variable $variableName is already defined!")

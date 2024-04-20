@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -212,8 +212,16 @@ import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 object BrickFactory {
+    private const val DIRECTION = "direction"
+    private const val DIRECTION_RIGHT = "right"
+    private const val DIRECTION_LEFT = "left"
+    private const val DIRECTION_FORWARD = "forward"
+    private const val DIRECTION_BACKWARD = "backward"
+    private const val VARIABLE = "variable"
+    private const val LOOK_BY_NUMBER = "look by number"
+
     @Suppress("ComplexMethod", "LongMethod")
-    fun createBrickFromCatrobatLanguage(brickName: String, arguments: Map<String, String>, hasSecondaryList: Boolean) : BrickBaseType {
+    fun createBrickFromCatrobatLanguage(brickName: String, arguments: Map<String, String>, hasSecondaryList: Boolean): BrickBaseType {
         return when (brickName.trim()) {
             "#" -> NoteBrick()
             "Add" -> AddItemToUserListBrick()
@@ -355,14 +363,14 @@ object BrickFactory {
         }
     }
 
-    private fun createHideBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createHideBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.isNullOrEmpty()) {
             return HideBrick()
         }
         return HideTextBrick()
     }
 
-    private fun createIfBrick(arguments: Map<String, String>, hasSecondaryList: Boolean) : BrickBaseType {
+    private fun createIfBrick(arguments: Map<String, String>, hasSecondaryList: Boolean): BrickBaseType {
         if (arguments.containsKey("activated phiro")) {
             return PhiroIfLogicBeginBrick()
         }
@@ -378,7 +386,7 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("If requires either parameter 'activated phiro', 'Raspberry Pi pin' or 'condition'")
     }
 
-    private fun createJumpJumpingSumoBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createJumpJumpingSumoBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("type")) {
             if (arguments["type"] == "high") {
                 return JumpingSumoJumpHighBrick()
@@ -390,55 +398,55 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Jump Jumping Sumo may only have the parameter 'type' with the values 'high' or 'long'")
     }
 
-    private fun createMoveARDrone2Brick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "up") {
+    private fun createMoveARDrone2Brick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == "up") {
                 return DroneMoveUpBrick()
             }
-            if (arguments["direction"] == "down") {
+            if (arguments[DIRECTION] == "down") {
                 return DroneMoveDownBrick()
             }
-            if (arguments["direction"] == "left") {
+            if (arguments[DIRECTION] == DIRECTION_LEFT) {
                 return DroneMoveLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == DIRECTION_RIGHT) {
                 return DroneMoveRightBrick()
             }
-            if (arguments["direction"] == "forward") {
+            if (arguments[DIRECTION] == DIRECTION_FORWARD) {
                 return DroneMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == DIRECTION_BACKWARD) {
                 return DroneMoveBackwardBrick()
             }
         }
         throw CatrobatLanguageParsingException("Move AR.Drone 2.0 requires parameter 'direction' with the either one of the following values: 'up', 'down', 'left', 'right', 'forward' or 'backward'")
     }
 
-    private fun createMoveJumpingSumoBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "forward") {
+    private fun createMoveJumpingSumoBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == DIRECTION_FORWARD) {
                 return JumpingSumoMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == DIRECTION_BACKWARD) {
                 return JumpingSumoMoveBackwardBrick()
             }
         }
         throw CatrobatLanguageParsingException("Move Jumping Sumo requires parameter 'direction' with the either one of the following values: 'forward' or 'backward'")
     }
 
-    private fun createMovePhiroBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "forward") {
+    private fun createMovePhiroBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == DIRECTION_FORWARD) {
                 return PhiroMotorMoveForwardBrick()
             }
-            if (arguments["direction"] == "backward") {
+            if (arguments[DIRECTION] == DIRECTION_BACKWARD) {
                 return PhiroMotorMoveBackwardBrick()
             }
         }
         throw CatrobatLanguageParsingException("Move Phiro requires parameter 'direction' with the either one of the following values: 'forward' or 'backward'")
     }
 
-    private fun createPlayBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createPlayBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("note")) {
             return PlayNoteForBeatsBrick()
         }
@@ -448,8 +456,8 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Play requires either parameter 'note' or 'drum'")
     }
 
-    private fun createReadFromDeviceBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("variable")) {
+    private fun createReadFromDeviceBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(VARIABLE)) {
             return ReadVariableFromDeviceBrick()
         }
         if (arguments.containsKey("list")) {
@@ -458,7 +466,8 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Read from device requires either parameter 'variable' or 'list'")
     }
 
-    private fun createSetBrick(arguments: Map<String, String>) : BrickBaseType {
+    @Suppress("ComplexMethod")
+    private fun createSetBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("bounce factor percentage")) {
             return SetBounceBrick()
         }
@@ -471,7 +480,7 @@ object BrickFactory {
         if (arguments.containsKey("transparency percentage")) {
             return SetTransparencyBrick()
         }
-        if (arguments.containsKey("variable")) {
+        if (arguments.containsKey(VARIABLE)) {
             return SetVariableBrick()
         }
         if (arguments.containsKey("x") && arguments.size == 1) {
@@ -525,7 +534,7 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Set requires either parameter 'bounce factor percentage', 'particle color', 'brightness percentage', 'transparency percentage', 'variable', 'x', 'pen size', 'text', 'Raspberry Pi PWM~ pin', 'mass in kilograms', 'color', 'y', 'volume percentage', 'tempo', 'instrument', 'thread color', 'Raspberry Pi pin', 'motion type', 'rotation style', 'size percentage' or 'friction percentage'")
     }
 
-    private fun createSetArduinoBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createSetArduinoBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("digital pin")) {
             return ArduinoSendDigitalValueBrick()
         }
@@ -535,8 +544,8 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Set Arduino requires either parameter 'digital pin' or 'PWM~ pin'")
     }
 
-    private fun createSetBackgroundAndWaitBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("look by number")) {
+    private fun createSetBackgroundAndWaitBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(LOOK_BY_NUMBER)) {
             return SetBackgroundByIndexAndWaitBrick()
         }
         if (arguments.containsKey("look")) {
@@ -545,8 +554,8 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Set background and wait requires either parameter 'look by number' or 'look'")
     }
 
-    private fun createSetBackgroundToBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("look by number")) {
+    private fun createSetBackgroundToBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(LOOK_BY_NUMBER)) {
             return SetBackgroundByIndexBrick()
         }
         if (arguments.containsKey("look")) {
@@ -555,11 +564,11 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Set background to requires either parameter 'look by number' or 'look'")
     }
 
-    private fun createShowBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createShowBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.isNullOrEmpty()) {
             return ShowBrick()
         }
-        if (arguments.containsKey("variable") && arguments.containsKey("x") && arguments.containsKey("y")) {
+        if (arguments.containsKey(VARIABLE) && arguments.containsKey("x") && arguments.containsKey("y")) {
             if (arguments.containsKey("size") && arguments.containsKey("color") && arguments.containsKey("alignment")) {
                 return ShowTextColorSizeAlignmentBrick()
             }
@@ -568,19 +577,19 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Show requires either no parameters or 'variable', 'x' and 'y' or 'variable', 'x', 'y', 'size', 'color' and 'alignment'")
     }
 
-    private fun createSpinBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+    private fun createSpinBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == DIRECTION_LEFT) {
                 return TurnLeftSpeedBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == DIRECTION_RIGHT) {
                 return TurnRightSpeedBrick()
             }
         }
         throw CatrobatLanguageParsingException("Spin requires parameter 'direction' with the either one of the following values: 'left' or 'right'")
     }
 
-    private fun createStartBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createStartBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("scene")) {
             return SceneStartBrick()
         }
@@ -590,7 +599,7 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Start requires either parameter 'scene' or 'sound'")
     }
 
-    private fun createStopBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createStopBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("sound")) {
             return StopSoundBrick()
         }
@@ -600,17 +609,17 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Stop requires either parameter 'sound' or 'script'")
     }
 
-    private fun createSwitchToBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createSwitchToBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("look")) {
             return SetLookBrick()
         }
-        if (arguments.containsKey("look by number")) {
+        if (arguments.containsKey(LOOK_BY_NUMBER)) {
             return SetLookByIndexBrick()
         }
         throw CatrobatLanguageParsingException("Switch to requires either parameter 'look' or 'look by number'")
     }
 
-    private fun createTurnBrick(arguments: Map<String, String>) : BrickBaseType {
+    private fun createTurnBrick(arguments: Map<String, String>): BrickBaseType {
         if (arguments.containsKey("camera")) {
             return CameraBrick()
         }
@@ -620,11 +629,11 @@ object BrickFactory {
         if (arguments.containsKey("particle effect additivity")) {
             return ParticleEffectAdditivityBrick()
         }
-        if (arguments.containsKey("direction") && arguments.containsKey("degrees")) {
-            if (arguments["direction"] == "left") {
+        if (arguments.containsKey(DIRECTION) && arguments.containsKey("degrees")) {
+            if (arguments[DIRECTION] == DIRECTION_LEFT) {
                 return TurnLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == DIRECTION_RIGHT) {
                 return TurnRightBrick()
             }
             throw CatrobatLanguageParsingException("Turn requires parameter 'direction' with the either one of the following values: 'left' or 'right'")
@@ -632,32 +641,32 @@ object BrickFactory {
         throw CatrobatLanguageParsingException("Turn requires either parameter 'camera', 'flashlight', 'particle effect additivity' or 'direction' and 'degrees'")
     }
 
-    private fun createTurnARDrone2Brick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+    private fun createTurnARDrone2Brick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == DIRECTION_LEFT) {
                 return DroneTurnLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == DIRECTION_RIGHT) {
                 return DroneTurnRightBrick()
             }
         }
         throw CatrobatLanguageParsingException("Turn AR.Drone 2.0 requires parameter 'direction' with the either one of the following values: 'left' or 'right'")
     }
 
-    private fun createTurnJumpingSumoBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("direction")) {
-            if (arguments["direction"] == "left") {
+    private fun createTurnJumpingSumoBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(DIRECTION)) {
+            if (arguments[DIRECTION] == DIRECTION_LEFT) {
                 return JumpingSumoRotateLeftBrick()
             }
-            if (arguments["direction"] == "right") {
+            if (arguments[DIRECTION] == DIRECTION_RIGHT) {
                 return JumpingSumoRotateRightBrick()
             }
         }
         throw CatrobatLanguageParsingException("Turn Jumping Sumo requires parameter 'direction' with the either one of the following values: 'left' or 'right'")
     }
 
-    private fun createWriteOnDeviceBrick(arguments: Map<String, String>) : BrickBaseType {
-        if (arguments.containsKey("variable")) {
+    private fun createWriteOnDeviceBrick(arguments: Map<String, String>): BrickBaseType {
+        if (arguments.containsKey(VARIABLE)) {
             return WriteVariableOnDeviceBrick()
         }
         if (arguments.containsKey("list")) {

@@ -27,7 +27,6 @@ import android.content.Context
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 interface CatrobatLanguageSerializable {

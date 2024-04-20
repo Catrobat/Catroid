@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-class CatrobatLanguageListResult(val listName: String) : CatrobatLanguageStringResult(listName) {
-}
+class CatrobatLanguageListResult(val listName: String) : CatrobatLanguageStringResult(listName)

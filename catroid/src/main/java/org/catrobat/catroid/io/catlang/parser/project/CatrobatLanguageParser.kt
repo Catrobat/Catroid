@@ -36,17 +36,17 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguagePr
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 
 class CatrobatLanguageParser {
-    @Suppress("FunctionOverloading")
-    private class LexerErrorListener : BaseErrorListener() {
+    private class ErrorListener : BaseErrorListener() {
         val errors: ArrayList<String> = arrayListOf()
-        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
-            errors.add("Error parsing catrobat program in line $line at position $charPositionInLine: $msg")
-        }
-    }
-    @Suppress("FunctionOverloading")
-    private class ParserErrorListener : BaseErrorListener() {
-        val errors: ArrayList<String> = arrayListOf()
-        override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
+
+        override fun syntaxError(
+            recognizer: Recognizer<*, *>?,
+            offendingSymbol: Any?,
+            line: Int,
+            charPositionInLine: Int,
+            msg: String?,
+            e: RecognitionException?
+        ) {
             errors.add("Error parsing catrobat program in line $line at position $charPositionInLine: $msg")
         }
     }
@@ -55,12 +55,12 @@ class CatrobatLanguageParser {
         fun parseProgramFromString(program: String, context: Context): Project? {
             try {
                 val lexer = CatrobatLanguageLexer(CharStreams.fromString(program))
-                val lexerErrorListener = LexerErrorListener()
+                val lexerErrorListener = ErrorListener()
                 lexer.removeErrorListeners()
                 lexer.addErrorListener(lexerErrorListener)
 
                 val parser = CatrobatLanguageParser(CommonTokenStream(lexer))
-                val parserErrorListener = ParserErrorListener()
+                val parserErrorListener = ErrorListener()
                 parser.removeErrorListeners()
                 parser.addErrorListener(parserErrorListener)
 

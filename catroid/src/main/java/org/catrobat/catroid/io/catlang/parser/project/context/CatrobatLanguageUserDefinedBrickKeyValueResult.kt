@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io.catlang.parser.project.context
 
-open class CatrobatLanguageUserDefinedBrickKeyValueResult(val key: String, val userDefinedBrick: CatrobatLanguageUserDefinedBrickResult) : CatrobatLanguageBaseResult() {
-}
+open class CatrobatLanguageUserDefinedBrickKeyValueResult(val key: String, val userDefinedBrick: CatrobatLanguageUserDefinedBrickResult) : CatrobatLanguageBaseResult()

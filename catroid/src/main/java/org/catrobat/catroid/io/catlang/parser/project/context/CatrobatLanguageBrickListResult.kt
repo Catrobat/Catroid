@@ -25,5 +25,4 @@ package org.catrobat.catroid.io.catlang.parser.project.context
 
 import org.catrobat.catroid.content.bricks.Brick
 
-class CatrobatLanguageBrickListResult(val bricks: List<Brick>) : CatrobatLanguageBaseResult() {
-}
+class CatrobatLanguageBrickListResult(val bricks: List<Brick>) : CatrobatLanguageBaseResult()

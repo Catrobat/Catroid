@@ -55,7 +55,7 @@ internal class CatrobatFormulaParserVisitor(
     private val userLists: List<String>,
     private val userDefinedBrickParameters: List<String>,
     private val scene: Scene
-    ) : FormulaParserVisitor<FormulaBaseVisitResult> {
+) : FormulaParserVisitor<FormulaBaseVisitResult> {
 
     companion object {
         val FUNCTION_TO_NUMBER_OF_PARAMETER_MAP = mapOf(
@@ -113,6 +113,7 @@ internal class CatrobatFormulaParserVisitor(
             Functions.TEXT_BLOCK_LANGUAGE_FROM_CAMERA to 1
         )
     }
+
     private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
     private val collisionFormulaString = CatrobatLanguageUtils.getEnglishContextForFormulas(context).getString(R.string.formula_editor_function_collision)
 

@@ -63,6 +63,7 @@ import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageUs
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageVariableResult
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
 import java.io.File
+import java.util.Locale
 import java.util.Stack
 
 @Suppress("LargeClass")
@@ -81,20 +82,25 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
     private val brickParameters = arrayListOf<BrickParameterInfo>()
     companion object {
         private const val ERROR_MESSAGE = "No valid variable or list declaration found."
+        private const val STAGE_CONTENT_COUNT = 4
     }
 
+    @Suppress("NotImplementedDeclaration")
     override fun visit(tree: ParseTree?): CatrobatLanguageBaseResult {
         throw NotImplementedError()
     }
 
+    @Suppress("NotImplementedDeclaration")
     override fun visitChildren(node: RuleNode?): CatrobatLanguageBaseResult {
         throw NotImplementedError()
     }
 
+    @Suppress("NotImplementedDeclaration")
     override fun visitTerminal(node: TerminalNode?): CatrobatLanguageBaseResult {
         throw NotImplementedError()
     }
 
+    @Suppress("NotImplementedDeclaration")
     override fun visitErrorNode(node: ErrorNode?): CatrobatLanguageBaseResult {
         throw NotImplementedError()
     }
@@ -232,7 +238,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             visitStageContent(it)
         }
 
-        if (loadedStage.size != 4) {
+        if (loadedStage.size != STAGE_CONTENT_COUNT) {
             throw CatrobatLanguageParsingException("The following 4 stage content must occur exactly once each: Landscape mode, Display mode, Height, Width")
         }
 
@@ -588,7 +594,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid note brick found.")
         }
-        val noteBrick = NoteBrick(ctx.NODE_BRICK_TEXT().text.trim())
+        val noteBrick = NoteBrick(ctx.NODE_BRICK_TEXT().text)
         noteBrick.isCommentedOut = ctx.BRICK_LIST_DISABLED_INDICATOR() != null
         noteBrick.parent = if (parentBrickStack.isEmpty()) {
             null
@@ -610,7 +616,6 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         } else {
             mapOf()
         }
-
 
         val elseBranchPresent = ctx.elseBranch() != null || ctx.elseBranchDisabled() != null
         val brick = BrickFactory.createBrickFromCatrobatLanguage(ctx.BRICK_NAME().text, arguments, elseBranchPresent)
@@ -895,6 +900,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         return CatrobatLanguageBaseResult()
     }
 
+    @Suppress("ComplexMethod")
     override fun visitUserDefinedScript(ctx: CatrobatLanguageParser.UserDefinedScriptContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid user defined script found.")
@@ -928,14 +934,11 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         val userDefinedReceiverBrick = UserDefinedReceiverBrick(userDefinedBrick)
 
         val screenRefreshState = argumentResult.arguments[UserDefinedReceiverBrick.SCREEN_REFRESH_CATLANG_PARAMETER_NAME]!!
-        (userDefinedReceiverBrick.script as UserDefinedScript).screenRefresh = if (screenRefreshState.toLowerCase() == "on") {
-            true
-        } else if (screenRefreshState.toLowerCase() == "off") {
-            false
-        } else {
-            throw CatrobatLanguageParsingException("Screen refresh state must be either on or off.")
+        (userDefinedReceiverBrick.script as UserDefinedScript).screenRefresh = when (screenRefreshState.toLowerCase(Locale.ROOT)) {
+            "on" -> true
+            "off" -> false
+            else -> throw CatrobatLanguageParsingException("Screen refresh state must be either on or off.")
         }
-
 
         parentBrickStack.push(userDefinedReceiverBrick)
 
