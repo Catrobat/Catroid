@@ -93,7 +93,7 @@ open class CatroidApplication : Application() {
         }
 
     companion object {
-        const val TARGET_API_VERSION = 29
+        const val TARGET_API_VERSION = 31
         private val TAG = CatroidApplication::class.java.simpleName
         private var appContext: Context? = null
         @JvmField
