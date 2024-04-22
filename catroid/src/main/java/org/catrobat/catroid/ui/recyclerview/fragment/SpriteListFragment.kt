@@ -134,6 +134,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             touchHelper.attachToRecyclerView(recyclerView)
         } else {
             adapter.showSettings = false
+            adapter.showRipples = false
         }
     }
 
