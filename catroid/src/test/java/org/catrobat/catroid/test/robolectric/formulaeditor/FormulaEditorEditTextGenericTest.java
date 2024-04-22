@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,8 @@ import androidx.annotation.IdRes;
 import static org.junit.Assert.assertEquals;
 import static org.robolectric.Shadows.shadowOf;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class FormulaEditorEditTextGenericTest {
@@ -94,6 +96,8 @@ public class FormulaEditorEditTextGenericTest {
 
 	private SpriteActivity activity;
 
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	public FormulaEditorEditTextGenericTest(String name, @IdRes int formulaKeyboardItemId, String expectedFormulaText) {
 		this.name = name;
 		this.expectedFormulaText = expectedFormulaText;
@@ -116,7 +120,7 @@ public class FormulaEditorEditTextGenericTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
@@ -136,8 +140,8 @@ public class FormulaEditorEditTextGenericTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }
