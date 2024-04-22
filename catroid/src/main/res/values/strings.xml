@@ -464,6 +464,10 @@
     <string formatted="false" name="html_label">Insert HTML text</string>
     <string formatted="false" name="Image_format_not_supported">Image format not supported</string>
     <string formatted="false" name="import_conflicting_variables">The actor or object could not be added.</string>
+    <string formatted="false" name="Image_size_too_large_title">Image size exceeds available
+        memory</string>
+    <string formatted="false" name="Image_size_too_large_text">The image has a resolution that is
+        too large for the available memory. Please reduce the image size.</string>
     <string formatted="false" name="import_conflicting_variables_reason">The reason is that the following variable or
         list names are in conflict because they are used for
         all actors and objects and with the same name also for only one of the actors or objects: </string>
