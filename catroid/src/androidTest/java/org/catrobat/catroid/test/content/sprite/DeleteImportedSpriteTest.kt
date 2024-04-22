@@ -47,7 +47,7 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf
 import org.junit.After
@@ -82,8 +82,8 @@ class DeleteImportedSpriteTest {
 
         expectedIntent = AllOf.allOf(
             IntentMatchers.hasExtra(
-                CoreMatchers.equalTo(ImportLocalObjectActivity.TAG),
-                CoreMatchers.equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
+                equalTo(ImportLocalObjectActivity.TAG),
+                equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
             )
         )
 

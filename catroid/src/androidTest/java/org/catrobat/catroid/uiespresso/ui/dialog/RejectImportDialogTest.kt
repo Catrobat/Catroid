@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog
 
-import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
@@ -35,7 +34,6 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -49,6 +47,7 @@ import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.test.merge.MergeTestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf
 import org.junit.After
@@ -81,12 +80,6 @@ class RejectImportDialogTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
-    @get:Rule
-    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
-
     @Before
     fun setUp() {
         createProjects(projectName)
@@ -94,8 +87,8 @@ class RejectImportDialogTest {
         Intents.init()
         expectedIntent = AllOf.allOf(
             IntentMatchers.hasExtra(
-                ImportLocalObjectActivity.TAG,
-                ImportLocalObjectActivity.REQUEST_PROJECT
+                equalTo(ImportLocalObjectActivity.TAG),
+                equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
             )
         )
 

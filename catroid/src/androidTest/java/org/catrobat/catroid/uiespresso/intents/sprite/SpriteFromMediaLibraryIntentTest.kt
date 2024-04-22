@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.intents.sprite
 
-import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
@@ -38,7 +37,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -83,12 +81,6 @@ class SpriteFromMediaLibraryIntentTest {
         ProjectActivity::class.java,
         ProjectActivity.EXTRA_FRAGMENT_POSITION,
         ProjectActivity.FRAGMENT_SPRITES
-    )
-
-    @get:Rule
-    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
     @Before
