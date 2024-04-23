@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.pocketmusic;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
@@ -174,7 +177,8 @@ public class PocketMusicActivity extends BaseActivity {
 				}
 
 				if (!receivedSoundInfoThroughIntent) {
-					ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+					setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK,
+							Uri.fromFile(soundInfo.getFile())));
 				}
 			}
 		}
