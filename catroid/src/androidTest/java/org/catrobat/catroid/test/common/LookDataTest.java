@@ -68,7 +68,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
@@ -78,6 +77,7 @@ import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNC
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
+import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -91,8 +91,7 @@ public class LookDataTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
-	@Rule
-	public GrantPermissionRule writeExternalStoragePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
 	private LookData lookData;
 	private File imageFolder;
 
