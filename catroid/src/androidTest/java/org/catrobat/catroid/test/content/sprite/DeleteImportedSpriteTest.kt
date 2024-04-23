@@ -29,10 +29,11 @@ import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
@@ -142,13 +143,13 @@ class DeleteImportedSpriteTest {
     }
 
     private fun importSprite() {
-        onView(ViewMatchers.withId(R.id.button_add)).perform(click())
-        onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local)).perform(click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
     }
 

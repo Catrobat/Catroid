@@ -28,11 +28,13 @@ import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -128,8 +130,8 @@ class SpriteFromLocalIntentTest {
     @Test
     fun testMergeWithSpriteFromLocalIntent() {
         UiTestUtils.openSpriteActionMenu(projectManager.currentSprite.name, false)
-        onView(ViewMatchers.withText(baseActivityTestRule.activity.getString(R.string.from_local)))
-            .perform(ViewActions.click())
+        onView(withText(baseActivityTestRule.activity.getString(R.string.from_local)))
+            .perform(click())
         Intents.intended(expectedIntent)
         MergeTestUtils().assertSuccessfulSpriteMerge(
             project, localProject, projectManager.currentSprite, testSprite,
@@ -142,12 +144,11 @@ class SpriteFromLocalIntentTest {
     @Category(AppUi::class, Smoke::class)
     @Test
     fun testImportSpriteFromLocalIntentTest() {
-        onView(ViewMatchers.withId(R.id.button_add)).perform(ViewActions.click())
-        onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
+        onView(withText(R.string.import_sprite_dialog_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, localProject, localProject.defaultScene.spriteList[1],
             project.defaultScene.spriteList.last(), false

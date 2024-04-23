@@ -25,10 +25,10 @@ package org.catrobat.catroid.test.merge
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
@@ -124,12 +124,10 @@ class MergeLocalSpriteTest {
                 withText(R.string.from_local),
                 isDisplayed()
             )
-        )
-            .perform(ViewActions.click())
+        ).perform(click())
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        onView(allOf(withText(sameGlobalsProject.name), isDisplayed()))
-            .perform(ViewActions.click())
+        onView(allOf(withText(sameGlobalsProject.name), isDisplayed())).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
         val appCompatCheckBox3 = onView(
@@ -138,7 +136,7 @@ class MergeLocalSpriteTest {
                 childAtPosition(
                     allOf(
                         withId(R.id.view_holder_with_checkbox),
-                        ViewMatchers.withContentDescription("checkbox"),
+                        withContentDescription("checkbox"),
                         childAtPosition(
                             withId(R.id.recycler_view),
                             1
@@ -149,8 +147,8 @@ class MergeLocalSpriteTest {
                 isDisplayed()
             )
         )
-        appCompatCheckBox3.perform(ViewActions.click())
-        onView(withId(R.id.confirm)).perform(ViewActions.click())
+        appCompatCheckBox3.perform(click())
+        onView(withId(R.id.confirm)).perform(click())
 
         val sprite1: Sprite = sameGlobalsProject.defaultScene!!.spriteList!![1]
         val mergedSprite: Sprite = projectManager.value.currentProject.defaultScene.spriteList[1]
@@ -163,9 +161,9 @@ class MergeLocalSpriteTest {
     fun abortImportWithConflicts() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        onView(allOf(withText(R.string.from_local), isDisplayed())).perform(ViewActions.click())
+        onView(allOf(withText(R.string.from_local), isDisplayed())).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        onView(withText(conflictProject.name)).perform(ViewActions.click())
+        onView(withText(conflictProject.name)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
         val currentSprite: Sprite =
@@ -194,10 +192,10 @@ class MergeLocalSpriteTest {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(allOf(withText(R.string.from_local), isDisplayed()))
-        onView(withText(R.string.from_local)).perform(ViewActions.click())
+        onView(withText(R.string.from_local)).perform(click())
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        onView(withText(project.name)).perform(ViewActions.click())
+        onView(withText(project.name)).perform(click())
 
         val appCompatCheckBox3 = onView(
             allOf(
@@ -205,7 +203,7 @@ class MergeLocalSpriteTest {
                 childAtPosition(
                     allOf(
                         withId(R.id.view_holder_with_checkbox),
-                        ViewMatchers.withContentDescription("checkbox"),
+                        withContentDescription("checkbox"),
                         childAtPosition(
                             withId(R.id.recycler_view),
                             1
@@ -216,8 +214,8 @@ class MergeLocalSpriteTest {
                 isDisplayed()
             )
         )
-        appCompatCheckBox3.perform(ViewActions.click())
-        onView(withId(R.id.confirm)).perform(ViewActions.click())
+        appCompatCheckBox3.perform(click())
+        onView(withId(R.id.confirm)).perform(click())
     }
 
     @Throws(ProjectException::class)

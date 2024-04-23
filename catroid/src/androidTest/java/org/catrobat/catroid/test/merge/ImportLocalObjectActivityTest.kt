@@ -27,7 +27,8 @@ import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
@@ -79,15 +80,15 @@ class ImportLocalObjectActivityTest {
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
 
         onView(withText(R.string.import_objects))
-            .check(ViewAssertions.matches(isDisplayed()))
+            .check(matches(isDisplayed()))
         onView(withId(R.id.bottom_bar))
-            .check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)))
+            .check(matches(withEffectiveVisibility(Visibility.GONE)))
 
         onView(withText(baseActivityTestRule.activity.getString(R.string.fragment_sprite_text_description)))
-            .check(ViewAssertions.doesNotExist())
+            .check(doesNotExist())
 
         testProject.defaultScene.spriteList.forEach { sprite ->
-            onView(withText(sprite.name)).check(ViewAssertions.matches(isDisplayed()))
+            onView(withText(sprite.name)).check(matches(isDisplayed()))
         }
     }
 
@@ -96,12 +97,12 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.projectToImportFrom = testProject
         setUpActivity(ImportLocalObjectActivity.REQUEST_SCENE)
 
-        onView(withText(R.string.import_from_scene)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_from_scene)).check(matches(isDisplayed()))
         onView(withId(R.id.bottom_bar))
-            .check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)))
+            .check(matches(withEffectiveVisibility(Visibility.GONE)))
 
         testProject.sceneList.forEach { scene ->
-            onView(withText(scene.name)).check(ViewAssertions.matches(isDisplayed()))
+            onView(withText(scene.name)).check(matches(isDisplayed()))
         }
     }
 
@@ -109,21 +110,20 @@ class ImportLocalObjectActivityTest {
     fun testImportFromProjectView() {
         setUpActivity(ImportLocalObjectActivity.REQUEST_PROJECT)
 
-        onView(withText(R.string.import_from_project)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withId(R.id.bottom_bar))
-            .check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)))
+        onView(withText(R.string.import_from_project)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottom_bar)).check(matches(withEffectiveVisibility(Visibility.GONE)))
 
-        onView(withText(testProject.name)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withText(baseProject.name)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(testProject.name)).check(matches(isDisplayed()))
+        onView(withText(baseProject.name)).check(matches(isDisplayed()))
     }
 
     @Test
     fun navigateBackFromScene() {
         ImportLocalObjectActivity.projectToImportFrom = baseProject
         setUpActivity(ImportLocalObjectActivity.REQUEST_SCENE)
-        onView(withText(R.string.import_from_scene)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_from_scene)).check(matches(isDisplayed()))
         pressBack()
-        onView(withText(R.string.import_from_project)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_from_project)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -131,9 +131,9 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.projectToImportFrom = baseProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
-        onView(withText(R.string.import_objects)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_objects)).check(matches(isDisplayed()))
         pressBack()
-        onView(withText(R.string.import_from_project)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_from_project)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -141,9 +141,9 @@ class ImportLocalObjectActivityTest {
         ImportLocalObjectActivity.projectToImportFrom = testProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
         setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
-        onView(withText(R.string.import_objects)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_objects)).check(matches(isDisplayed()))
         pressBack()
-        onView(withText(R.string.import_from_scene)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_from_scene)).check(matches(isDisplayed()))
     }
 
     private fun setUpActivity(request: String) {

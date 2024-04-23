@@ -29,8 +29,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -123,11 +124,10 @@ class ImportSpritesDialogTest {
 
     @Test
     fun testShowMultipleSpritesToImport() {
-        onView(withId(R.id.button_add)).perform(ViewActions.click())
-        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        onView(withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_sprite_dialog_title)).check(matches(isDisplayed()))
         val linearLayout = onView(
             Matchers.allOf(
                 withId(R.id.new_sprites_container),
@@ -135,36 +135,35 @@ class ImportSpritesDialogTest {
                 isDisplayed()
             )
         )
-        linearLayout.check(ViewAssertions.matches(isDisplayed()))
-        linearLayout.check(ViewAssertions.matches(hasChildCount(importSpriteCount)))
+        linearLayout.check(matches(isDisplayed()))
+        linearLayout.check(matches(hasChildCount(importSpriteCount)))
     }
 
     @Test
     fun testRenameMultipleSpritesBeforeImport() {
-        onView(withId(R.id.button_add)).perform(ViewActions.click())
-        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        onView(withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.import_sprite_dialog_title)).check(matches(isDisplayed()))
         onView(
             Matchers.allOf(
                 withSubstring(context.getString(R.string.background)),
                 isDisplayed()
             )
-        ).perform(ViewActions.replaceText("test"))
+        ).perform(replaceText("test"))
 
-        onView(withText(R.string.ok)).perform(ViewActions.click())
-        onView(withText("test")).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
+        onView(withText("test")).check(matches(isDisplayed()))
     }
 
     @Test
     fun testDismissDialogImportSprites() {
         val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        onView(withId(R.id.button_add)).perform(ViewActions.click())
-        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        onView(withText(R.string.import_sprite_dialog_title)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withText(R.string.cancel)).perform(ViewActions.click())
+        onView(withText(R.string.import_sprite_dialog_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.cancel)).perform(click())
         MergeTestUtils().assertRejectedImport(project, originalProjectData)
     }
 
