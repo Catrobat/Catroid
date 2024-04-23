@@ -175,7 +175,7 @@ public class FormulaEditorFragmentTest {
 				.perform(click());
 		onView(withId(R.id.formula_editor_brick_space)).check(matches(isDisplayed()));
 
-		onFormulaEditor().performEnterString("test".repeat(150));
+		onFormulaEditor().performEnterFormula("111".repeat(150));
 		onView(withId(R.id.formula_editor_brick_and_formula)).perform(swipeUp());
 		onView(withId(R.id.formula_editor_brick_space)).check(matches(not(isDisplayed())));
 
