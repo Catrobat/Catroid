@@ -27,11 +27,12 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -50,7 +51,7 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -60,7 +61,7 @@ import org.koin.java.KoinJavaComponent
 import java.io.File
 
 class SpriteFromLocalIntentDismissTest {
-    private val testSprite: Sprite = Sprite("test")
+    private val testSprite: Sprite = Sprite("testSprite")
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var expectedIntent: Matcher<Intent>? = null
@@ -84,8 +85,8 @@ class SpriteFromLocalIntentDismissTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
+        expectedIntent = allOf(
+            hasExtra(
                 equalTo(ImportLocalObjectActivity.TAG),
                 equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
             )
@@ -115,11 +116,8 @@ class SpriteFromLocalIntentDismissTest {
     fun testMergeWithSpriteFromLocalIntentDismiss() {
         val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
         UiTestUtils.openSpriteActionMenu(projectManager.currentSprite.name, false)
-        Espresso.onView(
-            ViewMatchers.withText(
-                baseActivityTestRule.activity.getString(R.string.from_local)
-            )
-        ).perform(ViewActions.click())
+        onView(withText(baseActivityTestRule.activity.getString(R.string.from_local))).perform(click())
+
         Intents.intended(expectedIntent)
         MergeTestUtils().assertRejectedSpriteMerge(
             project, originalProjectData, testSprite,
@@ -131,20 +129,14 @@ class SpriteFromLocalIntentDismissTest {
     @Test
     fun testSpriteFromLocalIntentDismiss() {
         val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
         MergeTestUtils().assertRejectedImport(project, originalProjectData)
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(Sprite("test"))
-        projectManager.currentProject = project
-        projectManager.currentlyEditedScene = project.defaultScene
-        projectManager.currentSprite = project.defaultScene.getSprite("test")
+        project = UiTestUtils.createProjectWithOutDefaultScript(projectName)
         XstreamSerializer.getInstance().saveProject(project)
         localProject = DefaultProjectHandler.createAndSaveDefaultProject(
             "local",

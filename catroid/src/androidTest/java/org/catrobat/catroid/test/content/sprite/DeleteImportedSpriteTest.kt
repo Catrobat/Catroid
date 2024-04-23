@@ -27,8 +27,8 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -142,17 +142,14 @@ class DeleteImportedSpriteTest {
     }
 
     private fun importSprite() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.button_add)).perform(click())
+        onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withText(R.string.import_sprite_dialog_title))
+        onView(withText(R.string.import_sprite_dialog_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(withText(R.string.ok))
-            .perform(ViewActions.click())
+        onView(withText(R.string.ok)).perform(click())
     }
 
     private fun createProjects(projectName: String) {

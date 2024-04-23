@@ -27,7 +27,7 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
@@ -52,7 +52,7 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -62,7 +62,7 @@ import org.koin.java.KoinJavaComponent
 import java.io.File
 
 class SpriteFromLocalIntentTest {
-    private val testSprite: Sprite = Sprite("test")
+    private val testSprite: Sprite = Sprite("testSprite")
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var expectedIntent: Matcher<Intent>? = null
@@ -86,7 +86,7 @@ class SpriteFromLocalIntentTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(
+        expectedIntent = allOf(
             IntentMatchers.hasExtra(
                 equalTo(ImportLocalObjectActivity.TAG),
                 equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
@@ -128,17 +128,13 @@ class SpriteFromLocalIntentTest {
     @Test
     fun testMergeWithSpriteFromLocalIntent() {
         UiTestUtils.openSpriteActionMenu(projectManager.currentSprite.name, false)
-        Espresso.onView(
-            ViewMatchers.withText(
-                baseActivityTestRule.activity.getString(R.string.from_local)
-            )
-        ).perform(ViewActions.click())
+        onView(ViewMatchers.withText(baseActivityTestRule.activity.getString(R.string.from_local)))
+            .perform(ViewActions.click())
         Intents.intended(expectedIntent)
         MergeTestUtils().assertSuccessfulSpriteMerge(
             project, localProject, projectManager.currentSprite, testSprite,
             listOf(
-                localProject.defaultScene.backgroundSprite, localProject.defaultScene
-                    .spriteList[1]
+                localProject.defaultScene.backgroundSprite, localProject.defaultScene.spriteList[1]
             )
         )
     }
@@ -146,15 +142,12 @@ class SpriteFromLocalIntentTest {
     @Category(AppUi::class, Smoke::class)
     @Test
     fun testImportSpriteFromLocalIntentTest() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.button_add)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
+        onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
+        onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, localProject, localProject.defaultScene.spriteList[1],
             project.defaultScene.spriteList.last(), false
@@ -162,11 +155,7 @@ class SpriteFromLocalIntentTest {
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(Sprite("test"))
-        projectManager.currentProject = project
-        projectManager.currentlyEditedScene = project.defaultScene
-        projectManager.currentSprite = project.defaultScene.getSprite("test")
+        project = UiTestUtils.createProjectWithOutDefaultScript(projectName)
         projectManager.currentSprite.addUserList(UserList("list"))
         XstreamSerializer.getInstance().saveProject(project)
         localProject = DefaultProjectHandler.createAndSaveDefaultProject(

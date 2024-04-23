@@ -89,8 +89,7 @@ class ImportUtils(val context: Context) {
         }
     }
 
-    @VisibleForTesting(otherwise = MODE_PRIVATE)
-    fun processMediaImport(
+    private fun processMediaImport(
         lookFileName: String,
         sourceProject: Project,
         isObject: Boolean
@@ -124,8 +123,7 @@ class ImportUtils(val context: Context) {
         return importSpriteData
     }
 
-    @VisibleForTesting(otherwise = MODE_PRIVATE)
-    fun processLocalImport(
+    private fun processLocalImport(
         importData: Bundle?,
         lookFileName: String,
         sourceProject: Project,
@@ -160,7 +158,7 @@ class ImportUtils(val context: Context) {
         return importSpritesData
     }
 
-    fun getProject(resolvedName: String, lookFileName: String): Project? {
+    private fun getProject(resolvedName: String, lookFileName: String): Project? {
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
             XstreamSerializer.getInstance().loadProject(projectDir, context)
@@ -169,7 +167,7 @@ class ImportUtils(val context: Context) {
         }
     }
 
-    fun getNewProject(resolvedName: String, lookFileName: String): Project? {
+    private fun getNewProject(resolvedName: String, lookFileName: String): Project? {
         try {
             val cachedProjectDir =
                 File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, resolvedName)
@@ -191,7 +189,7 @@ class ImportUtils(val context: Context) {
         ToastUtil.showError(context, R.string.reject_import)
     }
 
-    fun createFileNames(
+    private fun createFileNames(
         useDefaultSpriteName: Boolean,
         resolvedFileName: String
     ): Pair<String, String> {
@@ -215,8 +213,7 @@ class ImportUtils(val context: Context) {
         )
     }
 
-    @VisibleForTesting(otherwise = MODE_PRIVATE)
-    fun createNewSpritesData(
+    private fun createNewSpritesData(
         spriteNames: ArrayList<String>,
         lookFileName: String,
         sourceProject: Project,

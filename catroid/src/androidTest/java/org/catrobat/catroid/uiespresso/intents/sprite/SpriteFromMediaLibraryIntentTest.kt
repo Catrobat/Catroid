@@ -29,11 +29,12 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -55,7 +56,7 @@ import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matcher
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -65,7 +66,7 @@ import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
 class SpriteFromMediaLibraryIntentTest {
-    private val testSprite: Sprite = Sprite("test")
+    private val testSprite: Sprite = Sprite("testSprite")
     private lateinit var project: Project
     private lateinit var importedProject: Project
     private var expectedIntent: Matcher<Intent>? = null
@@ -89,9 +90,9 @@ class SpriteFromMediaLibraryIntentTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasComponent(WebViewActivity::class.java.name),
-            IntentMatchers.hasExtra(WebViewActivity.INTENT_PARAMETER_URL, LIBRARY_OBJECT_URL)
+        expectedIntent = allOf(
+            hasComponent(WebViewActivity::class.java.name),
+            hasExtra(WebViewActivity.INTENT_PARAMETER_URL, LIBRARY_OBJECT_URL)
         )
 
         if (!tmpPath.exists()) {
@@ -117,8 +118,8 @@ class SpriteFromMediaLibraryIntentTest {
     @Test
     fun testMergeWithSpriteFromMediaLibraryIntent() {
         UiTestUtils.openSpriteActionMenu(projectManager.currentSprite.name, false)
-        Espresso.onView(withText(baseActivityTestRule.activity.getString(R.string.from_library)))
-            .perform(ViewActions.click())
+        onView(withText(baseActivityTestRule.activity.getString(R.string.from_library)))
+            .perform(click())
         Intents.intended(expectedIntent)
         MergeTestUtils().assertSuccessfulSpriteMerge(
             project, importedProject, projectManager.currentSprite, testSprite,
@@ -129,15 +130,12 @@ class SpriteFromMediaLibraryIntentTest {
     @Category(AppUi::class, Smoke::class)
     @Test
     fun testImportSpriteFromMediaLibraryIntent() {
-        Espresso.onView(withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(withId(R.id.dialog_new_object_media_library))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_new_object_media_library)).perform(click())
         Intents.intended(expectedIntent)
-        Espresso.onView(withText(R.string.import_sprite_dialog_title))
+        onView(withText(R.string.import_sprite_dialog_title))
             .check(ViewAssertions.matches(isDisplayed()))
-        Espresso.onView(withText(R.string.ok))
-            .perform(ViewActions.click())
+        onView(withText(R.string.ok)).perform(click())
         MergeTestUtils().assertSuccessfulSpriteImport(
             project, importedProject,
             importedProject.defaultScene.spriteList[1], project.defaultScene.spriteList.last(),
@@ -146,11 +144,7 @@ class SpriteFromMediaLibraryIntentTest {
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(Sprite("test"))
-        projectManager.currentProject = project
-        projectManager.currentlyEditedScene = project.defaultScene
-        projectManager.currentSprite = project.defaultScene.getSprite("test")
+        project = UiTestUtils.createProjectWithOutDefaultScript(projectName)
         XstreamSerializer.getInstance().saveProject(project)
         try {
             Constants.MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()

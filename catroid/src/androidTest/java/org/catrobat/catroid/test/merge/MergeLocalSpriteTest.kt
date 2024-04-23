@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.merge
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -119,7 +119,7 @@ class MergeLocalSpriteTest {
     fun importObjectAndMergeGlobals() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(
+        onView(
             allOf(
                 withText(R.string.from_local),
                 isDisplayed()
@@ -128,16 +128,11 @@ class MergeLocalSpriteTest {
             .perform(ViewActions.click())
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(
-            allOf(
-                withText(sameGlobalsProject.name),
-                isDisplayed()
-            )
-        )
+        onView(allOf(withText(sameGlobalsProject.name), isDisplayed()))
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        val appCompatCheckBox3 = Espresso.onView(
+        val appCompatCheckBox3 = onView(
             allOf(
                 withId(R.id.checkbox),
                 childAtPosition(
@@ -155,7 +150,7 @@ class MergeLocalSpriteTest {
             )
         )
         appCompatCheckBox3.perform(ViewActions.click())
-        Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
+        onView(withId(R.id.confirm)).perform(ViewActions.click())
 
         val sprite1: Sprite = sameGlobalsProject.defaultScene!!.spriteList!![1]
         val mergedSprite: Sprite = projectManager.value.currentProject.defaultScene.spriteList[1]
@@ -168,11 +163,9 @@ class MergeLocalSpriteTest {
     fun abortImportWithConflicts() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(allOf(withText(R.string.from_local), isDisplayed()))
-            .perform(ViewActions.click())
+        onView(allOf(withText(R.string.from_local), isDisplayed())).perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withText(conflictProject.name))
-            .perform(ViewActions.click())
+        onView(withText(conflictProject.name)).perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
         val currentSprite: Sprite =
@@ -200,14 +193,13 @@ class MergeLocalSpriteTest {
     private fun mergeLocalSprite() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(allOf(withText(R.string.from_local), isDisplayed()))
-        Espresso.onView(withText(R.string.from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withText(project.name))
-            .perform(ViewActions.click())
+        onView(allOf(withText(R.string.from_local), isDisplayed()))
+        onView(withText(R.string.from_local)).perform(ViewActions.click())
 
-        val appCompatCheckBox3 = Espresso.onView(
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withText(project.name)).perform(ViewActions.click())
+
+        val appCompatCheckBox3 = onView(
             allOf(
                 withId(R.id.checkbox),
                 childAtPosition(
@@ -225,7 +217,7 @@ class MergeLocalSpriteTest {
             )
         )
         appCompatCheckBox3.perform(ViewActions.click())
-        Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
+        onView(withId(R.id.confirm)).perform(ViewActions.click())
     }
 
     @Throws(ProjectException::class)

@@ -28,13 +28,17 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
-import org.catrobat.catroid.ProjectManager
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -45,16 +49,16 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.test.merge.MergeTestUtils
 import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
 class ImportSpritesDialogTest {
@@ -62,7 +66,6 @@ class ImportSpritesDialogTest {
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var importSpriteCount: Int = 0
-    private var projectManager = inject(ProjectManager::class.java).value
     private var context = ApplicationProvider.getApplicationContext<Context>()
     private var expectedIntent: Matcher<Intent>? = null
     private val tmpPath = File(
@@ -81,8 +84,8 @@ class ImportSpritesDialogTest {
         createProjects(projectName)
         baseActivityTestRule.launchActivity()
         Intents.init()
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
+        expectedIntent = allOf(
+            hasExtra(
                 equalTo(ImportLocalObjectActivity.TAG),
                 equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
             )
@@ -120,65 +123,53 @@ class ImportSpritesDialogTest {
 
     @Test
     fun testShowMultipleSpritesToImport() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(ViewActions.click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        val linearLayout = Espresso.onView(
+        onView(withText(R.string.import_sprite_dialog_title))
+            .check(ViewAssertions.matches(isDisplayed()))
+        val linearLayout = onView(
             Matchers.allOf(
-                ViewMatchers.withId(R.id.new_sprites_container),
-                ViewMatchers.withParent(ViewMatchers.withParent(ViewMatchers.withId(androidx.appcompat.R.id.custom))),
-                ViewMatchers.isDisplayed()
+                withId(R.id.new_sprites_container),
+                withParent(withParent(withId(androidx.appcompat.R.id.custom))),
+                isDisplayed()
             )
         )
-        linearLayout.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        linearLayout.check(ViewAssertions.matches(ViewMatchers.hasChildCount(importSpriteCount)))
+        linearLayout.check(ViewAssertions.matches(isDisplayed()))
+        linearLayout.check(ViewAssertions.matches(hasChildCount(importSpriteCount)))
     }
 
     @Test
     fun testRenameMultipleSpritesBeforeImport() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(ViewActions.click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
+        onView(withText(R.string.import_sprite_dialog_title))
+            .check(ViewAssertions.matches(isDisplayed()))
+        onView(
             Matchers.allOf(
-                ViewMatchers.withSubstring(context.getString(R.string.background)),
-                ViewMatchers.isDisplayed()
+                withSubstring(context.getString(R.string.background)),
+                isDisplayed()
             )
         ).perform(ViewActions.replaceText("test"))
 
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText("test"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.ok)).perform(ViewActions.click())
+        onView(withText("test")).check(ViewAssertions.matches(isDisplayed()))
     }
 
     @Test
     fun testDismissDialogImportSprites() {
         val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(ViewActions.click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.cancel))
-            .perform(ViewActions.click())
+        onView(withText(R.string.import_sprite_dialog_title)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(R.string.cancel)).perform(ViewActions.click())
         MergeTestUtils().assertRejectedImport(project, originalProjectData)
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        projectManager.currentProject = project
-        projectManager.currentlyEditedScene = project.defaultScene
+        project = UiTestUtils.createProjectWithOutDefaultScript(projectName)
         XstreamSerializer.getInstance().saveProject(project)
         localProject = DefaultProjectHandler.createAndSaveDefaultProject(
             "local",

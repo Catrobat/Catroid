@@ -27,14 +27,15 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
-import org.catrobat.catroid.ProjectManager
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -46,15 +47,15 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.test.merge.MergeTestUtils
 import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.java.KoinJavaComponent
 import java.io.File
 
 class RejectImportDialogTest {
@@ -63,7 +64,6 @@ class RejectImportDialogTest {
     private lateinit var projectWithVariableConflicts: Project
     private lateinit var projectWithProjectNameConflicts: Project
     private var importSpriteCount: Int = 0
-    private var projectManager = KoinJavaComponent.inject(ProjectManager::class.java).value
     private var expectedIntent: Matcher<Intent>? = null
     private val tmpPath = File(
         Constants.CACHE_DIRECTORY.absolutePath, "Pocket Code Test Temp"
@@ -85,7 +85,7 @@ class RejectImportDialogTest {
         createProjects(projectName)
         baseActivityTestRule.launchActivity()
         Intents.init()
-        expectedIntent = AllOf.allOf(
+        expectedIntent = allOf(
             IntentMatchers.hasExtra(
                 equalTo(ImportLocalObjectActivity.TAG),
                 equalTo(ImportLocalObjectActivity.REQUEST_PROJECT)
@@ -143,17 +143,12 @@ class RejectImportDialogTest {
     fun testRejectImportDialogShowsVariableConflicts() {
         Intents.intending(expectedIntent).respondWith(result1)
         val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.reject_import))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.conflicting_variables))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
+        onView(withText(R.string.reject_import)).check(matches(isDisplayed()))
+        onView(withId(R.id.conflicting_variables)).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
         MergeTestUtils().assertRejectedImport(project, originalProjectData)
     }
 
@@ -162,29 +157,18 @@ class RejectImportDialogTest {
         Intents.intending(expectedIntent).respondWith(result2)
         val original = MergeTestUtils().getOriginalProjectData(project)
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withId(R.id.dialog_import_sprite_from_local)).perform(click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_unresolvable_project_name_reason))
-            .check(
-                ViewAssertions.matches
-                    (ViewMatchers.isDisplayed())
-            )
-        Espresso.onView(ViewMatchers.withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(
-            ViewAssertions.matches(
-                ViewMatchers.isDisplayed()
-            )
-        ).perform(ViewActions.click())
+        onView(withText(R.string.import_unresolvable_project_name_reason)).check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(matches(isDisplayed()))
+            .perform(click())
 
         MergeTestUtils().assertRejectedImport(project, original)
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        projectManager.currentProject = project
-        projectManager.currentlyEditedScene = project.defaultScene
+        project = UiTestUtils.createProjectWithOutDefaultScript(projectName)
         XstreamSerializer.getInstance().saveProject(project)
         projectWithVariableConflicts = DefaultProjectHandler.createAndSaveDefaultProject(
             "local",

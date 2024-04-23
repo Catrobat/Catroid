@@ -167,8 +167,8 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
 }
 
 class ImportFromLocalLauncher(
-    val activity: AppCompatActivity,
-    val type: String
+    private val activity: AppCompatActivity,
+    private val type: String
 ) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
