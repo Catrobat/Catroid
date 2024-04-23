@@ -55,6 +55,7 @@ import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest.toggleNoteViewAtPositionInTact;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
@@ -63,10 +64,12 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -145,6 +148,32 @@ public class PlaySoundBrickTest {
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename));
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(soundName);
+	}
+
+	@Test
+	public void testCreateNewPocketMusicSong() {
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(soundName);
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(soundName);
+
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
+				.perform(click());
+		onView(withText(R.string.new_option))
+				.perform(click());
+		onView(withText(R.string.add_sound_music))
+				.perform(click());
+		onView(withId(R.id.tact_scroller))
+				.perform(actionOnItemAtPosition(1,
+						toggleNoteViewAtPositionInTact(1)));
+		onView(isRoot()).perform(CustomActions.wait(1000));
+
+		pressBack();
+
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(getResourcesString(R.string.pocket_music_default_project_name));
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}
