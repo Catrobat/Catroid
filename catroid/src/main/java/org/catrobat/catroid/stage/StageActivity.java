@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
@@ -92,38 +91,98 @@ import static org.koin.java.KoinJavaComponent.get;
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
 	public static final String TAG = StageActivity.class.getSimpleName();
-	public static StageListener stageListener;
-
 	public static final int REQUEST_START_STAGE = 101;
-
 	public static final int REGISTER_INTENT = 0;
-	private static final int PERFORM_INTENT = 1;
 	public static final int SHOW_DIALOG = 2;
 	public static final int SHOW_TOAST = 3;
-
+	private static final int PERFORM_INTENT = 1;
+	public static StageListener stageListener;
+	public static Handler messageHandler;
+	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
+	public static Random randomGenerator = new Random();
+	public static WeakReference<StageActivity> activeStageActivity;
+	static int numberOfSpritesCloned;
+	private static NdefMessage nfcTagMessage;
+	public VibrationManager vibrationManager;
+	public StageResourceHolder stageResourceHolder;
+	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
 	NfcAdapter nfcAdapter;
-	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
 	BrickDialogManager brickDialogManager;
-	private boolean resizePossible;
-
-	static int numberOfSpritesCloned;
-
-	public static Handler messageHandler;
 	CameraManager cameraManager;
-	public VibrationManager vibrationManager;
-
-	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
-	public static Random randomGenerator = new Random();
-
 	AndroidApplicationConfiguration configuration = null;
-
-	public StageResourceHolder stageResourceHolder;
-	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
+	private boolean resizePossible;
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
-	public static WeakReference<StageActivity> activeStageActivity;
+
+	public static CameraManager getActiveCameraManager() {
+		if (activeStageActivity != null) {
+			return activeStageActivity.get().cameraManager;
+		}
+		return null;
+	}
+
+	public static VibrationManager getActiveVibrationManager() {
+		if (activeStageActivity != null) {
+			return activeStageActivity.get().vibrationManager;
+		}
+		return null;
+	}
+
+	public static int getAndIncrementNumberOfClonedSprites() {
+		return ++numberOfSpritesCloned;
+	}
+
+	public static void resetNumberOfClonedSprites() {
+		numberOfSpritesCloned = 0;
+	}
+
+	public static NdefMessage getNfcTagMessage() {
+		return nfcTagMessage;
+	}
+
+	public static void setNfcTagMessage(NdefMessage message) {
+		nfcTagMessage = message;
+	}
+
+	public static void handlePlayButton(ProjectManager projectManager, final Activity activity) {
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
+		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
+
+		if (currentScene.getName().equals(defaultScene.getName())) {
+			projectManager.setCurrentlyPlayingScene(defaultScene);
+			projectManager.setStartScene(defaultScene);
+			startStageActivity(activity);
+		} else {
+			new PlaySceneDialog.Builder(activity)
+					.setPositiveButton(R.string.play, (dialog, which) -> startStageActivity(activity))
+					.create()
+					.show();
+		}
+	}
+
+	private static void startStageActivity(Activity activity) {
+		Intent intent = new Intent(activity, StageActivity.class);
+		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+	}
+
+	public static void finishStage() {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			stageActivity.finish();
+		}
+	}
+
+	public static void finishTestWithResult(TestResult testResult) {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			Intent resultIntent = new Intent();
+			resultIntent.putExtra(TEST_RESULT_MESSAGE, testResult.getMessage());
+			stageActivity.setResult(testResult.getResultCode(), resultIntent);
+			stageActivity.finish();
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -273,20 +332,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		RaspberryPiService.getInstance().disconnect();
 	}
 
-	public static CameraManager getActiveCameraManager() {
-		if (activeStageActivity != null) {
-			return activeStageActivity.get().cameraManager;
-		}
-		return null;
-	}
-
-	public static VibrationManager getActiveVibrationManager() {
-		if (activeStageActivity != null) {
-			return activeStageActivity.get().vibrationManager;
-		}
-		return null;
-	}
-
 	public boolean isResizePossible() {
 		return resizePossible;
 	}
@@ -302,7 +347,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
 
 		resizePossible = ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
-						|| ProjectManager.getInstance().getCurrentProject().isCastProject();
+				|| ProjectManager.getInstance().getCurrentProject().isCastProject();
 
 		if (resizePossible) {
 			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));
@@ -335,22 +380,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		stageListener.finish();
 		manageLoadAndFinish();
 		exit();
-	}
-
-	public static int getAndIncrementNumberOfClonedSprites() {
-		return ++numberOfSpritesCloned;
-	}
-
-	public static void resetNumberOfClonedSprites() {
-		numberOfSpritesCloned = 0;
-	}
-
-	public static void setNfcTagMessage(NdefMessage message) {
-		nfcTagMessage = message;
-	}
-
-	public static NdefMessage getNfcTagMessage() {
-		return nfcTagMessage;
 	}
 
 	public synchronized void queueIntent(IntentListener asker) {
@@ -412,7 +441,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		for (Scene scene: project.getSceneList()) {
+		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);
@@ -428,11 +457,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 	}
 
-	public interface IntentListener {
-		Intent getTargetIntent();
-		void onIntentResult(int resultCode, Intent data); //don't do heavy processing here
-	}
-
 	@Override
 	public void addToRequiresPermissionTaskList(RequiresPermissionTask task) {
 		permissionRequestActivityExtension.addToRequiresPermissionTaskList(task);
@@ -443,41 +467,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		permissionRequestActivityExtension.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
 	}
 
-	public static void handlePlayButton(ProjectManager projectManager, final Activity activity) {
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity(activity);
-		} else {
-			new PlaySceneDialog.Builder(activity)
-					.setPositiveButton(R.string.play, (dialog, which) -> startStageActivity(activity))
-					.create()
-					.show();
-		}
-	}
-
-	private static void startStageActivity(Activity activity) {
-		Intent intent = new Intent(activity, StageActivity.class);
-		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
-	}
-
-	public static void finishStage() {
-		StageActivity stageActivity = StageActivity.activeStageActivity.get();
-		if (stageActivity != null && !stageActivity.isFinishing()) {
-			stageActivity.finish();
-		}
-	}
-
-	public static void finishTestWithResult(TestResult testResult) {
-		StageActivity stageActivity = StageActivity.activeStageActivity.get();
-		if (stageActivity != null && !stageActivity.isFinishing()) {
-			Intent resultIntent = new Intent();
-			resultIntent.putExtra(TEST_RESULT_MESSAGE, testResult.getMessage());
-			stageActivity.setResult(testResult.getResultCode(), resultIntent);
-			stageActivity.finish();
-		}
+	public interface IntentListener {
+		Intent getTargetIntent();
+		void onIntentResult(int resultCode, Intent data); //don't do heavy processing here
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,21 +53,24 @@ import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.Constants.MAX_PERCENT;
 
 public final class StatusBarNotificationManager {
+	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
+	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0xFFFF;
 	private static final String TAG = StatusBarNotificationManager.class.getSimpleName();
 	private static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
 	private static final String ACTION_RETRY_UPLOAD = "retry_upload";
 	private static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
-	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
-
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
-	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0xFFFF;
-
 	private static int notificationId = 1;
 	private NotificationManager notificationManager;
 
 	public StatusBarNotificationManager(Context context) {
 		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		createNotificationChannel(context);
+	}
+
+	@Synchronized
+	public static int getNextNotificationID() {
+		return notificationId++;
 	}
 
 	private NotificationData createAndShowUploadNotification(Context context, String programName) {
@@ -148,11 +151,6 @@ public final class StatusBarNotificationManager {
 				0, MAX_PERCENT, true, false, getNextNotificationID());
 	}
 
-	@Synchronized
-	public static int getNextNotificationID() {
-		return notificationId++;
-	}
-
 	public void showOrUpdateNotification(Context context, NotificationData notificationData, int progressInPercent, PendingIntent contentIntent) {
 		int notificationID = notificationData.getNotificationID();
 		notificationData.setProgressInPercent(progressInPercent);
@@ -212,7 +210,8 @@ public final class StatusBarNotificationManager {
 						.setAction(ACTION_CANCEL_UPLOAD);
 				actionIntentCancelUpload.putExtra("bundle", bundle);
 				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT| PendingIntent.FLAG_MUTABLE);
+						actionIntentCancelUpload,
+						PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
 				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel,
 						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload));
 
@@ -250,6 +249,27 @@ public final class StatusBarNotificationManager {
 		}
 
 		return builder.build();
+	}
+
+	public void createNotificationChannel(Context context) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = context.getResources().getString(R.string.app_name);
+			String description = context.getResources().getString(R.string.channel_description, name);
+
+			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+			if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
+				return;
+			}
+
+			int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+			channel.setDescription(description);
+			channel.enableVibration(false);
+			channel.enableLights(false);
+			channel.setSound(null, null);
+			notificationManager.createNotificationChannel(channel);
+		}
 	}
 
 	public static class NotificationActionService extends IntentService {
@@ -311,27 +331,6 @@ public final class StatusBarNotificationManager {
 		private void closeNotificationBar() {
 			Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 			sendBroadcast(it);
-		}
-	}
-
-	public void createNotificationChannel(Context context) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			CharSequence name = context.getResources().getString(R.string.app_name);
-			String description = context.getResources().getString(R.string.channel_description, name);
-
-			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-			if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
-				return;
-			}
-
-			int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-			channel.setDescription(description);
-			channel.enableVibration(false);
-			channel.enableLights(false);
-			channel.setSound(null, null);
-			notificationManager.createNotificationChannel(channel);
 		}
 	}
 }

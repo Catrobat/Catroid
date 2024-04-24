@@ -355,10 +355,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response originalResponse = chain.proceed(chain.request());
 			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
 					progress -> {
-				Bundle bundle = new Bundle();
-				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
-				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
-			});
+						Bundle bundle = new Bundle();
+						bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+						receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+					});
 			return originalResponse.newBuilder()
 					.body(body)
 					.build();
@@ -376,6 +376,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
+
 	private String getRequestInterruptable(String url) throws WebConnectionException {
 		Request request = new Request.Builder()
 				.url(url)
@@ -395,13 +396,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		} catch (IOException e) {
 			throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
-	}
-
-	static class UploadResponse {
-		String projectId;
-		int statusCode;
-		String answer;
-		String token;
 	}
 
 	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
@@ -484,5 +478,12 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	private interface UploadCallSuccessCallback {
 		void onSuccess(UploadResponse response);
+	}
+
+	static class UploadResponse {
+		String projectId;
+		int statusCode;
+		String answer;
+		String token;
 	}
 }

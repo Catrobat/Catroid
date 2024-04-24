@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,14 +67,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class SpriteFromGalleryIntentDismissTest {
 
-	private Matcher<Intent> expectedChooserIntent;
-	private Matcher<Intent> expectedGetContentIntent;
 	private final String projectName = getClass().getSimpleName();
-
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-
+	private Matcher<Intent> expectedChooserIntent;
+	private Matcher<Intent> expectedGetContentIntent;
 
 	@Before
 	public void setUp() throws Exception {

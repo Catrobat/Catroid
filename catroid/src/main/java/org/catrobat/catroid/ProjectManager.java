@@ -700,8 +700,7 @@ public final class ProjectManager {
 		if (sharedPreferences != null) {
 			json = sharedPreferences.getString(downloadedProjectsName, null);
 			if (json != null) {
-				Type type = new TypeToken<HashMap<String, Boolean>>() {
-				}.getType();
+				Type type = new TypeToken<HashMap<String, Boolean>>() {}.getType();
 				downloadedProjects = gson.fromJson(json, type);
 			} else {
 				downloadedProjects = new HashMap<>();
