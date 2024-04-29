@@ -153,6 +153,24 @@ public class PlaySoundBrickTest {
 	}
 
 	@Test
+	public void testAddNewSoundMenu() {
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(soundName);
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
+				.checkShowsText(soundName);
+
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
+				.perform(click());
+		onView(withText(R.string.new_option))
+				.perform(click());
+
+		onView(withText(R.string.add_sound_from_recorder)).check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_file)).check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_sound)).check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_music)).check(matches(isDisplayed()));
+	}
+
+	@Test
 	public void testCreateNewPocketMusicSong() {
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
