@@ -182,8 +182,8 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.new_option))
 				.perform(click());
 		onView(isRoot()).perform(CustomActions.wait(500));
-		onView(withText(R.string.add_sound_music))
-				.perform(click());
+		onView(withText(R.string.add_sound_music)).check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_music)).perform(click());
 		onView(withId(R.id.tact_scroller))
 				.perform(actionOnItemAtPosition(1,
 						toggleNoteViewAtPositionInTact(1)));
