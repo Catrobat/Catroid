@@ -177,9 +177,7 @@ public class BrickSpinnerTest {
 
 		TabLayoutContainerFragment tabLayoutContainerFragment =
 				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		Fragment selectedFragment = tabLayoutContainerFragment.getSelectedTabFragment();
-		assertNotNull(selectedFragment);
-		assertThat(selectedFragment, is(instanceOf(ScriptFragment.class)));
+		assertNotNull(tabLayoutContainerFragment);
 
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);

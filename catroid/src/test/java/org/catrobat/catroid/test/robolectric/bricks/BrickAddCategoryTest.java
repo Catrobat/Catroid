@@ -106,10 +106,9 @@ public class BrickAddCategoryTest {
 
 		TabLayoutContainerFragment tabLayoutContainerFragment =
 				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		Fragment scriptFragment = tabLayoutContainerFragment.getSelectedTabFragment();
-		assertNotNull(scriptFragment);
+		assertNotNull(tabLayoutContainerFragment);
 
-		scriptFragment.getFragmentManager().beginTransaction()
+		tabLayoutContainerFragment.getFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();

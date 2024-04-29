@@ -363,6 +363,7 @@ public class BrickSingleFormulaFieldTest {
 	private void assertCurrentFragmentEqualsScriptFragment() {
 		TabLayoutContainerFragment tabLayoutContainerFragment =
 				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		assertNotNull(tabLayoutContainerFragment);
 		Fragment selectedFragment = tabLayoutContainerFragment.getSelectedTabFragment();
 		assertNotNull(selectedFragment);
 		assertThat(selectedFragment, is(instanceOf(ScriptFragment.class)));
