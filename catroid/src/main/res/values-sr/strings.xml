@@ -743,7 +743,6 @@
     <string formatted="false" name="play_scene_dialog_current">Тренутна сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Пријави се</string>
     <string formatted="false" name="username">Корисничко име</string>
     <string formatted="false" name="password">Лозинка</string>
     <string formatted="false" name="password_forgotten">Заборавили сте лозинку?</string>
@@ -756,11 +755,6 @@
     <string formatted="false" name="register">Регистрација</string>
     <string formatted="false" name="password_confirm">Потврдите лозинку</string>
     <string formatted="false" name="accountName">E-Мail</string>
-    <string formatted="false" name="signin_thanks">Хвала што сте се пријавили!</string>
-    <string formatted="false" name="signin_choose_username">Молимо одаберите ваше корисничко име:</string>
-    <string formatted="false" name="signin_choose_username_empty">Молимо унесите корисничко име.</string>
-    <string formatted="false" name="signin_choose_username_hint">Корисничко име не треба да буде ваше право име, нити треба да буде адреса е-поште.</string>
-    <string formatted="false" name="oauth_username_taken">Неко други већ користи ово име. Изаберите друго!</string>
     <string formatted="false" name="show_password">Прикажи лозинку</string>
     <string formatted="false" name="sign_in_error">Дошло је до грешке приликом пријављивања.</string>
     <string formatted="false" name="error_google_plus_sign_in">Грешка приликом Гугл пријаве. Статус: %s</string>

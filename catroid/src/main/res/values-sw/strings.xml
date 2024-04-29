@@ -709,7 +709,6 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Ingia ndani</string>
     <string formatted="false" name="username">Jina la mtumiaji</string>
     <string formatted="false" name="password">Nenosiri</string>
     <string formatted="false" name="reset_password">Reset password</string>
@@ -722,11 +721,6 @@
     <string formatted="false" name="register">Jisajili</string>
     <string formatted="false" name="password_confirm">Thibitisha nenosiri</string>
     <string formatted="false" name="accountName">Barua pepe</string>
-    <string formatted="false" name="signin_thanks">Asante kwa kujisajili!</string>
-    <string formatted="false" name="signin_choose_username">Tafadhali chagua jina lako la kutumia:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">Jina la mtumiaji si lazima jina lako halisi.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string formatted="false" name="show_password">Onyesha nenosiri</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>

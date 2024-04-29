@@ -690,7 +690,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="play_scene_dialog_current">Olduğun sahne (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Giriş yap</string>
     <string formatted="false" name="username">Kullanıcı adı</string>
     <string formatted="false" name="password">Şifre</string>
     <string formatted="false" name="reset_password">Şifre sıfırlama</string>
@@ -703,11 +702,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="register">Kayıt olmak</string>
     <string formatted="false" name="password_confirm">Şifreyi Doğrula</string>
     <string formatted="false" name="accountName">E-Posta</string>
-    <string formatted="false" name="signin_thanks">Kayıt olduğunuz için teşekkür ederiz!</string>
-    <string formatted="false" name="signin_choose_username">Lütfen kullanıcı adınızı seçiniz:</string>
-    <string formatted="false" name="signin_choose_username_empty">Lütfen bir kullanıcı adı giriniz.</string>
-    <string formatted="false" name="signin_choose_username_hint">Kullanıcı adınız gerçek adınız olmamalıdır.</string>
-    <string formatted="false" name="oauth_username_taken">Başka biri zaten bu adı kullanıyor. Lütfen farklı bir tane seçin!</string>
     <string formatted="false" name="show_password">Parolayı göster</string>
     <string formatted="false" name="sign_in_error">Oturum açma sırasında bir şeyler ters gitti.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google oturum açma hatası. Durum: %s</string>

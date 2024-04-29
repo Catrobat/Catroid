@@ -787,7 +787,6 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Přihlásit se</string>
     <string formatted="false" name="username">Uživatelské jméno</string>
     <string formatted="false" name="password">Heslo</string>
     <string formatted="false" name="reset_password">Reset password</string>
@@ -800,11 +799,6 @@
     <string formatted="false" name="register">Registrovat</string>
     <string formatted="false" name="password_confirm">Potvrdit heslo</string>
     <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Děkujeme ti za registraci na Pocket Code !</string>
-    <string formatted="false" name="signin_choose_username">Prosím, zadejte své uživatelské jméno:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">Uživatelské jméno by nemělo být vaše skutečné jméno.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string formatted="false" name="show_password">Zobrazit heslo</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>

@@ -650,7 +650,6 @@
     <string formatted="false" name="play_scene_dialog_current">현재 장면 (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">로그인</string>
     <string formatted="false" name="username">아이디</string>
     <string formatted="false" name="password">비밀번호</string>
     <string formatted="false" name="reset_password">암호를 재설정</string>
@@ -663,11 +662,6 @@
     <string formatted="false" name="register">등록</string>
     <string formatted="false" name="password_confirm">비밀번호 확인</string>
     <string formatted="false" name="accountName">이메일</string>
-    <string formatted="false" name="signin_thanks">가입해 주셔서 감사합니다!</string>
-    <string formatted="false" name="signin_choose_username">사용자 이름을 선택하십시오.</string>
-    <string formatted="false" name="signin_choose_username_empty">사용자 이름을 입력해 주세요.</string>
-    <string formatted="false" name="signin_choose_username_hint">사용자명으로 진짜 이름이나 이메일 주소는 사용하지 마세요.</string>
-    <string formatted="false" name="oauth_username_taken">이미 사용중입니다. 다른 이름을 사용하세요!</string>
     <string formatted="false" name="show_password">비밀 번호 표시</string>
     <string formatted="false" name="sign_in_error">로그인시 문제가 발생하였습니다.</string>
     <string formatted="false" name="error_google_plus_sign_in">구글 로그인 오류. 상태: %s</string>

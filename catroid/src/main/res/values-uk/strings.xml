@@ -791,7 +791,6 @@
     <string formatted="false" name="play_scene_dialog_current">Поточна сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Увійти</string>
     <string formatted="false" name="username">Ім\'я користувача</string>
     <string formatted="false" name="password">Пароль</string>
     <string formatted="false" name="reset_password">Скинути пароль</string>
@@ -804,11 +803,6 @@
     <string formatted="false" name="register">Зареєструватися</string>
     <string formatted="false" name="password_confirm">Підтвердьте пароль</string>
     <string formatted="false" name="accountName">Ел.Пошта</string>
-    <string formatted="false" name="signin_thanks">Дякуємо за реєстрацію!</string>
-    <string formatted="false" name="signin_choose_username">Будь ласка, виберіть ім\'я користувача:</string>
-    <string formatted="false" name="signin_choose_username_empty">Будь ласка, введіть ім\'я користувача.</string>
-    <string formatted="false" name="signin_choose_username_hint">Ім\'я користувача не повинно бути вашим справжнім ім\'ям, а також не повинно бути адресою електронної пошти.</string>
-    <string formatted="false" name="oauth_username_taken">Хтось уже використовує це ім\'я. Будь ласка, виберіть інший!</string>
     <string formatted="false" name="show_password">Показати пароль</string>
     <string formatted="false" name="sign_in_error">Щось пішло не так під час входу.</string>
     <string formatted="false" name="error_google_plus_sign_in">Помилка входу Google. Стан: %s</string>

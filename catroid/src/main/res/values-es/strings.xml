@@ -706,7 +706,6 @@
     <string formatted="false" name="play_scene_dialog_current">Escena actual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Iniciar sesion</string>
     <string formatted="false" name="username">Usuario</string>
     <string formatted="false" name="password">Contraseña</string>
     <string formatted="false" name="reset_password">Restablecer contraseña</string>
@@ -719,11 +718,6 @@
     <string formatted="false" name="register">Regístrate</string>
     <string formatted="false" name="password_confirm">Confirma tu contraseña</string>
     <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">¡Gracias por registrarte!</string>
-    <string formatted="false" name="signin_choose_username">Por favor, elija un nombre de usuario:</string>
-    <string formatted="false" name="signin_choose_username_empty">Por favor, introduzca un nombre de usuario.</string>
-    <string formatted="false" name="signin_choose_username_hint">El nombre de usuario no debe ser tu nombre real ni debe ser una dirección de correo electrónico.</string>
-    <string formatted="false" name="oauth_username_taken">Alguien más ya utiliza este nombre. Por favor, elige otro.</string>
     <string formatted="false" name="show_password">Mostrar Contraseña</string>
     <string formatted="false" name="sign_in_error">Algo ha ido mal durante el inicio de sesión.</string>
     <string formatted="false" name="error_google_plus_sign_in">Error de inicio de sesión de Google. Estado: %s</string>

@@ -714,7 +714,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="play_scene_dialog_current">Kasalukuyang scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Mag-sign in</string>
     <string formatted="false" name="username">Pangalan ng gumagamit</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">Baguhin ang password</string>
@@ -727,11 +726,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="register">Magrehistro</string>
     <string formatted="false" name="password_confirm">Kumpirmahin ang password</string>
     <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Salamat sa pag-sign up!</string>
-    <string formatted="false" name="signin_choose_username">Pakiusap pumili ng iyong username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Pakiusap maglagay ng username.</string>
-    <string formatted="false" name="signin_choose_username_hint">Ang username ay hindi dapat ang pangalan mo o ang iyong email address.</string>
-    <string formatted="false" name="oauth_username_taken">Nagamit na ng iba ang pangalan na ito. Pakiusap pumili ng iba!</string>
     <string formatted="false" name="show_password">Ipakita ang password</string>
     <string formatted="false" name="sign_in_error">May nangyaring hindi inaasahan habang nagsa-sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Error sa Google sign-in. Status: %s</string>

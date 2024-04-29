@@ -689,7 +689,6 @@
     <string formatted="false" name="play_scene_dialog_current">Қазіргі сахна (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Кіру</string>
     <string formatted="false" name="username">Пайдаланушы аты</string>
     <string formatted="false" name="password">Құпиясөз</string>
     <string formatted="false" name="reset_password">Құпиясөзді қалпына келтіру</string>
@@ -702,11 +701,6 @@
     <string formatted="false" name="register">Тіркелу</string>
     <string formatted="false" name="password_confirm">Құпиясөзді растау</string>
     <string formatted="false" name="accountName">Эл. пошта</string>
-    <string formatted="false" name="signin_thanks">Тіркелгеніңізге рахмет!</string>
-    <string formatted="false" name="signin_choose_username">Пайдаланушы атыңызды таңдаңыз:</string>
-    <string formatted="false" name="signin_choose_username_empty">Пайдаланушы атын енгізіңіз.</string>
-    <string formatted="false" name="signin_choose_username_hint">Пайдаланушы аты сіздің шын атыңыз немесе электрондық пошта мекенжайы болмауы керек.</string>
-    <string formatted="false" name="oauth_username_taken">Бұл атауды әлдеқашан басқа біреу қолданады. Басқасын таңдаңыз!</string>
     <string formatted="false" name="show_password">Құпиясөзді көрсету</string>
     <string formatted="false" name="sign_in_error">Жүйеге кіру кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google жүйесіне кіру қатесі. Күйі: %s</string>

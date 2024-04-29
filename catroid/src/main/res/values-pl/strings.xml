@@ -765,7 +765,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="play_scene_dialog_current">Bieżąca scena (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Zarejestruj się</string>
     <string formatted="false" name="username">Nazwa użytkownika</string>
     <string formatted="false" name="password">Hasło</string>
     <string formatted="false" name="reset_password">Zresetuj hasło</string>
@@ -778,11 +777,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="register">Rejestracja</string>
     <string formatted="false" name="password_confirm">Potwierdź hasło</string>
     <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Dziękujemy za rejestrację!</string>
-    <string formatted="false" name="signin_choose_username">Proszę wybrać swoją nazwę użytkownika:</string>
-    <string formatted="false" name="signin_choose_username_empty">Wprowadź nazwę użytkownika!</string>
-    <string formatted="false" name="signin_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym imieniem ani adresem e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Ktoś już używa tej nazwy. Proszę wybrać inną!</string>
     <string formatted="false" name="show_password">Pokaż hasło</string>
     <string formatted="false" name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string formatted="false" name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
