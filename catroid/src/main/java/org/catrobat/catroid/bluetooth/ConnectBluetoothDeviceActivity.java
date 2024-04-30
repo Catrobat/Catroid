@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.bluetooth;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -31,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -61,21 +64,33 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.multiplayer.Multiplayer;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static android.Manifest.permission.BLUETOOTH;
+import static android.Manifest.permission.BLUETOOTH_ADMIN;
+import static android.Manifest.permission.BLUETOOTH_ADVERTISE;
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_PRIVILEGED;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_CLASSIC;
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_DUAL;
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_LE;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY;
 
+@RequiresApi(api = Build.VERSION_CODES.S)
 public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
@@ -96,6 +111,15 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	FloatingActionButton scanButton;
 	Boolean isDiscovering = false;
+
+	List<String> bluetoothPermissions = Arrays.asList(
+			BLUETOOTH,
+			BLUETOOTH_ADMIN,
+			BLUETOOTH_ADVERTISE,
+			BLUETOOTH_CONNECT,
+			BLUETOOTH_PRIVILEGED,
+			BLUETOOTH_SCAN
+	);
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -149,24 +173,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
+			boolean hasPermission = RequiresPermissionTask
+					.checkPermission((Activity) context, bluetoothPermissions);
 
-			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
-				android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
-				if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
-					if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
-						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);
-						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
-							newDevicesArrayAdapter.add(listElement);
-						}
-					}
-					if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {
-						String deviceInfoBLE = "BLE" + (device.getName() != null ? " - " + device.getName() : "");
-						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(deviceInfoBLE, device.getAddress()), DEVICE_TYPE_LE);
-						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
-							newDevicesArrayAdapter.add(listElement);
-						}
-					}
-				}
+			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action) && hasPermission) {
+				addNewDevice(intent);
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				isDiscovering = true;
 				handleScanButtonClicked();
@@ -180,12 +191,37 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 				} else {
 					if (newDevicesArrayAdapter.isEmpty()) {
 						String noDevices = getResources().getString(R.string.none_found);
-						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(noDevices, ""), 0);
+						Pair<Pair<String, String>, Integer> listElement =
+								new Pair<>(new Pair<>(noDevices, ""), 0);
 						newDevicesArrayAdapter.add(listElement);
 					}
 				}
 			}
 			setDynamicListViewHeight(findViewById(R.id.new_devices));
+		}
+
+		@RequiresPermission(BLUETOOTH_CONNECT)
+		private void addNewDevice(Intent intent) {
+			android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(
+					android.bluetooth.BluetoothDevice.EXTRA_DEVICE
+			);
+			if ((device != null && device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
+				if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
+					Pair<Pair<String, String>, Integer> listElement =
+							new Pair<>(new Pair<>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);
+					if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
+						newDevicesArrayAdapter.add(listElement);
+					}
+				}
+				if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {
+					String deviceInfoBLE = "BLE" + (device.getName() != null ? " - " + device.getName() : "");
+					Pair<Pair<String, String>, Integer> listElement =
+							new Pair<>(new Pair<>(deviceInfoBLE, device.getAddress()), DEVICE_TYPE_LE);
+					if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
+						newDevicesArrayAdapter.add(listElement);
+					}
+				}
+			}
 		}
 	};
 
@@ -238,7 +274,8 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	}
 
 	private void setDeviceConnected(InputStream inputStream, OutputStream outputStream) {
-		BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		BluetoothDeviceService btDeviceService = ServiceProvider
+				.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		try {
 			if (btDevice instanceof Multiplayer) {
 				((Multiplayer) btDevice).setStreams(inputStream, outputStream);
@@ -271,7 +308,9 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		handler = new Handler();
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<Pair<String, String>>(this, R.layout.bluetooth_connection_screen) {
+		pairedDevicesArrayAdapter = new ArrayAdapter<Pair<String, String>>(
+				this, R.layout.bluetooth_connection_screen
+		) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				if (convertView == null) {
@@ -289,7 +328,9 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			}
 		};
 
-		newDevicesArrayAdapter = new ArrayAdapter<Pair<Pair<String, String>, Integer>>(this, R.layout.bluetooth_connection_screen) {
+		newDevicesArrayAdapter = new ArrayAdapter<Pair<Pair<String, String>, Integer>>(
+				this, R.layout.bluetooth_connection_screen
+		) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				if (convertView == null) {
@@ -376,10 +417,17 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	protected void initBluetooth() {
 		int bluetoothState = activateBluetooth();
-		if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+		boolean hasCorrectAPI = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S;
+
+		if (hasCorrectAPI && bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 			listAndSelectDevices();
 			startAcceptThread();
 			activateBluetoothVisibility();
+		} else {
+			ToastUtil.showError(
+					this.getApplicationContext(),
+					R.string.notification_blueth_err_api_lvl
+			);
 		}
 	}
 
@@ -388,15 +436,17 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			scanButton.setImageResource(R.drawable.ic_search);
 			isDiscovering = false;
 			cancelDiscovery();
-		} else {
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
 			scanButton.setImageResource(R.drawable.ic_close);
 			isDiscovering = true;
 			doDiscovery();
 		}
 	}
 
+	@SuppressLint("VisibleForTests")
 	private void activateBluetoothVisibility() {
-		if (btDevice instanceof Multiplayer) {
+		boolean hasPermission = RequiresPermissionTask.checkPermission(this, bluetoothPermissions);
+		if (hasPermission && btDevice instanceof Multiplayer) {
 			Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 			startActivity(intent);
 		}
@@ -404,27 +454,31 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	private void startAcceptThread() {
 		if (btDevice instanceof Multiplayer) {
-			Thread acceptThread = new AcceptThread();
+			Thread acceptThread = new AcceptThread(this);
 			acceptThread.start();
 		}
 	}
 
+	@SuppressLint("VisibleForTests")
 	private void listAndSelectDevices() {
-		Set<android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();
+		if (RequiresPermissionTask.checkPermission(this, bluetoothPermissions)) {
+			Set<android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();
 
-		if (pairedDevices.size() > 0) {
-			findViewById(R.id.bluetooth_paired_section).setVisibility(View.VISIBLE);
-			for (android.bluetooth.BluetoothDevice device : pairedDevices) {
-				Pair<String, String> listElement = new Pair<>(device.getName(), device.getAddress());
-				pairedDevicesArrayAdapter.add(listElement);
+			if (!pairedDevices.isEmpty()) {
+				findViewById(R.id.bluetooth_paired_section).setVisibility(View.VISIBLE);
+				for (android.bluetooth.BluetoothDevice device : pairedDevices) {
+					Pair<String, String> listElement = new Pair<>(device.getName(), device.getAddress());
+					pairedDevicesArrayAdapter.add(listElement);
+				}
+
+				setDynamicListViewHeight(findViewById(R.id.paired_devices));
 			}
-
-			setDynamicListViewHeight(findViewById(R.id.paired_devices));
 		}
 	}
 
 	protected void createAndSetDeviceService() {
-		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>) getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
+		Class<BluetoothDevice> serviceType =
+				(Class<BluetoothDevice>) getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
 
 		btDevice = getDeviceFactory().createDevice(serviceType, this.getApplicationContext());
 	}
@@ -444,21 +498,28 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		super.onDestroy();
 	}
 
+	@SuppressLint("VisibleForTests")
 	protected void doDiscovery() {
-		newDevicesArrayAdapter.clear();
-		setDynamicListViewHeight(findViewById(R.id.new_devices));
+		if (RequiresPermissionTask.checkPermission(this, bluetoothPermissions)) {
+			newDevicesArrayAdapter.clear();
+			setDynamicListViewHeight(findViewById(R.id.new_devices));
 
-		setProgressBarIndeterminateVisibility(true);
+			setProgressBarIndeterminateVisibility(true);
 
-		findViewById(R.id.device_list_progress_bar).setVisibility(View.VISIBLE);
+			findViewById(R.id.device_list_progress_bar).setVisibility(View.VISIBLE);
 
-		cancelDiscovery();
+			cancelDiscovery();
 
-		btManager.getBluetoothAdapter().startDiscovery();
+			btManager.getBluetoothAdapter().startDiscovery();
+		}
 	}
 
+	@SuppressLint("VisibleForTests")
 	private void cancelDiscovery() {
-		if (btManager.getBluetoothAdapter().isDiscovering()) {
+		boolean hasPermission = RequiresPermissionTask
+				.checkPermission(this, bluetoothPermissions);
+
+		if (hasPermission && btManager.getBluetoothAdapter().isDiscovering()) {
 			btManager.getBluetoothAdapter().cancelDiscovery();
 		}
 	}
@@ -466,7 +527,10 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	private int activateBluetooth() {
 		btManager = new BluetoothManager(this);
 
-		int bluetoothState = btManager.activateBluetooth();
+		int bluetoothState = BluetoothManager.BLUETOOTH_NOT_SUPPORTED;
+		if (RequiresPermissionTask.checkPermission(this, bluetoothPermissions)) {
+			bluetoothState = btManager.activateBluetooth();
+		}
 		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 			ToastUtil.showError(this, R.string.notification_blueth_err);
 			setResult(AppCompatActivity.RESULT_CANCELED);
@@ -518,12 +582,18 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	public class AcceptThread extends Thread {
 		private BluetoothServerSocket serverSocket;
 
-		AcceptThread() {
-			try {
-				serverSocket = BluetoothAdapter.getDefaultAdapter()
-						.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), btDevice.getBluetoothDeviceUUID());
-			} catch (IOException exception) {
-				Log.e(TAG, "Creating ServerSocket failed!", exception);
+		@SuppressLint("VisibleForTests")
+		AcceptThread(Activity activity) {
+			if (RequiresPermissionTask.checkPermission(activity, bluetoothPermissions)) {
+				try {
+					BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+					serverSocket = adapter.listenUsingRfcommWithServiceRecord(
+							getString(R.string.app_name),
+							btDevice.getBluetoothDeviceUUID()
+					);
+				} catch (IOException exception) {
+					Log.e(TAG, "Creating ServerSocket failed!", exception);
+				}
 			}
 
 			((Multiplayer) btDevice).setAcceptThread(this);
