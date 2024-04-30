@@ -907,10 +907,11 @@
     <string formatted="false" name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
 
-    <!-- Broadcast spinner -->
-    <string formatted="false" name="dialog_new_broadcast_message_title">New message</string>
-    <string formatted="false" name="dialog_broadcast_message_name">message:</string>
-    <string formatted="false" name="dialog_edit_broadcast_message_title">Edit message</string>
+    <!-- BroadcastListFragment -->
+    <string name="broadcast_message_headline">Messages for all actors and objects</string>
+    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
 
     <!-- NFC spinner -->

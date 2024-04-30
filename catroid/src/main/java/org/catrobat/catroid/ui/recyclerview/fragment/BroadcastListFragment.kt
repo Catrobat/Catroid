@@ -87,6 +87,10 @@ class BroadcastListFragment(private val currentBroadcastMessage: String) : Fragm
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.brick_broadcast)
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+        if (currentBroadcastMessage == defaultMessage) {
+            removeMessageFromProject(currentBroadcastMessage)
+            handleAddButton()
+        }
     }
 
     override fun onPause() {
@@ -266,6 +270,8 @@ class BroadcastListFragment(private val currentBroadcastMessage: String) : Fragm
     companion object {
         @JvmStatic
         val TAG: String = BroadcastListFragment::class.java.simpleName
+
+        const val defaultMessage: String = "new message"
 
         fun showFragment(context: Context, broadcastBrick: BroadcastMessageBrick) {
             val activity = UiUtils.getActivityFromContextWrapper(context) ?: return
