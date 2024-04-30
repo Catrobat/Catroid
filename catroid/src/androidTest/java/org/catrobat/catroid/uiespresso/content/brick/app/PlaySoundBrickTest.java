@@ -70,6 +70,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -181,9 +182,9 @@ public class PlaySoundBrickTest {
 				.perform(click());
 		onView(withText(R.string.new_option))
 				.perform(click());
+		onView(withId(R.id.dialog_new_sound_pocketmusic)).check(matches(isDisplayed()));
+		onView(withId(R.id.dialog_new_sound_pocketmusic)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(500));
-		onView(withText(R.string.add_sound_music)).check(matches(isDisplayed()));
-		onView(withText(R.string.add_sound_music)).perform(click());
 		onView(withId(R.id.tact_scroller))
 				.perform(actionOnItemAtPosition(1,
 						toggleNoteViewAtPositionInTact(1)));
