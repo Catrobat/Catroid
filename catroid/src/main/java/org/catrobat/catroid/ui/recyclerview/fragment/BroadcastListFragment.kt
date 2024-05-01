@@ -216,9 +216,7 @@ class BroadcastListFragment(private val currentBroadcastMessage: String) : Fragm
     private fun getBroadcastMessagesAsNameable(): List<Nameable> =
         getBroadcastMessagesOfProject().map {
             object : Nameable {
-                override fun getName(): String {
-                    return it
-                }
+                override fun getName(): String = it
 
                 override fun setName(name: String?) = Unit
             }
