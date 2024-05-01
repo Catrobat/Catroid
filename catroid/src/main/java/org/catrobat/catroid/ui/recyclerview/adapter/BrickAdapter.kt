@@ -436,7 +436,7 @@ class BrickAdapter(private val sprite: Sprite) :
 
         val (parentOfBrickAboveTargetPosition, destinationPosition) =
             getParentBrickInDragAndDropList(brickAboveTargetPosition, startBrick)
-                ?: null to 0
+                ?: (null to 0)
 
         val indexStartBrick = getPosition(startBrick)
         if (getPosition(brickAboveTargetPosition) + 1 < indexStartBrick) {
@@ -465,11 +465,11 @@ class BrickAdapter(private val sprite: Sprite) :
             }
         } else {
             val parentOfCompBrick = endBrick.parent.parent
-            val positionInList = parentOfCompBrick.dragAndDropTargetList.indexOf(endBrick) + 1
+            val positionInList = parentOfCompBrick.dragAndDropTargetList.indexOf(endBrick.parent)
             for (index in (destinationPosition until enclosure.size).withIndex()) {
                 val brick = enclosure.removeAt(destinationPosition)
                 brick.parent = parentOfCompBrick
-                parentOfCompBrick.dragAndDropTargetList.add(positionInList + index.value, brick)
+                parentOfCompBrick.dragAndDropTargetList.add(positionInList + index.index + 1, brick)
             }
         }
     }
