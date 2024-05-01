@@ -310,6 +310,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			private Handler handler;
 			private Runnable deleteAction;
 
+			@SuppressWarnings("checkstyle:Indentation")
 			private boolean handleLongClick(final View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					if (handler == null) {

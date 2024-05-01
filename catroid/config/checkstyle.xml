@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -240,6 +240,8 @@
       <property name="offCommentFormat" value="@formatter\:off" />
       <property name="onCommentFormat" value="@formatter\:on" />
     </module>
+
+    <module name="SuppressWarningsHolder" />
   </module>
 
   <module name="NewlineAtEndOfFile">
@@ -303,5 +305,7 @@
   <module name="SuppressionFilter">
     <property name="file" value="${config_loc}/config/suppressions.xml"  />
   </module>
+
+  <module name="SuppressWarningsFilter" />
 
 </module>
