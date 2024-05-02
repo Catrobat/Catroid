@@ -52,7 +52,7 @@ public class CatroidApplication extends Application {
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
-	@TargetApi(29)
+	@TargetApi(31)
 	@Override
 	public void onCreate() {
 		super.onCreate();

@@ -1,10 +1,23 @@
 #!groovy
+
+class DockerParameters {
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+    def args = '--net host -v /dev/bus/usb/:/dev/bus/usb ' +
+            '-v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle'
+    def label = 'HardwareSensorBox'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
 pipeline {
     agent {
         docker {
-            image 'catrobat/catrobat-android:stable'
-            args '--net host -v /dev/bus/usb/:/dev/bus/usb -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle'
-            label 'HardwareSensorBox'
+            image d.image
+            args d.args
+            label d.label
             alwaysPull true
         }
     }

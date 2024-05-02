@@ -37,11 +37,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
@@ -57,7 +56,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.koin.java.KoinJavaComponent
-import java.io.File
 
 class DeleteImportedSpriteTest {
     private lateinit var project: Project
@@ -66,9 +64,6 @@ class DeleteImportedSpriteTest {
     private var projectManager = KoinJavaComponent.inject(ProjectManager::class.java).value
 
     private val projectName = javaClass.simpleName
-    private val tmpPath = File(
-        Constants.CACHE_DIRECTORY.absolutePath, "Pocket Code Test Temp"
-    )
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
@@ -79,6 +74,7 @@ class DeleteImportedSpriteTest {
 
     @Before
     fun setUp() {
+        TestUtils.deleteProjects(projectName)
         createProjects(projectName)
         baseActivityTestRule.launchActivity()
         Intents.init()
@@ -87,10 +83,6 @@ class DeleteImportedSpriteTest {
             ProjectListActivity.IMPORT_LOCAL_INTENT,
             baseActivityTestRule.activity.getString(R.string.import_sprite_from_project_launcher)
         ))
-
-        if (!tmpPath.exists()) {
-            tmpPath.mkdirs()
-        }
 
         val resultData = Intent()
         resultData.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT,
@@ -105,7 +97,7 @@ class DeleteImportedSpriteTest {
     fun tearDown() {
         Intents.release()
         baseActivityTestRule.finishActivity()
-        StorageOperations.deleteDir(tmpPath)
+        TestUtils.deleteProjects(projectName)
     }
 
     @Category(AppUi::class, Smoke::class)

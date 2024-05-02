@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Spinner;
 
@@ -78,8 +79,14 @@ public final class UiNFCTestUtils {
 	public static void fakeNfcTag(String uid, NdefMessage ndefMessage, Tag tag, Activity callingActivity) {
 		Class activityCls = callingActivity.getClass();
 
-		PendingIntent pendingIntent = PendingIntent.getActivity(callingActivity, 0,
-				new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		PendingIntent pendingIntent;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			pendingIntent = PendingIntent.getActivity(callingActivity, 0,
+					new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | PendingIntent.FLAG_IMMUTABLE), 0);
+		} else {
+			pendingIntent = PendingIntent.getActivity(callingActivity, 0,
+					new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		}
 
 		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
 		byte[] tagId = uid.getBytes();

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.intents.sounds.gallery;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -46,7 +45,6 @@ import java.io.IOException;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -73,8 +71,6 @@ public class SoundFromGalleryIntentDismissTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
 
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -102,7 +98,6 @@ public class SoundFromGalleryIntentDismissTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
