@@ -56,17 +56,17 @@
         android:id="@+id/new_group"
         android:title="@string/new_group"
         app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
+        android:icon="@drawable/ic_join"/>
     <item
         android:id="@+id/new_scene"
         android:title="@string/new_scene"
         app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder" />
+        android:icon="@drawable/ic_add_photo_alternative" />
     <item
         android:id="@+id/show_details"
         android:title="@string/show_details"
         app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder" />
+        android:icon="@drawable/ic_info" />
     <item
         android:id="@+id/project_options"
         android:title="@string/project_options"

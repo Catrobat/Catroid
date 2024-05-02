@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,26 +20,16 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/unpack"
-        android:title="@string/unpack"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
-
-    <item
-        android:id="@+id/delete"
-        android:title="@string/delete"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_delete"/>
-
-    <item
-        android:id="@+id/show_details"
-        android:title="@string/show_details"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_info"/>
-
-</menu>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="24dp"
+    android:viewportWidth="56"
+    android:viewportHeight="24">
+  <group>
+    <clip-path
+        android:pathData="M0,0h56v24h-56z"/>
+    <path
+        android:pathData="M22.5,15L27,15v-1.5L24,13.5v-1h2q0.425,0 0.713,-0.288T27,11.5L27,10q0,-0.425 -0.288,-0.712T26,9L22.5,9v1.5h3v1h-2q-0.425,0 -0.712,0.288T22.5,12.5zM29,15h4q0.425,0 0.713,-0.288T34,14v-4q0,-0.425 -0.288,-0.712T33,9h-4zM30.5,13.5v-3h2v3zM21,21q-0.825,0 -1.412,-0.587T19,19L19,5q0,-0.825 0.588,-1.412T21,3h14q0.825,0 1.413,0.588T37,5v14q0,0.825 -0.587,1.413T35,21zM21,19h14L35,5L21,5zM21,5v14z"
+        android:fillColor="#FFFFFF"/>
+  </group>
+</vector>
