@@ -32,16 +32,12 @@ class LanguageSettingListPreference(context: Context, attrs: AttributeSet) : Lis
 
     private var mClickedDialogEntryIndex: Int = 0
 
-    private lateinit var alertDialog: AlertDialog
-
     init {
         setPositiveButtonText(R.string.confirm)
         setNegativeButtonText(R.string.cancel)
     }
 
-    private fun getValueIndex(): Int {
-        return findIndexOfValue(this.value.toString())
-    }
+    private fun getValueIndex(): Int { return findIndexOfValue(this.value.toString()) }
 
     override fun onPrepareDialogBuilder(builder: AlertDialog.Builder?) {
         super.onPrepareDialogBuilder(builder)
@@ -56,7 +52,6 @@ class LanguageSettingListPreference(context: Context, attrs: AttributeSet) : Lis
             if (callChangeListener(selectedLanguageTag)) {
                 value = selectedLanguageTag
             }
-
         }
     }
 }
