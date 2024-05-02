@@ -61,6 +61,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
@@ -103,6 +104,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String AI_SENSORS_SCREEN_KEY = "setting_ai_screen";
 	public static final String ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen";
+	public static final String ADVANCED_MODE_SCREEN_KEY = "setting_advanced_mode_screen";
 	public static final String NXT_SCREEN_KEY = "setting_nxt_screen";
 	public static final String EV3_SCREEN_KEY = "setting_ev3_screen";
 	public static final String DRONE_SCREEN_KEY = "settings_drone_screen";
@@ -133,7 +135,12 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
 
-	public static final String SETTINGS_CATBLOCKS_ADVANCED_MODE = "setting_enable_catblocks_advanced_mode";
+	public static final String SETTINGS_CATBLOCKS_ADVANCED_MODE = "advanced_mode_enable_catblocks_advanced_mode";
+
+	public static final String SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE = "advanced_mode_set_to_english";
+
+	public static final String SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE =
+			"advanced_mode_previous_language";
 	public static final String SETTINGS_CATBLOCKS_SWITCHED = "setting_catblocks_switched";
 
 	@SuppressWarnings("deprecation")
@@ -231,6 +238,13 @@ public class SettingsFragment extends PreferenceFragment {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
 						.addToBackStack(AccessibilitySettingsFragment.TAG)
+						.commit();
+				break;
+			case ADVANCED_MODE_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AdvancedModeSettingsFragment(),
+								AdvancedModeSettingsFragment.TAG)
+						.addToBackStack(AdvancedModeSettingsFragment.TAG)
 						.commit();
 				break;
 			case NXT_SCREEN_KEY:
@@ -544,6 +558,21 @@ public class SettingsFragment extends PreferenceFragment {
 		});
 	}
 
+	private void changeToEn() {
+//		Preference AdvancedModeCheckbox = findPreference(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE);
+//		AdvancedModeCheckbox.setOnPreferenceChangeListener((preference, newValue) -> {
+//			boolean isChecked = (boolean) newValue;
+//			if (isChecked) {
+////				setLanguageSharedPreference(getActivity().getBaseContext(), "en");
+////				startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
+////				getActivity().finishAffinity();
+////				new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
+//
+//			}
+//				return true;
+//		});
+	}
+
 	public static void setToChosenLanguage(Activity activity) {
 		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
 		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
@@ -632,9 +661,19 @@ public class SettingsFragment extends PreferenceFragment {
 		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_ADVANCED_MODE, context);
 	}
 
+	public static boolean getSetToEnglishAdvancedMode(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, context);
+	}
+
 	public static void setCatBlocksAdvancedMode(Context context, boolean advancedMode) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_CATBLOCKS_ADVANCED_MODE, advancedMode)
+				.apply();
+	}
+
+	public static void setAdvancedModePreviousLanguage(Context context, String value) {
+		getSharedPreferences(context).edit()
+				.putString(SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE, value)
 				.apply();
 	}
 
