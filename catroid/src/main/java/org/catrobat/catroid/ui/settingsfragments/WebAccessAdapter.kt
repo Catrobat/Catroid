@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.settingsfragments
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -73,6 +74,7 @@ class WebAccessAdapter(
         update(oldDomain, newDomain)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setCheckboxVisibility(visible: Boolean) {
         isCheckboxVisible = visible
         notifyDataSetChanged()

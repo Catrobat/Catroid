@@ -152,7 +152,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">아이콘</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">아이콘 표시</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">아이콘을 블록에 추가</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">고대비</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">문자 대비 증가</string>
     <string formatted="false" name="preference_description_accessibility_large_text">글꼴 크기 증가.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">큰 텍스트</string>

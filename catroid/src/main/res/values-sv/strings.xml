@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Ikoner</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Visa ikoner</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Hög kontrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Öka textkontrasten.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Öka textstorleken.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Stor text</string>

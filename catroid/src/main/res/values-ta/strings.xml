@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">ஐகான்கள்</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">ஐகான்களை காண்பி</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">பிரிவுகள் மற்றும் செங்கற்களுக்கு ஐகான்களைச் சேர்க்கவும்.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">அதிக வேறுபாடு</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">உரை மாறுபாட்டை அதிகரிக்கவும்.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">உரை அளவை அதிகரிக்கவும்.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">பெரிய உரை</string>

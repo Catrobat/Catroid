@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">砖图标</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">显示图标</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">将图标添加到类别和砖块。</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">高对比度</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">增加砖块上的文本对比度。</string>
     <string formatted="false" name="preference_description_accessibility_large_text">增大表格字号</string>
     <string formatted="false" name="preference_title_accessibility_large_text">大号字体</string>

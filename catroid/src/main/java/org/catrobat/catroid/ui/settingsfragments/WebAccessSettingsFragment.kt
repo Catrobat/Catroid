@@ -262,9 +262,7 @@ class WebAccessSettingsFragment : PreferenceFragmentCompat(),
     private fun getTrustedDomainsAsNameable(): List<Nameable> =
         getTrustedDomains().map {
             object : Nameable {
-                override fun getName(): String {
-                    return it
-                }
+                override fun getName(): String = it
 
                 override fun setName(name: String?) = Unit
             }

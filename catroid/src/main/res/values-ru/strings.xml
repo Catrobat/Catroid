@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Значки</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Показать значки</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Добавить значки в категории и блоки.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Высокая контрастность</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Увеличить контрастность текста.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Увеличить размер текста.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Крупный текст</string>

@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Icônes</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Afficher les icônes</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Ajouter des icônes aux catégories et éléments.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Contraste élevé</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Augmentez le contraste du texte.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Augmenter la taille du texte.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Texte volumineux</string>

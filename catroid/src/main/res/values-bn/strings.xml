@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">আইকন</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">আইকনগুলি দেখান</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">বিভাগ এবং ব্রিক এ আইকন যুক্ত করুন।</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">উচ্চ বিসদৃশ</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">পাঠ্যের বিসদৃশ বৃদ্ধি করুন।</string>
     <string formatted="false" name="preference_description_accessibility_large_text">পাঠ্যের আকার বাড়ান।</string>
     <string formatted="false" name="preference_title_accessibility_large_text">বড় লেখা</string>

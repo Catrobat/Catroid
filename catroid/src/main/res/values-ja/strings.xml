@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">アイコン</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">アイコンを表示</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">カテゴリとブロックにアイコンを追加します。</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">ハイコントラスト</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">テキストのコントラストを増やします。</string>
     <string formatted="false" name="preference_description_accessibility_large_text">テキストのサイズを大きくします。</string>
     <string formatted="false" name="preference_title_accessibility_large_text">大きなテキスト</string>

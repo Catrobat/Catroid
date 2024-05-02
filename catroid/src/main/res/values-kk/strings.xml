@@ -156,7 +156,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Белгішелер</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Белгішелерді көрсету</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Белгішелерді санаттар мен блоктарға қосу.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Жоғары контраст</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Мәтін контрастын үлкейту.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Мәтін өлшемін үлкейту.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Үлкен мәтін</string>

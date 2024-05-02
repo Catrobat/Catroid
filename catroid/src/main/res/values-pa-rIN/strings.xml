@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">ਆਈਕਾਨ</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">ਆਈਕਾਨ ਵੇਖਾਓ</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">ਸ਼੍ਰੇਣੀਆਂ ਅਤੇ ਇੱਟਾਂ ਤੇ ਆਈਕਾਨ ਸ਼ਾਮਲ ਕਰੋ.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">ਉੱਚ ਵਿਪਰੀਤ</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">ਟੈਕਸਟ ਦੇ ਵਿਪਰੀਤ ਨੂੰ ਵਧਾਓ.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">ਟੈਕਸਟ ਦਾ ਆਕਾਰ ਵਧਾਓ.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">ਵੱਡਾ ਟੈਕਸਟ</string>

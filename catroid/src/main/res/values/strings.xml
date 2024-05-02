@@ -154,7 +154,6 @@
     <string formatted="false" name="web_access_add_trusted_domain">Add trusted domain</string>
 
     <string formatted="false" name="preference_title_manage_extensions">Extensions</string>
-    <string formatted="false" name="preference_web_settings">Web access</string>
     <string formatted="false" name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string formatted="false" name="preference_description_ai">Enable AI bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_speech_recognition">Speech
@@ -196,7 +195,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Icons</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Show icons</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">High contrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Increase the text size.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Large text</string>

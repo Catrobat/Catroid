@@ -152,7 +152,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Bausteinsymbole</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Zeige Symbole</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Fügt zusätzliche Symbole zu Kategorien und Bausteine hinzu.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Hoher Kontrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Erhöht den Kontrast der Schrift auf Bausteine.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Diese Option erhöht die Schriftgröße.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Große Schrift</string>
