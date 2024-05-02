@@ -39,7 +39,7 @@
         android:icon="@drawable/ic_content_paste_small"/>
     <item
         android:id="@+id/copy"
-        android:title="@string/copy_deafult"
+        android:title="@string/copy"
         app:showAsAction="never"
         android:icon="@drawable/ic_content_copy"/>
     <item

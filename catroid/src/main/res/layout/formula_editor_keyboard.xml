@@ -46,7 +46,7 @@
         <ImageButton
             android:id="@+id/formula_editor_keyboard_copy"
             style="@style/FormulaEditorSymbolButton"
-            android:contentDescription="@string/copy_deafult"
+            android:contentDescription="@string/copy"
             android:src="@drawable/ic_formula_editor_content_copy" />
 
         <ImageButton
