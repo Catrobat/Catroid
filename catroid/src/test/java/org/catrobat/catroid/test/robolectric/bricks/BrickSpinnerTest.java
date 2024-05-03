@@ -75,7 +75,6 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
@@ -93,14 +92,9 @@ import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.IdRes;
-import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 import static java.util.Arrays.asList;
 

@@ -28,8 +28,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.Spinner;
 
-import junit.framework.TestCase;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -59,7 +57,7 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+
 import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
@@ -76,14 +74,9 @@ import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.IdRes;
-import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
