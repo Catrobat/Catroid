@@ -25,24 +25,22 @@ package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.ResourceImporter
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Before
@@ -85,9 +83,9 @@ class EditLookTest {
             .supportFragmentManager
             .findFragmentById(R.id.fragment_container)
 
-        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0).perform(click())
+        onRecyclerView().atPosition(0).perform(click())
 
-        Espresso.pressBack()
+        pressBack()
         createScaledFileInCache()
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
@@ -108,11 +106,7 @@ class EditLookTest {
     @Throws(IOException::class)
     private fun createProject() {
         val projectName = "deleteLookFragmentTest"
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
+        val project = UiTestUtils.createDefaultTestProject(projectName)
         XstreamSerializer.getInstance().saveProject(project)
         val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
             InstrumentationRegistry.getInstrumentation().context.resources,
