@@ -630,17 +630,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddButton(View view) {
-
-		// TODO: just here for testing
-		try {
-			for (Script s : ProjectManager.getInstance().getCurrentSprite().getScriptList()) {
-				String catrobatString = s.getScriptBrick().serializeToCatrobatLanguage(0);
-				Log.println(Log.INFO, "CATROBAT", catrobatString);
-			}
-		} catch (Exception ex) {
-			Log.e(TAG, "Error while serializing to catrobat language", ex);
-		}
-
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();
 			return;
