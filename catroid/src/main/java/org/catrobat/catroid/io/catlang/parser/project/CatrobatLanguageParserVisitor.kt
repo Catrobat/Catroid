@@ -225,7 +225,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Catrobat app version must occur exactly once")
         }
         loadedMetadata.add(ctx.CATRPBAT_APP_VERSION().text)
-        project.applicationVersion = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
+        project.xmlHeader.applicationVersion = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
         return CatrobatLanguageBaseResult()
     }
 
@@ -269,7 +269,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Landscape mode must occur exactly once")
         }
         loadedStage.add(ctx.LANDSCAPE_MODE().text)
-        project.setlandscapeMode(CatrobatLanguageParserHelper.getStringToBoolean(ctx.STRING().text))
+        project.xmlHeader.setlandscapeMode(CatrobatLanguageParserHelper.getStringToBoolean(ctx.STRING().text))
         return CatrobatLanguageBaseResult()
     }
 
@@ -282,7 +282,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         }
         loadedStage.add(ctx.HEIGHT().text)
         try {
-            project.setScreenHeight(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
+            project.xmlHeader.setVirtualScreenHeight(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
         } catch (exception: NumberFormatException) {
             throw CatrobatLanguageParsingException("Height must be a valid numerical value")
         }
@@ -298,7 +298,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         }
         loadedStage.add(ctx.WIDTH().text)
         try {
-            project.setScreenWidth(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
+            project.xmlHeader.setVirtualScreenWidth(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
         } catch (exception: NumberFormatException) {
             throw CatrobatLanguageParsingException("Width must be a valid numerical value")
         }
