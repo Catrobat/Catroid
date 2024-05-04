@@ -53,6 +53,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
+	private static final String ANY_ACTOR_OR_OBJECT_VALUE = "any edge, actor, or object";
 
 	private static final String ANYTHING_ESCAPE_CHAR = "\0";
 
@@ -138,7 +139,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		if (name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
 			String actorOrObjectName = "";
 			if (script.getSpriteToBounceOffName() == null) {
-				actorOrObjectName = "any edge, actor, or object";
+				actorOrObjectName = ANY_ACTOR_OR_OBJECT_VALUE;
 			} else {
 				actorOrObjectName = CatrobatLanguageUtils.formatActorOrObject(script.getSpriteToBounceOffName());
 			}
@@ -160,12 +161,12 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 		String actorOrObjectName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		if (actorOrObjectName != null) {
-			if (actorOrObjectName.equals("any edge, actor, or object")) {
+			if (actorOrObjectName.trim().equals(ANY_ACTOR_OR_OBJECT_VALUE)) {
 				script.setSpriteToBounceOffName(null);
 			} else {
 				Sprite selectedSprite = scene.getSprite(CatrobatLanguageUtils.getAndValidateStringContent(actorOrObjectName));
 				if (selectedSprite != null) {
-					script.setSpriteToBounceOffName(selectedSprite.getName());
+					script.setSpriteToBounceOffName(selectedSprite.getName(), scene);
 				} else {
 					throw new CatrobatLanguageParsingException("No actor or object found with name: " + actorOrObjectName);
 				}
