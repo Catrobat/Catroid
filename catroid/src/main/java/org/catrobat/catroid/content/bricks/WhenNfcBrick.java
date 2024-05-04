@@ -57,6 +57,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 
 	private static final long serialVersionUID = 1L;
 	private static final String NFC_TAG_CATLANG_PARAMETER_NAME = "nfc tag";
+	private static final String NFC_TAG_ALL_VALUE = "all";
 
 	private WhenNfcScript script;
 
@@ -145,7 +146,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		if (name.equals(NFC_TAG_CATLANG_PARAMETER_NAME)) {
 			String nfcTagName = "";
 			if (script.getMatchAll()) {
-				nfcTagName = "all";
+				nfcTagName = NFC_TAG_ALL_VALUE;
 			} else if (script.getNfcTag() != null) {
 				nfcTagName = CatrobatLanguageUtils.formatNFCTag(script.getNfcTag().getName());
 			}
@@ -170,7 +171,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 			throw new CatrobatLanguageParsingException("No nfc tag argument found");
 		}
 		script.setNfcTag(null);
-		if (nfcTagArgument.equals("all")) {
+		if (nfcTagArgument.equals(NFC_TAG_ALL_VALUE)) {
 			script.setMatchAll(true);
 		} else {
 			script.setMatchAll(false);
