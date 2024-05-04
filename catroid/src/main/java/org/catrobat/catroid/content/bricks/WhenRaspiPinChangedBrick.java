@@ -53,6 +53,8 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private static final String PIN_CATLANG_PARAMETER_NAME = "pin";
+	private static final String PIN_HIGH_VALUE = "high";
+	private static final String PIN_LOW_VALUE = "low";
 	private static final String POSITION_CATLANG_PARAMETER_NAME = "position";
 
 	private RaspiInterruptScript script;
@@ -157,7 +159,8 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, pin);
 		}
 		if (name.equals(POSITION_CATLANG_PARAMETER_NAME)) {
-			String position = script.getEventValue() == null ? "" : script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low";
+			String position = script.getEventValue() == null ? "" :
+					script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? PIN_HIGH_VALUE : PIN_LOW_VALUE;
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, position);
 		}
 		return super.getArgumentByCatlangName(name);
@@ -179,9 +182,9 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 		if (selectedPosition == null) {
 			throw new CatrobatLanguageParsingException("No RasPi position value given");
 		}
-		if (selectedPosition.equals("high")) {
+		if (selectedPosition.equals(PIN_HIGH_VALUE)) {
 			script.setEventValue(BrickValues.RASPI_EVENTS[0]);
-		} else if (selectedPosition.equals("low")) {
+		} else if (selectedPosition.equals(PIN_LOW_VALUE)) {
 			script.setEventValue(BrickValues.RASPI_EVENTS[1]);
 		} else {
 			throw new CatrobatLanguageParsingException("Invalid RasPi position value: " + selectedPosition);
