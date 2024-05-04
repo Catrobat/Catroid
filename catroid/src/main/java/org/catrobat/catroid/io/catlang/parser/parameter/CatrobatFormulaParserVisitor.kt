@@ -496,32 +496,30 @@ internal class CatrobatFormulaParserVisitor(
             return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.NUMBER, context.NUMBER().text, tryGetParentFormulaElement()))
         }
         if (context.STRING() != null) {
-            val trimmedString = trimFirstAndLastCharacter(context.STRING().text).replace("\\'", "'")
-            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, trimmedString, tryGetParentFormulaElement()))
+            var stringContent = CatrobatLanguageUtils.getAndValidateStringContent(context.STRING().text)
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.STRING, stringContent, tryGetParentFormulaElement()))
         }
         if (context.UDB_PARAMETER() != null) {
-            val trimmedUDBParameter = trimFirstAndLastCharacter(context.UDB_PARAMETER().text).replace("\\[", "[").replace("\\]", "]")
-            if (!userDefinedBrickParameters.contains(trimmedUDBParameter)) {
-                throw FormulaParsingException("Unknown user defined brick parameter: $trimmedUDBParameter")
+            val udbParameter = CatrobatLanguageUtils.getAndValidateUserDefinedBrickParameter(context.UDB_PARAMETER().text)
+            if (!userDefinedBrickParameters.contains(udbParameter)) {
+                throw FormulaParsingException("Unknown user defined brick parameter: $udbParameter")
             }
-            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, trimmedUDBParameter, tryGetParentFormulaElement()))
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT, udbParameter, tryGetParentFormulaElement()))
         }
         if (context.LIST() != null) {
-            val trimmedListParameter = trimFirstAndLastCharacter(context.LIST().text).replace("\\*", "*")
-            if (!userLists.contains(trimmedListParameter)) {
-                throw FormulaParsingException("Unknown list: $trimmedListParameter")
+            val listName = CatrobatLanguageUtils.getAndValidateListName(context.LIST().text)
+            if (!userLists.contains(listName)) {
+                throw FormulaParsingException("Unknown list: $listName")
             }
-            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, trimmedListParameter, tryGetParentFormulaElement()))
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_LIST, listName, tryGetParentFormulaElement()))
         }
         if (context.VARIABLE() != null) {
-            val trimmedVariableParameter = trimFirstAndLastCharacter(context.VARIABLE().text).replace("\\\"", "\"")
-            if (!variables.contains(trimmedVariableParameter)) {
-                throw FormulaParsingException("Unknown variable: $trimmedVariableParameter")
+            val variableName = CatrobatLanguageUtils.getAndValidateVariableName(context.VARIABLE().text)
+            if (!variables.contains(variableName)) {
+                throw FormulaParsingException("Unknown variable: $variableName")
             }
-            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, trimmedVariableParameter, tryGetParentFormulaElement()))
+            return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.USER_VARIABLE, variableName, tryGetParentFormulaElement()))
         }
         throw FormulaParsingException("No literal found")
     }
-
-    private fun trimFirstAndLastCharacter(string: String) = string.substring(1, string.length - 1)
 }

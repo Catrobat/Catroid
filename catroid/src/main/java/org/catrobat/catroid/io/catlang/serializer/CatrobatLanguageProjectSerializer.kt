@@ -42,7 +42,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
 
     fun serialize(): String {
         programString.appendLine("#! Catrobat Language Version $languageVersion")
-        programString.appendLine("Program ${CatrobatLanguageUtils.getEscapedString(project.name)} {")
+        programString.appendLine("Program ${CatrobatLanguageUtils.formatString(project.name)} {")
 
         serializeMetadata()
         programString.appendLine()
@@ -60,19 +60,19 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
         val metadata = project.xmlHeader
 
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Metadata {")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Description: ${CatrobatLanguageUtils.getEscapedString(project.description)},")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat version: ${CatrobatLanguageUtils.getEscapedString("${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}")},")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat app version: ${CatrobatLanguageUtils.getEscapedString(metadata.applicationVersion)}")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Description: ${CatrobatLanguageUtils.formatString(project.description)},")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat version: ${CatrobatLanguageUtils.formatString("${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}")},")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat app version: ${CatrobatLanguageUtils.formatString(metadata.applicationVersion)}")
         programString.appendLine(level1IndentionLevelEnd)
     }
 
     private fun serializeStageData() {
         val metadata = project.xmlHeader
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Stage {")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Landscape mode: ${CatrobatLanguageUtils.getEscapedString(metadata.islandscapeMode().toString())},")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Width: ${CatrobatLanguageUtils.getEscapedString(metadata.virtualScreenWidth.toString())},")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Height: ${CatrobatLanguageUtils.getEscapedString(metadata.virtualScreenHeight.toString())},")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Display mode: ${CatrobatLanguageUtils.getEscapedString(metadata.screenMode.toString())}")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Landscape mode: ${CatrobatLanguageUtils.formatString(metadata.islandscapeMode().toString())},")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Width: ${CatrobatLanguageUtils.formatString(metadata.virtualScreenWidth.toString())},")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Height: ${CatrobatLanguageUtils.formatString(metadata.virtualScreenHeight.toString())},")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Display mode: ${CatrobatLanguageUtils.formatString(metadata.screenMode.toString())}")
         programString.appendLine(level1IndentionLevelEnd)
     }
 
@@ -113,7 +113,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
 
     private fun serializeScenes() {
         for (scene in project.sceneList) {
-            programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Scene ${CatrobatLanguageUtils.getEscapedString(scene.name)} {")
+            programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Scene ${CatrobatLanguageUtils.formatString(scene.name)} {")
             if (scene.backgroundSprite != null) {
                 programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Background {")
                 serializeSprite(scene.backgroundSprite)
@@ -124,7 +124,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project, private va
                 if (sprite == scene.backgroundSprite) {
                     continue
                 }
-                programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Actor or object ${CatrobatLanguageUtils.getEscapedString(sprite.name)} {")
+                programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Actor or object ${CatrobatLanguageUtils.formatString(sprite.name)} {")
                 serializeSprite(sprite)
                 programString.appendLine(level2IndentionLevelEnd)
             }

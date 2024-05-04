@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParser
 import org.catrobat.catroid.io.catlang.parser.project.antlr.gen.CatrobatLanguageParserVisitor
 import org.catrobat.catroid.io.catlang.parser.project.context.CatrobatLanguageArgumentResult
@@ -127,7 +128,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid program body found.")
         }
-        this.project.name = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
+        this.project.name = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text)
 
         if (ctx.metadata() == null || ctx.metadata().size != 1) {
             throw CatrobatLanguageParsingException("Metadata must occur exactly once")
@@ -196,7 +197,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Description must occur exactly once")
         }
         loadedMetadata.add(ctx.DESCRIPTION().text)
-        project.description = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
+        project.description = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text)
         return CatrobatLanguageBaseResult()
     }
 
@@ -210,7 +211,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         loadedMetadata.add(ctx.CATROBAT_VERSION().text)
 
         try {
-            project.catrobatLanguageVersion = CatrobatLanguageParserHelper.getStringToDouble(ctx.STRING().text)
+            project.catrobatLanguageVersion = CatrobatLanguageUtils.getAndValidateDoubleFromString(ctx.STRING().text)
         } catch (exception: NumberFormatException) {
             throw CatrobatLanguageParsingException("Catrobat version must be a valid numerical value")
         }
@@ -225,7 +226,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Catrobat app version must occur exactly once")
         }
         loadedMetadata.add(ctx.CATRPBAT_APP_VERSION().text)
-        project.xmlHeader.applicationVersion = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
+        project.xmlHeader.applicationVersion = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text)
         return CatrobatLanguageBaseResult()
     }
 
@@ -269,7 +270,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Landscape mode must occur exactly once")
         }
         loadedStage.add(ctx.LANDSCAPE_MODE().text)
-        project.xmlHeader.setlandscapeMode(CatrobatLanguageParserHelper.getStringToBoolean(ctx.STRING().text))
+        project.xmlHeader.setlandscapeMode(CatrobatLanguageUtils.getAndValidateBooleanFromString(ctx.STRING().text))
         return CatrobatLanguageBaseResult()
     }
 
@@ -282,7 +283,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         }
         loadedStage.add(ctx.HEIGHT().text)
         try {
-            project.xmlHeader.setVirtualScreenHeight(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
+            project.xmlHeader.setVirtualScreenHeight(CatrobatLanguageUtils.getAndValidateIntFromString(ctx.STRING().text))
         } catch (exception: NumberFormatException) {
             throw CatrobatLanguageParsingException("Height must be a valid numerical value")
         }
@@ -298,7 +299,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         }
         loadedStage.add(ctx.WIDTH().text)
         try {
-            project.xmlHeader.setVirtualScreenWidth(CatrobatLanguageParserHelper.getStringToInt(ctx.STRING().text))
+            project.xmlHeader.setVirtualScreenWidth(CatrobatLanguageUtils.getAndValidateIntFromString(ctx.STRING().text))
         } catch (exception: NumberFormatException) {
             throw CatrobatLanguageParsingException("Width must be a valid numerical value")
         }
@@ -315,7 +316,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         loadedStage.add(ctx.DISPLAY_MODE().text)
 
         ScreenModes.values().forEach {
-            if (it.name.equals(CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text), ignoreCase = true)) {
+            if (it.name.equals(CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text), ignoreCase = true)) {
                 project.screenMode = it
                 return CatrobatLanguageBaseResult()
             }
@@ -366,21 +367,21 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx.variableDeclaration() != null) {
             return visitVariableDeclaration(ctx.variableDeclaration())
         }
-        return CatrobatLanguageListResult(CatrobatLanguageParserHelper.getListName(ctx.LIST_REF().text))
+        return CatrobatLanguageListResult(CatrobatLanguageUtils.getAndValidateListName(ctx.LIST_REF().text))
     }
 
     override fun visitVariableDeclaration(ctx: CatrobatLanguageParser.VariableDeclarationContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid variable declaration found.")
         }
-        return CatrobatLanguageVariableResult(CatrobatLanguageParserHelper.getVariableName(ctx.VARIABLE_REF().text))
+        return CatrobatLanguageVariableResult(CatrobatLanguageUtils.getAndValidateVariableName(ctx.VARIABLE_REF().text))
     }
 
     override fun visitScene(ctx: CatrobatLanguageParser.SceneContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid scene found.")
         }
-        val sceneName = CatrobatLanguageParserHelper.getStringContent(ctx.STRING().text)
+        val sceneName = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text)
         val scene = Scene(sceneName, project)
         currentScene = scene
         project.sceneList.add(scene)
@@ -415,7 +416,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid actor found.")
         }
-        val sprite = Sprite(CatrobatLanguageParserHelper.getStringContent(ctx.STRING(0).text))
+        val sprite = Sprite(CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING(0).text))
         currentSprite = sprite
         currentScene!!.spriteList.add(sprite)
 
@@ -521,8 +522,8 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         if (ctx.STRING().size != 2) {
             throw CatrobatLanguageParsingException("The file definition must contain the name and the file identifier.")
         }
-        val lookOrSoundName = CatrobatLanguageParserHelper.getStringContent(ctx.STRING(0).text)
-        val lookOrSoundFileName = CatrobatLanguageParserHelper.getStringContent(ctx.STRING(1).text)
+        val lookOrSoundName = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING(0).text)
+        val lookOrSoundFileName = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING(1).text)
         return CatrobatLanguageKeyValueResult(lookOrSoundName, lookOrSoundFileName)
     }
 
