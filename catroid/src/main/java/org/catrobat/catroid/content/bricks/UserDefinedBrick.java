@@ -349,25 +349,20 @@ public class UserDefinedBrick extends FormulaBrick {
 				getUserDefinedBrickInputs(), userDefinedBrickID));
 	}
 
-	private void addCatroabLanguageBrickName(StringBuilder catrobatLanguage) {
+	private void addCatrobatLanguageBrickName(StringBuilder catrobatLanguage) {
 		catrobatLanguage.append('`');
 		for (int i = 0; i < userDefinedBrickDataList.size(); i++) {
 			UserDefinedBrickData userDefinedBrickData = userDefinedBrickDataList.get(i);
-			if (userDefinedBrickData.isLabel()) {
-				String labelContent = userDefinedBrickData.getName().trim();
-				if (labelContent.isEmpty()) {
-					continue;
+			String userDefinedBrickDataName = userDefinedBrickData.getName().trim();
+			if (!userDefinedBrickDataName.isEmpty()) {
+				if (userDefinedBrickData.isLabel()) {
+					catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(userDefinedBrickDataName).trim());
+				} else {
+					catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(userDefinedBrickDataName).trim());
 				}
-				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(labelContent).trim());
-			} else {
-				String inputName = userDefinedBrickData.getName().trim();
-				if (inputName.isEmpty()) {
-					continue;
+				if (i < userDefinedBrickDataList.size() - 1) {
+					catrobatLanguage.append(' ');
 				}
-				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(inputName).trim());
-			}
-			if (i < userDefinedBrickDataList.size() - 1) {
-				catrobatLanguage.append(' ');
 			}
 		}
 		catrobatLanguage.append('`');
@@ -403,14 +398,14 @@ public class UserDefinedBrick extends FormulaBrick {
 			if (isCommentedOut()) {
 				catrobatLanguage.append("// ");
 			}
-			addCatroabLanguageBrickName(catrobatLanguage);
+			addCatrobatLanguageBrickName(catrobatLanguage);
 			catrobatLanguage.append(" (");
 			addCatrobatLanguageParameters(catrobatLanguage);
 			catrobatLanguage.append(");\n");
 			return catrobatLanguage.toString();
 		} else {
 			StringBuilder catrobatLanguage = new StringBuilder(20);
-			addCatroabLanguageBrickName(catrobatLanguage);
+			addCatrobatLanguageBrickName(catrobatLanguage);
 			return catrobatLanguage.toString();
 		}
 	}
