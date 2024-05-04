@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage.serializer
 
+import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
@@ -36,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import org.catrobat.catroid.userbrick.InputFormulaField
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,8 +49,9 @@ class UserDefinedBrickSerializationTest {
     @Test
     fun testFibonacci() {
         val userDefinedBrick = UserDefinedBrick()
-        userDefinedBrick.addLabel("fibonacci")
-        userDefinedBrick.addInput("n")
+        userDefinedBrick.setCallingBrick(false)
+        addLabelToUserDefinedBrick(userDefinedBrick, "fibonacci")
+        addInputToUserDefinedBrick(userDefinedBrick, "n")
 
         val receiverBrick = UserDefinedReceiverBrick(userDefinedBrick)
         val udbScript = receiverBrick.script as UserDefinedScript
@@ -66,7 +70,9 @@ class UserDefinedBrickSerializationTest {
         val startBrick: Brick = WhenStartedBrick(startScript)
         val userDefinedCallingBrick = UserDefinedBrick(userDefinedBrick)
         userDefinedCallingBrick.setCallingBrick(true)
-        userDefinedCallingBrick.userDefinedBrickInputs[0].value = Formula(10)
+        val formula = Formula(10)
+        initUserDefinedBrickInput(userDefinedCallingBrick, "n", formula)
+        userDefinedCallingBrick.userDefinedBrickInputs[0].value = formula
         startScript.addBrick(userDefinedCallingBrick)
 
         testBrick(receiverBrick, """
@@ -114,22 +120,30 @@ class UserDefinedBrickSerializationTest {
     @Test
     fun testNestedUserDefinedBrick() {
         val userDefinedBrick1 = UserDefinedBrick()
-        userDefinedBrick1.addInput("[]")
-        userDefinedBrick1.addLabel("myBrick is super")
-        userDefinedBrick1.addInput("`o`")
+        userDefinedBrick1.setCallingBrick(false)
+        addInputToUserDefinedBrick(userDefinedBrick1, "[]")
+        addLabelToUserDefinedBrick(userDefinedBrick1, "myBrick is super")
+        addInputToUserDefinedBrick(userDefinedBrick1, "`o`")
 
         val userDefinedCallingBrick1 = UserDefinedBrick(userDefinedBrick1)
         userDefinedCallingBrick1.setCallingBrick(true)
-        userDefinedCallingBrick1.userDefinedBrickInputs[0].value = Formula(10)
-        userDefinedCallingBrick1.userDefinedBrickInputs[1].value = Formula(20)
+        val formula1 = Formula(10)
+        val formula2 = Formula(20)
+        initUserDefinedBrickInput(userDefinedCallingBrick1, "[]", formula1)
+        initUserDefinedBrickInput(userDefinedCallingBrick1, "`o`", formula2)
+        userDefinedCallingBrick1.userDefinedBrickInputs[0].value = formula1
+        userDefinedCallingBrick1.userDefinedBrickInputs[1].value = formula2
 
         val userDefinedBrick2 = UserDefinedBrick()
-        userDefinedBrick2.addLabel("prin[`t]")
-        userDefinedBrick2.addInput("value")
+        userDefinedBrick2.setCallingBrick(false)
+        addLabelToUserDefinedBrick(userDefinedBrick2, "prin[`t]")
+        addInputToUserDefinedBrick(userDefinedBrick2, "value")
 
         val userDefinedCallingBrick2 = UserDefinedBrick(userDefinedBrick2)
         userDefinedCallingBrick2.setCallingBrick(true)
-        userDefinedCallingBrick2.userDefinedBrickInputs[0].value = Formula("hi")
+        val formula3 = Formula("hi")
+        userDefinedCallingBrick2.userDefinedBrickInputs[0].value = formula3
+        initUserDefinedBrickInput(userDefinedCallingBrick2, "value", formula3)
 
         val receiverBrick1 = UserDefinedReceiverBrick(userDefinedBrick1)
         val udbScript1 = receiverBrick1.script as UserDefinedScript
@@ -160,6 +174,21 @@ class UserDefinedBrickSerializationTest {
             |}
             |""".trimMargin()
         )
+    }
+
+    private fun initUserDefinedBrickInput(userDefinedBrick: UserDefinedBrick, input: String,
+        formula: Formula) {
+        val formulaFieldID = InputFormulaField(input)
+        userDefinedBrick.formulaMap[formulaFieldID] = formula
+        userDefinedBrick.formulaFieldToTextViewMap[formulaFieldID] = TextView(CatroidApplication.getAppContext())
+    }
+
+    private fun addInputToUserDefinedBrick(userDefinedBrick: UserDefinedBrick, label: String) {
+        userDefinedBrick.addInput(label)
+    }
+
+    private fun addLabelToUserDefinedBrick(userDefinedBrick: UserDefinedBrick, label: String) {
+        userDefinedBrick.addLabel(label)
     }
 
     private fun getFibonacciIfCondition(): Formula {
