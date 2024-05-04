@@ -36,10 +36,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -154,7 +153,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
 		super.setParameters(context, project, scene, sprite, arguments);
 		String lookName = arguments.get(LOOK_CATLANG_PARAMETER_NAME);
-		look = sprite.getLookByName(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(lookName));
+		look = sprite.getLookByName(CatrobatLanguageUtils.getAndValidateStringContent(lookName));
 		if (look == null) {
 			throw new CatrobatLanguageParsingException("No look found with name: " + lookName);
 		}

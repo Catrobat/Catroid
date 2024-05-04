@@ -43,9 +43,8 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
@@ -301,7 +300,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 			}
 			UserData userData;
 			if (BrickData.isUserList(brickData)) {
-				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateListName(userDataName);
+				userDataName = CatrobatLanguageUtils.getAndValidateListName(userDataName);
 				userData = sprite.getUserList(userDataName);
 				if (userData == null) {
 					userData = project.getUserList(userDataName);
@@ -310,7 +309,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 					}
 				}
 			} else {
-				userDataName = CatrobatLanguageParserUtils.Companion.getAndValidateVariableName(userDataName);
+				userDataName = CatrobatLanguageUtils.getAndValidateVariableName(userDataName);
 				userData = sprite.getUserVariable(userDataName);
 				if (userData == null) {
 					userData = project.getUserVariable(userDataName);

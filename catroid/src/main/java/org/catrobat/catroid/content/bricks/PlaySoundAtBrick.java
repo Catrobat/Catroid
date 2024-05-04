@@ -37,10 +37,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -175,7 +174,7 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 
 		String soundName = arguments.get(SOUND_CATLANG_PARAMETER_NAME);
 		if (soundName != null) {
-			sound = sprite.getSoundByName(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(soundName));
+			sound = sprite.getSoundByName(CatrobatLanguageUtils.getAndValidateStringContent(soundName));
 			if (sound == null) {
 				throw new CatrobatLanguageParsingException("No sound found with name " + soundName);
 			}

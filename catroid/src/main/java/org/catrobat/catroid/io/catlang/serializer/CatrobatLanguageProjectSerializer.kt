@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.UserDefinedScript
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
 class CatrobatLanguageProjectSerializer(private val project: Project, private val context: Context) {
 

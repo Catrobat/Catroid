@@ -39,10 +39,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
 
 import java.util.ArrayList;
@@ -175,7 +174,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 			script.setMatchAll(true);
 		} else {
 			script.setMatchAll(false);
-			nfcTagArgument = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(nfcTagArgument);
+			nfcTagArgument = CatrobatLanguageUtils.getAndValidateStringContent(nfcTagArgument);
 			for (NfcTagData nfcTag : sprite.getNfcTagList()) {
 				if (nfcTag.getName().equals(nfcTagArgument)) {
 					script.setNfcTag(nfcTag);

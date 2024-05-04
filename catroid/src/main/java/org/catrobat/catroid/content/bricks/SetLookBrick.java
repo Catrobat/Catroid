@@ -35,10 +35,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -164,7 +163,7 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		if (lookName.isEmpty()) {
 			return;
 		}
-		look = sprite.getLookByName(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(lookName));
+		look = sprite.getLookByName(CatrobatLanguageUtils.getAndValidateStringContent(lookName));
 		if (look == null) {
 			throw new CatrobatLanguageParsingException("No look found with name " + lookName);
 		}

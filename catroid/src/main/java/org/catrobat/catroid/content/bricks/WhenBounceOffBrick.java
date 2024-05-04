@@ -36,10 +36,9 @@ import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -164,7 +163,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 			if (actorOrObjectName.equals("any edge, actor, or object")) {
 				script.setSpriteToBounceOffName(null);
 			} else {
-				Sprite selectedSprite = scene.getSprite(CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(actorOrObjectName));
+				Sprite selectedSprite = scene.getSprite(CatrobatLanguageUtils.getAndValidateStringContent(actorOrObjectName));
 				if (selectedSprite != null) {
 					script.setSpriteToBounceOffName(selectedSprite.getName());
 				} else {

@@ -32,9 +32,8 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Companion.showFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface
 
@@ -112,7 +111,7 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
             throw CatrobatLanguageParsingException("Missing required argument $LISTS_CATLANG_PARAMETER_NAME")
         }
         val lists = arguments[LISTS_CATLANG_PARAMETER_NAME]!!.split(",")
-        val formattedListNames = lists.map { CatrobatLanguageParserUtils.getAndValidateListName(it.trim()) }
+        val formattedListNames = lists.map { CatrobatLanguageUtils.getAndValidateListName(it.trim()) }
         formattedListNames.forEach {
             var list = project.getUserList(it)
             if (list == null) {

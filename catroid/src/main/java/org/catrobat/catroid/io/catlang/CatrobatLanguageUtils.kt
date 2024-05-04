@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang.serializer
+package org.catrobat.catroid.io.catlang
 
 import android.content.Context
 import android.content.res.Configuration
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import org.catrobat.catroid.io.catlang.serializer.IndentionLevel
 import java.util.AbstractMap
 import java.util.Locale
 
 object CatrobatLanguageUtils {
+    val variableRegex = Regex("^\"(.*)\"$")
+    val listRegex = Regex("^\\*(.*)\\*$")
+    val stringRegex = Regex("^'(.*)'$")
+
+    @JvmStatic
+    fun getAndValidateStringContent(name: String): String {
+        val variableMatch = stringRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid string: $name. Expected format: 'string content'")
+        return variableMatch.groupValues[1].replace("\\'", "'")
+    }
+
+    @JvmStatic
+    fun getAndValidateVariableName(name: String): String {
+        val variableMatch = variableRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid variable name: $name. Expected format: \"variable name\"")
+        return variableMatch.groupValues[1].replace("\\\"", "\"")
+    }
+
+    @JvmStatic
+    fun getAndValidateListName(name: String): String {
+        val listMatch = listRegex.find(name) ?: throw CatrobatLanguageParsingException("Invalid list name: $name. Expected format: *list name*")
+        return listMatch.groupValues[1].replace("\\*", "*")
+    }
+
     @JvmStatic
     fun getCatlangArgumentTuple(name: String, nullableValue: String?): AbstractMap.SimpleEntry<String, String> {
         var value = nullableValue

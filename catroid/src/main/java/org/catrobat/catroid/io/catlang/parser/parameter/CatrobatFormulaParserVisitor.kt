@@ -46,7 +46,7 @@ import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterListVis
 import org.catrobat.catroid.io.catlang.parser.parameter.error.FormulaParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.InvalidNumberOfFunctionArgumentsException
 import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorOrFunctionException
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import java.util.Stack
 
 internal class CatrobatFormulaParserVisitor(
@@ -114,7 +114,8 @@ internal class CatrobatFormulaParserVisitor(
         )
     }
 
-    private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
+    private val externToInternValues = InternToExternGenerator.getExternToInternValueMapping(
+        CatrobatLanguageUtils.getEnglishContextForFormulas(context))
     private val collisionFormulaString = CatrobatLanguageUtils.getEnglishContextForFormulas(context).getString(R.string.formula_editor_function_collision)
 
     private val parentFormulaStack = Stack<FormulaElement>()

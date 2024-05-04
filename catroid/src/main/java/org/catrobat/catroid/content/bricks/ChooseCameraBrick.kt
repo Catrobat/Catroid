@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
 @CatrobatLanguageBrick(command = "Use")
 class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType() {

@@ -34,10 +34,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.parser.project.CatrobatLanguageParserUtils;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -139,7 +138,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 		super.setParameters(context, project, scene, sprite, arguments);
 		String spriteName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
 		if (!spriteName.equals("yourself")) {
-			spriteName = CatrobatLanguageParserUtils.Companion.getAndValidateStringContent(spriteName);
+			spriteName = CatrobatLanguageUtils.getAndValidateStringContent(spriteName);
 			objectToClone = scene.getSprite(spriteName);
 			if (objectToClone == null) {
 				throw new CatrobatLanguageParsingException("No sprite with name " + spriteName + " found");
