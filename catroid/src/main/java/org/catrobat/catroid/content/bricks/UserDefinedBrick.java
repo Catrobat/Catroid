@@ -382,7 +382,7 @@ public class UserDefinedBrick extends FormulaBrick {
 					catrobatLanguage.append(", ");
 				}
 
-				String value = input.getValue().getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
+				String value = getFormulaWithBrickField(input.getInputFormulaField()).getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
 				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(input.getName()))
 						.append(": (")
 						.append(value)

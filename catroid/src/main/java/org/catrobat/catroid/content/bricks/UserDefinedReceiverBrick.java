@@ -179,7 +179,7 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 		if (name.equals(BRICK_CATLANG_PARAMETER_NAME)) {
 			String userDefinedBrickSerialized = "";
 			if (userDefinedBrick instanceof UserDefinedBrick) {
-				userDefinedBrickSerialized = ((UserDefinedBrick) userDefinedBrick).serializeToCatrobatLanguage(0);
+				userDefinedBrickSerialized = userDefinedBrick.serializeToCatrobatLanguage(0);
 			}
 			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userDefinedBrickSerialized);
 		}
@@ -189,32 +189,4 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 		}
 		return super.getArgumentByCatlangName(name);
 	}
-
-//	@NonNull
-//	@Override
-//	public String serializeToCatrobatLanguage(int indentionLevel) {
-//		StringBuilder catrobatLanguage = new StringBuilder(100);
-//		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-//		catrobatLanguage.append(indention);
-//		catrobatLanguage.append(getCatrobatLanguageCommand())
-//				.append(' ');
-//
-//		UserDefinedBrick udBrick = (UserDefinedBrick) userDefinedBrick;
-//		catrobatLanguage.append(udBrick.serializeToCatrobatLanguage(indentionLevel))
-//				.append(' ');
-//
-//		if (userDefinedScript.getScreenRefresh()) {
-//			catrobatLanguage.append("with");
-//		} else {
-//			catrobatLanguage.append("without");
-//		}
-//		catrobatLanguage.append(" screen refresh as {\n");
-//
-//		for (Brick brick : userDefinedScript.getBrickList()) {
-//			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-//		}
-//		catrobatLanguage.append(indention);
-//		catrobatLanguage.append("}\n");
-//		return catrobatLanguage.toString();
-//	}
 }
