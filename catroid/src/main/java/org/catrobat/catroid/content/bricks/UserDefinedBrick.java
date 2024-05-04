@@ -246,6 +246,8 @@ public class UserDefinedBrick extends FormulaBrick {
 				((BrickLayout.LayoutParams) textView.getLayoutParams()).setEditText(true);
 			}
 			((BrickLayout.LayoutParams) textView.getLayoutParams()).setHorizontalSpacing(horizontalSpacing);
+			InputFormulaField fieldIdentifier = new InputFormulaField(userDefinedBrickData.getName());
+			formulaFieldToTextViewMap.forcePut(fieldIdentifier, textView);
 		}
 
 		Fragment currentFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -425,6 +427,9 @@ public class UserDefinedBrick extends FormulaBrick {
 				}
 				CatrobatFormulaParser formulaParser = new CatrobatFormulaParser(context, project, scene, sprite, this);
 				input.setValue(formulaParser.parseArgument(argument));
+				InputFormulaField inputField = new InputFormulaField(input.getName());
+				addAllowedBrickField(inputField, new TextView(context));
+				setFormulaWithBrickField(inputField, input.getValue());
 			}
 		}
 	}
