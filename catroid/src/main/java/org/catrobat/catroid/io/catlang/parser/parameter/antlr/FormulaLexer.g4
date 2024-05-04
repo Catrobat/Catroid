@@ -6,9 +6,6 @@ fragment LOWERCASE : 'a'..'z';
 fragment DIGIT : '0'..'9';
 WS: [ \t\r\n]+ -> skip;
 
-//mode FORMULA_MODE;
-//FORMULA_BRACKET_CLOSE: ')' -> popMode;
-
 NUMBER
 	: DIGIT+ ('.' DIGIT+)?
 	;
