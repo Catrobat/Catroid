@@ -126,10 +126,11 @@ class FormulaEditorTouchesActorOrObjectTest {
         pressBack()
         pressBack()
 
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext())
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText(R.string.settings)).perform(click())
         onView(withText(R.string.preference_title_language)).perform(click())
         onData(Matchers.hasToString(germanLocale.getDisplayName(germanLocale))).perform(click())
+        onView(withText(R.string.confirm)).perform(click())
         onView(withText(applicationContext.getString(R.string.main_menu_programs))).perform(click())
         onView(withText(projectName)).perform(click())
         onView(withText(spriteName)).perform(click())
@@ -140,7 +141,7 @@ class FormulaEditorTouchesActorOrObjectTest {
         onFormulaEditor().checkShows(generateFormulaString())
     }
 
-    fun generateFormulaString(): String =
+    private fun generateFormulaString(): String =
         applicationContext.getString(R.string.formula_editor_function_collision) +
             "(" + applicationContext.getString(R.string.background) + ")"
 }

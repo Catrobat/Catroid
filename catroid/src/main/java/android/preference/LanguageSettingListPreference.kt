@@ -37,7 +37,7 @@ class LanguageSettingListPreference(context: Context, attrs: AttributeSet) : Lis
         setNegativeButtonText(R.string.cancel)
     }
 
-    private fun getValueIndex(): Int { return findIndexOfValue(this.value.toString()) }
+    private fun getValueIndex(): Int = findIndexOfValue(this.value.toString())
 
     override fun onPrepareDialogBuilder(builder: AlertDialog.Builder?) {
         super.onPrepareDialogBuilder(builder)
