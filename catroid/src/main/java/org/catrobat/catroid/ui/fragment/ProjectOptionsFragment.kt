@@ -54,8 +54,8 @@ import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExportTask
-import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
@@ -71,6 +71,7 @@ import java.io.File
 import java.io.IOException
 
 class ProjectOptionsFragment : Fragment() {
+
     private val projectManager: ProjectManager by inject()
     private var _binding: FragmentProjectOptionsBinding? = null
     private val binding get() = _binding!!

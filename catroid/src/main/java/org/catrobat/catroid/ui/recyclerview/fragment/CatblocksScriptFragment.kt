@@ -196,7 +196,6 @@ class CatblocksScriptFragment(
 
         override fun run() {
             SettingsFragment.setUseCatBlocks(context, false)
-
             val scriptFragment: ScriptFragment = if (brickToFocus == null) {
                 ScriptFragment()
             } else if (brickToFocus is ScriptBrick) {
