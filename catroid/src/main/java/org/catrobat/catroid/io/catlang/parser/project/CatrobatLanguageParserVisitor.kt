@@ -584,7 +584,6 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
 
         val script = ScriptFactory.createScriptFromCatrobatLanguage(ctx.SCRIPT_NAME().text.trim(), arguments.keys.toList())
         parentBrickStack.push(script.scriptBrick)
-//        script.scriptBrick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
         brickParameters.add(BrickParameterInfo(script.scriptBrick, context, project, currentScene!!, currentSprite!!, arguments))
 
         script.scriptBrick.isCommentedOut = ctx.SCRIPT_DISABLED_INDICATOR() != null && ctx.BRICK_LIST_DISABLED_INDICATOR() != null
@@ -663,7 +662,6 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("Brick ${ctx.BRICK_NAME().text} must have an else branch.")
         }
 
-//        brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
         brickParameters.add(BrickParameterInfo(brick, context, project, currentScene!!, currentSprite!!, arguments))
 
         if (ctx.BRICK_LIST_DISABLED_INDICATOR() != null) {
@@ -751,7 +749,6 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             } else {
                 parentBrickStack.peek()
             }
-//            brick.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
             brickParameters.add(BrickParameterInfo(brick, context, project, currentScene!!, currentSprite!!, arguments))
             brick.isCommentedOut = isBrickDisabled
             return CatrobatLanguageBrickResult(brick, arguments)
@@ -770,7 +767,6 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             } else {
                 parentBrickStack.peek()
             }
-//            userDefinedBrickCopy.setParameters(context, project, currentScene!!, currentSprite!!, arguments)
             brickParameters.add(BrickParameterInfo(userDefinedBrickCopy, context, project, currentScene!!, currentSprite!!, arguments))
             return CatrobatLanguageBrickResult(userDefinedBrickCopy, arguments)
         }
