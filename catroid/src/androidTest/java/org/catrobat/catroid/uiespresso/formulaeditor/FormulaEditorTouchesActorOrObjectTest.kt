@@ -24,11 +24,9 @@
 package org.catrobat.catroid.uiespresso.formulaeditor
 
 import android.preference.PreferenceManager
-import androidx.test.InstrumentationRegistry.getInstrumentation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
