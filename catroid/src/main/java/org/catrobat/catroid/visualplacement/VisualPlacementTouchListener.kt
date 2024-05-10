@@ -27,6 +27,7 @@ import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
+import android.widget.ImageView
 import org.catrobat.catroid.utils.AndroidCoordinates
 
 class VisualPlacementTouchListener {
@@ -35,6 +36,7 @@ class VisualPlacementTouchListener {
 
     fun onTouch(
         caller: VisualPlacementViewModel,
+        callerView: ImageView,
         currentPosition: AndroidCoordinates,
         event: MotionEvent,
     ): Boolean {
@@ -60,7 +62,7 @@ class VisualPlacementTouchListener {
         }
 
         previousCoordinates = eventCoordinates
-        caller.setCoordinates(newPosition)
+        caller.setCoordinates(newPosition, callerView)
         return true
     }
 

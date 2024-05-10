@@ -29,7 +29,12 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -40,7 +45,6 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -49,6 +53,7 @@ import org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH
 import org.catrobat.catroid.utils.AndroidCoordinates
 import org.catrobat.catroid.utils.GameCoordinates
 import org.catrobat.catroid.utils.ToastUtil
+import org.catrobat.catroid.utils.getProjectBitmap
 import org.catrobat.catroid.visualplacement.model.DrawableSprite
 import org.koin.android.ext.android.inject
 
@@ -99,7 +104,8 @@ open class VisualPlacementActivity :
         frameLayout = findViewById(R.id.frame_container)
         frameLayout.layoutParams = layoutCalculator.getLayoutParams()
         frameLayout.setOnTouchListener(this)
-        frameLayout.setBackgroundColor(Color.WHITE)
+        //frameLayout.setBackgroundColor(Color.WHITE)
+        setBackground()
 
         viewModel = ViewModelProvider(this)[VisualPlacementViewModel::class.java]
         subscribeToViewModel()
@@ -108,16 +114,35 @@ open class VisualPlacementActivity :
     }
 
     private fun subscribeToViewModel() {
-        viewModel.drawableSprites.observe(this, Observer { spriteList ->
+        viewModel.drawableSprites.observe(this) { spriteList ->
             spriteList.forEach { drawImage(it) }
-        })
+        }
 
-        viewModel.spriteToPlace.observe(this, Observer {
+        viewModel.spriteToPlace.observe(this) {
             if (!::imageViewToMove.isInitialized) {
                 imageViewToMove = drawImage(it)
                 toolbar.bringToFront()
             }
-        })
+        }
+    }
+
+    private fun setBackground() {
+        try {
+            val backgroundBitmap = projectManager.getProjectBitmap()
+            backgroundBitmap.eraseColor(Color.WHITE)
+            val scaledBackgroundBitmap = Bitmap.createScaledBitmap(
+                backgroundBitmap,
+                layoutCalculator.getLayoutParams().width,
+                layoutCalculator.getLayoutParams().height,
+                true
+            )
+            val backgroundDrawable: Drawable = BitmapDrawable(resources, scaledBackgroundBitmap)
+            backgroundDrawable.colorFilter = PorterDuffColorFilter(Color.parseColor("#6F000000"),
+                                                                   PorterDuff.Mode.SRC_ATOP)
+            frameLayout.background = backgroundDrawable
+        } catch (e: Exception) {
+            frameLayout.setBackgroundColor(Color.WHITE)
+        }
     }
 
     private fun drawImage(image: DrawableSprite): ImageView {
@@ -141,7 +166,7 @@ open class VisualPlacementActivity :
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, event: MotionEvent): Boolean =
         touchListener.onTouch(
-            viewModel, viewModel.spriteToPlace.value!!.coordinates
+            viewModel, imageViewToMove, viewModel.spriteToPlace.value!!.coordinates
                 .toAndroidCoordinates(viewModel.layoutSize), event
         )
 
@@ -185,7 +210,7 @@ open class VisualPlacementActivity :
     }
 
     fun setCoordinates(screenTapCoordinates: AndroidCoordinates) {
-        viewModel.setCoordinates(screenTapCoordinates)
+        viewModel.setCoordinates(screenTapCoordinates, imageViewToMove)
     }
 
     private fun ImageView.setPosition(centeredCoordinates: GameCoordinates) {

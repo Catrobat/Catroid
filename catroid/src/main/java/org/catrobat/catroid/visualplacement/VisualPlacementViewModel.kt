@@ -27,6 +27,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -70,6 +71,8 @@ open class VisualPlacementViewModel(
         val initialCoordinates = savedStateHandle.getCoordinates().toGameCoordinates(layoutRatio)
 
         for (sprite in projectManager.currentlyEditedScene.spriteList) {
+            if (sprite.lookList.isEmpty()) continue
+
             val currentBrickHash = savedStateHandle[EXTRA_BRICK_HASH] ?: 0
 
             backgroundSprites.addAll(drawAllBackgroundText(sprite, currentBrickHash))
@@ -150,10 +153,13 @@ open class VisualPlacementViewModel(
         )
     }
 
-    fun setCoordinates(screenTapCoordinates: AndroidCoordinates) {
+    fun setCoordinates(screenTapCoordinates: AndroidCoordinates, imageView: ImageView) {
         val valueToUpdate = spriteToPlace.value
-        valueToUpdate!!.coordinates = screenTapCoordinates.toGameCoordinates(layoutSize)
+        val gameCoordinates = screenTapCoordinates.toGameCoordinates(layoutSize)
+        valueToUpdate!!.coordinates = gameCoordinates
         spriteToPlace.value = valueToUpdate
+        imageView.x = gameCoordinates.x
+        imageView.y = gameCoordinates.y
         imageWasMoved = true
     }
 
