@@ -51,9 +51,11 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguagePickerTest {
@@ -63,8 +65,7 @@ public class LanguagePickerTest {
 			DontGenerateDefaultProjectActivityTestRule<>(SettingsActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
-
-	private static final Locale ARABICLOCALE = new Locale("ar");
+	private static final Locale FRANCELOCALE = new Locale("fr");
 	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
 
 	@Before
@@ -95,19 +96,21 @@ public class LanguagePickerTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void testChangeLanguageToArabic() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
-		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE))))
-				.check(matches(isDisplayed()));
+	public void testChangeLanguageToFrench() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_language)).perform(click());
+		onData(hasToString(startsWith(FRANCELOCALE.getDisplayName(FRANCELOCALE)))).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
+
+		onView(withText("Programmes")).check(matches(isDisplayed()));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testChangeLanguageToDeutsch() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
-		onData(hasToString(startsWith(DEUTSCHLOCALE.getDisplayName(DEUTSCHLOCALE))))
-				.check(matches(isDisplayed()));
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_language)).perform(click());
+		onData(hasToString(startsWith(DEUTSCHLOCALE.getDisplayName(DEUTSCHLOCALE)))).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
+
+		onView(withText("Projekte am Gerät")).check(matches(isDisplayed()));
 	}
 }
