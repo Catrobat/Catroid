@@ -47,7 +47,8 @@ import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionW
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
-import org.catrobat.catroid.uiespresso.util.UiTestUtils
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.createProjectAndGetStartScript
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.hamcrest.Matchers
 import org.junit.After
@@ -88,7 +89,7 @@ class FormulaEditorTouchesActorOrObjectTest {
 
         setLanguageSharedPreference(applicationContext, "en")
 
-        val script = UiTestUtils.createProjectAndGetStartScript(projectName)
+        val script = createProjectAndGetStartScript(projectName)
         script.addBrick(ChangeSizeByNBrick(0.0))
 
         baseActivityTestRule.launchActivity(null)
@@ -126,7 +127,7 @@ class FormulaEditorTouchesActorOrObjectTest {
         pressBack()
         pressBack()
 
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+        openActionBarMenu()
         onView(withText(R.string.settings)).perform(click())
         onView(withText(R.string.preference_title_language)).perform(click())
         onData(Matchers.hasToString(germanLocale.getDisplayName(germanLocale))).perform(click())
