@@ -383,7 +383,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
     private fun validateGlobalUserDataName(name: String) {
         if (project.userVariables.any { variable -> variable.name == name } ||
             project.userLists.any { list -> list.name == name } ||
-            project.userLists.any { list -> list.name == name }) {
+            project.multiplayerVariables.any { multiplayerVariable -> multiplayerVariable.name == name }) {
             throw CatrobatLanguageParsingException("List/variable $name must occur at most once.")
         }
     }
