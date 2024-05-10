@@ -174,4 +174,16 @@ object CatrobatLanguageUtils {
 
     @JvmStatic
     fun getIndention(level: IndentionLevel): String = getIndention(level.ordinal + 1)
+
+    @JvmStatic
+    fun joinString(delimiter: String, strings: List<String>): String {
+        val stringBuilder = StringBuilder()
+        for (i in strings.indices) {
+            stringBuilder.append(strings[i])
+            if (i < strings.size - 1) {
+                stringBuilder.append(delimiter)
+            }
+        }
+        return stringBuilder.toString()
+    }
 }

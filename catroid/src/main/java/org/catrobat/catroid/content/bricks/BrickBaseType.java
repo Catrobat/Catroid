@@ -423,17 +423,6 @@ public abstract class BrickBaseType implements Brick {
 		return arguments;
 	}
 
-	private String joinString(String delimiter, List<String> strings) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < strings.size(); i++) {
-			stringBuilder.append(strings.get(i));
-			if (i < strings.size() - 1) {
-				stringBuilder.append(delimiter);
-			}
-		}
-		return stringBuilder.toString();
-	}
-
 	private String getArgumentListFormatted() {
 		List<Map.Entry<String, String>> arguments = getArgumentList();
 		if (!arguments.isEmpty()) {
@@ -441,7 +430,7 @@ public abstract class BrickBaseType implements Brick {
 			for (Map.Entry<String, String> argument : arguments) {
 				argumentStrings.add(argument.getKey() + ": (" + argument.getValue() + ")");
 			}
-			return " (" + joinString(", ", argumentStrings) + ')';
+			return " (" + CatrobatLanguageUtils.joinString(", ", argumentStrings) + ')';
 		}
 		return "";
 	}
@@ -467,15 +456,15 @@ public abstract class BrickBaseType implements Brick {
 				}
 			}
 			if (!missingArguments.isEmpty()) {
-				String requiredArgumentsString = joinString(", ", (List<String>) requiredArguments);
-				String missingArgumentsString = joinString(", ", missingArguments);
+				String requiredArgumentsString = CatrobatLanguageUtils.joinString(", ", (List<String>) requiredArguments);
+				String missingArgumentsString = CatrobatLanguageUtils.joinString(", ", missingArguments);
 				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
 			}
 		} else {
 			if (requiredArguments.size() == 0) {
 				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
 			}
-			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + joinString(", ", (List<String>) requiredArguments));
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + CatrobatLanguageUtils.joinString(", ", (List<String>) requiredArguments));
 		}
 	}
 }
