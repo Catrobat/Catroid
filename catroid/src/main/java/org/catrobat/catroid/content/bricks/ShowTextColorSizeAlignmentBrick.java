@@ -27,9 +27,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
@@ -40,13 +45,20 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -60,19 +72,29 @@ import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
+@CatrobatLanguageBrick(command = "Show")
 public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ALIGNMENT_CATLANG_PARAMETER_NAME = "alignment";
+	private static final String COLOR_CATLANG_PARAMETER_NAME = "color";
+	private static final BiMap<Integer, String> ALIGNMENT_SPINNER_CATLANG_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(ALIGNMENT_STYLE_LEFT, "left");
+			put(ALIGNMENT_STYLE_CENTERED, "centered");
+			put(ALIGNMENT_STYLE_RIGHT, "right");
+		}
+	});
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public ShowTextColorSizeAlignmentBrick() {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
-		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size);
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color);
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x, "x");
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y, "y");
+		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size, "size");
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color, COLOR_CATLANG_PARAMETER_NAME);
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
@@ -203,6 +225,35 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		intent.putExtra(EXTRA_TEXT_SIZE, sanitizeTextSize());
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
 		return intent;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ALIGNMENT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, ALIGNMENT_SPINNER_CATLANG_VALUES.get(alignmentSelection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ALIGNMENT_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String alignment = arguments.get(ALIGNMENT_CATLANG_PARAMETER_NAME);
+		if (alignment != null) {
+			Integer selectedAlignment = ALIGNMENT_SPINNER_CATLANG_VALUES.inverse().get(alignment);
+			if (selectedAlignment != null) {
+				alignmentSelection = selectedAlignment;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid alignment value: " + alignment);
+			}
+		}
 	}
 
 	private static class AlignmentStyle implements Nameable {

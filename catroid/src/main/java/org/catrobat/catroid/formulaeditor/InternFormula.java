@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -485,20 +486,25 @@ public class InternFormula {
 	}
 
 	public void generateExternFormulaStringAndInternExternMapping(Context context) {
-		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context, false);
 
 		internToExternGenerator.generateExternStringAndMapping(internTokenFormulaList);
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
 	}
 
-	public String trimExternFormulaString(Context context) {
-		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+	public String trimExternFormulaString(Context context, boolean isCatrobatLanguageMode) {
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context, isCatrobatLanguageMode);
 
 		internToExternGenerator.trimExternString(internTokenFormulaList);
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
 		return externFormulaString;
+	}
+
+	public String trimExternFormulaStringForCatrobatLanguage(Context context) {
+		Context englishContext = CatrobatLanguageUtils.getEnglishContextForFormulas(context);
+		return trimExternFormulaString(englishContext, true);
 	}
 
 	@VisibleForTesting

@@ -29,8 +29,13 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
 class ParameterizedEndBrick() : UserListBrick() {
+    companion object {
+        private const val REFRENCE_LIST_CATLANG_PARAMETER_NAME = "reference list"
+        private const val VALUE_LIST_CATLANG_PARAMETER_NAME = "value"
+    }
+
     init {
-        addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text)
+        addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text, VALUE_LIST_CATLANG_PARAMETER_NAME)
     }
 
     constructor(parent: ParameterizedBrick) : this() {
@@ -60,4 +65,17 @@ class ParameterizedEndBrick() : UserListBrick() {
     override fun getBrickID(): UUID = parent.brickID
 
     override fun getSpinnerId(): Int = R.id.brick_param_expected_list
+
+    override fun getListCatlangParameterName(): String = REFRENCE_LIST_CATLANG_PARAMETER_NAME
+
+    fun getArgumentByCatlangNameForCallingBrick(name: String?): MutableMap.MutableEntry<String, String> = getArgumentByCatlangName(name)
+
+    override fun getRequiredCatlangArgumentNames(): MutableCollection<String> {
+        val requiredArguments = arrayListOf<String>()
+        requiredArguments.add(VALUE_LIST_CATLANG_PARAMETER_NAME)
+        requiredArguments.add(REFRENCE_LIST_CATLANG_PARAMETER_NAME)
+        return requiredArguments
+    }
+
+    fun getRequiredCatlangArgumentNamesForCallingBrick(): MutableCollection<String> = requiredCatlangArgumentNames
 }

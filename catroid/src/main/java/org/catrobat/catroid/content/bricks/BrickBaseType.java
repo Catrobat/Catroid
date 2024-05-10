@@ -30,16 +30,25 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -303,5 +312,159 @@ public abstract class BrickBaseType implements Brick {
 			}
 		}
 		return false;
+	}
+
+	protected String getCatrobatLanguageCommand() {
+		CatrobatLanguageBrick annotation =
+				this.getClass().getAnnotation(CatrobatLanguageBrick.class);
+		if (annotation != null) {
+			if (commentedOut) {
+				return "// " + annotation.command();
+			}
+			return annotation.command();
+		}
+		return null;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		if (this instanceof CompositeBrick) {
+			return serializeCompositeBrickToCatrobatLanguage(indentionLevel);
+		}
+		if (this instanceof ScriptBrick) {
+			return serializeScriptBrickToCatrobatLanguage(indentionLevel);
+		}
+		return serializeBrickCallToCatrobatLanguage(indentionLevel);
+	}
+
+	protected String serializeBrickCallToCatrobatLanguage(int indentionLevel) {
+		if (this instanceof CompositeBrick) {
+			throw new IllegalStateException("This method should not be called for CompositeBricks");
+		}
+		return CatrobatLanguageUtils.getIndention(indentionLevel)
+				+ getCatrobatLanguageCommand()
+				+ getArgumentListFormatted()
+				+ ";\n";
+	}
+
+	protected String serializeCompositeBrickToCatrobatLanguage(int indentionLevel) {
+		if (!(this instanceof CompositeBrick)) {
+			throw new IllegalStateException("This method should only be called for CompositeBricks");
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(CatrobatLanguageUtils.getIndention(indentionLevel));
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(getArgumentListFormatted())
+				.append(" {\n");
+		CompositeBrick thisCompositeBrick = (CompositeBrick) this;
+		for (Brick brick : thisCompositeBrick.getNestedBricks()) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append('}');
+		if (thisCompositeBrick.hasSecondaryList()) {
+			catrobatLanguage.append(' ')
+					.append(thisCompositeBrick.getSecondaryBrickCommand())
+					.append(" {\n");
+			for (Brick brick : thisCompositeBrick.getSecondaryNestedBricks()) {
+				catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+			}
+			catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+			if (commentedOut) {
+				catrobatLanguage.append("// ");
+			}
+			catrobatLanguage.append('}');
+		}
+		catrobatLanguage.append('\n');
+		return catrobatLanguage.toString();
+	}
+
+	protected String serializeScriptBrickToCatrobatLanguage(int indentionLevel) {
+		if (!(this instanceof ScriptBrick)) {
+			throw new IllegalStateException("This method should only be called for ScriptBricks");
+		}
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		int size = 60;
+		if (getScript().getBrickList() != null) {
+			size += getScript().getBrickList().size() * 60;
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(size);
+		catrobatLanguage.append(indention)
+				.append(getCatrobatLanguageCommand())
+				.append(getArgumentListFormatted())
+				.append(" {\n");
+
+		for (Brick subBrick : getScript().getBrickList()) {
+			catrobatLanguage.append(subBrick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append("}\n");
+
+		return catrobatLanguage.toString();
+	}
+
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		return new ArrayList<>();
+	}
+
+	protected List<Map.Entry<String, String>> getArgumentList() {
+		ArrayList<Map.Entry<String, String>> arguments = new ArrayList<>();
+		for (String argumentName: getRequiredCatlangArgumentNames()) {
+			arguments.add(getArgumentByCatlangName(argumentName));
+		}
+		return arguments;
+	}
+
+	private String getArgumentListFormatted() {
+		List<Map.Entry<String, String>> arguments = getArgumentList();
+		if (!arguments.isEmpty()) {
+			ArrayList<String> argumentStrings = new ArrayList<>();
+			for (Map.Entry<String, String> argument : arguments) {
+				argumentStrings.add(argument.getKey() + ": (" + argument.getValue() + ")");
+			}
+			return " (" + CatrobatLanguageUtils.joinString(", ", argumentStrings) + ')';
+		}
+		return "";
+	}
+
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		throw new IllegalArgumentException("The argument " + name + " does not exist in brick " + getCatrobatLanguageCommand());
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		validateParametersPresent(arguments);
+	}
+
+	protected void validateParametersPresent(Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		Collection<String> requiredArguments = getRequiredCatlangArgumentNames();
+		Collection<String> argumentsPresent = arguments.keySet();
+
+		if (requiredArguments.size() == argumentsPresent.size()) {
+			List<String> missingArguments = new ArrayList<>();
+			for (String requiredArgument : requiredArguments) {
+				if (!argumentsPresent.contains(requiredArgument)) {
+					missingArguments.add(requiredArgument);
+				}
+			}
+			if (!missingArguments.isEmpty()) {
+				String requiredArgumentsString = CatrobatLanguageUtils.joinString(", ", (List<String>) requiredArguments);
+				String missingArgumentsString = CatrobatLanguageUtils.joinString(", ", missingArguments);
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + requiredArgumentsString + ". Missing arguments: " + missingArgumentsString);
+			}
+		} else {
+			if (requiredArguments.size() == 0) {
+				throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires not to have any arguments.");
+			}
+			throw new CatrobatLanguageParsingException(getCatrobatLanguageCommand() + " requires the following arguments: " + CatrobatLanguageUtils.joinString(", ", (List<String>) requiredArguments));
+		}
 	}
 }

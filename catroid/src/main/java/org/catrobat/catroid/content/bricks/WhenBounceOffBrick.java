@@ -28,21 +28,32 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+@CatrobatLanguageBrick(command = "When you bounce off")
 public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME = "actor or object";
+	private static final String ANY_ACTOR_OR_OBJECT_VALUE = "any edge, actor, or object";
 
 	private static final String ANYTHING_ESCAPE_CHAR = "\0";
 
@@ -121,5 +132,45 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME)) {
+			String actorOrObjectName = "";
+			if (script.getSpriteToBounceOffName() == null) {
+				actorOrObjectName = ANY_ACTOR_OR_OBJECT_VALUE;
+			} else {
+				actorOrObjectName = CatrobatLanguageUtils.formatActorOrObject(script.getSpriteToBounceOffName());
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, actorOrObjectName);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String actorOrObjectName = arguments.get(ACTOR_OR_OBJECT_CATLANG_PARAMETER_NAME);
+		if (actorOrObjectName != null) {
+			if (actorOrObjectName.trim().equals(ANY_ACTOR_OR_OBJECT_VALUE)) {
+				script.setSpriteToBounceOffName(null);
+			} else {
+				Sprite selectedSprite = scene.getSprite(CatrobatLanguageUtils.getAndValidateStringContent(actorOrObjectName));
+				if (selectedSprite != null) {
+					script.setSpriteToBounceOffName(selectedSprite.getName(), scene);
+				} else {
+					throw new CatrobatLanguageParsingException("No actor or object found with name: " + actorOrObjectName);
+				}
+			}
+		}
 	}
 }

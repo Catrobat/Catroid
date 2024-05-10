@@ -28,16 +28,43 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Start Jumping Sumo")
 public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ANIMATION_CATLANG_PARAMETER_NAME = "animation";
+	private static final BiMap<Animation, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Animation, String>() {
+		{
+			put(Animation.SPIN, "spin");
+			put(Animation.TAB, "tab");
+			put(Animation.SLOWSHAKE, "slowshake");
+			put(Animation.METRONOME, "metronome");
+			put(Animation.ONDULATION, "ondulation");
+			put(Animation.SPINJUMP, "spinjump");
+			put(Animation.SPIRAL, "spiral");
+			put(Animation.SLALOM, "slalom");
+		}
+	});
 
 	private String animationName;
 
@@ -78,5 +105,35 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ANIMATION_CATLANG_PARAMETER_NAME)) {
+			return new HashMap.SimpleEntry<>(ANIMATION_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(Animation.valueOf(animationName)));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ANIMATION_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String animation = arguments.get(ANIMATION_CATLANG_PARAMETER_NAME);
+		if (animation != null) {
+			Animation selectedAnimation = CATLANG_SPINNER_VALUES.inverse().get(animation);
+			if (selectedAnimation != null) {
+				animationName = selectedAnimation.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid animation argument: " + animation);
+			}
+		}
 	}
 }

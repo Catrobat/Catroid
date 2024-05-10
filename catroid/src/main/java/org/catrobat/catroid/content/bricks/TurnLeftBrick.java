@@ -26,13 +26,24 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+@CatrobatLanguageBrick(command = "Turn")
 public class TurnLeftBrick extends FormulaBrick {
+
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
+
+	private static final String DIRECTION_CATLANG_PARAMETER_VALUE = "left";
 
 	private static final long serialVersionUID = 1L;
 
 	public TurnLeftBrick() {
-		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text, "degrees");
 	}
 
 	public TurnLeftBrick(double degreesValue) {
@@ -40,7 +51,7 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	public TurnLeftBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text, "degrees");
 		setFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES, formula);
 	}
 
@@ -54,5 +65,21 @@ public class TurnLeftBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createTurnLeftAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (DIRECTION_CATLANG_PARAMETER_NAME.equals(name)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(DIRECTION_CATLANG_PARAMETER_NAME, DIRECTION_CATLANG_PARAMETER_VALUE);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
 	}
 }

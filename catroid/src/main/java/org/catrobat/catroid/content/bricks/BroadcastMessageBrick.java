@@ -29,11 +29,15 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.EditOption;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -41,15 +45,20 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<StringOption> {
+
+	private static final String MESSAGE_CATLANG_PARAMETER_NAME = "message";
 
 	private transient BrickSpinner<StringOption> spinner;
 
@@ -188,5 +197,30 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 			items.add(new StringOption(message));
 		}
 		return items;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(MESSAGE_CATLANG_PARAMETER_NAME)) {
+			String formattedMessage = CatrobatLanguageUtils.formatString(getBroadcastMessage());
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formattedMessage);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(MESSAGE_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String message = arguments.get(MESSAGE_CATLANG_PARAMETER_NAME);
+		if (message != null) {
+			setBroadcastMessage(CatrobatLanguageUtils.getAndValidateStringContent(message));
+		}
 	}
 }

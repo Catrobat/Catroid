@@ -30,18 +30,20 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CatrobatLanguageBrick(command = "Repeat until")
 public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public RepeatUntilBrick() {
-		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text);
+		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text, "condition");
 	}
 
 	public RepeatUntilBrick(Formula condition) {
@@ -61,6 +63,16 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
+		return null;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
 		return null;
 	}
 

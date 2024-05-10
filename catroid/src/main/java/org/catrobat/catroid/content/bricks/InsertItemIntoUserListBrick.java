@@ -27,16 +27,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Insert")
 public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public InsertItemIntoUserListBrick() {
-		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE,
-				R.id.brick_insert_item_into_userlist_value_edit_text);
 		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX,
-				R.id.brick_insert_item_into_userlist_at_index_edit_text);
+				R.id.brick_insert_item_into_userlist_at_index_edit_text, "position");
+		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE,
+				R.id.brick_insert_item_into_userlist_value_edit_text, "value");
 	}
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {

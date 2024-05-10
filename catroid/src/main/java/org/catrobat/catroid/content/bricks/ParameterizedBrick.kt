@@ -22,19 +22,24 @@
  */
 package org.catrobat.catroid.content.bricks
 
+import android.content.Context
 import android.widget.TextView
 import com.thoughtworks.xstream.annotations.XStreamOmitField
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
+@CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")
 class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
@@ -51,6 +56,11 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun getNestedBricks(): List<Brick> = loopBricks
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
+    override fun getSecondaryNestedBricksParent(): Brick = null as Brick
+
+    override fun getSecondaryBrickCommand(): String? = null
+
+    fun getEndBrick(): ParameterizedEndBrick = endBrick
 
     fun addBrick(brick: Brick): Boolean = loopBricks.add(brick)
 
@@ -195,5 +205,38 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         }
 
         return result
+    }
+
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        try {
+            return endBrick.getArgumentByCatlangNameForCallingBrick(name)
+        } catch (_: IllegalArgumentException) {}
+        return super.getArgumentByCatlangName(name)
+    }
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = arrayListOf<String>()
+        requiredArguments.addAll(super.getRequiredCatlangArgumentNames()!!)
+        requiredArguments.addAll(endBrick.getRequiredCatlangArgumentNamesForCallingBrick())
+        return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.validateParametersPresent(arguments)
+        val endBrickArguments = hashMapOf<String, String>()
+        arguments.forEach { (key, value) ->
+            if (endBrick.getRequiredCatlangArgumentNamesForCallingBrick().contains(key)) {
+                endBrickArguments[key] = value
+            }
+        }
+        endBrick.setParameters(context, project, scene, sprite, endBrickArguments)
+
+        val thisBrickArguments = hashMapOf<String, String>()
+        arguments.forEach { (key, value) ->
+            if (super.getRequiredCatlangArgumentNames()!!.contains(key)) {
+                thisBrickArguments[key] = value
+            }
+        }
+        super.setParameters(context, project, scene, sprite, thisBrickArguments)
     }
 }

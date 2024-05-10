@@ -28,9 +28,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.List;
 
+@CatrobatLanguageBrick(command = "When condition becomes true")
 public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +44,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	public WhenConditionBrick(WhenConditionScript script) {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text, "condition");
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;

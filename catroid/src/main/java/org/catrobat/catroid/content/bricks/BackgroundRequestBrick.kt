@@ -29,7 +29,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Get image from source and use as background")
 class BackgroundRequestBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
 
@@ -38,7 +40,7 @@ class BackgroundRequestBrick constructor() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.BACKGROUND_REQUEST, R.id.brick_background_request_edit_text)
+        addAllowedBrickField(BrickField.BACKGROUND_REQUEST, R.id.brick_background_request_edit_text, "url")
     }
 
     override fun getViewResource(): Int = R.layout.brick_background_request

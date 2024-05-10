@@ -32,20 +32,25 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+@CatrobatLanguageBrick(command = "For")
 public class ForVariableFromToBrick extends UserVariableBrickWithFormula implements CompositeBrick {
+
+	private static final String VALUE_CATLANG_PARAMETER_NAME = "value";
 
 	private transient EndBrick endBrick = new EndBrick(this);
 
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public ForVariableFromToBrick() {
-		addAllowedBrickField(BrickField.FOR_LOOP_FROM, R.id.brick_loop_from_edit);
-		addAllowedBrickField(BrickField.FOR_LOOP_TO, R.id.brick_loop_to_edit);
+		addAllowedBrickField(BrickField.FOR_LOOP_FROM, R.id.brick_loop_from_edit, "from");
+		addAllowedBrickField(BrickField.FOR_LOOP_TO, R.id.brick_loop_to_edit, "to");
 	}
 
 	public ForVariableFromToBrick(int from, int to) {
@@ -85,6 +90,16 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
+		return null;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
 		return null;
 	}
 
@@ -182,5 +197,16 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
+	}
+
+	@Override
+	protected String getUserVariableCatlangArgumentName() {
+		return VALUE_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
 	}
 }

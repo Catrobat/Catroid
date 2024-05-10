@@ -27,8 +27,17 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.FormulaField
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
-class SetCameraFocusPointBrick : FormulaBrick() {
+@CatrobatLanguageBrick(command = "Become focus point with flexibility in percent")
+class SetCameraFocusPointBrick : FormulaBrick {
+    constructor()
+    constructor(horizontalFlexibility: Float, verticalFlexibility: Float) : this(Formula(horizontalFlexibility), Formula(verticalFlexibility))
+    constructor(horizontalFlexibility: Formula, verticalFlexibility: Formula) {
+        setFormulaWithBrickField(BrickField.HORIZONTAL_FLEXIBILITY, horizontalFlexibility)
+        setFormulaWithBrickField(BrickField.VERTICAL_FLEXIBILITY, verticalFlexibility)
+    }
 
     companion object {
         private const val serialVersionUID = 1L
@@ -37,11 +46,13 @@ class SetCameraFocusPointBrick : FormulaBrick() {
     init {
         addAllowedBrickField(
                 BrickField.HORIZONTAL_FLEXIBILITY,
-                R.id.brick_set_camera_focus_horizontal_input
+                R.id.brick_set_camera_focus_horizontal_input,
+                "horizontal"
         )
         addAllowedBrickField(
                 BrickField.VERTICAL_FLEXIBILITY,
-                R.id.brick_set_camera_focus_vertical_input
+                R.id.brick_set_camera_focus_vertical_input,
+                "vertical"
         )
     }
 

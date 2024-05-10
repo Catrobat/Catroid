@@ -25,13 +25,14 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.util.Log;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.utils.FormatNumberUtil;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class InternToExternGenerator {
 	private static final String TAG = InternToExternGenerator.class.getSimpleName();
@@ -39,6 +40,7 @@ public class InternToExternGenerator {
 	private String generatedExternFormulaString;
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
 	private Context context;
+	private boolean isCatrobatLanguageMode;
 
 	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
 	static {
@@ -322,10 +324,21 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.OBJECT_WITH_ID_VISIBLE.name(),
 				R.string.formula_editor_function_object_with_id_visible);
 	}
-	public InternToExternGenerator(Context context) {
+	public InternToExternGenerator(Context context, boolean isCatrobatLanguageMode) {
 		this.context = context;
+		this.isCatrobatLanguageMode = isCatrobatLanguageMode;
 		generatedExternFormulaString = "";
 		generatedExternInternRepresentationMapping = new ExternInternRepresentationMapping();
+	}
+
+	public static final HashMap<String, String> getExternToInternValueMapping(Context ctx) {
+		HashMap<String, String> valueToKeyMap = new HashMap<>();
+		for (Map.Entry<String, Integer> entry : INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.entrySet()) {
+			if (!valueToKeyMap.containsKey(ctx.getString(entry.getValue()))) {
+				valueToKeyMap.put(ctx.getString(entry.getValue()), entry.getKey());
+			}
+		}
+		return valueToKeyMap;
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
@@ -406,16 +419,35 @@ public class InternToExternGenerator {
 			case FUNCTION_PARAMETER_DELIMITER:
 				return ",";
 			case USER_VARIABLE:
-				return "\"" + internToken.getTokenStringValue() + "\"";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatVariable(internToken.getTokenStringValue());
+				} else {
+					return "\"" + internToken.getTokenStringValue() + "\"";
+				}
 			case USER_LIST:
-				return "*" + internToken.getTokenStringValue() + "*";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatList(internToken.getTokenStringValue());
+				} else {
+					return "*" + internToken.getTokenStringValue() + "*";
+				}
 			case USER_DEFINED_BRICK_INPUT:
-				return "[" + internToken.getTokenStringValue() + "]";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatUserDefinedBrickParameter(internToken.getTokenStringValue());
+				} else {
+					return "[" + internToken.getTokenStringValue() + "]";
+				}
 			case STRING:
-				return "\'" + internToken.getTokenStringValue() + "\'";
+				if (this.isCatrobatLanguageMode) {
+					return CatrobatLanguageUtils.formatString(internToken.getTokenStringValue());
+				} else {
+					return "\'" + internToken.getTokenStringValue() + "\'";
+				}
 			case COLLISION_FORMULA:
-				String collisionTag = CatroidApplication.getAppContext().getString(R.string
+				String collisionTag = context.getString(R.string
 						.formula_editor_function_collision);
+				if (isCatrobatLanguageMode) {
+					return collisionTag + "(" + CatrobatLanguageUtils.formatActorOrObject(internToken.getTokenStringValue()) + ")";
+				}
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
 
 			default:
@@ -477,11 +509,30 @@ public class InternToExternGenerator {
 	}
 
 	private String getExternStringForInternTokenValue(String internTokenValue, Context context) {
+		String catrobatLanguageString = getCatrobatLanguageStringForInternTokenValue(internTokenValue);
+		if (catrobatLanguageString != null) {
+			return catrobatLanguageString;
+		}
 		Integer stringResourceID = INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(internTokenValue);
 		if (stringResourceID == null) {
 			return null;
 		}
 		return context.getString(stringResourceID);
+	}
+
+	private String getCatrobatLanguageStringForInternTokenValue(String internTokenValue) {
+		if (isCatrobatLanguageMode) {
+			if (internTokenValue.equals(Operators.LOGICAL_NOT.name())) {
+				return "!";
+			}
+			if (internTokenValue.equals(Operators.LOGICAL_AND.name())) {
+				return "&&";
+			}
+			if (internTokenValue.equals(Operators.LOGICAL_OR.name())) {
+				return "||";
+			}
+		}
+		return null;
 	}
 
 	public static int getMappedString(String token) {

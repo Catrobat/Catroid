@@ -27,13 +27,21 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+@CatrobatLanguageBrick(command = "Ask")
 public class AskBrick extends UserVariableBrickWithFormula {
+
+	private static final String ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable";
+	private static final String QUESTION_CATLANG_PARAMETER_NAME = "question";
 
 	private static final long serialVersionUID = 1L;
 
 	public AskBrick() {
-		addAllowedBrickField(BrickField.ASK_QUESTION, R.id.brick_ask_question_edit_text);
+		addAllowedBrickField(BrickField.ASK_QUESTION, R.id.brick_ask_question_edit_text, QUESTION_CATLANG_PARAMETER_NAME);
 	}
 
 	public AskBrick(String questionText) {
@@ -65,5 +73,18 @@ public class AskBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory()
 				.createAskAction(sprite, sequence, getFormulaWithBrickField(BrickField.ASK_QUESTION),
 						userVariable));
+	}
+
+	@Override
+	protected String getUserVariableCatlangArgumentName() {
+		return ANSWER_VARIABLE_CATLANG_PARAMETER_NAME;
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(QUESTION_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(ANSWER_VARIABLE_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
 	}
 }

@@ -27,16 +27,39 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Stop Phiro")
 public class PhiroMotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
+	private static final String MOTOR_CATLANG_PARAMETER_NAME = "motor";
+	private static final BiMap<Motor, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Motor, String>() {
+		{
+			put(Motor.MOTOR_LEFT, "left");
+			put(Motor.MOTOR_RIGHT, "right");
+			put(Motor.MOTOR_BOTH, "both");
+		}
+	});
 
 	private String motor;
 
@@ -83,5 +106,34 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(MOTOR_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(Motor.valueOf(motor)));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(MOTOR_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String motor = arguments.get(MOTOR_CATLANG_PARAMETER_NAME);
+		if (motor != null) {
+			Motor selectedMotor = CATLANG_SPINNER_VALUES.inverse().get(motor);
+			if (selectedMotor != null) {
+				this.motor = selectedMotor.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid motor argument: " + motor);
+			}
+		}
 	}
 }

@@ -26,15 +26,17 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set")
 public class RaspiPwmBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public RaspiPwmBrick() {
-		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_pwm_pin_edit_text);
-		addAllowedBrickField(BrickField.RASPI_PWM_FREQUENCY, R.id.brick_raspi_pwm_frequency_edit_text);
-		addAllowedBrickField(BrickField.RASPI_PWM_PERCENTAGE, R.id.brick_raspi_pwm_percentage_edit_text);
+		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_pwm_pin_edit_text, "Raspberry Pi PWM~ pin");
+		addAllowedBrickField(BrickField.RASPI_PWM_PERCENTAGE, R.id.brick_raspi_pwm_percentage_edit_text, "percentage");
+		addAllowedBrickField(BrickField.RASPI_PWM_FREQUENCY, R.id.brick_raspi_pwm_frequency_edit_text, "Hz");
 	}
 
 	public RaspiPwmBrick(int pinNumber, double pwmFrequency, double pwmPercentage) {

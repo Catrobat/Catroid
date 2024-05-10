@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Start running stitch")
 public class RunningStitchBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public RunningStitchBrick() {
-		addAllowedBrickField(BrickField.EMBROIDERY_LENGTH, R.id.brick_running_stitch_edit_text_length);
+		addAllowedBrickField(BrickField.EMBROIDERY_LENGTH, R.id.brick_running_stitch_edit_text_length, "length");
 	}
 
 	public RunningStitchBrick(Formula length) {

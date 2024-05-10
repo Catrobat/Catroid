@@ -28,22 +28,45 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Set Phiro")
 public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String LIGHT_CATLANG_PARAMETER_NAME = "light";
+	private static final BiMap<Eye, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Eye, String>() {
+		{
+			put(Eye.LEFT, "left");
+			put(Eye.RIGHT, "right");
+			put(Eye.BOTH, "both");
+		}
+	});
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
@@ -54,9 +77,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	public PhiroRGBLightBrick() {
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text, "red");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text, "green");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text, "blue");
 		eye = Eye.BOTH.name();
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
@@ -170,6 +193,36 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				return Math.max(0, Math.min(255, value));
 			} catch (InterpretationException e) {
 				return 0;
+			}
+		}
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(LIGHT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(Eye.valueOf(eye)));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(LIGHT_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String eye = arguments.get(LIGHT_CATLANG_PARAMETER_NAME);
+		if (eye != null) {
+			Eye selectedEye = CATLANG_SPINNER_VALUES.inverse().get(eye);
+			if (selectedEye != null) {
+				this.eye = selectedEye.name();
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid eye value: " + eye);
 			}
 		}
 	}

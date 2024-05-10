@@ -27,13 +27,23 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Companion.showFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface
 
 abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
     ListSelectorInterface {
+
+    companion object {
+        private const val LISTS_CATLANG_PARAMETER_NAME = "lists"
+    }
+
     var userLists = mutableListOf<UserList>()
 
     @Throws(CloneNotSupportedException::class)
@@ -76,6 +86,43 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
     fun deselectElements(deletedElements: List<*>) {
         deletedElements.filterIsInstance<UserData<*>>().forEach { element ->
             userLists.removeAll { list -> list.name == element.name }
+        }
+    }
+
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == LISTS_CATLANG_PARAMETER_NAME) {
+            val lists = userLists.joinToString(", ") {
+                CatrobatLanguageUtils.formatList(it.name)
+            }
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(LISTS_CATLANG_PARAMETER_NAME, lists)
+        }
+        return super.getArgumentByCatlangName(name)
+    }
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = arrayListOf<String>()
+        requiredArguments.add(LISTS_CATLANG_PARAMETER_NAME)
+        requiredArguments.addAll(super.getRequiredCatlangArgumentNames())
+        return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        if (!arguments.containsKey(LISTS_CATLANG_PARAMETER_NAME)) {
+            throw CatrobatLanguageParsingException("Missing required argument $LISTS_CATLANG_PARAMETER_NAME")
+        }
+        val lists = arguments[LISTS_CATLANG_PARAMETER_NAME]!!.split(",")
+        val formattedListNames = lists.map { CatrobatLanguageUtils.getAndValidateListName(it.trim()) }
+        formattedListNames.forEach {
+            var list = project.getUserList(it)
+            if (list == null) {
+                list = sprite.getUserList(it)
+                if (list == null) {
+                    throw CatrobatLanguageParsingException("List $it not found in project or sprite")
+                }
+                userLists.add(list)
+            } else {
+                userLists.add(list)
+            }
         }
     }
 }

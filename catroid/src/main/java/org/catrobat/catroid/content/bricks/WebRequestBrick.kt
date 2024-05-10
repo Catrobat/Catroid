@@ -28,7 +28,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Send web request")
 class WebRequestBrick() : UserVariableBrickWithFormula() {
     constructor(value: String) : this(Formula(value))
 
@@ -37,7 +39,12 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     init {
-        addAllowedBrickField(BrickField.WEB_REQUEST, R.id.brick_web_request_edit_text)
+        addAllowedBrickField(BrickField.WEB_REQUEST, R.id.brick_web_request_edit_text, URL_CATLANG_PARAMETER_NAME)
+    }
+
+    companion object {
+        private const val ANSWER_VARIABLE_CATLANG_PARAMETER_NAME = "answer variable"
+        private const val URL_CATLANG_PARAMETER_NAME = "url"
     }
 
     override fun getViewResource(): Int = R.layout.brick_web_request
@@ -56,4 +63,12 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     override fun getSpinnerId(): Int = R.id.web_request_spinner
+    override fun getUserVariableCatlangArgumentName(): String = ANSWER_VARIABLE_CATLANG_PARAMETER_NAME
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = arrayListOf<String>()
+        requiredArguments.add(URL_CATLANG_PARAMETER_NAME)
+        requiredArguments.add(ANSWER_VARIABLE_CATLANG_PARAMETER_NAME)
+        return requiredArguments
+    }
 }

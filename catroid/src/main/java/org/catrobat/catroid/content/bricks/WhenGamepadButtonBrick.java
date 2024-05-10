@@ -25,24 +25,60 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
+@CatrobatLanguageBrick(command = "When tapped")
+public class WhenGamepadButtonBrick extends ScriptBrickBaseType
+		implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
+	private static final String GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME = "gamepad button";
+	private static BiMap<Integer, String> gamepadButtonCatlangValues = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(0, "A");
+			put(1, "B");
+			put(2, "up");
+			put(3, "down");
+			put(4, "left");
+			put(5, "right");
+		}
+	});
+
+	private static BiMap<Integer, Integer> gamepadButtonValues = HashBiMap.create(new HashMap<Integer, Integer>() {
+		{
+			put(0, R.string.cast_gamepad_A);
+			put(1, R.string.cast_gamepad_B);
+			put(2, R.string.cast_gamepad_up);
+			put(3, R.string.cast_gamepad_down);
+			put(4, R.string.cast_gamepad_left);
+			put(5, R.string.cast_gamepad_right);
+		}
+	});
 
 	private WhenGamepadButtonScript script;
 
@@ -116,5 +152,42 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME)) {
+			Context context = CatroidApplication.getAppContext();
+			String selectedAction = script.getAction();
+			Map<Integer, Integer> resourceToValue = gamepadButtonValues.inverse();
+			for (Map.Entry<Integer, Integer> entry : resourceToValue.entrySet()) {
+				if (context.getString(entry.getKey()).equals(selectedAction)) {
+					return CatrobatLanguageUtils.getCatlangArgumentTuple(name, gamepadButtonCatlangValues.get(entry.getValue()));
+				}
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, gamepadButtonCatlangValues.get(0));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String selectedItem = arguments.get(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME);
+		if (selectedItem == null) {
+			throw new CatrobatLanguageParsingException("No gamepad button selected");
+		}
+		Integer selectedItemValue = gamepadButtonCatlangValues.inverse().get(selectedItem);
+		if (selectedItemValue == null) {
+			throw new CatrobatLanguageParsingException("Invalid gamepad button selected");
+		}
+		script.setAction(context.getString(gamepadButtonValues.get(selectedItemValue)));
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(GAMEPAD_BUTTON_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
 	}
 }

@@ -31,17 +31,19 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowNotePickerFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Play")
 public class PlayNoteForBeatsBrick extends FormulaBrick {
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public PlayNoteForBeatsBrick() {
-		addAllowedBrickField(BrickField.NOTE_TO_PLAY, R.id.brick_play_note_for_beats_note_edit_text);
-		addAllowedBrickField(BrickField.BEATS_TO_PLAY_NOTE, R.id.brick_play_note_for_beats_beats_edit_text);
+		addAllowedBrickField(BrickField.NOTE_TO_PLAY, R.id.brick_play_note_for_beats_note_edit_text, "note");
+		addAllowedBrickField(BrickField.BEATS_TO_PLAY_NOTE, R.id.brick_play_note_for_beats_beats_edit_text, "number of beats");
 
 		showFormulaEditorStrategy = new ShowNotePickerFormulaEditorStrategy();
 	}
