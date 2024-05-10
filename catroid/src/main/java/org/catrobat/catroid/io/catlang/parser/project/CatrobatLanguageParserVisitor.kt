@@ -496,8 +496,10 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         ctx.variableOrListDeclaration().forEach {
             val result = visitVariableOrListDeclaration(it)
             if (result is CatrobatLanguageListResult) {
+                validateUniqueLocalUserDataName(result.listName)
                 currentSprite!!.userLists.add(UserList(result.listName))
             } else if (result is CatrobatLanguageVariableResult) {
+                validateUniqueLocalUserDataName(result.variableName)
                 currentSprite!!.userVariables.add(UserVariable(result.variableName))
             } else {
                 throw CatrobatLanguageParsingException(ERROR_MESSAGE)
