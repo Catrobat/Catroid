@@ -339,8 +339,10 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         ctx.variableOrListDeclaration().forEach {
             val result = visitVariableOrListDeclaration(it)
             if (result is CatrobatLanguageListResult) {
+                validateGlobalUserDataName(result.listName)
                 project.userLists.add(UserList(result.listName))
             } else if (result is CatrobatLanguageVariableResult) {
+                validateGlobalUserDataName(result.variableName)
                 project.userVariables.add(UserVariable(result.variableName))
             } else {
                 throw CatrobatLanguageParsingException(ERROR_MESSAGE)
@@ -355,6 +357,7 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         }
         ctx.variableDeclaration().forEach {
             val variableName = (visitVariableDeclaration(it) as CatrobatLanguageVariableResult).variableName
+            validateGlobalUserDataName(variableName)
             project.multiplayerVariables.add(UserVariable(variableName))
         }
         return CatrobatLanguageBaseResult()
@@ -377,11 +380,22 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
         return CatrobatLanguageVariableResult(CatrobatLanguageUtils.getAndValidateVariableName(ctx.VARIABLE_REF().text))
     }
 
+    private fun validateGlobalUserDataName(name: String) {
+        if (project.userVariables.any { variable -> variable.name == name } ||
+            project.userLists.any { list -> list.name == name } ||
+            project.userLists.any { list -> list.name == name }) {
+            throw CatrobatLanguageParsingException("List/variable $name must occur at most once.")
+        }
+    }
+
     override fun visitScene(ctx: CatrobatLanguageParser.SceneContext?): CatrobatLanguageBaseResult {
         if (ctx == null) {
             throw CatrobatLanguageParsingException("No valid scene found.")
         }
         val sceneName = CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING().text)
+        if (project.sceneList.any { existingScene -> existingScene.name == sceneName }) {
+            throw CatrobatLanguageParsingException("Scene $sceneName must occur at most once.")
+        }
         val scene = Scene(sceneName, project)
         currentScene = scene
         project.sceneList.add(scene)
@@ -417,6 +431,9 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             throw CatrobatLanguageParsingException("No valid actor found.")
         }
         val sprite = Sprite(CatrobatLanguageUtils.getAndValidateStringContent(ctx.STRING(0).text))
+        if (currentScene!!.spriteList.any { existingSprite -> existingSprite.name == sprite.name }) {
+            throw CatrobatLanguageParsingException("Actor or object ${sprite.name} must occur at most once.")
+        }
         currentSprite = sprite
         currentScene!!.spriteList.add(sprite)
 
@@ -487,6 +504,14 @@ class CatrobatLanguageParserVisitor(private val context: Context) : CatrobatLang
             }
         }
         return CatrobatLanguageBaseResult()
+    }
+
+    private fun validateUniqueLocalUserDataName(name: String) {
+        validateGlobalUserDataName(name)
+        if (currentSprite!!.userVariables.any { variable -> variable.name == name } ||
+            currentSprite!!.userLists.any { list -> list.name == name }) {
+            throw CatrobatLanguageParsingException("List/variable $name must occur at most once.")
+        }
     }
 
     override fun visitLooks(ctx: CatrobatLanguageParser.LooksContext?): CatrobatLanguageBaseResult {
