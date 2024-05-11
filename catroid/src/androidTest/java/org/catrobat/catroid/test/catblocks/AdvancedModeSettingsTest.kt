@@ -26,19 +26,13 @@ package org.catrobat.catroid.test.catblocks
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.UiTestCatroidApplication
-import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -75,14 +69,20 @@ class AdvancedModeSettingsTest {
             webViewUtils.waitForElement("#catroid-catblocks-container > div > svg > g")
         }
 
-        UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX = 50f
-        UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY = 50f
-        Assert.assertEquals(
-            UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX,
+        UiTestCatroidApplication.projectManager.currentProject.defaultScene.spriteList[1]
+            .getScript(0)
+            .posX = 50f
+        UiTestCatroidApplication.projectManager.currentProject.defaultScene.spriteList[1]
+            .getScript(0)
+            .posY = 50f
+        assertEquals(
+            UiTestCatroidApplication.projectManager.currentProject.defaultScene.spriteList[1]
+                .getScript(0).posX,
             50.0f
         )
-        Assert.assertEquals(
-            UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY,
+        assertEquals(
+            UiTestCatroidApplication.projectManager.currentProject.defaultScene.spriteList[1]
+                .getScript(0).posY,
             50.0f
         )
     }
@@ -90,16 +90,7 @@ class AdvancedModeSettingsTest {
     private fun createProject() {
         val projectName = javaClass.simpleName
         val project = UiTestUtils.createDefaultTestProject(projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        val startScript: Script = StartScript()
-        val ifBrick = IfLogicBeginBrick()
-        ifBrick.addBrickToIfBranch(SetXBrick())
-        ifBrick.addBrickToElseBranch(ChangeXByNBrick())
-        startScript.addBrick(ifBrick)
-        startScript.setParents()
-        sprite.addScript(startScript)
         UiTestCatroidApplication.projectManager.currentProject = project
-        UiTestCatroidApplication.projectManager.currentSprite = sprite
+        UiTestCatroidApplication.projectManager.currentSprite = project.defaultScene.spriteList[1]
     }
 }

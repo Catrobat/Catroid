@@ -81,6 +81,31 @@ class FormulaEditorClipboardTest {
     }
 
     @Test
+    fun shouldCopyWholeContent() {
+        val token = InternToken(InternTokenType.NUMBER, "12345678")
+        val tokens = listOf(token)
+        `when`(formulaEditorEditText.selectedTokens).thenReturn(tokens)
+        controller.checkIfSelectedAndCopy()
+        controller.clipboard?.let { clipboardIt ->
+            assertSameValuesButDifferentObjects(tokens, clipboardIt)
+        }
+    }
+
+    @Test
+    fun shouldCopySelectedPart() {
+        val token1 = InternToken(InternTokenType.NUMBER, "1234")
+        val token2 = InternToken(InternTokenType.OPERATOR, "+")
+        val token3 = InternToken(InternTokenType.NUMBER, "5678")
+        val tokens = listOf(token1, token2, token3)
+        formulaEditorEditText.addTokens(tokens)
+        `when`(formulaEditorEditText.selectedTokens).thenReturn(listOf(token1))
+        controller.checkIfSelectedAndCopy()
+        controller.clipboard?.let { clipboardIt ->
+            assertSameValuesButDifferentObjects(listOf(token1), clipboardIt)
+        }
+    }
+
+    @Test
     fun shouldPaste() {
         val token1 = InternToken(InternTokenType.FUNCTION_NAME, "TestFunctionName")
         val token2 = InternToken(InternTokenType.OPERATOR, "+")

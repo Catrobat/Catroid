@@ -33,7 +33,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.LookController
 class DeleteLookAction : SingleSpriteEventAction() {
 
     private var lookController = LookController()
-    private var xstreamSerializer: XstreamSerializer = XstreamSerializer.getInstance()
+    private lateinit var xStreamSerializer: XstreamSerializer
 
     override fun getEventId(): EventId? {
         sprite?.apply {
@@ -52,7 +52,10 @@ class DeleteLookAction : SingleSpriteEventAction() {
             setNewLookData(indexOfLookData + 1)
             lookData.invalidate()
             lookList.removeAt(indexOfLookData)
-            xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+            if (!::xStreamSerializer.isInitialized) {
+                xStreamSerializer = XstreamSerializer.getInstance()
+            }
+            xStreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
         }
         return SetLookEventId(sprite, sprite?.look?.lookData)
     }
@@ -85,6 +88,6 @@ class DeleteLookAction : SingleSpriteEventAction() {
 
     @VisibleForTesting
     fun setXStreamSerializer(xstreamSerializer: XstreamSerializer) {
-        this.xstreamSerializer = xstreamSerializer
+        this.xStreamSerializer = xstreamSerializer
     }
 }

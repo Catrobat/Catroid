@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,35 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.web;
 
-public class WebconnectionException extends Exception {
+package org.catrobat.catroid.utils
 
-	private static final long serialVersionUID = 1L;
+import org.catrobat.catroid.utils.FormatNumberUtil.cutTrailingZeros
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Test
 
-	public static final int ERROR_JSON = 1001;
-	public static final int ERROR_NETWORK = 1002;
-	public static final int ERROR_EMPTY_PROJECT_DATA = 1003;
-
-	private final int statusCode;
-	private final String message;
-
-	public WebconnectionException(int statusCode, String message) {
-		super(message);
-		if (message == null) {
-			message = "Unknown Error, no exception message given.";
-		}
-
-		this.statusCode = statusCode;
-		this.message = message;
-	}
-
-	public int getStatusCode() {
-		return statusCode;
-	}
-
-	@Override
-	public String getMessage() {
-		return message;
-	}
+class FormatNumberUtilTest {
+    @Test
+    fun testCutTrailingZeros() {
+        assertEquals("123", cutTrailingZeros("123.0"))
+        assertEquals("123", cutTrailingZeros("123.00"))
+        assertEquals("123.45", cutTrailingZeros("123.45"))
+        assertEquals("123.45", cutTrailingZeros("123.4500"))
+        assertEquals("0", cutTrailingZeros("0"))
+        assertEquals("0", cutTrailingZeros("0.0"))
+        assertNotEquals("123.0", cutTrailingZeros("123.0"))
+    }
 }
