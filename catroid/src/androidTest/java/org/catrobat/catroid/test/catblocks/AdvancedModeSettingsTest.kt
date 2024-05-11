@@ -26,12 +26,6 @@ package org.catrobat.catroid.test.catblocks
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.UiTestCatroidApplication
-import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
