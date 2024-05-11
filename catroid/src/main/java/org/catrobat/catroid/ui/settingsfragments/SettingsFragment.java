@@ -661,8 +661,10 @@ public class SettingsFragment extends PreferenceFragment {
 		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_ADVANCED_MODE, context);
 	}
 
-	public static boolean getSetToEnglishAdvancedMode(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, context);
+	public static void setSetToEnglish(Context context, boolean setToEnglish) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, setToEnglish)
+				.apply();
 	}
 
 	public static void setCatBlocksAdvancedMode(Context context, boolean advancedMode) {
