@@ -75,9 +75,6 @@ class AdvancedModeSettingsTest {
             webViewUtils.waitForElement("#catroid-catblocks-container > div > svg > g")
         }
 
-        val list = UiTestCatroidApplication.projectManager.currentProject.defaultScene
-            .spriteList;
-
         UiTestCatroidApplication.projectManager.currentProject.defaultScene.spriteList[1]
             .getScript(0)
             .posX = 50f
@@ -100,5 +97,6 @@ class AdvancedModeSettingsTest {
         val projectName = javaClass.simpleName
         val project = UiTestUtils.createDefaultTestProject(projectName)
         UiTestCatroidApplication.projectManager.currentProject = project
+        UiTestCatroidApplication.projectManager.currentSprite = project.defaultScene.spriteList[1]
     }
 }
