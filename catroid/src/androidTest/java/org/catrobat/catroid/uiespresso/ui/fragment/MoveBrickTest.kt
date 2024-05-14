@@ -58,13 +58,13 @@ import java.io.IOException
 @Category(Cat.AppUi::class, Level.Smoke::class)
 class MoveBrickTest {
 
-    val brickEndIndex = 6
+    private val brickEndIndex = 6
 
-    val setXBrick = SetXBrick()
-    val setYBrick = SetYBrick()
-    val glideBrick = GlideToBrick()
-    val setFrictionBrick = SetFrictionBrick()
-    val forBrick = ForeverBrick()
+    private val setXBrick = SetXBrick()
+    private val setYBrick = SetYBrick()
+    private val glideBrick = GlideToBrick()
+    private val setFrictionBrick = SetFrictionBrick()
+    private val forBrick = ForeverBrick()
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(

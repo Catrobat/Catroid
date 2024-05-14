@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -105,8 +105,12 @@ class BrickListView : ListView {
 
     fun startMoving(bricksToMove: List<Brick?>) {
         cancelMove()
-        val flatList: MutableList<Brick> = ArrayList()
 
+        if (bricksToMove.isEmpty()) {
+            return
+        }
+
+        val flatList: MutableList<Brick> = ArrayList()
         var lastPosition = 0
         for (brick in bricksToMove) {
             if (brick in flatList) {
@@ -322,9 +326,11 @@ class BrickListView : ListView {
 
         if (isAbove || isBelow) {
             val viewBoundsHeight = getCombinedViewboundHeight()
-            val translationY =
-                if (isAbove) Y_TRANSLATION_CONSTANT - viewBoundsHeight else viewBoundsHeight -
-                    Y_TRANSLATION_CONSTANT
+            val translationY = if (isAbove) {
+                Y_TRANSLATION_CONSTANT - viewBoundsHeight
+            } else {
+                viewBoundsHeight - Y_TRANSLATION_CONSTANT
+            }
 
             for (i in bricksToMove.indices) {
                 brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick + i, false)
