@@ -497,6 +497,7 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <string formatted="false" name="backpack_empty">Backpack empty. Nothing to unpack.</string>
+    <string formatted="false" name="brick_selection_empty">Selection for packing is empty.</string>
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
