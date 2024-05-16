@@ -63,9 +63,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoader;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
-import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
@@ -95,8 +93,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import androidx.annotation.IntDef;
@@ -111,7 +107,6 @@ import androidx.fragment.app.ListFragment;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,

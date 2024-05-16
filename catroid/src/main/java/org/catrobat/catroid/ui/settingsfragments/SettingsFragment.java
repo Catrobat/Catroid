@@ -549,7 +549,7 @@ public class SettingsFragment extends PreferenceFragment {
 		listPreference.setEntries(languages);
 		listPreference.setEntryValues(LANGUAGE_TAGS);
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
-			if(!languageTag.equals("en")) {
+			if (!languageTag.equals("en")) {
 				setSetToEnglish(getActivity().getBaseContext(), false);
 			}
 			String selectedLanguageTag = languageTag.toString();
