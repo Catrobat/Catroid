@@ -549,6 +549,9 @@ public class SettingsFragment extends PreferenceFragment {
 		listPreference.setEntries(languages);
 		listPreference.setEntryValues(LANGUAGE_TAGS);
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
+			if(!languageTag.equals("en")) {
+				setSetToEnglish(getActivity().getBaseContext(), false);
+			}
 			String selectedLanguageTag = languageTag.toString();
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
@@ -556,21 +559,6 @@ public class SettingsFragment extends PreferenceFragment {
 			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
 			return true;
 		});
-	}
-
-	private void changeToEn() {
-//		Preference AdvancedModeCheckbox = findPreference(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE);
-//		AdvancedModeCheckbox.setOnPreferenceChangeListener((preference, newValue) -> {
-//			boolean isChecked = (boolean) newValue;
-//			if (isChecked) {
-////				setLanguageSharedPreference(getActivity().getBaseContext(), "en");
-////				startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
-////				getActivity().finishAffinity();
-////				new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
-//
-//			}
-//				return true;
-//		});
 	}
 
 	public static void setToChosenLanguage(Activity activity) {
