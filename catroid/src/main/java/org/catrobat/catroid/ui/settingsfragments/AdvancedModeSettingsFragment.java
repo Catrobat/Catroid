@@ -23,16 +23,13 @@
 
 package org.catrobat.catroid.ui.settingsfragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.sync.ProjectsCategoriesSync;
