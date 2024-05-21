@@ -51,6 +51,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -64,6 +65,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -236,6 +238,13 @@ public class ScriptFragmentTest {
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 		onBrickAtPosition(5)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
+	}
+	@Test
+	public void testAddToBackpackWithEmptyBrickSelection() {
+		openActionBarMenu();
+		onView(withText("Backpack")).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
+		UiTestUtils.onToast(withText(R.string.brick_selection_empty)).check(matches(isDisplayed()));
 	}
 
 	private void createProject() {
