@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTa
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
@@ -68,7 +69,7 @@ public class SpriteActivityTabsTest {
 	@Before
 	public void setUp() {
 		Script script = UiTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
-		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("X"));
+		inject(ProjectManager.class).getValue().getCurrentProject().addUserVariable(new UserVariable("X"));
 		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();
 	}

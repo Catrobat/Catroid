@@ -334,7 +334,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             )
             ZipArchiver()
                 .unzip(inputStream, projectDir)
-            ProjectLoader(projectDir, this)
+            ProjectLoader(projectDir)
                 .setListener(this)
                 .loadProjectAsync()
         } catch (e: IOException) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,16 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.Mockito.times
@@ -39,6 +44,7 @@ import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito.doReturn
 import org.powermock.api.mockito.PowerMockito.spy
 import java.io.File
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class ReadVariableFromFileActionTest(
@@ -53,6 +59,8 @@ class ReadVariableFromFileActionTest(
 ) {
     private lateinit var sprite: Sprite
     private lateinit var file: File
+
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -88,6 +96,12 @@ class ReadVariableFromFileActionTest(
         sprite = Sprite("testSprite")
         file = Mockito.mock(File::class.java)
         doReturn(true).`when`(file).delete()
+        MockUtil.mockContextForProject(dependencyModules)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -511,7 +511,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context)
-				|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables();
+				|| inject(ProjectManager.class).getValue().getCurrentProject().hasMultiplayerVariables();
 	}
 
 	private void setLanguage() {

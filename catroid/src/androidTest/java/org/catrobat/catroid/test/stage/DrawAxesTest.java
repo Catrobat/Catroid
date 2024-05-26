@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,28 +23,36 @@
 
 package org.catrobat.catroid.test.stage;
 
+import android.content.Context;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.stage.StageListener;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(Parameterized.class)
 public class DrawAxesTest {
-	private StageListener stageListener;
 	private static Project project;
 
 	@Parameterized.Parameters(name = "{0}")
@@ -79,18 +87,29 @@ public class DrawAxesTest {
 	@Parameterized.Parameter(4)
 	public @IdRes float expectedScaleFactor;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+
 		project = new Project(ApplicationProvider.getApplicationContext(), "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getXmlHeader().setVirtualScreenHeight(projectLayoutHeight);
 		project.getXmlHeader().setVirtualScreenWidth(projectLayoutWidth);
 		project.getXmlHeader().setlandscapeMode(projectLandscapeMode);
 	}
 
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
 	public void testAxisFontSize() {
-		stageListener = new StageListener();
+		StageListener stageListener = new StageListener();
 
 		BitmapFont font = Mockito.mock(BitmapFont.class);
 		GlyphLayout layout = Mockito.mock(GlyphLayout.class);

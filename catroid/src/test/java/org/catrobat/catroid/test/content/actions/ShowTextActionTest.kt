@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions
 
-import android.content.Context
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
@@ -31,14 +30,20 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -47,7 +52,10 @@ class ShowTextActionTest {
     private lateinit var var0: UserVariable
     private lateinit var var1: UserVariable
     private lateinit var secondSprite: Sprite
-    var contextMock: Context = MockUtil.mockContextForProject()
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+    var contextMock = MockUtil.mockContextForProject(dependencyModules)
     var androidStringProviderMock = AndroidStringProvider(contextMock)
 
     @Before
@@ -55,8 +63,8 @@ class ShowTextActionTest {
         sprite = Sprite(SPRITE_NAME)
         val project = Project(contextMock, "testProject")
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         secondSprite = Sprite(SECOND_SPRITE_NAME)
         project.defaultScene.addSprite(secondSprite)
         var0 = UserVariable(USER_VARIABLE_NAME)
@@ -66,6 +74,11 @@ class ShowTextActionTest {
         var1.visible = false
         secondSprite.addUserVariable(var1)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test
@@ -89,7 +102,7 @@ class ShowTextActionTest {
             androidStringProviderMock
         )
         firstSpriteAction.act(1.0f)
-        ProjectManager.getInstance().currentSprite = secondSprite
+        projectManager.currentSprite = secondSprite
         secondSpriteAction.act(1.0f)
         val variableOfFirstSprite = sprite.getUserVariable(USER_VARIABLE_NAME)
         val variableOfSecondSprite = sprite.getUserVariable(USER_VARIABLE_NAME)

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -170,7 +171,8 @@ public class VariableBrickTest {
 	public void testMultiplayerVariableScopeIsVisibleWithDisabledPreference() {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
 
-		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
 
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());

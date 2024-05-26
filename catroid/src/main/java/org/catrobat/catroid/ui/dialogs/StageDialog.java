@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,11 +53,14 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();
 	private StageActivity stageActivity;
 	private StageListener stageListener;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public StageDialog(StageActivity stageActivity, StageListener stageListener, int theme) {
 		super(stageActivity, theme);
@@ -146,7 +149,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	private void shareEmbroideryFile() {
 		if (stageListener.embroideryPatternManager.validPatternExists()) {
 			String filename =
-					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(ProjectManager.getInstance().getCurrentProject().getName());
+					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectManager.getCurrentProject().getName());
 			DSTFileGenerator dstFileGenerator = new DSTFileGenerator(stageListener.embroideryPatternManager.getEmbroideryStream());
 			File dstFile = new File(Constants.CACHE_DIRECTORY, filename + Constants.EMBROIDERY_FILE_EXTENSION);
 			if (dstFile.exists()) {
@@ -167,7 +170,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	public void onContinuePressed() {
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+		if (projectManager.getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
@@ -178,7 +181,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	public void onRestartPressed() {
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+		if (projectManager.getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
@@ -193,7 +196,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void makeScreenshot() {
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+		if (projectManager.getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
@@ -203,7 +206,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				success -> {
 					if (success) {
 						ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
-						ProjectManager.getInstance().changedProject(ProjectManager.getInstance().getCurrentProject().getName());
+						projectManager.changedProject(projectManager.getCurrentProject().getName());
 					} else {
 						ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
 					}
@@ -234,7 +237,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void clearBroadcastMaps() {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.getIdToEventThreadMap().clear();
 			}
@@ -242,7 +245,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void resetEmbroideryThreadColor() {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.setEmbroideryThreadColor(Color.BLACK);
 			}

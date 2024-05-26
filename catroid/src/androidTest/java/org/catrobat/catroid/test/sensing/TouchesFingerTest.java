@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,17 +23,26 @@
 
 package org.catrobat.catroid.test.sensing;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.physics.collision.CollisionTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
+
+import java.util.Collections;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -42,14 +51,21 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class TouchesFingerTest {
 	protected Project project;
 	protected Sprite sprite1;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+
 		TestUtils.deleteProjects();
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -57,10 +73,15 @@ public class TouchesFingerTest {
 		project.getDefaultScene().addSprite(sprite1);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		CollisionTestUtils.initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut,
 				"collision_donut.png", InstrumentationRegistry.getInstrumentation().getContext(), project);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

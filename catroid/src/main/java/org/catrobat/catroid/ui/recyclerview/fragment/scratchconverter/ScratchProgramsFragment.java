@@ -147,7 +147,7 @@ public class ScratchProgramsFragment extends Fragment implements
 
 		setShowProgressBar(true);
 
-		new ProjectLoader(projectDir, getContext())
+		new ProjectLoader(projectDir)
 				.setListener(this)
 				.loadProjectAsync();
 	}

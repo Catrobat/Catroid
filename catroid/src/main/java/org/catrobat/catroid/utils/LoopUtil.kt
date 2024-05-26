@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 import kotlin.reflect.KClass
 
@@ -92,9 +93,10 @@ object LoopUtil {
 
     @JvmStatic
     fun isAnyStitchRunning(): Boolean {
-        ProjectManager.getInstance() ?: return false
-        ProjectManager.getInstance().currentProject ?: return false
-        ProjectManager.getInstance().currentProject.spriteListWithClones?.forEach {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager ?: return false
+        projectManager.currentProject ?: return false
+        projectManager.currentProject.spriteListWithClones?.forEach {
             if (it.runningStitch.isRunning) {
                 return true
             }

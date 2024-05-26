@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @Category(AppUi::class, Smoke::class, Quarantine::class)
 @RunWith(AndroidJUnit4::class)
@@ -120,9 +121,10 @@ class ProjectListActivityRecreateRegressionTest {
         sprite.addScript(script)
         project.defaultScene.addSprite(sprite)
 
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
-        ProjectManager.getInstance().currentlyEditedScene = project.defaultScene
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
+        projectManager.currentlyEditedScene = project.defaultScene
 
         XstreamSerializer.getInstance().saveProject(project)
     }

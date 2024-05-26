@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.test.physics;
+
+import android.content.Context;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -45,6 +47,7 @@ import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
@@ -53,11 +56,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class PhysicsSpriteCloneTest {
@@ -73,10 +81,15 @@ public class PhysicsSpriteCloneTest {
 	private static final float TURN_LEFT_SPEED_TEST_VALUE = 2.0f;
 	private static final float TURN_RIGHT_SPEED_TEST_VALUE = 3.0f;
 
+	private List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+
+		project = new Project(context, getClass().getSimpleName());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		sprite = new Sprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);
@@ -84,6 +97,7 @@ public class PhysicsSpriteCloneTest {
 
 	@After
 	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 		sprite = null;
 		project = null;
 	}

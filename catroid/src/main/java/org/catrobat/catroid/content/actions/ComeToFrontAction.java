@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ComeToFrontAction extends TemporalAction {
 
 	private Sprite sprite;
@@ -37,7 +39,7 @@ public class ComeToFrontAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
+		List<Sprite> spriteList = inject(ProjectManager.class).getValue().getCurrentProject().getSpriteListWithClones();
 		sprite.look.setZIndex(spriteList.size() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS - 1);
 	}
 

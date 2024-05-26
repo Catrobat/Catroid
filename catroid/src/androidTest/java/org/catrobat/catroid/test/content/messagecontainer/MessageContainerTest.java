@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class MessageContainerTest {
@@ -61,6 +62,8 @@ public class MessageContainerTest {
 
 	private Project project1;
 	private Project project2;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
@@ -75,24 +78,23 @@ public class MessageContainerTest {
 
 	@Test
 	public void testLoadProject() {
-		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+		List<String> broadcastMessages = projectManager.getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
-		assertThat(broadcastMessages, hasItem(broadcastMessage1));
+		assertThat(broadcastMessages, hasItem(broadcastMessage2));
 		assertEquals(1, broadcastMessages.size());
 	}
 
 	@Test
 	public void testLoadTwoProjects() throws ProjectException {
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(project2.getDirectory());
 
-		currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+		currentProject = projectManager.getCurrentProject();
+		projectManager.setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, not(hasItem(broadcastMessage1)));
@@ -101,6 +103,7 @@ public class MessageContainerTest {
 	}
 
 	private void createTestProjects() throws ProjectException {
+
 		project1 = new Project(ApplicationProvider.getApplicationContext(), projectName1);
 
 		Sprite sprite1 = new Sprite("cat");
@@ -129,8 +132,6 @@ public class MessageContainerTest {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 }

@@ -46,6 +46,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class BackpackBroadcastMessageTest {
@@ -55,6 +56,8 @@ public class BackpackBroadcastMessageTest {
 	private Script backpackedStartScript;
 	private Scene secondScene;
 	private BackpackListManager backpackListManager;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +77,7 @@ public class BackpackBroadcastMessageTest {
 		ScriptController scriptController = new ScriptController();
 		String backpackGroupName = "Backpack";
 		scriptController.pack(backpackGroupName, backpackedStartScript.getBrickList());
-		scriptController.unpack(backpackGroupName, backpackedStartScript, ProjectManager.getInstance().getCurrentSprite());
+		scriptController.unpack(backpackGroupName, backpackedStartScript, projectManager.getCurrentSprite());
 
 		Set<String> usedMessages = secondScene.getBroadcastMessagesInUse();
 		Assert.assertTrue(usedMessages.contains(firstMessage));
@@ -110,7 +113,7 @@ public class BackpackBroadcastMessageTest {
 		spriteOfSecondScene.addScript(secondStartScript);
 		secondScene.addSprite(spriteOfSecondScene);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(spriteOfSecondScene);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(spriteOfSecondScene);
 	}
 }

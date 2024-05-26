@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.devices.multiplayer.MultiplayerInterface
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.koin.java.KoinJavaComponent.inject
 
 class ChangeVariableAction : Action() {
     var scope: Scope? = null
@@ -51,7 +52,9 @@ class ChangeVariableAction : Action() {
         val valueToAdd = value.takeUnless { it.isNaN() } ?: 0.0
         userVariable?.value = original + valueToAdd
 
-        val multiplayerVariable = ProjectManager.getInstance().currentProject.getMultiplayerVariable(userVariable?.name)
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val multiplayerVariable =
+            projectManager.currentProject?.getMultiplayerVariable(userVariable?.name)
         multiplayerVariable?.let {
             val multiplayerDevice = getMultiplayerDevice()
             multiplayerDevice?.sendChangedMultiplayerVariables(userVariable)

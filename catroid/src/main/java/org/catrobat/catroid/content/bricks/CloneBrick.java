@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,8 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
@@ -59,9 +61,11 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new StringOption(context.getString(R.string.brick_clone_this)));
-		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList());
-		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
-		items.remove(ProjectManager.getInstance().getCurrentSprite());
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		items.addAll(projectManager.getCurrentlyEditedScene().getSpriteList());
+		items.remove(projectManager.getCurrentlyEditedScene().getBackgroundSprite());
+		items.remove(projectManager.getCurrentSprite());
 
 		spinner = new BrickSpinner<>(R.id.brick_clone_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);

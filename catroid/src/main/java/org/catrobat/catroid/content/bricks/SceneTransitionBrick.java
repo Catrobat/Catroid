@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
 
 	private static final long serialVersionUID = 1L;
@@ -88,8 +90,9 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getSceneList());
-		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene());
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		items.addAll(projectManager.getCurrentProject().getSceneList());
+		items.remove(projectManager.getCurrentlyEditedScene());
 		spinner = new BrickSpinner<>(R.id.brick_scene_transition_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(sceneForTransition);
@@ -104,7 +107,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 			return;
 		}
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		List<Scene> currentSceneList = currentProject.getSceneList();
 
 		String defaultSceneName =

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import static org.catrobat.catroid.bluetooth.base.BluetoothDevice.MULTIPLAYER;
 import static org.catrobat.catroid.common.CatroidService.BLUETOOTH_DEVICE_SERVICE;
 import static org.catrobat.catroid.common.Constants.TEXT_FROM_CAMERA_SENSOR_HASHCODE;
 import static org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDouble;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SetVariableAction extends TemporalAction {
 
@@ -72,7 +73,9 @@ public class SetVariableAction extends TemporalAction {
 		}
 		userVariable.setValue(value);
 
-		UserVariable multiplayerVariable = ProjectManager.getInstance().getCurrentProject().getMultiplayerVariable(userVariable.getName());
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		UserVariable multiplayerVariable =
+				projectManager.getCurrentProject().getMultiplayerVariable(userVariable.getName());
 		if (multiplayerVariable != null) {
 			MultiplayerInterface multiplayerDevice = getMultiplayerDevice();
 			if (multiplayerDevice != null) {

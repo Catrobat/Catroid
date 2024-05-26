@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,17 +27,23 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -63,13 +69,22 @@ public class PhysicsActiveStageAreaTest {
 	private PhysicsWorld physicsWorld;
 	private Project project;
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
+		CatroidKoinHelperKt.startWithContext(ApplicationProvider.getApplicationContext(), dependencyModules);
 		sprite = rule.sprite;
 		physicsWorld = rule.physicsWorld;
 		project = rule.project;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsLook = ((PhysicsLook) sprite.look);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,6 +53,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -72,7 +73,7 @@ public class DeleteLookDialogTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_LOOKS);
 
-	private String toBeDeletedLookName = "testLook2";
+	private final String toBeDeletedLookName = "testLook2";
 
 	@Before
 	public void setUp() throws Exception {
@@ -160,9 +161,10 @@ public class DeleteLookDialogTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentSprite(sprite);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
@@ -178,7 +180,7 @@ public class DeleteLookDialogTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
 		lookData.setFile(imageFile);
 		lookData.setName("testLook1");

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,9 +37,13 @@ import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class TextInputDialog extends AlertDialog {
 
@@ -79,7 +83,7 @@ public final class TextInputDialog extends AlertDialog {
 		public Builder setPositiveButton(String buttonText, final OnClickListener listener) {
 			setPositiveButton(buttonText, (DialogInterface.OnClickListener) (dialog, which) -> {
 				TextInputLayout textInputLayout = ((Dialog) dialog).findViewById(R.id.input);
-				String text = textInputLayout.getEditText().getText().toString();
+				String text = Objects.requireNonNull(textInputLayout.getEditText()).getText().toString();
 				listener.onPositiveButtonClick(dialog, text);
 			});
 			return this;
@@ -110,12 +114,14 @@ public final class TextInputDialog extends AlertDialog {
 
 		public UniqueNameProvider createUniqueNameProvider(int stringID) {
 			UniqueNameProvider uniqueNameProvider;
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			switch (stringID) {
 				case R.string.default_list_name:
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == ProjectManager.getInstance().getCurrentProject().getUserList(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserList(newName);
+							return null == projectManager.getCurrentProject().getUserList(newName)
+									&& null == projectManager.getCurrentSprite().getUserList(newName);
 						}
 					};
 					break;
@@ -123,9 +129,11 @@ public final class TextInputDialog extends AlertDialog {
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == ProjectManager.getInstance().getCurrentProject().getUserVariable(newName) && null == ProjectManager.getInstance().getCurrentProject().getMultiplayerVariable(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserVariable(newName);
+							return null == projectManager.getCurrentProject().getUserVariable(newName)
+									&& null == projectManager.getCurrentProject().getMultiplayerVariable(newName)
+									&& null == projectManager.getCurrentSprite().getUserVariable(newName);
 						}
-						};
+					};
 					break;
 				default:
 					uniqueNameProvider = new UniqueNameProvider();

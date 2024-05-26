@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,21 +33,29 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.stage.CameraPositioner;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Collections;
+import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GdxNativesLoader.class})
@@ -56,17 +64,19 @@ public class SetCameraFocusPointActionTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private String projectName = "testProject";
-	private Project project;
 	private Sprite sprite;
+
+	final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(), projectName);
+		String projectName = "testProject";
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		sprite = new Sprite("sprite");
 		sprite.addScript(new WhenScript());
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
@@ -78,8 +88,12 @@ public class SetCameraFocusPointActionTest {
 		int virtualHeightHalf = virtualHeight / 2;
 
 		OrthographicCamera camera = new OrthographicCamera();
-		CameraPositioner cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
-		StageActivity.stageListener.cameraPositioner = cameraPositioner;
+		StageActivity.stageListener.cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
+	}
+
+	@After
+	public void tearDown() {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

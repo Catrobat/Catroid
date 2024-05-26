@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.File;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReadVariableFromDeviceAction extends AsynchronousAction {
 	private UserVariable userVariable;
@@ -62,7 +64,8 @@ public class ReadVariableFromDeviceAction extends AsynchronousAction {
 
 		@Override
 		protected Void doInBackground(UserVariable[] userVariables) {
-			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			File projectDirectory = projectManager.getCurrentProject().getDirectory();
 			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
 
 			for (UserVariable variable: userVariables) {

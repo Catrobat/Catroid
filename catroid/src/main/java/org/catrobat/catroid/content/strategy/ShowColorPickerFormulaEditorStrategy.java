@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorStrategy {
 	private static final int OPTION_PICK_COLOR = 0;
@@ -101,7 +103,7 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor, true,
 				true);
 		Bitmap projectBitmap = ProjectManagerExtensionsKt
-				.getProjectBitmap(ProjectManager.getInstance());
+				.getProjectBitmap(inject(ProjectManager.class).getValue());
 		dialog.setBitmap(projectBitmap);
 		dialog.addOnColorPickedListener(callback::setValue);
 		dialog.show(fragmentManager, null);

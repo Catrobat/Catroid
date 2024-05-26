@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,8 @@ import java.util.List;
 
 import androidx.annotation.PluralsRes;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	public static final String TAG = NfcTagListFragment.class.getSimpleName();
@@ -95,7 +97,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void initializeAdapter() {
-		List<NfcTagData> items = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		List<NfcTagData> items =
+				inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList();
 		sharedPreferenceDetailsKey = "showDetailsNfcTags";
 		adapter = new NfcTagAdapter(items);
 		emptyView.setText(R.string.fragment_nfctag_text_description);

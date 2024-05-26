@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class IfOnEdgeBounceAction extends TemporalAction {
 	private Sprite sprite;
 
@@ -39,8 +41,11 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
 		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
-		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		int halfVirtualScreenWidth =
+				projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int halfVirtualScreenHeight =
+				projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 		float newDirection = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -halfVirtualScreenWidth + width / 2) {

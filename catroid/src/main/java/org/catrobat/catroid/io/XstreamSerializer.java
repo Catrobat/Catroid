@@ -299,6 +299,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class XstreamSerializer {
 
@@ -309,7 +310,7 @@ public final class XstreamSerializer {
 	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
-	private Lock loadSaveLock = new ReentrantLock();
+	private final Lock loadSaveLock = new ReentrantLock();
 
 	private XstreamSerializer() {
 		prepareXstream(Project.class, Scene.class);
@@ -775,10 +776,8 @@ public final class XstreamSerializer {
 		Matcher previousFormulaXMatcher = formulaXPattern.matcher(previousXml);
 		currentFormulaYMatcher.find();
 		previousFormulaXMatcher.find();
-		if (previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches() && (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)))) {
-			return true;
-		}
-		return false;
+		return previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches()
+				&& (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)));
 	}
 
 	public boolean saveProject(Project project) {
@@ -820,7 +819,7 @@ public final class XstreamSerializer {
 						previousLanguageMatcher.find();
 						if (Objects.equals(currentLanguageMatcher.group(0),
 								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
-							ProjectManager.getInstance().changedProject(project.getName());
+							inject(ProjectManager.class).getValue().changedProject(project.getName());
 						}
 					}
 				} catch (Exception e) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsLook;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PointToAction extends TemporalAction {
 
 	private Sprite sprite;
@@ -36,7 +38,7 @@ public class PointToAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		if (pointedSprite == null
-				|| !ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList().contains(pointedSprite)) {
+				|| !inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getSpriteList().contains(pointedSprite)) {
 			return;
 		}
 

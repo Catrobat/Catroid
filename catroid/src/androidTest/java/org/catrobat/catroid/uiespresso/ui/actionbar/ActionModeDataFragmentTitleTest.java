@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.junit.experimental.categories.Category;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
@@ -89,7 +90,8 @@ public class ActionModeDataFragmentTitleTest {
 		Script script = UiTestUtils.createProjectAndGetStartScript("ActionModeDataFragmentTitleTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
 		currentProject.addUserVariable(new UserVariable("var1"));
 		currentProject.addUserVariable(new UserVariable("var2"));
 		currentProject.addUserList(new UserList("list1"));

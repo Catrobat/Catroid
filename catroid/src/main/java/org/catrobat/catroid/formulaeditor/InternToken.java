@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.sensing.CollisionDetection;
 
 import java.util.List;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class InternToken {
 
@@ -70,7 +72,7 @@ public class InternToken {
 
 	public void updateCollisionFormulaToVersion() {
 		if (internTokenType == InternTokenType.COLLISION_FORMULA) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue, currentProject);
 			if (secondSpriteName != null) {
 				tokenStringValue = secondSpriteName;

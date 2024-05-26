@@ -422,7 +422,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             NONE -> {
                 setShowProgressBar(true)
                 val directoryFile = item?.directory ?: return
-                ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
+                ProjectLoader(directoryFile).setListener(this).loadProjectAsync()
             }
             IMPORT_LOCAL -> {
                 val intent = Intent()

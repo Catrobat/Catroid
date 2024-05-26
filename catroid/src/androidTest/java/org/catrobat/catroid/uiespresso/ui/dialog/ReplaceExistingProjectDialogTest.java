@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.hamcrest.Matchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -67,14 +68,12 @@ public class ReplaceExistingProjectDialogTest {
 
 	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
 
-	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
-
 	@Before
 	public void setUp() throws Exception {
 		createProjects();
 		baseActivityTestRule.launchActivity(null);
 
-		queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
+		ProjectDownloader.ProjectDownloadQueue queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
 
 		ReplaceExistingProjectDialogFragment dialog =
 				ReplaceExistingProjectDialogFragment.newInstance(projectNames[0],
@@ -129,6 +128,6 @@ public class ReplaceExistingProjectDialogTest {
 			saveProjectSerial(project, context);
 		}
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 }

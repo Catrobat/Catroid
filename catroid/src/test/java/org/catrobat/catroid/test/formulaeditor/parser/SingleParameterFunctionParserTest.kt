@@ -70,6 +70,12 @@ import java.lang.Math.sqrt
 import java.lang.Math.tan
 import java.lang.Math.toDegrees
 import java.lang.Math.toRadians
+import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.junit.After
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class SingleParameterFunctionParserTest(
@@ -107,16 +113,22 @@ class SingleParameterFunctionParserTest(
     private var sprite: Sprite? = null
     private var scope: Scope? = null
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
         sprite = Sprite("testSprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,11 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneAdapter extends ExtendedRVAdapter<Scene> {
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public SceneAdapter(List<Scene> items) {
 		super(items);
@@ -49,7 +53,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 		Scene item = items.get(position);
 
-		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		File projectDir = projectManager.getCurrentProject().getDirectory();
 		holder.title.setText(item.getName());
 
 		loader.loadAndShowScreenshot(projectDir.getName(), item.getDirectory().getName(), false, holder.image);
@@ -69,7 +73,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
 		boolean moved = super.onItemMove(sourcePosition, targetPosition);
-		ProjectManager.getInstance().setCurrentlyEditedScene(items.get(0));
+		projectManager.setCurrentlyEditedScene(items.get(0));
 		return moved;
 	}
 

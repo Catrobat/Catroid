@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -64,6 +64,7 @@ import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundl
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -143,7 +144,8 @@ public class PocketPaintEditLookIntentTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList =
+				inject(ProjectManager.class).getValue().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
 		lookData.setFile(imageFile);
 		lookData.setName(lookName);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -230,6 +230,7 @@ import static org.catrobat.catroid.uiespresso.util.matchers.rtl.RtlViewDirection
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onData;
@@ -756,7 +757,7 @@ public class RtlBrickTest {
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
+		inject(ProjectManager.class).getValue().setCurrentSprite(spriteTwo);
 	}
 
 	private void openCategory(int categoryNameStringResourceId) {

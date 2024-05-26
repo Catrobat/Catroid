@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class PlaySoundActionTest {
@@ -99,7 +100,9 @@ class PlaySoundActionTest {
         val projectName = "testProject"
         project = Project(ApplicationProvider.getApplicationContext(), projectName)
         XstreamSerializer.getInstance().saveProject(project)
-        ProjectManager.getInstance().currentProject = project
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
         soundFile = TestUtils.createSoundFile(project, R.raw.testsound, "soundTest.mp3")
     }
 

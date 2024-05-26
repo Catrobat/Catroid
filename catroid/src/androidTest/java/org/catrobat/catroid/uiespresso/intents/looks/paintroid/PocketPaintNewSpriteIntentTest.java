@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,6 +63,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -82,6 +83,8 @@ public class PocketPaintNewSpriteIntentTest {
 
 	private Matcher expectedIntent;
 	private final String projectName = getClass().getSimpleName();
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -147,15 +150,15 @@ public class PocketPaintNewSpriteIntentTest {
 
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
 				.check(matches(withText(newSpriteName)));
-		Sprite newSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getSprite(newSpriteName);
+		Sprite newSprite = projectManager.getCurrentlyEditedScene().getSprite(newSpriteName);
 
 		assertEquals(newSpriteName, newSprite.getLookList().get(0).getName());
 	}
 
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

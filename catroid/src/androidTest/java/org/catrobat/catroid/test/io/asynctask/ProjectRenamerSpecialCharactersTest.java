@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class ProjectRenamerSpecialCharactersTest {
@@ -98,9 +99,9 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertEquals(projectNameWithoutSpecialCharacter, renamedDirectory.getName());
 
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
 	}
 
@@ -116,9 +117,9 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertEquals(expectedDirectory, renamedDirectory);
 
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());
 	}
 }

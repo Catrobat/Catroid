@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.script;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scope;
@@ -33,17 +35,24 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
+
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class WhenConditionScriptTest {
@@ -51,6 +60,9 @@ public class WhenConditionScriptTest {
 	private Formula formula;
 	private Sprite sprite;
 	private WhenConditionScript conditionScript;
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() {
@@ -64,9 +76,15 @@ public class WhenConditionScriptTest {
 	}
 
 	private void createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "TestProject");
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

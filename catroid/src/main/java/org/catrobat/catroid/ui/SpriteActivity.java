@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -108,6 +108,7 @@ import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -153,7 +154,7 @@ public class SpriteActivity extends BaseActivity {
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;
 
-	private ProjectManager projectManager;
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
@@ -170,7 +171,6 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
 		currentProject = projectManager.getCurrentProject();
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
@@ -217,7 +217,7 @@ public class SpriteActivity extends BaseActivity {
 		if (optionsMenu != null) {
 			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				projectManager.changedProject(currentProject.getName());
 			}
 		}
 	}
@@ -225,9 +225,9 @@ public class SpriteActivity extends BaseActivity {
 	public void checkForChange() {
 		if (optionsMenu != null) {
 			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				projectManager.changedProject(currentProject.getName());
 			} else {
-				ProjectManager.getInstance().resetChangedFlag(currentProject);
+				projectManager.resetChangedFlag(currentProject);
 			}
 		}
 	}
@@ -316,7 +316,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void saveProject() {
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject = projectManager.getCurrentProject();
 		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
@@ -330,7 +330,7 @@ public class SpriteActivity extends BaseActivity {
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					projectManager.getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -821,7 +821,6 @@ public class SpriteActivity extends BaseActivity {
 
 		List<UserData> variables = new ArrayList<>();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
 		currentSprite = projectManager.getCurrentSprite();
 		currentProject = projectManager.getCurrentProject();
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -64,6 +64,7 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
+import org.koin.java.KoinJavaComponent.inject
 
 class DataListFragment : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
@@ -80,6 +81,8 @@ class DataListFragment : Fragment(),
     private var emptyView: TextView? = null
     private var sortData = false
     private var indexVariable = false
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     @ActionModeType
     var actionModeType = NONE
@@ -192,8 +195,8 @@ class DataListFragment : Fragment(),
         arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT)
             .let { parentScriptBrick = it as ScriptBrick? }
 
-        val currentProject = ProjectManager.getInstance().currentProject
-        val currentSprite = ProjectManager.getInstance().currentSprite
+        val currentProject = projectManager.currentProject
+        val currentSprite = projectManager.currentSprite
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
@@ -219,8 +222,8 @@ class DataListFragment : Fragment(),
     }
 
     fun indexAndSort() {
-        val currentProject = ProjectManager.getInstance().currentProject
-        val currentSprite = ProjectManager.getInstance().currentSprite
+        val currentProject = projectManager.currentProject
+        val currentSprite = projectManager.currentSprite
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
@@ -430,7 +433,7 @@ class DataListFragment : Fragment(),
         for (item in selectedItems) {
             adapter?.remove(item)
         }
-        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        projectManager.currentProject.deselectElements(selectedItems)
         ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
                                                                     selectedItems.size, selectedItems.size))
     }
@@ -518,7 +521,8 @@ class DataListFragment : Fragment(),
 
         @JvmStatic
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
-            ProjectManager.getInstance().currentProject.updateUserDataReferences(oldName, newName, item)
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            projectManager.currentProject.updateUserDataReferences(oldName, newName, item)
         }
 
         @JvmStatic

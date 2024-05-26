@@ -138,6 +138,7 @@ import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -149,6 +150,8 @@ import static org.robolectric.Shadows.shadowOf;
 public class BrickSingleFormulaFieldTest {
 
 	private SpriteActivity activity;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -308,7 +311,7 @@ public class BrickSingleFormulaFieldTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
@@ -370,8 +373,8 @@ public class BrickSingleFormulaFieldTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

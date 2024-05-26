@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -82,7 +83,7 @@ public class SceneTransitionTouchEventRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Scene firstScene = project.getDefaultScene();
 		Scene secondScene = new Scene("Scene 2", project);

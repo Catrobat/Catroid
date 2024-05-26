@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -73,12 +74,19 @@ class ImportFromPocketPaintLauncher(private val activity: Activity) : ImportLaun
             throw IOException("Cannot create ${POCKET_PAINT_CACHE_DIRECTORY.absolutePath}.")
         }
 
-        val currentProject = ProjectManager.getInstance().currentProject
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val currentProject = projectManager.currentProject
         val bitmap = Bitmap.createBitmap(
             currentProject.xmlHeader.virtualScreenWidth,
             currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
         )
-        return StorageOperations.compressBitmapToPng(bitmap, File(POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName))
+        return StorageOperations.compressBitmapToPng(
+            bitmap,
+            File(
+                POCKET_PAINT_CACHE_DIRECTORY,
+                pocketPaintImageFileName
+            )
+        )
     }
 
     override fun startActivityForResult(requestCode: Int) {

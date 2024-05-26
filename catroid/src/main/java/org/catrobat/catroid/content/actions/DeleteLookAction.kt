@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.SetLookEventId
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
+import org.koin.java.KoinJavaComponent.inject
 
 class DeleteLookAction : SingleSpriteEventAction() {
 
@@ -55,7 +56,8 @@ class DeleteLookAction : SingleSpriteEventAction() {
             if (!::xStreamSerializer.isInitialized) {
                 xStreamSerializer = XstreamSerializer.getInstance()
             }
-            xStreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            xStreamSerializer.saveProject(projectManager.currentProject)
         }
         return SetLookEventId(sprite, sprite?.look?.lookData)
     }
