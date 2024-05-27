@@ -73,6 +73,7 @@ class SwipeChangeTabsTest {
     @Test
     fun testScriptSwipeRight() {
         onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_SCRIPTS))
+        onView(withId(R.id.tab_layout)).perform(CustomActions.wait(250))
         assertTrue(assertFragmentIsShown() is ScriptFragment)
 
         onView(withId(R.id.fragment_container)).perform(swipeRight())
@@ -84,6 +85,7 @@ class SwipeChangeTabsTest {
     @Test
     fun testScriptSwipeLeft() {
         onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_SCRIPTS))
+        onView(withId(R.id.tab_layout)).perform(CustomActions.wait(250))
         assertTrue(assertFragmentIsShown() is ScriptFragment)
 
         onView(withId(R.id.fragment_container)).perform(swipeLeft())
@@ -95,6 +97,7 @@ class SwipeChangeTabsTest {
     @Test
     fun testLooksSwipeRight() {
         onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS))
+        onView(withId(R.id.tab_layout)).perform(CustomActions.wait(250))
         assertTrue(assertFragmentIsShown() is LookListFragment)
 
         onView(withId(R.id.fragment_container)).perform(swipeRight())
@@ -106,6 +109,7 @@ class SwipeChangeTabsTest {
     @Test
     fun testLooksSwipeLeft() {
         onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS))
+        onView(withId(R.id.tab_layout)).perform(CustomActions.wait(250))
         assertTrue(assertFragmentIsShown() is LookListFragment)
 
         onView(withId(R.id.fragment_container)).perform(swipeLeft())

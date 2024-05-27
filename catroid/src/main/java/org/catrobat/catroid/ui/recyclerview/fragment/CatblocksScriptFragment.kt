@@ -212,12 +212,6 @@ class CatblocksScriptFragment(
                     TabLayoutContainerFragment.TAG
                 )
                 .commit()
-/*            val fragmentTransaction = parentFragmentManager.beginTransaction()
-            fragmentTransaction.replace(
-                R.id.fragment_container, scriptFragment,
-                ScriptFragment.TAG
-            )
-            fragmentTransaction.commit()*/
         }
 
         override fun onReceiveValue(strBrickToFocusId: String?) {
