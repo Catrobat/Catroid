@@ -30,7 +30,6 @@ import android.preference.CheckBoxPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.R
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
@@ -50,7 +49,7 @@ class AdvancedModeSettingsFragment : PreferenceFragment(), SharedPreferences.OnS
 
     private var preferenceChanged = false
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.advanced_mode)
 
@@ -110,8 +109,9 @@ class AdvancedModeSettingsFragment : PreferenceFragment(), SharedPreferences.OnS
             if (isAdvancedChanged) {
                 setToEnglishCheckbox.isEnabled = true
             } else {
-                if(sharedPreferences.getBoolean(SettingsFragment.SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, false)) {
-                    SettingsFragment.setSetToEnglish(activity.baseContext, false);
+                if (sharedPreferences.getBoolean(SettingsFragment
+                                                     .SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, false)) {
+                    SettingsFragment.setSetToEnglish(activity.baseContext, false)
                     changeToEnglish(isAdvancedMode = false, isSetToEnglish = false, sharedPreferences)
                 }
             }
