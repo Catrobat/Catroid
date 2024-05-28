@@ -242,8 +242,8 @@ public class SettingsFragment extends PreferenceFragment {
 			case ADVANCED_MODE_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AdvancedModeSettingsFragment(),
-								AdvancedModeSettingsFragment.TAG)
-						.addToBackStack(AdvancedModeSettingsFragment.TAG)
+								AdvancedModeSettingsFragment.Companion.getTAG())
+						.addToBackStack(AdvancedModeSettingsFragment.Companion.getTAG())
 						.commit();
 				break;
 			case NXT_SCREEN_KEY:
