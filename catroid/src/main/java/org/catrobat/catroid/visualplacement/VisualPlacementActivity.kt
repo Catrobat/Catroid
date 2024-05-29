@@ -104,7 +104,6 @@ open class VisualPlacementActivity :
         frameLayout = findViewById(R.id.frame_container)
         frameLayout.layoutParams = layoutCalculator.getLayoutParams()
         frameLayout.setOnTouchListener(this)
-        //frameLayout.setBackgroundColor(Color.WHITE)
         setBackground()
 
         viewModel = ViewModelProvider(this)[VisualPlacementViewModel::class.java]
@@ -127,22 +126,20 @@ open class VisualPlacementActivity :
     }
 
     private fun setBackground() {
-        try {
-            val backgroundBitmap = projectManager.getProjectBitmap()
-            backgroundBitmap.eraseColor(Color.WHITE)
-            val scaledBackgroundBitmap = Bitmap.createScaledBitmap(
-                backgroundBitmap,
-                layoutCalculator.getLayoutParams().width,
-                layoutCalculator.getLayoutParams().height,
-                true
-            )
-            val backgroundDrawable: Drawable = BitmapDrawable(resources, scaledBackgroundBitmap)
-            backgroundDrawable.colorFilter = PorterDuffColorFilter(Color.parseColor("#6F000000"),
-                                                                   PorterDuff.Mode.SRC_ATOP)
-            frameLayout.background = backgroundDrawable
-        } catch (e: Exception) {
-            frameLayout.setBackgroundColor(Color.WHITE)
-        }
+        val backgroundBitmap = projectManager.getProjectBitmap()
+        backgroundBitmap.eraseColor(Color.WHITE)
+        val scaledBackgroundBitmap = Bitmap.createScaledBitmap(
+            backgroundBitmap,
+            layoutCalculator.getLayoutParams().width,
+            layoutCalculator.getLayoutParams().height,
+            true
+        )
+        val backgroundDrawable: Drawable = BitmapDrawable(resources, scaledBackgroundBitmap)
+        backgroundDrawable.colorFilter = PorterDuffColorFilter(
+            Color.parseColor("#6F000000"),
+            PorterDuff.Mode.SRC_ATOP
+        )
+        frameLayout.background = backgroundDrawable
     }
 
     private fun drawImage(image: DrawableSprite): ImageView {
@@ -178,7 +175,9 @@ open class VisualPlacementActivity :
     override fun onBackPressed() {
         if (viewModel.imageWasMoved) {
             showSaveChangesDialog(this)
-        } else finish()
+        } else {
+            finish()
+        }
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {

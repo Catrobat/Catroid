@@ -56,7 +56,9 @@ object ShowTextUtils {
             DEFAULT_TEXT_SIZE * 25.0f
         } else if (textSize > 0 && textSize < DEFAULT_TEXT_SIZE * 0.05f) {
             DEFAULT_TEXT_SIZE * 0.25f
-        } else textSize
+        } else {
+            textSize
+        }
     }
 
     @JvmStatic

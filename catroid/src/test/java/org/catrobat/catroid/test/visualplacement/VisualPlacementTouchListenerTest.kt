@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.visualplacement
 
 import android.view.MotionEvent
+import android.widget.ImageView
 import org.catrobat.catroid.utils.AndroidCoordinates
 import org.catrobat.catroid.visualplacement.VisualPlacementTouchListener
 import org.catrobat.catroid.visualplacement.VisualPlacementViewModel
@@ -47,6 +48,9 @@ class VisualPlacementTouchListenerTest {
     @Mock
     lateinit var viewModel: VisualPlacementViewModel
 
+    @Mock
+    lateinit var imageView: ImageView
+
     @Test
     fun testTouchDownSetCurrentCoordinates() {
         // given
@@ -60,7 +64,7 @@ class VisualPlacementTouchListenerTest {
         val listener = VisualPlacementTouchListener()
 
         // when
-        listener.onTouch(viewModel, currentPosition, event)
+        listener.onTouch(viewModel, imageView, currentPosition, event)
 
         // then
         verify(viewModel).setCoordinates(
@@ -70,7 +74,8 @@ class VisualPlacementTouchListenerTest {
                     initialY
                 )
             )
-        )
+            , refEq(imageView))
+        verifyNoMoreInteractions(imageView)
         verifyNoMoreInteractions(viewModel)
     }
 
@@ -99,13 +104,14 @@ class VisualPlacementTouchListenerTest {
         val positionCaptor = argumentCaptor<AndroidCoordinates>()
 
         // when
-        listener.onTouch(viewModel, currentPosition, event1)
-        listener.onTouch(viewModel, currentPosition, event2)
+        listener.onTouch(viewModel, imageView, currentPosition, event1)
+        listener.onTouch(viewModel, imageView, currentPosition, event2)
 
         // then
-        verify(viewModel, times(2)).setCoordinates(positionCaptor.capture())
+        verify(viewModel, times(2)).setCoordinates(positionCaptor.capture(), refEq(imageView))
         assertEquals(newX, positionCaptor.secondValue.x)
         assertEquals(newY, positionCaptor.secondValue.y)
+        verifyNoMoreInteractions(imageView)
         verifyNoMoreInteractions(viewModel)
     }
 
@@ -138,13 +144,14 @@ class VisualPlacementTouchListenerTest {
         val positionCaptor = argumentCaptor<AndroidCoordinates>()
 
         // when
-        listener.onTouch(viewModel, currentPosition, event1)
-        listener.onTouch(viewModel, currentPosition, event2)
+        listener.onTouch(viewModel, imageView, currentPosition, event1)
+        listener.onTouch(viewModel, imageView, currentPosition, event2)
 
         // then
-        verify(viewModel, times(2)).setCoordinates(positionCaptor.capture())
+        verify(viewModel, times(2)).setCoordinates(positionCaptor.capture(), refEq(imageView))
         assertEquals(endPictureX, positionCaptor.secondValue.x)
         assertEquals(endPictureY, positionCaptor.secondValue.y)
+        verifyNoMoreInteractions(imageView)
         verifyNoMoreInteractions(viewModel)
     }
 
@@ -157,7 +164,8 @@ class VisualPlacementTouchListenerTest {
         val listener = VisualPlacementTouchListener()
 
         // when & then
-        assertFalse(listener.onTouch(viewModel, AndroidCoordinates(2f, 3f), event))
+        assertFalse(listener.onTouch(viewModel, imageView, AndroidCoordinates(2f, 3f), event))
+        verifyZeroInteractions(imageView)
         verifyZeroInteractions(viewModel)
     }
 }

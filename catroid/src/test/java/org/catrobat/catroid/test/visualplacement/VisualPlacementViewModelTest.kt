@@ -26,8 +26,10 @@ package org.catrobat.catroid.test.visualplacement
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.defaultprojectcreators.BitmapWithRotationInfo
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Scene
@@ -51,6 +53,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.mock.declareMock
+import org.mockito.Mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -62,6 +65,9 @@ import org.powermock.modules.junit4.PowerMockRunner
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(ShowTextUtils::class, Bitmap::class, Bundle::class)
 class VisualPlacementViewModelTest : UnitTestWithMockedContext() {
+
+    @Mock
+    private lateinit var imageView: ImageView
 
     // Needed because of the LiveData
     @Rule
@@ -85,6 +91,7 @@ class VisualPlacementViewModelTest : UnitTestWithMockedContext() {
         val currentSprite = spy(Sprite("name")) {
             doReturn(mock<BitmapWithRotationInfo>()).whenever(it).spriteBitmap
         }
+        currentSprite.lookList.add(LookData())
 
         val expectedScalingFactor = Size(1f, 1f)
         currentSprite.look = mock<Look> {
@@ -128,7 +135,7 @@ class VisualPlacementViewModelTest : UnitTestWithMockedContext() {
         val newCoordinates = AndroidCoordinates(10f, 20f)
         val expectedCoordinates = GameCoordinates(-40f, -80f)
 
-        viewModel.setCoordinates(newCoordinates)
+        viewModel.setCoordinates(newCoordinates, imageView)
 
         assertTrue(viewModel.imageWasMoved)
         assertEquals(expectedCoordinates, viewModel.spriteToPlace.value!!.coordinates)

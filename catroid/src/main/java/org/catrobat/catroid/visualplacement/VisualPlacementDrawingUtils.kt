@@ -53,16 +53,20 @@ class VisualPlacementDrawingUtils {
 
         when (rotationMode) {
             Look.ROTATION_STYLE_NONE -> matrix.postRotate(0f)
-            Look.ROTATION_STYLE_ALL_AROUND -> if (rotation != 90) matrix.postRotate(
-                rotation - Look.DEGREE_UI_OFFSET
-            )
+            Look.ROTATION_STYLE_ALL_AROUND -> if (rotation != 90) {
+                matrix.postRotate(
+                    rotation - Look.DEGREE_UI_OFFSET
+                )
+            }
 
-            Look.ROTATION_STYLE_LEFT_RIGHT_ONLY -> if (rotation < 0) matrix.postScale(
-                -1f,
-                1f,
-                spriteSize.width / 2,
-                spriteSize.height / 2
-            )
+            Look.ROTATION_STYLE_LEFT_RIGHT_ONLY -> if (rotation < 0) {
+                matrix.postScale(
+                    -1f,
+                    1f,
+                    spriteSize.width / 2,
+                    spriteSize.height / 2
+                )
+            }
         }
 
         return matrix
