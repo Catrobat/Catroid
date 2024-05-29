@@ -142,7 +142,7 @@ open class VisualPlacementActivity :
                 PorterDuff.Mode.SRC_ATOP
             )
             frameLayout.background = backgroundDrawable
-        } catch (e: Exception) {
+        } catch (e: IllegalStateException) {
             frameLayout.setBackgroundColor(Color.WHITE)
         }
     }
