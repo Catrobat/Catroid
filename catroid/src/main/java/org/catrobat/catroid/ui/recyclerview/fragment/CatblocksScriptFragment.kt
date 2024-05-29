@@ -201,7 +201,7 @@ class CatblocksScriptFragment(
             } else if (brickToFocus is ScriptBrick) {
                 ScriptFragment.newInstance((brickToFocus as ScriptBrick).script)
             } else {
-                ScriptFragment.newInstance(brickToFocus)
+                ScriptFragment.newInstance(brickToFocus!!)
             }
             val fragmentTransaction = parentFragmentManager.beginTransaction()
             fragmentTransaction.replace(
