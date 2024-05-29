@@ -126,20 +126,25 @@ open class VisualPlacementActivity :
     }
 
     private fun setBackground() {
-        val backgroundBitmap = projectManager.getProjectBitmap()
-        backgroundBitmap.eraseColor(Color.WHITE)
-        val scaledBackgroundBitmap = Bitmap.createScaledBitmap(
-            backgroundBitmap,
-            layoutCalculator.getLayoutParams().width,
-            layoutCalculator.getLayoutParams().height,
-            true
-        )
-        val backgroundDrawable: Drawable = BitmapDrawable(resources, scaledBackgroundBitmap)
-        backgroundDrawable.colorFilter = PorterDuffColorFilter(
-            Color.parseColor("#6F000000"),
-            PorterDuff.Mode.SRC_ATOP
-        )
-        frameLayout.background = backgroundDrawable
+        @Suppress("SwallowedException")
+        try {
+            val backgroundBitmap = projectManager.getProjectBitmap()
+            backgroundBitmap.eraseColor(Color.WHITE)
+            val scaledBackgroundBitmap = Bitmap.createScaledBitmap(
+                backgroundBitmap,
+                layoutCalculator.getLayoutParams().width,
+                layoutCalculator.getLayoutParams().height,
+                true
+            )
+            val backgroundDrawable: Drawable = BitmapDrawable(resources, scaledBackgroundBitmap)
+            backgroundDrawable.colorFilter = PorterDuffColorFilter(
+                Color.parseColor("#6F000000"),
+                PorterDuff.Mode.SRC_ATOP
+            )
+            frameLayout.background = backgroundDrawable
+        } catch (e: Exception) {
+            frameLayout.setBackgroundColor(Color.WHITE)
+        }
     }
 
     private fun drawImage(image: DrawableSprite): ImageView {

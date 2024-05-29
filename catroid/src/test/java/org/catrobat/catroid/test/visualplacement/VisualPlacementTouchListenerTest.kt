@@ -73,8 +73,8 @@ class VisualPlacementTouchListenerTest {
                     initialX,
                     initialY
                 )
-            )
-            , refEq(imageView))
+            ), refEq(imageView)
+        )
         verifyNoMoreInteractions(imageView)
         verifyNoMoreInteractions(viewModel)
     }
