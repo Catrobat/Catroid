@@ -39,7 +39,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.AndroidStringProvider;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

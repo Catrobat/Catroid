@@ -37,6 +37,7 @@ import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.utils.AndroidCoordinates
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.catrobat.catroid.visualplacement.VisualPlacementViewModel.Companion.EXTRA_TEXT
 import org.catrobat.catroid.visualplacement.VisualPlacementViewModel.Companion.EXTRA_X_COORDINATE
 import org.catrobat.catroid.visualplacement.VisualPlacementViewModel.Companion.EXTRA_Y_COORDINATE
 import org.junit.After
@@ -69,6 +70,7 @@ class VisualPlacementActivityTest {
         val intent = Intent()
         intent.putExtra(EXTRA_X_COORDINATE, X_POS)
         intent.putExtra(EXTRA_Y_COORDINATE, Y_POS)
+        intent.putExtra(EXTRA_TEXT, "test")
         baseActivityTestRule.launchActivity(intent)
     }
 
