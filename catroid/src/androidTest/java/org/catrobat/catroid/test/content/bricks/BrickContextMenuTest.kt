@@ -50,7 +50,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.getContextMenuItems
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.Companion.getContextMenuItems
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 import org.junit.After
