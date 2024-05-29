@@ -244,7 +244,7 @@ public class ScriptFragmentTest {
 		openActionBarMenu();
 		onView(withText("Backpack")).perform(click());
 		onView(withId(R.id.confirm)).perform(click());
-		UiTestUtils.onToast(withText(R.string.brick_selection_empty)).check(matches(isDisplayed()));
+		onView(withText(R.string.brick_selection_empty)).check(matches(isDisplayed()));
 	}
 
 	private void createProject() {
