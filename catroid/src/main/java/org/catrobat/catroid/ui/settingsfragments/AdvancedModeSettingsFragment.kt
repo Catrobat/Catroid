@@ -41,7 +41,8 @@ import org.koin.java.KoinJavaComponent.inject
 import org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY
 import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment.CUSTOM_PROFILE
 
-class AdvancedModeSettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdvancedModeSettingsFragment : PreferenceFragment(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         val TAG: String = AdvancedModeSettingsFragment::class.java.simpleName
@@ -94,45 +95,71 @@ class AdvancedModeSettingsFragment : PreferenceFragment(), SharedPreferences.OnS
     }
 
     private fun toggleSettings(sharedPreferences: SharedPreferences) {
-        val isSetToAdvancedMode = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE, false)
+        val isSetToAdvancedMode =
+            sharedPreferences.getBoolean(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE, false)
 
         if (!isSetToAdvancedMode) {
-            val setToEnglishCheckbox = findPreference(SettingsFragment.SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE) as CheckBoxPreference
+            val setToEnglishCheckbox =
+                findPreference(SettingsFragment.SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE) as CheckBoxPreference
             setToEnglishCheckbox.isEnabled = false
         }
 
-        val advancedModeCheckbox = findPreference(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE) as Preference
-        val setToEnglishCheckbox = findPreference(SettingsFragment.SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE) as Preference
+        val advancedModeCheckbox =
+            findPreference(SettingsFragment.SETTINGS_CATBLOCKS_ADVANCED_MODE) as Preference
+        val setToEnglishCheckbox =
+            findPreference(SettingsFragment.SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE) as Preference
 
-        advancedModeCheckbox.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-            val isAdvancedChanged = newValue as Boolean
-            if (isAdvancedChanged) {
-                setToEnglishCheckbox.isEnabled = true
-            } else {
-                if (sharedPreferences.getBoolean(SettingsFragment
-                                                     .SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, false)) {
-                    SettingsFragment.setSetToEnglish(activity.baseContext, false)
-                    changeToEnglish(isAdvancedMode = false, isSetToEnglish = false, sharedPreferences)
+        advancedModeCheckbox.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                val isAdvancedChanged = newValue as Boolean
+                if (isAdvancedChanged) {
+                    setToEnglishCheckbox.isEnabled = true
+                } else {
+                    if (sharedPreferences.getBoolean(
+                            SettingsFragment
+                                .SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, false
+                        )
+                    ) {
+                        SettingsFragment.setSetToEnglish(activity.baseContext, false)
+                        changeToEnglish(
+                            isAdvancedMode = false,
+                            isSetToEnglish = false,
+                            sharedPreferences
+                        )
+                    }
                 }
+                true
             }
-            true
-        }
 
-        setToEnglishCheckbox.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-            val isEnglishChanged = newValue as Boolean
-            changeToEnglish(isSetToAdvancedMode, isEnglishChanged, sharedPreferences)
-            true
-        }
+        setToEnglishCheckbox.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                val isEnglishChanged = newValue as Boolean
+                changeToEnglish(isSetToAdvancedMode, isEnglishChanged, sharedPreferences)
+                true
+            }
     }
 
-    private fun changeToEnglish(isAdvancedMode: Boolean, isSetToEnglish: Boolean, sharedPreferences: SharedPreferences) {
+    private fun changeToEnglish(
+        isAdvancedMode: Boolean,
+        isSetToEnglish: Boolean,
+        sharedPreferences: SharedPreferences
+    ) {
         var language = "en"
         if (isAdvancedMode && isSetToEnglish) {
             if (sharedPreferences.getString(LANGUAGE_TAG_KEY, "") != "en") {
-                SettingsFragment.setAdvancedModePreviousLanguage(activity?.baseContext, sharedPreferences.getString(LANGUAGE_TAG_KEY, ""))
+                SettingsFragment.setAdvancedModePreviousLanguage(
+                    activity?.baseContext,
+                    sharedPreferences.getString(
+                        LANGUAGE_TAG_KEY,
+                        ""
+                    )
+                )
             }
         } else {
-            language = sharedPreferences.getString(SettingsFragment.SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE, "") ?: ""
+            language = sharedPreferences.getString(
+                SettingsFragment.SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE,
+                ""
+            ) ?: ""
         }
         if (!language.equals("")) {
             SettingsFragment.setLanguageSharedPreference(activity?.baseContext, language)
