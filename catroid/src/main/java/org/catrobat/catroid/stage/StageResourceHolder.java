@@ -53,6 +53,7 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.MobileServiceAvailability;
@@ -130,7 +131,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.MICROPHONE)) {
-			sensorHandler.setSensorLoudness(new SensorLoudness());
+			sensorHandler.setSensorLoudness(new SensorLoudness(new SoundRecorder("/dev/null")));
 			resourceInitialized();
 		}
 

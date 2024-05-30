@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,8 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionSta
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandlerFace
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
 import org.catrobat.catroid.formulaeditor.Sensors
@@ -41,6 +43,8 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -117,9 +121,8 @@ class SensorHandlerTest {
     @Test
     @UiThreadTest
     fun testMicRelease() {
-        val loudnessSensor = SensorLoudness()
         val soundRecorder = Mockito.mock(SoundRecorder::class.java)
-        loudnessSensor.soundRecorder = soundRecorder
+        val loudnessSensor = SensorLoudness(soundRecorder)
 
         Mockito.`when`(soundRecorder.isRecording).thenReturn(false)
         SensorHandler.getInstance(ApplicationProvider.getApplicationContext()).setSensorLoudness(loudnessSensor)
@@ -129,6 +132,25 @@ class SensorHandlerTest {
         Mockito.verify(soundRecorder).start()
 
         SensorHandler.stopSensorListeners()
+        Mockito.verify(soundRecorder).stop()
+    }
+
+    @Test
+    @UiThreadTest
+    fun testSensorLoudnessStatusChecker() {
+        val soundRecorder = Mockito.mock(SoundRecorder::class.java)
+        val loudnessSensor = SensorLoudness(soundRecorder)
+
+        Mockito.`when`(soundRecorder.maxAmplitude).thenReturn(10)
+        Mockito.`when`(soundRecorder.isRecording).thenReturn(true)
+        val listener = SensorCustomEventListener {event: SensorCustomEvent? ->
+            event?.let {
+                assertTrue(event.sensor == Sensors.LOUDNESS)
+                assertEquals((10 / 32767).toFloat(), event.value as Float, 0.05f)
+            } ?: fail()
+        }
+        loudnessSensor.registerListener(listener)
+        loudnessSensor.unregisterListener(listener)
         Mockito.verify(soundRecorder).stop()
     }
 
