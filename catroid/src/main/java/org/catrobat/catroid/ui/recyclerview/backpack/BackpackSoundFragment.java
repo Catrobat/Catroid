@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	public static final String TAG = BackpackSoundFragment.class.getSimpleName();
 
-	private SoundController soundController = new SoundController();
+	private final SoundController soundController = new SoundController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -64,9 +64,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				destinationSprite.getSoundList().add(soundController.unpack(item,
-						ProjectManager.getInstance().getCurrentlyEditedScene(),
-						destinationSprite));
+				destinationSprite.getSoundList().add(soundController.unpack(item, ProjectManager.getInstance().getCurrentlyEditedScene(), destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -74,9 +72,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sounds,
-					unpackedItemCnt,
-					unpackedItemCnt));
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sounds, unpackedItemCnt, unpackedItemCnt));
 			getActivity().finish();
 		}
 
@@ -92,27 +88,43 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	protected void deleteItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
+
 		for (SoundInfo item : selectedItems) {
-			try {
-				soundController.delete(item);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
 			adapter.remove(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds,
-				selectedItems.size(),
-				selectedItems.size()));
+		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds, selectedItems.size(), selectedItems.size()));
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	public String getItemName(SoundInfo item) {
 		return item.getName();
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedSounds(copiedStatus);
+		resetBackpackState();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (SoundInfo item : getLastDeletedItems()) {
+			try {
+				soundController.delete(item);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedSounds());
 	}
 }

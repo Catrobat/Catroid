@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,9 @@ import android.widget.ListAdapter;
 import android.widget.PopupMenu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
@@ -48,7 +50,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.PluralsRes;
@@ -57,14 +61,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements
-		ActionMode.Callback,
-		RVAdapter.SelectionListener,
-		RVAdapter.OnItemClickListener<T> {
+public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements ActionMode.Callback, RVAdapter.SelectionListener, RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	protected static final int NONE = 0;
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
@@ -77,11 +80,16 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected String sharedPreferenceDetailsKey = "";
 	public boolean hasDetails = false;
-
 	protected ItemTouchHelper touchHelper;
 
 	@ActionModeType
 	protected int actionModeType = NONE;
+
+	private final List<T> lastDeletedItems = new CopyOnWriteArrayList<>();
+
+	protected List<T> copiedStatus = new CopyOnWriteArrayList<>();
+
+	protected HashMap<String, List<Script>> savedScripts = new HashMap<>();
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -139,7 +147,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				unpackItems(adapter.getSelectedItems());
 				break;
 			case DELETE:
-				showDeleteAlert(adapter.getSelectedItems());
+				deleteItem(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
@@ -169,8 +177,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	public void onAdapterReady() {
-		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 
 		recyclerView.setAdapter(adapter);
 
@@ -192,6 +199,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onStop() {
+		removeLastDeletedItems();
 		super.onStop();
 		finishActionMode();
 	}
@@ -200,12 +208,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		if (hasDetails) {
-			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-					getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 
-			menu.findItem(R.id.show_details).setTitle(adapter.showDetails
-					? R.string.hide_details
-					: R.string.show_details);
+			menu.findItem(R.id.show_details).setTitle(adapter.showDetails ? R.string.hide_details : R.string.show_details);
 		}
 	}
 
@@ -218,12 +223,15 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 			case R.id.delete:
 				startActionMode(DELETE);
 				break;
+			case R.id.menu_undo:
+				undo();
+				ToastUtil.showSuccess(getActivity(), "Last delete was successfully undone");
+				((BackpackActivity) requireActivity()).toggleUndo(false);
+				adapter.notifyDataSetChanged();
+				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(getActivity())
-						.edit()
-						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
-						.apply();
+				PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:
@@ -264,19 +272,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		}
 	}
 
-	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(getContext())
-				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
-				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						deleteItems(selectedItems);
-					}
-				})
-				.setNegativeButton(R.string.cancel, null)
-				.setCancelable(false)
-				.show();
+	protected void deleteItem(final List<T> selectedItems) {
+		saveStatus();
+		deleteItems(selectedItems);
+
+		if (!selectedItems.isEmpty()) {
+			((BackpackActivity) getActivity()).toggleUndo(true);
+		}
 	}
 
 	@Override
@@ -296,24 +298,20 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		options.add(R.string.unpack);
 		options.add(R.string.delete);
 		List<String> names = new ArrayList<>();
-		for (Integer option: options) {
+		for (Integer option : options) {
 			names.add(getString(option));
 		}
-		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options,
-				names, requireContext(), requireActivity());
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names, requireContext(), requireActivity());
 
-		new AlertDialog.Builder(requireContext())
-				.setTitle(getItemName(item))
-				.setAdapter(arrayAdapter, (dialog, which) -> {
-					switch (which) {
-						case 0:
-							unpackItems(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 1:
-							showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-					}
-				})
-				.show();
+		new AlertDialog.Builder(requireContext()).setTitle(getItemName(item)).setAdapter(arrayAdapter, (dialog, which) -> {
+			switch (which) {
+				case 0:
+					unpackItems(new ArrayList<>(Collections.singletonList(item)));
+					break;
+				case 1:
+					deleteItem(new ArrayList<>(Collections.singletonList(item)));
+			}
+		}).show();
 	}
 
 	public void setShowProgressBar(boolean show) {
@@ -329,17 +327,16 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@Override
 	public void onSettingsClick(T item, View view) {
 		List<T> itemList = new ArrayList<>(Collections.singletonList(item));
-		int[] hiddenOptionMenuIds = {R.id.show_details};
-		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
-				R.menu.menu_backpack_activity, hiddenOptionMenuIds);
-
+		int[] hiddenOptionMenuIds = {R.id.show_details, R.id.menu_undo};
+		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu.menu_backpack_activity, hiddenOptionMenuIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
 			switch (menuItem.getItemId()) {
 				case R.id.unpack:
 					unpackItems(itemList);
 					break;
 				case R.id.delete:
-					showDeleteAlert(itemList);
+					deleteItem(itemList);
+
 					break;
 				default:
 					break;
@@ -358,4 +355,30 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected abstract String getItemName(T item);
+
+	public abstract void undo();
+
+	public void setCopiedStatus(List<T> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
+	}
+
+	public void resetBackpackState() {
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	public abstract void removeLastDeletedItems();
+
+	public abstract void saveStatus();
+
+	public void setLastDeletedItems(List<T> list) {
+		lastDeletedItems.clear();
+		lastDeletedItems.addAll(list);
+	}
+
+	public List<T> getLastDeletedItems() {
+		return lastDeletedItems;
+	}
 }

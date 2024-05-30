@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -154,19 +154,14 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         val builder = TextInputDialog.Builder(requireContext())
         val uniqueNameProvider = UniqueNameProvider()
         builder.setHint(getString(R.string.sprite_group_name_label))
-            .setTextWatcher(DuplicateInputTextWatcher<Sprite>(adapter.items))
-            .setText(
+            .setTextWatcher(DuplicateInputTextWatcher<Sprite>(adapter.items)).setText(
                 uniqueNameProvider.getUniqueNameInNameables(
-                    getString(R.string.default_group_name),
-                    adapter.items
+                    getString(R.string.default_group_name), adapter.items
                 )
-            )
-            .setPositiveButton(getString(R.string.ok)) { _: DialogInterface?, textInput: String? ->
+            ).setPositiveButton(getString(R.string.ok)) { _: DialogInterface?, textInput: String? ->
                 adapter.add(GroupSprite(textInput))
             }
-        builder.setTitle(R.string.new_group)
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        builder.setTitle(R.string.new_group).setNegativeButton(R.string.cancel, null).show()
     }
 
     override fun initializeAdapter() {
@@ -192,9 +187,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         if (packedItemCnt > 0) {
             ToastUtil.showSuccess(
                 requireContext(), resources.getQuantityString(
-                    R.plurals.packed_sprites,
-                    packedItemCnt,
-                    packedItemCnt
+                    R.plurals.packed_sprites, packedItemCnt, packedItemCnt
                 )
             )
             switchToBackpack()
@@ -226,9 +219,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         if (copiedItemCnt > 0) {
             ToastUtil.showSuccess(
                 requireContext(), resources.getQuantityString(
-                    R.plurals.copied_sprites,
-                    copiedItemCnt,
-                    copiedItemCnt
+                    R.plurals.copied_sprites, copiedItemCnt, copiedItemCnt
                 )
             )
         }
@@ -256,9 +247,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
-                R.plurals.deleted_sprites,
-                deletedItemsCount,
-                deletedItemsCount
+                R.plurals.deleted_sprites, deletedItemsCount, deletedItemsCount
             )
         )
         finishActionMode()
@@ -278,8 +267,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             val resolvedFileName =
                 StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
             val lookFileName: String
-            val useDefaultSpriteName = resolvedFileName == null ||
-                StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
+            val useDefaultSpriteName =
+                resolvedFileName == null || StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
             if (useDefaultSpriteName) {
                 resolvedName = getString(R.string.default_sprite_name)
                 lookFileName = resolvedName + Constants.CATROBAT_EXTENSION
@@ -287,9 +276,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 lookFileName = resolvedFileName
             }
             val importProjectHelper = ImportProjectHelper(
-                lookFileName,
-                currentScene,
-                requireActivity()
+                lookFileName, currentScene, requireActivity()
             )
             if (!importProjectHelper.checkForConflicts()) {
                 return
@@ -306,8 +293,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         currentSprite = item
         val intent = Intent(requireContext(), ProjectListActivity::class.java)
         intent.putExtra(
-            IMPORT_LOCAL_INTENT,
-            getString(R.string.import_sprite_from_project_launcher))
+            IMPORT_LOCAL_INTENT, getString(R.string.import_sprite_from_project_launcher)
+        )
         startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
     }
 
@@ -330,15 +317,16 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     super.onItemClick(item, null)
                     return
                 }
+
                 NONE -> {
                     projectManager.currentSprite = item
                     val intent = Intent(requireContext(), SpriteActivity::class.java)
                     intent.putExtra(
-                        SpriteActivity.EXTRA_FRAGMENT_POSITION,
-                        SpriteActivity.FRAGMENT_SCRIPTS
+                        SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS
                     )
                     startActivity(intent)
                 }
+
                 else -> super.onItemClick(item, selectionManager)
             }
         }
@@ -360,8 +348,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             hiddenMenuOptionIds.add(R.id.from_local)
         }
         val popupMenu = UiUtils.createSettingsPopUpMenu(
-            view, requireContext(), R.menu
-                .menu_project_activity, hiddenMenuOptionIds.toIntArray()
+            view, requireContext(), R.menu.menu_project_activity, hiddenMenuOptionIds.toIntArray()
         )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
