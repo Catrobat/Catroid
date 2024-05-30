@@ -38,6 +38,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
@@ -95,12 +96,10 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void deleteItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
+
 		for (LookData item : selectedItems) {
-			try {
-				lookController.delete(item);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
@@ -109,9 +108,6 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
@@ -122,5 +118,35 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected String getItemName(LookData item) {
 		return item.getName();
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedLooks(copiedStatus);
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (LookData item : getLastDeletedItems()) {
+			try {
+				lookController.delete(item);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		getLastDeletedItems().clear();
+	}
+
+	public void setCopiedStatus(List<LookData> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedLooks());
 	}
 }

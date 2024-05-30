@@ -57,6 +57,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapt
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
+import org.catrobat.catroid.ui.recyclerview.backpack.BackpackRecyclerViewFragment
+import org.catrobat.catroid.ui.recyclerview.backpack.BackpackSpriteFragment
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
@@ -303,7 +305,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         val intent = Intent(requireContext(), ProjectListActivity::class.java)
         intent.putExtra(
             IMPORT_LOCAL_INTENT,
-            getString(R.string.import_sprite_from_project_launcher))
+            getString(R.string.import_sprite_from_project_launcher)
+        )
         startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
     }
 
@@ -326,6 +329,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     super.onItemClick(item, null)
                     return
                 }
+
                 NONE -> {
                     projectManager.currentSprite = item
                     val intent = Intent(requireContext(), SpriteActivity::class.java)
@@ -335,6 +339,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     )
                     startActivity(intent)
                 }
+
                 else -> super.onItemClick(item, selectionManager)
             }
         }

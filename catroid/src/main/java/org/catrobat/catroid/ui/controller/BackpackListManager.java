@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.controller;
 
+
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
@@ -106,6 +107,31 @@ public final class BackpackListManager {
 
 	public List<Sprite> getSprites() {
 		return getBackpack().backpackedSprites;
+	}
+
+	public void replaceBackpackedSprites(List<Sprite> list) {
+		getBackpack().backpackedSprites.clear();
+		getBackpack().backpackedSprites.addAll(list);
+	}
+
+	public void replaceBackpackedLooks(List<LookData> list) {
+		getBackpack().backpackedLooks.clear();
+		getBackpack().backpackedLooks.addAll(list);
+	}
+
+	public void replaceBackpackedSounds(List<SoundInfo> list) {
+		getBackpack().backpackedSounds.clear();
+		getBackpack().backpackedSounds.addAll(list);
+	}
+
+	public void replaceBackpackedScenes(List<Scene> list) {
+		getBackpack().backpackedScenes.clear();
+		getBackpack().backpackedScenes.addAll(list);
+	}
+
+	public void replaceBackpackedScripts(HashMap<String, List<Script>> map) {
+		getBackpack().backpackedScripts.clear();
+		getBackpack().backpackedScripts.putAll(map);
 	}
 
 	public List<String> getBackpackedScriptGroups() {

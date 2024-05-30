@@ -35,6 +35,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
+
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -44,6 +46,8 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	public static final String TAG = BackpackScriptFragment.class.getSimpleName();
 
 	private ScriptController scriptController = new ScriptController();
+
+	private HashMap<String, List<Script>> saved_Scripts = new HashMap<>();
 
 	@Override
 	protected void initializeAdapter() {
@@ -94,8 +98,9 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected void deleteItems(List<String> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
 		for (String item : selectedItems) {
-			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts,
@@ -104,13 +109,36 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	protected String getItemName(String item) {
 		return item;
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedScripts(saved_Scripts);
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (String item : getLastDeletedItems()) {
+			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
+		}
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedScripts());
+	}
+
+	public void setCopiedStatus(HashMap<String, List<Script>> map) {
+		saved_Scripts.clear();
+		saved_Scripts.putAll(map);
 	}
 }

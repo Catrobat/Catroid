@@ -90,12 +90,9 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void deleteItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
 		for (Scene item : selectedItems) {
-			try {
-				sceneController.delete(item);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
@@ -104,14 +101,41 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	protected String getItemName(Scene item) {
 		return item.getName();
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedScenes(copiedStatus);
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (Scene item : getLastDeletedItems()) {
+			try {
+				sceneController.delete(item);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getScenes());
+	}
+
+	public void setCopiedStatus(List<Scene> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
 	}
 }
 

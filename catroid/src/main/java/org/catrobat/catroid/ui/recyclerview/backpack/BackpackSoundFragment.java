@@ -92,12 +92,9 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	protected void deleteItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
 		for (SoundInfo item : selectedItems) {
-			try {
-				soundController.delete(item);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds,
@@ -106,13 +103,40 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	public String getItemName(SoundInfo item) {
 		return item.getName();
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedSounds(copiedStatus);
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (SoundInfo item : getLastDeletedItems()) {
+			try {
+				soundController.delete(item);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		getLastDeletedItems().clear();
+	}
+
+	public void setCopiedStatus(List<SoundInfo> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedSounds());
 	}
 }

@@ -38,6 +38,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
@@ -47,6 +48,11 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	public static final String TAG = BackpackSpriteFragment.class.getSimpleName();
 
 	private SpriteController spriteController = new SpriteController();
+
+	public void setCopiedStatus(List<Sprite> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
+	}
 
 	@Override
 	protected void initializeAdapter() {
@@ -79,7 +85,6 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 					unpackedItemCnt));
 			getActivity().finish();
 		}
-
 		finishActionMode();
 	}
 
@@ -92,8 +97,10 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
+
 		for (Sprite item : selectedItems) {
-			spriteController.delete(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
@@ -102,13 +109,31 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	protected String getItemName(Sprite item) {
 		return item.getName();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getSprites());
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedSprites(copiedStatus);
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (Sprite item : getLastDeletedItems()) {
+			spriteController.delete(item);
+		}
+		getLastDeletedItems().clear();
 	}
 }

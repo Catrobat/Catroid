@@ -49,6 +49,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.PluralsRes;
@@ -64,7 +65,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	protected static final int NONE = 0;
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
@@ -77,11 +80,14 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected String sharedPreferenceDetailsKey = "";
 	public boolean hasDetails = false;
-
 	protected ItemTouchHelper touchHelper;
 
 	@ActionModeType
 	protected int actionModeType = NONE;
+
+	private List<T> lastDeletedItems = new CopyOnWriteArrayList<>();
+
+	protected List<T> copiedStatus = new CopyOnWriteArrayList<>();
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -192,6 +198,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onStop() {
+		removeLastDeletedItems();
 		super.onStop();
 		finishActionMode();
 	}
@@ -217,6 +224,12 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				break;
 			case R.id.delete:
 				startActionMode(DELETE);
+				break;
+			case R.id.menu_undo:
+				undo();
+				ToastUtil.showSuccess(getActivity(), "Last delete was successfully undone");
+				((BackpackActivity) getActivity()).toogleUndo(false);
+				adapter.notifyDataSetChanged();
 				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
@@ -267,11 +280,14 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected void showDeleteAlert(final List<T> selectedItems) {
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
-				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
+						saveStatus();
 						deleteItems(selectedItems);
+						if (!selectedItems.isEmpty()) {
+							((BackpackActivity) getActivity()).toogleUndo(true);
+						}
 					}
 				})
 				.setNegativeButton(R.string.cancel, null)
@@ -296,7 +312,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		options.add(R.string.unpack);
 		options.add(R.string.delete);
 		List<String> names = new ArrayList<>();
-		for (Integer option: options) {
+		for (Integer option : options) {
 			names.add(getString(option));
 		}
 		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options,
@@ -329,10 +345,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@Override
 	public void onSettingsClick(T item, View view) {
 		List<T> itemList = new ArrayList<>(Collections.singletonList(item));
-		int[] hiddenOptionMenuIds = {R.id.show_details};
+		int[] hiddenOptionMenuIds = {R.id.show_details, R.id.menu_undo};
 		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
 				R.menu.menu_backpack_activity, hiddenOptionMenuIds);
-
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
 			switch (menuItem.getItemId()) {
 				case R.id.unpack:
@@ -340,6 +355,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 					break;
 				case R.id.delete:
 					showDeleteAlert(itemList);
+
 					break;
 				default:
 					break;
@@ -358,4 +374,19 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected abstract String getItemName(T item);
+
+	public abstract void undo();
+
+	public abstract void removeLastDeletedItems();
+
+	public abstract void saveStatus();
+
+	public void setLastDeletedItems(List<T> list) {
+		lastDeletedItems.clear();
+		lastDeletedItems.addAll(list);
+	}
+
+	public List<T> getLastDeletedItems() {
+		return lastDeletedItems;
+	}
 }
