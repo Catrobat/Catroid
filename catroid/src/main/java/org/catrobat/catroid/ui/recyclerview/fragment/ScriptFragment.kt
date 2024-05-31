@@ -104,13 +104,12 @@ class ScriptFragment : ListFragment(),
     AddBrickFragment.OnAddBrickListener,
     ProjectLoader.ProjectLoadListener {
 
-    val projectManager: ProjectManager by inject(ProjectManager::class.java)
-
     companion object {
         @JvmField
         val TAG: String = ScriptFragment::class.java.simpleName
         private const val BRICK_TAG = "brickToFocus"
         private const val SCRIPT_TAG = "scriptToFocus"
+        private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
         const val NONE = 0
         const val BACKPACK = 1
@@ -426,11 +425,15 @@ class ScriptFragment : ListFragment(),
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        println("hello")
         super.onActivityCreated(savedInstanceState)
 
         val currentProject = projectManager.currentProject
         val currentScene = projectManager.currentlyEditedScene
         val currentSprite = projectManager.currentSprite
+        println("current project: $currentProject")
+        println("current scene: $currentScene")
+        println("current sprite: $currentSprite")
         currentProject.broadcastMessageContainer.update()
 
         adapter = BrickAdapter(projectManager.currentSprite)
