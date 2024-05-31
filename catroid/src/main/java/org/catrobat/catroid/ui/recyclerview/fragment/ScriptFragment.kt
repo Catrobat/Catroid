@@ -425,15 +425,11 @@ class ScriptFragment : ListFragment(),
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        println("hello")
         super.onActivityCreated(savedInstanceState)
 
         val currentProject = projectManager.currentProject
         val currentScene = projectManager.currentlyEditedScene
         val currentSprite = projectManager.currentSprite
-        println("current project: $currentProject")
-        println("current scene: $currentScene")
-        println("current sprite: $currentSprite")
         currentProject.broadcastMessageContainer.update()
 
         adapter = BrickAdapter(projectManager.currentSprite)
