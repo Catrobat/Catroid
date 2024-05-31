@@ -232,18 +232,14 @@ pipeline {
                             }
 
                             steps {
-                                sh 'rm -rf Paintroid; mkdir Paintroid'
-                                dir('Paintroid') {
-                                    git branch: params.PAINTROID_BRANCH, url: 'https://github' +
-                                            '.com/Catrobat/Paintroid.git'
-                                    sh "./gradlew assembleDebug"
-
-                                    sh 'rm -f catroid/src/main/libs/*.aar'
-                                    sh 'mv -f Paintroid/colorpicker/build/outputs/aar/colorpicker-debug.aar catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar catroid/src/main/libs/Paintroid-LOCAL.aar'
-
-                                    archiveArtifacts 'catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    archiveArtifacts 'catroid/src/main/libs/Paintroid-LOCAL.aar'}
+                                sh 'rm -rf Paintroid'
+                                git branch: params.PAINTROID_BRANCH, url: 'https://github.com/Catrobat/Paintroid.git'
+                                sh "./Paintroid/gradlew assembleDebug"
+                                sh 'rm -f Paintroid/catroid/src/main/libs/*.aar'
+                                sh 'mv -f Paintroid/colorpicker/build/outputs/aar/colorpicker-debug.aar Paintroid/catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar Paintroid/catroid/src/main/libs/Paintroid-LOCAL.aar'
+                                archiveArtifacts 'Paintroid/catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                archiveArtifacts 'Paintroid/catroid/src/main/libs/Paintroid-LOCAL.aar'
                             }
                         }
 
