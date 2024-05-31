@@ -114,9 +114,10 @@ public class SceneTransitionWithSoundBrickStageTest {
 	public void testContinueSoundDoesNotStartFromBeginning() {
 		secondScript.addBrick(new SceneTransitionBrick(firstSceneName));
 		runProject(lastBrickFirstScript);
-		MediaPlayer mediaPlayer = getMediaplayer();
-		assertTrue(mediaPlayer.isPlaying());
-		assertTrue(mediaPlayer.getCurrentPosition() > 50);
+		assertTrue(getMediaplayer().isPlaying());
+		int oldCurrentPosition = getMediaplayer().getCurrentPosition();
+		runProject(lastBrickSecondScript);
+		assertTrue(getMediaplayer().getCurrentPosition() >= oldCurrentPosition);
 	}
 
 	private void runProject(ScriptEvaluationGateBrick scriptBrick) {
@@ -147,7 +148,7 @@ public class SceneTransitionWithSoundBrickStageTest {
 		soundInfo.setName("testSound");
 		soundBrick.setSound(soundInfo);
 		script.addBrick(soundBrick);
-		script.addBrick(new WaitBrick(500));
+		script.addBrick(new WaitBrick(1000));
 		script.addBrick(new SceneTransitionBrick(secondScene.getName()));
 		projectManager.getCurrentSprite().getSoundList().add(soundInfo);
 
