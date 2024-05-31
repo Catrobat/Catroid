@@ -109,10 +109,10 @@ class PlaySoundBrickTest {
         onRecyclerView().atPosition(position).performCheckItemClick()
         onView(withId(R.id.confirm)).perform(click())
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete))).check(
-                matches(
-                    isDisplayed()
-                )
+            matches(
+                isDisplayed()
             )
+        )
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete))).perform(click())
     }
 
@@ -153,10 +153,10 @@ class PlaySoundBrickTest {
         onView(withId(R.id.dialog_new_sound_pocketmusic)).perform(click())
         onView(isRoot()).perform(CustomActions.wait(500))
         onView(withId(R.id.tact_scroller)).perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    1, PocketMusicActivityTest.toggleNoteViewAtPositionInTact(1)
-                )
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                1, PocketMusicActivityTest.toggleNoteViewAtPositionInTact(1)
             )
+        )
         onView(isRoot()).perform(CustomActions.wait(1000))
         pressBack()
         onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
