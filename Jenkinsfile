@@ -239,7 +239,7 @@ pipeline {
                                     sh "./gradlew assembleDebug"
                                     sh 'rm -f ../catroid/src/main/libs/*.aar'
                                     sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
-                                    sh 'mv -f build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
+                                    sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
                                     archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
                                     archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'}
                             }
