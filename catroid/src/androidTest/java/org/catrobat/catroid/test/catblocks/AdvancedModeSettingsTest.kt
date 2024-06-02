@@ -85,6 +85,7 @@ class AdvancedModeSettingsTest {
                 .getScript(0).posY,
             50.0f
         )
+
     }
 
     private fun createProject() {
