@@ -185,7 +185,7 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
         unitTests.all {
-            jvmArgs '-Xmx8g', '-XX:MaxMetaspaceSize=256m'
+            jvmArgs '-Xmx8g'
         }
         animationsDisabled = true
     }
