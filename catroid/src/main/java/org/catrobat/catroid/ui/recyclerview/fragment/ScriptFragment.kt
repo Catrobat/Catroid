@@ -94,6 +94,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
+import java.io.Serializable
 import java.util.UUID
 
 class ScriptFragment : ListFragment(),
@@ -118,20 +119,18 @@ class ScriptFragment : ListFragment(),
         const val COMMENT = 4
         const val CATBLOCKS = 5
 
-        @JvmStatic
-        fun newInstance(brickToFocus: Brick): ScriptFragment {
-            val scriptFragment = ScriptFragment()
-            val bundle = Bundle()
-            bundle.putSerializable(BRICK_TAG, brickToFocus)
-            scriptFragment.arguments = bundle
-            return scriptFragment
-        }
+        private const val AI_ASSIST_PADDING_FACTOR = 2.5
+        private const val DEFAULT_PADDING_FACTOR = 3.0
 
         @JvmStatic
-        fun newInstance(scriptToFocus: Script): ScriptFragment {
+        fun <T : Serializable> newInstance(itemToFocus: T): ScriptFragment {
             val scriptFragment = ScriptFragment()
             val bundle = Bundle()
-            bundle.putSerializable(SCRIPT_TAG, scriptToFocus)
+            when (itemToFocus) {
+                is Brick -> bundle.putSerializable(BRICK_TAG, itemToFocus)
+                is Script -> bundle.putSerializable(SCRIPT_TAG, itemToFocus)
+                else -> throw IllegalArgumentException("Unsupported type for newInstance")
+            }
             scriptFragment.arguments = bundle
             return scriptFragment
         }
@@ -274,9 +273,7 @@ class ScriptFragment : ListFragment(),
         return true
     }
 
-    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        return false
-    }
+    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = false
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (item.itemId == R.id.confirm) {
@@ -299,21 +296,11 @@ class ScriptFragment : ListFragment(),
         }
 
         when (actionModeType) {
-            BACKPACK -> {
-                showNewScriptGroupAlert(adapter?.selectedItems ?: listOf())
-            }
-            COPY -> {
-                copy(adapter?.selectedItems ?: listOf())
-            }
-            DELETE -> {
-                showDeleteAlert(adapter?.selectedItems ?: listOf())
-            }
-            COMMENT -> {
-                toggleComments(adapter?.selectedItems ?: listOf())
-            }
-            NONE -> {
-                throw IllegalStateException("ActionModeType not set correctly")
-            }
+            BACKPACK -> showNewScriptGroupAlert(adapter?.selectedItems ?: listOf())
+            COPY -> copy(adapter?.selectedItems ?: listOf())
+            DELETE -> showDeleteAlert(adapter?.selectedItems ?: listOf())
+            COMMENT -> toggleComments(adapter?.selectedItems ?: listOf())
+            NONE -> throw IllegalStateException("ActionModeType not set correctly")
             CATBLOCKS -> {}
         }
     }
@@ -332,9 +319,9 @@ class ScriptFragment : ListFragment(),
         val view = View.inflate(getActivity(), R.layout.fragment_script, null)
         listView = view.findViewById(android.R.id.list)
         val bottomListPadding = if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
-            (ScreenValues.currentScreenResolution.height / 2.5).toInt()
+            (ScreenValues.currentScreenResolution.height / AI_ASSIST_PADDING_FACTOR).toInt()
         } else {
-            ScreenValues.currentScreenResolution.height / 3
+            (ScreenValues.currentScreenResolution.height / DEFAULT_PADDING_FACTOR).toInt()
         }
         listView?.setPadding(0, 0, 0, bottomListPadding)
         listView?.clipToPadding = false
@@ -520,30 +507,14 @@ class ScriptFragment : ListFragment(),
             listView?.cancelHighlighting()
         }
         when (item.itemId) {
-            R.id.menu_undo -> {
-                loadProjectAfterUndoOption()
-            }
-            R.id.backpack -> {
-                prepareActionMode(BACKPACK)
-            }
-            R.id.copy -> {
-                prepareActionMode(COPY)
-            }
-            R.id.delete -> {
-                prepareActionMode(DELETE)
-            }
-            R.id.comment_in_out -> {
-                prepareActionMode(COMMENT)
-            }
-            R.id.catblocks -> {
-                switchToCatblocks()
-            }
-            R.id.find -> {
-                scriptFinder?.open()
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+            R.id.menu_undo -> loadProjectAfterUndoOption()
+            R.id.backpack -> prepareActionMode(BACKPACK)
+            R.id.copy -> prepareActionMode(COPY)
+            R.id.delete -> prepareActionMode(DELETE)
+            R.id.comment_in_out -> prepareActionMode(COMMENT)
+            R.id.catblocks -> switchToCatblocks()
+            R.id.find -> scriptFinder?.open()
+            else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -552,9 +523,7 @@ class ScriptFragment : ListFragment(),
         adapter?.notifyDataSetChanged()
     }
 
-    fun isCurrentlyMoving(): Boolean {
-        return listView?.isCurrentlyMoving == true
-    }
+    fun isCurrentlyMoving(): Boolean = listView?.isCurrentlyMoving == true
 
     fun highlightMovingItem() {
         listView?.highlightMovingItem()
@@ -566,9 +535,7 @@ class ScriptFragment : ListFragment(),
         adapter?.updateItems(sprite)
     }
 
-    fun isCurrentlyHighlighted(): Boolean {
-        return listView?.isCurrentlyHighlighted == true
-    }
+    fun isCurrentlyHighlighted(): Boolean = listView?.isCurrentlyHighlighted == true
 
     fun cancelHighlighting() {
         listView?.cancelHighlighting()
@@ -637,21 +604,12 @@ class ScriptFragment : ListFragment(),
 
     override fun onSelectionChanged(selectedItemCnt: Int) {
         when (actionModeType) {
-            BACKPACK -> {
-                actionMode?.title = getString(R.string.am_backpack) + " " + selectedItemCnt
-            }
-            COPY -> {
-                actionMode?.title = getString(R.string.am_copy) + " " + selectedItemCnt
-            }
-            DELETE -> {
-                actionMode?.title = getString(R.string.am_delete) + " " + selectedItemCnt
-            }
-            COMMENT -> {
+            BACKPACK -> actionMode?.title = getString(R.string.am_backpack) + " " + selectedItemCnt
+            COPY -> actionMode?.title = getString(R.string.am_copy) + " " + selectedItemCnt
+            DELETE -> actionMode?.title = getString(R.string.am_delete) + " " + selectedItemCnt
+            COMMENT ->
                 actionMode?.title = getString(R.string.comment_in_out) + " " + selectedItemCnt
-            }
-            NONE -> {
-                throw IllegalStateException("ActionModeType not set correctly")
-            }
+            NONE -> throw IllegalStateException("ActionModeType not set correctly")
             CATBLOCKS -> {}
         }
     }
@@ -663,9 +621,7 @@ class ScriptFragment : ListFragment(),
         }
     }
 
-    fun findBrickByHash(hashCode: Int): Brick? {
-        return adapter?.findByHash(hashCode)
-    }
+    fun findBrickByHash(hashCode: Int): Brick? = adapter?.findByHash(hashCode)
 
     fun handleAddButton() {
         if (listView?.isCurrentlyHighlighted == true) {
@@ -769,9 +725,7 @@ class ScriptFragment : ListFragment(),
             }
             R.string.brick_context_dialog_delete_brick,
             R.string.brick_context_dialog_delete_script,
-            R.string.brick_context_dialog_delete_definition -> {
-                showDeleteAlert(brick.allParts)
-            }
+            R.string.brick_context_dialog_delete_definition -> showDeleteAlert(brick.allParts)
             R.string.brick_context_dialog_comment_in,
             R.string.brick_context_dialog_comment_in_script -> {
                 for (brickPart in brick.allParts) {
@@ -793,17 +747,12 @@ class ScriptFragment : ListFragment(),
                     visualPlacementBrick.yBrickField
                 )
             }
-            R.string.brick_context_dialog_formula_edit_brick -> {
+            R.string.brick_context_dialog_formula_edit_brick ->
                 (brick as FormulaBrick).onClick(listView)
-            }
             R.string.brick_context_dialog_move_brick,
             R.string.brick_context_dialog_move_script,
-            R.string.brick_context_dialog_move_definition -> {
-                onBrickLongClick(brick, position)
-            }
-            R.string.brick_context_dialog_help -> {
-                openWebViewWithHelpPage(brick)
-            }
+            R.string.brick_context_dialog_move_definition -> onBrickLongClick(brick, position)
+            R.string.brick_context_dialog_help -> openWebViewWithHelpPage(brick)
             R.string.brick_context_dialog_highlight_brick_parts -> {
                 val bricksOfControlStructure = brick.allParts
                 val positions = mutableListOf<Int>()
@@ -847,12 +796,8 @@ class ScriptFragment : ListFragment(),
             .setTitle(R.string.backpack_title)
             .setItems(items) { _, which ->
                 when (which) {
-                    0 -> {
-                        startActionMode(BACKPACK)
-                    }
-                    1 -> {
-                        switchToBackpack()
-                    }
+                    0 -> startActionMode(BACKPACK)
+                    1 -> switchToBackpack()
                 }
             }
             .show()
@@ -1027,14 +972,14 @@ class ScriptFragment : ListFragment(),
         val currentSprite = projectManager.currentSprite
         val project = projectManager.currentProject
 
-        return (project.hasUserDataChanged(project.userVariables, savedUserVariables)
-            || project.hasUserDataChanged(project.multiplayerVariables, savedMultiplayerVariables)
-            || project.hasUserDataChanged(project.userLists, savedUserLists)
-            || currentSprite.hasUserDataChanged(
-            currentSprite.userVariables,
-            savedLocalUserVariables
-        )
-            || currentSprite.hasUserDataChanged(currentSprite.userLists, savedLocalLists))
+        return (project.hasUserDataChanged(project.userVariables, savedUserVariables) ||
+            project.hasUserDataChanged(project.multiplayerVariables, savedMultiplayerVariables) ||
+            project.hasUserDataChanged(project.userLists, savedUserLists) ||
+            currentSprite.hasUserDataChanged(
+                currentSprite.userVariables,
+                savedLocalUserVariables
+            ) ||
+            currentSprite.hasUserDataChanged(currentSprite.userLists, savedLocalLists))
     }
 
     private fun loadVariables() {
@@ -1055,8 +1000,8 @@ class ScriptFragment : ListFragment(),
         fragmentTransaction?.detach(scriptFragment!!)
         fragmentTransaction?.attach(scriptFragment!!)
         fragmentTransaction?.commit()
-        if (undoBrickPosition < (listView?.firstVisiblePosition ?: 0)
-            || undoBrickPosition > (listView?.lastVisiblePosition ?: 0)
+        if (undoBrickPosition < (listView?.firstVisiblePosition ?: 0) ||
+            undoBrickPosition > (listView?.lastVisiblePosition ?: 0)
         ) {
             listView?.post { listView?.setSelection(undoBrickPosition) }
         }
@@ -1073,14 +1018,10 @@ class ScriptFragment : ListFragment(),
         }
 
         var scrollToIndex = -1
-        for (i in 0 until (listView?.adapter?.count ?: 0)) {
+        val itemCount = listView?.adapter?.count ?: 0
+        for (i in 0 until itemCount) {
             val item = listView?.getItemAtPosition(i)
-            if (item !is Brick) {
-                continue
-            }
-            if ((brickToFocus != null && item == brickToFocus)
-                || (scriptToFocus != null && item.script == scriptToFocus)
-            ) {
+            if (item is Brick && shouldFocusItem(item)) {
                 scrollToIndex = i
                 break
             }
@@ -1098,13 +1039,15 @@ class ScriptFragment : ListFragment(),
         brickToFocus = null
     }
 
-    fun getActionModeType(): Int {
-        return actionModeType
+    private fun shouldFocusItem(item: Brick): Boolean {
+        val isBrickFocused = brickToFocus != null && item == brickToFocus
+        val isScriptFocused = scriptToFocus != null && item.script == scriptToFocus
+        return isBrickFocused || isScriptFocused
     }
 
-    fun isFinderOpen(): Boolean {
-        return scriptFinder?.isOpen == true
-    }
+    fun getActionModeType(): Int = actionModeType
+
+    fun isFinderOpen(): Boolean = scriptFinder?.isOpen == true
 
     fun closeFinder() {
         scriptFinder?.takeIf { !it.isClosed }?.close()
