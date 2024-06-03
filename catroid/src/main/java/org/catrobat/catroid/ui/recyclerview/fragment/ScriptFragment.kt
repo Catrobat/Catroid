@@ -713,15 +713,13 @@ class ScriptFragment : ListFragment(),
                 showNewScriptGroupAlert(bricksToPack)
             }
             R.string.brick_context_dialog_copy_brick,
-            R.string.brick_context_dialog_copy_script -> {
-                try {
-                    val clonedBrick = brick.allParts[0].clone()
-                    adapter?.addItem(position, clonedBrick)
-                    listView?.startMoving(clonedBrick)
-                } catch (e: CloneNotSupportedException) {
-                    ToastUtil.showError(context, R.string.error_copying_brick)
-                    Log.e(TAG, Log.getStackTraceString(e))
-                }
+            R.string.brick_context_dialog_copy_script -> try {
+                val clonedBrick = brick.allParts[0].clone()
+                adapter?.addItem(position, clonedBrick)
+                listView?.startMoving(clonedBrick)
+            } catch (e: CloneNotSupportedException) {
+                ToastUtil.showError(context, R.string.error_copying_brick)
+                Log.e(TAG, Log.getStackTraceString(e))
             }
             R.string.brick_context_dialog_delete_brick,
             R.string.brick_context_dialog_delete_script,
@@ -817,10 +815,11 @@ class ScriptFragment : ListFragment(),
 
         builder.setHint(getString(R.string.script_group_label))
             .setTextWatcher(duplicateInputTextwatcher)
-            .setPositiveButton(getString(R.string.ok), TextInputDialog.OnClickListener { _,
-                textInput ->
-                pack(textInput, selectedBricks)
-            })
+            .setPositiveButton(getString(R.string.ok),
+                               TextInputDialog.OnClickListener { _,
+                                   textInput ->
+                                   pack(textInput, selectedBricks)
+                               })
 
         builder.setTitle(R.string.new_group)
             .setNegativeButton(R.string.cancel, null)

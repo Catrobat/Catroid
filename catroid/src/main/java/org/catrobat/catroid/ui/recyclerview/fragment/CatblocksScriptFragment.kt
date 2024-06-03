@@ -151,7 +151,7 @@ class CatblocksScriptFragment(
                             scriptElement.src = "https://appassets.androidplatform.net/assets/catblocks/webViewUtilsFunctions.js";
                             document.head.appendChild(scriptElement);
                         })()
-                    """.trimIndent(), null
+                        """.trimIndent(), null
                     )
                 }
 
@@ -184,7 +184,7 @@ class CatblocksScriptFragment(
                         }
                     }
                     })()
-                """.trimMargin(), null
+                    """.trimMargin(), null
                 )
             }
         }
