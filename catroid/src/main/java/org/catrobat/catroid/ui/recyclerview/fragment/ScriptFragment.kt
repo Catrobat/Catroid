@@ -816,10 +816,9 @@ class ScriptFragment : ListFragment(),
         builder.setHint(getString(R.string.script_group_label))
             .setTextWatcher(duplicateInputTextwatcher)
             .setPositiveButton(getString(R.string.ok),
-                               TextInputDialog.OnClickListener { _,
-                                   textInput ->
-                                   pack(textInput, selectedBricks)
-                               })
+                TextInputDialog.OnClickListener { _,
+                                                  textInput -> pack(textInput, selectedBricks)
+                })
 
         builder.setTitle(R.string.new_group)
             .setNegativeButton(R.string.cancel, null)
