@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,18 +55,21 @@ class ParameterizedAssertAction : AssertAction() {
         parameterizedData?.let { data ->
             if (!equalValues(actualValue, expectedValue.toString())) {
                 data.failMessages.append("\n${data.currentParameters}\n").append(
-                    formattedAssertEqualsError(actualValue, expectedValue))
+                    formattedAssertEqualsError(actualValue, expectedValue)
+                )
             } else {
                 data.successMessages.append("\n${data.currentParameters}\n").append(
-                    formattedSuccessMessage(actualValue, expectedValue))
+                    formattedSuccessMessage(actualValue, expectedValue)
+                )
             }
 
             data.currentPosition++
             data.currentParameters = ""
 
             if (data.failMessages.isNotEmpty() &&
-                data.currentPosition >= expectedList?.value?.size ?: 0) {
-                    failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
+                data.currentPosition >= expectedList?.value?.size ?: 0
+            ) {
+                failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
             }
         }
 

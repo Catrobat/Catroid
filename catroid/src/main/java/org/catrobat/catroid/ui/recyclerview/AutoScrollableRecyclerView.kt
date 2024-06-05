@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,22 +55,20 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
             0
         )
             .apply {
-            try {
-                delayMillis = getInt(
-                    R.styleable.AutoScrollableRecyclerView_delay,
-                    DELAY_BETWEEN_SCROLLS
-                )
-                    .toLong()
-            } finally {
-                recycle()
+                try {
+                    delayMillis = getInt(
+                        R.styleable.AutoScrollableRecyclerView_delay,
+                        DELAY_BETWEEN_SCROLLS
+                    )
+                        .toLong()
+                } finally {
+                    recycle()
+                }
             }
-        }
     }
 
     private fun createScroller(position: Int) = object : LinearSmoothScroller(context) {
-        override fun getHorizontalSnapPreference(): Int {
-            return SNAP_TO_END
-        }
+        override fun getHorizontalSnapPreference(): Int = SNAP_TO_END
 
         override fun calculateTimeForScrolling(dx: Int) = DURATION_OF_SCROLL
     }.apply {

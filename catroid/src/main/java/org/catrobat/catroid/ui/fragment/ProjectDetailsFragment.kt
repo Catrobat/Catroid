@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -200,7 +200,9 @@ class ProjectDetailsFragment : Fragment() {
             val userHandle = project.xmlHeader.userHandle
             return if (userHandle == null || userHandle == "") {
                 getString(R.string.unknown)
-            } else userHandle
+            } else {
+                userHandle
+            }
         }
 
     private val remixOf: String
@@ -208,7 +210,9 @@ class ProjectDetailsFragment : Fragment() {
             val remixOf = project.xmlHeader.remixParentsUrlString
             return if (remixOf == null || remixOf == "") {
                 getString(R.string.nxt_no_sensor)
-            } else remixOf
+            } else {
+                remixOf
+            }
         }
 
     fun setDescription(description: String?) {

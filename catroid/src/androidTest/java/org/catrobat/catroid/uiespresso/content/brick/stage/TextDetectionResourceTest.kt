@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -111,8 +111,8 @@ class TextDetectionResourceTest {
 
         val script = UiTestUtils.createProjectAndGetStartScript("TextDetectionResourceTest")
             .also {
-            it.addBrick(SetSizeToBrick(formula))
-        }
+                it.addBrick(SetSizeToBrick(formula))
+            }
         lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
     }
 

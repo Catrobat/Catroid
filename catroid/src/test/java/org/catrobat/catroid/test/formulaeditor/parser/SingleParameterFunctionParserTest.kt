@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,9 +98,14 @@ class SingleParameterFunctionParserTest(
                 arrayOf("ABS", ABS, AssociatedFunction { par -> abs(par) }, -4.0),
                 arrayOf("ARCSIN", ARCSIN, AssociatedFunction { par -> toDegrees(asin(par)) }, 0.66),
                 arrayOf("ARCCOS", ARCCOS, AssociatedFunction { par -> toDegrees(acos(par)) }, 0.66),
-                arrayOf("ARCTAN", ARCTAN, AssociatedFunction { par -> toDegrees(atan(par)) }, 45.66),
+                arrayOf(
+                    "ARCTAN",
+                    ARCTAN,
+                    AssociatedFunction { par -> toDegrees(atan(par)) },
+                    45.66
+                ),
                 arrayOf("EXP", EXP, AssociatedFunction { par -> exp(par) }, 45.66)
-                )
+            )
         }
     }
 

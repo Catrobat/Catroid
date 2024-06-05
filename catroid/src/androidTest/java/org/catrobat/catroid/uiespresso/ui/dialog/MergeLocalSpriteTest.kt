@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -209,12 +209,18 @@ class MergeLocalSpriteTest {
         val mergedSoundList = mergedSprite.soundList
         val mergedLookList = mergedSprite.lookList
 
-        Assert.assertEquals(sprite1.lookList.size + sprite2.lookList.size,
-                            mergedLookList.size)
-        Assert.assertEquals(sprite1.scriptList.size + sprite2.scriptList.size,
-                            mergedScriptList.size)
-        Assert.assertEquals(sprite1.soundList.size + sprite2.soundList.size,
-                            mergedSoundList.size)
+        Assert.assertEquals(
+            sprite1.lookList.size + sprite2.lookList.size,
+            mergedLookList.size
+        )
+        Assert.assertEquals(
+            sprite1.scriptList.size + sprite2.scriptList.size,
+            mergedScriptList.size
+        )
+        Assert.assertEquals(
+            sprite1.soundList.size + sprite2.soundList.size,
+            mergedSoundList.size
+        )
     }
 
     private fun assertOriginalIntact(originalSprite: Sprite, currentSprite: Sprite) {

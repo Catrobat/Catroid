@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -491,9 +491,11 @@ open class CategoryBricksFactory {
             ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
-        if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) looksBrickList.add(
-            PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE)
-        )
+        if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
+            looksBrickList.add(
+                PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE)
+            )
+        }
         looksBrickList.add(PaintNewLookBrick(context.getString(R.string.brick_paint_new_look_name)))
         looksBrickList.add(EditLookBrick())
         looksBrickList.add(CopyLookBrick(context.getString(R.string.brick_copy_look_name)))

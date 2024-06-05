@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -238,8 +238,10 @@ class DataListFragment : Fragment(),
             .getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
 
         if (!indexVariable) {
-            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+            initialIndexing(
+                userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+                globalLists, localLists
+            )
             indexVariable = true
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
@@ -247,8 +249,10 @@ class DataListFragment : Fragment(),
                 .apply()
         }
 
-        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+        sortVariableAndList(
+            userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+            globalLists, localLists
+        )
         adapter?.notifyDataSetChanged()
     }
 
@@ -431,8 +435,12 @@ class DataListFragment : Fragment(),
             adapter?.remove(item)
         }
         ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
-        ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
-                                                                    selectedItems.size, selectedItems.size))
+        ToastUtil.showSuccess(
+            activity, resources.getQuantityString(
+                R.plurals.deleted_Items,
+                selectedItems.size, selectedItems.size
+            )
+        )
     }
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
@@ -538,9 +546,11 @@ class DataListFragment : Fragment(),
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
         if (item is UserVariable) {
-            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
-                                                            R.menu.menu_project_activity,
-                                                            hiddenOptionsMenu.toIntArray())
+            val popupMenu = UiUtils.createSettingsPopUpMenu(
+                view, requireContext(),
+                R.menu.menu_project_activity,
+                hiddenOptionsMenu.toIntArray()
+            )
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
@@ -552,9 +562,11 @@ class DataListFragment : Fragment(),
             popupMenu.show()
         } else {
             hiddenOptionsMenu.add(R.id.edit)
-            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
-                                                            R.menu.menu_project_activity,
-                                                            hiddenOptionsMenu.toIntArray())
+            val popupMenu = UiUtils.createSettingsPopUpMenu(
+                view, requireContext(),
+                R.menu.menu_project_activity,
+                hiddenOptionsMenu.toIntArray()
+            )
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))

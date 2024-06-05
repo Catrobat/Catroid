@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,38 +39,52 @@ class TextToSpeechHolder private constructor() {
 
     fun initTextToSpeech(stageActivity: StageActivity, stageResourceHolder: StageResourceHolder) {
         textToSpeech = TextToSpeech(stageActivity, OnInitListener { status ->
-                if (status == TextToSpeech.SUCCESS) {
-                    utteranceProgressListenerContainer = UtteranceProgressListenerContainer()
-                    textToSpeech?.setOnUtteranceProgressListener(utteranceProgressListenerContainer)
-                    stageResourceHolder.resourceInitialized()
-                } else {
-                    val builder = AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-                    builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            val installIntent = Intent()
-                            installIntent.action = TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA
-                            stageActivity.startActivity(installIntent)
-                            stageResourceHolder.resourceFailed(Brick.TEXT_TO_SPEECH)
-                        }
-                        .setNegativeButton(R.string.no) { _, _ ->
-                            stageResourceHolder.resourceFailed(Brick.TEXT_TO_SPEECH)
-                        }
-                    val alert = builder.create()
-                    alert.show()
-                }
-            })
+            if (status == TextToSpeech.SUCCESS) {
+                utteranceProgressListenerContainer = UtteranceProgressListenerContainer()
+                textToSpeech?.setOnUtteranceProgressListener(utteranceProgressListenerContainer)
+                stageResourceHolder.resourceInitialized()
+            } else {
+                val builder = AlertDialog.Builder(
+                    ContextThemeWrapper(
+                        stageActivity,
+                        R.style.Theme_AppCompat_Dialog
+                    )
+                )
+                builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        val installIntent = Intent()
+                        installIntent.action = TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA
+                        stageActivity.startActivity(installIntent)
+                        stageResourceHolder.resourceFailed(Brick.TEXT_TO_SPEECH)
+                    }
+                    .setNegativeButton(R.string.no) { _, _ ->
+                        stageResourceHolder.resourceFailed(Brick.TEXT_TO_SPEECH)
+                    }
+                val alert = builder.create()
+                alert.show()
+            }
+        })
     }
 
     fun shutDownTextToSpeech() {
-            textToSpeech?.stop()
-            textToSpeech?.shutdown()
+        textToSpeech?.stop()
+        textToSpeech?.shutdown()
     }
 
-    fun textToSpeech(text: String?, speechFile: File, listener: UtteranceProgressListener, speakParameter: HashMap<String, String?>) {
-        if (utteranceProgressListenerContainer?.addUtteranceProgressListener(speechFile, listener,
-            speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID]) == true) {
-            val status = textToSpeech?.synthesizeToFile(text ?: "", speakParameter, speechFile.absolutePath)
+    fun textToSpeech(
+        text: String?,
+        speechFile: File,
+        listener: UtteranceProgressListener,
+        speakParameter: HashMap<String, String?>
+    ) {
+        if (utteranceProgressListenerContainer?.addUtteranceProgressListener(
+                speechFile, listener,
+                speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID]
+            ) == true
+        ) {
+            val status =
+                textToSpeech?.synthesizeToFile(text ?: "", speakParameter, speechFile.absolutePath)
             if (status == TextToSpeech.ERROR) {
                 Log.e(TAG, "File synthesizing failed")
             }
@@ -90,6 +104,7 @@ class TextToSpeechHolder private constructor() {
         private val TAG = TextToSpeechHolder::class.java.simpleName
         private var textToSpeech: TextToSpeech? = null
         private var utteranceProgressListenerContainer: UtteranceProgressListenerContainer? = null
+
         @JvmStatic
         var instance = TextToSpeechHolder()
     }

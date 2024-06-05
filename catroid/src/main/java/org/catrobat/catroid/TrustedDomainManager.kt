@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,9 @@ object TrustedDomainManager {
                     val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                     cleanUpUserInput(domains.join("\n"))
                 }
-            } else ""
+            } else {
+                ""
+            }
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
             ""

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -134,22 +134,21 @@ class CatblocksScriptFragment(
             override fun shouldInterceptRequest(
                 view: WebView,
                 request: WebResourceRequest
-            ): WebResourceResponse? {
-                return assetLoader.shouldInterceptRequest(request.url)
-            }
+            ): WebResourceResponse? = assetLoader.shouldInterceptRequest(request.url)
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
 
                 if (testingMode) {
-                    view?.evaluateJavascript("""
+                    view?.evaluateJavascript(
+                        """
                         javascript:(function(){
                             console.log("Load webViewUtilsFunctions.js");
                             const scriptElement = document.createElement("script");
                             scriptElement.src = "https://appassets.androidplatform.net/assets/catblocks/webViewUtilsFunctions.js";
                             document.head.appendChild(scriptElement);
-                        })()
-                    """.trimIndent(), null)
+                        })()""".trimIndent(), null
+                    )
                 }
 
                 view?.evaluateJavascript(
@@ -173,15 +172,14 @@ class CatblocksScriptFragment(
                         const object = Android.getSpriteNameToDisplay();
                         CatBlocks.render(programXML, scene, object);
                         ${
-                            if (testingMode) {
-                                "if (window.webViewUtils) window.webViewUtils" +
-                                    ".onPageLoaded();"
-                            } else {
-                                ""
-                            }
+                        if (testingMode) {
+                            "if (window.webViewUtils) window.webViewUtils" +
+                                ".onPageLoaded();"
+                        } else {
+                            ""
                         }
-                    })()
-                """.trimMargin(), null
+                    }
+                    })()""".trimMargin(), null
                 )
             }
         }
@@ -258,8 +256,9 @@ class CatblocksScriptFragment(
                 return brickAtTopID.toString()
             } else {
                 if (projectManager.currentSprite?.scriptList != null &&
-                    projectManager.currentSprite.scriptList.any()) {
-                        return projectManager.currentSprite.scriptList[0].scriptId.toString()
+                    projectManager.currentSprite.scriptList.any()
+                ) {
+                    return projectManager.currentSprite.scriptList[0].scriptId.toString()
                 }
             }
             return null
@@ -422,8 +421,10 @@ class CatblocksScriptFragment(
         @JavascriptInterface
         fun addBrickByName(categoryName: String, brickName: String): String {
 
-            val bricksOfCategory = CategoryBricksFactory().getBricks(categoryName, projectManager
-                .currentSprite.isBackgroundSprite, requireContext())
+            val bricksOfCategory = CategoryBricksFactory().getBricks(
+                categoryName, projectManager
+                    .currentSprite.isBackgroundSprite, requireContext()
+            )
 
             val foundBricks = bricksOfCategory.filter { it.javaClass.simpleName.equals(brickName) }
 
@@ -434,23 +435,36 @@ class CatblocksScriptFragment(
                 if (brick is ScriptBrick) {
                     projectManager.currentSprite.scriptList.add(brick.script)
 
-                    addedBricks.add(BrickInfoHolder(brick.script.scriptId.toString(), brick
-                        .script.javaClass.simpleName))
+                    addedBricks.add(
+                        BrickInfoHolder(
+                            brick.script.scriptId.toString(), brick
+                                .script.javaClass.simpleName
+                        )
+                    )
                 } else {
                     val emptyBrick = EmptyEventBrick()
                     emptyBrick.script.brickList.add(brick)
                     projectManager.currentSprite.scriptList.add(emptyBrick.script)
 
-                    addedBricks.add(BrickInfoHolder(emptyBrick.script.scriptId.toString(),
-                                                    emptyBrick.script.javaClass.simpleName))
+                    addedBricks.add(
+                        BrickInfoHolder(
+                            emptyBrick.script.scriptId.toString(),
+                            emptyBrick.script.javaClass.simpleName
+                        )
+                    )
 
-                    addedBricks.add(BrickInfoHolder(brick.brickID.toString(),
-                                                    brick.javaClass.simpleName))
+                    addedBricks.add(
+                        BrickInfoHolder(
+                            brick.brickID.toString(),
+                            brick.javaClass.simpleName
+                        )
+                    )
                 }
 
                 try {
                     if (brick.javaClass != UserDefinedReceiverBrick::class.java &&
-                        brick.javaClass != UserDefinedBrick::class.java) {
+                        brick.javaClass != UserDefinedBrick::class.java
+                    ) {
                         RecentBrickListManager.getInstance().addBrick(brick.clone())
                     }
                 } catch (e: CloneNotSupportedException) {

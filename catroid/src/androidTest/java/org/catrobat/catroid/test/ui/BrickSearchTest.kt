@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -103,8 +103,14 @@ class BrickSearchTest {
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
             viewMatcher.perform(pressKey(KeyEvent.KEYCODE_ENTER))
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-            Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf
-            (bricks[index] as Class<*>?))))
+            Espresso.onData(
+                Matchers.allOf(
+                    Matchers.`is`(
+                        Matchers.instanceOf
+                            (bricks[index] as Class<*>?)
+                    )
+                )
+            )
                 .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
                 .atPosition(0)
                 .check(matches(isDisplayed()))
