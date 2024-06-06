@@ -853,7 +853,6 @@ public class ScriptFragment extends ListFragment implements
 				.setTextWatcher(duplicateInputTextwatcher)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> pack(textInput, selectedBricks));
 
-
 		if (selectedBricks.isEmpty()) {
 			SnackbarUtil.hintSnackbar(getActivity(), R.string.brick_selection_empty);
 		} else {

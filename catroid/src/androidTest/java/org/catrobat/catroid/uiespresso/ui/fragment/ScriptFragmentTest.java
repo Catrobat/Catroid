@@ -242,7 +242,7 @@ public class ScriptFragmentTest {
 	@Test
 	public void testAddToBackpackWithEmptyBrickSelection() {
 		openActionBarMenu();
-		onView(withText("Backpack")).perform(click());
+		onView(withText(R.string.backpack)).perform(click());
 		onView(withId(R.id.confirm)).perform(click());
 		onView(withText(R.string.brick_selection_empty)).check(matches(isDisplayed()));
 	}
