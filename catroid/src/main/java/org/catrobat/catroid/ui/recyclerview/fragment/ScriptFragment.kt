@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.Context
@@ -97,6 +98,7 @@ import java.io.IOException
 import java.io.Serializable
 import java.util.UUID
 
+@SuppressWarnings("LargeClass")
 class ScriptFragment : ListFragment(),
     ActionMode.Callback,
     BrickAdapter.OnBrickClickListener,
@@ -645,12 +647,12 @@ class ScriptFragment : ListFragment(),
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             val sprite = projectManager.currentSprite
-            addBrick(brick, sprite, adapter!!, listView!!)
+            addBrickToSprite(brick, sprite, adapter!!, listView!!)
         }
     }
 
     @VisibleForTesting
-    fun addBrick(
+    fun addBrickToSprite(
         brick: Brick,
         sprite: Sprite,
         brickAdapter: BrickAdapter,
@@ -908,7 +910,6 @@ class ScriptFragment : ListFragment(),
     }
 
     fun copyProjectForUndoOption(): Boolean {
-        val projectManager = projectManager
         val currentSprite = projectManager.currentSprite
         currentSpriteName = currentSprite.name
         currentSceneName = projectManager.currentlyEditedScene.name
@@ -1042,8 +1043,6 @@ class ScriptFragment : ListFragment(),
         val isScriptFocused = scriptToFocus != null && item.script == scriptToFocus
         return isBrickFocused || isScriptFocused
     }
-
-    fun getActionModeType(): Int = actionModeType
 
     fun isFinderOpen(): Boolean = scriptFinder?.isOpen == true
 
