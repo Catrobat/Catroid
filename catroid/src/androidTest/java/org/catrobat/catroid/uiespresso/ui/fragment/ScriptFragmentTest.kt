@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
@@ -38,11 +37,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertTrue
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
@@ -63,14 +58,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.java.KoinJavaComponent
 
 @RunWith(AndroidJUnit4::class)
 class ScriptFragmentTest {
-
-    companion object {
-        private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
-    }
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
@@ -252,22 +242,11 @@ class ScriptFragmentTest {
     }
 
     private fun createProject() {
-        val projectName = javaClass.simpleName
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-
-        val startScript = StartScript()
+        val startScript = UiTestUtils.createProjectAndGetStartScript(javaClass.simpleName)
         val ifBrick = IfLogicBeginBrick()
         ifBrick.addBrickToIfBranch(SetXBrick())
         ifBrick.addBrickToElseBranch(ChangeXByNBrick())
         startScript.addBrick(ifBrick)
         startScript.setParents()
-
-        sprite.addScript(startScript)
-
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
     }
 }

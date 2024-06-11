@@ -930,7 +930,7 @@ class ScriptFragment : ListFragment(),
         return false
     }
 
-    fun loadProjectAfterUndoOption() {
+    private fun loadProjectAfterUndoOption() {
         val project = projectManager.currentProject
         val currentCodeFile = File(project.directory, CODE_XML_FILE_NAME)
         val undoCodeFile = File(project.directory, UNDO_CODE_XML_FILE_NAME)
@@ -955,7 +955,6 @@ class ScriptFragment : ListFragment(),
     }
 
     private fun saveVariables() {
-        val projectManager = projectManager
         val currentSprite = projectManager.currentSprite
         val project = projectManager.currentProject
 
@@ -967,7 +966,6 @@ class ScriptFragment : ListFragment(),
     }
 
     fun checkVariables(): Boolean {
-        val projectManager = projectManager
         val currentSprite = projectManager.currentSprite
         val project = projectManager.currentProject
 
@@ -982,7 +980,6 @@ class ScriptFragment : ListFragment(),
     }
 
     private fun loadVariables() {
-        val projectManager = projectManager
         val currentSprite = projectManager.currentSprite
         val project = projectManager.currentProject
 
