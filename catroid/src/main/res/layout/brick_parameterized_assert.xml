@@ -23,7 +23,6 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -54,14 +53,13 @@
 
         <TextView
             android:text="@string/brick_parameterized_equals"
-            style="@style/BrickText.SingleLine">
+            style="@style/BrickText.MultipleLines">
         </TextView>
 
         <Spinner
             android:id="@+id/brick_param_expected_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
         </Spinner>
     </org.catrobat.catroid.ui.BrickLayout>
 
