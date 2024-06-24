@@ -140,13 +140,14 @@ class SpriteActivity : BaseActivity() {
         const val EXTRA_TEXT_COLOR = "TEXT_COLOR"
         const val EXTRA_TEXT_SIZE = "TEXT_SIZE"
         const val EXTRA_TEXT_ALIGNMENT = "TEXT_ALIGNMENT"
+
+        private val projectManager: ProjectManager by inject(ProjectManager::class.java)
     }
 
     private var onNewSpriteListener: NewItemInterface<Sprite>? = null
     private var onNewLookListener: NewItemInterface<LookData>? = null
     private var onNewSoundListener: NewItemInterface<SoundInfo>? = null
 
-    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
     private var currentProject: Project? = null
     private var currentSprite: Sprite? = null
     private var currentScene: Scene? = null
