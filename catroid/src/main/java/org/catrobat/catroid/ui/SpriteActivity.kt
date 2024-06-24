@@ -100,6 +100,7 @@ import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
+@SuppressWarnings("LargeClass")
 class SpriteActivity : BaseActivity() {
 
     companion object {
@@ -140,6 +141,8 @@ class SpriteActivity : BaseActivity() {
         const val EXTRA_TEXT_COLOR = "TEXT_COLOR"
         const val EXTRA_TEXT_SIZE = "TEXT_SIZE"
         const val EXTRA_TEXT_ALIGNMENT = "TEXT_ALIGNMENT"
+
+        private const val IMAGE_FILE_TYPE = "image/*"
 
         private val projectManager: ProjectManager by inject(ProjectManager::class.java)
     }
@@ -191,9 +194,8 @@ class SpriteActivity : BaseActivity() {
         }
     }
 
-    fun getCurrentFragment(): Fragment? {
-        return supportFragmentManager.findFragmentById(R.id.fragment_container)
-    }
+    fun getCurrentFragment(): Fragment? =
+        supportFragmentManager.findFragmentById(R.id.fragment_container)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_script_activity, menu)
@@ -226,9 +228,7 @@ class SpriteActivity : BaseActivity() {
                 menu.findItem(R.id.comment_in_out).isVisible = true
                 showUndo(isUndoMenuItemVisible)
             }
-            is LookListFragment -> {
-                showUndo(isUndoMenuItemVisible)
-            }
+            is LookListFragment -> showUndo(isUndoMenuItemVisible)
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -269,41 +269,37 @@ class SpriteActivity : BaseActivity() {
         saveProject()
 
         when (val currentFragment = getCurrentFragment()) {
-            is ScriptFragment -> {
-                when {
-                    currentFragment.isCurrentlyMoving -> {
-                        currentFragment.cancelMove()
-                        return
-                    }
-                    currentFragment.isFinderOpen -> {
-                        currentFragment.closeFinder()
-                        return
-                    }
-                    currentFragment.isCurrentlyHighlighted -> {
-                        currentFragment.cancelHighlighting()
-                        return
-                    }
+            is ScriptFragment -> when {
+                currentFragment.isCurrentlyMoving -> {
+                    currentFragment.cancelMove()
+                    return
+                }
+                currentFragment.isFinderOpen -> {
+                    currentFragment.closeFinder()
+                    return
+                }
+                currentFragment.isCurrentlyHighlighted -> {
+                    currentFragment.cancelHighlighting()
+                    return
                 }
             }
             is FormulaEditorFragment -> {
                 currentFragment.exitFormulaEditorFragment()
                 return
             }
-            else -> {
-                if (supportFragmentManager.backStackEntryCount > 0) {
-                    when (currentFragment) {
-                        is BrickCategoryFragment -> SnackbarUtil.showHintSnackbar(
-                            this,
-                            R.string.hint_scripts
-                        )
-                        is AddBrickFragment -> SnackbarUtil.showHintSnackbar(
-                            this,
-                            R.string.hint_category
-                        )
-                    }
-                    supportFragmentManager.popBackStack()
-                    return
+            else -> if (supportFragmentManager.backStackEntryCount > 0) {
+                when (currentFragment) {
+                    is BrickCategoryFragment -> SnackbarUtil.showHintSnackbar(
+                        this,
+                        R.string.hint_scripts
+                    )
+                    is AddBrickFragment -> SnackbarUtil.showHintSnackbar(
+                        this,
+                        R.string.hint_category
+                    )
                 }
+                supportFragmentManager.popBackStack()
+                return
             }
         }
         super.onBackPressed()
@@ -336,6 +332,10 @@ class SpriteActivity : BaseActivity() {
             return
         }
 
+        handleMediaResults(requestCode, data)
+    }
+
+    private fun handleMediaResults(requestCode: Int, data: Intent?) {
         val uri: Uri?
 
         when (requestCode) {
@@ -399,32 +399,34 @@ class SpriteActivity : BaseActivity() {
                 uri = Uri.fromFile(File(data?.getStringExtra(MEDIA_FILE_PATH).orEmpty()))
                 addSoundFromUri(uri)
             }
-            REQUEST_CODE_VISUAL_PLACEMENT -> {
-                val extras = data?.extras ?: return
+            REQUEST_CODE_VISUAL_PLACEMENT -> handleVisualPlacement(data)
+        }
+    }
 
-                val xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT)
-                val yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT)
-                val brickHash = extras.getInt(EXTRA_BRICK_HASH)
+    private fun handleVisualPlacement(data: Intent?) {
+        val extras = data?.extras ?: return
 
-                val fragment = getCurrentFragment()
-                var brick: Brick? = null
+        val xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT)
+        val yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT)
+        val brickHash = extras.getInt(EXTRA_BRICK_HASH)
 
-                if (fragment is ScriptFragment) {
-                    brick = fragment.findBrickByHash(brickHash)
-                } else if (fragment is FormulaEditorFragment) {
-                    brick = fragment.formulaBrick
-                }
+        val fragment = getCurrentFragment()
+        var brick: Brick? = null
 
-                if (brick != null) {
-                    (brick as? VisualPlacementBrick)?.setCoordinates(xCoordinate, yCoordinate)
-                    if (fragment is FormulaEditorFragment) {
-                        fragment.updateFragmentAfterVisualPlacement()
-                    }
-                }
+        if (fragment is ScriptFragment) {
+            brick = fragment.findBrickByHash(brickHash)
+        } else if (fragment is FormulaEditorFragment) {
+            brick = fragment.formulaBrick
+        }
 
-                setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES))
+        if (brick != null) {
+            (brick as? VisualPlacementBrick)?.setCoordinates(xCoordinate, yCoordinate)
+            if (fragment is FormulaEditorFragment) {
+                fragment.updateFragmentAfterVisualPlacement()
             }
         }
+
+        setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES))
     }
 
     fun registerOnNewSpriteListener(listener: NewItemInterface<Sprite>) {
@@ -641,7 +643,11 @@ class SpriteActivity : BaseActivity() {
             alertDialog.dismiss()
         }
         root.findViewById<View>(R.id.dialog_new_look_gallery).setOnClickListener {
-            ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+            ImportFromFileLauncher(
+                this,
+                IMAGE_FILE_TYPE,
+                getString(R.string.select_look_from_gallery)
+            )
                 .startActivityForResult(SPRITE_FILE)
             alertDialog.dismiss()
         }
@@ -679,7 +685,11 @@ class SpriteActivity : BaseActivity() {
             alertDialog.dismiss()
         }
         root.findViewById<View>(R.id.dialog_new_look_gallery).setOnClickListener {
-            ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+            ImportFromFileLauncher(
+                this,
+                IMAGE_FILE_TYPE,
+                getString(R.string.select_look_from_gallery)
+            )
                 .startActivityForResult(BACKGROUND_FILE)
             alertDialog.dismiss()
         }
@@ -721,7 +731,11 @@ class SpriteActivity : BaseActivity() {
             alertDialog.dismiss()
         }
         root.findViewById<View>(R.id.dialog_new_look_gallery).setOnClickListener {
-            ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+            ImportFromFileLauncher(
+                this,
+                IMAGE_FILE_TYPE,
+                getString(R.string.select_look_from_gallery)
+            )
                 .startActivityForResult(LOOK_FILE)
             alertDialog.dismiss()
         }
@@ -768,35 +782,17 @@ class SpriteActivity : BaseActivity() {
         alertDialog.show()
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun handleAddUserDataButton() {
         val view = View.inflate(this, R.layout.dialog_new_user_data, null)
 
-        val makeListCheckBox = view.findViewById<CheckBox>(R.id.make_list)
-        makeListCheckBox.visibility = View.VISIBLE
+        val makeListCheckBox = setupMakeListCheckBox(view)
 
-        val multiplayerRadioButton = view.findViewById<RadioButton>(R.id.multiplayer)
-        if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(applicationContext)) {
-            multiplayerRadioButton.visibility = View.VISIBLE
-            multiplayerRadioButton.setOnCheckedChangeListener { _, isChecked ->
-                makeListCheckBox.isEnabled = !isChecked
-            }
-        }
+        val multiplayerRadioButton = setupMultiplayerRadioButton(view, makeListCheckBox)
 
         val addToProjectUserDataRadioButton = view.findViewById<RadioButton>(R.id.global)
 
-        val variables = mutableListOf<UserData<Any>>()
-
-        currentSprite = projectManager.currentSprite
-        currentProject = projectManager.currentProject
-
-        variables.addAll(currentProject?.userVariables.orEmpty())
-        variables.addAll(currentProject?.multiplayerVariables.orEmpty())
-        variables.addAll(currentSprite?.userVariables.orEmpty())
-
-        val lists = mutableListOf<UserData<Any>>()
-        lists.addAll(currentProject?.userLists.orEmpty() as List<UserData<Any>>)
-        lists.addAll(currentSprite?.userLists.orEmpty() as List<UserData<Any>>)
+        val variables = getUserVariables()
+        val lists = getUserLists()
 
         val textWatcher = DuplicateInputTextWatcher(variables)
         val builder = TextInputDialog.Builder(this)
@@ -812,40 +808,12 @@ class SpriteActivity : BaseActivity() {
             .setPositiveButton(
                 getString(R.string.ok),
                 TextInputDialog.OnClickListener { _, textInput ->
-                    val addToProjectUserData = addToProjectUserDataRadioButton.isChecked
-                    val addToMultiplayerData = multiplayerRadioButton.isChecked
-
-                    getSharedPreferences(
-                        packageName + "_preferences",
-                        Context.MODE_PRIVATE
-                    ).edit()
-                        .putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
-                        .apply()
-
-                    if (makeListCheckBox.isChecked) {
-                        val userList = UserList(textInput)
-                        if (addToProjectUserData) {
-                            currentProject?.addUserList(userList)
-                        } else {
-                            currentSprite?.addUserList(userList)
-                        }
-                    } else {
-                        val userVariable = UserVariable(textInput)
-                        if (addToMultiplayerData) {
-                            currentProject?.addMultiplayerVariable(userVariable)
-                        } else if (addToProjectUserData) {
-                            currentProject?.addUserVariable(userVariable)
-                        } else {
-                            currentSprite?.addUserVariable(userVariable)
-                        }
-                    }
-
-                    getCurrentFragment()?.let { fragment ->
-                        if (fragment is DataListFragment) {
-                            fragment.notifyDataSetChanged()
-                            fragment.indexAndSort()
-                        }
-                    }
+                    handlePositiveButtonClick(
+                        textInput,
+                        addToProjectUserDataRadioButton.isChecked,
+                        multiplayerRadioButton.isChecked,
+                        makeListCheckBox.isChecked
+                    )
                 })
 
         val alertDialog = builder.setTitle(R.string.formula_editor_variable_dialog_title)
@@ -883,6 +851,83 @@ class SpriteActivity : BaseActivity() {
         }
 
         alertDialog.show()
+    }
+
+    private fun setupMakeListCheckBox(view: View): CheckBox {
+        val makeListCheckBox = view.findViewById<CheckBox>(R.id.make_list)
+        makeListCheckBox.visibility = View.VISIBLE
+        return makeListCheckBox
+    }
+
+    private fun setupMultiplayerRadioButton(view: View, makeListCheckBox: CheckBox): RadioButton {
+        val multiplayerRadioButton = view.findViewById<RadioButton>(R.id.multiplayer)
+        if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(applicationContext)) {
+            multiplayerRadioButton.visibility = View.VISIBLE
+            multiplayerRadioButton.setOnCheckedChangeListener { _, isChecked ->
+                makeListCheckBox.isEnabled = !isChecked
+            }
+        }
+        return multiplayerRadioButton
+    }
+
+    private fun getUserVariables(): MutableList<UserData<Any>> {
+        val variables = mutableListOf<UserData<Any>>()
+
+        currentSprite = projectManager.currentSprite
+        currentProject = projectManager.currentProject
+
+        variables.addAll(currentProject?.userVariables.orEmpty())
+        variables.addAll(currentProject?.multiplayerVariables.orEmpty())
+        variables.addAll(currentSprite?.userVariables.orEmpty())
+
+        return variables
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getUserLists(): MutableList<UserData<Any>> {
+        val lists = mutableListOf<UserData<Any>>()
+        lists.addAll(currentProject?.userLists.orEmpty() as List<UserData<Any>>)
+        lists.addAll(currentSprite?.userLists.orEmpty() as List<UserData<Any>>)
+        return lists
+    }
+
+    private fun handlePositiveButtonClick(
+        textInput: String,
+        addToProjectUserData: Boolean,
+        addToMultiplayerData: Boolean,
+        makeListChecked: Boolean
+    ) {
+        getSharedPreferences(
+            packageName + "_preferences",
+            Context.MODE_PRIVATE
+        ).edit()
+            .putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
+            .apply()
+
+        if (makeListChecked) {
+            val userList = UserList(textInput)
+            if (addToProjectUserData) {
+                currentProject?.addUserList(userList)
+            } else {
+                currentSprite?.addUserList(userList)
+            }
+        } else {
+            val userVariable = UserVariable(textInput)
+            if (addToMultiplayerData) {
+                currentProject?.addMultiplayerVariable(userVariable)
+            } else if (addToProjectUserData) {
+                currentProject?.addUserVariable(userVariable)
+            } else {
+                currentSprite?.addUserVariable(userVariable)
+            }
+        }
+
+        getCurrentFragment()?.let { fragment ->
+            if (fragment is DataListFragment) {
+                fragment.notifyDataSetChanged()
+                fragment.indexAndSort()
+            }
+        }
     }
 
     private fun handleAddUserListButton() {
@@ -923,7 +968,8 @@ class SpriteActivity : BaseActivity() {
         alertDialog.show()
     }
 
-    fun handlePlayButton() {
+    @Suppress("UNUSED_PARAMETER")
+    fun handlePlayButton(view: View) {
         val currentFragment = getCurrentFragment()
         if (currentFragment is ScriptFragment) {
             if (currentFragment.isCurrentlyHighlighted) {
@@ -975,4 +1021,3 @@ class SpriteActivity : BaseActivity() {
         addTabLayout(getCurrentFragment().getTabPositionInSpriteActivity())
     }
 }
-
