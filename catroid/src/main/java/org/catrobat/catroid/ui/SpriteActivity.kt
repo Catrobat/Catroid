@@ -767,6 +767,7 @@ class SpriteActivity : BaseActivity() {
         alertDialog.show()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun handleAddUserDataButton() {
         val view = View.inflate(this, R.layout.dialog_new_user_data, null)
 
@@ -792,9 +793,9 @@ class SpriteActivity : BaseActivity() {
         variables.addAll(currentProject?.multiplayerVariables.orEmpty())
         variables.addAll(currentSprite?.userVariables.orEmpty())
 
-        val lists = mutableListOf<UserData<List<Any>>>() // TODO 1
-        lists.addAll(currentProject?.userLists.orEmpty())
-        lists.addAll(currentSprite?.userLists.orEmpty())
+        val lists = mutableListOf<UserData<Any>>()
+        lists.addAll(currentProject?.userLists.orEmpty() as List<UserData<Any>>)
+        lists.addAll(currentSprite?.userLists.orEmpty() as List<UserData<Any>>)
 
         val textWatcher = DuplicateInputTextWatcher(variables)
         val builder = TextInputDialog.Builder(this)
@@ -857,7 +858,7 @@ class SpriteActivity : BaseActivity() {
             val currentName = textInputEditText?.text.toString()
             if (checked) {
                 alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title))
-                //textWatcher.setOriginalScope(lists) // TODO 1
+                textWatcher.setOriginalScope(lists)
                 if (currentName == generatedVariableName) {
                     generatedVariableName = uniqueListNameProvider.getUniqueName(
                         getString(R.string.default_list_name),
