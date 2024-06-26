@@ -24,7 +24,9 @@
 package org.catrobat.catroid.stage
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.util.Log
 import com.badlogic.gdx.Files
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -53,6 +56,8 @@ class ScreenshotSaver(
         private val VALID_FILENAME_REGEX = Regex("^[^<>:;,?\"*|/]+\$")
         private val ONLY_WHITESPACE_REGEX = Regex("\\s*")
     }
+
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     fun saveScreenshotAndNotify(
         data: ByteArray?,
@@ -100,19 +105,29 @@ class ScreenshotSaver(
             Bitmap.Config.ARGB_8888
         )
 
+        var completeScreenBitmap = fullScreenBitmap
+        if (StageActivity.getActiveCameraManager() != null && StageActivity.getActiveCameraManager()
+            .previewVisible) {
+            val transparentBackgroundBitmap = replaceColor(fullScreenBitmap)
+            val newBitmap = StageActivity.getActiveCameraManager().cameraBitmap?.let { overlayBitmap(it, transparentBackgroundBitmap) }
+            if (newBitmap != null) {
+                completeScreenBitmap = newBitmap
+            }
+        }
+
         val imageScene = gdxFileHandler.absolute(folder + fileName)
         val streamScene = imageScene.write(false)
         try {
             File(folder + Constants.NO_MEDIA_FILE).createNewFile()
-            fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
+            completeScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
 
-            if (ProjectManager.getInstance().currentProject != null) {
-                val projectFolder = ProjectManager.getInstance().currentProject.directory.absolutePath + "/"
+            if (projectManager.currentProject != null) {
+                val projectFolder = projectManager.currentProject.directory.absolutePath + "/"
                 val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
                 val streamProject = imageProject.write(false)
                 File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()
-                fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
+                completeScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
                 streamProject.close()
             }
         } catch (e: IOException) {
@@ -131,5 +146,24 @@ class ScreenshotSaver(
             data[i + 1].toInt() and 0xff,
             data[i + 2].toInt() and 0xff
         )
+    }
+
+    private fun overlayBitmap(bmp1: Bitmap, bmp2: Bitmap): Bitmap {
+        val bmOverlay = Bitmap.createBitmap(bmp1.width, bmp1.height, bmp1.config)
+        val canvas = Canvas(bmOverlay)
+        canvas.drawBitmap(bmp1, Matrix(), null)
+        canvas.drawBitmap(bmp2, Matrix(), null)
+        return bmOverlay
+    }
+
+    private fun replaceColor(src: Bitmap): Bitmap {
+        val width = src.width
+        val height = src.height
+        val pixels = IntArray(width * height)
+        src.getPixels(pixels, 0, 1 * width, 0, 0, width, height)
+        for (x in pixels.indices) {
+            if (pixels[x] == Color.BLACK) pixels[x] = Color.TRANSPARENT
+        }
+        return Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
     }
 }

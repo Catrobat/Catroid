@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -198,7 +199,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
-
+		if (StageActivity.getActiveCameraManager() != null && StageActivity.getActiveCameraManager().getPreviewVisible()) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				StageActivity.getActiveCameraManager().makePreviewScreenShot();
+			}
+		}
 		stageListener.requestTakingScreenshot(SCREENSHOT_MANUAL_FILE_NAME,
 				success -> {
 					if (success) {
