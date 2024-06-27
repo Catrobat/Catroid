@@ -24,16 +24,17 @@
 package org.catrobat.catroid.stage
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Matrix
 import android.util.Log
 import com.badlogic.gdx.Files
+import com.badlogic.gdx.graphics.Pixmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.stage.ScreenshotUtils.convertBitmapToPixmap
+import org.catrobat.catroid.stage.ScreenshotUtils.convertPixmapToBitmap
+import org.catrobat.catroid.stage.ScreenshotUtils.merge2Pixmaps
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
@@ -45,14 +46,11 @@ interface ScreenshotSaverCallback {
 class ScreenshotSaver(
     private val gdxFileHandler: Files,
     private val folder: String,
-    private val width: Int,
-    private val height: Int
 ) {
 
     companion object {
         private val TAG = ScreenshotSaver::class.java.simpleName
         private const val IMAGE_QUALITY = 100
-        private const val NUMBER_OF_COLORS = 4
         private val VALID_FILENAME_REGEX = Regex("^[^<>:;,?\"*|/]+\$")
         private val ONLY_WHITESPACE_REGEX = Regex("\\s*")
     }
@@ -60,7 +58,7 @@ class ScreenshotSaver(
     val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     fun saveScreenshotAndNotify(
-        data: ByteArray?,
+        data: Pixmap?,
         fileName: String?,
         callback: ScreenshotSaverCallback,
         coroutineScope: CoroutineScope
@@ -68,17 +66,16 @@ class ScreenshotSaver(
         if (data == null) {
             Log.d(TAG, "Screenshot data is null")
             callback.screenshotSaved(false)
-        } else if (fileName == null ||
-            ONLY_WHITESPACE_REGEX.matches(fileName) ||
-            !VALID_FILENAME_REGEX.matches(fileName)
+        } else if (fileName == null || ONLY_WHITESPACE_REGEX.matches(fileName) || !VALID_FILENAME_REGEX.matches(
+                fileName
+            )
         ) {
             Log.d(TAG, "Screenshot filename invalid")
             callback.screenshotSaved(false)
         } else {
             coroutineScope.launch(Dispatchers.IO) {
                 val success = saveScreenshot(
-                    data,
-                    fileName
+                    data, fileName
                 )
                 callback.screenshotSaved(success)
             }
@@ -86,40 +83,24 @@ class ScreenshotSaver(
     }
 
     private fun saveScreenshot(
-        data: ByteArray,
-        fileName: String
+        data: Pixmap, fileName: String
     ): Boolean {
-        val length = data.size
-        val fullScreenBitmap: Bitmap
-        val colors = IntArray(length / NUMBER_OF_COLORS)
-
-        if (colors.size != width * height || colors.isEmpty()) {
-            return false
-        }
-
-        for (i in 0 until length step NUMBER_OF_COLORS) {
-            colors[i / NUMBER_OF_COLORS] = retrieveColorFromData(data, i)
-        }
-        fullScreenBitmap = Bitmap.createBitmap(
-            colors, 0, width, width, height,
-            Bitmap.Config.ARGB_8888
-        )
-
-        var completeScreenBitmap = fullScreenBitmap
-        if (StageActivity.getActiveCameraManager() != null && StageActivity.getActiveCameraManager()
-            .previewVisible) {
-            val transparentBackgroundBitmap = replaceColor(fullScreenBitmap)
-            val newBitmap = StageActivity.getActiveCameraManager().cameraBitmap?.let { overlayBitmap(it, transparentBackgroundBitmap) }
-            if (newBitmap != null) {
-                completeScreenBitmap = newBitmap
+        val fullScreenBitmap: Bitmap =
+            if (StageActivity.getActiveCameraManager() != null && StageActivity.getActiveCameraManager().previewVisible &&
+                StageActivity.getActiveCameraManager().cameraBitmap != null) {
+                val cameraPixmap =
+                    convertBitmapToPixmap(StageActivity.getActiveCameraManager().cameraBitmap!!)
+                merge2Pixmaps(cameraPixmap, data)
+                convertPixmapToBitmap(cameraPixmap)
+            } else {
+                convertPixmapToBitmap(data)
             }
-        }
 
         val imageScene = gdxFileHandler.absolute(folder + fileName)
         val streamScene = imageScene.write(false)
         try {
             File(folder + Constants.NO_MEDIA_FILE).createNewFile()
-            completeScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
+            fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
 
             if (projectManager.currentProject != null) {
@@ -127,7 +108,7 @@ class ScreenshotSaver(
                 val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
                 val streamProject = imageProject.write(false)
                 File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()
-                completeScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
+                fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
                 streamProject.close()
             }
         } catch (e: IOException) {
@@ -136,34 +117,5 @@ class ScreenshotSaver(
         }
 
         return true
-    }
-
-    @SuppressWarnings("MagicNumber")
-    private fun retrieveColorFromData(data: ByteArray, i: Int): Int {
-        return Color.argb(
-            255,
-            data[i].toInt() and 0xff,
-            data[i + 1].toInt() and 0xff,
-            data[i + 2].toInt() and 0xff
-        )
-    }
-
-    private fun overlayBitmap(bmp1: Bitmap, bmp2: Bitmap): Bitmap {
-        val bmOverlay = Bitmap.createBitmap(bmp1.width, bmp1.height, bmp1.config)
-        val canvas = Canvas(bmOverlay)
-        canvas.drawBitmap(bmp1, Matrix(), null)
-        canvas.drawBitmap(bmp2, Matrix(), null)
-        return bmOverlay
-    }
-
-    private fun replaceColor(src: Bitmap): Bitmap {
-        val width = src.width
-        val height = src.height
-        val pixels = IntArray(width * height)
-        src.getPixels(pixels, 0, 1 * width, 0, 0, width, height)
-        for (x in pixels.indices) {
-            if (pixels[x] == Color.BLACK) pixels[x] = Color.TRANSPARENT
-        }
-        return Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
     }
 }

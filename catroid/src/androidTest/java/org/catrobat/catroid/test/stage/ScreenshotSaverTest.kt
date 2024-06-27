@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.stage
 import androidx.test.rule.ActivityTestRule
 import com.badlogic.gdx.Files
 import com.badlogic.gdx.backends.android.AndroidFiles
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.Pixmap.Format
 import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.io.StorageOperations
@@ -57,12 +59,10 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
                 arrayOf("WHITESPACES", "    ", false),
                 arrayOf("ILLEGAL_CHARACTERS", "|\\?*<\":>+[]/'", false)
             )
-
-        private const val NUMBER_OF_COLORS = 4
     }
 
     private lateinit var screenshotSaver: ScreenshotSaver
-    private lateinit var dummyData: ByteArray
+    private lateinit var dummyData: Pixmap
     private lateinit var gdxFileHandler: Files
 
     @Before
@@ -70,11 +70,11 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
         ScreenValues.setToDefaultScreenSize()
         val height = ScreenValues.currentScreenResolution.height
         val width = ScreenValues.currentScreenResolution.width
-        dummyData = ByteArray(NUMBER_OF_COLORS * width * height)
+        dummyData = Pixmap(width, height, Format.RGBA8888);
         val stageActivity = activityTestRule.activity
         val folder = stageActivity.cacheDir.absolutePath + "/"
         gdxFileHandler = AndroidFiles(stageActivity.assets, stageActivity.filesDir.absolutePath)
-        screenshotSaver = ScreenshotSaver(gdxFileHandler as AndroidFiles, folder, width, height)
+        screenshotSaver = ScreenshotSaver(gdxFileHandler as AndroidFiles, folder)
     }
 
     @After
