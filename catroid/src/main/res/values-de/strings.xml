@@ -1709,7 +1709,7 @@
     <string formatted="false" name="formula_editor_object_background_name">Hintergrundname</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">Anzahl der Hintergründe</string>
     <string formatted="false" name="formula_editor_object_distance_to">Entfernung zu</string>
-    <string formatted="false" name="formula_editor_compute">Berechnen</string>
+    <string formatted="false" name="formula_editor_confirm">Berechnen</string>
     <string formatted="false" name="formula_editor_object">Eigenschaften</string>
     <string formatted="false" name="formula_editor_functions">Funktionen</string>
     <string formatted="false" name="formula_editor_logic">Logik</string>

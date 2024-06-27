@@ -1912,7 +1912,7 @@
     <string formatted="false" name="formula_editor_object_background_name">إسم خلفية الشاشة</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">عدد الخلفيات</string>
     <string formatted="false" name="formula_editor_object_distance_to">المسافة إلى</string>
-    <string formatted="false" name="formula_editor_compute">النتيجة</string>
+    <string formatted="false" name="formula_editor_confirm">النتيجة</string>
     <string formatted="false" name="formula_editor_object">الكائن</string>
     <string formatted="false" name="formula_editor_functions">الدوال</string>
     <string formatted="false" name="formula_editor_logic">المنطق</string>

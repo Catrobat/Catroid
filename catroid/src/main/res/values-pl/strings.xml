@@ -1795,7 +1795,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_object_background_name">nazwa_tła</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">liczba teł</string>
     <string formatted="false" name="formula_editor_object_distance_to">odległość do</string>
-    <string formatted="false" name="formula_editor_compute">Oblicz</string>
+    <string formatted="false" name="formula_editor_confirm">Oblicz</string>
     <string formatted="false" name="formula_editor_object">Właściwości</string>
     <string formatted="false" name="formula_editor_functions">Funkcje</string>
     <string formatted="false" name="formula_editor_logic">Logika</string>
