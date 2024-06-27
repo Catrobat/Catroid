@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream
 
 object ScreenshotUtils {
 
+    @SuppressWarnings("MagicNumber")
     fun convertPixmapToBitmap(pixmap: Pixmap): Bitmap {
         var y: Int
         var yl: Int
@@ -53,6 +54,7 @@ object ScreenshotUtils {
         return bmp
     }
 
+    @SuppressWarnings("MagicNumber")
     fun convertBitmapToPixmap(bitmap: Bitmap): Pixmap {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -60,6 +62,7 @@ object ScreenshotUtils {
         return Pixmap(byteArray, 0, byteArray.size)
     }
 
+    @SuppressWarnings("MagicNumber")
     fun getFrameBufferPixmapFlip(x: Int, y: Int, w: Int, h: Int, flipY: Boolean): Pixmap {
         val pixmap = ScreenUtils.getFrameBufferPixmap(x, y, w, h)
         val pixels = pixmap.pixels

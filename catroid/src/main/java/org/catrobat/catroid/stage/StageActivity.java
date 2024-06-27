@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -252,10 +252,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		} else {
 			StageLifeCycleController.stagePause(this);
 			idlingResource.increment();
-			if (cameraManager != null && cameraManager.getPreviewVisible()) {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-					cameraManager.makePreviewScreenShot();
-				}
+			if (cameraManager != null && cameraManager.getPreviewVisible() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				cameraManager.makePreviewScreenShot();
 			}
 			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
 					success -> runOnUiThread(() -> idlingResource.decrement()));
@@ -307,7 +305,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
 
 		resizePossible = ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
-						|| ProjectManager.getInstance().getCurrentProject().isCastProject();
+				|| ProjectManager.getInstance().getCurrentProject().isCastProject();
 
 		if (resizePossible) {
 			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));
@@ -417,7 +415,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		for (Scene scene: project.getSceneList()) {
+		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);

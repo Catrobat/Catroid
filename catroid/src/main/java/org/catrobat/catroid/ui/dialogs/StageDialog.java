@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -199,11 +198,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
-		if (StageActivity.getActiveCameraManager() != null && StageActivity.getActiveCameraManager().getPreviewVisible()) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-				StageActivity.getActiveCameraManager().makePreviewScreenShot();
-			}
-		}
+
 		stageListener.requestTakingScreenshot(SCREENSHOT_MANUAL_FILE_NAME,
 				success -> {
 					if (success) {
