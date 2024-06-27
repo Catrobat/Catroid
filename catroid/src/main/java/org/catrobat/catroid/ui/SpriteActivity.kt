@@ -145,6 +145,7 @@ class SpriteActivity : BaseActivity() {
         private const val IMAGE_FILE_TYPE = "image/*"
 
         private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        private val recentBrickListManager: RecentBrickListManager by inject(RecentBrickListManager::class.java)
     }
 
     private var onNewSpriteListener: NewItemInterface<Sprite>? = null
@@ -175,8 +176,8 @@ class SpriteActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = createActionBarTitle()
 
-        if (RecentBrickListManager.getInstance().getRecentBricks(true).isEmpty()) {
-            RecentBrickListManager.getInstance().loadRecentBricks()
+        if (recentBrickListManager.getRecentBricks(true).isEmpty()) {
+            recentBrickListManager.loadRecentBricks()
         }
 
         val fragmentPosition =
@@ -260,7 +261,7 @@ class SpriteActivity : BaseActivity() {
     override fun onPause() {
         super.onPause()
         saveProject()
-        RecentBrickListManager.getInstance().saveRecentBrickList()
+        recentBrickListManager.saveRecentBrickList()
     }
 
     @Deprecated("Deprecated in Java")
