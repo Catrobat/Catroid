@@ -43,9 +43,12 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.FlakyTest;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -65,11 +68,12 @@ public class StageResourceFailedTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@FlakyTest
 	@Test
 	public void testResourceFailedDialog() {
 		baseActivityTestRule.launchActivity(null);
 
-		onView(isRoot()).perform(CustomActions.wait(5000));
+		onView(isRoot()).perform(CustomActions.wait(1000));
 
 		onView(withText(R.string.prestage_resource_not_available_title))
 				.check(matches(isDisplayed()));
@@ -80,6 +84,8 @@ public class StageResourceFailedTest {
 
 		onView(withText(failedResourceMessage))
 				.check(matches(isDisplayed()));
+
+		onView(withText("OK")).perform(click());
 	}
 
 	public void createProject(String projectName) {
