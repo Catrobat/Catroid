@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,14 +47,14 @@ public class ServiceProviderTest {
 
 	@Test
 	public void testRegisterAndGetService() {
-		assertNull(ServiceProvider.getService(TestService.class));
+		assertNull(ServiceProvider.getService(ServiceProviderTestService.class));
 
-		ServiceProvider.registerService(TestService.class, new TestService());
+		ServiceProvider.registerService(ServiceProviderTestService.class, new ServiceProviderTestService());
 
-		TestService service = ServiceProvider.getService(TestService.class);
+		ServiceProviderTestService service = ServiceProvider.getService(ServiceProviderTestService.class);
 		assertNotNull(service);
 	}
 
-	private static class TestService implements CatroidService {
+	private static class ServiceProviderTestService implements CatroidService {
 	}
 }
