@@ -34,7 +34,7 @@ import java.io.ByteArrayOutputStream;
 
 public class EV3Command implements MindstormsCommand {
 
-	private ByteArrayOutputStream commandData = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream commandData = new ByteArrayOutputStream();
 
 	public EV3Command(short commandCounter, EV3CommandType commandType, int globalVars, int localVars, EV3CommandOpCode commandByte) {
 
