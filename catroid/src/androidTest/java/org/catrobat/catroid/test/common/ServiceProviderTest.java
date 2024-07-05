@@ -44,11 +44,15 @@ public class ServiceProviderTest {
 
 	@Test
 	public void testRegisterAndGetService() {
-		assertNull(ServiceProvider.getService(ServiceProviderTestService.class));
+		assertNull(ServiceProvider.getService(TestService.class));
 
-		ServiceProvider.registerService(ServiceProviderTestService.class, new ServiceProviderTestService());
+		ServiceProvider.registerService(TestService.class, new TestService());
 
-		ServiceProviderTestService service = ServiceProvider.getService(ServiceProviderTestService.class);
+		TestService service = ServiceProvider.getService(TestService.class);
 		assertNotNull(service);
+	}
+
+	@SuppressWarnings("PMD.TestClassWithoutTestCases")
+	private static class TestService implements CatroidService {
 	}
 }
