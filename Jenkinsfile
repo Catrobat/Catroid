@@ -196,6 +196,7 @@ pipeline {
                             args d.args
                             label d.label
                             alwaysPull true
+                            reuseNode true
                         }
                     }
 
@@ -387,6 +388,7 @@ pipeline {
                             args d.args
                             label d.label
                             alwaysPull true
+                            reuseNode true
                         }
                     }
 
