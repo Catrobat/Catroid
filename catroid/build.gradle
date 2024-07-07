@@ -185,7 +185,7 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
         unitTests.all {
-            jvmArgs '-Xmx8g'
+            jvmArgs '-Xmx12g'
         }
         animationsDisabled = true
     }
