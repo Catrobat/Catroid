@@ -115,6 +115,7 @@
     <string formatted="false" name="main_menu_help">Help</string>
     <string formatted="false" name="main_menu_web">Catrobat community</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
 
     <string formatted="false" name="main_menu_rate_app">Rate us!</string>
     <string formatted="false" name="main_menu_terms_of_use">Terms of Use and Service</string>
