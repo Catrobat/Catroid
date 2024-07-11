@@ -150,7 +150,7 @@ class FormulaEditorComputeDialogComputationResultTest(
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        TestUtils.deleteProjects(projectName)
+        TestUtils.deleteProjects(PROJECT_NAME)
     }
 
     @Test
@@ -168,28 +168,28 @@ class FormulaEditorComputeDialogComputationResultTest(
     }
 
     fun createProject() {
-        val sprite = Sprite(spriteName)
-        val collisionSprite = Sprite(collisionSpriteName)
+        val sprite = Sprite(SPRITE_NAME)
+        val collisionSprite = Sprite(COLLISION_SPRITE_NAME)
         val script: Script = StartScript()
         val noteFormula = formula
 
         script.addBrick(NoteBrick(noteFormula))
         sprite.addScript(script)
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME)
         project.defaultScene.addSprite(sprite)
         project.defaultScene.addSprite(collisionSprite)
 
         if (userVariableLeftValue != null) {
-            project.addUserVariable(UserVariable(userVariableLeftName, userVariableLeftValue))
+            project.addUserVariable(UserVariable(USER_VARIABLE_LEFT_NAME, userVariableLeftValue))
         }
         if (userVariableRightValue != null) {
-            project.addUserVariable(UserVariable(userVariableRightName, userVariableRightValue))
+            project.addUserVariable(UserVariable(USER_VARIABLE_RIGHT_NAME, userVariableRightValue))
         }
         if (userListLeftElements != null) {
-            project.addUserList(UserList(userListLeftName, userListLeftElements))
+            project.addUserList(UserList(USER_LIST_LEFT_NAME, userListLeftElements))
         }
         if (userListRightElements != null) {
-            project.addUserList(UserList(userListRightName, userListRightElements))
+            project.addUserList(UserList(USER_LIST_RIGHT_NAME, userListRightElements))
         }
 
         ProjectManager.getInstance().currentProject = project
@@ -198,13 +198,13 @@ class FormulaEditorComputeDialogComputationResultTest(
 
     companion object {
         private lateinit var project: Project
-        private const val projectName = "formulaEditorComputeDialogBooleanTest"
-        private const val spriteName = "testSprite"
-        private const val collisionSpriteName = "testCollisionSprite"
-        private const val userListLeftName = "userListLeft"
-        private const val userListRightName = "userListRight"
-        private const val userVariableLeftName = "userVariableLeft"
-        private const val userVariableRightName = "userVariableRight"
+        private const val PROJECT_NAME = "formulaEditorComputeDialogBooleanTest"
+        private const val SPRITE_NAME = "testSprite"
+        private const val COLLISION_SPRITE_NAME = "testCollisionSprite"
+        private const val USER_LIST_LEFT_NAME = "userListLeft"
+        private const val USER_LIST_RIGHT_NAME = "userListRight"
+        private const val USER_VARIABLE_LEFT_NAME = "userVariableLeft"
+        private const val USER_VARIABLE_RIGHT_NAME = "userVariableRight"
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
@@ -222,7 +222,7 @@ class FormulaEditorComputeDialogComputationResultTest(
         )
 
         private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+            ApplicationProvider.getApplicationContext()
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)
 
@@ -656,7 +656,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "Function LIST_ITEM Strings",
                     getFormula(
                         Pair(FUNCTION, LIST_ITEM.name), Pair(NUMBER, 3),
-                        Pair(USER_LIST, userListLeftName)
+                        Pair(USER_LIST, USER_LIST_LEFT_NAME)
                     ),
                     null, null, listOf("1", "2", "3", "4", "5"), null,
                     "3"
@@ -665,7 +665,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "Function LIST_ITEM Ints",
                     getFormula(
                         Pair(FUNCTION, LIST_ITEM.name), Pair(NUMBER, 3),
-                        Pair(USER_LIST, userListLeftName)
+                        Pair(USER_LIST, USER_LIST_LEFT_NAME)
                     ),
                     null, null, listOf(1, 2, 3, 4, 5), null,
                     "3"
@@ -674,7 +674,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "Function NUMBER_OF_ITEMS",
                     getFormula(
                         Pair(FUNCTION, NUMBER_OF_ITEMS.name),
-                        Pair(USER_LIST, userListLeftName)
+                        Pair(USER_LIST, USER_LIST_LEFT_NAME)
                     ),
                     null, null, listOf(1, 2, 3, 4), null,
                     "4"
@@ -752,13 +752,13 @@ class FormulaEditorComputeDialogComputationResultTest(
                 ),
                 arrayOf(
                     "Function FLATTEN Strings",
-                    getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf("1", "2", "3", "4", "5"), null,
                     "12345"
                 ),
                 arrayOf(
                     "Function FLATTEN Ints",
-                    getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(1, 2, 3, 4, 5), null,
                     "12345"
                 )
@@ -781,7 +781,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                 arrayOf(
                     "Function CONTAINS false",
                     getFormula(
-                        Pair(FUNCTION, CONTAINS.name), Pair(USER_LIST, userListLeftName),
+                        Pair(FUNCTION, CONTAINS.name), Pair(USER_LIST, USER_LIST_LEFT_NAME),
                         Pair(NUMBER, 10)
                     ),
                     null, null, listOf(1, 2, 3, 4, 5), null,
@@ -790,7 +790,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                 arrayOf(
                     "Function CONTAINS true",
                     getFormula(
-                        Pair(FUNCTION, CONTAINS.name), Pair(USER_LIST, userListLeftName),
+                        Pair(FUNCTION, CONTAINS.name), Pair(USER_LIST, USER_LIST_LEFT_NAME),
                         Pair(NUMBER, 3)
                     ),
                     null, null, listOf(1, 2, 3, 4, 5), null,
@@ -841,79 +841,79 @@ class FormulaEditorComputeDialogComputationResultTest(
             arrayOf(
                 arrayOf(
                     "UserVariable Int",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     123, null, null, null,
                     "123"
                 ),
                 arrayOf(
                     "UserVariable Int 1000",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     1000, null, null, null,
                     "1000"
                 ),
                 arrayOf(
                     "UserVariable Int -1000000",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     -1_000_000, null, null, null,
                     "-1000000"
                 ),
                 arrayOf(
                     "UserVariable Double",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     123.45, null, null, null,
                     "123.45"
                 ),
                 arrayOf(
                     "UserVariable String",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     "Hello", null, null, null,
                     "Hello"
                 ),
                 arrayOf(
                     "UserVariable Character",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     'X', null, null, null,
                     "X"
                 ),
                 arrayOf(
                     "UserList Int",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(1, 2, 3), null,
                     "123"
                 ),
                 arrayOf(
                     "UserList Int 2000 3000000",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(1, 2_000, 3_000_000), null,
                     "1 2000 3000000"
                 ),
                 arrayOf(
                     "UserList Int -2000 -3000000",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(-1, -2_000, -3_000_000), null,
                     "-1 -2000 -3000000"
                 ),
                 arrayOf(
                     "UserList Double",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(1.1, 2.2, 3.3), null,
                     "1.1 2.2 3.3"
                 ),
                 arrayOf(
                     "UserList Character",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf('H', 'e', 'l', 'l', 'o'), null,
                     "Hello"
                 ),
                 arrayOf(
                     "UserList String",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf("Hello", "world", "!"), null,
                     "Hello world !"
                 ),
                 arrayOf(
                     "UserList Mixed",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf("Hello", '!', 123, 3.1415, true), null,
                     "Hello ! 123 3.1415 $trueString"
                 )
@@ -923,61 +923,61 @@ class FormulaEditorComputeDialogComputationResultTest(
             arrayOf(
                 arrayOf(
                     "Function UserVariable false",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     false, null, null, null,
                     falseString
                 ),
                 arrayOf(
                     "Function UserVariable true",
-                    getFormula(Pair(USER_VARIABLE, userVariableLeftName)),
+                    getFormula(Pair(USER_VARIABLE, USER_VARIABLE_LEFT_NAME)),
                     true, null, null, null,
                     trueString
                 ),
                 arrayOf(
                     "UserList false",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(false), null,
                     falseString
                 ),
                 arrayOf(
                     "UserList true",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(true), null,
                     trueString
                 ),
                 arrayOf(
                     "UserList false false",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(false, false), null,
                     "$falseString $falseString"
                 ),
                 arrayOf(
                     "UserList false true",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(false, true), null,
                     "$falseString $trueString"
                 ),
                 arrayOf(
                     "UserList true false",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(true, false), null,
                     "$trueString $falseString"
                 ),
                 arrayOf(
                     "UserList true true",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(true, true), null,
                     "$trueString $trueString"
                 ),
                 arrayOf(
                     "UserList true false false",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(true, false, false), null,
                     "$trueString $falseString $falseString"
                 ),
                 arrayOf(
                     "UserList false true true",
-                    getFormula(Pair(USER_LIST, userListLeftName)),
+                    getFormula(Pair(USER_LIST, USER_LIST_LEFT_NAME)),
                     null, null, listOf(false, true, true), null,
                     "$falseString $trueString $trueString"
                 )
@@ -987,7 +987,7 @@ class FormulaEditorComputeDialogComputationResultTest(
             arrayOf(
                 arrayOf(
                     "Collision false",
-                    getFormula(Pair(COLLISION_FORMULA, collisionSpriteName)),
+                    getFormula(Pair(COLLISION_FORMULA, COLLISION_SPRITE_NAME)),
                     null, null, null, null,
                     falseString
                 )

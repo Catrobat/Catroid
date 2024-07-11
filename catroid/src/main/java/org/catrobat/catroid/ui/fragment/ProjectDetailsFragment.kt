@@ -215,7 +215,7 @@ class ProjectDetailsFragment : Fragment() {
             }
         }
 
-    fun setDescription(description: String?) {
+    private fun setDescription(description: String?) {
         project.description = description
         if (XstreamSerializer.getInstance().saveProject(project)) {
             binding.descriptionValue.text = description

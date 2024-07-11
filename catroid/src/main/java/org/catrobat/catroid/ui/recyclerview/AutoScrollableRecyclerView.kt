@@ -110,7 +110,7 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
     private class ScrollHandler(autoScrollableRecyclerView: AutoScrollableRecyclerView) :
         Handler() {
         private val autoScrollViewPager =
-            WeakReference<AutoScrollableRecyclerView>(autoScrollableRecyclerView)
+            WeakReference(autoScrollableRecyclerView)
 
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)

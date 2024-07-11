@@ -48,15 +48,15 @@ import java.util.Date
 class EmbeddedSurveyTest {
     private var currentTimeInMilliseconds: Long = 0
     private var surveySpy: Survey? = null
-    private val URL1: String = "https://url1.at/"
-    private val URL2: String = "https://url2.at/"
+    private val url1: String = "https://url1.at/"
+    private val url2: String = "https://url2.at/"
 
     @Mock
     var sharedPreferencesMock: SharedPreferences? = null
-    var sharedPreferenceEditorMock: SharedPreferences.Editor? = null
-    var contextMock: Context? = null
-    var surveyMock: Survey? = null
-    var getSurveyTaskMock: GetSurveyTask? = null
+    private var sharedPreferenceEditorMock: SharedPreferences.Editor? = null
+    private var contextMock: Context? = null
+    private var surveyMock: Survey? = null
+    private var getSurveyTaskMock: GetSurveyTask? = null
 
     @Before
     @Throws(Exception::class)
@@ -76,7 +76,7 @@ class EmbeddedSurveyTest {
 
     @Test
     fun doNotShowSurveyUnderMinimumTime() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS - 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
@@ -102,7 +102,7 @@ class EmbeddedSurveyTest {
 
     @Test
     fun doNotShowSurveyWhenNoInternetConnection() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = false,
@@ -115,7 +115,7 @@ class EmbeddedSurveyTest {
 
     @Test
     fun doNotShowSurveyTwice() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
@@ -126,7 +126,7 @@ class EmbeddedSurveyTest {
                 ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL1_HASH_KEY),
                 ArgumentMatchers.anyLong()
             )
-        ).thenReturn(URL1.hashCode().toLong())
+        ).thenReturn(url1.hashCode().toLong())
         Mockito.`when`(
             sharedPreferencesMock!!.getLong(
                 ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL2_HASH_KEY),
@@ -134,16 +134,16 @@ class EmbeddedSurveyTest {
             )
         ).thenReturn(0)
 
-        surveySpy?.onSurveyReceived(contextMock, URL1)
+        surveySpy?.onSurveyReceived(contextMock, url1)
         Mockito.verify(surveySpy, Mockito.times(1))!!
-            .isUrlNew(contextMock, URL1)
+            .isUrlNew(contextMock, url1)
         Mockito.verify(surveySpy, Mockito.times(0))!!
-            .saveUrlHash(contextMock, URL1)
+            .saveUrlHash(contextMock, url1)
     }
 
     @Test
     fun doNotShowSameSurveyAfterShowingAnotherSurvey() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
@@ -154,24 +154,24 @@ class EmbeddedSurveyTest {
                 ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL1_HASH_KEY),
                 ArgumentMatchers.anyLong()
             )
-        ).thenReturn(URL2.hashCode().toLong())
+        ).thenReturn(url2.hashCode().toLong())
         Mockito.`when`(
             sharedPreferencesMock!!.getLong(
                 ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL2_HASH_KEY),
                 ArgumentMatchers.anyLong()
             )
-        ).thenReturn(URL1.hashCode().toLong())
+        ).thenReturn(url1.hashCode().toLong())
 
-        surveySpy?.onSurveyReceived(contextMock, URL1)
+        surveySpy?.onSurveyReceived(contextMock, url1)
         Mockito.verify(surveySpy, Mockito.times(1))!!
-            .isUrlNew(contextMock, URL1)
+            .isUrlNew(contextMock, url1)
         Mockito.verify(surveySpy, Mockito.times(0))!!
-            .saveUrlHash(contextMock, URL1)
+            .saveUrlHash(contextMock, url1)
     }
 
     @Test
     fun doNotShowSurveyForLanguageNotDeposited() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
@@ -201,7 +201,7 @@ class EmbeddedSurveyTest {
 
     @Test
     fun showSurveyFulfilledRequirements() {
-        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val dateYesterday = Date(currentTimeInMilliseconds - DAY_IN_MILLISECONDS)
         val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
         initMocks(
             dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
@@ -221,7 +221,7 @@ class EmbeddedSurveyTest {
     ) {
         PowerMockito.`when`(Utils.isNetworkAvailable(contextMock)).thenReturn(networkConnected)
         PowerMockito.`when`(DateUtils.isToday(ArgumentMatchers.anyLong())).thenReturn(
-            currentTimeInMilliseconds - date.time < dayInMilliseconds
+            currentTimeInMilliseconds - date.time < DAY_IN_MILLISECONDS
         )
         PowerMockito.`when`(PreferenceManager.getDefaultSharedPreferences(contextMock))
             .thenReturn(sharedPreferencesMock)
@@ -259,6 +259,6 @@ class EmbeddedSurveyTest {
     }
 
     companion object {
-        private const val dayInMilliseconds = (24 * 60 * 60 * 1000).toLong()
+        private const val DAY_IN_MILLISECONDS = (24 * 60 * 60 * 1000).toLong()
     }
 }

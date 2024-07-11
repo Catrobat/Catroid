@@ -270,7 +270,7 @@ open class CategoryBricksFactory {
         }
     }
 
-    fun setupRecentBricksCategoryList(isBackgroundSprite: Boolean): List<Brick> = RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite)
+    private fun setupRecentBricksCategoryList(isBackgroundSprite: Boolean): List<Brick> = RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite)
 
     protected open fun setupEventCategoryList(
         context: Context,
@@ -730,7 +730,7 @@ open class CategoryBricksFactory {
         return assertionsBrickList
     }
 
-    fun searchList(searchBrick: Brick, list: List<Brick>): Boolean = list.any { it == searchBrick.javaClass }
+    private fun searchList(searchBrick: Brick, list: List<Brick>): Boolean = list.any { it == searchBrick.javaClass }
 
     fun getBrickCategory(brick: Brick, isBackgroundSprite: Boolean, context: Context): String {
         val res = context.resources

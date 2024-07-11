@@ -42,7 +42,7 @@ object TrustedDomainManager {
     private const val PARSE_ERROR_LOG = "Cannot parse trusted domains"
 
     private var trustListPattern: Pattern? = null
-    var userTrustListPattern: Pattern? = null
+    private var userTrustListPattern: Pattern? = null
 
     @Synchronized
     fun isURLTrusted(url: String): Boolean {

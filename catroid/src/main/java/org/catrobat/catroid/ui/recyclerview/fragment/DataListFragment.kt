@@ -287,7 +287,7 @@ class DataListFragment : Fragment(),
         sortUserList(localLists, sortData)
     }
 
-    fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
+    private fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
         if (sorted) {
             data.sortWith(Comparator { item1: UserVariable, item2: UserVariable ->
                 item1.name.compareTo(item2.name)
@@ -299,7 +299,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    fun sortUserList(data: MutableList<UserList>, sorted: Boolean) {
+    private fun sortUserList(data: MutableList<UserList>, sorted: Boolean) {
         if (sorted) {
             data.sortWith(Comparator { item1: UserList, item2: UserList ->
                 item1.name.compareTo(item2.name)
@@ -541,7 +541,7 @@ class DataListFragment : Fragment(),
         }
         val itemList: MutableList<UserData<*>> = ArrayList()
         itemList.add(item)
-        val hiddenOptionsMenu = mutableListOf<Int>(
+        val hiddenOptionsMenu = mutableListOf(
             R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )

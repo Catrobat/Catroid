@@ -40,7 +40,7 @@ class PlaySoundAtAction : TemporalAction() {
     var scope: Scope? = null
 
     override fun update(percent: Float) {
-        var offsetMilliseconds: Int
+        val offsetMilliseconds: Int
         try {
             offsetMilliseconds = (offset.interpretFloat(scope) * SECONDS_TO_MILLISECONDS).toInt()
         } catch (exception: InterpretationException) {
@@ -70,7 +70,7 @@ class PlaySoundAtAction : TemporalAction() {
 
     @VisibleForTesting
     fun runWithMockedSoundManager(manager: SoundManager): Float {
-        var offsetMilliseconds: Int
+        val offsetMilliseconds: Int
         try {
             offsetMilliseconds = (offset.interpretFloat(scope) * SECONDS_TO_MILLISECONDS).toInt()
         } catch (exception: InterpretationException) {

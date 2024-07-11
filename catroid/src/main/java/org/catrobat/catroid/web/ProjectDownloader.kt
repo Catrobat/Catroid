@@ -138,7 +138,7 @@ class ProjectDownloader(
             when (resultCode) {
                 UPDATE_PROGRESS_CODE -> {
                     val progress = resultData.getInt(UPDATE_PROGRESS_EXTRA)
-                    callbackWeakReference.get()?.onDownloadProgress(progress.toInt(), url)
+                    callbackWeakReference.get()?.onDownloadProgress(progress, url)
                 }
                 SUCCESS_CODE -> {
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
@@ -161,7 +161,7 @@ object GlobalProjectDownloadQueue {
     val queue = ProjectDownloadQueue()
 
     class ProjectDownloadQueue : ProjectDownloader.ProjectDownloadQueue {
-        private var projectNameSet: Set<String> = Collections.synchronizedSet(HashSet<String>())
+        private var projectNameSet: Set<String> = Collections.synchronizedSet(HashSet())
 
         @Synchronized
         override fun alreadyInQueue(projectName: String): Boolean =

@@ -54,14 +54,14 @@ import org.koin.java.KoinJavaComponent.inject
 
 class MergeLocalSpriteTest {
     lateinit var project: Project
-    lateinit var sameGlobalsProject: Project
-    lateinit var conflictProject: Project
-    var sameGlobalsName = "sameGlobals"
-    var defaultProjectName = "defaultProject"
-    var conflictProjectName = "conflictProject"
+    private lateinit var sameGlobalsProject: Project
+    private lateinit var conflictProject: Project
+    private var sameGlobalsName = "sameGlobals"
+    private var defaultProjectName = "defaultProject"
+    private var conflictProjectName = "conflictProject"
     val controller = SpriteController()
-    lateinit var originalSprite: Sprite
-    lateinit var originalSpriteCopy: Sprite
+    private lateinit var originalSprite: Sprite
+    private lateinit var originalSpriteCopy: Sprite
     private val projectManager = inject(
         ProjectManager::class.java
     )

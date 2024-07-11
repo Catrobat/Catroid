@@ -243,13 +243,13 @@ class BrickSearchTest {
         )
     }
 
-    fun ensureKeyboardIsClosed() {
+    private fun ensureKeyboardIsClosed() {
         if (isKeyboardVisible()) {
             hideKeyboard()
         }
     }
 
-    fun hideKeyboard() {
+    private fun hideKeyboard() {
         Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
     }
     @Test

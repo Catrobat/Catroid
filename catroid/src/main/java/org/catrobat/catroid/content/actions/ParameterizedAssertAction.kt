@@ -67,7 +67,7 @@ class ParameterizedAssertAction : AssertAction() {
             data.currentParameters = ""
 
             if (data.failMessages.isNotEmpty() &&
-                data.currentPosition >= expectedList?.value?.size ?: 0
+                data.currentPosition >= (expectedList?.value?.size ?: 0)
             ) {
                 failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
             }
