@@ -266,6 +266,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
                 backpackManager.scenes.add(scene2)
                 backpackManager.scenes.add(scene2)
             }
+
             
             /*BackpackActivity.FRAGMENT_SCRIPTS -> {
                 val scriptList = ProjectManager.getInstance().currentSprite.scriptList
