@@ -45,8 +45,8 @@ class BackpackUndoTest(private val fragmentId: Int) {
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> {
             return listOf(
-                //arrayOf(BackpackActivity.FRAGMENT_SPRITES),
-                //arrayOf(BackpackActivity.FRAGMENT_SOUNDS),
+                arrayOf(BackpackActivity.FRAGMENT_SPRITES),
+                arrayOf(BackpackActivity.FRAGMENT_SOUNDS),
                 arrayOf(BackpackActivity.FRAGMENT_SCENES),
                 //arrayOf(BackpackActivity.FRAGMENT_SCRIPTS),
                 //arrayOf(BackpackActivity.FRAGMENT_LOOKS),
@@ -78,6 +78,9 @@ class BackpackUndoTest(private val fragmentId: Int) {
     private lateinit var lookData: LookData
     private lateinit var project: Project
     private lateinit var soundInfo: SoundInfo
+    private lateinit var soundInfo2: SoundInfo
+    private lateinit var soundInfo3: SoundInfo
+
     //private val waitThreshold: Long = 5000
 
     @Before
@@ -235,15 +238,24 @@ class BackpackUndoTest(private val fragmentId: Int) {
                     InstrumentationRegistry.getInstrumentation().context.resources,
                     org.catrobat.catroid.test.R.raw.testsound,
                     imageFolder,
-                    "longsound.mp3")
+                    "testsoundui.mp3")
+
+                val soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
+                    InstrumentationRegistry.getInstrumentation().context.resources,
+                    org.catrobat.catroid.test.R.raw.testsound,
+                    imageFolder,
+                    "testsoundui.mp3")
 
                 val soundList = ProjectManager.getInstance().currentSprite.soundList
 
                 soundInfo = SoundInfo("testSound1",soundFile)
+                soundInfo2 = SoundInfo("testSound2",soundFile2)
+                soundInfo3 = SoundInfo("testSound3",soundFile2)
+
                 soundList.add(soundInfo)
                 backpackManager.backpackedSounds.add(soundInfo)
-                backpackManager.backpackedSounds.add(soundInfo)
-                backpackManager.backpackedSounds.add(soundInfo)
+                backpackManager.backpackedSounds.add(soundInfo2)
+                backpackManager.backpackedSounds.add(soundInfo3)
                 backpackManager.saveBackpack()
             }
             BackpackActivity.FRAGMENT_SCENES -> {
@@ -254,6 +266,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
                 backpackManager.scenes.add(scene2)
                 backpackManager.scenes.add(scene2)
             }
+            
             /*BackpackActivity.FRAGMENT_SCRIPTS -> {
                 val scriptList = ProjectManager.getInstance().currentSprite.scriptList
                 val script = StartScript()
