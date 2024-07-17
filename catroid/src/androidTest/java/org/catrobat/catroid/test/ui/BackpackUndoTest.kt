@@ -232,6 +232,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
         assert(exceptionOccurred)
     }*/
 
+
     @Test
     fun testUndoNotPossibleAfterReturning(){
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
