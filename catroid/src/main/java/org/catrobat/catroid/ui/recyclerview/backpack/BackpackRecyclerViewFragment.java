@@ -36,6 +36,7 @@ import android.widget.ListAdapter;
 import android.widget.PopupMenu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
@@ -48,6 +49,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -88,6 +90,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	private List<T> lastDeletedItems = new CopyOnWriteArrayList<>();
 
 	protected List<T> copiedStatus = new CopyOnWriteArrayList<>();
+
+	protected HashMap<String, List<Script>> saved_Scripts = new HashMap<>();
+
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {

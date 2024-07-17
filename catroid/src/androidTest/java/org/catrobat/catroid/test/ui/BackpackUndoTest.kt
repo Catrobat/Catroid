@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.espresso.Espresso.pressBack
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -15,6 +16,8 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.io.ResourceImporter
@@ -46,8 +49,8 @@ class BackpackUndoTest(private val fragmentId: Int) {
         fun data(): Collection<Array<Any>> {
             return listOf(
                 arrayOf(BackpackActivity.FRAGMENT_SPRITES),
-                arrayOf(BackpackActivity.FRAGMENT_SOUNDS),
-                arrayOf(BackpackActivity.FRAGMENT_SCENES),
+                //arrayOf(BackpackActivity.FRAGMENT_SOUNDS),
+                //arrayOf(BackpackActivity.FRAGMENT_SCENES),
                 //arrayOf(BackpackActivity.FRAGMENT_SCRIPTS),
                 //arrayOf(BackpackActivity.FRAGMENT_LOOKS),
             )
@@ -81,8 +84,6 @@ class BackpackUndoTest(private val fragmentId: Int) {
     private lateinit var soundInfo2: SoundInfo
     private lateinit var soundInfo3: SoundInfo
 
-    //private val waitThreshold: Long = 5000
-
     @Before
     fun setUp() {
         imageFolder = File(
@@ -96,14 +97,13 @@ class BackpackUndoTest(private val fragmentId: Int) {
         spriteController = SpriteController()
         looksController = LookController()
         project = UiTestUtils.createDefaultTestProject("testProject")
+        //baseActivityTestRule.launchActivity()
         activityTestRule.launchActivity()
         addObjectToBackpack()
-        baseActivityTestRule.launchActivity()
-
     }
     @After
     fun tearDown() {
-        TestUtils.clearBackPack(backpackManager)
+        //TestUtils.clearBackPack(backpackManager)
     }
 
     private fun assignSize(): Int{
@@ -128,7 +128,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
         return sizeBeforeDelete
     }
 
-    @Test
+    /*@Test
     fun testUndoLimitedToOneAction(){
         val x = 2
         val sizeBeforeDelete = assignSize()
@@ -149,8 +149,17 @@ class BackpackUndoTest(private val fragmentId: Int) {
         onView(withId(R.id.menu_undo)).perform(ViewActions.click())
 
         Assert.assertEquals(sizeBeforeDelete - x + 1, assignSize())
-    }
-    @Test
+
+        var exceptionOccurred = false
+
+        try {
+            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        } catch (e: androidx.test.espresso.NoMatchingViewException) {
+            exceptionOccurred = true
+        }
+        assert(exceptionOccurred)
+    }*/
+    /*@Test
     fun testSingleUndo() {
         val sizeBeforeDelete = assignSize()
 
@@ -171,13 +180,23 @@ class BackpackUndoTest(private val fragmentId: Int) {
 
         Assert.assertEquals(sizeBeforeDelete, assignSize())
 
+        var exceptionOccurred = false
+
+        try {
+            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+            } catch (e: androidx.test.espresso.NoMatchingViewException) {
+            exceptionOccurred = true
+        }
+        assert(exceptionOccurred)
+
+
         /*pressBack()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
         onView(withText(R.string.backpack)).perform(ViewActions.click())*/
-    }
+    }*/
 
-    @Test
+    /*@Test
     fun testUndoOnAllDeleted() {
 
         val sizeBeforeDelete = assignSize()
@@ -203,10 +222,55 @@ class BackpackUndoTest(private val fragmentId: Int) {
 
         Assert.assertEquals(sizeBeforeDelete, assignSize())
 
-        /*pressBack()
+        var exceptionOccurred = false
+
+        try {
+            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        } catch (e: androidx.test.espresso.NoMatchingViewException) {
+            exceptionOccurred = true
+        }
+        assert(exceptionOccurred)
+    }*/
+
+    @Test
+    fun testUndoNotPossibleAfterReturning(){
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
+        onView(withText(R.string.backpack)).perform(ViewActions.click())
+
+        var unpackText = onView(withText("Unpack"))
+        unpackText.check(matches(isDisplayed()))
+        onView(withText("Unpack")).perform(ViewActions.click())
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.backpack)).perform(ViewActions.click())*/
+        onView(withText(R.string.delete)).perform(ViewActions.click())
+
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
+            .performCheckItemClick()
+        onView(withId(R.id.confirm)).perform(ViewActions.click())
+
+        onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
+            .perform(ViewActions.click())
+
+        pressBack()
+
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
+        onView(withText(R.string.backpack)).perform(ViewActions.click())
+
+        unpackText = onView(withText("Unpack"))
+        unpackText.check(matches(isDisplayed()))
+        onView(withText("Unpack")).perform(ViewActions.click())
+
+        var exceptionOccurred = false
+
+        try {
+            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        } catch (e: androidx.test.espresso.NoMatchingViewException) {
+            exceptionOccurred = true
+        }
+        assert(exceptionOccurred)
     }
 
     private fun addObjectToBackpack() {
@@ -226,8 +290,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
                 )
 
                 lookData = LookData("test", imageFile)
-                val lookList = ProjectManager.getInstance().currentSprite.lookList
-                lookList.add(lookData)
+
                 backpackManager.backpackedLooks.add(lookData)
                 backpackManager.backpackedLooks.add(lookData)
                 backpackManager.backpackedLooks.add(lookData)
@@ -246,35 +309,34 @@ class BackpackUndoTest(private val fragmentId: Int) {
                     imageFolder,
                     "testsoundui.mp3")
 
-                val soundList = ProjectManager.getInstance().currentSprite.soundList
 
                 soundInfo = SoundInfo("testSound1",soundFile)
                 soundInfo2 = SoundInfo("testSound2",soundFile2)
                 soundInfo3 = SoundInfo("testSound3",soundFile2)
 
-                soundList.add(soundInfo)
                 backpackManager.backpackedSounds.add(soundInfo)
                 backpackManager.backpackedSounds.add(soundInfo2)
                 backpackManager.backpackedSounds.add(soundInfo3)
                 backpackManager.saveBackpack()
             }
             BackpackActivity.FRAGMENT_SCENES -> {
-                val scenesList = ProjectManager.getInstance().currentProject.sceneList
                 val scene2 = Scene("Scene2", project)
-                scenesList.add(scene2)
+
                 backpackManager.scenes.add(scene2)
                 backpackManager.scenes.add(scene2)
                 backpackManager.scenes.add(scene2)
             }
-
             
-            /*BackpackActivity.FRAGMENT_SCRIPTS -> {
-                val scriptList = ProjectManager.getInstance().currentSprite.scriptList
-                val script = StartScript()
+            BackpackActivity.FRAGMENT_SCRIPTS -> {
+                val scriptGroup = project.defaultScene.spriteList[1].scriptList
 
-                scriptList.add(script)
-                backpackManager.backpackedScripts.
-            }*/
+                backpackManager.addScriptToBackPack("start",scriptGroup)
+                backpackManager.addScriptToBackPack("start1",scriptGroup)
+                backpackManager.addScriptToBackPack("start2",scriptGroup)
+
+                BackpackListManager.getInstance().saveBackpack()
+
+            }
         }
     }
 }

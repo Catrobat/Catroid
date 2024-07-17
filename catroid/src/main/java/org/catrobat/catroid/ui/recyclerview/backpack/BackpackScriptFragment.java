@@ -47,7 +47,6 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	private ScriptController scriptController = new ScriptController();
 
-	private HashMap<String, List<Script>> saved_Scripts = new HashMap<>();
 
 	@Override
 	protected void initializeAdapter() {
@@ -98,7 +97,12 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected void deleteItems(List<String> selectedItems) {
 		setShowProgressBar(true);
+		HashMap<String, List<Script>> val = BackpackListManager.getInstance().getBackpackedScripts();
 		removeLastDeletedItems();
+		HashMap<String, List<Script>> val2 =
+				BackpackListManager.getInstance().getBackpackedScripts();
+
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedScripts());
 		setLastDeletedItems(selectedItems);
 		for (String item : selectedItems) {
 			adapter.remove(item);

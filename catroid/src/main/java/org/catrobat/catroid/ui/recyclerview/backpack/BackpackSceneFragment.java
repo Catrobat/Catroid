@@ -29,12 +29,14 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -90,7 +92,9 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void deleteItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
+		List<Scene> val = BackpackListManager.getInstance().getScenes();
 		removeLastDeletedItems();
+		List<Scene> val2 = BackpackListManager.getInstance().getScenes();
 		setLastDeletedItems(selectedItems);
 		for (Scene item : selectedItems) {
 			adapter.remove(item);
@@ -98,6 +102,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
+		List<Scene> val3 = BackpackListManager.getInstance().getScenes();
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
