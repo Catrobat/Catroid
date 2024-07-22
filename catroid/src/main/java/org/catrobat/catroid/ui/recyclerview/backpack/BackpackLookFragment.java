@@ -38,7 +38,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
-
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
@@ -49,7 +48,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	public static final String TAG = BackpackLookFragment.class.getSimpleName();
 	public final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
-	private LookController lookController = new LookController();
+	private final LookController lookController = new LookController();
 
 	@Override
 	protected void initializeAdapter() {

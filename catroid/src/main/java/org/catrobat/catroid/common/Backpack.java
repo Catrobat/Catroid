@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;

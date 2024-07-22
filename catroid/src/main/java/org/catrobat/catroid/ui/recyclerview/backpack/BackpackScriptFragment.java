@@ -35,7 +35,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,8 +44,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	public static final String TAG = BackpackScriptFragment.class.getSimpleName();
 
-	private ScriptController scriptController = new ScriptController();
-
+	private final ScriptController scriptController = new ScriptController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -97,10 +95,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected void deleteItems(List<String> selectedItems) {
 		setShowProgressBar(true);
-		HashMap<String, List<Script>> val = BackpackListManager.getInstance().getBackpackedScripts();
 		removeLastDeletedItems();
-		HashMap<String, List<Script>> val2 =
-				BackpackListManager.getInstance().getBackpackedScripts();
 
 		setCopiedStatus(BackpackListManager.getInstance().getBackpackedScripts());
 		setLastDeletedItems(selectedItems);
@@ -122,7 +117,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	public void undo() {
-		BackpackListManager.getInstance().replaceBackpackedScripts(saved_Scripts);
+		BackpackListManager.getInstance().replaceBackpackedScripts(savedScripts);
 		BackpackListManager.getInstance().saveBackpack();
 		initializeAdapter();
 		getLastDeletedItems().clear();
@@ -142,7 +137,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	}
 
 	public void setCopiedStatus(HashMap<String, List<Script>> map) {
-		saved_Scripts.clear();
-		saved_Scripts.putAll(map);
+		savedScripts.clear();
+		savedScripts.putAll(map);
 	}
 }

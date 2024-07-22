@@ -38,7 +38,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
-
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
@@ -47,7 +46,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	public static final String TAG = BackpackSpriteFragment.class.getSimpleName();
 
-	private SpriteController spriteController = new SpriteController();
+	private final SpriteController spriteController = new SpriteController();
 
 	public void setCopiedStatus(List<Sprite> list) {
 		copiedStatus.clear();

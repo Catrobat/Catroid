@@ -87,11 +87,11 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@ActionModeType
 	protected int actionModeType = NONE;
 
-	private List<T> lastDeletedItems = new CopyOnWriteArrayList<>();
+	private final List<T> lastDeletedItems = new CopyOnWriteArrayList<>();
 
 	protected List<T> copiedStatus = new CopyOnWriteArrayList<>();
 
-	protected HashMap<String, List<Script>> saved_Scripts = new HashMap<>();
+	protected HashMap<String, List<Script>> savedScripts = new HashMap<>();
 
 
 	@Override

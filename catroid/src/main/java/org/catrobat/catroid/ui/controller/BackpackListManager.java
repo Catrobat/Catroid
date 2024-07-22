@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
@@ -171,9 +170,10 @@ public final class BackpackListManager {
 		backpackSerializer.saveBackpack(getBackpack());
 	}
 
-	public void setBackpack(Backpack backpack1){
+	public void setBackpack(Backpack backpack1) {
 		backpack = backpack1;
 	}
+
 	public void loadBackpack() {
 		backpack = backpackSerializer.loadBackpack();
 
