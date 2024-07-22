@@ -2,29 +2,25 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.espresso.Espresso.pressBack
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.io.ResourceImporter
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
-import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
@@ -41,95 +37,137 @@ import org.junit.runners.Parameterized
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
+enum class ActivityType {
+    SPRITE, PROJECT
+}
+
 @RunWith(Parameterized::class)
-class BackpackUndoTest(private val fragmentId: Int) {
+class BackpackUndoTest(private val activityType: ActivityType, private val fragmentId: Int) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> {
             return listOf(
-                arrayOf(BackpackActivity.FRAGMENT_SPRITES),
-                //arrayOf(BackpackActivity.FRAGMENT_SOUNDS),
-                //arrayOf(BackpackActivity.FRAGMENT_SCENES),
-                //arrayOf(BackpackActivity.FRAGMENT_SCRIPTS),
-                //arrayOf(BackpackActivity.FRAGMENT_LOOKS),
+                arrayOf(ActivityType.SPRITE, SpriteActivity.FRAGMENT_LOOKS),
+                arrayOf(ActivityType.SPRITE, SpriteActivity.FRAGMENT_SOUNDS),
+                arrayOf(ActivityType.SPRITE, SpriteActivity.FRAGMENT_SCRIPTS),
+                arrayOf(ActivityType.PROJECT, ProjectActivity.FRAGMENT_SPRITES),
+                arrayOf(ActivityType.PROJECT, ProjectActivity.FRAGMENT_SCENES)
             )
         }
     }
+
     @get:Rule
-    var baseActivityTestRule = FragmentActivityTestRule(
-        BackpackActivity::class.java,
-        BackpackActivity.EXTRA_FRAGMENT_POSITION,
+    var baseActivityTestRule1 = FragmentActivityTestRule(
+        ProjectActivity::class.java,
+        ProjectActivity.EXTRA_FRAGMENT_POSITION,
         fragmentId
     )
 
     @get:Rule
-    var activityTestRule = FragmentActivityTestRule(
-        ProjectActivity::class.java,
-        ProjectActivity.EXTRA_FRAGMENT_POSITION,
-        1
+    var baseActivityTestRule2 = FragmentActivityTestRule(
+        SpriteActivity::class.java,
+        SpriteActivity.EXTRA_FRAGMENT_POSITION,
+        fragmentId
     )
-
-
     private val backpackManager by KoinJavaComponent.inject(BackpackListManager::class.java)
     private lateinit var spriteController: SpriteController
     private lateinit var looksController: LookController
-    private lateinit var sprite: Sprite
-    private lateinit var imageFolder: File
-    private lateinit var soundFolder: File
+    private var imageFolder = File(
+        ApplicationProvider.getApplicationContext<Context>().cacheDir,
+        Constants.IMAGE_DIRECTORY_NAME
+    )
     private val fileName = "collision_donut.png"
     private lateinit var lookData: LookData
     private lateinit var project: Project
     private lateinit var soundInfo: SoundInfo
     private lateinit var soundInfo2: SoundInfo
     private lateinit var soundInfo3: SoundInfo
+    private val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+        InstrumentationRegistry.getInstrumentation().context.resources,
+        org.catrobat.catroid.test.R.raw.collision_donut,
+        imageFolder, fileName, 1.0
+    )
+
+    private val soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+        InstrumentationRegistry.getInstrumentation().context.resources,
+        org.catrobat.catroid.test.R.raw.testsound,
+        imageFolder,
+        "testsoundui.mp3"
+    )
+
+    private val soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
+        InstrumentationRegistry.getInstrumentation().context.resources,
+        org.catrobat.catroid.test.R.raw.testsound,
+        imageFolder,
+        "testsoundui.mp3"
+    )
 
     @Before
     fun setUp() {
-        imageFolder = File(
-            ApplicationProvider.getApplicationContext<Context>().cacheDir,
-            Constants.IMAGE_DIRECTORY_NAME
-        )
-        soundFolder = File(
-            ApplicationProvider.getApplicationContext<Context>().cacheDir,
-            Constants.SOUND_DIRECTORY_NAME
-        )
         spriteController = SpriteController()
         looksController = LookController()
         project = UiTestUtils.createDefaultTestProject("testProject")
-        //baseActivityTestRule.launchActivity()
-        activityTestRule.launchActivity()
+        project.addScene(Scene("Scene2", project))
+        project.defaultScene.getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME).soundList.add(
+            SoundInfo("testSound1", soundFile)
+        )
+        project.defaultScene.getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME).lookList.add(
+            LookData("test", imageFile)
+        )
+        when (activityType) {
+            ActivityType.SPRITE -> {
+                baseActivityTestRule2.launchActivity()
+            }
+
+            ActivityType.PROJECT -> {
+                baseActivityTestRule1.launchActivity()
+            }
+        }
         addObjectToBackpack()
     }
+
     @After
     fun tearDown() {
-        //TestUtils.clearBackPack(backpackManager)
+        TestUtils.clearBackPack(backpackManager)
     }
 
-    private fun assignSize(): Int{
+    private fun assignSize(): Int {
         var sizeBeforeDelete = 0
-        when (fragmentId) {
-            BackpackActivity.FRAGMENT_SPRITES -> {
-                sizeBeforeDelete = backpackManager.sprites.size
+        when (activityType) {
+            ActivityType.SPRITE -> {
+                sizeBeforeDelete = when (fragmentId) {
+                    SpriteActivity.FRAGMENT_LOOKS -> backpackManager.backpackedLooks.size
+                    SpriteActivity.FRAGMENT_SOUNDS -> backpackManager.backpackedSounds.size
+                    SpriteActivity.FRAGMENT_SCRIPTS -> backpackManager.backpackedScripts.size
+                    else -> throw IllegalArgumentException("Unknown fragmentId for SpriteActivity: $fragmentId")
+                }
             }
-            BackpackActivity.FRAGMENT_SOUNDS -> {
-                sizeBeforeDelete = backpackManager.backpackedSounds.size
-            }
-            BackpackActivity.FRAGMENT_LOOKS -> {
-                sizeBeforeDelete = backpackManager.backpackedLooks.size
-            }
-            BackpackActivity.FRAGMENT_SCENES -> {
-                sizeBeforeDelete = backpackManager.scenes.size
-            }
-            BackpackActivity.FRAGMENT_SCRIPTS -> {
-                sizeBeforeDelete = backpackManager.backpackedScripts.size
+
+            ActivityType.PROJECT -> {
+                sizeBeforeDelete = when (fragmentId) {
+                    ProjectActivity.FRAGMENT_SPRITES -> backpackManager.sprites.size
+                    ProjectActivity.FRAGMENT_SCENES -> backpackManager.scenes.size
+                    else -> throw IllegalArgumentException("Unknown fragmentId for ProjectActivity: $fragmentId")
+                }
             }
         }
         return sizeBeforeDelete
     }
 
-    /*@Test
-    fun testUndoLimitedToOneAction(){
+    private fun getIntoBackpack() {
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
+        onView(withText(R.string.backpack)).perform(ViewActions.click())
+
+        val unpackText = onView(withText("Unpack"))
+        unpackText.check(matches(isDisplayed()))
+        onView(withText("Unpack")).perform(ViewActions.click())
+    }
+
+    @Test
+    fun testUndoLimitedToOneAction() {
+        getIntoBackpack()
+
         val x = 2
         val sizeBeforeDelete = assignSize()
         for (i in 1..x) {
@@ -141,7 +179,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
             onView(withId(R.id.confirm)).perform(ViewActions.click())
 
             onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(matches(isDisplayed()))
 
             onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
                 .perform(ViewActions.click())
@@ -158,9 +196,12 @@ class BackpackUndoTest(private val fragmentId: Int) {
             exceptionOccurred = true
         }
         assert(exceptionOccurred)
-    }*/
-    /*@Test
+    }
+
+    @Test
     fun testSingleUndo() {
+        getIntoBackpack()
+
         val sizeBeforeDelete = assignSize()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
@@ -171,7 +212,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
         onView(withId(R.id.confirm)).perform(ViewActions.click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .perform(ViewActions.click())
@@ -184,20 +225,15 @@ class BackpackUndoTest(private val fragmentId: Int) {
 
         try {
             onView(withId(R.id.menu_undo)).perform(ViewActions.click())
-            } catch (e: androidx.test.espresso.NoMatchingViewException) {
+        } catch (e: androidx.test.espresso.NoMatchingViewException) {
             exceptionOccurred = true
         }
         assert(exceptionOccurred)
+    }
 
-
-        /*pressBack()
-
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.backpack)).perform(ViewActions.click())*/
-    }*/
-
-    /*@Test
+    @Test
     fun testUndoOnAllDeleted() {
+        getIntoBackpack()
 
         val sizeBeforeDelete = assignSize()
 
@@ -213,7 +249,7 @@ class BackpackUndoTest(private val fragmentId: Int) {
         onView(withId(R.id.confirm)).perform(ViewActions.click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .perform(ViewActions.click())
@@ -230,17 +266,11 @@ class BackpackUndoTest(private val fragmentId: Int) {
             exceptionOccurred = true
         }
         assert(exceptionOccurred)
-    }*/
-
+    }
 
     @Test
-    fun testUndoNotPossibleAfterReturning(){
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.backpack)).perform(ViewActions.click())
-
-        var unpackText = onView(withText("Unpack"))
-        unpackText.check(matches(isDisplayed()))
-        onView(withText("Unpack")).perform(ViewActions.click())
+    fun testUndoNotPossibleAfterReturning() {
+        getIntoBackpack()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
         onView(withText(R.string.delete)).perform(ViewActions.click())
@@ -250,19 +280,16 @@ class BackpackUndoTest(private val fragmentId: Int) {
         onView(withId(R.id.confirm)).perform(ViewActions.click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .perform(ViewActions.click())
 
+        val savedBackpack = backpackManager.backpack
         pressBack()
+        backpackManager.backpack = savedBackpack
 
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.backpack)).perform(ViewActions.click())
-
-        unpackText = onView(withText("Unpack"))
-        unpackText.check(matches(isDisplayed()))
-        onView(withText("Unpack")).perform(ViewActions.click())
+        getIntoBackpack()
 
         var exceptionOccurred = false
 
@@ -275,68 +302,58 @@ class BackpackUndoTest(private val fragmentId: Int) {
     }
 
     private fun addObjectToBackpack() {
-        when (fragmentId) {
-            BackpackActivity.FRAGMENT_SPRITES -> {
-                sprite = project.defaultScene.spriteList[1]
-                backpackManager.sprites.add(spriteController.pack(sprite))
-                backpackManager.sprites.add(spriteController.pack(sprite))
-                backpackManager.sprites.add(spriteController.pack(sprite))
-                backpackManager.saveBackpack()
+        when (activityType) {
+            ActivityType.SPRITE -> {
+                when (fragmentId) {
+                    SpriteActivity.FRAGMENT_LOOKS -> {
+                        lookData = LookData("test", imageFile)
+                        backpackManager.backpackedLooks.add(lookData)
+                        backpackManager.backpackedLooks.add(lookData)
+                        backpackManager.backpackedLooks.add(lookData)
+                        backpackManager.saveBackpack()
+                    }
+
+                    SpriteActivity.FRAGMENT_SOUNDS -> {
+                        soundInfo = SoundInfo("testSound1", soundFile)
+                        soundInfo2 = SoundInfo("testSound2", soundFile2)
+                        soundInfo3 = SoundInfo("testSound3", soundFile2)
+                        backpackManager.backpackedSounds.add(soundInfo)
+                        backpackManager.backpackedSounds.add(soundInfo2)
+                        backpackManager.backpackedSounds.add(soundInfo3)
+                        backpackManager.saveBackpack()
+                    }
+
+                    SpriteActivity.FRAGMENT_SCRIPTS -> {
+                        val scriptGroup = project.defaultScene.spriteList[1].scriptList
+                        backpackManager.addScriptToBackPack("start", scriptGroup)
+                        backpackManager.addScriptToBackPack("start1", scriptGroup)
+                        backpackManager.addScriptToBackPack("start2", scriptGroup)
+                        BackpackListManager.getInstance().saveBackpack()
+                    }
+
+                    else -> throw IllegalArgumentException("Unknown fragmentId for SpriteActivity: $fragmentId")
+                }
             }
-            BackpackActivity.FRAGMENT_LOOKS -> {
-                val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-                    InstrumentationRegistry.getInstrumentation().context.resources,
-                    org.catrobat.catroid.test.R.raw.collision_donut,
-                    imageFolder, fileName, 1.0
-                )
 
-                lookData = LookData("test", imageFile)
+            ActivityType.PROJECT -> {
+                when (fragmentId) {
+                    ProjectActivity.FRAGMENT_SPRITES -> {
+                        val sprite = project.defaultScene.spriteList[0]
+                        backpackManager.sprites.add(spriteController.pack(sprite))
+                        backpackManager.sprites.add(spriteController.pack(sprite))
+                        backpackManager.sprites.add(spriteController.pack(sprite))
+                        backpackManager.saveBackpack()
+                    }
 
-                backpackManager.backpackedLooks.add(lookData)
-                backpackManager.backpackedLooks.add(lookData)
-                backpackManager.backpackedLooks.add(lookData)
-                backpackManager.saveBackpack()
-            }
-            BackpackActivity.FRAGMENT_SOUNDS -> {
-                val soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-                    InstrumentationRegistry.getInstrumentation().context.resources,
-                    org.catrobat.catroid.test.R.raw.testsound,
-                    imageFolder,
-                    "testsoundui.mp3")
+                    ProjectActivity.FRAGMENT_SCENES -> {
+                        val scene2 = Scene("Scene2", project)
+                        backpackManager.scenes.add(scene2)
+                        backpackManager.scenes.add(scene2)
+                        backpackManager.scenes.add(scene2)
+                    }
 
-                val soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-                    InstrumentationRegistry.getInstrumentation().context.resources,
-                    org.catrobat.catroid.test.R.raw.testsound,
-                    imageFolder,
-                    "testsoundui.mp3")
-
-
-                soundInfo = SoundInfo("testSound1",soundFile)
-                soundInfo2 = SoundInfo("testSound2",soundFile2)
-                soundInfo3 = SoundInfo("testSound3",soundFile2)
-
-                backpackManager.backpackedSounds.add(soundInfo)
-                backpackManager.backpackedSounds.add(soundInfo2)
-                backpackManager.backpackedSounds.add(soundInfo3)
-                backpackManager.saveBackpack()
-            }
-            BackpackActivity.FRAGMENT_SCENES -> {
-                val scene2 = Scene("Scene2", project)
-
-                backpackManager.scenes.add(scene2)
-                backpackManager.scenes.add(scene2)
-                backpackManager.scenes.add(scene2)
-            }
-            
-            BackpackActivity.FRAGMENT_SCRIPTS -> {
-                val scriptGroup = project.defaultScene.spriteList[1].scriptList
-
-                backpackManager.addScriptToBackPack("start",scriptGroup)
-                backpackManager.addScriptToBackPack("start1",scriptGroup)
-                backpackManager.addScriptToBackPack("start2",scriptGroup)
-
-                BackpackListManager.getInstance().saveBackpack()
-
+                    else -> throw IllegalArgumentException("Unknown fragmentId for ProjectActivity: $fragmentId")
+                }
             }
         }
     }

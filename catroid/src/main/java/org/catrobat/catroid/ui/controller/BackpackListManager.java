@@ -171,6 +171,9 @@ public final class BackpackListManager {
 		backpackSerializer.saveBackpack(getBackpack());
 	}
 
+	public void setBackpack(Backpack backpack1){
+		backpack = backpack1;
+	}
 	public void loadBackpack() {
 		backpack = backpackSerializer.loadBackpack();
 
