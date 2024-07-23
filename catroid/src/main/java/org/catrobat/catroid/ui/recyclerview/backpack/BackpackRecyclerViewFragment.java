@@ -93,7 +93,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected HashMap<String, List<Script>> savedScripts = new HashMap<>();
 
-
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		switch (actionModeType) {
