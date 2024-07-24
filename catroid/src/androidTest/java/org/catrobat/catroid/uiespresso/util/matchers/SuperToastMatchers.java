@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
+import android.os.IBinder;
 import android.view.WindowManager;
 
 import org.hamcrest.Description;
@@ -31,18 +32,31 @@ import org.hamcrest.TypeSafeMatcher;
 
 import androidx.test.espresso.Root;
 
-public final class SuperToastMatchers {
-	private SuperToastMatchers() {
+public final class SuperToastMatchers implements Matcher<Root> {
+	public SuperToastMatchers() {
 		throw new AssertionError();
 	}
 
 	public static Matcher<Root> isToast() {
 		return new TypeSafeMatcher<Root>() {
 
+			//@Override
+			//public boolean matchesSafely(Root root) {
+			//	int type = root.getWindowLayoutParams().get().type;
+			//	return (type == WindowManager.LayoutParams.TYPE_TOAST);
+			//}
+
 			@Override
 			public boolean matchesSafely(Root root) {
 				int type = root.getWindowLayoutParams().get().type;
-				return (type == WindowManager.LayoutParams.TYPE_TOAST);
+				if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
+					IBinder windowToken = root.getDecorView().getWindowToken();
+					IBinder appToken = root.getDecorView().getApplicationWindowToken();
+					if (windowToken == appToken) {
+						return true;
+					}
+				}
+				return false;
 			}
 
 			@Override
@@ -50,5 +64,25 @@ public final class SuperToastMatchers {
 				description.appendText("is toast");
 			}
 		};
+	}
+
+	@Override
+	public boolean matches(Object o) {
+		return false;
+	}
+
+	@Override
+	public void describeMismatch(Object o, Description description) {
+
+	}
+
+	@Override
+	public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
+
+	}
+
+	@Override
+	public void describeTo(Description description) {
+
 	}
 }
