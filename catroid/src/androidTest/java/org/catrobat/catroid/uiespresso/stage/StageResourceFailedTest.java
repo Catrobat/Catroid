@@ -73,7 +73,7 @@ public class StageResourceFailedTest {
 	public void testResourceFailedDialog() {
 		baseActivityTestRule.launchActivity(null);
 
-		onView(isRoot()).perform(CustomActions.wait(1000));
+		//onView(isRoot()).perform(CustomActions.wait(1000));
 
 		onView(withText(R.string.prestage_resource_not_available_title))
 				.check(matches(isDisplayed()));
