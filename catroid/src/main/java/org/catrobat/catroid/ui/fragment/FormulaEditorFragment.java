@@ -89,8 +89,8 @@ import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermiss
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.AndroidStringProvider;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;

@@ -20,38 +20,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.utils.AndroidStringProvider;
+package org.catrobat.catroid.test
 
-import static org.catrobat.catroid.common.Constants.SAY_BRICK;
+import org.catrobat.catroid.ProjectManager
+import org.junit.After
+import org.junit.Before
+import org.koin.core.Koin
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.mock.MockProvider
+import org.koin.test.mock.declareMock
+import org.powermock.api.mockito.PowerMockito
 
-public class SayBubbleBrick extends ThinkBubbleBrick {
+open class UnitTestWithMockedContext : KoinTest {
+    private var _koin: Koin? = null
 
-	private static final long serialVersionUID = 1L;
+    lateinit var projectManager: ProjectManager
 
-	public SayBubbleBrick() {
-		super();
-	}
+    @Before
+    fun initEach() {
+        _koin = startKoin(appDeclaration = { modules(module { }) }).koin
+        MockProvider.register { clazz -> PowerMockito.mock(clazz.java) }
+        projectManager = declareMock<ProjectManager>()
+    }
 
-	public SayBubbleBrick(String text) {
-		super(text);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_say_bubble;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
-				new AndroidStringProvider(CatroidApplication.getAppContext()),
-				getFormulaWithBrickField(BrickField.STRING),
-				SAY_BRICK));
-	}
+    @After
+    fun afterEach() {
+        // Context has to be stopped manually when the test fails.
+        stopKoin()
+        _koin = null
+    }
 }

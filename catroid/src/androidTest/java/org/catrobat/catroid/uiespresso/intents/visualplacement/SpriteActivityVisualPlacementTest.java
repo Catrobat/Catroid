@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,11 +45,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.CHANGED_COORDINATES;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_X_COORDINATE;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_Y_COORDINATE;
 import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -104,16 +102,18 @@ public class SpriteActivityVisualPlacementTest {
 		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
 		onView(withText(R.string.brick_option_place_visually)).perform(click());
 
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, XPOS)));
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, YPOS)));
+		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()),
+				hasExtra(EXTRA_X_COORDINATE, XPOS)));
+		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()),
+				hasExtra(EXTRA_Y_COORDINATE, YPOS)));
 	}
 
 	@Test
 	public void testCoordinatesSetAfterActivity() {
 		bricktoAdd.setCoordinates(XPOS, YPOS);
 		Intent intent = new Intent();
-		intent.putExtra(X_COORDINATE_BUNDLE_ARGUMENT, XRETURN);
-		intent.putExtra(Y_COORDINATE_BUNDLE_ARGUMENT, YRETURN);
+		intent.putExtra(EXTRA_X_COORDINATE, XRETURN);
+		intent.putExtra(EXTRA_Y_COORDINATE, YRETURN);
 		intent.putExtra(CHANGED_COORDINATES, true);
 		intent.putExtra(EXTRA_BRICK_HASH, bricktoAdd.hashCode());
 		Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);

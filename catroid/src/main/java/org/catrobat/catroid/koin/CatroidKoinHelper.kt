@@ -51,6 +51,9 @@ import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesReposito
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
+import org.catrobat.catroid.visualplacement.LayoutComputer
+import org.catrobat.catroid.visualplacement.VisualPlacementDrawingUtils
+import org.catrobat.catroid.visualplacement.VisualPlacementTouchListener
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -81,6 +84,9 @@ val componentsModules = module(createdAtStart = true, override = false) {
     single {
         DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
     }
+    factory { VisualPlacementTouchListener() }
+    single { LayoutComputer() }
+    factory { VisualPlacementDrawingUtils() }
 }
 
 /**

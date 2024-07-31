@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -86,7 +85,6 @@ public class CloneBrickUpdateVariableTest {
 	@Before
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -204,8 +204,8 @@ import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.stage.SpeechSynthesizer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.AndroidStringProvider;
 import org.catrobat.catroid.utils.MobileServiceAvailability;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.io.File;
 import java.util.List;

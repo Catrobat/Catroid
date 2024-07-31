@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,10 @@ import android.content.pm.PackageManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public final class MockUtil {
@@ -41,8 +41,9 @@ public final class MockUtil {
 	}
 
 	public static Context mockContextForProject() throws RuntimeException {
-		Context contextMock = Mockito.mock(Context.class);
-		PackageManager packageManagerMock = Mockito.mock(PackageManager.class);
+		Context contextMock = mock(Context.class);
+		when(contextMock.getString(anyInt())).thenReturn("");
+		PackageManager packageManagerMock = mock(PackageManager.class);
 		when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
 		when(contextMock.getPackageName()).thenReturn("testStubPackage");
 		when(contextMock.getString(R.string.background)).thenReturn("Background");
