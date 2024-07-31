@@ -29,14 +29,22 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+@CatrobatLanguageBrick(command = "Move AR.Drone 2.0")
 public class DroneMoveLeftBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
 
 	public DroneMoveLeftBrick() {
-		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_left_edit_text_second);
-		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_left_edit_text_power);
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_left_edit_text_second, "seconds");
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_left_edit_text_power, "power percentage");
 	}
 
 	public DroneMoveLeftBrick(int durationInMilliseconds, int powerInPercent) {
@@ -68,6 +76,22 @@ public class DroneMoveLeftBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(DIRECTION_CATLANG_PARAMETER_NAME, "left");
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
 	}
 }
 

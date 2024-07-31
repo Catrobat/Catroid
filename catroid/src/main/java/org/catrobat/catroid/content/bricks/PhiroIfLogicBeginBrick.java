@@ -29,22 +29,45 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "If")
 public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME = "activated phiro";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(0, "front left sensor");
+			put(1, "front right sensor");
+			put(2, "side left sensor");
+			put(3, "side right sensor");
+			put(4, "bottom left sensor");
+			put(5, "bottom right sensor");
+		}
+	});
 
 	private int sensorSpinnerPosition = 0;
 
@@ -67,6 +90,16 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
 		return elseBranchBricks;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return elseBrick;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
+		return "else";
 	}
 
 	public boolean addBrickToIfBranch(Brick brick) {
@@ -229,6 +262,35 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 						elseSequence);
 
 		sequence.addAction(action);
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(sensorSpinnerPosition));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String sensorValue = arguments.get(ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		if (sensorValue == null) {
+			throw new CatrobatLanguageParsingException("No value found for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		}
+		Integer sensorIndex = CATLANG_SPINNER_VALUES.inverse().get(sensorValue);
+		if (sensorIndex == null) {
+			throw new CatrobatLanguageParsingException("Unknown value " + sensorValue + " for parameter " + ACTIVATED_PHIRO_CATLANG_PARAMETER_NAME);
+		}
+		sensorSpinnerPosition = sensorIndex;
 	}
 
 	@VisibleForTesting

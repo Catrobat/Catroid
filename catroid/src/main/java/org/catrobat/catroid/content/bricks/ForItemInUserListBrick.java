@@ -32,19 +32,21 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CatrobatLanguageBrick(command = "For each value in list")
 public class ForItemInUserListBrick extends UserDataBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public ForItemInUserListBrick() {
-		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST, R.id.for_item_in_userlist_list_spinner);
-		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE, R.id.for_item_in_userlist_variable_spinner);
+		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE, R.id.for_item_in_userlist_variable_spinner, "value");
+		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST, R.id.for_item_in_userlist_list_spinner, "list");
 	}
 
 	@Override
@@ -64,6 +66,16 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 
 	@Override
 	public List<Brick> getSecondaryNestedBricks() {
+		return null;
+	}
+
+	@Override
+	public Brick getSecondaryNestedBricksParent() {
+		return null;
+	}
+
+	@Override
+	public String getSecondaryBrickCommand() {
 		return null;
 	}
 

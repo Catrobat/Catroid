@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Set")
 class SetParticleColorBrick() : FormulaBrick() {
     constructor(color: String) : this(Formula(color))
 
@@ -49,9 +51,10 @@ class SetParticleColorBrick() : FormulaBrick() {
 
     companion object {
         private const val serialVersionUID = 1L
+        private const val PARTICLE_COLOR_CATLANG_PARAMETER_NAME = "particle color"
     }
 
     init {
-        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text)
+        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, PARTICLE_COLOR_CATLANG_PARAMETER_NAME)
     }
 }

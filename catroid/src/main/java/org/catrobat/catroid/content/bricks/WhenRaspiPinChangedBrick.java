@@ -30,19 +30,32 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")
 public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
+	private static final String PIN_CATLANG_PARAMETER_NAME = "pin";
+	private static final String PIN_HIGH_VALUE = "high";
+	private static final String PIN_LOW_VALUE = "low";
+	private static final String POSITION_CATLANG_PARAMETER_NAME = "position";
 
 	private RaspiInterruptScript script;
 
@@ -137,5 +150,61 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(PIN_CATLANG_PARAMETER_NAME)) {
+			String pin = script.getPin() == null ? "" : script.getPin();
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, pin);
+		}
+		if (name.equals(POSITION_CATLANG_PARAMETER_NAME)) {
+			String position = script.getEventValue() == null ? "" :
+					script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? PIN_HIGH_VALUE : PIN_LOW_VALUE;
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, position);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(PIN_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(POSITION_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+
+		String selectedPosition = arguments.get(POSITION_CATLANG_PARAMETER_NAME);
+		if (selectedPosition == null) {
+			throw new CatrobatLanguageParsingException("No RasPi position value given");
+		}
+		if (selectedPosition.equals(PIN_HIGH_VALUE)) {
+			script.setEventValue(BrickValues.RASPI_EVENTS[0]);
+		} else if (selectedPosition.equals(PIN_LOW_VALUE)) {
+			script.setEventValue(BrickValues.RASPI_EVENTS[1]);
+		} else {
+			throw new CatrobatLanguageParsingException("Invalid RasPi position value: " + selectedPosition);
+		}
+
+		String selectedPin = arguments.get(PIN_CATLANG_PARAMETER_NAME);
+		if (selectedPin == null) {
+			throw new CatrobatLanguageParsingException("No RasPi pin value given");
+		}
+		String revision = SettingsFragment.getRaspiRevision(context);
+		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
+		try {
+			int pin = Integer.parseInt(selectedPin);
+			if (availableGPIOs.contains(pin)) {
+				script.setPin(selectedPin);
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid RasPi pin value: " + selectedPin);
+			}
+		} catch (NumberFormatException e) {
+			throw new CatrobatLanguageParsingException("Invalid RasPi pin value: " + selectedPin);
+		}
 	}
 }

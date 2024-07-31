@@ -28,15 +28,25 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
+@CatrobatLanguageBrick(command = "Fade particle")
 class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
 
     companion object {
         const val FADE_IN = 0
         const val FADE_OUT = 1
+
+        const val EFFECT_CATLANG_PARAMETER_NAME = "effect"
+        val spinnerValuesCatrobatLanguageMap = HashBiMap.create(mapOf(FADE_IN to "in", FADE_OUT to "out"))
     }
 
     private var fadeSpinnerSelectionId: Int = fadeType
@@ -94,5 +104,31 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
                 fadeSpinnerSelectionId == FADE_IN
             )
         )
+    }
+
+    override fun getArgumentByCatlangName(name: String?): MutableMap.MutableEntry<String, String> {
+        if (name == EFFECT_CATLANG_PARAMETER_NAME) {
+            return CatrobatLanguageUtils.getCatlangArgumentTuple(name, spinnerValuesCatrobatLanguageMap[fadeSpinnerSelectionId])
+        }
+        return super.getArgumentByCatlangName(name)
+    }
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
+        requiredArguments.add(EFFECT_CATLANG_PARAMETER_NAME)
+        return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val effect = arguments[EFFECT_CATLANG_PARAMETER_NAME]
+        if (effect != null) {
+            val selectedValue = spinnerValuesCatrobatLanguageMap.inverse()[effect]
+            if (selectedValue != null) {
+                fadeSpinnerSelectionId = selectedValue
+            } else {
+                throw CatrobatLanguageParsingException("Unknown value for parameter $EFFECT_CATLANG_PARAMETER_NAME: $effect")
+            }
+        }
     }
 }

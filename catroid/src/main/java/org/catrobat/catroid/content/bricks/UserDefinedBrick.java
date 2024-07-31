@@ -32,10 +32,16 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.parameter.CatrobatFormulaParser;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -47,9 +53,12 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -237,6 +246,8 @@ public class UserDefinedBrick extends FormulaBrick {
 				((BrickLayout.LayoutParams) textView.getLayoutParams()).setEditText(true);
 			}
 			((BrickLayout.LayoutParams) textView.getLayoutParams()).setHorizontalSpacing(horizontalSpacing);
+			InputFormulaField fieldIdentifier = new InputFormulaField(userDefinedBrickData.getName());
+			formulaFieldToTextViewMap.forcePut(fieldIdentifier, textView);
 		}
 
 		Fragment currentFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -336,5 +347,94 @@ public class UserDefinedBrick extends FormulaBrick {
 		updateUserDefinedBrickDataValues();
 		sequence.addAction(sprite.getActionFactory().createUserBrickAction(sprite, sequence,
 				getUserDefinedBrickInputs(), userDefinedBrickID));
+	}
+
+	private void addCatrobatLanguageBrickName(StringBuilder catrobatLanguage) {
+		catrobatLanguage.append('`');
+		for (int i = 0; i < userDefinedBrickDataList.size(); i++) {
+			UserDefinedBrickData userDefinedBrickData = userDefinedBrickDataList.get(i);
+			String userDefinedBrickDataName = userDefinedBrickData.getName().trim();
+			if (!userDefinedBrickDataName.isEmpty()) {
+				if (userDefinedBrickData.isLabel()) {
+					catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(userDefinedBrickDataName).trim());
+				} else {
+					catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(userDefinedBrickDataName).trim());
+				}
+				if (i < userDefinedBrickDataList.size() - 1) {
+					catrobatLanguage.append(' ');
+				}
+			}
+		}
+		catrobatLanguage.append('`');
+	}
+
+	private void addCatrobatLanguageParameters(StringBuilder catrobatLanguage) {
+		boolean isFirstParameter = true;
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				if (isFirstParameter) {
+					isFirstParameter = false;
+				} else {
+					catrobatLanguage.append(", ");
+				}
+
+				String value = getFormulaWithBrickField(input.getInputFormulaField()).getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(input.getName()))
+						.append(": (")
+						.append(value)
+						.append(')');
+			}
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		if (isCallingBrick) {
+			String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+			StringBuilder catrobatLanguage = new StringBuilder(60);
+			catrobatLanguage.append(indention);
+			if (isCommentedOut()) {
+				catrobatLanguage.append("// ");
+			}
+			addCatrobatLanguageBrickName(catrobatLanguage);
+			catrobatLanguage.append(" (");
+			addCatrobatLanguageParameters(catrobatLanguage);
+			catrobatLanguage.append(");\n");
+			return catrobatLanguage.toString();
+		} else {
+			StringBuilder catrobatLanguage = new StringBuilder(20);
+			addCatrobatLanguageBrickName(catrobatLanguage);
+			return catrobatLanguage.toString();
+		}
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.validateParametersPresent(arguments);
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				String argument = arguments.get(input.getName());
+				if (argument == null) {
+					throw new CatrobatLanguageParsingException("No value given for input " + input.getName());
+				}
+				CatrobatFormulaParser formulaParser = new CatrobatFormulaParser(context, project, scene, sprite, this);
+				input.setValue(formulaParser.parseArgument(argument));
+				InputFormulaField inputField = new InputFormulaField(input.getName());
+				addAllowedBrickField(inputField, new TextView(context));
+				setFormulaWithBrickField(inputField, input.getValue());
+			}
+		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		List<String> inputNames = new ArrayList<>();
+		for (UserDefinedBrickInput input : getUserDefinedBrickInputs()) {
+			inputNames.add(input.getName());
+		}
+		return inputNames;
 	}
 }

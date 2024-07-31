@@ -25,24 +25,46 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetRotationStyleBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ROTATION_STYLE_CATLANG_PARAMETER_NAME = "rotation style";
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<Integer, String>() {
+		{
+			put(ROTATION_STYLE_LEFT_RIGHT_ONLY, "left-right only");
+			put(Look.ROTATION_STYLE_ALL_AROUND, "all-around");
+			put(ROTATION_STYLE_NONE, "do not rotate");
+		}
+	});
 
 	@Look.RotationStyle
 	private int selection;
@@ -94,6 +116,35 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(ROTATION_STYLE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CATLANG_SPINNER_VALUES.get(selection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(ROTATION_STYLE_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String rotationStyle = arguments.get(ROTATION_STYLE_CATLANG_PARAMETER_NAME);
+		if (rotationStyle != null) {
+			Integer selectedRotationStyle = CATLANG_SPINNER_VALUES.inverse().get(rotationStyle);
+			if (selectedRotationStyle != null) {
+				selection = selectedRotationStyle;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid rotation style: " + rotationStyle);
+			}
+		}
 	}
 
 	class RotationStyleOption implements Nameable {

@@ -28,14 +28,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set velocity to")
 public class SetVelocityBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetVelocityBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y);
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x, "x steps/second");
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y, "y steps/second");
 	}
 
 	public SetVelocityBrick(Vector2 velocity) {

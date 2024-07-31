@@ -34,6 +34,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -41,14 +44,20 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Continue")
 public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SCENE_CATLANG_PARAMETER_NAME = "scene";
 
 	private String sceneForTransition;
 
@@ -146,5 +155,32 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition, sprite));
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SCENE_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, CatrobatLanguageUtils.formatActorOrObject(sceneForTransition));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(SCENE_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String sceneName = arguments.get(SCENE_CATLANG_PARAMETER_NAME);
+		sceneName = CatrobatLanguageUtils.getAndValidateStringContent(sceneName);
+		Scene foundScene = project.getSceneByName(sceneName);
+		if (foundScene == null) {
+			throw new CatrobatLanguageParsingException("No scene found with name " + sceneName);
+		}
+		sceneForTransition = foundScene.getName();
 	}
 }

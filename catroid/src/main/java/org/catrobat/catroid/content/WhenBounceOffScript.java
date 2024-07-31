@@ -62,12 +62,16 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public void setSpriteToBounceOffName(String spriteToCollideWithName) {
+		setSpriteToBounceOffName(spriteToCollideWithName, ProjectManager.getInstance().getCurrentlyEditedScene());
+	}
+
+	public void setSpriteToBounceOffName(String spriteToCollideWithName, Scene scene) {
 		if (spriteToCollideWithName == null) {
 			this.spriteToBounceOffName = "";
 		} else {
 			this.spriteToBounceOffName = spriteToCollideWithName;
 		}
-		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
+		updateSpriteToCollideWith(scene);
 	}
 
 	public void updateSpriteToCollideWith(Scene scene) {

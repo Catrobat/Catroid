@@ -32,10 +32,12 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Set pen color")
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -43,9 +45,9 @@ public class SetPenColorBrick extends FormulaBrick {
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public SetPenColorBrick() {
-		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text);
+		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text, "red");
+		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text, "green");
+		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text, "blue");
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}

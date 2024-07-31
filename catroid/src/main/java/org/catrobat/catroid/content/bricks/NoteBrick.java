@@ -24,17 +24,23 @@ package org.catrobat.catroid.content.bricks;
 
 import android.view.View.OnClickListener;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "#")
 public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
 	public NoteBrick() {
-		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text);
+		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text, "note");
 	}
 
 	public NoteBrick(String note) {
@@ -53,5 +59,27 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(60);
+		catrobatLanguage.append(indention)
+				.append(getCatrobatLanguageCommand())
+				.append(' ');
+
+		String formulaString =
+				getFormulas().get(0).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+		if (formulaString.startsWith("'") && formulaString.endsWith("'")) {
+			catrobatLanguage.append(formulaString, 1, formulaString.length() - 1);
+		} else {
+			catrobatLanguage.append(formulaString);
+		}
+
+		catrobatLanguage.append('\n');
+		return catrobatLanguage.toString();
 	}
 }

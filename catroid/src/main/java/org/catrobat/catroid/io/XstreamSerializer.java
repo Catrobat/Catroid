@@ -118,6 +118,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -388,6 +389,9 @@ public final class XstreamSerializer {
 		xstream.omitField(FadeParticleEffectBrick.class, "formulaList");
 		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
 		xstream.omitField(SetParticleColorBrick.class, "formulaList");
+
+		xstream.omitField(DronePlayLedAnimationBrick.class, "spinnerSelectionIndex");
+		xstream.omitField(FormulaBrick.class, "catrobatLanguageFormulaParameters");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);

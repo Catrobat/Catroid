@@ -27,13 +27,25 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Return")
 public class ReportBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ReportBrick() {
-		addAllowedBrickField(BrickField.REPORT_BRICK, R.id.brick_report_edit_text);
+		addAllowedBrickField(BrickField.REPORT_BRICK, R.id.brick_report_edit_text, "value");
+	}
+
+	public ReportBrick(String report) {
+		this(new Formula(report));
+	}
+
+	public ReportBrick(Formula report) {
+		this();
+		setFormulaWithBrickField(BrickField.REPORT_BRICK, report);
 	}
 
 	@Override

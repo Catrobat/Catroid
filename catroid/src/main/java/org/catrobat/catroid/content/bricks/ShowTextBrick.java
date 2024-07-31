@@ -29,15 +29,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
+@CatrobatLanguageBrick(command = "Show")
 public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 
 	private static final long serialVersionUID = 1L;
 
 	public ShowTextBrick() {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_edit_text_y);
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_edit_text_x, "x");
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_edit_text_y, "y");
 	}
 
 	public ShowTextBrick(int xPosition, int yPosition) {

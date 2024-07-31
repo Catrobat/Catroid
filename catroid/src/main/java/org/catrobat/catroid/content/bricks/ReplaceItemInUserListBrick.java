@@ -27,16 +27,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Replace")
 public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ReplaceItemInUserListBrick() {
-		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE,
-				R.id.brick_replace_item_in_userlist_value_edit_text);
 		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX,
-				R.id.brick_replace_item_in_userlist_at_index_edit_text);
+				R.id.brick_replace_item_in_userlist_at_index_edit_text, "position");
+		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE,
+				R.id.brick_replace_item_in_userlist_value_edit_text, "value");
 	}
 
 	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {

@@ -28,17 +28,40 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Play Jumping Sumo")
 public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String SOUND_CATLANG_PARAMETER_NAME = "sound";
+	private static final BiMap<String, String> CATLANG_SPINNER_VALUES = HashBiMap.create(new HashMap<String, String>() {
+		{
+			put("DEFAULT", "normal");
+			put("ROBOT", "robot");
+			put("INSECT", "insect");
+			put("MONSTER", "monster");
+		}
+	});
 
 	private String soundName;
 
@@ -48,7 +71,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	public JumpingSumoSoundBrick() {
 		soundName = Sounds.DEFAULT.name();
-		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text, "volume");
 	}
 
 	public JumpingSumoSoundBrick(Sounds soundEnum, int volumeInPercent) {
@@ -86,5 +109,30 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SOUND_CATLANG_PARAMETER_NAME)) {
+			return new HashMap.SimpleEntry<>(SOUND_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(soundName));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add("sound");
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		soundName = CATLANG_SPINNER_VALUES.inverse().get(arguments.get(SOUND_CATLANG_PARAMETER_NAME));
+		if (soundName == null) {
+			throw new CatrobatLanguageParsingException("Invalid jumping sumo sound: " + arguments.get(SOUND_CATLANG_PARAMETER_NAME));
+		}
 	}
 }

@@ -32,12 +32,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 
+@CatrobatLanguageBrick(command = "Set next NFC tag")
 public class SetNfcTagBrick extends FormulaBrick implements
 		BrickSpinner.OnItemSelectedListener<SetNfcTagBrick.NfcTypeOption> {
 
@@ -46,7 +48,7 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	private int nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTPS;
 
 	public SetNfcTagBrick() {
-		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
+		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text, "text");
 	}
 
 	public SetNfcTagBrick(String messageString) {

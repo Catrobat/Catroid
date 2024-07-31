@@ -26,13 +26,29 @@ import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.common.collect.HashBiMap
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
+@CatrobatLanguageBrick(command = "Turn")
 class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType() {
+    companion object {
+        private const val CAMERA_CATLANG_PARAMETER_NAME = "camera"
+        private val SPINNER_VALUE_MAP = HashBiMap.create(
+            mapOf(
+                false to "off",
+                true to "on"
+            )
+        )
+    }
 
     override fun getView(context: Context): View {
         super.getView(context)
@@ -69,5 +85,28 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createUpdateCameraPreviewAction(spinnerSelectionON))
+    }
+
+    override fun getArgumentByCatlangName(name: String): Map.Entry<String?, String?>? {
+        return if (name == CAMERA_CATLANG_PARAMETER_NAME) {
+            CatrobatLanguageUtils.getCatlangArgumentTuple(CAMERA_CATLANG_PARAMETER_NAME, SPINNER_VALUE_MAP[spinnerSelectionON])
+        } else super.getArgumentByCatlangName(name)
+    }
+
+    override fun getRequiredCatlangArgumentNames(): Collection<String>? {
+        val requiredArguments = ArrayList(super.getRequiredCatlangArgumentNames())
+        requiredArguments.add(CAMERA_CATLANG_PARAMETER_NAME)
+        return requiredArguments
+    }
+
+    override fun setParameters(context: Context, project: Project, scene: Scene, sprite: Sprite, arguments: Map<String, String>) {
+        super.setParameters(context, project, scene, sprite, arguments)
+        val cameraStatus = arguments[CAMERA_CATLANG_PARAMETER_NAME]
+        val selectedCameraStatus = SPINNER_VALUE_MAP.inverse()[cameraStatus]
+        if (selectedCameraStatus != null) {
+            spinnerSelectionON = selectedCameraStatus
+        } else {
+            throw CatrobatLanguageParsingException("Invalid camera status: $cameraStatus")
+        }
     }
 }

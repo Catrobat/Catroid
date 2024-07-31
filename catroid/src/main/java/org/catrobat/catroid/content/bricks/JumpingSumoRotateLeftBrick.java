@@ -26,13 +26,24 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+@CatrobatLanguageBrick(command = "Turn Jumping Sumo")
 public class JumpingSumoRotateLeftBrick extends FormulaBrick {
+
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
+
+	private static final String DIRECTION_CATLANG_PARAMETER_VALUE = "left";
 
 	private static final long serialVersionUID = 1L;
 
 	public JumpingSumoRotateLeftBrick() {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_left_variable_edit_text);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_left_variable_edit_text, "degrees");
 	}
 
 	public JumpingSumoRotateLeftBrick(double degree) {
@@ -51,5 +62,21 @@ public class JumpingSumoRotateLeftBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(DIRECTION_CATLANG_PARAMETER_NAME, DIRECTION_CATLANG_PARAMETER_VALUE);
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
 	}
 }

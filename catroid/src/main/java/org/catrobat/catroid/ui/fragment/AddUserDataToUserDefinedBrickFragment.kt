@@ -52,6 +52,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     }
 
     private var dataTypeToAdd: UserDefinedBrickDataType? = null
+    private var activity: AppCompatActivity? = null
     private var addUserDataUserBrickEditText: TextInputEditText? = null
     private var addUserDataUserBrickTextLayout: TextInputLayout? = null
     private var scrollView: ScrollView? = null
@@ -128,12 +129,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
             }
         }
 
-        val appCompatActivity = requireActivity() as AppCompatActivity
-        appCompatActivity.let {
-            Utils.showStandardSystemKeyboard(appCompatActivity)
-            val actionBar = appCompatActivity.supportActionBar
+        activity = requireActivity() as AppCompatActivity
+        activity.let {
+            Utils.showStandardSystemKeyboard(activity)
+            val actionBar = activity?.supportActionBar
             if (actionBar != null) {
-                appCompatActivity.supportActionBar?.setTitle(R.string.category_user_bricks)
+                activity?.supportActionBar?.setTitle(R.string.category_user_bricks)
             }
         }
 
@@ -145,12 +146,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Utils.showStandardSystemKeyboard(requireActivity())
+        Utils.showStandardSystemKeyboard(activity)
     }
 
     override fun onDetach() {
         super.onDetach()
-        Utils.hideStandardSystemKeyboard(requireActivity())
+        Utils.hideStandardSystemKeyboard(activity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -31,14 +31,22 @@ import android.widget.TextView;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.parser.parameter.CatrobatFormulaParser;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -46,9 +54,13 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -57,6 +69,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
+
+	@XStreamOmitField
+	protected LinkedHashMap<FormulaField, String> catrobatLanguageFormulaParameters = new LinkedHashMap<>();
 
 	public transient BiMap<FormulaField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
 
@@ -78,9 +93,11 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId) {
+	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId,
+			String catrobatLanguageParameterName) {
 		formulaMap.putIfAbsent(formulaField, new Formula(0));
 		brickFieldToTextViewIdMap.put(formulaField, textViewResourceId);
+		catrobatLanguageFormulaParameters.put(formulaField, catrobatLanguageParameterName);
 	}
 
 	@Override
@@ -239,5 +256,43 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public boolean hasEditableFormulaField() {
 		return !brickFieldToTextViewIdMap.isEmpty();
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		FormulaField field = HashBiMap.create(catrobatLanguageFormulaParameters).inverse().get(name);
+		if (field == null) {
+			return super.getArgumentByCatlangName(name);
+		}
+		Formula formula = formulaMap.get(field);
+		String formulaString = "";
+		if (formula != null) {
+			formulaString = formula.getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
+		}
+		return CatrobatLanguageUtils.getCatlangArgumentTuple(name, formulaString);
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		Map<String, FormulaField> argumentNameToFormula = HashBiMap.create(catrobatLanguageFormulaParameters).inverse();
+		for (String argumentName : arguments.keySet()) {
+			if (!argumentNameToFormula.containsKey(argumentName)) {
+				continue;
+			}
+			CatrobatFormulaParser formulaParser = new CatrobatFormulaParser(context, project, scene, sprite, this);
+			Formula formula = formulaParser.parseArgument(arguments.get(argumentName));
+			FormulaField formulaField = argumentNameToFormula.get(argumentName);
+			if (formulaMap.containsKey(formulaField)) {
+				formulaMap.replace(formulaField, formula);
+			} else {
+				formulaMap.put(formulaField, formula);
+			}
+		}
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		return catrobatLanguageFormulaParameters.values();
 	}
 }

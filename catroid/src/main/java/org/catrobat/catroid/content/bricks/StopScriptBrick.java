@@ -28,17 +28,42 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.parser.project.error.CatrobatLanguageParsingException;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Stop")
 public class StopScriptBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String SCRIPT_CATLANG_PARAMETER_NAME = "script";
+
+	private static final BiMap<Integer, String> CATLANG_SPINNER_VALUES;
+
+	static {
+		CATLANG_SPINNER_VALUES = HashBiMap.create();
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_THIS_SCRIPT, "this script");
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_ALL_SCRIPTS, "all scripts");
+		CATLANG_SPINNER_VALUES.put(BrickValues.STOP_OTHER_SCRIPTS, "other scripts of this actor or object");
+	}
 
 	private int spinnerSelection;
 
@@ -83,5 +108,34 @@ public class StopScriptBrick extends BrickBaseType {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection,
 				sequence.getScript(), sprite));
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(SCRIPT_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(SCRIPT_CATLANG_PARAMETER_NAME, CATLANG_SPINNER_VALUES.get(spinnerSelection));
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>(super.getRequiredCatlangArgumentNames());
+		requiredArguments.add(SCRIPT_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	public void setParameters(@NonNull Context context, @NonNull Project project, @NonNull Scene scene, @NonNull Sprite sprite, @NonNull Map<String, String> arguments) throws CatrobatLanguageParsingException {
+		super.setParameters(context, project, scene, sprite, arguments);
+		String script = arguments.get(SCRIPT_CATLANG_PARAMETER_NAME);
+		if (script != null) {
+			Integer selectedSpinner = CATLANG_SPINNER_VALUES.inverse().get(script);
+			if (selectedSpinner != null) {
+				spinnerSelection = selectedSpinner;
+			} else {
+				throw new CatrobatLanguageParsingException("Invalid spinner value: " + script);
+			}
+		}
 	}
 }

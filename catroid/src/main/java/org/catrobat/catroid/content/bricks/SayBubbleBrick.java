@@ -26,10 +26,12 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils;
 
 import static org.catrobat.catroid.common.Constants.SAY_BRICK;
 
+@CatrobatLanguageBrick(command = "Say")
 public class SayBubbleBrick extends ThinkBubbleBrick {
 
 	private static final long serialVersionUID = 1L;

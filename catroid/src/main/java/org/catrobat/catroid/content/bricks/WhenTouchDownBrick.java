@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "When stage is tapped")
 public class WhenTouchDownBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;

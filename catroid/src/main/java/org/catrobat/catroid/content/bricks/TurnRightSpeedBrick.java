@@ -26,13 +26,21 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+@CatrobatLanguageBrick(command = "Spin")
 public class TurnRightSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String DIRECTION_CATLANG_PARAMETER_NAME = "direction";
 
 	public TurnRightSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text);
+		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text, "degrees/second");
 	}
 
 	public TurnRightSpeedBrick(double degreesPerSecond) {
@@ -60,5 +68,21 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createTurnRightSpeedAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(DIRECTION_CATLANG_PARAMETER_NAME)) {
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, "right");
+		}
+		return super.getArgumentByCatlangName(name);
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(DIRECTION_CATLANG_PARAMETER_NAME);
+		requiredArguments.addAll(super.getRequiredCatlangArgumentNames());
+		return requiredArguments;
 	}
 }

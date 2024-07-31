@@ -37,16 +37,23 @@ import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+@CatrobatLanguageBrick(command = "Define")
 public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
+	public static final String BRICK_CATLANG_PARAMETER_NAME = "user defined brick";
+	public static final String SCREEN_REFRESH_CATLANG_PARAMETER_NAME = "screen refresh";
 
 	private UserDefinedScript userDefinedScript;
 	private LinearLayout userBrickSpace;
@@ -157,5 +164,29 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
+	}
+
+	@Override
+	protected Collection<String> getRequiredCatlangArgumentNames() {
+		ArrayList<String> requiredArguments = new ArrayList<>();
+		requiredArguments.add(BRICK_CATLANG_PARAMETER_NAME);
+		requiredArguments.add(SCREEN_REFRESH_CATLANG_PARAMETER_NAME);
+		return requiredArguments;
+	}
+
+	@Override
+	protected Map.Entry<String, String> getArgumentByCatlangName(String name) {
+		if (name.equals(BRICK_CATLANG_PARAMETER_NAME)) {
+			String userDefinedBrickSerialized = "";
+			if (userDefinedBrick instanceof UserDefinedBrick) {
+				userDefinedBrickSerialized = userDefinedBrick.serializeToCatrobatLanguage(0);
+			}
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, userDefinedBrickSerialized);
+		}
+		if (name.equals(SCREEN_REFRESH_CATLANG_PARAMETER_NAME)) {
+			String screenRefreshSerialized = userDefinedScript.getScreenRefresh() ? "on" : "off";
+			return CatrobatLanguageUtils.getCatlangArgumentTuple(name, screenRefreshSerialized);
+		}
+		return super.getArgumentByCatlangName(name);
 	}
 }
