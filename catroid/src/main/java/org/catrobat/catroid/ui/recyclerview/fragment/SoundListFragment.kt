@@ -214,7 +214,7 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
                 R.id.rename -> showRenameDialog(item)
-                R.id.delete -> deleteItems(itemList)
+                R.id.delete -> showDeleteAlert(itemList)
                 else -> {
                 }
             }
