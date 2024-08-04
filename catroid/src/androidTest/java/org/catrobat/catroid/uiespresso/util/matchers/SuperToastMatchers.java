@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.os.IBinder;
 import android.view.WindowManager;
 
 import org.hamcrest.Description;
@@ -32,31 +31,18 @@ import org.hamcrest.TypeSafeMatcher;
 
 import androidx.test.espresso.Root;
 
-public final class SuperToastMatchers implements Matcher<Root> {
-	public SuperToastMatchers() {
+public final class SuperToastMatchers {
+	private SuperToastMatchers() {
 		throw new AssertionError();
 	}
 
 	public static Matcher<Root> isToast() {
 		return new TypeSafeMatcher<Root>() {
 
-			//@Override
-			//public boolean matchesSafely(Root root) {
-			//	int type = root.getWindowLayoutParams().get().type;
-			//	return (type == WindowManager.LayoutParams.TYPE_TOAST);
-			//}
-
 			@Override
 			public boolean matchesSafely(Root root) {
 				int type = root.getWindowLayoutParams().get().type;
-				if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
-					IBinder windowToken = root.getDecorView().getWindowToken();
-					IBinder appToken = root.getDecorView().getApplicationWindowToken();
-					if (windowToken == appToken) {
-						return true;
-					}
-				}
-				return false;
+				return (type == WindowManager.LayoutParams.TYPE_TOAST);
 			}
 
 			@Override
@@ -64,25 +50,5 @@ public final class SuperToastMatchers implements Matcher<Root> {
 				description.appendText("is toast");
 			}
 		};
-	}
-
-	@Override
-	public boolean matches(Object o) {
-		return false;
-	}
-
-	@Override
-	public void describeMismatch(Object o, Description description) {
-
-	}
-
-	@Override
-	public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
-
-	}
-
-	@Override
-	public void describeTo(Description description) {
-
 	}
 }
