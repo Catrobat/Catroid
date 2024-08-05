@@ -38,6 +38,7 @@ import android.widget.PopupMenu;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.IntDef;
@@ -114,7 +116,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		adapter.notifyDataSetChanged();
 		return true;
 	}
-
 	@Override
 	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 		return false;
@@ -232,7 +233,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 			case R.id.menu_undo:
 				undo();
 				ToastUtil.showSuccess(getActivity(), "Last delete was successfully undone");
-				((BackpackActivity) getActivity()).toogleUndo(false);
+				((BackpackActivity) requireActivity()).toggleUndo(false);
 				adapter.notifyDataSetChanged();
 				break;
 			case R.id.show_details:
@@ -290,7 +291,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 						saveStatus();
 						deleteItems(selectedItems);
 						if (!selectedItems.isEmpty()) {
-							((BackpackActivity) getActivity()).toogleUndo(true);
+							((BackpackActivity) getActivity()).toggleUndo(true);
 						}
 					}
 				})
@@ -381,6 +382,16 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	public abstract void undo();
 
+	public void setCopiedStatus(List<T> list) {
+		copiedStatus.clear();
+		copiedStatus.addAll(list);
+	}
+
+	public void resetBackpackState(){
+		BackpackListManager.getInstance().saveBackpack();
+		initializeAdapter();
+		getLastDeletedItems().clear();
+	}
 	public abstract void removeLastDeletedItems();
 
 	public abstract void saveStatus();

@@ -113,7 +113,7 @@ public class BackpackActivity extends BaseActivity {
 		return true;
 	}
 
-	public void toogleUndo(boolean status) {
+	public void toggleUndo(boolean status) {
 		optionsMenu.findItem(R.id.menu_undo).setVisible(status);
 	}
 }

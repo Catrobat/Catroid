@@ -122,9 +122,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	public void undo() {
 		BackpackListManager.getInstance().replaceBackpackedLooks(copiedStatus);
-		BackpackListManager.getInstance().saveBackpack();
-		initializeAdapter();
-		getLastDeletedItems().clear();
+		resetBackpackState();
 	}
 
 	@Override
@@ -137,11 +135,6 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 			}
 		}
 		getLastDeletedItems().clear();
-	}
-
-	public void setCopiedStatus(List<LookData> list) {
-		copiedStatus.clear();
-		copiedStatus.addAll(list);
 	}
 
 	@Override

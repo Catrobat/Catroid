@@ -110,9 +110,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	public void undo() {
 		BackpackListManager.getInstance().replaceBackpackedScenes(copiedStatus);
-		BackpackListManager.getInstance().saveBackpack();
-		initializeAdapter();
-		getLastDeletedItems().clear();
+		resetBackpackState();
 	}
 
 	@Override
@@ -130,11 +128,6 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	public void saveStatus() {
 		setCopiedStatus(BackpackListManager.getInstance().getScenes());
-	}
-
-	public void setCopiedStatus(List<Scene> list) {
-		copiedStatus.clear();
-		copiedStatus.addAll(list);
 	}
 }
 

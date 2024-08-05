@@ -48,11 +48,6 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	private final SpriteController spriteController = new SpriteController();
 
-	public void setCopiedStatus(List<Sprite> list) {
-		copiedStatus.clear();
-		copiedStatus.addAll(list);
-	}
-
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
@@ -123,9 +118,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	public void undo() {
 		BackpackListManager.getInstance().replaceBackpackedSprites(copiedStatus);
-		BackpackListManager.getInstance().saveBackpack();
-		initializeAdapter();
-		getLastDeletedItems().clear();
+		resetBackpackState();
 	}
 
 	@Override

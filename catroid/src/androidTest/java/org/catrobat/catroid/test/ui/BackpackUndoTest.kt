@@ -4,6 +4,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -15,7 +16,6 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.ResourceImporter
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
@@ -27,6 +27,8 @@ import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteracti
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.CoreMatchers.allOf
+import androidx.test.espresso.NoMatchingViewException
+
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -116,13 +118,8 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
             LookData("test", imageFile)
         )
         when (activityType) {
-            ActivityType.SPRITE -> {
-                baseActivityTestRule2.launchActivity()
-            }
-
-            ActivityType.PROJECT -> {
-                baseActivityTestRule1.launchActivity()
-            }
+            ActivityType.SPRITE -> baseActivityTestRule2.launchActivity()
+            ActivityType.PROJECT -> baseActivityTestRule1.launchActivity()
         }
         addObjectToBackpack()
     }
@@ -133,35 +130,39 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
     }
 
     private fun assignSize(): Int {
-        var sizeBeforeDelete = 0
-        when (activityType) {
-            ActivityType.SPRITE -> {
-                sizeBeforeDelete = when (fragmentId) {
+        return when (activityType) {
+            ActivityType.SPRITE ->
+                when (fragmentId) {
                     SpriteActivity.FRAGMENT_LOOKS -> backpackManager.backpackedLooks.size
                     SpriteActivity.FRAGMENT_SOUNDS -> backpackManager.backpackedSounds.size
                     SpriteActivity.FRAGMENT_SCRIPTS -> backpackManager.backpackedScripts.size
                     else -> throw IllegalArgumentException("Unknown fragmentId for SpriteActivity: $fragmentId")
                 }
-            }
 
-            ActivityType.PROJECT -> {
-                sizeBeforeDelete = when (fragmentId) {
+            ActivityType.PROJECT ->
+                when (fragmentId) {
                     ProjectActivity.FRAGMENT_SPRITES -> backpackManager.sprites.size
                     ProjectActivity.FRAGMENT_SCENES -> backpackManager.scenes.size
                     else -> throw IllegalArgumentException("Unknown fragmentId for ProjectActivity: $fragmentId")
                 }
-            }
         }
-        return sizeBeforeDelete
     }
 
     private fun getIntoBackpack() {
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.backpack)).perform(ViewActions.click())
+        onView(withText(R.string.backpack)).perform(click())
+        onView(withText("Unpack")).perform(click())
+    }
 
-        val unpackText = onView(withText("Unpack"))
-        unpackText.check(matches(isDisplayed()))
-        onView(withText("Unpack")).perform(ViewActions.click())
+    private fun checkIfUndoNotDisplayed() {
+        var exceptionOccurred = false
+
+        try {
+            onView(withId(R.id.menu_undo)).perform(click())
+        } catch (e: NoMatchingViewException) {
+            exceptionOccurred = true
+        }
+        assert(exceptionOccurred)
     }
 
     @Test
@@ -172,30 +173,23 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
         val sizeBeforeDelete = assignSize()
         for (i in 1..x) {
             openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-            onView(withText(R.string.delete)).perform(ViewActions.click())
+            onView(withText(R.string.delete)).perform(click())
 
             RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
                 .performCheckItemClick()
-            onView(withId(R.id.confirm)).perform(ViewActions.click())
+            onView(withId(R.id.confirm)).perform(click())
 
             onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
                 .check(matches(isDisplayed()))
 
             onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-                .perform(ViewActions.click())
+                .perform(click())
         }
-        onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        onView(withId(R.id.menu_undo)).perform(click())
 
         Assert.assertEquals(sizeBeforeDelete - x + 1, assignSize())
 
-        var exceptionOccurred = false
-
-        try {
-            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
-        } catch (e: androidx.test.espresso.NoMatchingViewException) {
-            exceptionOccurred = true
-        }
-        assert(exceptionOccurred)
+        checkIfUndoNotDisplayed()
     }
 
     @Test
@@ -205,30 +199,23 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
         val sizeBeforeDelete = assignSize()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.delete)).perform(ViewActions.click())
+        onView(withText(R.string.delete)).perform(click())
 
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()
-        onView(withId(R.id.confirm)).perform(ViewActions.click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .perform(ViewActions.click())
+            .perform(click())
 
-        onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        onView(withId(R.id.menu_undo)).perform(click())
 
         Assert.assertEquals(sizeBeforeDelete, assignSize())
 
-        var exceptionOccurred = false
-
-        try {
-            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
-        } catch (e: androidx.test.espresso.NoMatchingViewException) {
-            exceptionOccurred = true
-        }
-        assert(exceptionOccurred)
+        checkIfUndoNotDisplayed()
     }
 
     @Test
@@ -238,7 +225,7 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
         val sizeBeforeDelete = assignSize()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.delete)).perform(ViewActions.click())
+        onView(withText(R.string.delete)).perform(click())
 
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()
@@ -246,26 +233,19 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
             .performCheckItemClick()
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(2)
             .performCheckItemClick()
-        onView(withId(R.id.confirm)).perform(ViewActions.click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .perform(ViewActions.click())
+            .perform(click())
 
-        onView(withId(R.id.menu_undo)).perform(ViewActions.click())
+        onView(withId(R.id.menu_undo)).perform(click())
 
         Assert.assertEquals(sizeBeforeDelete, assignSize())
 
-        var exceptionOccurred = false
-
-        try {
-            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
-        } catch (e: androidx.test.espresso.NoMatchingViewException) {
-            exceptionOccurred = true
-        }
-        assert(exceptionOccurred)
+        checkIfUndoNotDisplayed()
     }
 
     @Test
@@ -273,17 +253,17 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
         getIntoBackpack()
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withText(R.string.delete)).perform(ViewActions.click())
+        onView(withText(R.string.delete)).perform(click())
 
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()
-        onView(withId(R.id.confirm)).perform(ViewActions.click())
+        onView(withId(R.id.confirm)).perform(click())
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .check(matches(isDisplayed()))
 
         onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-            .perform(ViewActions.click())
+            .perform(click())
 
         val savedBackpack = backpackManager.backpack
         pressBack()
@@ -291,14 +271,7 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
 
         getIntoBackpack()
 
-        var exceptionOccurred = false
-
-        try {
-            onView(withId(R.id.menu_undo)).perform(ViewActions.click())
-        } catch (e: androidx.test.espresso.NoMatchingViewException) {
-            exceptionOccurred = true
-        }
-        assert(exceptionOccurred)
+        checkIfUndoNotDisplayed()
     }
 
     private fun addObjectToBackpack() {
@@ -310,7 +283,6 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
                         backpackManager.backpackedLooks.add(lookData)
                         backpackManager.backpackedLooks.add(lookData)
                         backpackManager.backpackedLooks.add(lookData)
-                        backpackManager.saveBackpack()
                     }
 
                     SpriteActivity.FRAGMENT_SOUNDS -> {
@@ -320,7 +292,6 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
                         backpackManager.backpackedSounds.add(soundInfo)
                         backpackManager.backpackedSounds.add(soundInfo2)
                         backpackManager.backpackedSounds.add(soundInfo3)
-                        backpackManager.saveBackpack()
                     }
 
                     SpriteActivity.FRAGMENT_SCRIPTS -> {
@@ -328,11 +299,13 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
                         backpackManager.addScriptToBackPack("start", scriptGroup)
                         backpackManager.addScriptToBackPack("start1", scriptGroup)
                         backpackManager.addScriptToBackPack("start2", scriptGroup)
-                        BackpackListManager.getInstance().saveBackpack()
                     }
 
-                    else -> throw IllegalArgumentException("Unknown fragmentId for SpriteActivity: $fragmentId")
+                    else -> {
+                        throw IllegalArgumentException("Unknown fragmentId for SpriteActivity: $fragmentId")
+                    }
                 }
+                backpackManager.saveBackpack()
             }
 
             ActivityType.PROJECT -> {
@@ -342,7 +315,6 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
                         backpackManager.sprites.add(spriteController.pack(sprite))
                         backpackManager.sprites.add(spriteController.pack(sprite))
                         backpackManager.sprites.add(spriteController.pack(sprite))
-                        backpackManager.saveBackpack()
                     }
 
                     ProjectActivity.FRAGMENT_SCENES -> {
@@ -352,8 +324,11 @@ class BackpackUndoTest(private val activityType: ActivityType, private val fragm
                         backpackManager.scenes.add(scene2)
                     }
 
-                    else -> throw IllegalArgumentException("Unknown fragmentId for ProjectActivity: $fragmentId")
+                    else -> {
+                        throw IllegalArgumentException("Unknown fragmentId for ProjectActivity: $fragmentId")
+                    }
                 }
+                backpackManager.saveBackpack()
             }
         }
     }

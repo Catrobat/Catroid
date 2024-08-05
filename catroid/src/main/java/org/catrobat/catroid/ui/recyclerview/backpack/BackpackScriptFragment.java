@@ -118,9 +118,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	public void undo() {
 		BackpackListManager.getInstance().replaceBackpackedScripts(savedScripts);
-		BackpackListManager.getInstance().saveBackpack();
-		initializeAdapter();
-		getLastDeletedItems().clear();
+		resetBackpackState();
 	}
 
 	@Override

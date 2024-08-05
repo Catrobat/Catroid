@@ -45,7 +45,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	public static final String TAG = BackpackSoundFragment.class.getSimpleName();
 
-	private SoundController soundController = new SoundController();
+	private final SoundController soundController = new SoundController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -113,9 +113,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	public void undo() {
 		BackpackListManager.getInstance().replaceBackpackedSounds(copiedStatus);
-		BackpackListManager.getInstance().saveBackpack();
-		initializeAdapter();
-		getLastDeletedItems().clear();
+		resetBackpackState();
 	}
 
 	@Override
@@ -128,11 +126,6 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 			}
 		}
 		getLastDeletedItems().clear();
-	}
-
-	public void setCopiedStatus(List<SoundInfo> list) {
-		copiedStatus.clear();
-		copiedStatus.addAll(list);
 	}
 
 	@Override
