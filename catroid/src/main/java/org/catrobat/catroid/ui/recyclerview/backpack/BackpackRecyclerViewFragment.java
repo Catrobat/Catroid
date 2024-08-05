@@ -52,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.IntDef;
@@ -387,7 +386,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		copiedStatus.addAll(list);
 	}
 
-	public void resetBackpackState(){
+	public void resetBackpackState() {
 		BackpackListManager.getInstance().saveBackpack();
 		initializeAdapter();
 		getLastDeletedItems().clear();
