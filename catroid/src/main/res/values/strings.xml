@@ -250,6 +250,9 @@
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
 
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
     <string formatted="false" name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
@@ -925,6 +928,7 @@
     <string formatted="false" name="category_motion">Motion</string>
     <string formatted="false" name="category_looks">Looks</string>
     <string formatted="false" name="category_pen">Pen</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Sound</string>
     <string formatted="false" name="category_control">Control</string>
     <string formatted="false" name="category_event">Event</string>
@@ -1112,6 +1116,13 @@
     <string formatted="false" name="at_string">at</string>
     <string formatted="false" name="seconds_string">seconds</string>
     <!--  -->
+
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot to SVG file</string>
+    <string formatted="false" name="brick_stop_plot">Stop plot</string>
+    <string formatted="false" name="brick_start_plot">Start plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+
 
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
@@ -1452,6 +1463,10 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
+
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
 
     <string formatted="false" name="error_unknown_error">Something went wrong.</string>
     <string formatted="false" name="error_gps_not_available">Geolocation data is not available.</string>

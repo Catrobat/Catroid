@@ -49,6 +49,9 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
         if (SettingsFragment.isEmroiderySharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_embroidery, null))
         }
+        if (SettingsFragment.isPlotSharedPreferenceEnabled(activity)) {
+            categories.add(inflater.inflate(R.layout.brick_category_plot, null))
+        }
         if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null))
         }
