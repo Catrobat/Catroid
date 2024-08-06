@@ -24,12 +24,18 @@
 package org.catrobat.catroid.plot
 
 import android.graphics.PointF
+import android.icu.text.DecimalFormat
 import java.io.File
+import java.util.Locale
 
 class SVGPlotGenerator(plot : Plot?){
     private val data = plot?.data()
     private var width = plot?.width
     private var height = plot?.height
+
+    private fun dotDecinalRound(number : Float?) : String {
+        return "%.2f".format(Locale.ENGLISH, number)
+    }
 
     fun writeToSVGFile(targetFile : File){
         targetFile.writeText(generateSVGContent())
@@ -39,10 +45,10 @@ class SVGPlotGenerator(plot : Plot?){
         var path = ""
         if(line.size < 2) return path
         path = "<path fill=\"none\" style=\"stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-opacity:1;\" d=\"M"
-        path += "%.2f".format(line[0].x - xAlignment!!) + " " + "%.2f".format(line[0].y - yAlignment!!)
+        path += dotDecinalRound(line[0].x - xAlignment!!) + " " + dotDecinalRound(line[0].y - yAlignment!!)
 
         for (point in line.subList(1, line.size))
-            path = path + " L" + "%.2f".format(point.x - xAlignment) + " " + "%.2f".format(point
+            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(point
                                                                                                .y
                                                                                                - yAlignment)
 
@@ -56,18 +62,18 @@ class SVGPlotGenerator(plot : Plot?){
         val builder = StringBuilder()
         builder.append("<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n")
         builder.append("<svg width=\"")
-        builder.append("%.2f".format(width))
+        builder.append(dotDecinalRound(width))
         builder.append("\" height=\"")
-        builder.append("%.2f".format(height))
+        builder.append(dotDecinalRound(height))
         builder.append("\" ")
         builder.append("viewBox=\"")
-        builder.append("%.2f".format(0.0F))
+        builder.append(dotDecinalRound(0.0F))
         builder.append(" ")
-        builder.append("%.2f".format(0.0F))
+        builder.append(dotDecinalRound(0.0F))
         builder.append(" ")
-        builder.append("%.2f".format(width))
+        builder.append(dotDecinalRound(width))
         builder.append(" ")
-        builder.append("%.2f".format(height))
+        builder.append(dotDecinalRound(height))
         builder.append("\" ")
         builder.append("style=\"background-color:#ffffff\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n")
 
