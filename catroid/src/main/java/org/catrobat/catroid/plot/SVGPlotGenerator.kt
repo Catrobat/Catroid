@@ -52,7 +52,7 @@ class SVGPlotGenerator(plot : Plot?){
                                                                                                .y
                                                                                                - yAlignment)
 
-        path += "\" />"
+        path += "\" />\n"
         return path
     }
 
