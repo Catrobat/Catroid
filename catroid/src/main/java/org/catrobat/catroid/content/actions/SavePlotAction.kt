@@ -32,7 +32,7 @@ import android.provider.DocumentsContract
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
-import com.badlogic.gdx.scenes.scene2d.Action
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -45,19 +45,18 @@ import org.catrobat.catroid.stage.StageActivity.IntentListener
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
-class SavePlotAction : Action(), IntentListener {
+class SavePlotAction : TemporalAction(), IntentListener {
     var scope: Scope? = null
     var formula: Formula? = null
     val context: Context = CatroidApplication.getAppContext()
+    private val duration = 0.1f
 
-    override fun act(delta: Float): Boolean {
-        if (formula == null) {
-            return true
+    override fun update(percent: Float) {
+        if (formula == null || percent < 1.0f) {
+            return
         }
         writePlotToFile()
-        return true
     }
 
     private fun writePlotToFile() {
