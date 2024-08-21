@@ -395,10 +395,11 @@ dependencies {
     }
 
     // Dependency Injection
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-androidx-scope:$koin_version"
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-viewmodel:$koin_version"
+    implementation "io.insert-koin:koin-androidx-fragment:$koin_version"
+    implementation "io.insert-koin:koin-androidx-scope:$koin_version"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -417,9 +418,6 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-
-    // Android Debug Database
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // Encrypted shared preferences
     implementation("androidx.security:security-crypto:1.0.0")
@@ -486,7 +484,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-auth:17.0.0"
 
-    androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
+    androidTestImplementation('tools.fastlane:screengrab:2.1.1') {
         // https://issuetracker.google.com/issues/123060356
         exclude group: 'com.android.support.test.uiautomator', module: 'uiautomator-v18'
     }
@@ -510,7 +508,7 @@ dependencies {
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.14.9'
 
     // Koin for Unit tests
-    androidTestImplementation "org.koin:koin-test:$koin_version"
+    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
 
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
