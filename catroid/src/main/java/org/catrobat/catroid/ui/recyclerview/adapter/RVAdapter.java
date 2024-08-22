@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,7 +92,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
 		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item, selectionManager));
 
-		if (holder.settings != null) {
+		if (holder.settings != null && holder.settings.getVisibility() == View.VISIBLE) {
 			holder.settings.setOnClickListener(v -> onItemClickListener.onSettingsClick(item, v));
 		}
 
@@ -106,7 +106,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 				onItemClickListener.onItemLongClick(item, holder);
 				return true;
 			});
-		} else if (ripples != null && !showRipples) {
+		} else if (ripples != null) {
 			ripples.setVisibility(View.GONE);
 			holder.itemView.setOnLongClickListener(v -> true);
 		}
@@ -114,7 +114,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {
 			settings.setVisibility(View.VISIBLE);
-		} else if (settings != null && !showSettings) {
+		} else if (settings != null) {
 			settings.setVisibility(View.GONE);
 		}
 	}
@@ -203,7 +203,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public boolean setSelection(T item, boolean selection) {
-		if (items.indexOf(item) == -1) {
+		if (!items.contains(item)) {
 			return false;
 		}
 		selectionManager.setSelectionTo(selection, items.indexOf(item));
@@ -211,7 +211,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public boolean toggleSelection(T item) {
-		if (items.indexOf(item) == -1) {
+		if (!items.contains(item)) {
 			return false;
 		}
 		selectionManager.toggleSelection(items.indexOf(item));

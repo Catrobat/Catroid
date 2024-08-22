@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
@@ -67,45 +69,28 @@ class AddNewActorOrLookDialogTest {
 
     @Test
     fun addActorOrObjectDialogTest() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_paintroid))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_camera))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_gallery))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_object_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_empty_object))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.button_add)).perform(ViewActions.click())
+        onView(withText(R.string.new_sprite_dialog_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_paintroid)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_camera)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_gallery)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_media_library)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_object_media_library)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_backpack)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_import_sprite_from_local)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_empty_object)).check(matches(isDisplayed()))
     }
 
     @Test
     fun addLookDialogTest() {
-        Espresso.onView(ViewMatchers.withText(currentProject!!.defaultScene.spriteList[0].toString()))
+        onView(withText(currentProject!!.defaultScene.spriteList[0].toString()))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.new_look_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_paintroid))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_camera))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_gallery))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+        onView(withId(R.id.button_add)).perform(ViewActions.click())
+        onView(withText(R.string.new_look_dialog_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_paintroid)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_camera)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_gallery)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_media_library)).check(matches(isDisplayed()))
     }
 }

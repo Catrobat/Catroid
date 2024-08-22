@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,6 @@ import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
@@ -72,10 +71,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<T> {
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
-	@interface ActionModeType {}
-
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
 	protected static final int COPY = 2;
@@ -83,21 +78,16 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int RENAME = 4;
 	protected static final int MERGE = 5;
 	protected static final int IMPORT_LOCAL = 6;
-
 	private static final String TAG = RecyclerViewFragment.class.getSimpleName();
-
 	protected View parentView;
 	protected RecyclerView recyclerView;
 	protected TextView emptyView;
-
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
-
 	protected String sharedPreferenceDetailsKey = "";
 
 	protected UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	protected ItemTouchHelper touchHelper;
-
 	protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
 
 		@Override
@@ -106,13 +96,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			setShowEmptyView(shouldShowEmptyView());
 		}
 	};
+	@ActionModeType
+	protected int actionModeType = NONE;
 
 	boolean shouldShowEmptyView() {
 		return adapter.getItemCount() == 0;
 	}
-
-	@ActionModeType
-	protected int actionModeType = NONE;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -133,10 +122,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				onRename(menu);
 				return true;
 			case MERGE:
-				adapter.selectionMode = adapter.PAIRS;
+				adapter.selectionMode = RVAdapter.PAIRS;
 				mode.setTitle(R.string.am_merge);
 				break;
 			case IMPORT_LOCAL:
+				onImport(menu, mode);
+				return true;
 			case NONE:
 				return false;
 		}
@@ -147,24 +138,28 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		return true;
 	}
 
-	private void onRename(Menu menu) {
-		adapter.selectionMode = adapter.SINGLE;
+	protected void onRename(Menu menu) {
+		adapter.selectionMode = RVAdapter.SINGLE;
 		adapter.showSettings = false;
 		adapter.showRipples = false;
 		menu.findItem(R.id.confirm).setVisible(false);
 		menu.findItem(R.id.overflow).setVisible(false);
 		menu.findItem(R.id.toggle_selection).setVisible(false);
 
-		if (this instanceof SpriteListFragment) {
-			((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.GONE);
-			if (((SpriteListFragment) this).isSingleVisibleSprite()) {
-				showRenameDialog(adapter.getItems().get(1));
-			}
-		} else if (adapter.getItemCount() == 1) {
+		if (adapter.getItemCount() == 1) {
 			showRenameDialog(adapter.getItems().get(0));
 		}
 
 		adapter.notifyDataSetChanged();
+	}
+
+	protected void onImport(Menu menu, ActionMode mode) {
+		setHasOptionsMenu(false);
+		adapter.showSettings = false;
+		adapter.selectionMode = RVAdapter.SINGLE;
+		menu.findItem(R.id.confirm).setVisible(false);
+		menu.findItem(R.id.overflow).setVisible(false);
+		menu.findItem(R.id.toggle_selection).setVisible(false);
 	}
 
 	@Override
@@ -194,9 +189,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		resetActionModeParameters();
 		adapter.clearSelection();
 		BottomBar.showBottomBar(getActivity());
-		if (this instanceof SpriteListFragment) {
-			((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
-		}
 	}
 
 	private void handleContextualAction() {
@@ -217,14 +209,18 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				break;
 			case RENAME:
 				break;
+			case IMPORT_LOCAL:
+				importItems(adapter.getSelectedItems());
+				break;
 			case MERGE:
 				showMergeDialog(adapter.getSelectedItems());
 				break;
-			case IMPORT_LOCAL:
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
 	}
+
+	protected abstract void importItems(List<T> selectedItems);
 
 	protected void resetActionModeParameters() {
 		actionModeType = NONE;
@@ -232,7 +228,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		adapter.showCheckBoxes = false;
 		adapter.showSettings = true;
 		adapter.showRipples = true;
-		adapter.selectionMode = adapter.MULTIPLE;
+		adapter.selectionMode = RVAdapter.MULTIPLE;
 	}
 
 	@Override
@@ -248,7 +244,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
-		if (getActivity().isFinishing()) {
+		if (requireActivity().isFinishing()) {
 			return;
 		}
 		initializeAdapter();
@@ -275,9 +271,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		BackpackListManager.getInstance().loadBackpack();
-
 		adapter.notifyDataSetChanged();
 		adapter.registerAdapterDataObserver(observer);
 		setShowEmptyView(shouldShowEmptyView());
@@ -363,13 +357,13 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		}
 	}
 
-	private void startActionMode(@ActionModeType int type) {
-		if (adapter.getItems().isEmpty() || (this instanceof SpriteListFragment && adapter.getItems().size() == 1)) {
+	protected void startActionMode(@ActionModeType int type) {
+		if (adapter.getItems().isEmpty()) {
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
 			actionModeType = type;
-			actionMode = getActivity().startActionMode(this);
+			actionMode = requireActivity().startActionMode(this);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
@@ -391,15 +385,21 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				actionMode.setTitle(getString(R.string.am_merge) + " " + selectedItemCnt);
 				break;
 			case RENAME:
+				break;
 			case IMPORT_LOCAL:
-				return;
+				if (selectedItemCnt != 0) {
+					actionMode.setTitle(getString(R.string.am_import) + " " + selectedItemCnt);
+				} else {
+					actionMode.setTitle(getString(R.string.import_objects));
+				}
+				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
 		}
 	}
 
 	protected void updateSelectionToggle(Menu menu) {
-		if (adapter.selectionMode == adapter.MULTIPLE) {
+		if (adapter.selectionMode == RVAdapter.MULTIPLE) {
 			MenuItem selectionToggle = menu.findItem(R.id.toggle_selection);
 			selectionToggle.setVisible(true);
 			menu.findItem(R.id.overflow).setVisible(true);
@@ -457,7 +457,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	protected void showBackpackModeChooser() {
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(getContext())
+		new AlertDialog.Builder(requireContext())
 				.setTitle(R.string.backpack_title)
 				.setItems(items, (dialog, which) -> {
 					switch (which) {
@@ -472,7 +472,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected abstract void packItems(List<T> selectedItems);
+
 	protected abstract boolean isBackpackEmpty();
+
 	protected abstract void switchToBackpack();
 
 	protected abstract void copyItems(List<T> selectedItems);
@@ -481,7 +483,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract int getDeleteAlertTitleId();
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(getContext())
+		new AlertDialog.Builder(requireContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.delete, (dialog, id) -> deleteItems(selectedItems))
@@ -493,7 +495,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected void showRenameDialog(T selectedItem) {
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(requireContext());
 		builder.setHint(getString(getRenameDialogHint()))
 				.setText(selectedItem.getName())
 				.setTextWatcher(new DuplicateInputTextWatcher(adapter.getItems()))
@@ -502,9 +504,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)
 				.setOnDismissListener(dialogInterface -> {
-					if (this instanceof SpriteListFragment) {
-						((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
-					}
 					if (actionMode != null) {
 						finishActionMode();
 					}
@@ -516,14 +515,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		if (adapter.getSelectedItems().size() <= 1) {
 			ToastUtil.showError(getContext(), R.string.am_merge_error);
 		} else {
-			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+			TextInputDialog.Builder builder = new TextInputDialog.Builder(requireContext());
 
 			builder.setHint(getString(R.string.project_name_label))
 					.setTextWatcher(new NewProjectNameTextWatcher<>())
-					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
-							-> {
-						mergeProjects(selectedItems, textInput);
-					});
+					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> this.mergeProjects(selectedItems, textInput));
 
 			builder.setTitle(R.string.new_merge_project_dialog_title)
 					.setNegativeButton(R.string.cancel, null)
@@ -536,6 +532,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@StringRes
 	protected abstract int getRenameDialogTitle();
+
 	@StringRes
 	protected abstract int getRenameDialogHint();
 
@@ -547,5 +544,10 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) {
 		ToastUtil.showSuccess(getContext(), R.string.merging_project_text);
 		finishActionMode();
+	}
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
+	@interface ActionModeType {
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,6 @@ import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEM
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
@@ -68,12 +67,10 @@ class NewSpriteDialogFragment(
     private val lookFileName: String,
     private val contentResolver: ContentResolver?,
     private val uri: Uri?,
-    private val currentFragment: Fragment,
-    private val isObject: Boolean,
-    private val importProjectHelper: ImportProjectHelper?
+    private val currentFragment: Fragment
 ) : DialogFragment() {
     constructor(emptySprite: Boolean, lookDataName: String, currentFragment: Fragment) :
-        this(emptySprite, lookDataName, "", null, null, currentFragment, false, null)
+        this(emptySprite, lookDataName, "", null, null, currentFragment)
 
     private var visuallyPlaceSwitch: SwitchCompat? = null
     private var placeVisuallyTextView: TextView? = null
@@ -85,7 +82,6 @@ class NewSpriteDialogFragment(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         val view = View.inflate(activity, R.layout.dialog_new_sprite, null)
         val currentScene = ProjectManager.getInstance().currentlyEditedScene
 
@@ -120,16 +116,10 @@ class NewSpriteDialogFragment(
     }
 
     private fun handlePositiveButton(textInput: String?, currentScene: Scene) {
-        if (isObject) {
-            sprite = importProjectHelper?.addObjectDataToNewSprite(null)
-            sprite?.rename(textInput)
-            currentScene.addSprite(sprite)
-        } else {
-            sprite = Sprite(textInput)
-            currentScene.addSprite(sprite)
-            if (!emptySprite) {
-                addLookDataToSprite(currentScene, textInput)
-            }
+        sprite = Sprite(textInput)
+        currentScene.addSprite(sprite)
+        if (!emptySprite) {
+            addLookDataToSprite(currentScene, textInput)
         }
 
         if (currentFragment is SpriteListFragment) {

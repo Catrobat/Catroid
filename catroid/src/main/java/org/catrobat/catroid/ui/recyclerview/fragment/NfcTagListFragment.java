@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,11 +65,12 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
 		} else {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent,
+					PendingIntent.FLAG_IMMUTABLE);
 		}
 
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
-			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
+			ToastUtil.showError(requireActivity(), R.string.nfc_not_activated);
 			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
 			startActivity(intent);
 		} else if (nfcAdapter == null) {
@@ -231,5 +232,10 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			return true;
 		});
 		popupMenu.show();
+	}
+
+	@Override
+	protected void importItems(List<NfcTagData> selectedItems) {
+		throw new IllegalStateException(TAG + ": NfcTags cannot be imported.");
 	}
 }

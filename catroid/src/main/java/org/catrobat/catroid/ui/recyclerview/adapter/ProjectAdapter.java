@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -81,6 +81,12 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);
+		}
+
+		if (showSettings) {
+			holder.settings.setVisibility(View.VISIBLE);
+		} else {
+			holder.settings.setVisibility(View.GONE);
 		}
 	}
 }
