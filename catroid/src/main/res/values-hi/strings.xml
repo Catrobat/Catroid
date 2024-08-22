@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">ईंट प्रतीक</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">चिह्न दिखाएं</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">श्रेणियों और ईंटों में आइकन जोड़ें।</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">उच्च कंट्रास्ट</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">पाठ कंट्रास्ट बढ़ाएँ।</string>
     <string formatted="false" name="preference_description_accessibility_large_text">चिह्न का आकर बड़ा करें</string>
     <string formatted="false" name="preference_title_accessibility_large_text">बड़ा पाठ</string>

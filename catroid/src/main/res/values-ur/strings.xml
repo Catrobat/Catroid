@@ -153,7 +153,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">شبیہیں</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">شبیہیں نمایش کریں</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">زمرے اور اینٹوں میں شبیہیں شامل کریں.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">اعلی برعکس</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">متن کے برعکس میں اضافہ کریں.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">متن کا سائز بڑھائیں ۔</string>
     <string formatted="false" name="preference_title_accessibility_large_text">بڑے متن</string>

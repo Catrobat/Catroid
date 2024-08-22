@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Εικονίδια</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Εμφάνιση εικονιδίων</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Υψηλή αντίθεση</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Αύξηση αντίθεσης κειμένου.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Αύξηση μεγέθους κειμένου.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Μεγάλο κείμενο</string>

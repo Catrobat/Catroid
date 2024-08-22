@@ -121,7 +121,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Иконице</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Прикажи иконице</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Додај иконице у categories и bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Велики контраст</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Повећај текст контраст.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Повећај текст величину.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Велики текст</string>

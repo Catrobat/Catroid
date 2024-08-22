@@ -155,7 +155,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">ايقونات اللبّنات البرمجية</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">إظهار الايقونات</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللبّنات البرمجية.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">تباين عالي</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللبّنات البرمجية.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">زيادة حجم النص.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">نص عريض</string>

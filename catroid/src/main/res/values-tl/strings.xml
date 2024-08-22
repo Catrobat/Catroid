@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Icons</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Ipakita ang icons</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Magdagdag ng icons sa mga kategorya at bricks</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Mataas na kontras</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Palakihin ang kontras ng text</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Palakihin ang sukat ng text.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Malaking sulat</string>

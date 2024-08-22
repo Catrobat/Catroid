@@ -154,7 +154,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">圖標</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">顯示圖標</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">為類別和積木添加圖標。</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">高對比度</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">增加文字對比度。</string>
     <string formatted="false" name="preference_description_accessibility_large_text">增加文字大小。</string>
     <string formatted="false" name="preference_title_accessibility_large_text">大文本</string>

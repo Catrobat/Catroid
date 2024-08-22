@@ -148,7 +148,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">آیکون‌ها</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">نمایش نماد</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">اضافه کردن آیکون به دسته ها و آجر.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">کنتراست بالا</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">کنتراست متن را افزایش دهید.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">اندازه متن را افزایش دهید.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">متن بزرگ</string>

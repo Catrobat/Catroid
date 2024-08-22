@@ -142,12 +142,19 @@
     <!-- Settings activity -->
     <string formatted="false" name="preference_title">Settings</string>
     <string formatted="false" name="preference_title_language">Language</string>
+    <string formatted="false" name="preference_title_extension">Manage Extensions</string>
+
     <string formatted="false" name="preference_description_language">Set the app\'s language</string>
+    <string formatted="false" name="preference_description_extension">Edit extensions</string>
 
     <string formatted="false" name="preference_title_web_access">Web access</string>
     <string formatted="false" name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string formatted="false" name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string formatted="false" name="preference_empty_web_access">Tap \"+\" to add trusted domains</string>
+    <string formatted="false" name="web_access_rename_trusted_domain">Edit domain</string>
+    <string formatted="false" name="web_access_add_trusted_domain">Add trusted domain</string>
 
+    <string formatted="false" name="preference_title_manage_extensions">Extensions</string>
     <string formatted="false" name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string formatted="false" name="preference_description_ai">Enable AI bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_speech_recognition">Speech
@@ -189,7 +196,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Icons</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Show icons</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">High contrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Increase the text size.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Large text</string>
@@ -219,15 +225,6 @@
        delay</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tiro</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">Beginner mode</string>
-    <string name="preference_dialog_use_full_features">Use full features</string>
-    <string name="preference_dialog_appgallery">AppGallery</string>
-    <string name="preference_dialog_google_play">Google Play</string>
-    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
-        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
-    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
-        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
-    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
-        robotics extension, please use Catrobat\'s Phiro Code app.</string>
 
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>

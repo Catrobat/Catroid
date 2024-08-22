@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Піктограми</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Показати піктограми</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Додати піктограми до категорій і блоків.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Високий контраст</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Збільшити контраст на текст.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Збільшити розмір тексту.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Великий текст</string>

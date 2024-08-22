@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Ikon</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Tampilkan ikon</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Tambahkan ikon ke kategori dan batu bata.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Kontras tinggi</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Tingkatkan kontras teks.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Tingkatkan ukuran teks.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Teks besar</string>

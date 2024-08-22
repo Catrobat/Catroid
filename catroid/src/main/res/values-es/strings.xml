@@ -156,7 +156,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Iconos</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Mostrar iconos</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Añadir iconos a las categorías y los bloques.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Alto contraste</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Aumentar el contraste del texto.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Aumentar el tamaño del texto.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Texto grande</string>

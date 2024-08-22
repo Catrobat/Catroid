@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Ikony</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Pokaż ikony</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Dodawanie ikon do kategorii i bloczków.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Wysoki kontrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Zwiększ kontrast tekstu na bloczkach.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Zwiększ rozmiar czcionki.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Duży tekst</string>

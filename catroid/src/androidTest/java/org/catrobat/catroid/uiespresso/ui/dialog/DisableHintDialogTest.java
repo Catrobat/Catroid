@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.PreferenceMatchers;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -58,13 +58,15 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -86,13 +88,13 @@ public class DisableHintDialogTest {
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		hintSetting = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
-		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<>()));
 		bufferedPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
 		getDefaultSharedPreferences()
 				.edit()
 				.putBoolean(SETTINGS_SHOW_HINTS, true)
-				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>())
+				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<>())
 				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, false)
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
@@ -128,7 +130,7 @@ public class DisableHintDialogTest {
 
 		pressBack();
 
-		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
+		openActionBarMenu();
 		onView(withText(R.string.settings)).perform(click());
 		checkPreferenceHide(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
 
@@ -172,8 +174,7 @@ public class DisableHintDialogTest {
 
 		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
 
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
+		onView(withText(displayedTitleResourceString)).perform(click());
 
 		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, true));
 	}
@@ -182,11 +183,16 @@ public class DisableHintDialogTest {
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
-		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, true));
+		onView(withId(androidx.preference.R.id.recycler_view))
+				.perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(displayedTitleResourceString)),
+						scrollTo()));
 
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
+		onView(withText(displayedTitleResourceString)).perform(click());
 
 		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
+
+		onView(withText(displayedTitleResourceString)).perform(click());
+
+		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, false));
 	}
 }

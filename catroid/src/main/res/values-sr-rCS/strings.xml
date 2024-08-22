@@ -157,7 +157,6 @@
     <string formatted="false" name="preference_title_accessibility_Brick_icons">Ikone</string>
     <string formatted="false" name="preference_title_accessibility_category_icons">Prikaži ikone</string>
     <string formatted="false" name="preference_description_accessibility_category_icons">Dodajte ikone kategorijama i kockama.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">Veliki kontrast</string>
     <string formatted="false" name="preference_description_accessibility_high_contrast">Povećajte kontrast teksta.</string>
     <string formatted="false" name="preference_description_accessibility_large_text">Povećajte veličinu teksta.</string>
     <string formatted="false" name="preference_title_accessibility_large_text">Veliki tekst</string>

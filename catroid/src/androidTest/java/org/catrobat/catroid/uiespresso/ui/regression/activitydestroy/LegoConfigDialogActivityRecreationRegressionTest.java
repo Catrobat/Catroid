@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, false);
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		setNXTBrickSetting(true);
 
@@ -118,7 +118,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, bricksEnabled)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
 				.commit();
 	}
 }
