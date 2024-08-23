@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -216,13 +216,13 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 				R.menu.menu_project_activity, hiddenMenuOptionIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
 			switch (menuItem.getItemId()) {
-				case R.id.copy:
+				case (R.id.copy):
 					copyItems(itemList);
 					break;
-				case R.id.rename:
+				case (R.id.rename):
 					showRenameDialog(item);
 					break;
-				case R.id.delete:
+				case (R.id.delete):
 					deleteItems(itemList);
 					break;
 				default:

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -228,7 +228,7 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.confirm:
+			case (R.id.confirm):
 				handleContextualAction();
 				break;
 			default:
@@ -458,25 +458,25 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 		}
 		switch (item.getItemId()) {
-			case R.id.menu_undo:
+			case (R.id.menu_undo):
 				loadProjectAfterUndoOption();
 				break;
-			case R.id.backpack:
+			case (R.id.backpack):
 				prepareActionMode(BACKPACK);
 				break;
-			case R.id.copy:
+			case (R.id.copy):
 				prepareActionMode(COPY);
 				break;
-			case R.id.delete:
+			case (R.id.delete):
 				prepareActionMode(DELETE);
 				break;
-			case R.id.comment_in_out:
+			case (R.id.comment_in_out):
 				prepareActionMode(COMMENT);
 				break;
-			case R.id.catblocks:
+			case (R.id.catblocks):
 				switchToCatblocks();
 				break;
-			case R.id.find:
+			case (R.id.find):
 				scriptFinder.open();
 				break;
 			default:
@@ -741,13 +741,13 @@ public class ScriptFragment extends ListFragment implements
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
 		showUndo(false);
 		switch (itemId) {
-			case R.string.backpack_add:
+			case (R.string.backpack_add):
 				List<Brick> bricksToPack = new ArrayList<>();
 				brick.addToFlatList(bricksToPack);
 				showNewScriptGroupAlert(bricksToPack);
 				break;
-			case R.string.brick_context_dialog_copy_brick:
-			case R.string.brick_context_dialog_copy_script:
+			case (R.string.brick_context_dialog_copy_brick):
+			case (R.string.brick_context_dialog_copy_script):
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
@@ -757,44 +757,44 @@ public class ScriptFragment extends ListFragment implements
 					Log.e(TAG, Log.getStackTraceString(e));
 				}
 				break;
-			case R.string.brick_context_dialog_delete_brick:
-			case R.string.brick_context_dialog_delete_script:
+			case (R.string.brick_context_dialog_delete_brick):
+			case (R.string.brick_context_dialog_delete_script):
 				showDeleteAlert(brick.getAllParts());
 				break;
-			case R.string.brick_context_dialog_delete_definition:
+			case (R.string.brick_context_dialog_delete_definition):
 				showDeleteAlert(brick.getAllParts());
 				break;
-			case R.string.brick_context_dialog_comment_in:
-			case R.string.brick_context_dialog_comment_in_script:
+			case (R.string.brick_context_dialog_comment_in):
+			case (R.string.brick_context_dialog_comment_in_script):
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(false);
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_context_dialog_comment_out:
-			case R.string.brick_context_dialog_comment_out_script:
+			case (R.string.brick_context_dialog_comment_out):
+			case (R.string.brick_context_dialog_comment_out_script):
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(true);
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_option_place_visually:
+			case (R.string.brick_option_place_visually):
 				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
 				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(),
 						visualPlacementBrick.getYBrickField());
 				break;
-			case R.string.brick_context_dialog_formula_edit_brick:
+			case (R.string.brick_context_dialog_formula_edit_brick):
 				((FormulaBrick) brick).onClick(listView);
 				break;
-			case R.string.brick_context_dialog_move_brick:
-			case R.string.brick_context_dialog_move_script:
-			case R.string.brick_context_dialog_move_definition:
+			case (R.string.brick_context_dialog_move_brick):
+			case (R.string.brick_context_dialog_move_script):
+			case (R.string.brick_context_dialog_move_definition):
 				onBrickLongClick(brick, position);
 				break;
-			case R.string.brick_context_dialog_help:
+			case (R.string.brick_context_dialog_help):
 				openWebViewWithHelpPage(brick);
 				break;
-			case R.string.brick_context_dialog_highlight_brick_parts:
+			case (R.string.brick_context_dialog_highlight_brick_parts):
 				List<Brick> bricksOfControlStructure = brick.getAllParts();
 				List<Integer> positions = new ArrayList<>();
 				for (Brick brickInControlStructure : bricksOfControlStructure) {

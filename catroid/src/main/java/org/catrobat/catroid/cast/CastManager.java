@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -242,29 +242,29 @@ public final class CastManager {
 		Sensors buttonPressed;
 		String buttonPressedName;
 		switch (button.getId()) {
-			case R.id.gamepadButtonA:
+			case (R.id.gamepadButtonA):
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
 				buttonPressed = Sensors.GAMEPAD_A_PRESSED;
 				break;
-			case R.id.gamepadButtonB:
+			case (R.id.gamepadButtonB):
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
 				buttonPressed = Sensors.GAMEPAD_B_PRESSED;
 				break;
-			case R.id.gamepadButtonUp:
+			case (R.id.gamepadButtonUp):
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_up);
 				buttonPressed = Sensors.GAMEPAD_UP_PRESSED;
 				break;
-			case R.id.gamepadButtonDown:
+			case (R.id.gamepadButtonDown):
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_down);
 				buttonPressed = Sensors.GAMEPAD_DOWN_PRESSED;
 				break;
-			case R.id.gamepadButtonLeft:
+			case (R.id.gamepadButtonLeft):
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_left);
 				buttonPressed = Sensors.GAMEPAD_LEFT_PRESSED;
 				break;
-			case R.id.gamepadButtonRight:
+			case (R.id.gamepadButtonRight):
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_right);
 				buttonPressed = Sensors.GAMEPAD_RIGHT_PRESSED;
 				break;

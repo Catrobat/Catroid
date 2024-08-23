@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,25 +107,25 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.stage_dialog_button_back:
+			case (R.id.stage_dialog_button_back):
 				onBackPressed();
 				break;
-			case R.id.stage_dialog_button_continue:
+			case (R.id.stage_dialog_button_continue):
 				onContinuePressed();
 				break;
-			case R.id.stage_dialog_button_restart:
+			case (R.id.stage_dialog_button_restart):
 				onRestartPressed();
 				break;
-			case R.id.stage_dialog_button_toggle_axes:
+			case (R.id.stage_dialog_button_toggle_axes):
 				toggleAxes();
 				break;
-			case R.id.stage_dialog_button_maximize:
+			case (R.id.stage_dialog_button_maximize):
 				stageListener.toggleScreenMode();
 				break;
-			case R.id.stage_dialog_button_screenshot:
+			case (R.id.stage_dialog_button_screenshot):
 				makeScreenshot();
 				break;
-			case R.id.stage_dialog_button_share:
+			case (R.id.stage_dialog_button_share):
 				shareEmbroideryFile();
 				break;
 			default:

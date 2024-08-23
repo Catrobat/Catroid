@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -111,7 +111,7 @@ public final class TextInputDialog extends AlertDialog {
 		public UniqueNameProvider createUniqueNameProvider(int stringID) {
 			UniqueNameProvider uniqueNameProvider;
 			switch (stringID) {
-				case R.string.default_list_name:
+				case (R.string.default_list_name):
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
@@ -119,7 +119,7 @@ public final class TextInputDialog extends AlertDialog {
 						}
 					};
 					break;
-				case R.string.default_variable_name:
+				case (R.string.default_variable_name):
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
