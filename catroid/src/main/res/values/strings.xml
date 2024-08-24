@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1336,12 +1336,12 @@
     <string formatted="false" name="default_list_name">List</string>
     <string formatted="false" name="default_project_background_name">Background</string>
     <string formatted="false" name="default_project_cloud_name">Clouds</string>
-    <string formatted="false" name="default_project_cloud_sprite_name_1">Clouds1</string>
+    <string formatted="false" name="default_project_cloud_sprite_name_1" tools:ignore="Typos">Clouds1</string>
     <string formatted="false" name="default_project_cloud_sprite_name_2">Clouds2</string>
     <string formatted="false" name="default_project_sprites_animal_name">Animal</string>
     <string formatted="false" name="default_project_sprites_animal_wings_up">Wings up</string>
     <string formatted="false" name="default_project_sprites_animal_wings_down">Wings down</string>
-    <string formatted="false" name="default_project_sprites_tweet_1">Tweet1</string>
+    <string formatted="false" name="default_project_sprites_tweet_1" tools:ignore="Typos">Tweet1</string>
     <string formatted="false" name="default_project_sprites_tweet_2">Tweet2</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_needle_name">Needle</string>
@@ -1353,14 +1353,14 @@
     <!-- Default ChromeCast Values -->
     <string formatted="false" name="default_cast_project_background_name">Background</string>
     <string formatted="false" name="default_cast_project_cloud_name">Clouds</string>
-    <string formatted="false" name="default_cast_project_cloud_sprite_name1">Clouds1</string>
+    <string formatted="false" name="default_cast_project_cloud_sprite_name1" tools:ignore="Typos">Clouds1</string>
     <string formatted="false" name="default_cast_project_cloud_sprite_name2">Clouds2</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name">Bird</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
-    <string formatted="false" name="default_cast_project_sprites_tweet_1">Tweet1</string>
+    <string formatted="false" name="default_cast_project_sprites_tweet_1" tools:ignore="Typos">Tweet1</string>
     <string formatted="false" name="default_cast_project_sprites_tweet_2">Tweet2</string>
     <string formatted="false" name="default_cast_project_var_direction">direction</string>
     <string formatted="false" name="default_cast_project_name">My first Chromecast project</string>
