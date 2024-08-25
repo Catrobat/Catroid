@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.SystemClock;
@@ -66,6 +67,7 @@ public final class StageLifeCycleController {
 		throw new AssertionError("no.");
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	static void stageCreate(final StageActivity stageActivity) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			stageActivity.finish();

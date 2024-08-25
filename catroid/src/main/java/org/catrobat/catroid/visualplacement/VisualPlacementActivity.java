@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.visualplacement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -145,6 +146,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		return true;
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(null);
