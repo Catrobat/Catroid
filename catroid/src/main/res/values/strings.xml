@@ -1118,9 +1118,9 @@
     <!--  -->
 
     <!-- Plot bricks -->
-    <string formatted="false" name="brick_save_plot">Save plot to SVG file</string>
-    <string formatted="false" name="brick_stop_plot">Stop plot</string>
-    <string formatted="false" name="brick_start_plot">Start plot</string>
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
 
 
