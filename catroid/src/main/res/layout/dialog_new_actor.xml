@@ -106,10 +106,10 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
             android:layout_height="match_parent">
 
              <TextView
-                 android:id="@+id/dialog_new_look_from_local"
+                 android:id="@+id/dialog_new_look_from_actors_and_objects"
                  android:background="@drawable/new_object_dialog_selector"
                  android:gravity="center"
-                 android:text="@string/add_look_from_local_project"
+                 android:text="@string/add_look_actors_and_object"
                  android:textSize="?attr/medium"
                  app:drawableTopCompat="@drawable/ic_library_add" />
 
@@ -121,6 +121,20 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                 android:textSize="?attr/medium"
                 app:drawableTopCompat="@drawable/ic_plus"
                 app:drawableTint="@color/solid_white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+             <TextView
+                 android:id="@+id/dialog_new_look_from_local"
+                 android:background="@drawable/new_object_dialog_selector"
+                 android:gravity="center"
+                 android:text="@string/add_look_from_local_project"
+                 android:textSize="?attr/medium"
+                 app:drawableTopCompat="@drawable/ic_library_add" />
+
         </TableRow>
     </TableLayout>
 </ScrollView>

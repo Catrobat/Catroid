@@ -54,8 +54,10 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
 import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.ui.controller.ActorsAndObjectsManager
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
+import org.catrobat.catroid.ui.recyclerview.backpack.ActorAndObjectActivity
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogFragment
@@ -423,6 +425,19 @@ class ProjectActivity : BaseCastActivity() {
                 intent.putExtra(
                     BackpackActivity.EXTRA_FRAGMENT_POSITION,
                     BackpackActivity.FRAGMENT_SPRITES
+                )
+                startActivity(intent)
+            } else {
+                ToastUtil.showError(this, R.string.backpack_empty)
+            }
+            alertDialog.dismiss()
+        }
+        dialogNewActorBinding.dialogNewLookFromActorsAndObjects.setOnClickListener {
+            if (ActorsAndObjectsManager.getInstance().sprites.isNotEmpty()) {
+                val intent = Intent(this, ActorAndObjectActivity::class.java)
+                intent.putExtra(
+                    ActorAndObjectActivity.EXTRA_FRAGMENT_POSITION,
+                    ActorAndObjectActivity.FRAGMENT_SPRITES
                 )
                 startActivity(intent)
             } else {
