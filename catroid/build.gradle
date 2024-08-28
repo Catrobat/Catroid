@@ -150,6 +150,7 @@ android {
         buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PLOT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"

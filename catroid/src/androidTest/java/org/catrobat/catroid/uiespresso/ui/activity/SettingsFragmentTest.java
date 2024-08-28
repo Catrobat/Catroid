@@ -83,6 +83,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PLOT_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
@@ -186,7 +187,7 @@ public class SettingsFragmentTest {
 		} else {
 			openAppstoreDialog(R.string.preference_title_enable_embroidery_bricks);
 		}
-
+		checkPreference(R.string.preference_title_enable_plot_bricks, SETTINGS_SHOW_PLOT_BRICKS);
 		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
 		checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
 		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
