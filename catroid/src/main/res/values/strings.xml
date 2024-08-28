@@ -686,6 +686,7 @@
 
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Your backpack</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Pack</string>
     <string formatted="false" name="unpack">Unpack</string>
     <!--  -->
@@ -715,7 +716,8 @@
     <string formatted="false" name="add_look_choose_image">Gallery</string>
     <string formatted="false" name="add_look_media_library">Looks</string>
     <string formatted="false" name="add_look_from_local_project">Local projects</string>
-    <string name="add_look_empty_object">Empty Object</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
