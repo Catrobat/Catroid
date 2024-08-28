@@ -129,8 +129,8 @@ class BrickAdapter(private val sprite: Sprite) :
                     }
                 }
 
+                @Suppress("EmptyFunctionBlock")
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 }
             }
 
