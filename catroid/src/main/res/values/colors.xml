@@ -135,5 +135,6 @@
      <color name="brick_color_grey">#AAAAAA</color>
      <color name="brick_color_white">#FFFFFF</color>
      <color name="brick_color_black">#323331</color>
+     <color name="brick_color_winered">#910D06</color>
 
     </resources>

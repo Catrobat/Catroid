@@ -204,6 +204,7 @@
     <string formatted="false" name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
     <string formatted="false" name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string formatted="false" name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>

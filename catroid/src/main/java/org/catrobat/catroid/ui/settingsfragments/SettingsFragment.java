@@ -83,6 +83,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS_PREFERENCE = "setting_enable_phiro_bricks_preference";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
+	public static final String SETTINGS_SHOW_PLOT_BRICKS = "setting_plot_bricks";
+
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
@@ -123,6 +125,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
 
+
 	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
 	public static final String RASPI_HOST = "setting_raspi_host_preference";
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
@@ -150,6 +153,12 @@ public class SettingsFragment extends PreferenceFragment {
 					(CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE);
 			embroideryPreference.setEnabled(false);
 			screen.removePreference(embroideryPreference);
+		}
+		if (!BuildConfig.FEATURE_PLOT_ENABLED) {
+			CheckBoxPreference plotPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_SHOW_PLOT_BRICKS);
+			plotPreference.setEnabled(false);
+			screen.removePreference(plotPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
@@ -274,6 +283,9 @@ public class SettingsFragment extends PreferenceFragment {
 	public static boolean isEmroiderySharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE, context);
 	}
+	public static boolean isPlotSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PLOT_BRICKS, context);
+	}
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
@@ -321,6 +333,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value)
+				.apply();
+	}
+
+	public static void setPlotSharedPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_PLOT_BRICKS, value)
 				.apply();
 	}
 

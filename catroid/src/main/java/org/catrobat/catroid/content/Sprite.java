@@ -58,6 +58,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.plot.Plot;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
@@ -93,6 +94,7 @@ public class Sprite implements Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
+	public transient Plot plot = new Plot();
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
@@ -358,6 +360,7 @@ public class Sprite implements Nameable, Serializable {
 		}
 
 		penConfiguration = new PenConfiguration();
+		plot = new Plot();
 		runningStitch = new RunningStitch();
 	}
 
@@ -365,6 +368,7 @@ public class Sprite implements Nameable, Serializable {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
+		plot = null;
 		runningStitch = null;
 	}
 
@@ -465,6 +469,7 @@ public class Sprite implements Nameable, Serializable {
 		convertedSprite.look.setLookData(look.getLookData());
 
 		convertedSprite.penConfiguration = penConfiguration;
+		convertedSprite.plot = plot;
 		convertedSprite.runningStitch = runningStitch;
 
 		convertedSprite.lookList = lookList;

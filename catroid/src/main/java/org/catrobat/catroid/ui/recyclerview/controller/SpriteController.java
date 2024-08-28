@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -153,7 +154,10 @@ public class SpriteController {
 			sprite.penConfiguration.setPenDown(true);
 			sprite.penConfiguration.addQueue();
 		}
-
+		if(spriteToCopy.plot.isPlotting()){
+			sprite.plot.resume();
+			sprite.plot.startNewPlotLine();
+		}
 		return sprite;
 	}
 

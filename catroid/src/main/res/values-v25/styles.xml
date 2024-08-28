@@ -341,6 +341,23 @@
         <item name="android:background">@drawable/brick_green_3h</item>
     </style>
 
+    <style name="BrickContainer.Plot" />
+
+    <style name="BrickContainer.Plot.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_winered_1h</item>
+    </style>
+
+    <style name="BrickContainer.Plot.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_winered_2h</item>
+    </style>
+
+    <style name="BrickContainer.Plot.Big" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_winered_3h</item>
+    </style>
+
     <style name="BrickContainer.UserVariables" />
 
     <style name="BrickContainer.UserVariables.Small" tools:ignore="UnusedResources">
@@ -627,6 +644,10 @@
 
     <style name="BrickCategory.Pen">
         <item name="android:background">@drawable/brick_categories_darkgreen</item>
+    </style>
+
+    <style name="BrickCategory.Plot">
+        <item name="android:background">@drawable/brick_categories_winered</item>
     </style>
 
     <style name="BrickCategory.Drone">

@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
+import org.catrobat.catroid.content.actions.SavePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -151,6 +152,8 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
+import org.catrobat.catroid.content.actions.StartPlotAction;
+import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -568,6 +571,18 @@ public class ActionFactory extends Actions {
 
 	public Action createPenUpAction(Sprite sprite) {
 		PenUpAction action = Actions.action(PenUpAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStartPlotAction(Sprite sprite) {
+		StartPlotAction action = Actions.action(StartPlotAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopPlotAction(Sprite sprite) {
+		StopPlotAction action = Actions.action(StopPlotAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
@@ -1150,6 +1165,14 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.setFormula(fileName);
 
+		return action;
+	}
+
+	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		SavePlotAction action = Actions.action(SavePlotAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
 		return action;
 	}
 
