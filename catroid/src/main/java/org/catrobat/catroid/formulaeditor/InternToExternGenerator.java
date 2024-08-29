@@ -23,6 +23,10 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -37,6 +41,7 @@ public class InternToExternGenerator {
 	private static final String TAG = InternToExternGenerator.class.getSimpleName();
 
 	private String generatedExternFormulaString;
+	private static SpannableStringBuilder generatedHighlightedExternFormulaString;
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
 	private Context context;
 
@@ -326,6 +331,7 @@ public class InternToExternGenerator {
 		this.context = context;
 		generatedExternFormulaString = "";
 		generatedExternInternRepresentationMapping = new ExternInternRepresentationMapping();
+		generatedHighlightedExternFormulaString = new SpannableStringBuilder();
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
@@ -359,6 +365,7 @@ public class InternToExternGenerator {
 		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				externalFormulaString.append(' ');
+				generatedHighlightedExternFormulaString.append(' ');
 			}
 			externStringStartIndex = externalFormulaString.length();
 			currentToken = internTokenList.get(0);
@@ -370,6 +377,20 @@ public class InternToExternGenerator {
 			}
 
 			externTokenString = generateExternStringFromToken(currentToken, trimNumbers);
+			SpannableString externTokenSpannableString = new SpannableString(externTokenString);
+			if (currentToken.getInternTokenType() ==
+					InternTokenType.FUNCTION_NAME ||
+					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN ||
+					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE ||
+					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER ) {
+				externTokenSpannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#008B96")),
+						0,
+						externTokenSpannableString.length(),
+						0);
+			}
+
+			generatedHighlightedExternFormulaString.append(externTokenSpannableString);
+
 			externalFormulaString.append(externTokenString);
 			externStringEndIndex = externalFormulaString.length();
 
@@ -381,6 +402,7 @@ public class InternToExternGenerator {
 		}
 
 		externalFormulaString.append(' ');
+		generatedHighlightedExternFormulaString.append(' ');
 		generatedExternFormulaString = externalFormulaString.toString();
 	}
 
@@ -490,5 +512,9 @@ public class InternToExternGenerator {
 
 	public static void setInternExternLanguageConverterMap(Sensors sensor, Integer output) {
 		InternToExternGenerator.INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(sensor.name(), output);
+	}
+
+	public static SpannableStringBuilder getGeneratedHighlightedExternFormulaString() {
+		return generatedHighlightedExternFormulaString;
 	}
 }
