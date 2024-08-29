@@ -28,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -349,10 +350,12 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	private String updateTextAndCursorFromInternFormula() {
-		String newExternFormulaString = internFormula.getExternFormulaString();
+		SpannableStringBuilder newExternFormulaString = internFormula.getHighlightedFormulaString();
 		setText(
 				FormulaSpannableStringBuilder.buildSpannableFormulaString(context,
 						newExternFormulaString, getTextSize()));
+
+		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
@@ -360,7 +363,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		highlightSelection();
 
-		return newExternFormulaString;
+		return newExternFormulaString.toString();
 	}
 
 	@Override

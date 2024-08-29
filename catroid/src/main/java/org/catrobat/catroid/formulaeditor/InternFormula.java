@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -1185,5 +1186,9 @@ public class InternFormula {
 
 	public List<InternToken> getInternTokenFormulaList() {
 		return internTokenFormulaList;
+	}
+
+	public SpannableStringBuilder getHighlightedFormulaString() {
+		return InternToExternGenerator.getGeneratedHighlightedExternFormulaString();
 	}
 }
