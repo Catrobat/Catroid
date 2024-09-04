@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
 public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
@@ -229,52 +228,5 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 						elseSequence);
 
 		sequence.addAction(action);
-	}
-
-	@VisibleForTesting
-	public static class ElseBrick extends BrickBaseType {
-
-		ElseBrick(PhiroIfLogicBeginBrick ifBrick) {
-			parent = ifBrick;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return ((PhiroIfLogicBeginBrick) parent).elseBranchBricks;
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return -1;
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_if_else;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
 	}
 }
