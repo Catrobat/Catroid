@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -109,9 +109,7 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 	}
 
 	public void performDeleteBrick() {
-		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
-				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
-				Press.FINGER));
+		dataInteraction.perform(click());
 		onView(anyOf(withText(R.string.brick_context_dialog_delete_brick),
 				withText(R.string.brick_context_dialog_delete_script),
 				withText(R.string.brick_context_dialog_delete_definition)))

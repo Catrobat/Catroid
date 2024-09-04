@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -154,6 +154,7 @@ class ProjectActivity : BaseCastActivity() {
         menu.findItem(R.id.from_library).isVisible = false
         menu.findItem(R.id.from_local).isVisible = false
         menu.findItem(R.id.edit).isVisible = false
+        optionsMenu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -482,6 +483,13 @@ class ProjectActivity : BaseCastActivity() {
         if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
             val dialog: DialogFragment = LegoSensorConfigInfoDialog.newInstance(Constants.EV3)
             dialog.show(supportFragmentManager, LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG)
+        }
+    }
+
+    fun showUndo(visible: Boolean) {
+        optionsMenu.findItem(R.id.menu_undo).isVisible = visible
+        if (visible) {
+            projectManager.changedProject(projectManager.currentProject.name)
         }
     }
 }

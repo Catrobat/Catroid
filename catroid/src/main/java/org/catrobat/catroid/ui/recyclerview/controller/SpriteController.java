@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -161,25 +161,27 @@ public class SpriteController {
 		return sprite;
 	}
 
-	public void delete(Sprite spriteToDelete) {
+	public void delete(Sprite spriteToDelete, boolean undoable) {
 		if (spriteToDelete.isClone) {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
 
-		for (LookData look : spriteToDelete.getLookList()) {
-			try {
-				lookController.delete(look);
-			} catch (IOException exception) {
-				Log.e(TAG, Log.getStackTraceString(exception));
+		if (!undoable) {
+			for (LookData look : spriteToDelete.getLookList()) {
+				try {
+					lookController.delete(look);
+				} catch (IOException exception) {
+					Log.e(TAG, Log.getStackTraceString(exception));
+				}
 			}
-		}
 
-		for (SoundInfo sound : spriteToDelete.getSoundList()) {
-			try {
-				soundController.delete(sound);
-			} catch (IOException exception) {
-				Log.e(TAG, Log.getStackTraceString(exception));
+			for (SoundInfo sound : spriteToDelete.getSoundList()) {
+				try {
+					soundController.delete(sound);
+				} catch (IOException exception) {
+					Log.e(TAG, Log.getStackTraceString(exception));
+				}
 			}
 		}
 

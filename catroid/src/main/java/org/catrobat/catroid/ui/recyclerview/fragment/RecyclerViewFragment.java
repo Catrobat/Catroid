@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -83,6 +84,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int RENAME = 4;
 	protected static final int MERGE = 5;
 	protected static final int IMPORT_LOCAL = 6;
+	protected static final int UNDO = 7;
 
 	private static final String TAG = RecyclerViewFragment.class.getSimpleName();
 
@@ -213,7 +215,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				copyItems(adapter.getSelectedItems());
 				break;
 			case DELETE:
-				showDeleteAlert(adapter.getSelectedItems());
+				if (adapter.getSelectedItems().size() > 0
+						&& adapter.getSelectedItems().get(0) instanceof Sprite) {
+					deleteItems(adapter.getSelectedItems());
+				} else {
+					showDeleteAlert(adapter.getSelectedItems());
+				}
 				break;
 			case RENAME:
 				break;
