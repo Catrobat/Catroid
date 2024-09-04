@@ -60,6 +60,11 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LEGO;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

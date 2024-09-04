@@ -37,6 +37,11 @@ public class StitchBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EMBROIDERY;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(ActionFactory.createStitchAction(sprite));
 	}

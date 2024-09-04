@@ -25,16 +25,21 @@ package org.catrobat.catroid.ui.recyclerview.adapter
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
 import androidx.annotation.IntDef
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -120,28 +125,71 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val item = items[position]
-        val itemView = item.getView(parent.context)
+        val itemView = if (item.isCollapsed && checkBoxMode == NONE) {
+            if (item.visualizationType == BrickVisualizationType.EVENT) {
+                item.getView(parent.context)
+            }
+            else if (item is CompositeBrick && !item.parent.isCollapsed ||
+                item is EndBrick && !item.parent.parent.isCollapsed) {
+                item.getView(parent.context)
+            } else {
+                getCollapsedItemView(item, parent)
+            }
+        } else {
+            item.getView(parent.context)
+        }
 
         itemView.visibility =
             if (viewStateManager.isVisible(position)) View.VISIBLE else View.INVISIBLE
         itemView.alpha = if (viewStateManager.isEnabled(position)) 1F else DISABLED_BRICK_ALPHA
 
-        var brickViewContainer = (itemView as ViewGroup).getChildAt(1)
-        if (item is UserDefinedReceiverBrick) {
-            brickViewContainer = (itemView.getChildAt(1) as ViewGroup).getChildAt(0)
-        }
-
-        val background = brickViewContainer.background
+        val background = getBackground(item, itemView)
         if (item.isCommentedOut || item is EmptyEventBrick) {
             colorAsCommentedOut(background)
         } else {
             background.clearColorFilter()
         }
 
-        checkBoxClickListener(item, itemView, position)
+        checkBoxClickListener(item, (itemView as ViewGroup), position)
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
         return itemView
+    }
+
+    private fun getBackground(item: Brick, itemView: View): Drawable {
+        if (item.isCollapsed) {
+            return (itemView as ViewGroup).getChildAt(0).background
+        }
+        if (item is UserDefinedReceiverBrick) {
+            return ((itemView as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(0).background
+        }
+        return (itemView as ViewGroup).getChildAt(1).background
+    }
+
+    private fun getCollapsedItemView(item: Brick, parent: ViewGroup): View {
+        val inflater = LayoutInflater.from(parent.context)
+
+        return when(item.visualizationType) {
+            BrickVisualizationType.EVENT ->
+                inflater.inflate(R.layout.collapsed_event_brick, null)
+            BrickVisualizationType.LOOKS ->
+                inflater.inflate(R.layout.collapsed_looks_brick, null)
+            BrickVisualizationType.MOTION ->
+                inflater.inflate(R.layout.collapsed_motion_brick, null)
+            BrickVisualizationType.CONTROL ->
+                inflater.inflate(R.layout.collapsed_control_brick, null)
+            BrickVisualizationType.SOUND ->
+                inflater.inflate(R.layout.collapsed_sound_brick, null)
+            BrickVisualizationType.ARDUINO_RASPI_PHIRO ->
+                inflater.inflate(R.layout.collapsed_arduino_raspi_phiro_brick, null)
+            BrickVisualizationType.LEGO ->
+                inflater.inflate(R.layout.collapsed_lego_brick, null)
+            BrickVisualizationType.PEN ->
+                inflater.inflate(R.layout.collapsed_pen_brick, null)
+            BrickVisualizationType.USERDEFINED ->
+                inflater.inflate(R.layout.collapsed_userdefined_brick, null)
+            else -> throw NullPointerException("No collapsed view found")
+        }
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
@@ -330,6 +378,13 @@ class BrickAdapter(private val sprite: Sprite) :
     fun selectAllCommentedOutBricks() {
         for (i in items.indices) {
             setSelectionTo(items[i].isCommentedOut, i)
+        }
+        notifyDataSetChanged()
+    }
+
+    fun selectAllCollapsedBricks() {
+        for (i in items.indices) {
+            setSelectionTo(items[i].isCollapsed, i)
         }
         notifyDataSetChanged()
     }

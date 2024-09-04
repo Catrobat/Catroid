@@ -63,6 +63,8 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun getViewResource(): Int = R.layout.brick_video
 
+    override fun getVisualizationType(): Brick.BrickVisualizationType = Brick.BrickVisualizationType.LOOKS
+
     override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {
         requiredResourcesSet.add(VIDEO)
     }

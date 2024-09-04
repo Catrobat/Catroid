@@ -58,6 +58,11 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.ARDUINO_RASPI_PHIRO;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

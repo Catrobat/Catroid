@@ -50,6 +50,11 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.SOUND;
+	}
+
+	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(TEXT_TO_SPEECH);
 		super.addRequiredResources(requiredResourcesSet);

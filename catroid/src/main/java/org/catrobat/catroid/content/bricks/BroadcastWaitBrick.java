@@ -43,6 +43,11 @@ public class BroadcastWaitBrick extends BroadcastBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, true));
 	}

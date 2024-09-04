@@ -151,6 +151,11 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

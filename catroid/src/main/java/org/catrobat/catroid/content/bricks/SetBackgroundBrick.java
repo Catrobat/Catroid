@@ -77,6 +77,11 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.LOOKS;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		List<Nameable> items = new ArrayList<>();

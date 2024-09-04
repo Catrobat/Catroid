@@ -80,6 +80,11 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EVENT;
+	}
+
+	@Override
 	public void addToFlatList(List<Brick> bricks) {
 		super.addToFlatList(bricks);
 		for (Brick brick : getScript().getBrickList()) {

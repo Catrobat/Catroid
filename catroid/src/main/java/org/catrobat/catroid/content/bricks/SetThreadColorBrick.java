@@ -58,6 +58,11 @@ public class SetThreadColorBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EMBROIDERY;
+	}
+
+	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		ShowFormulaEditorStrategy.Callback callback = new SetThreadColorBrickCallback(view);
 		showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);

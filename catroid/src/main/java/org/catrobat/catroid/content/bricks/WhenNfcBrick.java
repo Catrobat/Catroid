@@ -80,6 +80,11 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.DEVICE;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

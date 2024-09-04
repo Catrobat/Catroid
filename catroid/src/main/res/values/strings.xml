@@ -809,6 +809,7 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Disable script</string>
     <string formatted="false" name="brick_context_dialog_help">Help</string>
     <string formatted="false" name="comment_in_out">Disable/enable</string>
+    <string formatted="false" name="collapse_expand">Collapse/expand</string>
     <string formatted="false" name="catblocks">Toggle 2D</string>
     <string formatted="false" name="catblocks_reorder">Clean up scripts</string>
     <string formatted="false" name="switch_to_1d">1D view</string>

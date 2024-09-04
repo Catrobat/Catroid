@@ -83,6 +83,11 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.CONTROL;
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 

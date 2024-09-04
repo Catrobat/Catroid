@@ -29,6 +29,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickVisualizationType
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.LanguageObject
 import org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANGUAGES
@@ -79,6 +80,8 @@ class SetListeningLanguageBrick : BrickBaseType(),
     }
 
     override fun getViewResource(): Int = R.layout.brick_set_listening_language
+
+    override fun getVisualizationType(): BrickVisualizationType = BrickVisualizationType.SOUND
 
     override fun onNewOptionSelected(spinnerId: Int?) = Unit
 

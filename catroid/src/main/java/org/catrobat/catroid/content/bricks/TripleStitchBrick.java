@@ -52,6 +52,11 @@ public class TripleStitchBrick extends FormulaBrick {
 	}
 
 	@Override
+	public BrickVisualizationType getVisualizationType() {
+		return BrickVisualizationType.EMBROIDERY;
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createTripleStitchAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH)));
