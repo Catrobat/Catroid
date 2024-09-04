@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,16 @@
 package org.catrobat.catroid.camera
 
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.os.Build
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
+import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.annotation.RequiresApi
 import androidx.annotation.UiThread
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -37,6 +43,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.MobileServiceAvailability
@@ -44,6 +51,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import org.koin.java.KoinJavaComponent.get
+import org.koin.java.KoinJavaComponent.inject
 
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
@@ -72,6 +80,10 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     var flashOn = false
         private set
 
+    var cameraBitmap: Bitmap? = null
+
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
     companion object {
         private val TAG = CameraManager::class.java.simpleName
     }
@@ -99,6 +111,48 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     val isCameraActive: Boolean
         get() = lifecycle.currentState in listOf(Lifecycle.State.STARTED, Lifecycle.State.RESUMED) &&
             (cameraProvider.isBound(previewUseCase) || cameraProvider.isBound(analysisUseCase))
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun makePreviewScreenShot() {
+        val receiveBitmapFromPixelCopy = fun(bitmap: Bitmap?) {
+            cameraBitmap = bitmap
+        }
+        callPixelCopyWithSurfaceView(receiveBitmapFromPixelCopy)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun callPixelCopyWithSurfaceView(callback: (Bitmap?) -> Unit) {
+        val surfaceView = previewView.surfaceView
+        val bitmap: Bitmap = if (projectManager.isCurrentProjectLandscapeMode) {
+            createNewBitmap(surfaceView.height, surfaceView.width)
+        } else {
+            createNewBitmap(surfaceView.width, surfaceView.height)
+        }
+        val pixelCopyHandlerThread = HandlerThread("PixelCopier")
+        pixelCopyHandlerThread.start()
+        PixelCopy.request(
+            surfaceView,
+            bitmap,
+            PixelCopy.OnPixelCopyFinishedListener { copyResult ->
+                if (copyResult == PixelCopy.SUCCESS) {
+                    callback(bitmap)
+                } else {
+                    callback(null)
+                }
+                pixelCopyHandlerThread.quitSafely()
+            },
+            Handler(pixelCopyHandlerThread.looper)
+        )
+        pixelCopyHandlerThread.join()
+    }
+
+    private fun createNewBitmap(width: Int, height: Int): Bitmap {
+        return Bitmap.createBitmap(
+            width,
+            height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
 
     @Synchronized
     fun reset() {

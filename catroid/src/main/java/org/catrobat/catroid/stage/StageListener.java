@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -193,8 +194,7 @@ public class StageListener implements ApplicationListener {
 		}
 		initScreenMode();
 		initStageInputListener();
-		screenshotSaver = new ScreenshotSaver(Gdx.files, getScreenshotPath(), screenshotWidth,
-				screenshotHeight);
+		screenshotSaver = new ScreenshotSaver(Gdx.files, getScreenshotPath());
 
 		font = getLabelFont(project);
 
@@ -596,8 +596,12 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			byte[] screenshot = ScreenUtils
-					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+
+			Pixmap screenshot = ScreenshotUtils.INSTANCE.getFrameBufferPixmapFlip(screenshotX,
+					screenshotY,
+					screenshotWidth, screenshotHeight, true);
+
+
 			makeScreenshot = false;
 			screenshotSaver.saveScreenshotAndNotify(
 					screenshot,

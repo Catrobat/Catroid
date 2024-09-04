@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -251,6 +252,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		} else {
 			StageLifeCycleController.stagePause(this);
 			idlingResource.increment();
+			if (cameraManager != null && cameraManager.getPreviewVisible() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				cameraManager.makePreviewScreenShot();
+			}
 			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
 					success -> runOnUiThread(() -> idlingResource.decrement()));
 			stageDialog.show();
@@ -411,7 +415,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		for (Scene scene: project.getSceneList()) {
+		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);
