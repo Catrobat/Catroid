@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -271,6 +271,19 @@ public final class ProjectManager {
 				}
 			}
 		}
+	}
+
+	public boolean checkVariables() {
+		Project project = this.getCurrentProject();
+		return (project.hasUserDataChanged(project.getUserVariables(),
+				project.getUserVariablesCopy())
+				|| project.hasUserDataChanged(project.getMultiplayerVariables(),
+				project.getMultiplayerVariablesCopy())
+				|| project.hasUserDataChanged(project.getUserLists(), project.getUserListsCopy())
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserVariables(),
+				project.getUserVariablesCopy())
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserLists(),
+				project.getUserListsCopy()));
 	}
 
 	private void localizeBackgroundSprites(Project project, String localizedBackgroundName) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,8 +52,6 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -103,10 +102,11 @@ public class BrickAddCategoryTest {
 
 		brickCategoryFragment = new BrickCategoryFragment();
 
-		Fragment scriptFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		assertNotNull(scriptFragment);
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		assertNotNull(tabLayoutContainerFragment);
 
-		scriptFragment.getFragmentManager().beginTransaction()
+		tabLayoutContainerFragment.getFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();

@@ -52,7 +52,7 @@ ext {
     projectVersion = "0.9"
     gdxVersion = "1.9.10"
     mockitoVersion = "3.12.4"
-    espressoVersion = "3.1.0"
+    espressoVersion = "3.5.0"
     playServicesVersion = '17.0.1'
     cameraXVersion = "1.0.0-beta07"
     room_version = "2.3.0"

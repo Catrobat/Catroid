@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
@@ -98,10 +99,13 @@ public class ScriptFragmentTest {
 		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
 
-		boolean isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) baseActivityTestRule.getActivity()
+						.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		ScriptFragment scriptFragment =
+				(ScriptFragment) tabLayoutContainerFragment.getSelectedTabFragment();
 
-		assertTrue(isInsertedBrickHovering);
+		assertTrue(scriptFragment.isCurrentlyMoving());
 
 		pressBack();
 
@@ -119,18 +123,18 @@ public class ScriptFragmentTest {
 		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
 
-		boolean isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) baseActivityTestRule.getActivity()
+						.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		ScriptFragment scriptFragment =
+				(ScriptFragment) tabLayoutContainerFragment.getSelectedTabFragment();
 
-		assertTrue(isInsertedBrickHovering);
+		assertTrue(scriptFragment.isCurrentlyMoving());
 
 		onView(withContentDescription(R.string.abc_action_bar_up_description))
 				.perform(click());
 
-		isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
-
-		assertTrue(isInsertedBrickHovering);
+		assertTrue(scriptFragment.isCurrentlyMoving());
 
 		pressBack();
 	}

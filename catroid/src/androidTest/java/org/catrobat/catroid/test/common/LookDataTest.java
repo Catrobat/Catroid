@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -76,6 +76,8 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
+import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -88,7 +90,8 @@ public class LookDataTest {
 	private final String fileName = "collision_donut.png";
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
+
 	private LookData lookData;
 	private File imageFolder;
 
@@ -166,6 +169,7 @@ public class LookDataTest {
 		File outFile = new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "penguin.webp");
 		FileOutputStream outputStream = new FileOutputStream(outFile);
 		BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
+		onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS));
 		onView(withId(R.id.button_add))
 				.perform(click());
 

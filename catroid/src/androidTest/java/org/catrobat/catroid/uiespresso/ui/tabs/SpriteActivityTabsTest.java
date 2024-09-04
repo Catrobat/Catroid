@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -76,19 +77,19 @@ public class SpriteActivityTabsTest {
 	@Test
 	public void testScriptTab() {
 		onView(withId(tab_layout)).perform(selectTabAtPosition(FRAGMENT_SCRIPTS));
-		assertFragmentIsShown(ScriptFragment.TAG);
+		assertTrue(assertFragmentIsShown() instanceof ScriptFragment);
 	}
 
 	@Test
 	public void testLooksTab() {
 		onView(withId(tab_layout)).perform(selectTabAtPosition(FRAGMENT_LOOKS));
-		assertFragmentIsShown(LookListFragment.TAG);
+		assertTrue(assertFragmentIsShown() instanceof LookListFragment);
 	}
 
 	@Test
 	public void testSoundsTab() {
 		onView(withId(tab_layout)).perform(selectTabAtPosition(FRAGMENT_SOUNDS));
-		assertFragmentIsShown(SoundListFragment.TAG);
+		assertTrue(assertFragmentIsShown() instanceof SoundListFragment);
 	}
 
 	@Test
@@ -103,15 +104,17 @@ public class SpriteActivityTabsTest {
 		assertTabLayoutIsNotShown();
 	}
 
-	private void assertFragmentIsShown(String tag) {
+	private Fragment assertFragmentIsShown() {
 		onIdle();
-		Fragment fragment = baseActivityTestRule
+		Fragment fragment = ((TabLayoutContainerFragment) (baseActivityTestRule
 				.getActivity()
 				.getSupportFragmentManager()
-				.findFragmentByTag(tag);
+				.findFragmentById(R.id.fragment_container)))
+				.getSelectedTabFragment();
 
 		assertNotNull(fragment);
 		assertTrue(fragment.isVisible());
+		return fragment;
 	}
 
 	private void assertTabLayoutIsNotShown() {

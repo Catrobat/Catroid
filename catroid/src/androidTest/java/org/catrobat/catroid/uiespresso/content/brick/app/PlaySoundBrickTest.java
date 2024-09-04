@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -158,6 +158,8 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
+		onView(withId(R.id.tab_layout)).perform(CustomActions.wait(500));
+
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
@@ -176,6 +178,8 @@ public class PlaySoundBrickTest {
 
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+
+		onView(withId(R.id.tab_layout)).perform(CustomActions.wait(500));
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newSoundName);

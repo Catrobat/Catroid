@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -112,10 +112,8 @@ import androidx.fragment.app.FragmentManager;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 
@@ -146,6 +144,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static Brick.FormulaField currentFormulaField;
 	private static Formula currentFormula;
 	private Menu currentMenu;
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
@@ -431,7 +430,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor, true,
 				true);
 		Bitmap projectBitmap = ProjectManagerExtensionsKt
-				.getProjectBitmap(ProjectManager.getInstance());
+				.getProjectBitmap(projectManager);
 		dialog.setBitmap(projectBitmap);
 		dialog.addOnColorPickedListener(callback::setValue);
 		dialog.setStyle(STYLE_NORMAL, R.style.AlertDialogWithTitle);
@@ -572,8 +571,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void addString(String string) {
 		String previousString = getSelectedFormulaText();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
 		Context context = getContext();
 		if (context != null) {
 			boolean doNotShowWarning = false;
@@ -812,8 +811,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private Scope generateScope() {
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = projectManager.getCurrentProject();
+		Sprite sprite = projectManager.getCurrentSprite();
 		ScriptSequenceAction sequence = null;
 		Script script = formulaBrick.getScript();
 		if (script instanceof UserDefinedScript) {
@@ -890,8 +889,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private boolean hasFileChanged() {
-		File currentCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), CODE_XML_FILE_NAME);
-		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		File currentCodeFile = new File(projectManager.getCurrentProject().getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(projectManager.getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
 
 		if (currentCodeFile.exists() && undoCodeFile.exists()) {
 			try {
@@ -917,12 +916,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			}
 		}
 		onUserDismiss();
+		XstreamSerializer.getInstance().saveProject(projectManager.getCurrentProject());
 
-		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
-
-		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
-
-		if (hasFileChanged() || fragment.checkVariables()) {
+		if (hasFileChanged() || projectManager.checkVariables()) {
 			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
 		}
 	}
@@ -1001,7 +997,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		boolean requiresCollisionPolygons = resource == R.string.formula_editor_function_collides_with_edge
 				|| resource == R.string.formula_editor_function_touched;
 		if (requiresCollisionPolygons) {
-			ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
+			projectManager.getCurrentSprite().createCollisionPolygons();
 		}
 	}
 
@@ -1081,6 +1077,24 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).removeTabLayout();
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).addTabLayout();
+		}
+		super.onDetach();
+	}
+
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
 		getActivity().invalidateOptionsMenu();
 		updateButtonsOnKeyboard();
@@ -1103,17 +1117,5 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
 		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		removeTabLayout(getActivity());
-	}
-
-	@Override
-	public void onDetach() {
-		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
-		super.onDetach();
 	}
 }

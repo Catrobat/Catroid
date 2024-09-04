@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 
 import androidx.appcompat.app.AlertDialog;
@@ -62,9 +63,11 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 			if (isVisualPlacement(view)) {
 				showDialog(view, currentFragment);
 			}
-		} else if (currentFragment instanceof ScriptFragment) {
+		} else if (currentFragment instanceof TabLayoutContainerFragment) {
+			ScriptFragment scriptFragment =
+					(ScriptFragment) ((TabLayoutContainerFragment) currentFragment).getSelectedTabFragment();
 			if (isVisualPlacement(view)) {
-				showDialog(view, currentFragment);
+				showDialog(view, scriptFragment);
 			} else {
 				super.showFormulaEditorToEditFormula(view);
 			}

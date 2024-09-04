@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,8 +182,9 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	void notifyDataSetChanged(AppCompatActivity activity) {
-		ScriptFragment parentFragment = (ScriptFragment) activity
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		ScriptFragment parentFragment =
+				(ScriptFragment) ((TabLayoutContainerFragment) activity.getSupportFragmentManager()
+						.findFragmentById(R.id.fragment_container)).getSelectedTabFragment();
 		if (parentFragment != null) {
 			parentFragment.notifyDataSetChanged();
 		}

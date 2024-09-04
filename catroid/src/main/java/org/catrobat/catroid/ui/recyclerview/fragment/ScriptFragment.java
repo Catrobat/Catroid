@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -320,13 +320,11 @@ public class ScriptFragment extends ListFragment implements
 				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
 						ProjectManager.getInstance().getCurrentSprite());
 				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
-				activity.addTabs();
 			}
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		});
 
 		scriptFinder.setOnOpenListener(() -> {
-			activity.removeTabs();
 			activity.findViewById(R.id.toolbar).setVisibility(View.GONE);
 		});
 
@@ -518,7 +516,7 @@ public class ScriptFragment extends ListFragment implements
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 
-		getFragmentManager().beginTransaction()
+		activity.getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
@@ -528,7 +526,7 @@ public class ScriptFragment extends ListFragment implements
 	public void onCategorySelected(String category) {
 		ListFragment fragment = null;
 		String tag = "";
-		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
 			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
@@ -540,7 +538,7 @@ public class ScriptFragment extends ListFragment implements
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
 		}
 
-		getFragmentManager().beginTransaction()
+		activity.getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, fragment, tag)
 				.addToBackStack(null)
 				.commit();
@@ -897,12 +895,13 @@ public class ScriptFragment extends ListFragment implements
 
 		SettingsFragment.setUseCatBlocks(getContext(), true);
 
-		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
-
-		FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
-				CatblocksScriptFragment.Companion.getTAG());
-		fragmentTransaction.commit();
+		activity.getSupportFragmentManager()
+				.beginTransaction()
+				.replace(
+						R.id.fragment_container,
+						new TabLayoutContainerFragment(firstVisibleBrickID, null),
+						TabLayoutContainerFragment.TAG)
+				.commit();
 	}
 
 	private void copy(List<Brick> selectedBricks) {

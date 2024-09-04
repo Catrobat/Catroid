@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -203,12 +203,15 @@ class CatblocksScriptFragment(
             } else {
                 ScriptFragment.newInstance(brickToFocus)
             }
-            val fragmentTransaction = parentFragmentManager.beginTransaction()
-            fragmentTransaction.replace(
-                R.id.fragment_container, scriptFragment,
-                ScriptFragment.TAG
-            )
-            fragmentTransaction.commit()
+
+            activity!!.supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    TabLayoutContainerFragment(null, scriptFragment),
+                    TabLayoutContainerFragment.TAG
+                )
+                .commit()
         }
 
         override fun onReceiveValue(strBrickToFocusId: String?) {

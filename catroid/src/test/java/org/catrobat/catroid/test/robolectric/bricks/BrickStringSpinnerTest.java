@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,14 +73,9 @@ import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.IdRes;
-import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -149,9 +144,9 @@ public class BrickStringSpinnerTest {
 		createProject(activity);
 		activityController.create().resume();
 
-		Fragment scriptFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		assertNotNull(scriptFragment);
-		assertThat(scriptFragment, is(instanceOf(ScriptFragment.class)));
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		assertNotNull(tabLayoutContainerFragment);
 
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);

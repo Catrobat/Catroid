@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
@@ -60,6 +61,11 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 
 		FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
 		Fragment currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container);
+
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			currentFragment =
+					((TabLayoutContainerFragment) currentFragment).getSelectedTabFragment();
+		}
 
 		if (currentFragment instanceof FormulaEditorFragment) {
 			callback.showFormulaEditor(view);
