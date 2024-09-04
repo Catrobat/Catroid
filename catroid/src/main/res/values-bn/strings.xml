@@ -1706,7 +1706,7 @@
     <string formatted="false" name="formula_editor_object_background_name">ব্যাকগ্রাউন্ড নাম</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">পটভূমি সংখ্যা</string>
     <string formatted="false" name="formula_editor_object_distance_to">স্পর্শ অবস্থান থেকে দূরত্ব</string>
-    <string formatted="false" name="formula_editor_compute">গণনা করা</string>
+    <string formatted="false" name="formula_editor_confirm">গণনা করা</string>
     <string formatted="false" name="formula_editor_object">বিশিষ্টতাসমূহ</string>
     <string formatted="false" name="formula_editor_functions">ক্রিয়াকলাপ</string>
     <string formatted="false" name="formula_editor_logic">যুক্তিবিদ্যা</string>

@@ -1736,7 +1736,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">bakgrunns_navn</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">avstand til</string>
-    <string formatted="false" name="formula_editor_compute">Beregn</string>
+    <string formatted="false" name="formula_editor_confirm">Beregn</string>
     <string formatted="false" name="formula_editor_object">Objekt</string>
     <string formatted="false" name="formula_editor_functions">Funksjoner</string>
     <string formatted="false" name="formula_editor_logic">Logikk</string>
