@@ -1741,7 +1741,7 @@
     <string formatted="false" name="formula_editor_object_background_name">د شاليد نوم</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">د شالید شمیر</string>
     <string formatted="false" name="formula_editor_object_distance_to">د تماس موقعیت ته واټن</string>
-    <string formatted="false" name="formula_editor_compute">محاسبه</string>
+    <string formatted="false" name="formula_editor_confirm">محاسبه</string>
     <string formatted="false" name="formula_editor_object">ملکیتونه</string>
     <string formatted="false" name="formula_editor_functions">افعال</string>
     <string formatted="false" name="formula_editor_logic">منطق</string>

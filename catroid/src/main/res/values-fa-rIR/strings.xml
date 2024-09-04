@@ -1727,7 +1727,7 @@
     <string formatted="false" name="formula_editor_object_background_name">نام پس زمینه</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">تعداد پس زمینه</string>
     <string formatted="false" name="formula_editor_object_distance_to">فاصله تا موقعیت لمس</string>
-    <string formatted="false" name="formula_editor_compute">محاسبه</string>
+    <string formatted="false" name="formula_editor_confirm">محاسبه</string>
     <string formatted="false" name="formula_editor_object">شی</string>
     <string formatted="false" name="formula_editor_functions">توابع</string>
     <string formatted="false" name="formula_editor_logic">منطق</string>

@@ -1669,7 +1669,7 @@
     <string formatted="false" name="formula_editor_object_background_name">배경 이름</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">배경 수</string>
     <string formatted="false" name="formula_editor_object_distance_to">거리</string>
-    <string formatted="false" name="formula_editor_compute">연산결과 미리보기</string>
+    <string formatted="false" name="formula_editor_confirm">연산결과 미리보기</string>
     <string formatted="false" name="formula_editor_object">오브젝트</string>
     <string formatted="false" name="formula_editor_functions">함수</string>
     <string formatted="false" name="formula_editor_logic">논리 연산</string>

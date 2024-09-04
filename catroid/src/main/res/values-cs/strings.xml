@@ -1832,7 +1832,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">název_pozadí</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">vzdálenost k</string>
-    <string formatted="false" name="formula_editor_compute">Výpočetní výkon</string>
+    <string formatted="false" name="formula_editor_confirm">Výpočetní výkon</string>
     <string formatted="false" name="formula_editor_object">Objekt</string>
     <string formatted="false" name="formula_editor_functions">Funkce</string>
     <string formatted="false" name="formula_editor_logic">Logika</string>

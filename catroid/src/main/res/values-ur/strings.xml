@@ -1714,7 +1714,7 @@
     <string formatted="false" name="formula_editor_object_background_name">پس منظر کے نام</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">پس منظر کی تعداد</string>
     <string formatted="false" name="formula_editor_object_distance_to">پوزیشن کو چھونے کے لئے فاصلہ</string>
-    <string formatted="false" name="formula_editor_compute">شمار</string>
+    <string formatted="false" name="formula_editor_confirm">شمار</string>
     <string formatted="false" name="formula_editor_object">آبجیکٹ</string>
     <string formatted="false" name="formula_editor_functions">افعال</string>
     <string formatted="false" name="formula_editor_logic">منطق</string>

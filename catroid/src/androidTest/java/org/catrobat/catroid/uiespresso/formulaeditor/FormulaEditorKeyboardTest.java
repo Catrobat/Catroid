@@ -187,6 +187,12 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD' ")));
 	}
 
+	@Test
+	public void testConfirmButtonString() {
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_compute)).check(matches(withText(R.string.formula_editor_confirm)));
+	}
+
 	@After
 	public void tearDown() throws IOException {
 		baseActivityTestRule.finishActivity();

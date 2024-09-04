@@ -1736,7 +1736,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">jina_la_mandharinyuma</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">umbali wa</string>
-    <string formatted="false" name="formula_editor_compute">kokotoa</string>
+    <string formatted="false" name="formula_editor_confirm">kokotoa</string>
     <string formatted="false" name="formula_editor_object">Kipengee</string>
     <string formatted="false" name="formula_editor_functions">Kazi</string>
     <string formatted="false" name="formula_editor_logic">Mantiki</string>

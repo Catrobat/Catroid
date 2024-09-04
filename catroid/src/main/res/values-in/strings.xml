@@ -1696,7 +1696,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string formatted="false" name="formula_editor_object_background_name">layarbelakang nama</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">jumlah latar belakang</string>
     <string formatted="false" name="formula_editor_object_distance_to">jarak untuk menyentuh posisi</string>
-    <string formatted="false" name="formula_editor_compute">Menghitung</string>
+    <string formatted="false" name="formula_editor_confirm">Menghitung</string>
     <string formatted="false" name="formula_editor_object">Objek</string>
     <string formatted="false" name="formula_editor_functions">Fungsi</string>
     <string formatted="false" name="formula_editor_logic">Logika</string>

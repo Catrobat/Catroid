@@ -1743,7 +1743,7 @@
     <string formatted="false" name="formula_editor_object_background_name">पृष्ठभूमि का नाम</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">पृष्ठभूमि की संख्या</string>
     <string formatted="false" name="formula_editor_object_distance_to">स्पर्श करने की स्थिति की दूरी</string>
-    <string formatted="false" name="formula_editor_compute">गणना करें</string>
+    <string formatted="false" name="formula_editor_confirm">गणना करें</string>
     <string formatted="false" name="formula_editor_object">वस्तु</string>
     <string formatted="false" name="formula_editor_functions">कार्यों</string>
     <string formatted="false" name="formula_editor_logic">तर्क</string>

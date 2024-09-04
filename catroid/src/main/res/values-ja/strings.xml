@@ -1685,7 +1685,7 @@
     <string formatted="false" name="formula_editor_object_background_name">背景名</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">バックグラウンド数</string>
     <string formatted="false" name="formula_editor_object_distance_to">距離</string>
-    <string formatted="false" name="formula_editor_compute">計算</string>
+    <string formatted="false" name="formula_editor_confirm">計算</string>
     <string formatted="false" name="formula_editor_object">オブジェクト</string>
     <string formatted="false" name="formula_editor_functions">関数</string>
     <string formatted="false" name="formula_editor_logic">論理</string>

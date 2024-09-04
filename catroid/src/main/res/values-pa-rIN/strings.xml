@@ -1745,7 +1745,7 @@
     <string formatted="false" name="formula_editor_object_background_name">ਪਿਛੋਕੜ ਦਾ ਨਾਮ</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">ਪਿਛੋਕੜ ਦੀ ਗਿਣਤੀ</string>
     <string formatted="false" name="formula_editor_object_distance_to">ਸਥਿਤੀ ਨੂੰ ਛੂਹਣ ਲਈ ਦੂਰੀ</string>
-    <string formatted="false" name="formula_editor_compute">ਗਣਨਾ</string>
+    <string formatted="false" name="formula_editor_confirm">ਗਣਨਾ</string>
     <string formatted="false" name="formula_editor_object">ਗੁਣ</string>
     <string formatted="false" name="formula_editor_functions">ਕਾਰਜ</string>
     <string formatted="false" name="formula_editor_logic">ਤਰਕ</string>

@@ -1739,7 +1739,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string formatted="false" name="formula_editor_object_background_name">nome do fundo</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">número de fundos</string>
     <string formatted="false" name="formula_editor_object_distance_to">distância de posição tocada</string>
-    <string formatted="false" name="formula_editor_compute">Calcular</string>
+    <string formatted="false" name="formula_editor_confirm">Calcular</string>
     <string formatted="false" name="formula_editor_object">Propriedades</string>
     <string formatted="false" name="formula_editor_functions">Funções</string>
     <string formatted="false" name="formula_editor_logic">Lógica</string>

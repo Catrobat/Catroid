@@ -1698,7 +1698,7 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="formula_editor_object_background_name">arka plan adı</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">arka plan sayısı</string>
     <string formatted="false" name="formula_editor_object_distance_to">dokunma pozisyonuna olan mesafe</string>
-    <string formatted="false" name="formula_editor_compute">Hesapla</string>
+    <string formatted="false" name="formula_editor_confirm">Hesapla</string>
     <string formatted="false" name="formula_editor_object">Nesne</string>
     <string formatted="false" name="formula_editor_functions">Fonksiyonlar</string>
     <string formatted="false" name="formula_editor_logic">Mantık</string>

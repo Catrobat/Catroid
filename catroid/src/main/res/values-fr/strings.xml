@@ -1739,7 +1739,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string formatted="false" name="formula_editor_object_background_name">nom de l\'arrière-plan</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">nombre de fonds</string>
     <string formatted="false" name="formula_editor_object_distance_to">distance à la position tactile</string>
-    <string formatted="false" name="formula_editor_compute">Calculer</string>
+    <string formatted="false" name="formula_editor_confirm">Calculer</string>
     <string formatted="false" name="formula_editor_object">Objet</string>
     <string formatted="false" name="formula_editor_functions">Fonctions</string>
     <string formatted="false" name="formula_editor_logic">Logique</string>
