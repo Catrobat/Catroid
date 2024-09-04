@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -395,6 +395,7 @@
     <string formatted="false" name="reject_import">The actor or object could not be added.</string>
     <string formatted="false" name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string formatted="false" name="am_backpack">Pack</string>
+    <string formatted="false" name="am_move">Move</string>
     <string formatted="false" name="am_unpack">Unpack</string>
     <string formatted="false" name="am_copy">Copy</string>
     <string formatted="false" name="am_delete">Delete</string>
@@ -407,6 +408,7 @@
 
     <!-- Options Menu Options -->
     <string formatted="false" name="backpack">Backpack</string>
+    <string formatted="false" name="move">Move</string>
     <string formatted="false" name="copy">Copy</string>
     <string formatted="false" name="delete">Delete</string>
     <string formatted="false" name="rename">Rename</string>

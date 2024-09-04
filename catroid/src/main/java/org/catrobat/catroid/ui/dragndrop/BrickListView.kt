@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,10 +53,11 @@ private const val Y_TRANSLATION_CONSTANT = 10
 class BrickListView : ListView {
     private var upperScrollBound = 0
     private var lowerScrollBound = 0
-    private var hoveringDrawable: BitmapDrawable? = null
-    private val viewBounds = Rect()
+    private var hoveringDrawables: MutableList<BitmapDrawable?> = ArrayList()
+    private var viewBounds: MutableList<Rect> = ArrayList()
     private var currentPositionOfHoveringBrick = 0
-    private var brickToMove: Brick? = null
+    private var bricksToMove: MutableList<Brick> = ArrayList()
+    private var relativePositionOfMovingBricks: MutableList<Int> = ArrayList()
     private var motionEventId = -1
     private var downY = 0f
     private var offsetToCenter = 0
@@ -75,18 +76,20 @@ class BrickListView : ListView {
     val brickPositionsToHighlight: MutableList<Int> = ArrayList()
 
     val isCurrentlyMoving: Boolean
-        get() = hoveringDrawable != null
+        get() = hoveringDrawables.isNotEmpty()
 
     val isCurrentlyHighlighted: Boolean
         get() = brickPositionsToHighlight.isNotEmpty()
 
     fun highlightMovingItem() {
-        val animator = ObjectAnimator.ofInt(hoveringDrawable!!, "alpha", OBJECT_ANIMATOR_VALUE, 0)
-        animator.duration = ANIMATION_DURATION.toLong()
-        animator.repeatMode = ValueAnimator.REVERSE
-        animator.repeatCount = ANIMATION_REPEAT_COUNT
-        animator.start()
-        animator.addUpdateListener { invalidate() }
+        for (drawable in hoveringDrawables) {
+            val animator = ObjectAnimator.ofInt(drawable!!, "alpha", OBJECT_ANIMATOR_VALUE, 0)
+            animator.duration = ANIMATION_DURATION.toLong()
+            animator.repeatMode = ValueAnimator.REVERSE
+            animator.repeatCount = ANIMATION_REPEAT_COUNT
+            animator.start()
+            animator.addUpdateListener { invalidate() }
+        }
     }
 
     fun cancelHighlighting() {
@@ -100,23 +103,47 @@ class BrickListView : ListView {
         invalidate()
     }
 
-    fun startMoving(brickToMove: Brick?) {
+    fun startMoving(bricksToMove: List<Brick?>) {
         cancelMove()
-        val flatList: MutableList<Brick> = ArrayList()
-        brickToMove?.addToFlatList(flatList)
-        if (brickToMove !== flatList[0]) {
+
+        if (bricksToMove.isEmpty()) {
             return
         }
-        this.brickToMove = flatList[0]
-        flatList.removeAt(0)
+
+        val flatList: MutableList<Brick> = ArrayList()
+        var lastPosition = 0
+        for (brick in bricksToMove) {
+            if (brick in flatList) {
+                continue
+            }
+            val brickFlatList: MutableList<Brick> = ArrayList()
+            brick?.addToFlatList(brickFlatList)
+            if (brick != brickFlatList[0]) {
+                return
+            }
+            if (this.relativePositionOfMovingBricks.isEmpty()) {
+                relativePositionOfMovingBricks.add(0)
+            } else {
+                relativePositionOfMovingBricks.add(
+                    brickAdapterInterface!!.getPosition(brickFlatList[0]) - lastPosition
+                )
+            }
+            lastPosition = brickAdapterInterface!!.getPosition(brickFlatList[0])
+            this.bricksToMove.add(brickFlatList[0])
+            brickFlatList.removeAt(0)
+            flatList.addAll(brickFlatList)
+        }
 
         upperScrollBound = height / UPPER_SCROLL_BOUND_DIVISOR
         lowerScrollBound = height / LOWER_SCROLL_BOUND_DIVISOR
-        currentPositionOfHoveringBrick = brickAdapterInterface!!.getPosition(this.brickToMove)
+        currentPositionOfHoveringBrick =
+            brickAdapterInterface!!.getPosition(this.bricksToMove.get(0))
         invalidateHoveringItem = true
 
-        prepareHoveringItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick))
-        brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick, false)
+        for (i in this.bricksToMove.indices) {
+            prepareHoveringItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick + i))
+            brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick + i, false)
+        }
 
         if (!brickAdapterInterface!!.removeItems(flatList)) {
             invalidateViews()
@@ -124,20 +151,31 @@ class BrickListView : ListView {
     }
 
     fun stopMoving() {
-        brickAdapterInterface?.moveItemTo(currentPositionOfHoveringBrick, brickToMove)
+        var pos = currentPositionOfHoveringBrick
+        for (i in bricksToMove.indices) {
+            pos += relativePositionOfMovingBricks[i]
+            brickAdapterInterface?.moveItemTo(
+                pos,
+                bricksToMove[i]
+            )
+            pos = brickAdapterInterface!!.getPosition(bricksToMove[i])
+        }
         cancelMove()
     }
 
     fun cancelMove() {
         brickAdapterInterface?.setAllPositionsVisible()
-        brickToMove = null
-        hoveringDrawable = null
         motionEventId = -1
+        bricksToMove.clear()
+        relativePositionOfMovingBricks.clear()
+        hoveringDrawables.clear()
+        viewBounds.clear()
+        hoveringDrawables.clear()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (hoveringDrawable == null) {
+        if (hoveringDrawables.isEmpty()) {
             return super.onTouchEvent(event)
         }
         when (event.action) {
@@ -150,8 +188,12 @@ class BrickListView : ListView {
                 val dY = event.y - downY
                 downY += dY
                 downY -= offsetToCenter.toFloat()
-                viewBounds.offsetTo(viewBounds.left, downY.toInt())
-                hoveringDrawable?.bounds = viewBounds
+                var offsetHeight = 0
+                for (i in viewBounds.indices) {
+                    viewBounds[i].offsetTo(viewBounds[i].left, downY.toInt() + offsetHeight)
+                    hoveringDrawables[i]?.bounds = viewBounds[i]
+                    offsetHeight += viewBounds[i].height()
+                }
                 invalidate()
                 swapListItems()
                 scrollWhileDragging()
@@ -169,18 +211,25 @@ class BrickListView : ListView {
 
     public override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
-        if (brickToMove != null || brickPositionsToHighlight.isNotEmpty()) {
+        if (bricksToMove.isNotEmpty() || brickPositionsToHighlight.isNotEmpty()) {
             canvas.drawColor(translucentBlack)
         }
         if (invalidateHoveringItem) {
-            val childAtVisiblePosition = getChildAtVisiblePosition(currentPositionOfHoveringBrick)
-            if (childAtVisiblePosition != null) {
-                invalidateHoveringItem = false
-                prepareHoveringItem(childAtVisiblePosition)
+            hoveringDrawables.clear()
+            viewBounds.clear()
+            for (i in bricksToMove.indices) {
+                val childAtVisiblePosition =
+                    getChildAtVisiblePosition(currentPositionOfHoveringBrick + i)
+                if (childAtVisiblePosition != null) {
+                    invalidateHoveringItem = false
+                    prepareHoveringItem(childAtVisiblePosition)
+                }
             }
         }
 
-        hoveringDrawable?.draw(canvas)
+        for (drawable in hoveringDrawables) {
+            drawable?.draw(canvas)
+        }
 
         for (pos in brickPositionsToHighlight) {
             if (pos in firstVisiblePosition..lastVisiblePosition) {
@@ -209,39 +258,86 @@ class BrickListView : ListView {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         view.draw(Canvas(bitmap))
 
-        viewBounds[view.left, view.top, view.right] = view.bottom
+        viewBounds.add(Rect(view.left, view.top, view.right, view.bottom))
         val drawable = BitmapDrawable(resources, bitmap)
-        drawable.bounds = viewBounds
-        hoveringDrawable = drawable
-        setOffsetToCenter(viewBounds)
+        drawable.bounds = viewBounds.last()
+        hoveringDrawables.add(drawable)
+        setOffsetToCenter()
     }
 
-    private fun setOffsetToCenter(viewBounds: Rect) {
-        offsetToCenter = viewBounds.height() / 2
+    private fun setOffsetToCenter() {
+        offsetToCenter = getCombinedViewboundHeight() / 2
+    }
+
+    private fun getCombinedViewboundHeight(): Int {
+        var height = 0
+        for (viewBound in viewBounds) {
+            height += viewBound.height()
+        }
+        return height
     }
 
     @Suppress("ComplexMethod")
     private fun swapListItems() {
         val itemPositionAbove = currentPositionOfHoveringBrick - 1
-        val itemPositionBelow = currentPositionOfHoveringBrick + 1
-        val itemBelow: View? = if (isPositionValid(itemPositionBelow)) getChildAtVisiblePosition(itemPositionBelow) else null
-        val itemAbove: View? = if (isPositionValid(itemPositionAbove)) getChildAtVisiblePosition(itemPositionAbove) else null
+        val itemPositionBelow = currentPositionOfHoveringBrick + bricksToMove.size
+        val itemBelow: View? =
+            if (isPositionValid(itemPositionBelow)) getChildAtVisiblePosition(itemPositionBelow) else null
+        val itemAbove: View? =
+            if (isPositionValid(itemPositionAbove)) getChildAtVisiblePosition(itemPositionAbove) else null
 
-        val isAbove = itemBelow != null && downY > itemBelow.y
+        var downYAdd = getCombinedViewboundHeight()
+        downYAdd -= viewBounds.last().height()
+
+        val isAbove = itemBelow != null && downY + downYAdd > itemBelow.y
         val isBelow = itemAbove != null && downY < itemAbove.y
 
-        if (isAbove || isBelow) {
-            val swapWith = if (isAbove) itemPositionBelow else itemPositionAbove
-            val translationY = if (isAbove) Y_TRANSLATION_CONSTANT - viewBounds.height() else viewBounds.height() - Y_TRANSLATION_CONSTANT
-
-            if (brickAdapterInterface?.onItemMove(currentPositionOfHoveringBrick, swapWith) == true) {
-                brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick, true)
-                currentPositionOfHoveringBrick = swapWith
-                brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick, false)
-
-                val viewToSwapWith = if (isAbove) itemBelow else itemAbove
-                startAnimationToSwap(viewToSwapWith, translationY)
+        if (isAbove) {
+            var currentSwapPos = itemPositionBelow
+            for (i in bricksToMove.lastIndex downTo 0) {
+                if (brickAdapterInterface?.onItemMove(
+                        currentPositionOfHoveringBrick + i,
+                        currentSwapPos
+                    ) == false
+                ) {
+                    return
+                }
+                currentSwapPos -= 1
             }
+            brickAdapterInterface?.setItemVisible(currentSwapPos, true)
+            currentPositionOfHoveringBrick += 1
+        }
+
+        if (isBelow) {
+            var currentSwapPos = itemPositionAbove
+            for (i in bricksToMove.indices) {
+                if (brickAdapterInterface?.onItemMove(
+                        currentPositionOfHoveringBrick + i,
+                        currentSwapPos
+                    ) == false
+                ) {
+                    return
+                }
+                currentSwapPos += 1
+            }
+            brickAdapterInterface?.setItemVisible(currentSwapPos, true)
+            currentPositionOfHoveringBrick -= 1
+        }
+
+        if (isAbove || isBelow) {
+            val viewBoundsHeight = getCombinedViewboundHeight()
+            val translationY = if (isAbove) {
+                Y_TRANSLATION_CONSTANT - viewBoundsHeight
+            } else {
+                viewBoundsHeight - Y_TRANSLATION_CONSTANT
+            }
+
+            for (i in bricksToMove.indices) {
+                brickAdapterInterface?.setItemVisible(currentPositionOfHoveringBrick + i, false)
+            }
+
+            val viewToSwapWith = if (isAbove) itemBelow else itemAbove
+            startAnimationToSwap(viewToSwapWith, translationY)
         }
     }
 

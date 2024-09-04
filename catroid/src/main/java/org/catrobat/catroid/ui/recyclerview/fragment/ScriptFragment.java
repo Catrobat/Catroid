@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,6 +92,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -120,16 +121,18 @@ public class ScriptFragment extends ListFragment implements
 	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
+	@IntDef({NONE, BACKPACK, MOVE, COPY, DELETE, COMMENT, CATBLOCKS})
 	@interface ActionModeType {
 	}
 
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
-	private static final int COPY = 2;
-	private static final int DELETE = 3;
-	private static final int COMMENT = 4;
-	private static final int CATBLOCKS = 5;
+
+	private static final int MOVE = 2;
+	private static final int COPY = 3;
+	private static final int DELETE = 4;
+	private static final int COMMENT = 5;
+	private static final int CATBLOCKS = 6;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -197,6 +200,10 @@ public class ScriptFragment extends ListFragment implements
 				adapter.setCheckBoxMode(BrickAdapter.SCRIPTS_ONLY);
 				mode.setTitle(getString(R.string.am_backpack));
 				break;
+			case MOVE:
+				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
+				mode.setTitle(getString(R.string.am_move));
+				break;
 			case COPY:
 				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
 				mode.setTitle(getString(R.string.am_copy));
@@ -252,6 +259,9 @@ public class ScriptFragment extends ListFragment implements
 		switch (actionModeType) {
 			case BACKPACK:
 				showNewScriptGroupAlert(adapter.getSelectedItems());
+				break;
+			case MOVE:
+				moveMultipleBricks(adapter.getSelectedItems());
 				break;
 			case COPY:
 				copy(adapter.getSelectedItems());
@@ -464,6 +474,9 @@ public class ScriptFragment extends ListFragment implements
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
 				break;
+			case R.id.move:
+				prepareActionMode(MOVE);
+				break;
 			case R.id.copy:
 				prepareActionMode(COPY);
 				break;
@@ -576,6 +589,9 @@ public class ScriptFragment extends ListFragment implements
 			case BACKPACK:
 				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
 				break;
+			case MOVE:
+				actionMode.setTitle(getString(R.string.am_move) + " " + selectedItemCnt);
+				break;
 			case COPY:
 				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
 				break;
@@ -647,7 +663,7 @@ public class ScriptFragment extends ListFragment implements
 			int position = (1 + lastVisibleBrick - firstVisibleBrick) / 2;
 			position += firstVisibleBrick;
 			brickAdapter.addItem(position, brick);
-			brickListView.startMoving(brick);
+			brickListView.startMoving(Arrays.asList(brick));
 		}
 	}
 
@@ -751,7 +767,7 @@ public class ScriptFragment extends ListFragment implements
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
-					listView.startMoving(clonedBrick);
+					listView.startMoving(Arrays.asList(clonedBrick));
 				} catch (CloneNotSupportedException e) {
 					ToastUtil.showError(getContext(), R.string.error_copying_brick);
 					Log.e(TAG, Log.getStackTraceString(e));
@@ -822,7 +838,7 @@ public class ScriptFragment extends ListFragment implements
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
-			listView.startMoving(brick);
+			listView.startMoving(Arrays.asList(brick));
 		}
 		return true;
 	}
@@ -903,6 +919,11 @@ public class ScriptFragment extends ListFragment implements
 		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
 				CatblocksScriptFragment.Companion.getTAG());
 		fragmentTransaction.commit();
+	}
+
+	private void moveMultipleBricks(List<Brick> selectedBricks) {
+		listView.startMoving(selectedBricks);
+		finishActionMode();
 	}
 
 	private void copy(List<Brick> selectedBricks) {
