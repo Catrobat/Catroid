@@ -128,7 +128,7 @@ fun Fragment?.getTabPositionInSpriteActivity(): Int = when (this) {
 }
 
 private fun unableToSelectNewFragmentFromCurrent(fragment: Fragment?) =
-    fragment is ScriptFragment && fragment.isCurrentlyMoving
+    fragment is ScriptFragment && fragment.isCurrentlyMoving()
 
 private fun SpriteActivity?.setTabSelection(fragment: Fragment?) {
     val tabLayout = this?.findViewById<TabLayout?>(R.id.tab_layout)

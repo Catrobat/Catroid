@@ -50,7 +50,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.getContextMenuItems
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.Companion.getContextMenuItems
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 import org.junit.After
@@ -100,7 +100,7 @@ class BrickContextMenuTest(
             arrayOf(WhenNfcBrick(), false, false),
             arrayOf(WhenRaspiPinChangedBrick(), false, false),
             arrayOf(WhenTouchDownBrick(), false, false)
-            )
+        )
     }
 
     @Before
@@ -115,12 +115,18 @@ class BrickContextMenuTest(
 
     @Test
     fun testEditFormula() {
-        assertEquals(contextMenuItems.contains(R.string.brick_context_dialog_formula_edit_brick), expectedEditFormula)
+        assertEquals(
+            contextMenuItems.contains(R.string.brick_context_dialog_formula_edit_brick),
+            expectedEditFormula
+        )
     }
 
     @Test
     fun testHighlightBrickParts() {
-        assertEquals(contextMenuItems.contains(R.string.brick_context_dialog_highlight_brick_parts), expectedHighlight)
+        assertEquals(
+            contextMenuItems.contains(R.string.brick_context_dialog_highlight_brick_parts),
+            expectedHighlight
+        )
     }
 
     @Test
