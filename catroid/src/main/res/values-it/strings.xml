@@ -1742,7 +1742,7 @@ con tolleranza %        </string>
     <string formatted="false" name="formula_editor_object_background_name">nome_sfondo</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">numero di sfondi</string>
     <string formatted="false" name="formula_editor_object_distance_to">distanza a</string>
-    <string formatted="false" name="formula_editor_compute">Calcola</string>
+    <string formatted="false" name="formula_editor_confirm">Calcola</string>
     <string formatted="false" name="formula_editor_object">Oggetto</string>
     <string formatted="false" name="formula_editor_functions">Funzioni</string>
     <string formatted="false" name="formula_editor_logic">Logica</string>

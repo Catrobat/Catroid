@@ -1725,7 +1725,7 @@
     <string formatted="false" name="formula_editor_object_background_name">பின்னணி பெயர்</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">தொடுவதற்கான தூரம்</string>
-    <string formatted="false" name="formula_editor_compute">கம்ப்யூட்</string>
+    <string formatted="false" name="formula_editor_confirm">கம்ப்யூட்</string>
     <string formatted="false" name="formula_editor_object">பொருள்</string>
     <string formatted="false" name="formula_editor_functions">பணிகள்</string>
     <string formatted="false" name="formula_editor_logic">தர்க்கம்</string>

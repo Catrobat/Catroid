@@ -978,6 +978,10 @@
     <string formatted="false" name="brick_sew_up">vernähen</string>
     <string formatted="false" name="brick_thread_color">Setze auf Farbe </string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Plot als SVG speichern</string>
+    <string formatted="false" name="brick_stop_plot">Plotten beenden</string>
+    <string formatted="false" name="brick_start_plot">Plotten starten</string>
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Timer zurücksetzen</string>
     <string formatted="false" name="brick_open">Öffne </string>
@@ -1709,7 +1713,7 @@
     <string formatted="false" name="formula_editor_object_background_name">Hintergrundname</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">Anzahl der Hintergründe</string>
     <string formatted="false" name="formula_editor_object_distance_to">Entfernung zu</string>
-    <string formatted="false" name="formula_editor_compute">Berechnen</string>
+    <string formatted="false" name="formula_editor_confirm">Berechnen</string>
     <string formatted="false" name="formula_editor_object">Eigenschaften</string>
     <string formatted="false" name="formula_editor_functions">Funktionen</string>
     <string formatted="false" name="formula_editor_logic">Logik</string>

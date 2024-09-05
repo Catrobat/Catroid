@@ -1677,7 +1677,7 @@
     <string formatted="false" name="formula_editor_object_background_name">ชื่อพื้นหลัง</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">จำนวนพื้นหลัง</string>
     <string formatted="false" name="formula_editor_object_distance_to">ระยะทางไปยังตำแหน่งที่สัมผัส</string>
-    <string formatted="false" name="formula_editor_compute">คำนวณ</string>
+    <string formatted="false" name="formula_editor_confirm">คำนวณ</string>
     <string formatted="false" name="formula_editor_object">วัตถุ</string>
     <string formatted="false" name="formula_editor_functions">ฟังก์ชัน</string>
     <string formatted="false" name="formula_editor_logic">ตรรกะ</string>

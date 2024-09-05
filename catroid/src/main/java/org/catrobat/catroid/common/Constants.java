@@ -72,6 +72,7 @@ public final class Constants {
 	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
+	public static final String SVG_FILE_EXTENSION = ".svg";
 	public static final String TEXT_FILE_EXTENSION = ".txt";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
