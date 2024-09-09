@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,8 +48,7 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.NUMBER_OF_UPLOADED_PROJECTS
 import org.catrobat.catroid.ui.PROJECT_DIR
-import org.catrobat.catroid.ui.ProjectUploadActivity
-import org.catrobat.catroid.ui.controller.ProjectUploadController
+import org.catrobat.catroid.ui.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Assert.assertFalse
@@ -58,7 +57,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
@@ -236,18 +234,5 @@ class ProjectUploadDialogTest {
     private fun isKeyboardVisible(): Boolean {
         val checkKeyboardCommand = "dumpsys input_method | grep mInputShown"
         return UiDevice.getInstance(getInstrumentation()).executeShellCommand(checkKeyboardCommand).contains("mInputShown=true")
-    }
-
-    class ProjectUploadTestActivity : ProjectUploadActivity() {
-        override fun createProjectUploadController(): ProjectUploadController? {
-            projectUploadController = spy(ProjectUploadController(this))
-            return projectUploadController
-        }
-
-        override fun verifyUserIdentity() {
-            onTokenCheckComplete(true, false)
-        }
-
-        fun projectUploadController(): ProjectUploadController? = projectUploadController
     }
 }
