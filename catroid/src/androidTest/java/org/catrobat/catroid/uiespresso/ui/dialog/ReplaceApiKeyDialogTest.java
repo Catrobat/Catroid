@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
-import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest;
+import org.catrobat.catroid.ui.ProjectUploadTestActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -68,8 +68,8 @@ public class ReplaceApiKeyDialogTest {
 	private static final String TAG = ReplaceApiKeyDialogTest.class.getSimpleName();
 
 	@Rule
-	public BaseActivityTestRule<ProjectUploadDialogTest.ProjectUploadTestActivity> activityTestRule =
-			new BaseActivityTestRule<>(ProjectUploadDialogTest.ProjectUploadTestActivity.class, false, false);
+	public BaseActivityTestRule<ProjectUploadTestActivity> activityTestRule =
+			new BaseActivityTestRule<>(ProjectUploadTestActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
 
