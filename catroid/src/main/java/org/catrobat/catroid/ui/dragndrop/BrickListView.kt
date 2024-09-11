@@ -39,6 +39,8 @@ import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import java.util.ArrayList
 
 private const val SMOOTH_SCROLL_BY = 15
@@ -104,11 +106,15 @@ class BrickListView : ListView {
         cancelMove()
         val flatList: MutableList<Brick> = ArrayList()
         brickToMove?.addToFlatList(flatList)
-        if (brickToMove !== flatList[0]) {
+        if (brickToMove?.parent is CompositeBrick && brickToMove is EndBrick) {
+            this.brickToMove = brickToMove
+            flatList.clear()
+        } else if (brickToMove !== flatList[0]) {
             return
+        } else {
+            this.brickToMove = flatList[0]
+            flatList.removeAt(0)
         }
-        this.brickToMove = flatList[0]
-        flatList.removeAt(0)
 
         upperScrollBound = height / UPPER_SCROLL_BOUND_DIVISOR
         lowerScrollBound = height / LOWER_SCROLL_BOUND_DIVISOR
