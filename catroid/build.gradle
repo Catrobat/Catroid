@@ -119,7 +119,7 @@ android {
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
