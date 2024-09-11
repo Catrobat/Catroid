@@ -31,20 +31,23 @@ import org.catrobat.catroid.content.StartScript;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public final class BrickTestUtils {
 	private BrickTestUtils() {
 		throw new AssertionError();
 	}
 
 	public static Script createEmptyCastProjectAndGetStartScript(String projectName) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName, false, true);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 		return script;
 	}
 }

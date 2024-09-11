@@ -72,14 +72,14 @@ public class DeleteProjectTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject(projectToDelete);
-		createProject("secondProject");
-
-		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteProjectTest() {
+	public void deleteProjectMultipleElementsListTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
@@ -107,6 +107,21 @@ public class DeleteProjectTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	public void deleteProjectSingleElementListTest() {
+		baseActivityTestRule.launchActivity(null);
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(projectToDelete))
+				.check(doesNotExist());
+
+		onView(withText("My project"))
+				.check(matches(isDisplayed())); // default project
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
 	public void selectFragmentToDeleteTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
@@ -118,6 +133,9 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteProjectTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
