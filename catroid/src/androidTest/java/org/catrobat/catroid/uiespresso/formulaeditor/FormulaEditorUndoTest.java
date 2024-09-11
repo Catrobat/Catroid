@@ -415,7 +415,7 @@ public class FormulaEditorUndoTest {
 		pressBack();
 
 		onView(withId(R.id.brick_place_at_edit_text_x))
-				.check(matches(withText("'#0074CD' ")));
+				.check(matches(withText("'#0074CD ' ")));
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(0);
