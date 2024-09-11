@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,36 +22,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:layout="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/brick_checkbox"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
+        android:textColor="@color/view_holder_headline"
+        android:padding="@dimen/view_holder_padding"/>
 
-    <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_broadcast_receive_layout"
-        style="@style/BrickContainer.Event.MediumWhen">
-
-        <include layout="@layout/icon_brick_category_event" />
-
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_broadcast_receive" />
-
-        <TextView
-            android:id="@+id/brick_broadcast_text"
-            style="@style/BrickEditText"
-            layout:layout_inputType="string"/>
-
-
-    </org.catrobat.catroid.ui.BrickLayout>
+    <include layout="@layout/view_holder_broadcast_message_item" />
 
 </LinearLayout>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.BroadcastListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
@@ -629,27 +630,31 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddButton(View view) {
-		if (getCurrentFragment() instanceof ScriptFragment) {
-			((ScriptFragment) getCurrentFragment()).handleAddButton();
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			((ScriptFragment) currentFragment).handleAddButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof CatblocksScriptFragment) {
-			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
+		if (currentFragment instanceof CatblocksScriptFragment) {
+			((CatblocksScriptFragment) currentFragment).handleAddButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof DataListFragment) {
+		if (currentFragment instanceof DataListFragment) {
 			handleAddUserDataButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof LookListFragment) {
+		if (currentFragment instanceof LookListFragment) {
 			handleAddLookButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof SoundListFragment) {
+		if (currentFragment instanceof SoundListFragment) {
 			handleAddSoundButton();
 		}
-		if (getCurrentFragment() instanceof ListSelectorFragment) {
+		if (currentFragment instanceof ListSelectorFragment) {
 			handleAddUserListButton();
+		}
+		if (currentFragment instanceof BroadcastListFragment) {
+			((BroadcastListFragment) currentFragment).handleAddButton();
 		}
 	}
 
