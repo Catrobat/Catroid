@@ -25,14 +25,13 @@ package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.ui.fragment.actionutils.ActionUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -41,17 +40,15 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -66,6 +63,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class DeleteSoundTest {
 
+	final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
@@ -76,12 +75,15 @@ public class DeleteSoundTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject();
-		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteSoundTest() {
+	public void deleteSoundMultipleElementsListTest() throws IOException {
+		ActionUtils.addSound(projectManager, "testSound1");
+		ActionUtils.addSound(projectManager, toBeDeletedSoundName);
+		baseActivityTestRule.launchActivity();
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
@@ -109,7 +111,24 @@ public class DeleteSoundTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void cancelDeleteSoundTest() {
+	public void deleteSoundSingleElementListTest() throws IOException {
+		ActionUtils.addSound(projectManager, toBeDeletedSoundName);
+		baseActivityTestRule.launchActivity();
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(toBeDeletedSoundName))
+				.check(doesNotExist());
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void cancelDeleteSoundTest() throws IOException {
+		ActionUtils.addSound(projectManager, "testSound1");
+		ActionUtils.addSound(projectManager, toBeDeletedSoundName);
+		baseActivityTestRule.launchActivity();
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
@@ -145,38 +164,15 @@ public class DeleteSoundTest {
 		onRecyclerView().atPosition(0).performCheckItemCheck();
 	}
 
-	private void createProject() throws IOException {
+	private void createProject() {
 		String projectName = "deleteSoundFragmentTest";
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
-
-		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.longsound,
-				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-				"longsound.mp3");
-
-		File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.testsoundui,
-				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-				"testsoundui.mp3");
-
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFile(soundFile);
-		soundInfo.setName("testSound1");
-		soundInfoList.add(soundInfo);
-
-		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setFile(soundFile2);
-		soundInfo2.setName(toBeDeletedSoundName);
-		soundInfoList.add(soundInfo2);
 	}
 }
