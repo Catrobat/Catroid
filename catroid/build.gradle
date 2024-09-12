@@ -106,7 +106,7 @@ def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
 android {
-    compileSdk 33
+    compileSdk 34
     buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
@@ -118,8 +118,8 @@ android {
 
     defaultConfig {
 
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion 31
+        targetSdkVersion 34
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -197,7 +197,6 @@ android {
         }
     }
 
-    dexOptions.javaMaxHeapSize "4g"
     packagingOptions {
         jniLibs {
             excludes += ['lib/mips/*', 'lib/armeabi/*']
