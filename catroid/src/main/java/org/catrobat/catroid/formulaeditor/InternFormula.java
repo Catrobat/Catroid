@@ -730,6 +730,10 @@ public class InternFormula {
 	}
 
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
+		if (internTokenFormulaList.isEmpty()) {
+			return CursorTokenPropertiesAfterModification.RIGHT;
+		}
+
 		InternToken insertedInternToken = internTokenFormulaList.get(insertedInternTokenIndex);
 
 		if (insertedInternToken.getInternTokenType() == InternTokenType.FUNCTION_NAME) {
