@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,15 +25,18 @@ package org.catrobat.catroid.utils
 import android.graphics.Point
 import android.graphics.Rect
 import com.google.mlkit.nl.languageid.LanguageIdentification
+import com.google.mlkit.nl.languageid.LanguageIdentifier
 import com.google.mlkit.vision.text.Text
 import com.huawei.hms.mlsdk.langdetect.MLLangDetectorFactory
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetector
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetectorSetting
 import com.huawei.hms.mlsdk.text.MLText
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.coordinatesFromRelativePosition
 import org.catrobat.catroid.common.ScreenValues.currentScreenResolution
 import org.catrobat.catroid.stage.StageActivity
+import org.koin.java.KoinJavaComponent.get
 import kotlin.math.roundToInt
 
 object TextBlockUtil {
@@ -44,12 +47,25 @@ object TextBlockUtil {
     private var imageWidth = 0
     private var imageHeight = 0
     private const val MAX_TEXT_SIZE = 100
-    private var languageIdentifierGoogle = LanguageIdentification.getClient()
-    private var languageDetectorFactoryHuawei: MLLangDetectorFactory = MLLangDetectorFactory.getInstance()
-    var languageDetectorSettingHuawei: MLLocalLangDetectorSetting = MLLocalLangDetectorSetting.Factory()
-        .setTrustedThreshold(TRUSTED_THRESHOLD)
-        .create()
-    var languageIdentifierHuawei: MLLocalLangDetector = languageDetectorFactoryHuawei.getLocalLangDetector(languageDetectorSettingHuawei)
+    private var languageIdentifierGoogle: LanguageIdentifier? = null
+    private var languageIdentifierHuawei: MLLocalLangDetector? = null
+
+    init {
+        val context = CatroidApplication.getAppContext()
+        val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
+        if (mobileServiceAvailability.isGmsAvailable(context)) {
+            languageIdentifierGoogle = LanguageIdentification.getClient()
+        } else if (mobileServiceAvailability.isHmsAvailable(context)) {
+            val languageDetectorFactoryHuawei: MLLangDetectorFactory =
+                MLLangDetectorFactory.getInstance()
+            val languageDetectorSettingHuawei: MLLocalLangDetectorSetting =
+                MLLocalLangDetectorSetting.Factory()
+                    .setTrustedThreshold(TRUSTED_THRESHOLD)
+                    .create()
+            languageIdentifierHuawei =
+                languageDetectorFactoryHuawei.getLocalLangDetector(languageDetectorSettingHuawei)
+        }
+    }
 
     fun setTextBlocksGoogle(text: List<Text.TextBlock>, width: Int, height: Int) {
         imageWidth = width
@@ -61,9 +77,10 @@ object TextBlockUtil {
         text.forEachIndexed { index, textBlock ->
             textBlock.text.let { textBlocks.add(index, it) }
             textBlock.boundingBox?.let { textBlockBoundingBoxes.add(index, it) }
-            languageIdentifierGoogle.identifyLanguage(textBlock.text).addOnSuccessListener { languageCode ->
-                textBlockLanguages[index] = languageCode
-            }
+            languageIdentifierGoogle?.identifyLanguage(textBlock.text)
+                ?.addOnSuccessListener { languageCode ->
+                    textBlockLanguages[index] = languageCode
+                }
         }
     }
 
@@ -77,8 +94,9 @@ object TextBlockUtil {
         text.forEachIndexed { index, textBlock ->
             textBlock.stringValue?.let { textBlocks.add(index, it) }
             textBlock.border?.let { textBlockBoundingBoxes.add(index, it) }
-            val firstBestDetectTask = languageIdentifierHuawei.firstBestDetect(textBlock.stringValue)
-            firstBestDetectTask.addOnSuccessListener { languageCode ->
+            val firstBestDetectTask =
+                languageIdentifierHuawei?.firstBestDetect(textBlock.stringValue)
+            firstBestDetectTask?.addOnSuccessListener { languageCode ->
                 textBlockLanguages[index] = languageCode
             }
         }
