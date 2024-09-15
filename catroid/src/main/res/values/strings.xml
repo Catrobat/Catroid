@@ -1883,7 +1883,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_sensor_color_equals_color">color equals color with %
         tolerance</string>
     <string formatted="false" name="formula_editor_sensor_color_equals_color_parameter" translatable="false">
-        (\'#ff0000\',\'#fe0000\',1)</string>
+        (\'#ff0000 \',\'#fe0000 \',1)</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">acceleration x</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">acceleration y</string>
     <string formatted="false" name="formula_editor_sensor_z_acceleration">acceleration z</string>

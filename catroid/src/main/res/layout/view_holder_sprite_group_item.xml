@@ -55,15 +55,26 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/img_margin"/>
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
-            android:layout_marginEnd="@dimen/img_margin"
-            android:background="@drawable/image_contour"
-            android:layout_weight="0"
-            android:cropToPadding="true"
-            android:scaleType="centerCrop" />
+        <com.google.android.material.card.MaterialCardView
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="72dp"
+             android:layout_height="65dp"
+             android:layout_marginEnd="@dimen/img_margin"
+             app:cardCornerRadius="10dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/black"
+            app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:cropToPadding="true"
+                    android:scaleType="centerCrop"
+                    />
+        </com.google.android.material.card.MaterialCardView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
