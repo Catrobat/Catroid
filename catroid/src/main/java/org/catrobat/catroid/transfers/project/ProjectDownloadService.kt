@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.app.IntentService
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
@@ -148,17 +147,11 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(EXTRA_PROJECT_NAME, projectName)
 
-            val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val pendingIntent: PendingIntent =
                 PendingIntent.getActivity(
                     context, notificationData.notificationID, downloadIntent,
                     PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-            } else {
-                PendingIntent.getActivity(
-                    context, notificationData.notificationID, downloadIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT
-                )
-            }
             statusBarNotificationManager.showOrUpdateNotification(
                 context,
                 notificationData,
