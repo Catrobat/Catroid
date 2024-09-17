@@ -83,6 +83,8 @@
     <application
         android:name=".CatroidApplication"
         android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Catroid"
