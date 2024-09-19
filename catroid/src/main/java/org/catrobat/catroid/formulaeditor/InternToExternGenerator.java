@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -383,7 +383,7 @@ public class InternToExternGenerator {
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN ||
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE ||
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER ) {
-				externTokenSpannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#008B96")),
+				externTokenSpannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.formula_editor_highlight_function)),
 						0,
 						externTokenSpannableString.length(),
 						0);
