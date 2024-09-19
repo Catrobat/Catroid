@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 
 object FormulaSpannableStringBuilder {
@@ -50,6 +51,27 @@ object FormulaSpannableStringBuilder {
             }
         }
         return stringBuilder
+    }
+
+    @JvmStatic
+    fun mergeFormulaString(
+        firstSpannable: SpannableStringBuilder,
+        secondSpannable: SpannableStringBuilder
+    ): SpannableStringBuilder {
+        val mergedSpannable = SpannableStringBuilder(firstSpannable.toString())
+        val firstSpans = firstSpannable.getSpans(0, firstSpannable.length, Any::class.java)
+        for (span in firstSpans) {
+            val start = firstSpannable.getSpanStart(span)
+            val end = firstSpannable.getSpanEnd(span)
+            mergedSpannable.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        val secondSpans = secondSpannable.getSpans(0, secondSpannable.length, Any::class.java)
+        for (span in secondSpans) {
+            val start = secondSpannable.getSpanStart(span)
+            val end = secondSpannable.getSpanEnd(span)
+            mergedSpannable.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        return mergedSpannable
     }
 
     private fun isColorString(colorString: String): Boolean =

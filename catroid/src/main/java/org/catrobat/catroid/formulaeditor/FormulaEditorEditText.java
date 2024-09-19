@@ -26,9 +26,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -351,11 +353,12 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private String updateTextAndCursorFromInternFormula() {
 		SpannableStringBuilder newExternFormulaString = internFormula.getHighlightedFormulaString();
-		setText(
+		SpannableStringBuilder mergedFormulaString =
+				FormulaSpannableStringBuilder.mergeFormulaString(newExternFormulaString,
 				FormulaSpannableStringBuilder.buildSpannableFormulaString(context,
-						newExternFormulaString, getTextSize()));
+				newExternFormulaString.toString(), getTextSize()));
+		setText(mergedFormulaString);
 
-		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
