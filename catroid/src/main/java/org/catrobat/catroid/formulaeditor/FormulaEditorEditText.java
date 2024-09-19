@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,11 +26,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -366,7 +364,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		highlightSelection();
 
-		return newExternFormulaString.toString();
+		return mergedFormulaString.toString();
 	}
 
 	@Override
