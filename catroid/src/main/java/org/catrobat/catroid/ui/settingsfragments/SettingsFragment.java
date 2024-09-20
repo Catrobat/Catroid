@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -124,7 +124,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
-
 
 	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
 	public static final String RASPI_HOST = "setting_raspi_host_preference";

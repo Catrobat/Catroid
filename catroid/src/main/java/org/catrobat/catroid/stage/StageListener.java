@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -527,11 +527,13 @@ public class StageListener implements ApplicationListener {
 
 		if (reloadProject) {
 			stage.clear();
-			if (penActor != null)
+			if (penActor != null) {
 				penActor.dispose();
+			}
 
-			if (plotActor != null)
+			if (plotActor != null) {
 				plotActor.dispose();
+			}
 
 			embroideryPatternManager.clear();
 
@@ -714,11 +716,13 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
 		embroideryPatternManager = null;
-		if (penActor != null)
+		if (penActor != null) {
 			penActor.dispose();
+		}
 
-		if(plotActor != null)
+		if (plotActor != null) {
 			plotActor.dispose();
+		}
 	}
 
 	public void finish() {

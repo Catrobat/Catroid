@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -153,11 +153,11 @@ import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StartPlotAction;
-import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopSoundAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
@@ -1168,7 +1168,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName) {
 		SavePlotAction action = Actions.action(SavePlotAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);

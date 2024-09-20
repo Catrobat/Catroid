@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -113,7 +113,6 @@ public abstract class ActorAndObjectRecyclerViewFragment<T> extends Fragment imp
 	@Override
 	public void onItemClick(final T item, MultiSelectionManager selectionManager) {
 		unpackItems(new ArrayList<>(Collections.singletonList(item)));
-
 	}
 
 	public void setShowProgressBar(boolean show) {
@@ -128,7 +127,6 @@ public abstract class ActorAndObjectRecyclerViewFragment<T> extends Fragment imp
 
 	@Override
 	public void onSettingsClick(T item, View view) {
-
 	}
 
 	protected abstract void initializeAdapter();
