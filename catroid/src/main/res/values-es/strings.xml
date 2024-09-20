@@ -1730,7 +1730,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_object_background_name">nombre_fondo</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">número de fondos</string>
     <string formatted="false" name="formula_editor_object_distance_to">distancia a</string>
-    <string formatted="false" name="formula_editor_compute">Calcular</string>
+    <string formatted="false" name="formula_editor_confirm">Calcular</string>
     <string formatted="false" name="formula_editor_object">Objeto</string>
     <string formatted="false" name="formula_editor_functions">Funciones</string>
     <string formatted="false" name="formula_editor_logic">Lógica</string>

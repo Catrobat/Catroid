@@ -346,8 +346,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		ScreenValues.currentScreenResolution =
 				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
 
-		resizePossible = ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
-				|| ProjectManager.getInstance().getCurrentProject().isCastProject();
+		resizePossible = !ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution) &&
+				!ProjectManager.getInstance().getCurrentProject().isCastProject();
 
 		if (resizePossible) {
 			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));

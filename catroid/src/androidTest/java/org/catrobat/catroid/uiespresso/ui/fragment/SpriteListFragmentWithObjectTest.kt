@@ -30,7 +30,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectActivity.Companion.EXTRA_FRAGMENT_POSITION
 import org.catrobat.catroid.ui.ProjectActivity.Companion.FRAGMENT_SPRITES
@@ -43,9 +45,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent
 
 @RunWith(AndroidJUnit4::class)
 class SpriteListFragmentWithObjectTest {
+    val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
         ProjectActivity::class.java,
@@ -91,8 +96,8 @@ class SpriteListFragmentWithObjectTest {
 
     @Test
     fun testBackpackInOverflow() {
+        projectManager.currentProject.defaultScene.addSprite(Sprite("testSprite2"))
         openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
-
         onView(withText(R.string.backpack))
             .perform(click())
 
@@ -103,7 +108,10 @@ class SpriteListFragmentWithObjectTest {
     @Test
     fun testCopyInOverflow() {
         openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
+        onView(withText(R.string.copy))
+            .perform(click())
 
+        openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
         onView(withText(R.string.copy))
             .perform(click())
 
@@ -113,8 +121,8 @@ class SpriteListFragmentWithObjectTest {
 
     @Test
     fun testDeleteInOverflow() {
+        projectManager.currentProject.defaultScene.addSprite(Sprite("testSprite2"))
         openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
-
         onView(withText(R.string.delete))
             .perform(click())
 

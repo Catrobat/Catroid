@@ -47,6 +47,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.common.io.Files;
 
@@ -65,6 +66,7 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaSpannableStringBuilder;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -936,7 +938,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void refreshFormulaPreviewString(String newString) {
 		updateBrickView();
-		formulaBrick.getTextView(currentFormulaField).setText(newString);
+		TextView formulaFieldView = formulaBrick.getTextView(currentFormulaField);
+		formulaFieldView.setText(
+				FormulaSpannableStringBuilder.buildSpannableFormulaString(this.getContext(),
+						newString,
+						formulaFieldView.getTextSize()));
 	}
 
 	private void showCategoryListFragment(String tag, int actionbarResId) {

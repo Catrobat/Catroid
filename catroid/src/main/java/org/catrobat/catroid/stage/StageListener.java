@@ -83,15 +83,19 @@ import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationManager;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
@@ -127,6 +131,7 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
+	private PlotActor plotActor;
 	public EmbroideryPatternManager embroideryPatternManager;
 	public WebConnectionHolder webConnectionHolder;
 
@@ -160,6 +165,7 @@ public class StageListener implements ApplicationListener {
 
 	private static final int Z_LAYER_PEN_ACTOR = 1;
 	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
+	private static final int Z_LAYER_PLOT_ACTOR = 3;
 
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
@@ -282,6 +288,10 @@ public class StageListener implements ApplicationListener {
 		penActor = new PenActor();
 		stage.addActor(penActor);
 		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
+
+		plotActor = new PlotActor();
+		stage.addActor(plotActor);
+		plotActor.setZIndex(Z_LAYER_PEN_ACTOR);
 
 		float screenRatio = calculateScreenRatio();
 		EmbroideryActor embroideryActor = new EmbroideryActor(screenRatio, embroideryPatternManager, shapeRenderer);
@@ -517,9 +527,11 @@ public class StageListener implements ApplicationListener {
 
 		if (reloadProject) {
 			stage.clear();
-			if (penActor != null) {
+			if (penActor != null)
 				penActor.dispose();
-			}
+
+			if (plotActor != null)
+				plotActor.dispose();
 
 			embroideryPatternManager.clear();
 
@@ -588,15 +600,28 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			byte[] screenshot = ScreenUtils
-					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+			Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			String manualScreenshotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_MANUAL_FILE_NAME;
+			File manualScreenshot = new File(manualScreenshotPath);
+			if (!manualScreenshot.exists() || Objects.equals(screenshotName,
+					SCREENSHOT_MANUAL_FILE_NAME)) {
+				byte[] screenshot = ScreenUtils
+						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+				screenshotSaver.saveScreenshotAndNotify(
+						screenshot,
+						screenshotName,
+						this::notifyScreenshotCallbackAndCleanup,
+						GlobalScope.INSTANCE
+				);
+			}
+			String automaticScreenShotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_AUTOMATIC_FILE_NAME;
+			File automaticScreenShot = new File(automaticScreenShotPath);
+			if (manualScreenshot.exists() && automaticScreenShot.exists()) {
+				automaticScreenShot.delete();
+			}
 			makeScreenshot = false;
-			screenshotSaver.saveScreenshotAndNotify(
-					screenshot,
-					screenshotName,
-					this::notifyScreenshotCallbackAndCleanup,
-					GlobalScope.INSTANCE
-			);
 		}
 
 		if (axesOn && !finished) {
@@ -666,6 +691,10 @@ public class StageListener implements ApplicationListener {
 		return penActor;
 	}
 
+	public PlotActor getPlotActor() {
+		return plotActor;
+	}
+
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -685,9 +714,11 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
 		embroideryPatternManager = null;
-		if (penActor != null) {
+		if (penActor != null)
 			penActor.dispose();
-		}
+
+		if(plotActor != null)
+			plotActor.dispose();
 	}
 
 	public void finish() {
@@ -739,6 +770,7 @@ public class StageListener implements ApplicationListener {
 
 	public void clearBackground() {
 		penActor.reset();
+		plotActor.reset();
 	}
 
 	private void initScreenMode() {
@@ -844,6 +876,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
+		PlotActor plotActor;
 		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 		List<SoundBackup> soundBackupList;
@@ -875,6 +908,7 @@ public class StageListener implements ApplicationListener {
 		backup.sprites = new ArrayList<>(sprites);
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
+		backup.plotActor = plotActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
 		backup.embroideryPatternManager = embroideryPatternManager;
 
@@ -922,6 +956,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		penActor = backup.penActor;
+		plotActor = backup.plotActor;
 
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);

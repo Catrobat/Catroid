@@ -248,6 +248,6 @@
             style="@style/FormulaEditorComputeButton"
             android:layout_marginBottom="@dimen/key_margin"
             android:layout_span="2"
-            android:text="@string/formula_editor_compute" />
+            android:text="@string/formula_editor_confirm" />
     </TableRow>
 </TableLayout>

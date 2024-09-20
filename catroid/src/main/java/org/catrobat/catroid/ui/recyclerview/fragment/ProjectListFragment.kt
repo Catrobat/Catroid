@@ -339,6 +339,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun deleteItems(selectedItems: MutableList<ProjectData?>?) {
         setShowProgressBar(true)
+        var deletedItemCount = 0
         selectedItems ?: return
         for (item in selectedItems) {
             item ?: continue
@@ -349,12 +350,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
+            deletedItemCount++
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
                 R.plurals.deleted_projects,
-                selectedItems.size,
-                selectedItems.size
+                deletedItemCount,
+                deletedItemCount
             )
         )
         finishActionMode()

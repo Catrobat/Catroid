@@ -1836,7 +1836,7 @@
     <string formatted="false" name="formula_editor_object_background_name">название фона</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">количество фонов</string>
     <string formatted="false" name="formula_editor_object_distance_to">расстояние до точки касания</string>
-    <string formatted="false" name="formula_editor_compute">Вычислить</string>
+    <string formatted="false" name="formula_editor_confirm">Вычислить</string>
     <string formatted="false" name="formula_editor_object">Свойства</string>
     <string formatted="false" name="formula_editor_functions">Функции</string>
     <string formatted="false" name="formula_editor_logic">Логика</string>

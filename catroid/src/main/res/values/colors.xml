@@ -46,7 +46,6 @@
     <!-- Accent Colors -->
     <color name="accent">#A8DFF4</color>
     <color name="brick_field_highlight">#33B5E5</color>
-    <color name="image_view_border">@color/accent</color>
     <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
     <color name="action_button">#ffab08</color>
@@ -135,5 +134,6 @@
      <color name="brick_color_grey">#AAAAAA</color>
      <color name="brick_color_white">#FFFFFF</color>
      <color name="brick_color_black">#323331</color>
+     <color name="brick_color_winered">#910D06</color>
 
     </resources>
