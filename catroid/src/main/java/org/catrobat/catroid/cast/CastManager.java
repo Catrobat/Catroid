@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -284,7 +285,8 @@ public final class CastManager {
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
+		stageView.surfaceChanged(stageView.getHolder(), PixelFormat.RGBA_8888,
+				project.getXmlHeader().getVirtualScreenWidth(),
 				project.getXmlHeader().getVirtualScreenHeight());
 	}
 
