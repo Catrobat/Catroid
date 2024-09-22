@@ -23,7 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -378,11 +377,10 @@ public class InternToExternGenerator {
 
 			externTokenString = generateExternStringFromToken(currentToken, trimNumbers);
 			SpannableString externTokenSpannableString = new SpannableString(externTokenString);
-			if (currentToken.getInternTokenType() ==
-					InternTokenType.FUNCTION_NAME ||
-					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN ||
-					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE ||
-					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER ) {
+			if (currentToken.getInternTokenType() == InternTokenType.FUNCTION_NAME
+					|| currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
+					|| currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
+					|| currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER ) {
 				externTokenSpannableString.setSpan(new ForegroundColorSpan(this.context.getColor(R.color.formula_editor_highlight_function)),
 						0,
 						externTokenSpannableString.length(),
