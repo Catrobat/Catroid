@@ -383,7 +383,7 @@ public class InternToExternGenerator {
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN ||
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE ||
 					currentToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER ) {
-				externTokenSpannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.formula_editor_highlight_function)),
+				externTokenSpannableString.setSpan(new ForegroundColorSpan(this.context.getColor(R.color.formula_editor_highlight_function)),
 						0,
 						externTokenSpannableString.length(),
 						0);
