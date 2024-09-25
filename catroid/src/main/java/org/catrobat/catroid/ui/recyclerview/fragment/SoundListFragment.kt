@@ -33,6 +33,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity
+import org.catrobat.catroid.ui.BaseFinderFragment
+import org.catrobat.catroid.ui.FinderDataManager
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter
@@ -41,17 +43,20 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController
 import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
-import org.koin.android.ext.android.inject
 import java.io.IOException
 
-class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
+class SoundListFragment : BaseFinderFragment<SoundInfo?>() {
 
     private val soundController = SoundController()
-    private val projectManager: ProjectManager by inject()
+
 
     companion object {
         @JvmField
         val TAG = SoundListFragment::class.java.simpleName
+    }
+
+    override fun getFragmentType(): FinderDataManager.FragmentType {
+        return FinderDataManager.FragmentType.SOUND
     }
 
     override fun initializeAdapter() {
@@ -75,7 +80,7 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        menu.findItem(R.id.find).isVisible = false
+        menu.findItem(R.id.find).isVisible = true
     }
 
     override fun packItems(selectedItems: List<SoundInfo?>) {
@@ -203,6 +208,7 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
             R.id.project_options,
             R.id.edit,
             R.id.from_local,
+            R.id.find
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
             .menu_project_activity, hiddenOptionMenuIds)

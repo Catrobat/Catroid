@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
@@ -64,8 +65,10 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoader;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptFinder;
+import org.catrobat.catroid.ui.FinderDataManager;
+import org.catrobat.catroid.ui.Finder;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
@@ -130,7 +133,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
-	private ScriptFinder scriptFinder;
+	private Finder finder;
 	private String currentSceneName;
 	private String currentSpriteName;
 	private int undoBrickPosition;
@@ -280,24 +283,53 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		activity = (SpriteActivity) getActivity();
 		SettingsFragment.setToChosenLanguage(activity);
 
-		scriptFinder = view.findViewById(R.id.findview);
-		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults, textView) -> {
+		finder = view.findViewById(R.id.findview);
+		finder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, type, textView) -> {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
-			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
+			Sprite currentSprite = null;
+			if (type != FinderDataManager.FragmentType.SCENE) {
+				currentSprite = currentScene.getSpriteList().get(spriteIndex);
+				ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(), currentSprite.getName());
+			}
+			FinderDataManager.Companion.getInstance().setType(type);
 
-			textView.setText(createActionBarTitle(currentProject, currentScene, currentSprite));
+			if (type != FinderDataManager.FragmentType.SPRITE && type != FinderDataManager.FragmentType.SCENE) {
+				textView.setText(createActionBarTitle(currentProject, currentScene, currentSprite, 1));
+			} else {
+				textView.setText(createActionBarTitle(currentProject, currentScene, currentSprite, 2));
+			}
 
-			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(), currentSprite.getName());
+			FinderDataManager.Companion.getInstance().setCurrentMatchIndex(brickIndex);
 
-			adapter.updateItems(currentSprite);
-			adapter.notifyDataSetChanged();
-			listView.smoothScrollToPosition(brickIndex);
-			highlightBrickAtIndex(brickIndex);
-			hideKeyboard();
+			if (type != FinderDataManager.FragmentType.SCRIPT) {
+				switch (type) {
+					case SCENE:
+						activity.onBackPressed();
+						break;
+					case SPRITE:
+						ProjectManager.getInstance().setCurrentlyEditedScene(currentScene);
+						activity.onBackPressed();
+						break;
+					case LOOK:
+						SpriteActivityOnTabSelectedListenerKt.loadFragment(activity, 1);
+						ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(), currentSprite.getName());
+						break;
+					case SOUND:
+						SpriteActivityOnTabSelectedListenerKt.loadFragment(activity, 2);
+						ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(), currentSprite.getName());
+						break;
+				}
+			} else {
+				adapter.updateItems(currentSprite);
+				adapter.notifyDataSetChanged();
+				listView.smoothScrollToPosition(brickIndex);
+				highlightBrickAtIndex(brickIndex);
+				hideKeyboard();
+			}
 		});
 
-		scriptFinder.setOnCloseListener(() -> {
+		finder.setOnCloseListener(() -> {
 			listView.cancelHighlighting();
 			finishActionMode();
 			if (activity != null && !activity.isFinishing()) {
@@ -308,20 +340,48 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		});
 
-		scriptFinder.setOnOpenListener(() -> {
+		finder.setOnOpenListener(() -> {
+			if (FinderDataManager.Companion.getInstance().getInitiatingFragment() == FinderDataManager.FragmentType.NONE) {
+				finder.setInitiatingFragment(FinderDataManager.FragmentType.SCRIPT);
+				setInitiatingPosition();
+			}
 			activity.removeTabs();
 			activity.findViewById(R.id.toolbar).setVisibility(View.GONE);
 		});
+
+		if (FinderDataManager.Companion.getInstance().getInitiatingFragment() != FinderDataManager.FragmentType.NONE) {
+			String sceneAndSpriteName = createActionBarTitle(ProjectManager.getInstance().getCurrentProject(), ProjectManager.getInstance().getStartScene(), ProjectManager.getInstance().getCurrentSprite(), 1);
+			finder.onFragmentChanged(sceneAndSpriteName);
+			int indexSearch = FinderDataManager.Companion.getInstance().getSearchResultIndex();
+			int brickIndex = FinderDataManager.Companion.getInstance().getSearchResults().get(indexSearch).getElementIndex();
+
+			listView.smoothScrollToPosition(brickIndex);
+			highlightBrickAtIndex(brickIndex);
+		}
 
 		setHasOptionsMenu(true);
 		return view;
 	}
 
-	public String createActionBarTitle(Project currentProject, Scene currentScene, Sprite currentSprite) {
-		if (currentProject.getSceneList().size() == 1) {
-			return currentSprite.getName();
+	public void setInitiatingPosition() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		int sceneIndex = projectManager.getCurrentProject().getSceneList().indexOf(projectManager.getCurrentlyEditedScene());
+
+		int spriteIndex = projectManager.getCurrentlyEditedScene().getSpriteList().indexOf(projectManager.getCurrentSprite());
+
+		finder.setInitiatingPosition(sceneIndex, spriteIndex, FinderDataManager.FragmentType.SCRIPT);
+	}
+
+	public String createActionBarTitle(Project currentProject, Scene currentScene, Sprite currentSprite, int flag) {
+		if (flag == 1) {
+			if (currentProject.getSceneList().size() == 1) {
+				return currentSprite.getName();
+			} else {
+				return currentScene.getName() + ": " + currentSprite.getName();
+			}
 		} else {
-			return currentScene.getName() + ": " + currentSprite.getName();
+			return currentScene.getName();
 		}
 	}
 
@@ -338,9 +398,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		if (scriptFinder.isOpen() && activity != null) {
-			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-		}
 	}
 
 	@Override
@@ -450,7 +507,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				startActionMode(COMMENT);
 				break;
 			case R.id.find:
-				scriptFinder.open();
+				finder.open();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -633,6 +690,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public void onBrickClick(Brick brick, int position) {
+		if (finder.isOpen()) {
+			finder.close();
+		}
+
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 			return;
@@ -1011,12 +1072,12 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public boolean isFinderOpen() {
-		return scriptFinder.isOpen();
+		return finder.isOpen();
 	}
 
 	public void closeFinder() {
-		if (!scriptFinder.isClosed()) {
-			scriptFinder.close();
+		if (!finder.isClosed()) {
+			finder.close();
 		}
 	}
 }

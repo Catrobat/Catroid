@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +152,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
+		ScriptFragment scriptFragment = getScriptFragment(view);
+		if (scriptFragment != null && scriptFragment.isFinderOpen()) {
+			scriptFragment.closeFinder();
+		}
 		saveCodeFile(view);
 		showFormulaEditorToEditFormula(view);
 	}

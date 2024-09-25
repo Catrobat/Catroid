@@ -24,14 +24,20 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -41,13 +47,19 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.common.SharedPreferenceKeys
+import org.catrobat.catroid.content.GroupItemSprite
 import org.catrobat.catroid.content.GroupSprite
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.ui.FinderDataManager
+import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.Finder
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
@@ -73,6 +85,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     private val projectManager: ProjectManager by inject()
 
     private var currentSprite: Sprite? = null
+    private lateinit var currentProject: Project
+    private lateinit var currentScene: Scene
 
     internal inner class MultiViewTouchHelperCallback(adapterInterface: TouchHelperAdapterInterface?) :
         TouchHelperCallback(adapterInterface) {
@@ -105,10 +119,120 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     public override fun shouldShowEmptyView() = adapter.itemCount == 1
 
     override fun onResume() {
+        currentScene = ProjectManager.getInstance().currentlyEditedScene
+
         initializeAdapter()
+
         super.onResume()
         SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_objects)
-        val currentProject = projectManager.currentProject
+        makeTitle()
+
+        if (FinderDataManager.instance.getInitiatingFragment() != FinderDataManager.FragmentType.NONE) {
+            handleFinderDataManagerLogic()
+            if (FinderDataManager.instance.type != FinderDataManager.FragmentType.SCENE) {
+                unCollapseFoundObject(FinderDataManager.instance.currentMatchIndex)
+            }
+        } else {
+            finder.close()
+        }
+    }
+
+    private fun handleFinderDataManagerLogic() {
+        val activity = getActivity() as ProjectActivity
+
+        if (FinderDataManager.instance.type == FinderDataManager.FragmentType.SCENE) {
+            activity.onBackPressed()
+        } else {
+            val searchIndex = FinderDataManager.instance.getSearchResultIndex()
+            val spriteIndex = FinderDataManager.instance.getSearchResults()[searchIndex].spriteIndex
+
+            projectManager.currentSprite = currentScene.spriteList[spriteIndex]
+
+            when (FinderDataManager.instance.type) {
+                FinderDataManager.FragmentType.SCENE -> activity.onBackPressed()
+                FinderDataManager.FragmentType.SPRITE -> {}
+                else -> startActivity(createSpriteActivityIntent(FinderDataManager.instance.type.id))
+            }
+        }
+        val sceneAndSpriteName = createActionBarTitle()
+        finder.onFragmentChanged(sceneAndSpriteName)
+        scrollToSearchResult()
+        hideKeyboard()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        val parentView = super.onCreateView(inflater, container, savedInstanceState)
+        recyclerView = parentView!!.findViewById(R.id.recycler_view)
+        currentProject = ProjectManager.getInstance().currentProject
+        currentScene = ProjectManager.getInstance().currentlyEditedScene
+        val activity = getActivity() as ProjectActivity
+
+        finder?.setOnResultFoundListener(object : Finder.OnResultFoundListener {
+            override fun onResultFound(
+                sceneIndex: Int,
+                spriteIndex: Int,
+                elementIndex: Int,
+                type: FinderDataManager.FragmentType,
+                textView: TextView?
+            ) {
+                currentProject = ProjectManager.getInstance().currentProject
+                currentScene = currentProject.sceneList[sceneIndex]
+                ProjectManager.getInstance().setCurrentlyEditedScene(currentScene)
+                makeTitle()
+                FinderDataManager.instance.currentMatchIndex = elementIndex
+
+                when (type) {
+                    FinderDataManager.FragmentType.SPRITE -> {
+                        textView?.text = createActionBarTitle()
+                        initializeAdapter()
+                        unCollapseFoundObject(spriteIndex)
+                        adapter.notifyDataSetChanged()
+                        scrollToSearchResult()
+                        finder.disableFocusSearchBar()
+                    }
+
+                    FinderDataManager.FragmentType.SCENE -> {
+                        activity.onBackPressed()
+                    }
+
+                    else -> {
+                        projectManager.currentSprite =
+                            currentProject.sceneList[sceneIndex].spriteList[spriteIndex]
+                        val intent = createSpriteActivityIntent(type.id)
+                        startActivity(intent)
+                    }
+                }
+                hideKeyboard()
+            }
+        })
+
+        finder?.setOnCloseListener(object : Finder.OnCloseListener {
+            override fun onClose() {
+                finishActionMode()
+                activity.findViewById<View>(R.id.toolbar).visibility = View.VISIBLE
+                FinderDataManager.instance.setSearchResultIndex(-1)
+            }
+        })
+
+        finder?.setOnOpenListener(object : Finder.OnOpenListener {
+            override fun onOpen() {
+                currentProject = ProjectManager.getInstance().currentProject
+                activity.findViewById<View>(R.id.toolbar).visibility = View.GONE
+                finder.setInitiatingFragment(FinderDataManager.FragmentType.SPRITE)
+                val sceneIndex =
+                    ProjectManager.getInstance().currentProject.sceneList.indexOf(currentScene)
+                finder.setInitiatingPosition(
+                    sceneIndex, -1, FinderDataManager.FragmentType.SPRITE
+                )
+            }
+        })
+        return parentView
+    }
+
+    private fun makeTitle() {
+        currentProject = ProjectManager.getInstance().currentProject
         val title: String = if (currentProject.sceneList.size < 2) {
             currentProject.name
         } else {
@@ -118,6 +242,42 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
             .putBoolean(SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY, false).apply()
         (requireActivity() as AppCompatActivity).supportActionBar?.title = title
+    }
+
+    private fun unCollapseFoundObject(spriteIndex: Int) {
+
+        val currentItem = currentScene.spriteList[spriteIndex]
+        if (currentItem is GroupItemSprite && currentItem.isCollapsed) {
+            for (i in spriteIndex downTo 1) {
+                val groupItem = currentScene.spriteList[i]
+                if (groupItem is GroupSprite) {
+                    groupItem.isCollapsed = false
+                    break
+                }
+            }
+        }
+    }
+
+    private fun createSpriteActivityIntent(type: Int): Intent {
+        val intent = Intent(requireContext(), SpriteActivity::class.java)
+        intent.putExtra(
+            SpriteActivity.EXTRA_FRAGMENT_POSITION, when (type) {
+                FinderDataManager.FragmentType.SOUND.id -> SpriteActivity.FRAGMENT_SOUNDS
+                FinderDataManager.FragmentType.LOOK.id -> SpriteActivity.FRAGMENT_LOOKS
+                else -> SpriteActivity.FRAGMENT_SCRIPTS
+            }
+        )
+        return intent
+    }
+
+    fun createActionBarTitle(): String {
+        return currentScene.name
+    }
+
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
     override fun onAdapterReady() {
@@ -130,6 +290,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.new_group).isVisible = true
+        menu.findItem(R.id.find).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -142,8 +303,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     private fun handleSelectedOptionItem(item: MenuItem) {
-        if (adapter.items.size == 1) {
-            ToastUtil.showError(activity, R.string.am_empty_list)
+        if (adapter.items.size == 1 && item.title.toString() != "Search") {
+            ToastUtil.showError(getActivity(), R.string.am_empty_list)
             resetActionModeParameters()
         } else {
             super.onOptionsItemSelected(item)
@@ -308,6 +469,9 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun onItemClick(item: Sprite?, selectionManager: MultiSelectionManager?) {
+        if (finder.isOpen) {
+            finder.close()
+        }
         if (item is GroupSprite) {
             item.isCollapsed = !item.isCollapsed
             adapter.notifyDataSetChanged()
@@ -340,7 +504,12 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
         val hiddenMenuOptionIds = mutableListOf<Int>(
-            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
+            R.id.new_group,
+            R.id.project_options,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.edit,
+            R.id.find
         )
         if (item is GroupSprite) {
             hiddenMenuOptionIds.add(R.id.backpack)

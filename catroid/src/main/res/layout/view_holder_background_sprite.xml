@@ -28,9 +28,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/view_holder_background" />
+    <include
+        android:id="@+id/view_holder_background"
+        layout="@layout/view_holder_background" />
+
 
     <TextView
+        android:id="@+id/list_headline_sprites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_headline_sprites"

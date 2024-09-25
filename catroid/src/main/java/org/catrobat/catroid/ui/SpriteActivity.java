@@ -288,14 +288,6 @@ public class SpriteActivity extends BaseActivity {
 				((ScriptFragment) currentFragment).cancelMove();
 				return;
 			}
-			if (((ScriptFragment) currentFragment).isFinderOpen()) {
-				((ScriptFragment) currentFragment).closeFinder();
-				return;
-			}
-			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
-				((ScriptFragment) currentFragment).cancelHighlighting();
-				return;
-			}
 		} else if (currentFragment instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;

@@ -72,6 +72,11 @@
         android:title="@string/project_options"
         app:showAsAction="never"
         android:icon="@drawable/ic_settings"/>
+    <item
+        android:id="@+id/find"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_menu"
+        app:showAsAction="never" />
    <item
         android:id="@+id/edit"
         android:title="@string/edit"

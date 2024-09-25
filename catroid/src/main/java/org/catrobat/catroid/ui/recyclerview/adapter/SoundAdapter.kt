@@ -28,6 +28,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.ui.FinderDataManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import java.io.IOException
@@ -46,6 +47,12 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
 
         holder?.title?.text = item?.name
         holder?.image?.setImageResource(R.drawable.ic_media_play_dark)
+
+        if (position == FinderDataManager.instance.currentMatchIndex) {
+            holder?.itemView?.setBackgroundResource(R.drawable.button_background_pressed)
+        } else {
+            holder?.itemView?.setBackgroundResource(R.drawable.button_background_selector)
+        }
 
         holder?.image?.setOnClickListener {
             if (mediaPlayer.isPlaying) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,21 +22,32 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.Menu
+import android.os.Bundle
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+
 import org.catrobat.catroid.common.SharedPreferenceKeys
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.ui.FinderDataManager
+import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.ui.Finder
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
@@ -47,14 +58,82 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
-class SceneListFragment : RecyclerViewFragment<Scene?>(),
-    ProjectLoadListener {
+class SceneListFragment : RecyclerViewFragment<Scene?>(), ProjectLoadListener {
 
     private val sceneController = SceneController()
     private val projectManager: ProjectManager by inject()
 
+    private lateinit var currentProject: Project
+    private lateinit var currentScene: Scene
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        val parentView = super.onCreateView(inflater, container, savedInstanceState)
+        val activity = getActivity() as ProjectActivity
+        recyclerView = parentView!!.findViewById(R.id.recycler_view)
+        currentProject = ProjectManager.getInstance().currentProject
+        currentScene = ProjectManager.getInstance().currentlyEditedScene
+
+        finder?.setOnResultFoundListener(object : Finder.OnResultFoundListener {
+            override fun onResultFound(
+                sceneIndex: Int,
+                spriteIndex: Int,
+                elementIndex: Int,
+                type: FinderDataManager.FragmentType,
+                textView: TextView?
+            ) {
+
+                currentScene = currentProject.sceneList[sceneIndex]
+                FinderDataManager.instance.type = type
+                FinderDataManager.instance.currentMatchIndex = elementIndex
+
+                if (type != FinderDataManager.FragmentType.SCENE) {
+                    onItemClick(currentScene, MultiSelectionManager())
+                } else {
+                    textView?.text = createActionBarTitle()
+                    initializeAdapter()
+                    adapter.notifyDataSetChanged()
+                    scrollToSearchResult()
+                    finder.disableFocusSearchBar()
+                }
+                hideKeyboard()
+            }
+        })
+        finder?.setOnCloseListener(object : Finder.OnCloseListener {
+            override fun onClose() {
+                activity.findViewById<View>(R.id.toolbar).visibility = View.VISIBLE
+                finishActionMode()
+                FinderDataManager.instance.setSearchResultIndex(-1)
+            }
+        })
+
+        finder?.setOnOpenListener(object : Finder.OnOpenListener {
+            override fun onOpen() {
+                activity.findViewById<View>(R.id.toolbar).visibility = View.GONE
+                finder.setInitiatingFragment(FinderDataManager.FragmentType.SCENE)
+                finder.setInitiatingPosition(
+                    -1, -1, FinderDataManager.FragmentType.SCENE
+                )
+            }
+        })
+
+        return parentView
+    }
+
+    fun createActionBarTitle(): String {
+        return currentProject.name
+    }
+
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
     override fun onResume() {
         super.onResume()
+
         val currentProject = projectManager.currentProject
         if (currentProject.sceneList.size < 2) {
             projectManager.currentlyEditedScene = currentProject.defaultScene
@@ -62,12 +141,20 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         }
         projectManager.currentlyEditedScene = currentProject.defaultScene
         (requireActivity() as AppCompatActivity).supportActionBar?.title = currentProject.name
+
+        if (FinderDataManager.instance.getInitiatingFragment() != FinderDataManager.FragmentType.NONE) {
+            val sceneAndSpriteName = createActionBarTitle()
+            finder.onFragmentChanged(sceneAndSpriteName)
+            scrollToSearchResult()
+            hideKeyboard()
+        } else {
+            finder.close()
+        }
     }
 
     private fun switchToSpriteListFragment() {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SpriteListFragment(), SpriteListFragment.TAG)
-            .commit()
+            .replace(R.id.fragment_container, SpriteListFragment(), SpriteListFragment.TAG).commit()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -98,9 +185,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         if (packedItemCnt > 0) {
             ToastUtil.showSuccess(
                 activity, resources.getQuantityString(
-                    R.plurals.packed_scenes,
-                    packedItemCnt,
-                    packedItemCnt
+                    R.plurals.packed_scenes, packedItemCnt, packedItemCnt
                 )
             )
             switchToBackpack()
@@ -130,9 +215,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         if (copiedItemCnt > 0) {
             ToastUtil.showSuccess(
                 activity, resources.getQuantityString(
-                    R.plurals.copied_scenes,
-                    copiedItemCnt,
-                    copiedItemCnt
+                    R.plurals.copied_scenes, copiedItemCnt, copiedItemCnt
                 )
             )
         }
@@ -156,9 +239,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         }
         ToastUtil.showSuccess(
             activity, resources.getQuantityString(
-                R.plurals.deleted_scenes,
-                deletedItemsCount,
-                deletedItemsCount
+                R.plurals.deleted_scenes, deletedItemsCount, deletedItemsCount
             )
         )
         finishActionMode()
@@ -210,13 +291,14 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                 super.onItemClick(item, null)
                 return
             }
+
             NONE -> {
                 projectManager.currentlyEditedScene = item
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, SpriteListFragment(), SpriteListFragment.TAG)
-                    .addToBackStack(SpriteListFragment.TAG)
-                    .commit()
+                    .addToBackStack(SpriteListFragment.TAG).commit()
             }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -232,9 +314,11 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
             R.id.project_options,
             R.id.edit,
             R.id.from_local,
+            R.id.find
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu.menu_project_activity, hiddenOptionMenuIds
+        )
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
