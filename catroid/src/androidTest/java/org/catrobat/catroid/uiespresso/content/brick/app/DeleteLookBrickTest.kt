@@ -35,8 +35,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.base.Stopwatch
 import org.catrobat.catroid.R
 import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
-import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.DeleteLookBrick
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick
 import org.catrobat.catroid.test.utils.TestUtils
@@ -59,8 +59,8 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 @RunWith(AndroidJUnit4::class)
 class DeleteLookBrickTest {
     private lateinit var sprite: Sprite
-    private lateinit var script: Script
     private val projectName = "DeleteLookBrickTest"
+    private lateinit var script: Script
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(

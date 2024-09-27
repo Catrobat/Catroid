@@ -671,7 +671,6 @@
     <string formatted="false" name="play_scene_dialog_current">當前場景（%1$s）</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">登入</string>
     <string formatted="false" name="username">建立新帳號</string>
     <string formatted="false" name="password">成功更新您的國家。</string>
     <string formatted="false" name="reset_password">重設密碼</string>
@@ -684,11 +683,6 @@
     <string formatted="false" name="register">登記</string>
     <string formatted="false" name="password_confirm">確認密碼</string>
     <string formatted="false" name="accountName">電子郵件</string>
-    <string formatted="false" name="signin_thanks">謝謝您註冊！</string>
-    <string formatted="false" name="signin_choose_username">請選擇您的用戶名：</string>
-    <string formatted="false" name="signin_choose_username_empty">請填入一個用戶名。</string>
-    <string formatted="false" name="signin_choose_username_hint">用戶名不應是您的真實姓名，也不應是電子郵件地址。</string>
-    <string formatted="false" name="oauth_username_taken">其他人已經使用了這個名字。請選擇不同的！</string>
     <string formatted="false" name="show_password">顯示密碼</string>
     <string formatted="false" name="sign_in_error">登錄時出了點問題。</string>
     <string formatted="false" name="error_google_plus_sign_in">谷歌登錄錯誤。狀態：%s</string>

@@ -663,7 +663,6 @@
     <string formatted="false" name="play_scene_dialog_current">ฉากปัจจุบัน (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">เข้าสู่ระบบ</string>
     <string formatted="false" name="username">ชื่อผู้ใช้</string>
     <string formatted="false" name="password">รหัสผ่าน</string>
     <string formatted="false" name="reset_password">รีเซ็ตรหัสผ่าน</string>
@@ -676,11 +675,6 @@
     <string formatted="false" name="register">สมัครสมาชิก</string>
     <string formatted="false" name="password_confirm">ยืนยันรหัสผ่าน</string>
     <string formatted="false" name="accountName">อีเมล</string>
-    <string formatted="false" name="signin_thanks">ขอบคุณที่ลงทะเบียน!</string>
-    <string formatted="false" name="signin_choose_username">กรุณาเลือกชื่อผู้ใช้ของคุณ:</string>
-    <string formatted="false" name="signin_choose_username_empty">กรุณาป้อนชื่อผู้ใช้</string>
-    <string formatted="false" name="signin_choose_username_hint">ชื่อผู้ใช้ไม่ควรเป็นชื่อจริงของคุณและไม่ควรเป็นที่อยู่อีเมล</string>
-    <string formatted="false" name="oauth_username_taken">มีคนอื่นใช้ชื่อนี้แล้ว โปรดเลือกอันอื่น!</string>
     <string formatted="false" name="show_password">แสดงรหัสผ่าน</string>
     <string formatted="false" name="sign_in_error">เกิดข้อผิดพลาดระหว่างลงชื่อเข้าใช้</string>
     <string formatted="false" name="error_google_plus_sign_in">ข้อผิดพลาดการลงชื่อเข้าใช้ Google สถานะ: %s</string>

@@ -112,8 +112,6 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIRECTORY = CatroidApplication.getAppContext().getCacheDir();
 
-	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
-
 	public static final File POCKET_PAINT_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "pocketPaint");
 	public static final File CAMERA_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "camera");
 	public static final File SOUND_RECORDER_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "soundRecorder");
@@ -130,6 +128,8 @@ public final class Constants {
 	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
+	public static final String BASE_URL_API = MAIN_URL_HTTPS + "/api/";
+	public static final String TEST_URL_API = "https://web-test.catrob.at/api/";
 
 	// Default "flavor" in the web which equals "pocketcode"
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
@@ -154,9 +154,6 @@ public final class Constants {
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrob.at/HuaweiAppGallery";
 
-	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
-	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
-
 	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
 
 	// HTTP status codes:
@@ -174,16 +171,18 @@ public final class Constants {
 	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
 
 	// Login:
-	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 	public static final String TOKEN = "token";
+	public static final String REFRESH_TOKEN = "refresh_token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
-	public static final String LOCALE = "locale";
+	public static final int MIN_PASSWORD_LENGTH = 6;
 	public static final String RESTRICTED_USER = "restricted_user";
-	public static final String JSON_ERROR_CODE = "errorCode";
+
+	public static final String AUTHENTICATION_COOKIE_NAME = "BEARER";
+	public static final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
@@ -196,12 +195,9 @@ public final class Constants {
 	public static final String GOOGLE_ID_TOKEN = "GOOGLE_ID_TOKEN";
 	public static final String NO_GOOGLE_ID_TOKEN = "NO_GOOGLE_ID_TOKEN";
 	public static final String GOOGLE_EXCHANGE_CODE = "GOOGLE_EXCHANGE_CODE";
-	public static final String NO_GOOGLE_EXCHANGE_CODE = "NO_GOOGLE_EXCHANGE_CODE";
 	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
-	public static final String GOOGLE_PLUS = "GPLUS";
+	public static final String GOOGLE_PROVIDER = "google";
 	public static final String NO_OAUTH_PROVIDER = "NATIVE";
-
-	public static final String REQUEST_MOBILE = "mobile";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";

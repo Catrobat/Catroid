@@ -659,7 +659,6 @@
     <string formatted="false" name="play_scene_dialog_current">当前场景(%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">登录</string>
     <string formatted="false" name="username">用户名</string>
     <string formatted="false" name="password">密码</string>
     <string formatted="false" name="reset_password">重置密码</string>
@@ -672,11 +671,6 @@
     <string formatted="false" name="register">注册</string>
     <string formatted="false" name="password_confirm">确认密码</string>
     <string formatted="false" name="accountName">邮箱</string>
-    <string formatted="false" name="signin_thanks">感谢您的注册 ！</string>
-    <string formatted="false" name="signin_choose_username">请选择一个用户名：</string>
-    <string formatted="false" name="signin_choose_username_empty">请输入用户名。</string>
-    <string formatted="false" name="signin_choose_username_hint">用户名不建议使用您的真实姓名。</string>
-    <string formatted="false" name="oauth_username_taken">其他人已经使用了这个名字。请选择一个不同的名字！</string>
     <string formatted="false" name="show_password">显示密码</string>
     <string formatted="false" name="sign_in_error">在登录时发生了错误。</string>
     <string formatted="false" name="error_google_plus_sign_in">谷歌登录错误。状态： %s</string>

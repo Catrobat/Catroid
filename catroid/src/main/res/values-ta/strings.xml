@@ -704,7 +704,6 @@
     <string formatted="false" name="play_scene_dialog_current">தற்போதைய காட்சி (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">உள்நுழைக</string>
     <string formatted="false" name="username">பயனர் பெயர்</string>
     <string formatted="false" name="password">கடவுச்சொல்</string>
     <string formatted="false" name="reset_password">Reset password</string>
@@ -717,11 +716,6 @@
     <string formatted="false" name="register">பதிவு</string>
     <string formatted="false" name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்தவும்</string>
     <string formatted="false" name="accountName">மின்னஞ்சல்</string>
-    <string formatted="false" name="signin_thanks">பதிவு செய்ததற்கு நன்றி!</string>
-    <string formatted="false" name="signin_choose_username">உங்கள் பயனர்பெயரைத் தேர்வுசெய்க:</string>
-    <string formatted="false" name="signin_choose_username_empty">பயனர்பெயரை உள்ளிடவும்.</string>
-    <string formatted="false" name="signin_choose_username_hint">பயனர்பெயர் உங்கள் உண்மையான பெயராக இருக்கக்கூடாது அல்லது அது ஒரு மின்னஞ்சல் முகவரியாக இருக்கக்கூடாது.</string>
-    <string formatted="false" name="oauth_username_taken">வேறொருவர் ஏற்கனவே இந்த பெயரைப் பயன்படுத்துகிறார். தயவுசெய்து வேறு ஒன்றைத் தேர்வுசெய்க!</string>
     <string formatted="false" name="show_password">கடவுச்சொல்லை காட்டவும்</string>
     <string formatted="false" name="sign_in_error">உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google உள்நுழைவு பிழை. நிலை %s</string>

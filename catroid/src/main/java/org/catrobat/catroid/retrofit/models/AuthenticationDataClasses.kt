@@ -21,16 +21,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.transfers.project
+package org.catrobat.catroid.retrofit.models
 
-import java.io.File
+data class LoginUser(
+    val username: String,
+    val password: String
+)
 
-data class ProjectUploadData(
-    val projectName: String,
-    val projectDescription: String,
-    val projectArchive: File,
-    val userEmail: String,
-    val language: String,
+@SuppressWarnings("ConstructorParameterNaming")
+data class LoginResponse(
     val token: String,
-    val username: String
+    val refresh_token: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class RefreshToken(
+    val refresh_token: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class DeprecatedToken(
+    val upload_token: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class OAuthLogin(
+    val id_token: String,
+    val resource_owner: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class RegisterUser(
+    val dry_run: Boolean,
+    val email: String,
+    val username: String,
+    val password: String
+)
+
+data class RegisterFailedResponse(
+    val email: String?,
+    val username: String?
+)
+
+data class Tag(
+    val id: String,
+    val text: String
 )

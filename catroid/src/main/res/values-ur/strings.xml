@@ -693,7 +693,6 @@
     <string formatted="false" name="play_scene_dialog_current">موجودہ منظر (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">سائن ان کریں</string>
     <string formatted="false" name="username">صارف کا نام</string>
     <string formatted="false" name="password">خفیہ کوڈ</string>
     <string formatted="false" name="reset_password">پاس ورڈ ری سیٹ</string>
@@ -706,11 +705,6 @@
     <string formatted="false" name="register">رجسٹر کریں</string>
     <string formatted="false" name="password_confirm">پاس ورڈ کی تصدیق</string>
     <string formatted="false" name="accountName">ای-میل</string>
-    <string formatted="false" name="signin_thanks">سائن اپ کرنے کے لئے شکریہ!</string>
-    <string formatted="false" name="signin_choose_username">برائے مہربانی صارف نام منتخب کریں</string>
-    <string formatted="false" name="signin_choose_username_empty">برائے مہربانی صارف نام درج کریں</string>
-    <string formatted="false" name="signin_choose_username_hint">صارف نام آپ کا اصلی نام نہیں ہونا چاہئے اور نہ ہی اسے ایک ای میل ایڈریس ہونا چاہیے ۔</string>
-    <string formatted="false" name="oauth_username_taken">کسی اور پہلے ہی اس نام کا استعمال کرتا ہے ۔ ایک مختلف انتخاب کریں!</string>
     <string formatted="false" name="show_password">پاسورڈ دکھاو</string>
     <string formatted="false" name="sign_in_error">سائن اپ کے دوران کچ غلط ہوگیا</string>
     <string formatted="false" name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ %s</string>

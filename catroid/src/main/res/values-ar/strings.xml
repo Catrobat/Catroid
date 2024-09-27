@@ -858,7 +858,6 @@
     <string formatted="false" name="play_scene_dialog_current">المشهد الحالي (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">تسجيل الدخول</string>
     <string formatted="false" name="username">اسم المستخدم</string>
     <string formatted="false" name="password">كلمة المرور</string>
     <string formatted="false" name="reset_password">إعادة تعيين كلمة المرور</string>
@@ -871,11 +870,6 @@
     <string formatted="false" name="register">تسجيل</string>
     <string formatted="false" name="password_confirm">تأكيد كلمة السر</string>
     <string formatted="false" name="accountName">البريد الإلكتروني</string>
-    <string formatted="false" name="signin_thanks">شكراً لكم على التسجيل في \"بوكت كوود\"!</string>
-    <string formatted="false" name="signin_choose_username">الرجاء اختيار اسم المستخدم الخاص بك:</string>
-    <string formatted="false" name="signin_choose_username_empty">الرجاء إدخال اسم مستخدم.</string>
-    <string formatted="false" name="signin_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
-    <string formatted="false" name="oauth_username_taken">اسم المستخدم محجوز, من فضلك اختر اسماً اخر!</string>
     <string formatted="false" name="show_password">إظهار كلمة المرور</string>
     <string formatted="false" name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>
     <string formatted="false" name="error_google_plus_sign_in">خطأ خلال تسجيل الدخول باستخدام جوجل. الحالة: %s</string>

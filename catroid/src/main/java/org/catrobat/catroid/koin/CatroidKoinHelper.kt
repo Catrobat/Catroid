@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,12 @@ import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants.BASE_URL_API
+import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
+import org.catrobat.catroid.common.Constants.BASE_URL_API
+import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
@@ -39,14 +43,21 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
+import org.catrobat.catroid.transfers.GetUserProjectsTask
+import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.OAuthTask
+import org.catrobat.catroid.transfers.ProjectUploadTask
+import org.catrobat.catroid.transfers.RegistrationViewModel
+import org.catrobat.catroid.transfers.TagsTask
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
-import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.MobileServiceAvailability
@@ -65,7 +76,22 @@ val componentsModules = module(createdAtStart = true, override = false) {
             .addMigrations(DatabaseMigrations.MIGRATION_1_2)
             .build()
     }
-    single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
+    single { CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        OAuthTask(get())
+    }
+    single {
+        ProjectUploadTask(get())
+    }
+    single {
+        TokenTask(get())
+    }
+    single {
+        TagsTask(get()) }
+    single {
+        GetUserProjectsTask(get())
+    }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
@@ -89,6 +115,8 @@ val componentsModules = module(createdAtStart = true, override = false) {
  */
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get()) }
+    viewModel { RegistrationViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -112,6 +140,12 @@ val adapterModules = module {
 
     single {
         CategoriesAdapter()
+    }
+}
+
+val testModules = module {
+    single {
+        CatroidWebServer.getWebService(TEST_URL_API)
     }
 }
 

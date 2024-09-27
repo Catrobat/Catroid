@@ -23,64 +23,18 @@
 
 package org.catrobat.catroid.web
 
-import android.content.Context
-import android.preference.PreferenceManager
 import android.util.Log
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_TOKEN_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_USERNAME_AVAILABLE_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.EMAIL_AVAILABLE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_SURVEY_URL_HTTP
-import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_TAG_URL_HTTP
-import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_ANSWER
-import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
-import org.catrobat.catroid.web.ServerAuthenticationConstants.OAUTH_TOKEN_AVAILABLE
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_EMAIL_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_OAUTH_ID_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.USERNAME_AVAILABLE
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.File
 import java.io.IOException
-import java.util.HashMap
 
 class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebClient.client) {
     private val tag = CatrobatServerCalls::class.java.simpleName
-
-    @Throws(WebConnectionException::class)
-    fun checkToken(token: String, username: String, baseUrl: String): Boolean {
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[Constants.TOKEN] = token
-            postValues[SIGNIN_USERNAME_KEY] = username
-
-            val serverUrl = baseUrl + CHECK_TOKEN_URL
-
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            val serverAnswer = jsonObject.optString(JSON_ANSWER)
-
-            return if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-                true
-            } else {
-                throw WebConnectionException(statusCode, "server response token ok, but error: $serverAnswer")
-            }
-        } catch (e: JSONException) {
-            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
-        }
-    }
 
     @Throws(WebConnectionException::class)
     private fun getRequest(url: String): String {
@@ -88,19 +42,6 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             .url(url)
             .build()
         return okHttpClient.performCallWith(request)
-    }
-
-    fun getTags(language: String?): String {
-        return try {
-            var serverUrl = FILE_TAG_URL_HTTP
-            if (language != null) {
-                serverUrl += "?language=$language"
-            }
-            getRequest(serverUrl)
-        } catch (e: WebConnectionException) {
-            Log.e(tag, Log.getStackTraceString(e))
-            ""
-        }
     }
 
     fun getSurvey(language: String?): String {
@@ -113,108 +54,6 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         } catch (e: WebConnectionException) {
             Log.e(tag, Log.getStackTraceString(e))
             ""
-        }
-    }
-
-    @Throws(WebConnectionException::class)
-    fun checkOAuthToken(id: String, oauthProvider: String, context: Context?): Boolean? {
-        var statusCode: Int
-        var message: String
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_OAUTH_ID_KEY] = id
-
-            val serverUrl = when (oauthProvider) {
-                Constants.GOOGLE_PLUS -> CHECK_GOOGLE_TOKEN_URL
-                else -> throw WebConnectionException(-1, "OAuth provider not supported!")
-            }
-
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-                val serverEmail = jsonObject.optString(SIGNIN_EMAIL_KEY)
-                val serverUsername = jsonObject.optString(SIGNIN_USERNAME_KEY)
-                val tokenAvailable = jsonObject.getBoolean(OAUTH_TOKEN_AVAILABLE)
-
-                if (tokenAvailable && oauthProvider == Constants.GOOGLE_PLUS) {
-                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    sharedPreferences.edit()
-                        .putString(Constants.GOOGLE_USERNAME, serverUsername)
-                        .putString(Constants.GOOGLE_EMAIL, serverEmail)
-                        .apply()
-                }
-
-                return tokenAvailable
-            }
-            message = resultString
-        } catch (e: JSONException) {
-            statusCode = WebConnectionException.ERROR_JSON
-            message = Log.getStackTraceString(e)
-        }
-        throw WebConnectionException(statusCode, message)
-    }
-
-    @Throws(WebConnectionException::class)
-    fun isEMailAvailable(email: String): Boolean {
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_EMAIL_KEY] = email
-
-            val serverUrl = CHECK_EMAIL_AVAILABLE_URL
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebConnectionException(statusCode, resultString)
-            }
-
-            return jsonObject.getBoolean(EMAIL_AVAILABLE)
-        } catch (e: JSONException) {
-            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
-        }
-    }
-
-    @Throws(WebConnectionException::class)
-    fun isUserNameAvailable(username: String): Boolean {
-        var resultString = ""
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_USERNAME_KEY] = username
-
-            val serverUrl = CHECK_USERNAME_AVAILABLE_URL
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebConnectionException(statusCode, resultString)
-            }
-
-            return jsonObject.getBoolean(USERNAME_AVAILABLE)
-        } catch (jsonException: JSONException) {
-            Log.e(tag, Log.getStackTraceString(jsonException))
-            throw WebConnectionException(WebConnectionException.ERROR_JSON, resultString)
-        }
-    }
-
-    @Throws(WebConnectionException::class)
-    fun deleteTestUserAccountsOnServer(): Boolean {
-        try {
-            val resultString = getRequest("")
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebConnectionException(statusCode, resultString)
-            }
-            return true
-        } catch (e: JSONException) {
-            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
     }
 

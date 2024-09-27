@@ -710,7 +710,6 @@
     <string formatted="false" name="play_scene_dialog_current">اوسنی صحنه (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ننوزئ</string>
     <string formatted="false" name="username">کارن نوم</string>
     <string formatted="false" name="password">رمز</string>
     <string formatted="false" name="reset_password">پټنوم بیا تنظیم کړئ</string>
@@ -723,11 +722,6 @@
     <string formatted="false" name="register">راجستر</string>
     <string formatted="false" name="password_confirm">پاسورډ تایید کړه</string>
     <string formatted="false" name="accountName">ای میل</string>
-    <string formatted="false" name="signin_thanks">د لاسلیک کولو لپاره مننه!</string>
-    <string formatted="false" name="signin_choose_username">مهرباني وکړئ خپل کارن نوم غوره کړئ:</string>
-    <string formatted="false" name="signin_choose_username_empty">مهرباني وکړئ یو کارن نوم دننه کړئ.</string>
-    <string formatted="false" name="signin_choose_username_hint">کارن نوم باید ستاسو اصلي نوم نه وي او نه باید دا د بریښنالیک پته وي.</string>
-    <string formatted="false" name="oauth_username_taken">بل څوک لا دمخه دا نوم کاروي. مهرباني وکړئ یو بل غوره کړئ!</string>
     <string formatted="false" name="show_password">پټنوم ښکاره کړئ</string>
     <string formatted="false" name="sign_in_error">د ننوتلو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_google_plus_sign_in">د ګوګل د ننوتلو تېروتنه. حالت: %s</string>

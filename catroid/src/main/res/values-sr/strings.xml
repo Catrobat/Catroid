@@ -743,7 +743,6 @@
     <string formatted="false" name="play_scene_dialog_current">Тренутна сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Пријави се</string>
     <string formatted="false" name="username">Корисничко име</string>
     <string formatted="false" name="password">Лозинка</string>
     <string formatted="false" name="password_forgotten">Заборавили сте лозинку?</string>
@@ -756,11 +755,6 @@
     <string formatted="false" name="register">Регистрација</string>
     <string formatted="false" name="password_confirm">Потврдите лозинку</string>
     <string formatted="false" name="accountName">E-Мail</string>
-    <string formatted="false" name="signin_thanks">Хвала што сте се пријавили!</string>
-    <string formatted="false" name="signin_choose_username">Молимо одаберите ваше корисничко име:</string>
-    <string formatted="false" name="signin_choose_username_empty">Молимо унесите корисничко име.</string>
-    <string formatted="false" name="signin_choose_username_hint">Корисничко име не треба да буде ваше право име, нити треба да буде адреса е-поште.</string>
-    <string formatted="false" name="oauth_username_taken">Неко други већ користи ово име. Изаберите друго!</string>
     <string formatted="false" name="show_password">Прикажи лозинку</string>
     <string formatted="false" name="sign_in_error">Дошло је до грешке приликом пријављивања.</string>
     <string formatted="false" name="error_google_plus_sign_in">Грешка приликом Гугл пријаве. Статус: %s</string>
@@ -1270,13 +1264,6 @@
     <string formatted="false" name="notification_screenshot_ok">Слика за преглед је сачувана</string>
     <string formatted="false" name="notification_download_project_cancel">Откажи преузимање пројекта</string>
     <string formatted="false" name="notification_reconvert_download_program_cancel">Отказано је преузимање / поновно конвертовање пројекта</string>
-    <string formatted="false" name="notification_upload_title_pending">"Слање"</string>
-    <string formatted="false" name="notification_upload_title_finished">"Погледати на"</string>
-    <string formatted="false" name="notification_upload_pending">Отпремање је у току</string>
-    <string formatted="false" name="notification_upload_finished">Отпремање је успешно</string>
-    <string formatted="false" name="notification_upload_rejected">Отпремљени пројекат је одбијен</string>
-    <string formatted="false" name="notification_upload_retry">Понови</string>
-    <string formatted="false" name="notification_open_play_store">Отворите Апп продавницу</string>
     <string formatted="false" name="notification_download_title_pending">"Преузимање"</string>
     <string formatted="false" name="notification_download_pending">Преузимање у току</string>
     <string formatted="false" name="notification_download_finished">Преузимање успешно</string>
@@ -1299,7 +1286,6 @@
 сензор геолокације уређаја, а у циљу увоза и извоза пројеката из и у локалну меморију, апликација
 треба да му се приступи читању и писању. Дозволе увек можете да мењате кроз подешавања уређаја.</string>
     <!-- Error messages -->
-    <string formatted="false" name="error_project_upload">Настала грешка приликом отпремању пројеката.</string>
     <string formatted="false" name="error_project_download">Настала грешка приликом преузимања пројекта.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be

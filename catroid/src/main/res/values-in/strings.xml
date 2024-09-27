@@ -674,7 +674,6 @@
     <string formatted="false" name="play_scene_dialog_current">Adegan saat ini (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Masuk</string>
     <string formatted="false" name="username">Nama pengguna</string>
     <string formatted="false" name="password">Kata sandi</string>
     <string formatted="false" name="reset_password">Setel ulang kata sandi</string>
@@ -687,11 +686,6 @@
     <string formatted="false" name="register">Daftar</string>
     <string formatted="false" name="password_confirm">Konfirmasi kata sandi</string>
     <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Terima kasih telah mendaftar!</string>
-    <string formatted="false" name="signin_choose_username">Silakan pilih nama pengguna anda:</string>
-    <string formatted="false" name="signin_choose_username_empty">Silakan masukkan nama pengguna.</string>
-    <string formatted="false" name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli Anda dan juga bukan alamat email.</string>
-    <string formatted="false" name="oauth_username_taken">Orang lain sudah menggunakan nama ini. Pilih yang lain!</string>
     <string formatted="false" name="show_password">Tampilkan kata sandi</string>
     <string formatted="false" name="sign_in_error">Ada yang salah saat masuk.</string>
     <string formatted="false" name="error_google_plus_sign_in">Kesalahan masuk Google. Status: %s</string>

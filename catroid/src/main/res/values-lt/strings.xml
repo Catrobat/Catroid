@@ -791,7 +791,6 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Sign in</string>
     <string formatted="false" name="username">Vartotojo vardas</string>
     <string formatted="false" name="password">Slaptažodis</string>
     <string formatted="false" name="reset_password">Reset password</string>
@@ -804,11 +803,6 @@
     <string formatted="false" name="register">Register</string>
     <string formatted="false" name="password_confirm">Confirm password</string>
     <string formatted="false" name="accountName">El. paštas</string>
-    <string formatted="false" name="signin_thanks">Thank you for signing up!</string>
-    <string formatted="false" name="signin_choose_username">Please choose your username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string formatted="false" name="show_password">Show password</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>

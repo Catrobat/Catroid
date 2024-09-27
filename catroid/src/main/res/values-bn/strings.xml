@@ -690,7 +690,6 @@
     <string formatted="false" name="play_scene_dialog_current">বর্তমান দৃশ্য (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">সাইন ইন</string>
     <string formatted="false" name="username">ব্যবহারকারীর নাম</string>
     <string formatted="false" name="password">পাসওয়ার্ড</string>
     <string formatted="false" name="reset_password">পাসওয়ার্ড রিসেট করুন</string>
@@ -703,11 +702,6 @@
     <string formatted="false" name="register">নিবন্ধন</string>
     <string formatted="false" name="password_confirm">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string formatted="false" name="accountName">ই-মেল</string>
-    <string formatted="false" name="signin_thanks">নিবন্ধন করার জন্য আপনাকে ধন্যবাদ!</string>
-    <string formatted="false" name="signin_choose_username">অনুগ্রহ করে একটি ব্যবহারকারীর নাম নির্বাচন করুন।</string>
-    <string formatted="false" name="signin_choose_username_empty">দয়া করে একটি ব্যবহারকারীর নাম লিখুন।</string>
-    <string formatted="false" name="signin_choose_username_hint">ব্যবহারকারীর নামটি আপনার আসল নাম বা ইমেলের ঠিকানা হওয়া উচিত নয়।</string>
-    <string formatted="false" name="oauth_username_taken">ইতিমধ্যে অন্য কেউ এই নামটি ব্যবহার করেছেন। দয়া করে একটি আলাদা নাম নির্বাচন করুন!</string>
     <string formatted="false" name="show_password">পাসওয়ার্ড দেখান</string>
     <string formatted="false" name="sign_in_error">সাইন ইন করার সময় কিছু ভুল হয়েছে</string>
     <string formatted="false" name="error_google_plus_sign_in">গুগল সাইন ইন ভুল। অবস্থান: %s</string>

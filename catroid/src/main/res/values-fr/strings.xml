@@ -708,7 +708,6 @@
     <string formatted="false" name="play_scene_dialog_current">Scène actuelle (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Se connecter</string>
     <string formatted="false" name="username">Nom d\'utilisateur</string>
     <string formatted="false" name="password">Mot de passe</string>
     <string formatted="false" name="reset_password">Réinitialiser le mot de passe</string>
@@ -721,11 +720,6 @@
     <string formatted="false" name="register">S\'inscrire</string>
     <string formatted="false" name="password_confirm">Confirmer le mot de passe</string>
     <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Merci pour ton inscription à Pocket Code !</string>
-    <string formatted="false" name="signin_choose_username">Merci de choisir un nom d\'utilisateur :</string>
-    <string formatted="false" name="signin_choose_username_empty">Veuillez entrer un nom d\'utilisateur.</string>
-    <string formatted="false" name="signin_choose_username_hint">Le nom d\'utilisateur ne doit pas être ton vrai nom.</string>
-    <string formatted="false" name="oauth_username_taken">Quelqu\'un d\'autre utilise déjà ce nom. Veuillez en choisir un autre !</string>
     <string formatted="false" name="show_password">Afficher le mot de passe</string>
     <string formatted="false" name="sign_in_error">Une erreur s\'est produite lors de la connexion.</string>
     <string formatted="false" name="error_google_plus_sign_in">Erreur de connexion Google. Statut : %s</string>

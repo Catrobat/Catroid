@@ -714,7 +714,6 @@ app
     <string formatted="false" name="play_scene_dialog_current">Scena corrente (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Accedi</string>
     <string formatted="false" name="username">Nome utente</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">Ripristina la password</string>
@@ -727,11 +726,6 @@ app
     <string formatted="false" name="register">Registrati</string>
     <string formatted="false" name="password_confirm">Conferma la password</string>
     <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">Grazie per esserti registrato!</string>
-    <string formatted="false" name="signin_choose_username">Sei pregato di scegliere il tuo nome utente:</string>
-    <string formatted="false" name="signin_choose_username_empty">Sei pregato di inserire un nome utente.</string>
-    <string formatted="false" name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo nome reale né un indirizzo email.</string>
-    <string formatted="false" name="oauth_username_taken">Qualcun altro usa già questo nome. Sei pregato di sceglierne uno differente!</string>
     <string formatted="false" name="show_password">Mostra la password</string>
     <string formatted="false" name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
     <string formatted="false" name="error_google_plus_sign_in">Errore d\'accesso di Google. Stato: %s</string>

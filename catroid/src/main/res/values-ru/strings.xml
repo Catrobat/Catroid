@@ -790,7 +790,6 @@
     <string formatted="false" name="play_scene_dialog_current">Текущая сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Войти в аккаунт</string>
     <string formatted="false" name="username">Имя пользователя</string>
     <string formatted="false" name="password">Пароль</string>
     <string formatted="false" name="reset_password">Сбросить пароль</string>
@@ -803,11 +802,6 @@
     <string formatted="false" name="register">Зарегистрироваться</string>
     <string formatted="false" name="password_confirm">Подтвердить пароль</string>
     <string formatted="false" name="accountName">Электронная почта</string>
-    <string formatted="false" name="signin_thanks">Спасибо за регистрацию!</string>
-    <string formatted="false" name="signin_choose_username">Пожалуйста, выберите имя пользователя:</string>
-    <string formatted="false" name="signin_choose_username_empty">Пожалуйста, введите имя пользователя.</string>
-    <string formatted="false" name="signin_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем, и не должно являться адресом электронной почты.</string>
-    <string formatted="false" name="oauth_username_taken">Кто-то уже использует это имя. Пожалуйста, выберите другое!</string>
     <string formatted="false" name="show_password">Показать пароль</string>
     <string formatted="false" name="sign_in_error">Что-то пошло не так при входе в аккаунт.</string>
     <string formatted="false" name="error_google_plus_sign_in">Ошибка входа в аккаунт Google. Статус: %s</string>

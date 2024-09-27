@@ -670,7 +670,6 @@
     <string formatted="false" name="play_scene_dialog_current">現在のシーン (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">サインイン</string>
     <string formatted="false" name="username">ユーザー名</string>
     <string formatted="false" name="password">パスワード</string>
     <string formatted="false" name="reset_password">パスワードのリセット</string>
@@ -683,11 +682,6 @@
     <string formatted="false" name="register">登録</string>
     <string formatted="false" name="password_confirm">パスワードの確認</string>
     <string formatted="false" name="accountName">メール</string>
-    <string formatted="false" name="signin_thanks">登録ありがとうございます!</string>
-    <string formatted="false" name="signin_choose_username">ユーザー名を選択してください:</string>
-    <string formatted="false" name="signin_choose_username_empty">ユーザー名を入力してください。</string>
-    <string formatted="false" name="signin_choose_username_hint">ユーザー名は本名であっても、メールアドレスであっても構いません。</string>
-    <string formatted="false" name="oauth_username_taken">他の誰かが既にこの名前を使用しています。別の名前を選択してください！</string>
     <string formatted="false" name="show_password">パスワードを表示</string>
     <string formatted="false" name="sign_in_error">サインイン中に問題が発生しました。</string>
     <string formatted="false" name="error_google_plus_sign_in">Googleのサインインエラーです。状態: %s</string>
