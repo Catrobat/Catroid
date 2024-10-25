@@ -69,6 +69,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           emulator-options: -no-window -wipe-data -gpu swiftshader_indirect -no-snapshot-save -accel on -noaudio -no-boot-anim -camera-back emulated -camera-front emulated -selinux permissive
+          emulator-build: 11237101 # 33.1.24
           disable-animations: true
           arch: x86_64
           target: google_apis
