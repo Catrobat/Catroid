@@ -1,0 +1,137 @@
+name: Catroid CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+  #  schedule:
+  #    - cron: "0 0 * * *" # Run daily at midnight
+  workflow_dispatch:
+    inputs:
+      WEB_TEST_URL:
+        description: "When set, all the archived APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at"
+        required: false
+        type: string
+        default: ""
+      ANDROID_VERSION:
+        description: "The Android version to use for the build"
+        required: false
+        type: string
+        default: "33"
+      BUILD_ALL_FLAVOURS:
+        description: "When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APKs"
+        required: false
+        type: boolean
+        default: false
+      DISABLE_UNIT_TESTS:
+        description: "Disables Unit Tests"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  instrumentation-tests:
+    name: Instrumentation tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [33]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Pre-Build
+        run: gradle compileCatroidDebugSources compileCatroidDebugAndroidTestSources
+
+      - name: Instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          target: google_apis
+          script: ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
+
+  build_and_analysis:
+    runs-on: ubuntu-latest
+    container: mingc/android-build-box:1.28.0
+
+    env:
+      ANDROID_VERSION: ${{ inputs.ANDROID_VERSION }}
+      WEB_TEST_URL: ${{ inputs.WEB_TEST_URL != '' && format('-PwebTestUrl=''{0}''', inputs.WEB_TEST_URL) || '' }}
+      ALL_FLAVOURS_PARAMETERS: ${{ inputs.BUILD_ALL_FLAVOURS && 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug assemblePocketCodeBetaDebug assembleMindstormsDebug' || '' }}
+      DEBUG_UNIT_TESTS: ${{ inputs.UNIT_TEST_DEBUG && '-i' || '' }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Prepare Java
+        run: |
+          . ~/.bash_profile
+          jenv global 11
+          java -version
+
+      - name: Run Unit Tests
+        if: ${{ ! inputs.DISABLE_UNIT_TESTS }}
+        run: bash ./gradlew ${{ env.DEBUG_UNIT_TESTS }} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace || echo "Unit tests failed"
+        continue-on-error: true
+
+      - name: Upload Unit Test Reports
+        if: ${{ ! inputs.DISABLE_UNIT_TESTS }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: |
+            catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport.xml
+            catroid/build/reports/tests/testDebugUnitTest
+
+      - name: Static Analysis
+        continue-on-error: true
+        run: bash ./gradlew pmd checkstyle lintCatroidDebug detekt
+
+      - name: Upload Static Analysis Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-analysis-reports
+          path: |
+            catroid/build/reports/lint*.xml
+            catroid/build/reports/checkstyle.xml
+            catroid/build/reports/pmd.xml
+            catroid/build/reports/detekt/detekt.xml
+
+      - name: Build APK
+        run: bash ./gradlew ${{ env.WEB_TEST_URL }} -Pindependent='#${{ github.run_number }} ${{ github.ref_name }}' assembleCatroidDebug ${{ env.ALL_FLAVOURS_PARAMETERS }}
+
+      - name: Rename APKs
+        run: |
+          for file in $(find . -name "*.apk"); do
+            mv "$file" "$(dirname "$file")/${{ github.ref_name }}-${{ github.run_number }}-$(basename "$file")"
+          done
+
+      - name: Archive APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-artifacts
+          path: "**/*.apk"
