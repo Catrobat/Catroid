@@ -72,7 +72,8 @@ jobs:
           emulator-build: 11237101 # 33.1.24
           disable-animations: true
           arch: x86_64
-          target: google_apis
+          target: default
+          sdcard-path-or-size: 1024M
           script: gradle -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
 
   build_and_analysis:
