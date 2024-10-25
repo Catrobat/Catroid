@@ -55,22 +55,24 @@ jobs:
         with:
           gradle-version: "7.5"
 
+      - name: Pre-Build
+        run: gradle compileCatroidDebugSources compileCatroidDebugAndroidTestSources
+
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Pre-Build
-        run: gradle compileCatroidDebugSources compileCatroidDebugAndroidTestSources
-
       - name: Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          emulator-options: -logcat *:w -no-window -wipe-data -gpu swiftshader_indirect -no-snapshot-save -accel on -noaudio -no-boot-anim -camera-back emulated -camera-front emulated -selinux permissive
+          disable-animations: true
           arch: x86_64
           target: google_apis
-          script: ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
+          script: gradle -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
 
   build_and_analysis:
     runs-on: ubuntu-latest
