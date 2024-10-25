@@ -1362,6 +1362,14 @@
     <string formatted="false" name="default_project_outer_loop">Outer Loop</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_inner_loop">Inner Loop</string>
+    <string formatted="false" name="default_project_panda_sprite_name">Panda</string>
+    <string formatted="false" name="default_project_panda_name">Panda (1)</string>
+    <string formatted="false" name="default_project_lynx_sprite_name">Lynx</string>
+    <string formatted="false" name="default_project_lynx_name">Lynx (1)</string>
+    <string formatted="false" name="default_project_elephant_sprite_name">Elephant</string>
+    <string formatted="false" name="default_project_elephant_name">Elephant (1)</string>
+    <string formatted="false" name="default_project_apple_sprite_name">Apple</string>
+    <string formatted="false" name="default_project_apple_name">Apple (1)</string>
 
     <!-- Default ChromeCast Values -->
     <string formatted="false" name="default_cast_project_background_name">Background</string>
