@@ -78,9 +78,10 @@
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true" /><uses-feature
-    android:name="android.hardware.camera"
-    android:required="false" />
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <!-- foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
