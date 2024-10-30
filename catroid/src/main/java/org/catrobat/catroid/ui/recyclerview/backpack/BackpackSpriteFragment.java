@@ -46,7 +46,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	public static final String TAG = BackpackSpriteFragment.class.getSimpleName();
 
-	private SpriteController spriteController = new SpriteController();
+	private final SpriteController spriteController = new SpriteController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -79,7 +79,6 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 					unpackedItemCnt));
 			getActivity().finish();
 		}
-
 		finishActionMode();
 	}
 
@@ -92,8 +91,10 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
+
 		for (Sprite item : selectedItems) {
-			spriteController.delete(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
@@ -102,13 +103,29 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	protected String getItemName(Sprite item) {
 		return item.getName();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getSprites());
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedSprites(copiedStatus);
+		resetBackpackState();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (Sprite item : getLastDeletedItems()) {
+			spriteController.delete(item);
+		}
+		getLastDeletedItems().clear();
 	}
 }

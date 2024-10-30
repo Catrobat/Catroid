@@ -484,4 +484,11 @@ class ProjectActivity : BaseCastActivity() {
             dialog.show(supportFragmentManager, LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG)
         }
     }
+
+    fun showUndo(visible: Boolean) {
+        optionsMenu.findItem(R.id.menu_undo).isVisible = visible
+        if (visible) {
+            projectManager.changedProject(projectManager.currentProject.name)
+        }
+    }
 }

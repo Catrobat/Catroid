@@ -108,6 +108,31 @@ public final class BackpackListManager {
 		return getBackpack().backpackedSprites;
 	}
 
+	public void replaceBackpackedSprites(List<Sprite> list) {
+		getBackpack().backpackedSprites.clear();
+		getBackpack().backpackedSprites.addAll(list);
+	}
+
+	public void replaceBackpackedLooks(List<LookData> list) {
+		getBackpack().backpackedLooks.clear();
+		getBackpack().backpackedLooks.addAll(list);
+	}
+
+	public void replaceBackpackedSounds(List<SoundInfo> list) {
+		getBackpack().backpackedSounds.clear();
+		getBackpack().backpackedSounds.addAll(list);
+	}
+
+	public void replaceBackpackedScenes(List<Scene> list) {
+		getBackpack().backpackedScenes.clear();
+		getBackpack().backpackedScenes.addAll(list);
+	}
+
+	public void replaceBackpackedScripts(HashMap<String, List<Script>> map) {
+		getBackpack().backpackedScripts.clear();
+		getBackpack().backpackedScripts.putAll(map);
+	}
+
 	public List<String> getBackpackedScriptGroups() {
 		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
 	}
@@ -143,6 +168,10 @@ public final class BackpackListManager {
 
 	public void saveBackpack() {
 		backpackSerializer.saveBackpack(getBackpack());
+	}
+
+	public void setBackpack(Backpack backpack) {
+		this.backpack = backpack;
 	}
 
 	public void loadBackpack() {

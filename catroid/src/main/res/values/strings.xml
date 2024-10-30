@@ -398,6 +398,7 @@
     <string formatted="false" name="am_unpack">Unpack</string>
     <string formatted="false" name="am_copy">Copy</string>
     <string formatted="false" name="am_delete">Delete</string>
+    <string formatted="false" name="am_backpack_undo">Backpack_undo</string>
     <string formatted="false" name="am_rename">Rename</string>
     <string formatted="false" name="am_convert">Convert</string>
     <string formatted="false" name="am_merge">Merge</string>

@@ -38,7 +38,6 @@ public class Backpack implements Serializable {
 
 	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
 	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
-
 	public List<SoundInfo> backpackedSounds = new CopyOnWriteArrayList<>();
 	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
 

@@ -48,7 +48,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	public static final String TAG = BackpackLookFragment.class.getSimpleName();
 	public final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
-	private LookController lookController = new LookController();
+	private final LookController lookController = new LookController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -95,12 +95,10 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void deleteItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setLastDeletedItems(selectedItems);
+
 		for (LookData item : selectedItems) {
-			try {
-				lookController.delete(item);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
@@ -109,9 +107,6 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
@@ -122,5 +117,28 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected String getItemName(LookData item) {
 		return item.getName();
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedLooks(copiedStatus);
+		resetBackpackState();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (LookData item : getLastDeletedItems()) {
+			try {
+				lookController.delete(item);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedLooks());
 	}
 }
