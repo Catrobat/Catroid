@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -349,10 +350,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	private String updateTextAndCursorFromInternFormula() {
-		String newExternFormulaString = internFormula.getExternFormulaString();
-		setText(
+		SpannableStringBuilder newExternFormulaString = internFormula.getHighlightedFormulaString();
+		SpannableStringBuilder mergedFormulaString =
+				FormulaSpannableStringBuilder.mergeFormulaString(newExternFormulaString,
 				FormulaSpannableStringBuilder.buildSpannableFormulaString(context,
-						newExternFormulaString, getTextSize()));
+				newExternFormulaString.toString(), getTextSize()));
+		setText(mergedFormulaString);
+
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
@@ -360,7 +364,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		highlightSelection();
 
-		return newExternFormulaString;
+		return mergedFormulaString.toString();
 	}
 
 	@Override

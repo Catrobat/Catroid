@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -1189,5 +1190,9 @@ public class InternFormula {
 
 	public List<InternToken> getInternTokenFormulaList() {
 		return internTokenFormulaList;
+	}
+
+	public SpannableStringBuilder getHighlightedFormulaString() {
+		return InternToExternGenerator.getGeneratedHighlightedExternFormulaString();
 	}
 }
