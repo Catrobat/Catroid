@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,11 +50,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
 
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.checkBricksCheckedEnabled;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -71,6 +73,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class ScriptFragmentTest {
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+	private int brickCount;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -148,16 +152,7 @@ public class ScriptFragmentTest {
 
 		onBrickAtPosition(0)
 				.onCheckBox().check(matches(allOf(isChecked(), isEnabled())));
-		onBrickAtPosition(1)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(2)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(3)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(4)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(5)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
+		checkBricksCheckedEnabled(1, brickCount, true, false);
 	}
 
 	@Test
@@ -172,70 +167,62 @@ public class ScriptFragmentTest {
 
 		onBrickAtPosition(1)
 				.onCheckBox().perform(click());
-
 		onBrickAtPosition(0)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 		onBrickAtPosition(1)
 				.onCheckBox().check(matches(allOf(isChecked(), isEnabled())));
-		onBrickAtPosition(2)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(3)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(4)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(5)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
+		checkBricksCheckedEnabled(2, brickCount, true, false);
 
 		onBrickAtPosition(1)
 				.onCheckBox().perform(click());
-
-		onBrickAtPosition(0)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(1)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(2)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(3)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(4)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(5)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
+		checkBricksCheckedEnabled(0, brickCount, false, true);
 
 		onBrickAtPosition(5)
 				.checkShowsText(R.string.brick_if_end);
-
 		onBrickAtPosition(5)
 				.onCheckBox().perform(click());
-
 		onBrickAtPosition(0)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 		onBrickAtPosition(1)
 				.onCheckBox().check(matches(allOf(isChecked(), isEnabled())));
-		onBrickAtPosition(2)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(3)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(4)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
-		onBrickAtPosition(5)
-				.onCheckBox().check(matches(allOf(isChecked(), not(isEnabled()))));
+		checkBricksCheckedEnabled(2, brickCount, true, false);
 
 		onBrickAtPosition(1)
 				.onCheckBox().perform(click());
+		checkBricksCheckedEnabled(0, brickCount, false, true);
+	}
 
+	@Test
+	public void testCheckControlStructureBySelectingBricks() {
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.comment_in_out))
+				.perform(click());
+
+		onBrickAtPosition(1)
+				.checkShowsText(R.string.brick_if_begin)
+				.checkShowsText(R.string.brick_if_begin_second_part);
+
+		onBrickAtPosition(1).perform(click());
 		onBrickAtPosition(0)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 		onBrickAtPosition(1)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(2)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(3)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
-		onBrickAtPosition(4)
-				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
+				.onCheckBox().check(matches(allOf(isChecked(), isEnabled())));
+		checkBricksCheckedEnabled(2, brickCount, true, false);
+
+		onBrickAtPosition(1).perform(click());
+		checkBricksCheckedEnabled(0, brickCount, false, true);
+
 		onBrickAtPosition(5)
+				.checkShowsText(R.string.brick_if_end);
+		onBrickAtPosition(5).perform(click());
+		onBrickAtPosition(0)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
+		onBrickAtPosition(1)
+				.onCheckBox().check(matches(allOf(isChecked(), isEnabled())));
+		checkBricksCheckedEnabled(2, brickCount, true, false);
+
+		onBrickAtPosition(1).perform(click());
+		checkBricksCheckedEnabled(0, brickCount, false, true);
 	}
 
 	private void createProject() {
@@ -251,10 +238,11 @@ public class ScriptFragmentTest {
 		ifBrick.addBrickToElseBranch(new ChangeXByNBrick());
 		startScript.addBrick(ifBrick);
 		startScript.setParents();
+		brickCount = startScript.getBrickList().size();
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 }

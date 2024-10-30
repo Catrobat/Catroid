@@ -55,6 +55,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
@@ -74,6 +75,8 @@ public class CopyBrickTest {
 	int firstIndexComposite = 1;
 	int lastIndexComposite = 5;
 	int userDefinedScriptIndex = 10;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -116,6 +119,30 @@ public class CopyBrickTest {
 		int brickIndex = 0;
 		getCheckbox(brickIndex)
 				.perform(click())
+				.check(matches(isChecked()));
+
+		for (brickIndex++; brickIndex <= firstScriptEndIndex; brickIndex++) {
+			getCheckbox(brickIndex)
+					.check(matches(not(isEnabled())))
+					.check(matches(isChecked()));
+		}
+		for (; brickIndex <= secondScriptEndIndex; brickIndex++) {
+			getCheckbox(brickIndex)
+					.check(matches(not(isEnabled())))
+					.check(matches(not(isChecked())));
+		}
+	}
+
+	@Test
+	public void testSelectWholeScriptByClickingOnTheBrick() {
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.copy)).perform(click());
+
+		int brickIndex = 0;
+		onBrickAtPosition(brickIndex)
+				.performClick();
+
+		getCheckbox(brickIndex)
 				.check(matches(isChecked()));
 
 		for (brickIndex++; brickIndex <= firstScriptEndIndex; brickIndex++) {
@@ -243,7 +270,7 @@ public class CopyBrickTest {
 		sprite.addScript(secondScript);
 		sprite.addScript(thirdScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 }
