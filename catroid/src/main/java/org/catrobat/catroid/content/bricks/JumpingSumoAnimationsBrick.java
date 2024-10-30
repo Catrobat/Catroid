@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,15 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import kotlin.Unit;
 
 public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
@@ -66,17 +68,10 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 		Spinner spinner = view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				animationName = Animation.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			animationName = Animation.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Animation.valueOf(animationName).ordinal());
 		return view;
 	}

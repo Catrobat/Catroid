@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,17 +27,18 @@ import android.app.IntentService
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.CACHE_DIR
+import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
-import org.catrobat.catroid.common.Constants.TMP_DIR_NAME
+import org.catrobat.catroid.common.Constants.TMP_DIRECTORY_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
@@ -82,10 +83,11 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         val resultReceiver = downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
                 ?: return logWarning("Called ProjectDownloadService without url - aborting")
 
-        val zipFileString = File(File(CACHE_DIR, TMP_DIR_NAME), DOWNLOAD_FILE_NAME).absolutePath
+        val zipFileString = File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
         val destinationFile = File(zipFileString)
 
-        if ((destinationFile.parentFile.isDirectory or destinationFile.parentFile.mkdirs()).not()) {
+        if (((destinationFile.parentFile?.isDirectory ?: false) or
+                (destinationFile.parentFile?.mkdirs() ?: false)).not()) {
             ToastUtil.showError(this, R.string.error_project_download)
             return
         }
@@ -147,10 +149,17 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(EXTRA_PROJECT_NAME, projectName)
 
-            val pendingIntent = PendingIntent.getActivity(
-                context, notificationData.notificationID, downloadIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
+            val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                PendingIntent.getActivity(
+                    context, notificationData.notificationID, downloadIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            } else {
+                PendingIntent.getActivity(
+                    context, notificationData.notificationID, downloadIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                )
+            }
             statusBarNotificationManager.showOrUpdateNotification(
                 context,
                 notificationData,
@@ -159,7 +168,9 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             )
             resultReceiver.send(SUCCESS_CODE, Bundle())
         } catch (exception: IOException) {
-            Log.i(TAG, exception.message)
+            exception.message?.let {
+                Log.i(TAG, it)
+            }
             statusBarNotificationManager
                 .abortProgressNotificationWithMessage(context, notificationData, R.string.error_project_download)
 

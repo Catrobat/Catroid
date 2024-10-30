@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import com.google.common.base.Preconditions;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.web.ScratchDataFetcher;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.InterruptedIOException;
 
@@ -78,7 +78,7 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 
 	public ScratchSearchResult fetchProgramList(String query) throws InterruptedIOException {
 		final int minTimeout = Constants.SCRATCH_HTTP_REQUEST_MIN_TIMEOUT;
-		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES;
+		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUMBER_OF_RETRIES;
 
 		int delay;
 
@@ -91,7 +91,7 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 					return fetcher.scratchSearch(query, 20, 0);
 				}
 				return fetcher.fetchDefaultScratchPrograms();
-			} catch (WebconnectionException e) {
+			} catch (WebConnectionException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
 				try {

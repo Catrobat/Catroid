@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,7 @@ public class PocketPaintNewSpriteIntentTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testAddNewSprite() {
-		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name) + " (1)";
+		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name);
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, false)

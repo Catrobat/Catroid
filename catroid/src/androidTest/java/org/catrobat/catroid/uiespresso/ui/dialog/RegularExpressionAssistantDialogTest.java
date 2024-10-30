@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -70,7 +69,7 @@ public class RegularExpressionAssistantDialogTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 
@@ -98,7 +97,6 @@ public class RegularExpressionAssistantDialogTest {
 	@Test (expected = NoMatchingViewException.class)
 	public void testCancelButtonFunctionality() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.cancel)).perform(click());
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
 	}
@@ -106,19 +104,23 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testIsHtmlExtractorInList() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void testIsWikiButtonInList() {
+	public void testIsJsonExtractorInList() {
 		clickOnAssistantInFunctionList();
-		onView(withText(R.string.formula_editor_dialog_wiki_button)).check(matches(isDisplayed()));
+		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void testOpenWikipageOnWikiButtonClick() {
+	public void testHelpButton() {
+		clickOnAssistantInFunctionList();
+		onView(withText(R.string.help)).check(matches(isDisplayed()));
+	}
 
+	@Test
+	public void testOpenWikipageOnHelpButtonClick() {
 		clickOnAssistantInFunctionList();
 
 		try {
@@ -129,7 +131,7 @@ public class RegularExpressionAssistantDialogTest {
 					new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
 			intending(anyIntent()).respondWith(intentResult);
 
-			onView(withText(R.string.formula_editor_dialog_wiki_button)).perform(click());
+			onView(withText(R.string.help)).perform(click());
 
 			intended(allOf(
 					hasAction(Intent.ACTION_VIEW),
@@ -142,14 +144,12 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testDoesHtmlExtractorOpensCorrectDialog() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click());
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).check(matches(isDisplayed()));
 	}
 	@Test
 	public void testDoesJsonExtractorOpensCorrectDialog() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).perform(click());
 		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}

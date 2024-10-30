@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,6 +74,8 @@ public class Passepartout extends Actor {
 
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
+		x -= getStage().getViewport().getCamera().position.x;
+		y -= getStage().getViewport().getCamera().position.y;
 		if (x < -virtualScreenWidth / 2 || x > virtualScreenWidth / 2 || y < -virtualScreenHeight / 2
 				|| y > virtualScreenHeight / 2) {
 			return this;

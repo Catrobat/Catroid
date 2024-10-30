@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +56,7 @@ import java.util.Arrays;
 import androidx.annotation.IdRes;
 
 import static org.junit.Assert.assertEquals;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -107,6 +110,13 @@ public class FormulaEditorEditTextGenericTest {
 		View brickView = brick.getView(activity);
 		TextView brickFormulaTextView = brickView.findViewById(R.id.brick_set_x_edit_text);
 		brick.onClick(brickFormulaTextView);
+
+		shadowOf(Looper.getMainLooper()).idle();
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	@Test

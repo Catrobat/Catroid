@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.preference.PreferenceManager
@@ -75,13 +76,17 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
 
         val projectPath = intent.getStringExtra(EXTRA_PROJECT_PATH)
             ?: return logWarning("Called ProjectUploadService without project path!")
+
         val projectDirectory = File(projectPath)
         if (projectDirectory.listFiles().isEmpty()) {
             return logWarning("Called ProjectUploadService with empty project directory!")
         }
+
         val resultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER) as? ResultReceiver
             ?: return logWarning("Called ProjectUploadService without resultReceiver!")
+
         val projectName = intent.getStringExtra(EXTRA_UPLOAD_NAME)
+            ?: return logWarning("Called ProjectUploadService with empty project name!")
 
         val notificationID = StatusBarNotificationManager.getNextNotificationID()
         startForeground(
@@ -101,7 +106,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         ProjectUpload(
             projectDirectory = projectDirectory,
             projectName = projectName,
-            projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION),
+            projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION) ?: "",
             userEmail = getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)),
             sceneNames = intent.getStringArrayExtra(EXTRA_SCENE_NAMES),
             archiveDirectory = File(cacheDir, UPLOAD_FILE_NAME),
@@ -145,11 +150,20 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
-        )
+
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -167,11 +181,20 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
+
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -186,7 +209,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             .build()
     }
 
-    private fun getUserEmail(provider: String): String {
+    private fun getUserEmail(provider: String?): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         val email = when (provider) {

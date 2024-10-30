@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ import androidx.fragment.app.DialogFragment;
 public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
 
 	public static final String TAG = LoginDialogFragment.class.getSimpleName();
-	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
+	public static final String PASSWORD_FORGOTTEN_PATH = "reset-password";
 
 	private TextInputLayout usernameInputLayout;
 	private TextInputLayout passwordInputLayout;

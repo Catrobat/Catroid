@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ public class PointInDirectionAction extends TemporalAction {
 			if (scope.getSprite().look instanceof PhysicsLook) {
 				((PhysicsLook) scope.getSprite().look).setFlippedByDirection(degreeInterpretation);
 			}
-			scope.getSprite().look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
+			scope.getSprite().look.setMotionDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

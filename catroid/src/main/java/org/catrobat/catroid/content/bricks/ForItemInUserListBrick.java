@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -142,7 +142,7 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		UserVariable userVariable = getUserVariableWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE);
 		UserList userList = getUserListWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST);
-		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this, sequence.getScript());
 
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet",
@@ -163,51 +163,5 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 				.createForItemInUserListAction(userList, userVariable, repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
-	}
-
-	private static class EndBrick extends BrickBaseType {
-
-		EndBrick(ForItemInUserListBrick parent) {
-			this.parent = parent;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList();
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_loop_end;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
 	}
 }

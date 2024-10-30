@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(JUnit4.class)
 public class PointInDirectionActionTest {
 
@@ -41,6 +43,7 @@ public class PointInDirectionActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
@@ -49,28 +52,28 @@ public class PointInDirectionActionTest {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(),
 				new Formula(90))
 				.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointLeft() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(-90))
 				.act(1.0f);
-		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointUp() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(0))
 				.act(1.0f);
-		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointDown() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(180))
 				.act(1.0f);
-		assertEquals(180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(180f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
@@ -79,27 +82,28 @@ public class PointInDirectionActionTest {
 		sprite.look.setRotation(-42);
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(90))
 				.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(90)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), null).act(1.0f);
-		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
+
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 }

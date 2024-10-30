@@ -1,0 +1,43 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="182.5dp"
+    android:height="163.7dp"
+    android:viewportWidth="182.5"
+    android:viewportHeight="163.7">
+  <path
+      android:pathData="M90,87.8m-61.5,0a61.5,61.5 0,1 1,123 0a61.5,61.5 0,1 1,-123 0"
+      android:strokeWidth="10"
+      android:fillColor="#00000000"
+      android:strokeColor="#FFFFFF"/>
+  <path
+      android:pathData="M144.157,20.466a6,6 121.316,1 0,11.678 -2.758a6,6 121.316,1 0,-11.678 2.758z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M148,73.2l-0.9,-52.9l5.7,-0.2l2.2,52.9l-7,0.2z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M77.5,58.2c-8.4,0.2 -16,6.7 -16,17.6c0,10.6 10.3,15.2 18.4,15.4c9.1,0.2 15.2,-9.8 28.9,-9.5c9.1,0.2 11.3,4.7 19.2,4.6c6.5,-0.1 10.7,-5.9 10.4,-11.6c-0.3,-6 -4.2,-11 -10.7,-10.9c-7,0.1 -11.8,4 -19.2,4.6C97.4,69.2 88.7,57.9 77.5,58.2z"
+      android:fillColor="#FFFFFF"/>
+</vector>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,20 +42,28 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.plot.Plot;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,6 +71,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -75,7 +85,7 @@ import java.util.UUID;
 		"userDefinedBrickList"
 })
 
-public class Sprite implements Cloneable, Nameable, Serializable {
+public class Sprite implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -84,6 +94,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
+	public transient Plot plot = new Plot();
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
@@ -107,6 +118,10 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient Sprite myOriginal = null;
 
 	public transient boolean movedByStepsBrick = false;
+
+	private transient boolean isGliding = false;
+	private transient float glidingVelocityX = 0f;
+	private transient float glidingVelocityY = 0f;
 
 	public Sprite() {
 	}
@@ -345,6 +360,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 
 		penConfiguration = new PenConfiguration();
+		plot = new Plot();
 		runningStitch = new RunningStitch();
 	}
 
@@ -352,6 +368,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
+		plot = null;
 		runningStitch = null;
 	}
 
@@ -360,10 +377,51 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (Script script : scriptList) {
 			if (script instanceof WhenConditionScript) {
 				WhenConditionBrick conditionBrick = (WhenConditionBrick) script.getScriptBrick();
-				Formula condition = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
-				conditionScriptTriggers.add(new ConditionScriptTrigger(condition));
+				Formula formula = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
+				ConditionScriptTrigger conditionScriptTrigger = new ConditionScriptTrigger(formula);
+
+				if (waitBeforeCheckingCollision(formula)) {
+					conditionScriptTrigger.updateSceneFirstStart();
+				}
+				conditionScriptTriggers.add(conditionScriptTrigger);
 			}
 		}
+	}
+
+	public void resetConditionScriptTriggers() {
+		for (ConditionScriptTrigger conditionScriptTrigger : conditionScriptTriggers) {
+			conditionScriptTrigger.resetStartTimeIfSceneRestarted();
+		}
+	}
+
+	public void initIfConditionBrickTriggers() {
+		for (Script script : scriptList) {
+			if (!script.getBrickList().isEmpty()) {
+				Brick brick = script.getBrickList().get(0);
+
+				if (brick instanceof IfThenLogicBeginBrick) {
+					for (Formula formula : ((IfThenLogicBeginBrick) brick).getFormulas()) {
+						if (waitBeforeCheckingCollision(formula)) {
+							formula.sceneFirstStart(true);
+						}
+					}
+				} else if (brick instanceof IfLogicBeginBrick) {
+					for (Formula formula : ((IfLogicBeginBrick) brick).getFormulas()) {
+						if (waitBeforeCheckingCollision(formula)) {
+							formula.sceneFirstStart(true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	boolean waitBeforeCheckingCollision(Formula formula) {
+		boolean wait = false;
+		if (formula.getRoot() != null) {
+			wait = formula.getRoot().getElementType() == FormulaElement.ElementType.COLLISION_FORMULA;
+		}
+		return wait;
 	}
 
 	void evaluateConditionScriptTriggers() {
@@ -411,6 +469,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		convertedSprite.look.setLookData(look.getLookData());
 
 		convertedSprite.penConfiguration = penConfiguration;
+		convertedSprite.plot = plot;
 		convertedSprite.runningStitch = runningStitch;
 
 		convertedSprite.lookList = lookList;
@@ -420,6 +479,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 		convertedSprite.userVariables = userVariables;
 		convertedSprite.userLists = userLists;
+		convertedSprite.userDefinedBrickList = userDefinedBrickList;
 
 		return convertedSprite;
 	}
@@ -443,6 +503,12 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
+		}
+	}
+
+	public void prependScript(Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(0, script);
 		}
 	}
 
@@ -508,6 +574,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return nfcTagList;
 	}
 
+	@NonNull
 	@Override
 	public String toString() {
 		return name;
@@ -699,5 +766,116 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public Color getEmbroideryThreadColor() {
 		return this.embroideryThreadColor;
+	}
+
+	public Sprite(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, false);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
+		this.scriptList.addAll(sprite.scriptList);
+		this.nfcTagList.addAll(sprite.nfcTagList);
+		this.userVariables.addAll(sprite.userVariables);
+		this.userLists.addAll(sprite.userLists);
+		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+		sprite.look.copyTo(this.look);
+		this.myOriginal = sprite;
+		this.name = sprite.getName();
+	}
+
+	private void copyLooksAndSounds(Sprite sprite, Scene destinationScene,
+			boolean setUniqueName) throws IOException {
+		File imageDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.IMAGE_DIRECTORY_NAME
+		);
+		File soundsDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.SOUND_DIRECTORY_NAME
+		);
+
+		for (LookData data : sprite.lookList) {
+			File lookFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					imageDirectory
+			);
+			LookData newData = data.clone();
+			newData.setFile(lookFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.lookList));
+			}
+
+			this.lookList.add(newData);
+		}
+		for (SoundInfo data : sprite.soundList) {
+			File soundFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					soundsDirectory
+			);
+			SoundInfo newData = data.clone();
+			newData.setFile(soundFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.soundList));
+			}
+			this.soundList.add(newData);
+		}
+	}
+
+	public void mergeSprites(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, true);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
+		this.scriptList.addAll(sprite.scriptList);
+		this.nfcTagList.addAll(sprite.nfcTagList);
+
+		for (UserVariable userVariable: sprite.userVariables) {
+			if (!this.userVariables.contains(userVariable)) {
+				this.userVariables.add(userVariable);
+			}
+		}
+		for (UserList userlist: sprite.userLists) {
+			if (!this.userLists.contains(userlist)) {
+				this.userLists.add(userlist);
+			}
+		}
+
+		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+	}
+
+	public UserDefinedScript getUserDefinedScript(UUID userDefinedBrickId) {
+		for (Script script : scriptList) {
+			if (script instanceof UserDefinedScript && ((UserDefinedScript) script).getUserDefinedBrickID().equals(userDefinedBrickId)) {
+				return (UserDefinedScript) script;
+			}
+		}
+		return null;
+	}
+
+	public void setGliding(boolean gliding) {
+		isGliding = gliding;
+	}
+	public boolean isGliding() {
+		return isGliding;
+	}
+
+	public void setGlidingVelocityX(float velocity) {
+		glidingVelocityX = velocity;
+	}
+	public void setGlidingVelocityY(float velocity) {
+		glidingVelocityY = velocity;
+	}
+
+	public float getGlidingVelocityX() {
+		return glidingVelocityX;
+	}
+	public float getGlidingVelocityY() {
+		return glidingVelocityY;
 	}
 }

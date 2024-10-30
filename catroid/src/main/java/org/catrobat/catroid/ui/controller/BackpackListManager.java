@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,36 +45,48 @@ import static org.catrobat.catroid.common.Constants.BACKPACK_JSON_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class BackpackListManager {
 
-	private static final BackpackListManager INSTANCE = new BackpackListManager();
-
-	public final File backpackDirectory = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, BACKPACK_DIRECTORY_NAME);
-	public final File backpackFile = new File(backpackDirectory, BACKPACK_JSON_FILE_NAME);
-	public final File backpackSceneDirectory = new File(backpackDirectory, BACKBACK_SCENES_DIRECTORY_NAME);
-	public final File backpackSoundDirectory = new File(backpackDirectory, BACKPACK_SOUND_DIRECTORY_NAME);
-	public final File backpackImageDirectory = new File(backpackDirectory, BACKPACK_IMAGE_DIRECTORY_NAME);
-
-	private Backpack backpack = new Backpack();
-
-	private BackpackSerializer backpackSerializer = new BackpackSerializer(backpackFile);
+	private static BackpackListManager instance = null;
+	public final File backpackDirectory;
+	public final File backpackFile;
+	public final File backpackSceneDirectory;
+	public final File backpackSoundDirectory;
+	public final File backpackImageDirectory;
+	private final BackpackSerializer backpackSerializer;
+	private Backpack backpack;
 
 	public static BackpackListManager getInstance() {
-		return INSTANCE;
+		if (instance == null) {
+			instance = new BackpackListManager();
+		}
+		return instance;
 	}
 
 	private BackpackListManager() {
+		backpackDirectory = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, BACKPACK_DIRECTORY_NAME);
+		backpackFile = new File(backpackDirectory, BACKPACK_JSON_FILE_NAME);
+		backpackSceneDirectory = new File(backpackDirectory, BACKBACK_SCENES_DIRECTORY_NAME);
+		backpackSoundDirectory = new File(backpackDirectory, BACKPACK_SOUND_DIRECTORY_NAME);
+		backpackImageDirectory = new File(backpackDirectory, BACKPACK_IMAGE_DIRECTORY_NAME);
+		backpack = new Backpack();
+		backpackSerializer = new BackpackSerializer(backpackFile);
 		createBackpackDirectories();
 	}
 
 	private void createBackpackDirectories() {
-		DEFAULT_ROOT_DIRECTORY.mkdir();
-		backpackDirectory.mkdir();
-		backpackSceneDirectory.mkdir();
-		backpackImageDirectory.mkdir();
-		backpackSoundDirectory.mkdir();
+		createDirectory(backpackDirectory);
+		createDirectory(backpackSceneDirectory);
+		createDirectory(backpackImageDirectory);
+		createDirectory(backpackSoundDirectory);
+	}
+
+	private void createDirectory(File directory) {
+		directory.mkdir();
+		if (!directory.exists()) {
+			throw new RuntimeException("Could not create directory: " + directory.getAbsolutePath());
+		}
 	}
 
 	public Backpack getBackpack() {
@@ -83,6 +95,9 @@ public final class BackpackListManager {
 
 	public void removeItemFromScriptBackPack(String scriptGroup) {
 		getBackpack().backpackedScripts.remove(scriptGroup);
+		getBackpack().backpackedUserVariables.remove(scriptGroup);
+		getBackpack().backpackedUserLists.remove(scriptGroup);
+		getBackpack().backpackedUserDefinedBricks.remove(scriptGroup);
 	}
 
 	public List<Scene> getScenes() {

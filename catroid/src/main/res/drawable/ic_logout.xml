@@ -1,0 +1,35 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<vector android:autoMirrored="true" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="24dp"
+    android:viewportWidth="56"
+    android:viewportHeight="24">
+  <group>
+    <clip-path
+        android:pathData="M0,0h56v24h-56z"/>
+    <path
+        android:pathData="M33,7L31.59,8.41L34.17,11L24,11L24,13L34.17,13L31.59,15.58L33,17L38,12L33,7ZM20,5L28,5L28,3L20,3C18.9,3 18,3.9 18,5L18,19C18,20.1 18.9,21 20,21L28,21L28,19L20,19L20,5Z"
+        android:fillColor="#FFFFFF"/>
+  </group>
+</vector>

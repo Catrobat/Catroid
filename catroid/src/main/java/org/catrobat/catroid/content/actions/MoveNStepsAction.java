@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,8 @@ public class MoveNStepsAction extends TemporalAction {
 		try {
 			Double stepsValue = steps == null ? Double.valueOf(0d)
 					: steps.interpretDouble(scope);
-			double radians = Math.toRadians(scope.getSprite().look.getDirectionInUserInterfaceDimensionUnit());
-			scope.getSprite().look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
-			scope.getSprite().look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+			double radians = Math.toRadians(scope.getSprite().look.getMotionDirectionInUserInterfaceDimensionUnit());
+			scope.getSprite().look.changePositionInInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)), (float) (stepsValue * Math.cos(radians)));
 			scope.getSprite().movedByStepsBrick = true;
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

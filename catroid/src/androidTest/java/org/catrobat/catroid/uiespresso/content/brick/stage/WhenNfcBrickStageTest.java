@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,6 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.nfc.NdefMessage;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.NfcTagData;
@@ -44,6 +42,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,8 +51,6 @@ import org.junit.experimental.categories.Category;
 
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
-
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
@@ -61,6 +58,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs;
+import static org.junit.Assert.assertEquals;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -82,7 +80,9 @@ public class WhenNfcBrickStageTest {
 	private WhenNfcScript scriptUnderTest;
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "nfcStageTestProject");
+		Project project = UiTestUtils.createProjectWithCustomScript("nfcStageTestProject", new WhenNfcScript());
+		WhenNfcScript script = (WhenNfcScript) UiTestUtils.getDefaultTestScript(project);
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
 
 		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
@@ -91,9 +91,6 @@ public class WhenNfcBrickStageTest {
 		project.addUserVariable(numDetectedTags);
 		project.addUserVariable(readTagId);
 		project.addUserVariable(readTagMessage);
-
-		Sprite sprite = new Sprite("testSprite");
-		WhenNfcScript script = new WhenNfcScript();
 
 		SetVariableBrick setVariableBrickId = new SetVariableBrick(Sensors.NFC_TAG_ID);
 		setVariableBrickId.setUserVariable(readTagId);
@@ -107,19 +104,14 @@ public class WhenNfcBrickStageTest {
 				numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
 
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		tagDataList.add(firstTagData);
 		tagDataList.add(secondTagData);
 
-		Assert.assertEquals("Sprite is not set as current", sprite,
+		assertEquals("Sprite is not set as current", sprite,
 				ProjectManager.getInstance().getCurrentSprite());
 
-		Assert.assertEquals("Sprite NFC tag list is not set", sprite.getNfcTagList(),
+		assertEquals("Sprite NFC tag list is not set", sprite.getNfcTagList(),
 				ProjectManager.getInstance().getCurrentSprite().getNfcTagList());
 
 		numDetectedTags.setValue(0.0);
@@ -148,9 +140,9 @@ public class WhenNfcBrickStageTest {
 		scriptUnderTest.setMatchAll(true);
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertEquals("Read tag id does not match default value.", 0.0, readTagId.getValue());
-		Assert.assertEquals("Read tag message does not match default value.", 0.0, readTagMessage.getValue());
-		Assert.assertEquals("Tag count is not 0.", 0.0, numDetectedTags.getValue());
+		assertEquals("Read tag id does not match default value.", 0.0, readTagId.getValue());
+		assertEquals("Read tag message does not match default value.", 0.0, readTagMessage.getValue());
+		assertEquals("Tag count is not 0.", 0.0, numDetectedTags.getValue());
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 		assertUserVariableEqualsWithTimeout(readTagId,
@@ -175,8 +167,10 @@ public class WhenNfcBrickStageTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue("Read tag id does not match default value.", readTagId.getValue().equals(0.0));
-		Assert.assertTrue("Read tag message does not match default value.", readTagMessage.getValue().equals(0.0));
+		assertEquals("Read tag id does not match default value.", 0.0,
+				readTagId.getValue());
+		assertEquals("Read tag message does not match default value.", 0.0,
+				readTagMessage.getValue());
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 		assertUserVariableNotEqualsForTimeMs(numDetectedTags, 1.0, 2000);

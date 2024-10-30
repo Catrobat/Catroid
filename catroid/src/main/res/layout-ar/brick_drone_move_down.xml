@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -50,9 +50,7 @@
         <TextView
             android:id="@+id/brick_drone_move_down_edit_text_second"
             style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_newLine="true"
-            app:layout_textField="true" />
+            app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/brick_seconds_label"
@@ -66,14 +64,11 @@
         <TextView
             android:id="@+id/brick_drone_move_down_power"
             style="@style/BrickText.SingleLine"
-            android:paddingStart="5dip"
             android:text="@string/brick_drone_power" />
 
         <TextView
             android:id="@+id/brick_drone_move_down_edit_text_power"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_drone_move_down_percent"

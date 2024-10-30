@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,6 +78,12 @@ public class InternToken {
 		}
 	}
 
+	public void updateSensorTokens(String oldName, String newName) {
+		if (isSensor() && tokenStringValue.equals(oldName)) {
+			tokenStringValue = newName;
+		}
+	}
+
 	public boolean isNumber() {
 		return internTokenType == InternTokenType.NUMBER;
 	}
@@ -131,9 +137,11 @@ public class InternToken {
 	}
 
 	public void appendToTokenStringValue(List<InternToken> internTokensToAppend) {
+		StringBuilder stringBuilder = new StringBuilder(this.tokenStringValue);
 		for (InternToken internToken : internTokensToAppend) {
-			this.tokenStringValue += internToken.tokenStringValue;
+			stringBuilder.append(internToken.tokenStringValue);
 		}
+		this.tokenStringValue = stringBuilder.toString();
 	}
 
 	public InternTokenType getInternTokenType() {

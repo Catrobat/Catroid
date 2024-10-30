@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,9 +32,8 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +48,8 @@ import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
@@ -66,7 +67,7 @@ public class SpriteActivityTabsTest {
 
 	@Before
 	public void setUp() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
 		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("X"));
 		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();
@@ -109,8 +110,8 @@ public class SpriteActivityTabsTest {
 				.getSupportFragmentManager()
 				.findFragmentByTag(tag);
 
-		Assert.assertNotNull(fragment);
-		Assert.assertTrue(fragment.isVisible());
+		assertNotNull(fragment);
+		assertTrue(fragment.isVisible());
 	}
 
 	private void assertTabLayoutIsNotShown() {

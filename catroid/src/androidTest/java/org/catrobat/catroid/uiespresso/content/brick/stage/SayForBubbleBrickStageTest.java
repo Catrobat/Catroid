@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +35,8 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,11 +44,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertNotNull;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -68,7 +69,7 @@ public class SayForBubbleBrickStageTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("sayBubbleBrickTest");
+		createProject();
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -80,23 +81,19 @@ public class SayForBubbleBrickStageTest {
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		onView(isFocusable())
 				.perform(click());
+		onView(ViewMatchers.isRoot()).perform(CustomActions.wait(1000));
 		assertNotNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		lastBrickInScript.waitUntilEvaluated(3000);
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 	}
 
-	private void createProject(String projectName) {
-		String sayString = "say something";
-		float duration = 2f;
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new WhenTouchDownScript();
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+	private void createProject() {
+		Project project = UiTestUtils.createProjectWithCustomScript("sayBubbleBrickTest",
+				new WhenTouchDownScript());
+		Script script = UiTestUtils.getDefaultTestScript(project);
+		sprite = UiTestUtils.getDefaultTestSprite(project);
 
-		script.addBrick(new SayForBubbleBrick(sayString, duration));
+		script.addBrick(new SayForBubbleBrick("say something", 2f));
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
 		Script whenStarted = new StartScript();

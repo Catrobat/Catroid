@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -140,6 +140,83 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, firstParameterList, secondParameterList, "",
 				testScope);
+	}
+
+	@Test
+	public void testSubtext() {
+		String start = "3";
+		String end = "5";
+		String letterString = "hello world";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				letterString.substring(3 - 1, 5), testScope);
+
+		letterString = "Should work";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT, InternTokenType.NUMBER,
+				start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				letterString.substring(3 - 1, 5), testScope);
+
+		start = "3";
+		end = "2";
+		letterString = "Should not work";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				"", testScope);
+
+		start = "3";
+		end = "1000";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				"", testScope);
+
+		start = "1";
+		end = "16";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				"", testScope);
+
+		start = "1";
+		end = "15";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				letterString, testScope);
+
+		start = "1";
+		letterString = "AVeryLongWordWithNoSpaces";
+		end = "25";
+
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				letterString, testScope);
+
+		start = "1";
+		letterString = "A very long sentence with multiple spaces";
+		end = "41";
+
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT,
+				InternTokenType.NUMBER, start, InternTokenType.NUMBER, end,
+				InternTokenType.STRING, letterString,
+				letterString, testScope);
+
+		List<InternToken> firstParameterList =
+				FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "3",
+						Operators.PLUS, InternTokenType.STRING, "This");
+		List<InternToken> secondParameterList =
+				FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5",
+						Operators.PLUS, InternTokenType.STRING, "Shouldnt");
+		List<InternToken> thirdParameterList =
+				FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "0",
+						Operators.PLUS, InternTokenType.STRING, "Work");
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.SUBTEXT, firstParameterList,
+				secondParameterList, thirdParameterList,
+				"", testScope);
 	}
 
 	@Test

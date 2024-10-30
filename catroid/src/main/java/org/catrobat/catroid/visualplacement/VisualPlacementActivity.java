@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,12 +56,14 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
@@ -118,11 +121,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float relativeTextSize;
 	private float xOffsetText;
 	private float yOffsetText;
-
-	private float reversedRatioHeight;
-	private float reversedRatioWidth;
-	private int layoutWidth;
-	private int layoutHeight;
+	private Resolution layoutResolution;
 	private float layoutWidthRatio;
 	private float layoutHeightRatio;
 	private VisualPlacementTouchListener visualPlacementTouchListener;
@@ -148,7 +147,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(null);
+
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		if (isFinishing()) {
 			return;
@@ -188,50 +190,28 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		frameLayout = findViewById(R.id.frame_container);
 
-		int screenWidth = ScreenValues.SCREEN_WIDTH;
-		int screenHeight = ScreenValues.SCREEN_HEIGHT;
-		int virtualScreenWidth = currentProject.getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = currentProject.getXmlHeader().virtualScreenHeight;
-
-		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float screenAspectRatio = ScreenValues.getAspectRatio();
-
-		float scale;
-		float ratioHeight = (float) screenHeight / (float) virtualScreenHeight;
-		float ratioWidth = (float) screenWidth / (float) virtualScreenWidth;
+		Resolution projectResolution = new Resolution(
+				currentProject.getXmlHeader().virtualScreenWidth,
+				currentProject.getXmlHeader().virtualScreenHeight);
 
 		switch (currentProject.getScreenMode()) {
 			case MAXIMIZE:
-				if (aspectRatio < screenAspectRatio) {
-					scale = ratioHeight / ratioWidth;
-					layoutWidth = (int) (screenWidth * scale);
-					layoutHeight = screenHeight;
-				} else if (aspectRatio > screenAspectRatio) {
-					scale = ratioWidth / ratioHeight;
-					layoutHeight = (int) (screenHeight * scale);
-					layoutWidth = screenWidth;
-				} else {
-					layoutHeight = screenHeight;
-					layoutWidth = screenWidth;
-				}
+				layoutResolution = projectResolution.resizeToFit(ScreenValues.currentScreenResolution);
 				break;
 			case STRETCH:
-				layoutHeight = screenHeight;
-				layoutWidth = screenWidth;
+				layoutResolution = ScreenValues.currentScreenResolution;
 				break;
 		}
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = Gravity.CENTER;
-		layoutParams.width = layoutWidth;
-		layoutParams.height = layoutHeight;
+		layoutParams.width = layoutResolution.getWidth();
+		layoutParams.height = layoutResolution.getHeight();
 		frameLayout.setLayoutParams(layoutParams);
 
-		layoutHeightRatio = (float) layoutHeight / (float) virtualScreenHeight;
-		layoutWidthRatio = (float) layoutWidth / (float) virtualScreenWidth;
-		reversedRatioHeight = (float) virtualScreenHeight / (float) layoutHeight;
-		reversedRatioWidth = (float) virtualScreenWidth / (float) layoutWidth;
+		layoutHeightRatio = (float) layoutResolution.getHeight() / (float) projectResolution.getHeight();
+		layoutWidthRatio = (float) layoutResolution.getWidth() / (float) projectResolution.getWidth();
 
 		bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -273,13 +253,18 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				scaleX = currentSprite.look.getScaleX();
 				scaleY = currentSprite.look.getScaleY();
 				rotationMode = currentSprite.look.getRotationMode();
-				rotation = currentSprite.look.getDirectionInUserInterfaceDimensionUnit();
+				rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
 			} else if (currentSprite.getLookList().size() != 0) {
 				objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
 				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
 			} else {
-				visualPlacementBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pc_toolbar_icon);
+				Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.pc_toolbar_icon);
+
+				visualPlacementBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+				Canvas canvas = new Canvas(visualPlacementBitmap);
+				drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+				drawable.draw(canvas);
 			}
 		}
 
@@ -317,8 +302,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			imageView.setTranslationX(translateX);
 			imageView.setTranslationY(-translateY);
 		}
-		xCoord = translateX / reversedRatioWidth;
-		yCoord = translateY / reversedRatioHeight;
+		xCoord = translateX * layoutWidthRatio;
+		yCoord = translateY * layoutHeightRatio;
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);
@@ -386,8 +371,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public void onBackPressed() {
-		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
-		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
+		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		if (translateX != xCoordinate || translateY != yCoordinate) {
 			showSaveChangesDialog(this);
@@ -413,8 +398,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		Intent returnIntent = new Intent();
 		Bundle extras = new Bundle();
 		extras.putInt(EXTRA_BRICK_HASH, getIntent().getIntExtra(EXTRA_BRICK_HASH, -1));
-		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
-		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
+		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate);
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);

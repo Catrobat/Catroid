@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -396,31 +396,19 @@ public final class InternFormulaUtils {
 
 		InternTokenType firstInternTokenType = internTokens.get(0).getInternTokenType();
 
-		if (firstInternTokenType == InternTokenType.PERIOD) {
-			return true;
-		}
-
-		return false;
+		return firstInternTokenType == InternTokenType.PERIOD;
 	}
 
 	public static boolean isFunctionToken(List<InternToken> internTokens) {
 		InternTokenType firstInternTokenType = getFirstInternTokenType(internTokens);
 
-		if (firstInternTokenType != null && firstInternTokenType == InternTokenType.FUNCTION_NAME) {
-			return true;
-		}
-
-		return false;
+		return firstInternTokenType != null && firstInternTokenType == InternTokenType.FUNCTION_NAME;
 	}
 
 	public static boolean isNumberToken(List<InternToken> internTokens) {
 		InternTokenType firstInternTokenType = getFirstInternTokenType(internTokens);
 
-		if (firstInternTokenType != null && internTokens.size() <= 1 && firstInternTokenType == InternTokenType.NUMBER) {
-			return true;
-		}
-
-		return false;
+		return firstInternTokenType != null && internTokens.size() <= 1 && firstInternTokenType == InternTokenType.NUMBER;
 	}
 
 	public static List<InternToken> replaceFunctionByTokens(List<InternToken> functionToReplace,

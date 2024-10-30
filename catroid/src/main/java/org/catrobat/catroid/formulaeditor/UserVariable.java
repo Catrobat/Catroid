@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private int initialIndex = -1;
 	private UUID deviceValueKey;
 	private transient Object value;
 	private transient boolean visible = true;
@@ -55,6 +56,14 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = variable.name;
 		this.value = variable.value;
 		this.deviceValueKey = UUID.randomUUID();
+	}
+
+	public int getInitialIndex() {
+		return initialIndex;
+	}
+
+	public void setInitialIndex(int initialIndex) {
+		this.initialIndex = initialIndex;
 	}
 
 	@Override

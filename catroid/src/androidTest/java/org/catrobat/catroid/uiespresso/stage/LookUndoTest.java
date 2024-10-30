@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,18 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -49,14 +45,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -85,21 +80,20 @@ public class LookUndoTest {
 	private Matcher<Intent> expectedPaintNewLookIntent;
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
-	private final String spriteName = "testSprite (1)";
+	private final String spriteName = "testSprite";
 	private File imageFile;
-	private final File tmpDir = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
 
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-
 	@Before
 	public void setUp() throws Exception {
-		createProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		baseActivityTestRule.launchActivity();
 		Intents.init();
@@ -114,14 +108,10 @@ public class LookUndoTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpDir.exists()) {
-			tmpDir.mkdirs();
-		}
-
 		imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				tmpDir,
+				tmpFolder.getRoot(),
 				lookFileName,
 				1);
 
@@ -181,7 +171,7 @@ public class LookUndoTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
+				.check(matches(withText(lookFileName.replace(".png", ""))));
 
 		onView(withId(R.id.menu_undo)).perform(click()); // press undo
 
@@ -190,27 +180,10 @@ public class LookUndoTest {
 		onView(withId(R.id.menu_undo)).check(doesNotExist()); // undo shouldn't be visible
 	}
 
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite(spriteName);
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
-	}
-
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(projectName);
-		if (imageFile != null && imageFile.exists()) {
-			imageFile.delete();
-		}
-		if (tmpDir.exists()) {
-			tmpDir.delete();
-		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
@@ -71,9 +70,10 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionAdaptingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -86,6 +86,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -111,6 +112,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public static Handler messageHandler;
 	CameraManager cameraManager;
+	public VibrationManager vibrationManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
@@ -147,26 +149,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	private boolean isApplicationSentToBackground(final Context context) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-			List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
-			ComponentName topActivity = tasks.get(0).topActivity;
-			if (topActivity.getPackageName().equals(context.getPackageName())) {
-				return false;
-			}
-		} else {
-			List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
-			for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-				if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-					for (String activeProcess : processInfo.pkgList) {
-						if (activeProcess.equals(context.getPackageName())) {
-							return false;
-						}
+		List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+			if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+				for (String activeProcess : processInfo.pkgList) {
+					if (activeProcess.equals(context.getPackageName())) {
+						return false;
 					}
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -253,9 +245,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			}
 
 			TextToSpeechHolder.getInstance().deleteSpeechFiles();
-			if (VibrationUtil.isActive()) {
-				VibrationUtil.destroy();
-			}
 			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
@@ -273,15 +262,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		stageListener.finish();
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		if (service != null) {
 			service.pause();
-		}
-
-		if (VibrationUtil.isActive()) {
-			VibrationUtil.pauseVibration();
 		}
 
 		RaspberryPiService.getInstance().disconnect();
@@ -294,66 +279,35 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		return null;
 	}
 
-	public CameraManager getCameraManager() {
-		return cameraManager;
+	public static VibrationManager getActiveVibrationManager() {
+		if (activeStageActivity != null) {
+			return activeStageActivity.get().vibrationManager;
+		}
+		return null;
 	}
 
-	public boolean getResizePossible() {
+	public boolean isResizePossible() {
 		return resizePossible;
 	}
 
 	void calculateScreenSizes() {
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 
-		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
-				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
-			swapWidthAndHeight();
+		Resolution projectResolution = new Resolution(
+				ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth,
+				ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight);
+
+		ScreenValues.currentScreenResolution =
+				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
+
+		resizePossible = !ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution) &&
+				!ProjectManager.getInstance().getCurrentProject().isCastProject();
+
+		if (resizePossible) {
+			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));
+		} else {
+			stageListener.setMaxViewPort(ScreenValues.currentScreenResolution);
 		}
-
-		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float screenAspectRatio = ScreenValues.getAspectRatio();
-
-		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
-				|| Float.compare(screenAspectRatio, aspectRatio) == 0
-				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			resizePossible = false;
-			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
-			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
-			return;
-		}
-
-		resizePossible = true;
-
-		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
-		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
-
-		if (aspectRatio < screenAspectRatio) {
-			float scale = ratioHeight / ratioWidth;
-			stageListener.maxViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
-			stageListener.maxViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maxViewPortWidth) / 2f);
-			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
-		} else if (aspectRatio > screenAspectRatio) {
-			float scale = ratioWidth / ratioHeight;
-			stageListener.maxViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
-			stageListener.maxViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maxViewPortHeight) / 2f);
-			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
-		}
-	}
-
-	private boolean isInPortraitMode() {
-		return ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT;
-	}
-
-	private boolean isInLandscapeMode() {
-		return !isInPortraitMode();
-	}
-
-	private void swapWidthAndHeight() {
-		int tmp = ScreenValues.SCREEN_HEIGHT;
-		ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-		ScreenValues.SCREEN_WIDTH = tmp;
 	}
 
 	@Override

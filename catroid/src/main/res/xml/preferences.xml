@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -37,17 +37,33 @@
         android:summary="@string/preference_description_web_access"
         android:title="@string/preference_title_web_access" />
 
+    <PreferenceScreen
+        android:key="setting_ai_screen"
+        android:summary="@string/preference_description_ai"
+        android:title="@string/preference_title_ai" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_multiplayer_variables_enabled"
         android:summary="@string/preference_description_multiplayer_variables_enabled"
         android:title="@string/preference_title_multiplayer_variables_enabled" />
 
-    <CheckBoxPreference
-        android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
-        android:key="setting_embroidery_bricks"
+    <Preference
+        android:key="setting_embroidery_bricks_preference"
         android:summary="@string/preference_description_embroidery_bricks"
         android:title="@string/preference_title_enable_embroidery_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
+        android:key="setting_embroidery_bricks_checkbox_preference"
+        android:summary="@string/preference_description_embroidery_bricks"
+        android:title="@string/preference_title_enable_embroidery_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
+        android:key="setting_plot_bricks"
+        android:summary="@string/preference_description_plot_bricks"
+        android:title="@string/preference_title_enable_plot_bricks" />
 
     <PreferenceScreen
         android:key="setting_nxt_screen"
@@ -88,9 +104,14 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks" />
 
+    <Preference
+        android:key="setting_enable_phiro_bricks_preference"
+        android:summary="@string/preference_description_phiro_bricks"
+        android:title="@string/preference_title_enable_phiro_bricks" />
+
     <CheckBoxPreference
         android:defaultValue="@string/FEATURE_PHIRO_PREFERENCES_ENABLED"
-        android:key="setting_enable_phiro_bricks"
+        android:key="setting_enable_phiro_bricks_checkbox_preference"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 

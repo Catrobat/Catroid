@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,15 @@ public final class TouchUtil {
 		int index = currentlyTouchingPointersToTouchIndex.get(pointer);
 		isTouching.set(index, false);
 		currentlyTouchingPointersToTouchIndex.delete(pointer);
+	}
+
+	public static double isTouching() {
+		for (int i = 0; i < isTouching.size(); i++) {
+			if (isTouching.get(i)) {
+				return 1d;
+			}
+		}
+		return 0d;
 	}
 
 	public static boolean isFingerTouching(int index) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
@@ -49,16 +50,22 @@ import java.io.IOException;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.io.ResourceImporter.createImageFileFromResourcesInDirectory;
+import static org.catrobat.catroid.io.ResourceImporter.createSoundFileFromResourcesInDirectory;
+import static org.catrobat.catroid.io.StorageOperations.deleteDir;
 import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneControllerTest {
@@ -66,6 +73,7 @@ public class SceneControllerTest {
 	private Project project;
 	private Scene scene;
 	private BackpackListManager backpackListManager;
+	private final String newName = "new Scene Name";
 
 	@Before
 	public void setUp() throws IOException {
@@ -83,7 +91,6 @@ public class SceneControllerTest {
 	@Test
 	public void testRenameScene() {
 		String previousName = scene.getName();
-		String newName = "new Scene Name";
 
 		SceneController controller = new SceneController();
 		controller.rename(scene, newName);
@@ -104,25 +111,33 @@ public class SceneControllerTest {
 		assertEquals(scene.getSpriteList().size(), copy.getSpriteList().size());
 
 		for (int i = 0; i < copy.getSpriteList().size(); i++) {
-			assertEquals(
-					scene.getSpriteList().get(i).getLookList().size(),
-					copy.getSpriteList().get(i).getLookList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getSoundList().size(),
-					copy.getSpriteList().get(i).getSoundList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfScripts(),
-					copy.getSpriteList().get(i).getNumberOfScripts());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfBricks(),
-					copy.getSpriteList().get(i).getNumberOfBricks());
+			assertEquals(scene.getSpriteList().get(i).getLookList().size(), copy.getSpriteList().get(i).getLookList().size());
+			assertEquals(scene.getSpriteList().get(i).getSoundList().size(), copy.getSpriteList().get(i).getSoundList().size());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfScripts(), copy.getSpriteList().get(i).getNumberOfScripts());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfBricks(), copy.getSpriteList().get(i).getNumberOfBricks());
 		}
 
+		assertScreenshotFileExistsInScene(SCREENSHOT_AUTOMATIC_FILE_NAME, copy);
 		assertLookFileExistsInScene(copy.getSpriteList().get(1).getLookList().get(0).getFile().getName(), copy);
 		assertSoundFileExistsInScene(copy.getSpriteList().get(1).getSoundList().get(0).getFile().getName(), copy);
+	}
+
+	@Test
+	public void testCopySceneWithManualScreenshot() throws IOException {
+		createImageFileFromResourcesInDirectory(
+				getInstrumentation().getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.icon,
+				new File(scene.getDirectory().getPath()),
+				SCREENSHOT_MANUAL_FILE_NAME,
+				1);
+
+		XstreamSerializer.getInstance().saveProject(project);
+
+		SceneController controller = new SceneController();
+		Scene copy = controller.copy(scene, project);
+
+		assertScreenshotFileExistsInScene(SCREENSHOT_MANUAL_FILE_NAME, copy);
+		assertFileDoesNotExist(new File(copy.getDirectory(), SCREENSHOT_AUTOMATIC_FILE_NAME));
 	}
 
 	@Test
@@ -132,8 +147,22 @@ public class SceneControllerTest {
 
 		controller.delete(scene);
 
-		assertEquals(1, project.getSceneList().size());
+		assertEquals(0, project.getSceneList().size());
+
 		assertFileDoesNotExist(deletedSceneDirectory);
+	}
+
+	@Test
+	public void testDeleteAfterRenameScene() throws IOException {
+		SceneController controller = new SceneController();
+		Scene sceneToRename = new Scene("Scene To Rename", project);
+		project.addScene(sceneToRename);
+		XstreamSerializer.getInstance().saveProject(project);
+		File renamedSceneDirectory = sceneToRename.getDirectory();
+		controller.rename(sceneToRename, newName);
+		controller.delete(sceneToRename);
+		assertEquals(1, project.getSceneList().size());
+		assertFileDoesNotExist(renamedSceneDirectory);
 	}
 
 	@Test
@@ -143,37 +172,21 @@ public class SceneControllerTest {
 
 		assertEquals(0, BackpackListManager.getInstance().getScenes().size());
 
-		assertEquals(new File(backpackListManager.backpackSceneDirectory, packedScene.getName()),
-				packedScene.getDirectory());
+		assertEquals(new File(backpackListManager.backpackSceneDirectory, packedScene.getName()), packedScene.getDirectory());
 		assertFileExists(packedScene.getDirectory());
 
 		assertEquals(scene.getSpriteList().size(), packedScene.getSpriteList().size());
 
 		for (int i = 0; i < packedScene.getSpriteList().size(); i++) {
-			assertEquals(
-					scene.getSpriteList().get(i).getLookList().size(),
-					packedScene.getSpriteList().get(i).getLookList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getSoundList().size(),
-					packedScene.getSpriteList().get(i).getSoundList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfScripts(),
-					packedScene.getSpriteList().get(i).getNumberOfScripts());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfBricks(),
-					packedScene.getSpriteList().get(i).getNumberOfBricks());
+			assertEquals(scene.getSpriteList().get(i).getLookList().size(), packedScene.getSpriteList().get(i).getLookList().size());
+			assertEquals(scene.getSpriteList().get(i).getSoundList().size(), packedScene.getSpriteList().get(i).getSoundList().size());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfScripts(), packedScene.getSpriteList().get(i).getNumberOfScripts());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfBricks(), packedScene.getSpriteList().get(i).getNumberOfBricks());
 		}
 
-		assertLookFileExistsInScene(
-				packedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(),
-				packedScene);
-
-		assertSoundFileExistsInScene(
-				packedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(),
-				packedScene);
+		assertScreenshotFileExistsInScene(SCREENSHOT_AUTOMATIC_FILE_NAME, packedScene);
+		assertLookFileExistsInScene(packedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(), packedScene);
+		assertSoundFileExistsInScene(packedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(), packedScene);
 	}
 
 	@Test
@@ -190,30 +203,19 @@ public class SceneControllerTest {
 		assertEquals(scene.getSpriteList().size(), unpackedScene.getSpriteList().size());
 
 		for (int i = 0; i < unpackedScene.getSpriteList().size(); i++) {
-			assertEquals(
-					scene.getSpriteList().get(i).getLookList().size(),
-					unpackedScene.getSpriteList().get(i).getLookList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getSoundList().size(),
-					unpackedScene.getSpriteList().get(i).getSoundList().size());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfScripts(),
-					unpackedScene.getSpriteList().get(i).getNumberOfScripts());
-
-			assertEquals(
-					scene.getSpriteList().get(i).getNumberOfBricks(),
-					unpackedScene.getSpriteList().get(i).getNumberOfBricks());
+			assertEquals(scene.getSpriteList().get(i).getLookList().size(), unpackedScene.getSpriteList().get(i).getLookList().size());
+			assertEquals(scene.getSpriteList().get(i).getSoundList().size(), unpackedScene.getSpriteList().get(i).getSoundList().size());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfScripts(), unpackedScene.getSpriteList().get(i).getNumberOfScripts());
+			assertEquals(scene.getSpriteList().get(i).getNumberOfBricks(), unpackedScene.getSpriteList().get(i).getNumberOfBricks());
 		}
 
-		assertLookFileExistsInScene(
-				unpackedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(),
-				unpackedScene);
+		assertScreenshotFileExistsInScene(SCREENSHOT_AUTOMATIC_FILE_NAME, unpackedScene);
+		assertLookFileExistsInScene(unpackedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(), unpackedScene);
+		assertSoundFileExistsInScene(unpackedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(), unpackedScene);
+	}
 
-		assertSoundFileExistsInScene(
-				unpackedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(),
-				unpackedScene);
+	private void assertScreenshotFileExistsInScene(String fileName, Scene scene) {
+		assertFileExists(new File(scene.getDirectory(), fileName));
 	}
 
 	private void assertLookFileExistsInScene(String fileName, Scene scene) {
@@ -240,12 +242,22 @@ public class SceneControllerTest {
 		StartScript script = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);
 		script.addBrick(placeAtBrick);
+		script.addBrick(new HideTextBrick());
+		script.addBrick(new AddItemToUserListBrick());
+		script.addBrick(new AssertUserListsBrick());
 		sprite.addScript(script);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
+		createImageFileFromResourcesInDirectory(
+				getInstrumentation().getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.icon,
+				new File(scene.getDirectory().getPath()),
+				SCREENSHOT_AUTOMATIC_FILE_NAME,
+				1);
+
+		File imageFile = createImageFileFromResourcesInDirectory(
+				getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.red_image,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				"red_image.png",
@@ -253,8 +265,8 @@ public class SceneControllerTest {
 
 		sprite.getLookList().add(new LookData("testLook", imageFile));
 
-		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
+		File soundFile = createSoundFileFromResourcesInDirectory(
+				getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
@@ -266,7 +278,7 @@ public class SceneControllerTest {
 
 	private void deleteProject() throws IOException {
 		if (project.getDirectory().exists()) {
-			StorageOperations.deleteDir(project.getDirectory());
+			deleteDir(project.getDirectory());
 		}
 	}
 }

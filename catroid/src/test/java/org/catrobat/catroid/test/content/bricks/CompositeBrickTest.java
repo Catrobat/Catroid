@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertNull;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -83,6 +84,7 @@ public class CompositeBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		compositeBrick = compositeBrickClass.newInstance();
 		List<Brick> compositeBrickParts = compositeBrick.getAllParts();
 		compositeEndBrick = compositeBrickParts.get(compositeBrickParts.size() - 1);

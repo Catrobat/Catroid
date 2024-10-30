@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,12 +39,12 @@ public class SetRotationStyleAction extends TemporalAction {
 		if (mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped()) {
 			sprite.look.getLookData().getTextureRegion().flip(true, false);
 		}
-		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean orientedLeft = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit() < 0;
 		if (mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
 			sprite.look.getLookData().getTextureRegion().flip(true, false);
 		}
 
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	public void setSprite(Sprite sprite) {

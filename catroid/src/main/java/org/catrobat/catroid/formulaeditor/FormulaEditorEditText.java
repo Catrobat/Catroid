@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.util.List;
 import java.util.Map;
 
 @SuppressLint("AppCompatCustomView")
@@ -52,7 +53,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
 	private Context context;
-	private Paint paint = new Paint();
+	private final Paint paint = new Paint();
 
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
@@ -81,10 +82,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				int numberOfVisibleLines = (int) (getHeight() / lineHeight);
 
 				if (yCoordinate <= lineHeight - firstLineSize) {
-
 					scrollBy(0, (int) (initialScrollY > lineHeight ? -1 * (firstLineSize + lineHeight / 2) : -1
 							* firstLineSize));
-					cursorY = 0;
 				} else if (yCoordinate >= numberOfVisibleLines * lineHeight - lineHeight / 2) {
 					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
 						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
@@ -131,8 +130,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		}
 	});
 
-	private boolean doNotMoveCursorOnTab = false;
-
 	public FormulaEditorEditText(Context context) {
 		super(context);
 		this.context = context;
@@ -143,6 +140,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.context = context;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	public void init(FormulaEditorFragment formulaEditorFragment) {
 		this.formulaEditorFragment = formulaEditorFragment;
 		this.setOnTouchListener(this);
@@ -150,6 +148,28 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
 		cursorAnimation.run();
+	}
+
+	public List<InternToken> getSelectedTokens() {
+		return internFormula.getSelectedTokenForCopy();
+	}
+
+	private void pushToHistoryAndRefreshPreviewString() {
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public void addTokens(List<InternToken> tokens) {
+		internFormula.addTokens(context, tokens);
+		pushToHistoryAndRefreshPreviewString();
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
 	}
 
 	public void enterNewFormula(UndoState state) {
@@ -200,7 +220,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
 	}
 
-	private Runnable cursorAnimation = new Runnable() {
+	private final Runnable cursorAnimation = new Runnable() {
 		@Override
 		public void run() {
 			paint.setColor((paint.getColor() == 0x00000000) ? 0xff000000 : 0x00000000);
@@ -258,11 +278,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void handleKeyEvent(int resource, String name) {
 		internFormula.handleKeyInput(resource, context, name);
-		history.push(new UndoState(internFormula.getInternFormulaState(),
-				formulaEditorFragment.getCurrentBrickField()));
-		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+		pushToHistoryAndRefreshPreviewString();
 	}
 
 	public String getStringFromInternFormula() {
@@ -279,11 +295,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void overrideSelectedText(String string) {
 		internFormula.overrideSelectedText(string, context);
-		history.push(new UndoState(internFormula.getInternFormulaState(),
-				formulaEditorFragment.getCurrentBrickField()));
-		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+		pushToHistoryAndRefreshPreviewString();
 	}
 
 	public boolean hasChanges() {
@@ -338,7 +350,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
-		setText(newExternFormulaString);
+		setText(
+				FormulaSpannableStringBuilder.buildSpannableFormulaString(context,
+						newExternFormulaString, getTextSize()));
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
@@ -364,7 +378,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	public boolean isDoNotMoveCursorOnTab() {
-		return doNotMoveCursorOnTab;
+		return false;
 	}
 
 	public FormulaEditorHistory getHistory() {
@@ -372,6 +386,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	public boolean isThereSomethingToDelete() {
+		if (internFormula == null) {
+			return false;
+		}
 		return internFormula.isThereSomethingToDelete();
 	}
 
@@ -382,5 +399,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
 		internFormula.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
 		highlightSelection();
+	}
+
+	public InternFormula getInternFormula() {
+		return internFormula;
 	}
 }

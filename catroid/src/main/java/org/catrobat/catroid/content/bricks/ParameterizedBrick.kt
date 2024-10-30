@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -134,7 +134,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         val repeatSequence =
             ActionFactory.createScriptSequenceAction(sequence.script) as ScriptSequenceAction
-        val isLoopDelay = checkLoopBrickForLoopDelay(this)
+        val isLoopDelay = checkLoopBrickForLoopDelay(this, sequence.script)
         loopBricks.filterNot { brick -> brick.isCommentedOut }.forEach {
             it.addActionToSequence(sprite, repeatSequence)
         }

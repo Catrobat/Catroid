@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -38,12 +38,12 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_turn_layout"
-        style="@style/BrickContainer.Lego.Small">
+        style="@style/BrickContainer.Lego.Big">
 
         <include layout="@layout/icon_brick_category_legonxt" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_brick_motor_turn_angle">
         </TextView>
 
@@ -54,18 +54,13 @@
             android:textDirection="locale" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_motor_move_by"
             app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/motor_turn_angle_edit_text"
-            style="@style/BrickEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="5"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText"

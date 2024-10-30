@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,11 +45,11 @@ import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
-import org.catrobat.catroid.utils.ToastUtil
-import java.util.ArrayList
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
+import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil
 
 class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
@@ -116,6 +116,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         super.onResume()
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+        BottomBar.hideAiAssistButton(activity)
     }
 
     override fun onStop() {
@@ -230,22 +231,13 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         updateTitle()
     }
 
-    override fun onItemClick(item: UserData<*>) {
+    override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         adapter?.toggleSelection(item)
         updateTitle()
     }
 
-    override fun onItemLongClick(item: UserData<*>, holder: CheckableVH) {
-        val items = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(requireActivity())
-            .setItems(items) { dialog, which ->
-                when (which) {
-                    0 -> showDeleteAlert(listOf(item))
-                    1 -> showRenameDialog(listOf(item))
-                    else -> dialog.dismiss()
-                }
-            }
-            .show()
+    override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
+        onItemClick(item, null)
     }
 
     interface ListSelectorInterface {
@@ -275,5 +267,30 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
             listSelectorFragment.preSelection = selectorBrick.userLists
         }
+    }
+
+    override fun onSettingsClick(item: UserData<*>, view: View?) {
+        val itemList: MutableList<UserData<*>> = ArrayList()
+        itemList.add(item)
+        val hiddenOptionMenuIds = intArrayOf(
+                R.id.backpack,
+                R.id.copy,
+                R.id.new_group,
+                R.id.new_scene,
+                R.id.show_details,
+                R.id.project_options,
+                R.id.from_library,
+                R.id.from_local
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
+            .menu_project_activity, hiddenOptionMenuIds)
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.rename -> showRenameDialog(listOf(item))
+                R.id.delete -> showDeleteAlert(listOf(item))
+            }
+            true
+        }
+        popupMenu.show()
     }
 }

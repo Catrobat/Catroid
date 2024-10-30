@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import org.catrobat.catroid.utils.EnumUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -43,6 +42,8 @@ public class Formula implements Serializable {
 	private FormulaElement formulaTree;
 
 	private transient InternFormula internFormula = null;
+
+	private boolean sceneFirstStart = false;
 
 	public Formula(FormulaElement formulaElement) {
 		formulaTree = formulaElement;
@@ -79,6 +80,10 @@ public class Formula implements Serializable {
 		}
 	}
 
+	public FormulaElement getFormulaTree() {
+		return formulaTree;
+	}
+
 	private void init(ElementType number, String s) {
 		formulaTree = new FormulaElement(number, s, null);
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
@@ -92,7 +97,13 @@ public class Formula implements Serializable {
 
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
-		formulaTree.updateCollisionFormula(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.COLLISION_FORMULA);
+	}
+
+	public void flattenAllLists() {
+		formulaTree.insertFlattenForAllUserLists(formulaTree, null);
+		formulaTree = formulaTree.getRoot();
+		internFormula.setInternTokenFormulaList(formulaTree.getInternTokenList());
 	}
 
 	public void updateCollisionFormulasToVersion() {
@@ -100,14 +111,21 @@ public class Formula implements Serializable {
 		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
 	}
 
+	public void updateDirectionPropertyToVersion() {
+		String oldName = "OBJECT_ROTATION";
+		String newName = "MOTION_DIRECTION";
+		internFormula.updateSensorTokens(oldName, newName, CatroidApplication.getAppContext());
+		formulaTree.updateElementByName(oldName, newName, ElementType.SENSOR);
+	}
+
 	public void updateVariableName(String oldName, String newName) {
 		internFormula.updateVariableReferences(oldName, newName, CatroidApplication.getAppContext());
-		formulaTree.updateVariableReferences(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.USER_VARIABLE);
 	}
 
 	public void updateUserlistName(String oldName, String newName) {
 		internFormula.updateListReferences(oldName, newName, CatroidApplication.getAppContext());
-		formulaTree.updateListName(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.USER_LIST);
 	}
 
 	public boolean containsSpriteInCollision(String name) {
@@ -118,18 +136,14 @@ public class Formula implements Serializable {
 		return interpretDouble(scope).intValue();
 	}
 
-	@NotNull
-	private String tryInterpretDouble(Scope scope) {
-		try {
-			return String.valueOf(interpretDouble(scope));
-		} catch (InterpretationException interpretationException) {
-			return ERROR_STRING;
-		}
-	}
-
 	public Double interpretDouble(Scope scope) throws InterpretationException {
 		try {
-			return assertNotNaN(interpretDoubleInternal(scope));
+			if (sceneFirstStart) {
+				sceneFirstStart = false;
+				return 0.0;
+			} else {
+				return assertNotNaN(interpretDoubleInternal(scope));
+			}
 		} catch (ClassCastException | NumberFormatException exception) {
 			throw new InterpretationException("Couldn't interpret Formula.", exception);
 		}
@@ -211,44 +225,12 @@ public class Formula implements Serializable {
 		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
-	public String getResultForComputeDialog(StringProvider stringProvider, Scope scope) {
-		ElementType type = formulaTree.getElementType();
-
-		if (formulaTree.isLogicalOperator()) {
+	public String getUserFriendlyString(StringProvider stringProvider, Scope scope) {
+		if (formulaTree.isBoolean(scope)) {
 			return tryInterpretBooleanToString(stringProvider, scope);
-		} else if (isStringInterpretableType(type, formulaTree.getValue())) {
+		} else {
 			return tryInterpretString(scope);
-		} else if (isVariableWithTypeString(scope)) {
-			return interpretUserVariable(scope);
-		} else {
-			return tryInterpretDouble(scope);
 		}
-	}
-
-	private boolean isStringInterpretableType(ElementType type, String formulaValue) {
-		return type == ElementType.STRING
-				|| type == ElementType.SENSOR
-				|| type == ElementType.FUNCTION && isInterpretableFunction(formulaValue);
-	}
-
-	private boolean isInterpretableFunction(String formulaValue) {
-		Functions function = EnumUtils.getEnum(Functions.class, formulaValue);
-		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.JOIN3 || function == Functions.REGEX;
-	}
-
-	private boolean isVariableWithTypeString(Scope scope) {
-		if (formulaTree.getElementType() == ElementType.USER_VARIABLE) {
-			UserVariable userVariable = UserDataWrapper.getUserVariable(formulaTree.getValue(), scope);
-			return userVariable.getValue() instanceof String;
-		} else {
-			return false;
-		}
-	}
-
-	private String interpretUserVariable(Scope scope) {
-		UserVariable userVariable = UserDataWrapper
-				.getUserVariable(formulaTree.getValue(), scope);
-		return (String) userVariable.getValue();
 	}
 
 	private String tryInterpretString(Scope scope) {
@@ -278,11 +260,14 @@ public class Formula implements Serializable {
 	}
 
 	private String toLocalizedString(boolean value, StringProvider stringProvider) {
-		return value ? stringProvider.getTrue() : stringProvider.getFalse();
+		return stringProvider.getTrueOrFalse(value);
 	}
 
 	public interface StringProvider {
-		String getTrue();
-		String getFalse();
+		String getTrueOrFalse(Boolean value);
+	}
+
+	public void sceneFirstStart(boolean sceneFirstStart) {
+		this.sceneFirstStart = sceneFirstStart;
 	}
 }

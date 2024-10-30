@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -296,6 +296,7 @@ public abstract class BrickBaseType implements Brick {
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getSecondaryNestedBricks().addAll(index, bricksToAdd);
+				return true;
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {
 				return true;

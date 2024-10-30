@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,21 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,7 +47,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -84,14 +84,12 @@ public class StageSimpleTest {
 	}
 
 	public Project createProjectWithBlueSprite(String projectName) throws IOException {
-		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
+		ScreenValues.currentScreenResolution = new Resolution(PROJECT_WIDTH, PROJECT_HEIGHT);
 
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 
-		// blue Sprite
-		Sprite blueSprite = new Sprite("blueSprite");
-		StartScript blueStartScript = new StartScript();
+		Sprite blueSprite = UiTestUtils.getDefaultTestSprite(project);
+		Script blueStartScript = UiTestUtils.getDefaultTestScript(project);
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
@@ -101,9 +99,6 @@ public class StageSimpleTest {
 
 		blueStartScript.addBrick(new PlaceAtBrick(0, 0));
 		blueStartScript.addBrick(new SetSizeToBrick(5000));
-		blueSprite.addScript(blueStartScript);
-
-		project.getDefaultScene().addSprite(blueSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
@@ -117,8 +112,6 @@ public class StageSimpleTest {
 		blueLookData.setFile(blueImageFile);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(blueSprite);
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
 
 		return project;

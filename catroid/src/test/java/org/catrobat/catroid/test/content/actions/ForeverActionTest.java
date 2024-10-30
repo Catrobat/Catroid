@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -30,8 +32,11 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mockito;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class ForeverActionTest {
@@ -40,6 +45,10 @@ public class ForeverActionTest {
 
 	@Test
 	public void testLoopDelay() {
+		initializeStaticSingletonMethods();
+		Project project = Mockito.mock(Project.class);
+		ProjectManager.getInstance().setCurrentProject(project);
+		Mockito.doReturn(null).when(project).getSpriteListWithClones();
 		int deltaY = -10;
 
 		Sprite sprite = new Sprite("testSprite");

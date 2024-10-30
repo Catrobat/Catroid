@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,7 +86,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
-		if (stageActivity.getResizePossible()) {
+		if (stageActivity.isResizePossible()) {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
@@ -148,7 +148,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			String filename =
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(ProjectManager.getInstance().getCurrentProject().getName());
 			DSTFileGenerator dstFileGenerator = new DSTFileGenerator(stageListener.embroideryPatternManager.getEmbroideryStream());
-			File dstFile = new File(Constants.CACHE_DIR, filename + Constants.EMBROIDERY_FILE_EXTENSION);
+			File dstFile = new File(Constants.CACHE_DIRECTORY, filename + Constants.EMBROIDERY_FILE_EXTENSION);
 			if (dstFile.exists()) {
 				dstFile.delete();
 			}

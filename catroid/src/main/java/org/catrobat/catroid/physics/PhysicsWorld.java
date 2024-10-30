@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ public class PhysicsWorld {
 	private PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 	public PhysicsWorld() {
-		this(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		this(ScreenValues.currentScreenResolution.getWidth(), ScreenValues.currentScreenResolution.getHeight());
 	}
 
 	public PhysicsWorld(int width, int height) {

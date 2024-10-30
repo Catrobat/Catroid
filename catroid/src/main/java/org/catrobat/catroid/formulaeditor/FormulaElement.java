@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.ObjectDetectorFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TernaryFunction;
 import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
@@ -59,6 +60,7 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
 
+import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_OPEN;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.COLLISION_FORMULA;
@@ -111,8 +113,14 @@ public class FormulaElement implements Serializable {
 
 	protected FormulaElement() {
 		textBlockFunctionProvider = new TextBlockFunctionProvider();
-		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider(), textBlockFunctionProvider);
+		List<FunctionProvider> functionProviders = Arrays.asList(
+				new ArduinoFunctionProvider(),
+				new RaspiFunctionProvider(),
+				new MathFunctionProvider(),
+				new TouchFunctionProvider(),
+				textBlockFunctionProvider,
+				new ObjectDetectorFunctionProvider()
+		);
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);
@@ -260,35 +268,23 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public void updateVariableReferences(String oldName, String newName) {
-		tryUpdateVariableReference(leftChild, oldName, newName);
-		tryUpdateVariableReference(rightChild, oldName, newName);
+	public void updateElementByName(String oldName, String newName, ElementType type) {
+		tryUpdateElementByName(leftChild, oldName, newName, type);
+		tryUpdateElementByName(rightChild, oldName, newName, type);
 
 		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
+			tryUpdateElementByName(child, oldName, newName, type);
 		}
 
-		if (matchesTypeAndName(ElementType.USER_VARIABLE, oldName)) {
+		if (matchesTypeAndName(type, oldName)) {
 			value = newName;
 		}
 	}
 
-	public void updateListName(String oldName, String newName) {
-		tryUpdateVariableReference(leftChild, oldName, newName);
-		tryUpdateVariableReference(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
-		}
-
-		if (matchesTypeAndName(ElementType.USER_LIST, oldName)) {
-			value = newName;
-		}
-	}
-
-	private void tryUpdateVariableReference(FormulaElement element, String oldName, String newName) {
+	private void tryUpdateElementByName(FormulaElement element, String oldName, String newName,
+			ElementType type) {
 		if (element != null) {
-			element.updateVariableReferences(oldName, newName);
+			element.updateElementByName(oldName, newName, type);
 		}
 	}
 
@@ -308,27 +304,68 @@ public class FormulaElement implements Serializable {
 		return element != null && element.containsSpriteInCollision(name);
 	}
 
-	public final void updateCollisionFormula(String oldName, String newName) {
-		tryUpdateCollisionFormula(leftChild, oldName, newName);
-		tryUpdateCollisionFormula(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateCollisionFormula(child, oldName, newName);
+	public final void insertFlattenForAllUserLists(FormulaElement element, FormulaElement parent) {
+		if (element.leftChild != null) {
+			insertFlattenForAllUserLists(element.leftChild, element);
 		}
-
-		if (matchesTypeAndName(ElementType.COLLISION_FORMULA, oldName)) {
-			value = newName;
+		if (element.rightChild != null) {
+			insertFlattenForAllUserLists(element.rightChild, element);
+		}
+		for (FormulaElement child : element.additionalChildren) {
+			if (child != null) {
+				insertFlattenForAllUserLists(child, element);
+			}
+		}
+		if (element.type == ElementType.USER_LIST && isNotUserListFunction(parent)) {
+			insertFlattenBetweenParentAndElement(parent, element);
 		}
 	}
 
-	private boolean matchesTypeAndName(ElementType collisionFormula, String name) {
-		return type == collisionFormula && value.equals(name);
+	public boolean isNotUserListFunction(FormulaElement element) {
+		return element == null
+				|| element.type != ElementType.FUNCTION
+				|| (!element.value.equals(Functions.CONTAINS.name())
+				&& !element.value.equals(Functions.NUMBER_OF_ITEMS.name())
+				&& !element.value.equals(Functions.LIST_ITEM.name())
+				&& !element.value.equals(Functions.INDEX_OF_ITEM.name())
+				&& !element.value.equals(Functions.FLATTEN.name()));
 	}
 
-	private void tryUpdateCollisionFormula(FormulaElement element, String oldName, String newName) {
-		if (element != null) {
-			element.updateCollisionFormula(oldName, newName);
+	public void insertFlattenBetweenParentAndElement(FormulaElement parent,
+			FormulaElement element) {
+		FormulaElement flatten = new FormulaElement(ElementType.FUNCTION,
+				Functions.FLATTEN.name(), parent);
+		insertElementBeforeChildInFormulaTree(parent, element, flatten);
+	}
+
+	private void insertElementBeforeChildInFormulaTree(FormulaElement parent, FormulaElement child,
+			FormulaElement elementToInsert) {
+		if (child == null || elementToInsert == null) {
+			return;
 		}
+
+		child.parent = elementToInsert;
+		elementToInsert.setLeftChild(child);
+
+		if (parent == null) {
+			return;
+		}
+
+		if (parent.leftChild == child) {
+			parent.leftChild = elementToInsert;
+		} else if (parent.rightChild == child) {
+			parent.rightChild = elementToInsert;
+		} else {
+			for (int i = 0; i < parent.additionalChildren.size(); i++) {
+				if (parent.additionalChildren.get(i) == child) {
+					parent.additionalChildren.set(i, elementToInsert);
+				}
+			}
+		}
+	}
+
+	private boolean matchesTypeAndName(ElementType queriedType, String name) {
+		return type == queriedType && value.equals(name);
 	}
 
 	public void updateCollisionFormulaToVersion(Project currentProject) {
@@ -417,6 +454,9 @@ public class FormulaElement implements Serializable {
 		switch (function) {
 			case LETTER:
 				return interpretFunctionLetter(arguments.get(0), arguments.get(1));
+			case SUBTEXT:
+				return interpretFunctionSubtext(arguments.get(0), arguments.get(1),
+						arguments.get(2));
 			case LENGTH:
 				return interpretFunctionLength(arguments.get(0), scope);
 			case JOIN:
@@ -450,7 +490,7 @@ public class FormulaElement implements Serializable {
 				return textBlockFunctionProvider.interpretFunctionTextBlockLanguage(Double.parseDouble(arguments.get(0).toString()));
 			case COLOR_EQUALS_COLOR:
 				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
-								arguments.get(2)));
+						arguments.get(2)));
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}
@@ -475,6 +515,12 @@ public class FormulaElement implements Serializable {
 		}
 		if (argumentsDouble.size() == 2) {
 			return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1));
+		}
+		if (argumentsDouble.size() == 3 && argumentsDouble.get(0) != null && function == IF_THEN_ELSE) {
+			Double ifCondition = argumentsDouble.get(0);
+			Object thenPart = (arguments.get(1) instanceof String) ? arguments.get(1) : argumentsDouble.get(1);
+			Object elsePart = (arguments.get(2) instanceof String) ? arguments.get(2) : argumentsDouble.get(2);
+			return interpretFunctionIfThenElseObject(ifCondition, thenPart, elsePart);
 		}
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
 	}
@@ -547,14 +593,14 @@ public class FormulaElement implements Serializable {
 
 	private static String interpretFunctionJoin(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild) {
-		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
-				scope);
+		return interpretFunctionString(leftChild, scope).concat(interpretFunctionString(rightChild,
+				scope));
 	}
 
 	private static String interpretFunctionJoin3(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
-		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
-				scope) + interpretFunctionString(additionalChildren.get(0), scope);
+		return interpretFunctionString(leftChild, scope).concat(interpretFunctionString(rightChild,
+				scope).concat(interpretFunctionString(additionalChildren.get(0), scope)));
 	}
 
 	private static String interpretFunctionFlatten(Scope scope, FormulaElement leftChild) {
@@ -638,7 +684,9 @@ public class FormulaElement implements Serializable {
 		if (userVariableValue instanceof String) {
 			return String.valueOf(userVariableValue).length();
 		} else {
-			if (isInteger((Double) userVariableValue)) {
+			if (userVariableValue.toString().equals("true") || userVariableValue.toString().equals("false")) {
+				return 1;
+			} else if (isInteger((Double) userVariableValue)) {
 				return Integer.toString(((Double) userVariableValue).intValue()).length();
 			} else {
 				return Double.toString(((Double) userVariableValue)).length();
@@ -682,6 +730,23 @@ public class FormulaElement implements Serializable {
 		return String.valueOf(stringValueOfRight.charAt(index));
 	}
 
+	private Object interpretFunctionSubtext(Object leftChild,
+			Object rightChild, Object string) {
+		if (leftChild == null || rightChild == null) {
+			return "";
+		}
+
+		int start = tryParseIntFromObject(leftChild) - 1;
+		int end = tryParseIntFromObject(rightChild);
+		String stringValueOfString = String.valueOf(string);
+
+		if (start < 0 || end < 0 || start > end || end > stringValueOfString.length()) {
+			return "";
+		}
+
+		return stringValueOfString.substring(start, end);
+	}
+
 	private double interpretFunctionRand(double from, double to) {
 		double low = Math.min(from, to);
 		double high = Math.max(from, to);
@@ -696,6 +761,17 @@ public class FormulaElement implements Serializable {
 		} else {
 			return (Math.random() * (high - low)) + low;
 		}
+	}
+
+	private Object interpretFunctionIfThenElseObject(Double condition, Object thenValue,
+			Object elseValue) {
+		if (Double.isNaN(condition)) {
+			return Double.NaN;
+		}
+		if (condition != 0) {
+			return thenValue;
+		}
+		return elseValue;
 	}
 
 	private double interpretFunctionIfThenElse(double condition, double thenValue, double elseValue) {
@@ -861,8 +937,48 @@ public class FormulaElement implements Serializable {
 		cloneThis.parent.rightChild = cloneThis;
 	}
 
-	public boolean isLogicalOperator() {
-		return (type == ElementType.OPERATOR) && Operators.getOperatorByValue(value).isLogicalOperator;
+	public boolean isBoolean(Scope scope) {
+		if (type == ElementType.USER_VARIABLE) {
+			return isUserVariableBoolean(scope);
+		} else if (type == ElementType.USER_LIST) {
+			return isUserListBoolean(scope);
+		} else if (type == ElementType.USER_DEFINED_BRICK_INPUT) {
+			return isUserDefinedBrickInputBoolean(scope);
+		} else {
+			return isOtherBooleanFormulaElement();
+		}
+	}
+
+	private boolean isUserVariableBoolean(Scope scope) {
+		UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
+		return userVariable != null && userVariable.getValue() instanceof Boolean;
+	}
+
+	private boolean isUserListBoolean(Scope scope) {
+		List<Object> listValues = UserDataWrapper.getUserList(value, scope).getValue();
+		if (listValues.size() != 1) {
+			return false;
+		}
+		return listValues.get(0) instanceof Boolean;
+	}
+
+	private boolean isUserDefinedBrickInputBoolean(Scope scope) {
+		UserData userData = UserDataWrapper.getUserDefinedBrickInput(value, scope.getSequence());
+		if (userData != null && userData.getValue() instanceof Formula) {
+			return ((Formula) userData.getValue()).getRoot().isBoolean(scope);
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isOtherBooleanFormulaElement() {
+		return (type == ElementType.FUNCTION
+				&& Functions.isBoolean(Functions.getFunctionByValue(value)))
+				|| (type == ElementType.SENSOR
+				&& Sensors.isBoolean(Sensors.getSensorByValue(value)))
+				|| (type == ElementType.OPERATOR
+				&& Operators.getOperatorByValue(value).isLogicalOperator)
+				|| type == ElementType.COLLISION_FORMULA;
 	}
 
 	public boolean containsElement(ElementType elementType) {
@@ -930,5 +1046,31 @@ public class FormulaElement implements Serializable {
 		if (element != null) {
 			element.addRequiredResources(resourceSet);
 		}
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public List<String> getUserDataRecursive(ElementType type) {
+		ArrayList<String> userDataNames = new ArrayList<>();
+
+		if (this.type == type) {
+			userDataNames.add(this.value);
+		}
+
+		if (this.leftChild != null) {
+			userDataNames.addAll(leftChild.getUserDataRecursive(type));
+		}
+
+		if (this.rightChild != null) {
+			userDataNames.addAll(rightChild.getUserDataRecursive(type));
+		}
+
+		for (FormulaElement child : additionalChildren) {
+			userDataNames.addAll(child.getUserDataRecursive(type));
+		}
+
+		return userDataNames;
 	}
 }

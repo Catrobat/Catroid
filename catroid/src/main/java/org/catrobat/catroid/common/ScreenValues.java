@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,48 +23,26 @@
 package org.catrobat.catroid.common;
 
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.utils.Resolution;
 
 public final class ScreenValues {
-
-	private static final int DEFAULT_SCREEN_WIDTH = 1280;
-	private static final int DEFAULT_SCREEN_HEIGHT = 768;
-
-	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 2 LINES
-	public static int SCREEN_WIDTH;
-	public static int SCREEN_HEIGHT;
-
-	public static final int CAST_SCREEN_WIDTH = 1280;
-	public static final int CAST_SCREEN_HEIGHT = 720;
+	private static final Resolution DEFAULT_SCREEN_RESOLUTION = new Resolution(1280, 768);
+	public static final Resolution CAST_SCREEN_RESOLUTION = new Resolution(1280, 720);
+	public static Resolution currentScreenResolution;
 
 	private ScreenValues() {
 		throw new AssertionError();
 	}
 
-	public static float getAspectRatio() {
-		if (SCREEN_WIDTH == 0 || SCREEN_HEIGHT == 0) {
-			setToDefaultScreenSize();
-		}
-		return (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
-	}
-
 	public static void setToDefaultScreenSize() {
-		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
-		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+		currentScreenResolution = DEFAULT_SCREEN_RESOLUTION;
 	}
 
-	public static int getScreenHeightForProject(Project project) {
+	public static Resolution getResolutionForProject(Project project) {
 		if (project.isCastProject()) {
-			return CAST_SCREEN_HEIGHT;
+			return CAST_SCREEN_RESOLUTION;
 		}
 
-		return SCREEN_HEIGHT;
-	}
-
-	public static int getScreenWidthForProject(Project project) {
-		if (project.isCastProject()) {
-			return CAST_SCREEN_WIDTH;
-		}
-
-		return SCREEN_WIDTH;
+		return currentScreenResolution;
 	}
 }

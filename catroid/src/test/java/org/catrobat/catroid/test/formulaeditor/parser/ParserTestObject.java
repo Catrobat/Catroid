@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,7 +74,7 @@ public class ParserTestObject {
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
 		testSprite.look.setColorInUserInterfaceDimensionUnit(LOOK_COLOR);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
-		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
+		testSprite.look.setMotionDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 		testScope = new Scope(project, testSprite, new SequenceAction());
 	}
 
@@ -95,7 +95,8 @@ public class ParserTestObject {
 		assertEquals(LOOK_BRIGHTNESS, interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals(LOOK_COLOR, interpretSensor(Sensors.OBJECT_COLOR), DELTA);
 		assertEquals(LOOK_SCALE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
-		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.MOTION_DIRECTION), DELTA);
+		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.LOOK_DIRECTION), DELTA);
 		assertEquals(LOOK_LAYER, interpretSensor(Sensors.OBJECT_LAYER));
 	}
 

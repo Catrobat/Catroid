@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,8 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,7 +56,7 @@ public class ActionBarFormulaEditorTitleTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("ActionBarFormulaEditorTitleTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("ActionBarFormulaEditorTitleTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 
@@ -74,7 +74,7 @@ public class ActionBarFormulaEditorTitleTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 		onDataList().onVariableAtPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode()
 				.performGoBack();
 

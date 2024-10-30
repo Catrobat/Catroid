@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_store_csv_into_userlist_layout"
-        style="@style/BrickContainer.UserVariables.Medium">
+        style="@style/BrickContainer.UserVariables.Big">
 
         <include layout="@layout/icon_brick_category_data" />
 
@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_store_csv_into_userlist_column_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
 
         <TextView
@@ -66,9 +64,7 @@
         <TextView
             android:id="@+id/brick_store_csv_into_userlist_csv_edit_text"
             style="@style/BrickEditText"
-            app:layout_inputType="string"
-            app:layout_newLine="true"
-            app:layout_textField="true" />
+            app:layout_newLine="true" />
 
         <TextView
             style="@style/BrickText.SingleLine"

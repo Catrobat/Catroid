@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
+import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
@@ -99,6 +101,7 @@ import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlayDrumForBeatsAction;
 import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
+import org.catrobat.catroid.content.actions.PlaySoundAtAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
@@ -114,10 +117,12 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
+import org.catrobat.catroid.content.actions.SavePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
+import org.catrobat.catroid.content.actions.SetCameraFocusPointAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetInstrumentAction;
 import org.catrobat.catroid.content.actions.SetListeningLanguageAction;
@@ -125,6 +130,7 @@ import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNextLookAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
+import org.catrobat.catroid.content.actions.SetParticleColorAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetPreviousLookAction;
@@ -143,8 +149,11 @@ import org.catrobat.catroid.content.actions.SewUpAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
+import org.catrobat.catroid.content.actions.StartPlotAction;
+import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -167,8 +176,7 @@ import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
-import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
-import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.WriteUserDataOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
@@ -188,16 +196,27 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceListAccessor;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.stage.SpeechSynthesizer;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 import kotlin.Pair;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ActionFactory extends Actions {
 
@@ -236,6 +255,17 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createPlaySoundAtAction(Sprite sprite, SequenceAction sequence, Formula delay,
+			SoundInfo sound) {
+		PlaySoundAtAction action = action(PlaySoundAtAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setSprite(sprite);
+		action.setSound(sound);
+		action.setScope(scope);
+		action.setOffset(delay);
 		return action;
 	}
 
@@ -545,6 +575,18 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createStartPlotAction(Sprite sprite) {
+		StartPlotAction action = Actions.action(StartPlotAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopPlotAction(Sprite sprite) {
+		StopPlotAction action = Actions.action(StopPlotAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public Action createSetPenSizeAction(Sprite sprite, SequenceAction sequence, Formula penSize) {
 		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
@@ -566,6 +608,17 @@ public class ActionFactory extends Actions {
 
 	public Action createClearBackgroundAction() {
 		return Actions.action(ClearBackgroundAction.class);
+	}
+
+	public Action createSetCameraFocusPointAction(Sprite sprite, SequenceAction sequence,
+			Formula horizontal, Formula vertical) {
+		SetCameraFocusPointAction action = action(SetCameraFocusPointAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setSprite(sprite);
+		action.setHorizontal(horizontal);
+		action.setVertical(vertical);
+		return action;
 	}
 
 	public Action createStampAction(Sprite sprite) {
@@ -758,8 +811,19 @@ public class ActionFactory extends Actions {
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		action.setScope(scope);
-		action.setText(text);
+		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
+		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
+		action.setContext(StageActivity.activeStageActivity.get());
+
+		return action;
+	}
+
+	public Action createSpeakAndWaitAction(Sprite sprite, SequenceAction sequence, Formula text) {
+		SpeakAndWaitAction action = action(SpeakAndWaitAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
+		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
+		action.setContext(StageActivity.activeStageActivity.get());
 		return action;
 	}
 
@@ -937,20 +1001,24 @@ public class ActionFactory extends Actions {
 		return Actions.action(ResetTimerAction.class);
 	}
 
-	public Action createThinkSayBubbleAction(Sprite sprite, SequenceAction sequence, Formula text, int type) {
+	public Action createThinkSayBubbleAction(Sprite sprite, SequenceAction sequence,
+			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
 		return action;
 	}
 
-	public Action createThinkSayForBubbleAction(Sprite sprite, SequenceAction sequence, Formula text, int type) {
+	public Action createThinkSayForBubbleAction(Sprite sprite, SequenceAction sequence,
+			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
 		return action;
 	}
@@ -1100,6 +1168,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		SavePlotAction action = Actions.action(SavePlotAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
+		return action;
+	}
+
 	public Action createSewUpAction(Sprite sprite) {
 		SewUpAction action = Actions.action(SewUpAction.class);
 		action.setSprite(sprite);
@@ -1169,18 +1245,19 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createShowVariableAction(Sprite sprite, SequenceAction sequence, Formula xPosition,
-			Formula yPosition, UserVariable userVariable) {
+			Formula yPosition, UserVariable userVariable, AndroidStringProvider androidStringProvider) {
 		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setVariableToShow(userVariable);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
 	public Action createShowVariableColorAndSizeAction(Sprite sprite, SequenceAction sequence,
 			Formula xPosition, Formula yPosition, Formula relativeTextSize, Formula color,
-			UserVariable userVariable, int alignment) {
+			UserVariable userVariable, int alignment, AndroidStringProvider androidStringProvider) {
 		ShowTextColorSizeAlignmentAction action = action(ShowTextColorSizeAlignmentAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setRelativeTextSize(relativeTextSize);
@@ -1189,13 +1266,16 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAlignment(alignment);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
-	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
+	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable,
+			AndroidStringProvider androidStringProvider) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		action.setSprite(sprite);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
@@ -1216,6 +1296,29 @@ public class ActionFactory extends Actions {
 	public Action createUpdateCameraPreviewAction(boolean turnOn) {
 		CameraBrickAction action = action(CameraBrickAction.class);
 		action.setActive(turnOn);
+		return action;
+	}
+
+	public Action createFadeParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		return action;
+	}
+
+	public Action createAdditiveParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		AdditiveParticleEffectAction action = action(AdditiveParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetParticleColorAction(Sprite sprite, Formula color, SequenceAction sequence) {
+		SetParticleColorAction action = action(SetParticleColorAction.class);
+		action.setColor(color);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		return action;
 	}
 
@@ -1419,8 +1522,11 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
-		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
-		action.setUserVariable(userVariable);
+		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+		action.setUserData(userVariable);
+		action.setAccessor(accessor);
 
 		return action;
 	}
@@ -1449,8 +1555,12 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createWriteListOnDeviceAction(UserList userList) {
-		WriteListOnDeviceAction action = Actions.action(WriteListOnDeviceAction.class);
-		action.setUserList(userList);
+		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
+		UserData data = userList;
+		action.setUserData(data);
+		action.setAccessor(accessor);
 
 		return action;
 	}
@@ -1501,9 +1611,18 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createStartListeningAction(UserVariable userVariable) {
-		StartListeningAction action = Actions.action(StartListeningAction.class);
-		action.setUserVariable(userVariable);
-		return action;
+		// This is a fix to get the StartListeningBrick to work on Huawei Phones,
+		// can be changed once HMS is fully implemented and working
+		// As soon as this is the case, remove the if-statement and only use the else-branch
+		if (get(MobileServiceAvailability.class).isHmsAvailable(ProjectManager.getInstance().getApplicationContext())) {
+			AskSpeechAction action = Actions.action(AskSpeechAction.class);
+			action.setAnswerVariable(userVariable);
+			return action;
+		} else {
+			StartListeningAction action = Actions.action(StartListeningAction.class);
+			action.setUserVariable(userVariable);
+			return action;
+		}
 	}
 
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {

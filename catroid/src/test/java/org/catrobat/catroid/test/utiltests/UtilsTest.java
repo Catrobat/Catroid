@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -333,6 +333,28 @@ public class UtilsTest {
 		List<String> expectedResultList = Arrays.asList(expectedResult);
 
 		List<String> resultList = ShowBubbleActor.formatStringForBubbleBricks(testFirstCharWhitespace);
+
+		assertNotNull(resultList);
+		assertEquals(expectedResultList, resultList);
+	}
+
+	@Test
+	public void testLineBreakStringForBubbleBricks() {
+		String testLineBreaks = "This\n   is a Test\n\n to Test   \n the line break\n";
+		String[] expectedResult = {"This", "   is a Test", "", " to Test   ", " the line break"};
+		List<String> expectedResultList = Arrays.asList(expectedResult);
+
+		List<String> resultList = ShowBubbleActor.formatStringForBubbleBricks(testLineBreaks);
+
+		assertNotNull(resultList);
+		assertEquals(expectedResultList, resultList);
+
+		testLineBreaks = "This\n tests\n many\n linebraks\n\n\n\n\n in a\n\n row";
+		String[] expectedResult2 = {"This", " tests", " many", " linebraks", "", "", "", "",
+				" in a", "", " row"};
+		expectedResultList = Arrays.asList(expectedResult2);
+
+		resultList = ShowBubbleActor.formatStringForBubbleBricks(testLineBreaks);
 
 		assertNotNull(resultList);
 		assertEquals(expectedResultList, resultList);

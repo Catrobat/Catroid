@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,16 +25,18 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.Arrays;
 import java.util.List;
+
+import kotlin.Unit;
 
 public class DronePlayLedAnimationBrick extends BrickBaseType {
 
@@ -58,19 +60,11 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner animationSpinner = view.findViewById(R.id.brick_drone_play_led_animation_spinner);
 		animationSpinner.setAdapter(animationAdapter);
-		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				ledAnimationName = context.getResources().getStringArray(
-						R.array.brick_drone_play_led_animation_spinner)[position];
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
+		animationSpinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			ledAnimationName = context.getResources().getStringArray(
+					R.array.brick_drone_play_led_animation_spinner)[position];
+			return Unit.INSTANCE;
+		}));
 		if (TextUtils.isEmpty(ledAnimationName)) {
 			animationSpinner.setSelection(1);
 		} else {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -87,11 +87,14 @@
         </attr>
         <attr name="debugDraw" format="boolean" />
         <attr name="userDefinedBrick" format="boolean" />
+        <attr name="usePng" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="BrickLayout_Layout">
-        <attr name="layout_textField" format="boolean"/>
+        <attr name="layout_editText" format="boolean"/>
         <attr name="layout_inputType" format="string"/>
         <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_forceNewLine" format="boolean"/>
         <attr name="layout_customPadding" format="dimension"/>
         <attr name="layout_horizontalSpacing" format="dimension"/>
         <attr name="layout_verticalSpacing" format="dimension"/>

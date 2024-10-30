@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(JUnit4.class)
 public class ForVariableFromToActionTest {
 	Sprite sprite;
@@ -48,6 +50,7 @@ public class ForVariableFromToActionTest {
 
 	@Before
 	public void setUp() {
+		initializeStaticSingletonMethods();
 		executedLoops = new UserVariable("executedLoops", 0.0);
 		controlVariable = new UserVariable("controlVariable", 0.0);
 

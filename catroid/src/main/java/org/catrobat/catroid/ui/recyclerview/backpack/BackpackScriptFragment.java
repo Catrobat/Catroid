@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,10 +67,10 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 			List<Script> scripts = BackpackListManager.getInstance().getBackpackedScripts().get(item);
 			for (Script script : scripts) {
 				try {
-					scriptController.unpack(script, sprite);
+					scriptController.unpack(item, script, sprite);
 					unpackedItemCnt++;
-				} catch (CloneNotSupportedException e) {
-					Log.e(TAG, Log.getStackTraceString(e));
+				} catch (CloneNotSupportedException exception) {
+					Log.e(TAG, Log.getStackTraceString(exception));
 				}
 			}
 		}

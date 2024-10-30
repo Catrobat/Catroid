@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,6 @@ import java.util.Random;
 import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.midiFolder;
 
 public class PocketMusicActivity extends BaseActivity {
 
@@ -65,12 +64,14 @@ public class PocketMusicActivity extends BaseActivity {
 	private MidiNotePlayer midiDriver;
 
 	private FastScroller fastScroller;
+
+	private File midiFolder;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		midiFolder = new File(ProjectManager.getInstance().getCurrentlyEditedScene().getDirectory(),
-				SOUND_DIRECTORY_NAME);
+		midiFolder = new File(getApplicationContext().getFilesDir().getPath(), SOUND_DIRECTORY_NAME);
 
 		midiDriver = new MidiNotePlayer();
 
@@ -164,7 +165,7 @@ public class PocketMusicActivity extends BaseActivity {
 				}
 
 				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile(), true);
-				ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+				ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter(midiFolder);
 
 				try {
 					projectToMidiConverter.writeProjectAsMidi(project, soundInfo.getFile());

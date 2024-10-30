@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ public class UserDefinedScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private UUID userDefinedBrickID;
 	private List<Object> userDefinedBrickInputs;
+	private Boolean screenRefresh = true;
 
 	public UserDefinedScript(UUID userDefinedBrickID) {
 		this.userDefinedBrickID = userDefinedBrickID;
@@ -76,5 +77,13 @@ public class UserDefinedScript extends Script {
 
 	public UUID getUserDefinedBrickID() {
 		return userDefinedBrickID;
+	}
+
+	public void setScreenRefresh(Boolean screenRefresh) {
+		this.screenRefresh = screenRefresh;
+	}
+
+	public Boolean getScreenRefresh() {
+		return screenRefresh;
 	}
 }

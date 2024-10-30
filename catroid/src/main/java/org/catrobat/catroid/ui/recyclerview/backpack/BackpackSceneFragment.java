@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,12 +59,12 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void unpackItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
-		Project dstProject = ProjectManager.getInstance().getCurrentProject();
+		Project destinationProject = ProjectManager.getInstance().getCurrentProject();
 		int unpackedItemCnt = 0;
 
 		for (Scene item : selectedItems) {
 			try {
-				dstProject.addScene(sceneController.unpack(item, dstProject));
+				destinationProject.addScene(sceneController.unpack(item, destinationProject));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

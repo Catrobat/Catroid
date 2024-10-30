@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -36,9 +35,10 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
@@ -48,6 +48,8 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneTransitionBrickStageTest {
@@ -74,7 +76,7 @@ public class SceneTransitionBrickStageTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
+		Project project = UiTestUtils.createDefaultTestProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Scene firstScene = project.getDefaultScene();
 		Scene secondScene = new Scene("Scene 2", project);
@@ -87,8 +89,6 @@ public class SceneTransitionBrickStageTest {
 
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
-
-		ProjectManager.getInstance().setCurrentProject(project);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
 
@@ -119,7 +119,6 @@ public class SceneTransitionBrickStageTest {
 		secondScene.addSprite(secondBackground);
 
 		project.addScene(secondScene);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

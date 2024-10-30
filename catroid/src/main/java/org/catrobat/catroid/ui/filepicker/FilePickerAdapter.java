@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,46 +28,34 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 
 import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
+public class FilePickerAdapter extends RVAdapter<File> {
 
-	private List<File> items;
-	private OnItemClickListener onItemClickListener;
-
-	public FilePickerAdapter(List<File> items) {
-		this.items = items;
-	}
-
-	public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-		this.onItemClickListener = onItemClickListener;
+	protected FilePickerAdapter(List<File> items) {
+		super(items);
 	}
 
 	@NonNull
 	@Override
-	public FileVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_file, parent, false);
-		return new FileVH(view);
+	public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_file, parent, false);
+		return new FileViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull FileVH holder, int position) {
-		final File item = items.get(position);
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
+		super.onBindViewHolder(holder, position);
 
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onItemClickListener.onItemClick(item);
-			}
-		});
-
+		File item = items.get(position);
 		holder.title.setText(item.getName());
-		holder.subtitle.setText(item.getAbsolutePath());
+		((FileViewHolder) holder).subtitle.setText(item.getAbsolutePath());
 	}
 
 	@Override
@@ -78,5 +66,6 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
 	public interface OnItemClickListener {
 
 		void onItemClick(File item);
+		boolean onItemLongClick(File item);
 	}
 }

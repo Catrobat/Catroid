@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -30,9 +31,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
@@ -54,10 +55,11 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 
 import java.io.File;
 import java.util.HashSet;
@@ -71,6 +73,8 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
 
@@ -82,6 +86,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	private Set<Integer> failedResources;
 
 	private StageActivity stageActivity;
+	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
 
 	StageResourceHolder(final StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
@@ -141,7 +146,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
-			TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
+			if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
+				TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			} else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+				HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			}
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
@@ -158,6 +168,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			connectBTDevice(BluetoothDevice.ARDUINO);
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+			requiredResourceCounter++;
+			connectBTDevice(BluetoothDevice.MULTIPLAYER);
 		}
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_BACK)) {
@@ -195,8 +210,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setVibration(vibration);
-				VibrationUtil.activateVibrationThread();
+				getVibrationManager().setVibration(vibration);
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.VIBRATION);
@@ -225,6 +239,22 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.OBJECT_DETECTION);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.POSE_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.POSE_DETECTION);
 			}
 		}
 
@@ -297,7 +327,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
-			if (SpeechRecognizer.isRecognitionAvailable(stageActivity)) {
+			if (speechRecognitionHolderFactory.isRecognitionAvailable(stageActivity)) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.SPEECH_RECOGNITION);
@@ -320,9 +350,19 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			Log.e(TAG, e.getMessage());
 		}
 		stageActivity.setupAskHandler();
-		SpeechRecognitionHolder.Companion.getInstance().initSpeechRecognition(stageActivity, this);
-		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
-				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
+		Intent intent = new Intent(stageActivity, getClass());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			int flags = PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP;
+			intent.addFlags(PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0, intent,
+					flags);
+		} else {
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
+					new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+		}
+
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
 		StageActivity.stageListener.setPaused(false);
 	}
@@ -351,6 +391,13 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		return stageActivity.cameraManager;
 	}
 
+	public VibrationManager getVibrationManager() {
+		if (stageActivity.vibrationManager == null) {
+			stageActivity.vibrationManager = new VibrationManager();
+		}
+		return stageActivity.vibrationManager;
+	}
+
 	public void endStageActivity() {
 		Intent returnToActivityIntent = new Intent();
 		stageActivity.setResult(RESULT_CANCELED, returnToActivityIntent);
@@ -358,65 +405,73 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	private void showResourceFailedErrorDialog() {
-		String failedResourcesMessage = stageActivity.getString(R.string.prestage_resource_not_available_text);
+		StringBuilder failedResourcesMessage = new StringBuilder(stageActivity.getString(R.string.prestage_resource_not_available_text));
 		Iterator resourceIter = failedResources.iterator();
 		while (resourceIter.hasNext()) {
 			switch ((int) resourceIter.next()) {
 				case Brick.SENSOR_ACCELERATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_acceleration_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_acceleration_sensor_available));
 					break;
 				case Brick.SENSOR_INCLINATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_inclination_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_inclination_sensor_available));
 					break;
 				case Brick.SENSOR_COMPASS:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_compass_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_compass_sensor_available));
 					break;
 				case Brick.SENSOR_GPS:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_gps_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_gps_sensor_available));
 					break;
 				case Brick.TEXT_TO_SPEECH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_text_to_speech_error);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_text_to_speech_error));
 					break;
 				case Brick.CAMERA_BACK:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_back_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_back_camera_available));
 					break;
 				case Brick.CAMERA_FRONT:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_front_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_front_camera_available));
 					break;
 				case Brick.VIDEO:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_camera_available));
 					break;
 				case Brick.CAMERA_FLASH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_flash_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_flash_available));
 					break;
 				case Brick.VIBRATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_vibration_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_vibration_available));
 					break;
 				case Brick.FACE_DETECTION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_face_detection_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_face_detection_available));
+					break;
+				case Brick.OBJECT_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_object_detection_available));
 					break;
 				case Brick.SPEECH_RECOGNITION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.speech_recognition_not_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.speech_recognition_not_available));
 					break;
 				case Brick.TEXT_DETECTION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_text_detection_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_text_detection_available));
+					break;
+				case Brick.POSE_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_pose_detection_available));
 					break;
 				default:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_default_resource_not_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_default_resource_not_available));
 					break;
 			}
 		}

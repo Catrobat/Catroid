@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,9 @@ import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.huawei.agconnect.AGConnectInstance;
+import com.huawei.agconnect.config.AGConnectServicesConfig;
+import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.utils.Utils;
@@ -49,7 +52,7 @@ public class CatroidApplication extends Application {
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
-	@TargetApi(29)
+	@TargetApi(31)
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -63,16 +66,27 @@ public class CatroidApplication extends Application {
 					.build());
 		}
 
-		Utils.fetchSpeechRecognitionSupportedLanguages(this);
-
 		context = getApplicationContext();
 
 		CatroidKoinHelperKt.start(this, CatroidKoinHelperKt.getMyModules());
+
+		Utils.fetchSpeechRecognitionSupportedLanguages(this);
 
 		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
+
+		setupHuaweiMobileServices();
+	}
+
+	private void setupHuaweiMobileServices() {
+		if (AGConnectInstance.getInstance() == null) {
+			AGConnectInstance.initialize(this);
+		}
+
+		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
+		MLApplication.getInstance().setApiKey(apiKey);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +45,6 @@ import java.io.IOException;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.containsString;
@@ -80,7 +80,8 @@ public class ShowTextColorSizeAlignmentBrickTest {
 	@Before
 	public void setUp() {
 		brickPosition = 1;
-		createProjectAndGetStartScript(ShowTextColorSizeAlignmentBrickTest.class.getSimpleName())
+		UiTestUtils
+				.createProjectAndGetStartScript(ShowTextColorSizeAlignmentBrickTest.class.getSimpleName())
 				.addBrick(new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#000000"));
 		baseActivityTestRule.launchActivity();
 	}
@@ -98,7 +99,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
-				.check(matches(withText(containsString("'#0074CD'"))));
+				.check(matches(withText(containsString("'#0074CD '"))));
 	}
 
 	@Test

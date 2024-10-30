@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -52,6 +50,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
 
+import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
 
@@ -63,7 +63,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class BroadcastSendBrickMessageContainerTest {
 
-	private String defaultMessage = "defaultMessage";
+	private final String defaultMessage = "defaultMessage";
 	private Project project;
 	private Sprite sprite;
 	private BroadcastMessageBrick broadcastMessageBrick;
@@ -108,13 +108,11 @@ public class BroadcastSendBrickMessageContainerTest {
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		baseActivityTestRule.finishActivity();
 
-		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
@@ -133,18 +131,11 @@ public class BroadcastSendBrickMessageContainerTest {
 	}
 
 	private void createProject(String projectName) {
-		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
+		project = UiTestUtils.createDefaultTestProject(projectName);
+		sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script script = UiTestUtils.getDefaultTestScript(project);
 
 		broadcastMessageBrick = new BroadcastBrick(defaultMessage);
 		script.addBrick(broadcastMessageBrick);
-
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(JUnit4.class)
 public class GlideToActionTest {
 
@@ -56,6 +58,7 @@ public class GlideToActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 

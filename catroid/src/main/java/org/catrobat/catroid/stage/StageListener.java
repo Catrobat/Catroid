@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -77,21 +78,25 @@ import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
 
@@ -126,10 +131,12 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
+	private PlotActor plotActor;
 	public EmbroideryPatternManager embroideryPatternManager;
 	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
+	public CameraPositioner cameraPositioner;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -147,16 +154,18 @@ public class StageListener implements ApplicationListener {
 
 	private StageDialog stageDialog;
 
-	int maxViewPortX = 0;
-	int maxViewPortY = 0;
-	int maxViewPortHeight = 0;
-	int maxViewPortWidth = 0;
+	private Resolution maxViewPort = null;
+
+	public void setMaxViewPort(Resolution maxViewPort) {
+		this.maxViewPort = maxViewPort;
+	}
 
 	public boolean axesOn = false;
 	private static final Color AXIS_COLOR = new Color(0xff000cff);
 
 	private static final int Z_LAYER_PEN_ACTOR = 1;
 	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
+	private static final int Z_LAYER_PLOT_ACTOR = 3;
 
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
@@ -196,13 +205,27 @@ public class StageListener implements ApplicationListener {
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
 
+		resetConditionScriptTriggers();
+
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
-		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPortWidth, maxViewPortHeight, virtualWidth, virtualHeight);
+		passepartout = new Passepartout(
+				ScreenValues.currentScreenResolution.getWidth(),
+				ScreenValues.currentScreenResolution.getHeight(),
+				maxViewPort.getWidth(),
+				maxViewPort.getHeight(),
+				virtualWidth,
+				virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+	}
+
+	private void resetConditionScriptTriggers() {
+		for (Sprite sprite : sprites) {
+			sprite.resetConditionScriptTriggers();
+		}
 	}
 
 	public void setPaused(boolean paused) {
@@ -239,6 +262,7 @@ public class StageListener implements ApplicationListener {
 		virtualHeightHalf = virtualHeight / 2;
 
 		camera = new OrthographicCamera();
+		cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
 		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 		if (batch == null) {
 			batch = new SpriteBatch();
@@ -265,6 +289,10 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(penActor);
 		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
 
+		plotActor = new PlotActor();
+		stage.addActor(plotActor);
+		plotActor.setZIndex(Z_LAYER_PEN_ACTOR);
+
 		float screenRatio = calculateScreenRatio();
 		EmbroideryActor embroideryActor = new EmbroideryActor(screenRatio, embroideryPatternManager, shapeRenderer);
 		stage.addActor(embroideryActor);
@@ -279,7 +307,7 @@ public class StageListener implements ApplicationListener {
 			copy.myOriginal = cloneMe;
 		}
 		copy.look.createBrightnessContrastHueShader();
-		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
+		addCloneActorToStage(stage, stage.getRoot(), cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
 			int currentLookDataIndex = cloneMe.getLookList().indexOf(cloneMe.look.getLookData());
@@ -287,6 +315,13 @@ public class StageListener implements ApplicationListener {
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
 		copy.initConditionScriptTriggers();
+	}
+
+	public void addCloneActorToStage(Stage stage, Group rootGroup, Look cloneMeLook, Look copyLook) {
+		if (!stage.getActors().contains(cloneMeLook, true)) {
+			rootGroup.addActor(cloneMeLook);
+		}
+		rootGroup.addActorBefore(cloneMeLook, copyLook);
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
@@ -413,8 +448,14 @@ public class StageListener implements ApplicationListener {
 		scene = newScene;
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		if (cameraManager != null) {
+			cameraManager.resume();
+		}
+
 		SoundManager.getInstance().clear();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);
@@ -438,7 +479,10 @@ public class StageListener implements ApplicationListener {
 		if (cameraManager != null) {
 			cameraManager.reset();
 		}
-		VibrationUtil.reset();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
+		if (vibrationManager != null) {
+			vibrationManager.reset();
+		}
 		TouchUtil.reset();
 		MidiSoundManager.getInstance().reset();
 		removeAllClonedSpritesFromStage();
@@ -456,7 +500,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			SoundManager.getInstance().resume();
-			VibrationUtil.resumeVibration();
 		}
 
 		for (Sprite sprite : sprites) {
@@ -472,7 +515,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			SoundManager.getInstance().pause();
-			VibrationUtil.pauseVibration();
 		}
 	}
 
@@ -485,9 +527,11 @@ public class StageListener implements ApplicationListener {
 
 		if (reloadProject) {
 			stage.clear();
-			if (penActor != null) {
+			if (penActor != null)
 				penActor.dispose();
-			}
+
+			if (plotActor != null)
+				plotActor.dispose();
 
 			embroideryPatternManager.clear();
 
@@ -504,6 +548,8 @@ public class StageListener implements ApplicationListener {
 			scene.firstStart = true;
 			reloadProject = false;
 
+			cameraPositioner.reset();
+
 			if (stageDialog != null) {
 				synchronized (stageDialog) {
 					stageDialog.notify();
@@ -518,6 +564,7 @@ public class StageListener implements ApplicationListener {
 			for (Sprite sprite : sprites) {
 				sprite.initializeEventThreads(EventId.START);
 				sprite.initConditionScriptTriggers();
+				sprite.initIfConditionBrickTriggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
@@ -553,15 +600,28 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			byte[] screenshot = ScreenUtils
-					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+			Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			String manualScreenshotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_MANUAL_FILE_NAME;
+			File manualScreenshot = new File(manualScreenshotPath);
+			if (!manualScreenshot.exists() || Objects.equals(screenshotName,
+					SCREENSHOT_MANUAL_FILE_NAME)) {
+				byte[] screenshot = ScreenUtils
+						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+				screenshotSaver.saveScreenshotAndNotify(
+						screenshot,
+						screenshotName,
+						this::notifyScreenshotCallbackAndCleanup,
+						GlobalScope.INSTANCE
+				);
+			}
+			String automaticScreenShotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_AUTOMATIC_FILE_NAME;
+			File automaticScreenShot = new File(automaticScreenShotPath);
+			if (manualScreenshot.exists() && automaticScreenShot.exists()) {
+				automaticScreenShot.delete();
+			}
 			makeScreenshot = false;
-			screenshotSaver.saveScreenshotAndNotify(
-					screenshot,
-					screenshotName,
-					this::notifyScreenshotCallbackAndCleanup,
-					GlobalScope.INSTANCE
-			);
 		}
 
 		if (axesOn && !finished) {
@@ -580,6 +640,8 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+
+		cameraPositioner.updateCameraPositionForFocusedSprite();
 	}
 
 	private void printPhysicsLabelOnScreen() {
@@ -629,6 +691,10 @@ public class StageListener implements ApplicationListener {
 		return penActor;
 	}
 
+	public PlotActor getPlotActor() {
+		return plotActor;
+	}
+
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -648,9 +714,11 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
 		embroideryPatternManager = null;
-		if (penActor != null) {
+		if (penActor != null)
 			penActor.dispose();
-		}
+
+		if(plotActor != null)
+			plotActor.dispose();
 	}
 
 	public void finish() {
@@ -702,13 +770,15 @@ public class StageListener implements ApplicationListener {
 
 	public void clearBackground() {
 		penActor.reset();
+		plotActor.reset();
 	}
 
 	private void initScreenMode() {
+		screenshotWidth = ScreenValues.getResolutionForProject(project).getWidth();
+		screenshotHeight = ScreenValues.getResolutionForProject(project).getHeight();
+
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.getScreenWidthForProject(project);
-				screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
@@ -717,17 +787,17 @@ public class StageListener implements ApplicationListener {
 			case MAXIMIZE:
 				float yScale = 1.0f;
 				float xScale = 1.0f;
-				if (screenshotWidth != maxViewPortWidth && maxViewPortWidth > 0) {
-					xScale = screenshotWidth / (float) maxViewPortWidth;
+				if (screenshotWidth != maxViewPort.getWidth() && maxViewPort.getWidth() > 0) {
+					xScale = screenshotWidth / (float) maxViewPort.getWidth();
 				}
-				if (screenshotHeight != maxViewPortHeight && maxViewPortHeight > 0) {
-					yScale = screenshotHeight / (float) maxViewPortHeight;
+				if (screenshotHeight != maxViewPort.getHeight() && maxViewPort.getHeight() > 0) {
+					yScale = screenshotHeight / (float) maxViewPort.getHeight();
 				}
 
-				screenshotWidth = maxViewPortWidth;
-				screenshotHeight = maxViewPortHeight;
-				screenshotX = maxViewPortX;
-				screenshotY = maxViewPortY;
+				screenshotWidth = maxViewPort.getWidth();
+				screenshotHeight = maxViewPort.getHeight();
+				screenshotX = maxViewPort.getOffsetX();
+				screenshotY = maxViewPort.getOffsetY();
 
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 				shapeRenderer.scale(xScale, yScale, 1.0f);
@@ -735,7 +805,9 @@ public class StageListener implements ApplicationListener {
 			default:
 				break;
 		}
-		viewPort.update(SCREEN_WIDTH, SCREEN_HEIGHT, false);
+		viewPort.update(ScreenValues.currentScreenResolution.getWidth(),
+				ScreenValues.currentScreenResolution.getHeight(),
+				false);
 		camera.position.set(0, 0, 0);
 		camera.update();
 		shapeRenderer.updateMatrices();
@@ -798,11 +870,13 @@ public class StageListener implements ApplicationListener {
 		return sprites;
 	}
 
-	private class StageBackup {
+	@VisibleForTesting
+	public static class StageBackup {
 
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
+		PlotActor plotActor;
 		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 		List<SoundBackup> soundBackupList;
@@ -815,6 +889,7 @@ public class StageListener implements ApplicationListener {
 
 		PhysicsWorld physicsWorld;
 		OrthographicCamera camera;
+		Sprite spriteToFocusOn;
 		Batch batch;
 		BitmapFont font;
 		Passepartout passepartout;
@@ -828,10 +903,12 @@ public class StageListener implements ApplicationListener {
 	private StageBackup saveToBackup() {
 		StageBackup backup = new StageBackup();
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
 
 		backup.sprites = new ArrayList<>(sprites);
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
+		backup.plotActor = plotActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
 		backup.embroideryPatternManager = embroideryPatternManager;
 
@@ -842,9 +919,15 @@ public class StageListener implements ApplicationListener {
 		if (backup.flashState) {
 			cameraManager.disableFlash();
 		}
-		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
+		if (vibrationManager != null && vibrationManager.hasActiveVibration()) {
+			vibrationManager.pause();
+			backup.timeToVibrate = vibrationManager.getTimeToVibrate();
+			vibrationManager.reset();
+		}
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
+		backup.spriteToFocusOn = cameraPositioner.getSpriteToFocusOn();
+		cameraPositioner.reset();
 		backup.batch = batch;
 		backup.font = font;
 		backup.passepartout = passepartout;
@@ -865,6 +948,7 @@ public class StageListener implements ApplicationListener {
 		sprites.clear();
 		sprites.addAll(backup.sprites);
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
 
 		stage.clear();
 		for (Actor actor : backup.actors) {
@@ -872,6 +956,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		penActor = backup.penActor;
+		plotActor = backup.plotActor;
 
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
@@ -884,14 +969,16 @@ public class StageListener implements ApplicationListener {
 		if (backup.flashState && cameraManager != null) {
 			cameraManager.enableFlash();
 		}
-		if (backup.timeToVibrate > 0) {
-			VibrationUtil.resumeVibration();
-			VibrationUtil.setTimeToVibrate(backup.timeToVibrate);
-		} else {
-			VibrationUtil.pauseVibration();
+		if (backup.timeToVibrate > 0 && vibrationManager != null) {
+			vibrationManager.setTimeToVibrate(backup.timeToVibrate);
+			vibrationManager.resume();
+		} else if (vibrationManager != null) {
+			vibrationManager.pause();
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;
+		cameraPositioner.setSpriteToFocusOn(backup.spriteToFocusOn);
+		cameraPositioner.updateCameraPositionForFocusedSprite();
 		batch = backup.batch;
 		font = backup.font;
 		passepartout = backup.passepartout;

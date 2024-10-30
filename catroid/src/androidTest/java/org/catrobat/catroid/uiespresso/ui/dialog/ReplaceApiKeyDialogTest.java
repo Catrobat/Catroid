@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
-import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadRatingDialogTest;
+import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -55,7 +54,8 @@ import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
-import static org.catrobat.catroid.ui.ProjectUploadActivity.PROJECT_DIR;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -68,8 +68,8 @@ public class ReplaceApiKeyDialogTest {
 	private static final String TAG = ReplaceApiKeyDialogTest.class.getSimpleName();
 
 	@Rule
-	public BaseActivityTestRule<ProjectUploadRatingDialogTest.ProjectUploadTestActivity> activityTestRule =
-			new BaseActivityTestRule<>(ProjectUploadRatingDialogTest.ProjectUploadTestActivity.class, false, false);
+	public BaseActivityTestRule<ProjectUploadDialogTest.ProjectUploadTestActivity> activityTestRule =
+			new BaseActivityTestRule<>(ProjectUploadDialogTest.ProjectUploadTestActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
 
@@ -100,7 +100,7 @@ public class ReplaceApiKeyDialogTest {
 		dummyScene.addSprite(sprite);
 		sprite.addScript(firstScript);
 		dummyProject.addScene(dummyScene);
-		ProjectSaveTask.task(dummyProject, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext());
 
 		Intent intent = new Intent();
 		intent.putExtra(PROJECT_DIR, dummyProject.getDirectory());
@@ -119,7 +119,7 @@ public class ReplaceApiKeyDialogTest {
 		dummyScene.addSprite(sprite);
 		sprite.addScript(firstScript);
 		dummyProject.addScene(dummyScene);
-		ProjectSaveTask.task(dummyProject, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext());
 
 		Intent intent = new Intent();
 		intent.putExtra(PROJECT_DIR, dummyProject.getDirectory());
@@ -215,4 +215,3 @@ public class ReplaceApiKeyDialogTest {
 		assertTrue(reloadedCode.contains(linkapikey));
 	}
 }
-

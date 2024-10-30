@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment.scratchconverter;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +35,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import org.catrobat.catroid.R;
@@ -48,7 +48,8 @@ import org.catrobat.catroid.ui.ScratchProgramDetailsActivity;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.CatrobatWebClient;
@@ -63,7 +64,6 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IntDef;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -233,11 +233,11 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
-
 		recyclerView.setAdapter(adapter);
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
+		adapter.showRipples = false;
 
 		searchView.setOnQueryTextListener(onQueryListener);
 	}
@@ -364,7 +364,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemClick(ScratchProgramData item) {
+	public void onItemClick(ScratchProgramData item, MultiSelectionManager selectionManager) {
 		if (actionModeType == NONE) {
 			ScratchProgramDetailsActivity.setConversionManager(conversionManager);
 			Intent intent = new Intent(getActivity(), ScratchProgramDetailsActivity.class);
@@ -374,20 +374,24 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemLongClick(final ScratchProgramData item, CheckableVH holder) {
-		CharSequence[] items = new CharSequence[] {getString(R.string.convert)};
-		new AlertDialog.Builder(getActivity())
-				.setTitle(item.getTitle())
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								convertItems(new ArrayList<>(Collections.singletonList(item)));
-								break;
-						}
-					}
-				})
-				.show();
+	public void onItemLongClick(final ScratchProgramData item, CheckableViewHolder holder) {
+	}
+
+	@Override
+	public void onSettingsClick(ScratchProgramData item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+
+		popupMenu.getMenu().add(getString(R.string.convert));
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				if (getString(R.string.convert).equals(menuItem.getTitle())) {
+					convertItems(new ArrayList<>(Collections.singletonList(item)));
+				}
+				return true;
+			}
+		});
+		popupMenu.show();
 	}
 }

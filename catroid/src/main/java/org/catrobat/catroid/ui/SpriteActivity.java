@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -52,12 +53,14 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -70,6 +73,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -86,13 +90,14 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
@@ -152,7 +157,6 @@ public class SpriteActivity extends BaseActivity {
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
-	private Menu currentMenu;
 	private LookData currentLookData;
 	private String generatedVariableName;
 
@@ -190,7 +194,7 @@ public class SpriteActivity extends BaseActivity {
 		addTabLayout(this, fragmentPosition);
 	}
 
-	private String createActionBarTitle() {
+	public String createActionBarTitle() {
 		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
@@ -205,13 +209,13 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		currentMenu = menu;
+		optionsMenu = menu;
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void showUndo(boolean visible) {
-		if (currentMenu != null) {
-			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+		if (optionsMenu != null) {
+			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			}
@@ -219,8 +223,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void checkForChange() {
-		if (currentMenu != null) {
-			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
+		if (optionsMenu != null) {
+			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			} else {
 				ProjectManager.getInstance().resetChangedFlag(currentProject);
@@ -264,6 +268,7 @@ public class SpriteActivity extends BaseActivity {
 			}
 			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -285,6 +290,10 @@ public class SpriteActivity extends BaseActivity {
 				((ScriptFragment) currentFragment).cancelMove();
 				return;
 			}
+			if (((ScriptFragment) currentFragment).isFinderOpen()) {
+				((ScriptFragment) currentFragment).closeFinder();
+				return;
+			}
 			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
 				((ScriptFragment) currentFragment).cancelHighlighting();
 				return;
@@ -293,6 +302,13 @@ public class SpriteActivity extends BaseActivity {
 			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+
+			if (currentFragment instanceof BrickCategoryFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_scripts);
+			} else if (currentFragment instanceof AddBrickFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_category);
+			}
+
 			getSupportFragmentManager().popBackStack();
 			return;
 		}
@@ -301,8 +317,7 @@ public class SpriteActivity extends BaseActivity {
 
 	private void saveProject() {
 		currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
 	@Override
@@ -492,8 +507,8 @@ public class SpriteActivity extends BaseActivity {
 		builder.setTitle(R.string.new_sprite_dialog_title)
 				.setNegativeButton(R.string.cancel, (dialog, which) -> {
 					try {
-						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+						if (MEDIA_LIBRARY_CACHE_DIRECTORY.exists()) {
+							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIRECTORY);
 						}
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
@@ -505,6 +520,7 @@ public class SpriteActivity extends BaseActivity {
 	private void addBackgroundFromUri(Uri uri) {
 		addBackgroundFromUri(uri, DEFAULT_IMAGE_EXTENSION);
 	}
+
 	private void addBackgroundFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
@@ -542,6 +558,7 @@ public class SpriteActivity extends BaseActivity {
 	private void addLookFromUri(Uri uri) {
 		addLookFromUri(uri, DEFAULT_IMAGE_EXTENSION);
 	}
+
 	private void addLookFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
@@ -605,6 +622,10 @@ public class SpriteActivity extends BaseActivity {
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
+	}
+
+	public void handleAiAssistButton(View view) {
+		Log.d(TAG, "Here a Flutter module will be called in the future.");
 	}
 
 	public void handleAddButton(View view) {
@@ -823,6 +844,9 @@ public class SpriteActivity extends BaseActivity {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
 
+					PreferenceManager.getDefaultSharedPreferences(this).edit()
+							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
+
 					if (makeListCheckBox.isChecked()) {
 						UserList userList = new UserList(textInput);
 						if (addToProjectUserData) {
@@ -843,6 +867,7 @@ public class SpriteActivity extends BaseActivity {
 
 					if (getCurrentFragment() instanceof DataListFragment) {
 						((DataListFragment) getCurrentFragment()).notifyDataSetChanged();
+						((DataListFragment) getCurrentFragment()).indexAndSort();
 					}
 				});
 
@@ -868,7 +893,7 @@ public class SpriteActivity extends BaseActivity {
 				if (currentName.equals(generatedVariableName)) {
 					generatedVariableName =
 							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-							null);
+									null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -943,13 +968,26 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment)) {
-			addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
+		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	public void setCurrentSceneAndSprite(Scene scene, Sprite sprite) {
+		this.currentScene = scene;
+		this.currentSprite = sprite;
+	}
+
+	public void removeTabs() {
+		removeTabLayout(this);
+	}
+
+	public void addTabs() {
+		addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
 	}
 }

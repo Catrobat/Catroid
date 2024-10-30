@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,7 +92,7 @@ public class ZigZagParametrizedTest {
 	public void setUp() throws Exception {
 		sprite = Mockito.mock(Sprite.class);
 		spriteLook = Mockito.mock(Look.class);
-		when(spriteLook.getDirectionInUserInterfaceDimensionUnit()).thenReturn(degrees);
+		when(spriteLook.getMotionDirectionInUserInterfaceDimensionUnit()).thenReturn(degrees);
 		sprite.look = spriteLook;
 		embroideryPatternManager = mock(EmbroideryPatternManager.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);

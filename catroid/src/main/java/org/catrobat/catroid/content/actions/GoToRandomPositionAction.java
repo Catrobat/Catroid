@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,12 +37,11 @@ public class GoToRandomPositionAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		randomXPosition = (float) Math.random()
-				* (ScreenValues.SCREEN_WIDTH + 1) - (ScreenValues.SCREEN_WIDTH / 2);
+				* (ScreenValues.currentScreenResolution.getWidth() + 1) - (ScreenValues.currentScreenResolution.getWidth() / 2);
 		randomYPosition = (float) Math.random()
-				* (ScreenValues.SCREEN_HEIGHT + 1) - (ScreenValues.SCREEN_HEIGHT / 2);
+				* (ScreenValues.currentScreenResolution.getHeight() + 1) - (ScreenValues.currentScreenResolution.getHeight() / 2);
 
-		sprite.look.setXInUserInterfaceDimensionUnit(randomXPosition);
-		sprite.look.setYInUserInterfaceDimensionUnit(randomYPosition);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(randomXPosition, randomYPosition);
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -120,6 +121,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -140,6 +142,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -303,6 +306,11 @@ public class BrickSingleFormulaFieldTest {
 		assertCurrentFragmentEquals(ScriptFragment.class);
 	}
 
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
+	}
+
 	@Test
 	public void openFormulaEditorTest() {
 		clickOnBricksFormulaTextView();
@@ -333,6 +341,8 @@ public class BrickSingleFormulaFieldTest {
 		assertNotNull(brickFormulaTextView);
 
 		brick.onClick(brickFormulaTextView);
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	private void enterSomeValueAndSave() {
@@ -343,6 +353,8 @@ public class BrickSingleFormulaFieldTest {
 
 		((FormulaEditorFragment) formulaEditorFragment)
 				.endFormulaEditor();
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	private void assertCurrentFragmentEquals(Class fragmentClazz) {

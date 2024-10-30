@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,10 +42,12 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.03;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.13;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
-	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
+	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
+	public static final long PROGESSIVE_INPUT_DELAY = 400;
+	public static final long PROGESSIVE_INPUT_COUNTDOWN_INTERVALL = 500;
 	public static final long RETROFIT_WRITE_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
@@ -56,18 +58,22 @@ public final class Constants {
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String UNDO_CODE_XML_FILE_NAME = "undo_" + CODE_XML_FILE_NAME;
 
-	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
-	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
+	public static final String DEVICE_VARIABLE_JSON_FILE_NAME = "DeviceVariables.json";
+	public static final String DEVICE_LIST_JSON_FILE_NAME = "DeviceLists.json";
 
-	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
+	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_DIRECTORY_NAME = "Catrobat";
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
-
+			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_DIRECTORY_NAME);
+	public static final File DOWNLOAD_DIRECTORY =
+			new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
 	public static final String CATROBAT_EXTENSION = ".catrobat";
+	public static final String ZIP_EXTENSION = ".zip";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
 	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
+	public static final String SVG_FILE_EXTENSION = ".svg";
+	public static final String TEXT_FILE_EXTENSION = ".txt";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
 	public static final char REMIX_URL_SEPARATOR = ',';
@@ -82,7 +88,7 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
-	public static final File TEMP_LOOK_FILE =
+	public static final File TMP_LOOK_FILE =
 			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
 
 	// Recent Bricks Directory
@@ -104,23 +110,24 @@ public final class Constants {
 	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:
-	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
+	public static final File CACHE_DIRECTORY = CatroidApplication.getAppContext().getCacheDir();
 
 	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
 
-	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
-	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
-	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
-	public static final File MEDIA_LIBRARY_CACHE_DIR = new File(CACHE_DIR, "mediaLibrary");
+	public static final File POCKET_PAINT_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "pocketPaint");
+	public static final File CAMERA_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "camera");
+	public static final File SOUND_RECORDER_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "soundRecorder");
+	public static final File MEDIA_LIBRARY_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "mediaLibrary");
 
 	public static final String TMP_IMAGE_FILE_NAME = "image";
 
-	public static final String TMP_DIR_NAME = "tmp";
-	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/" + TMP_DIR_NAME;
+	public static final String TMP_DIRECTORY_NAME = "tmp";
+	public static final String TMP_PATH = CACHE_DIRECTORY.getAbsolutePath() + "/" + TMP_DIRECTORY_NAME;
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
+	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
@@ -135,12 +142,10 @@ public final class Constants {
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
 	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
 	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
 	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";
-	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";
@@ -217,7 +222,7 @@ public final class Constants {
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_MONTH = Calendar.MAY;
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY = 9;
 	public static final int SCRATCH_HTTP_REQUEST_MIN_TIMEOUT = 1_000; // in ms
-	public static final int SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES = 2;
+	public static final int SCRATCH_HTTP_REQUEST_MAX_NUMBER_OF_RETRIES = 2;
 	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 480;
 	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 360;
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
@@ -355,6 +360,22 @@ public final class Constants {
 			ExifInterface.TAG_SOFTWARE,
 			ExifInterface.TAG_CAMARA_OWNER_NAME
 	));
+
+	public static final String FLAVOR_POCKET_CODE = "catroid";
+	public static final String FLAVOR_EMBROIDERY_DESIGNER = "embroideryDesigner";
+	public static final String FLAVOR_LEGO_NXT_EV3 = "mindstorms";
+	public static final String FLAVOR_PHIRO = "phiro";
+	public static final String FLAVOR_LUNA_AND_CAT = "lunaAndCat";
+	public static final String FLAVOR_CREATE_AT_SCHOOL = "createAtSchool";
+
+	public static final String PREFRENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.embroiderydesigner";
+	public static final String PREFRENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFRENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid";
+	public static final String PREFRENCE_APPGALLERY_MINDSTORMS_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFRENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.phiro";
+	public static final String PREFRENCE_APPGALLERY_PHIRO_URL = "https://appgallery.huawei.com/app/C100085769";
+
+	public static final String DEVICE_BRAND_HUAWEI = "huawei";
 
 	private Constants() {
 		throw new AssertionError("No.");

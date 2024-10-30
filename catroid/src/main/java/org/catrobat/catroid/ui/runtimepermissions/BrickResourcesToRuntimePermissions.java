@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -73,6 +73,8 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.VIBRATION, Arrays.asList(VIBRATE));
 		brickResourcesToPermissions.put(Brick.NFC_ADAPTER, Arrays.asList(NFC));
 		brickResourcesToPermissions.put(Brick.FACE_DETECTION, Collections.singletonList(CAMERA));
+		brickResourcesToPermissions.put(Brick.OBJECT_DETECTION, Collections.singletonList(CAMERA));
+		brickResourcesToPermissions.put(Brick.POSE_DETECTION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.TEXT_DETECTION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.MICROPHONE, Arrays.asList(RECORD_AUDIO));
 		brickResourcesToPermissions.put(Brick.STORAGE_READ, Arrays.asList(READ_EXTERNAL_STORAGE));

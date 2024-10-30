@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -241,7 +241,7 @@ public class ProjectAndSceneScreenshotLoader {
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectAndSceneScreenshotData.projectName);
 				manualScreenshotFile = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
 				automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
-				if (!automaticScreenShotFile.exists()) {
+				if (!automaticScreenShotFile.exists() && !manualScreenshotFile.exists()) {
 					int random = new Random().nextInt(placeholderImages.length);
 					try {
 						ResourceImporter.createImageFileFromResourcesInDirectory(ProjectManager.getInstance().getApplicationContext().getResources(),
@@ -258,6 +258,7 @@ public class ProjectAndSceneScreenshotLoader {
 			}
 
 			if (manualScreenshotFile.exists() && manualScreenshotFile.length() > 0) {
+				automaticScreenShotFile.delete();
 				return manualScreenshotFile;
 			} else {
 				manualScreenshotFile.delete();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,9 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -62,6 +64,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,12 +73,16 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -84,6 +91,10 @@ public class BrickSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+
+	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
+			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS));
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -110,7 +121,7 @@ public class BrickSpinnerDefaultValueTest {
 				{"InsertItemIntoUserListBrick - R.id.insert_item_into_userlist_spinner", "Data", InsertItemIntoUserListBrick.class, R.id.insert_item_into_userlist_spinner, "new…"},
 				{"ReplaceItemInUserListBrick - R.id.replace_item_in_userlist_spinner", "Data", ReplaceItemInUserListBrick.class, R.id.replace_item_in_userlist_spinner, "new…"},
 				{"SceneTransitionBrick - R.id.brick_scene_transition_spinner", "Control", SceneTransitionBrick.class, R.id.brick_scene_transition_spinner, "new…"},
-				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene (1)"},
+				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene"},
 				{"CloneBrick - R.id.brick_clone_spinner", "Control", CloneBrick.class, R.id.brick_clone_spinner, "yourself"},
 		});
 	}
@@ -138,9 +149,25 @@ public class BrickSpinnerDefaultValueTest {
 	public void setUp() throws Exception {
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
 		activity = activityController.get();
+
+		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
+		for (String setting : speechAISettings) {
+			sharedPreferencesEditor.putBoolean(setting, true);
+		}
+		sharedPreferencesEditor.commit();
+
 		createProject(activity);
 		activityController.create().resume();
 		categoryBricksFactory = new CategoryBricksFactory();
+	}
+
+	@After
+	public void tearDown() {
+		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
+		sharedPreferencesEditor.clear().commit();
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -155,7 +182,7 @@ public class BrickSpinnerDefaultValueTest {
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
-	private Brick getBrickFromCategroyBricksFactory() {
+	private Brick getBrickFromCategoryBricksFactory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
@@ -171,11 +198,11 @@ public class BrickSpinnerDefaultValueTest {
 
 	@Test
 	public void testDefaultSpinnerSelection() {
-		Brick brick = getBrickFromCategroyBricksFactory();
+		Brick brick = getBrickFromCategoryBricksFactory();
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		Spinner brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		Spinner brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 
 		assertEquals(expected, ((Nameable) brickSpinner.getSelectedItem()).getName());

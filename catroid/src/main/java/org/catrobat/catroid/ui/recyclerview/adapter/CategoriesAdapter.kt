@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.R
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
+import org.catrobat.catroid.retrofit.models.ProjectCategoryWithResponses
 import org.catrobat.catroid.ui.recyclerview.CategoryTitleCallback
 import org.catrobat.catroid.ui.recyclerview.FeaturedProjectCallback
 
@@ -40,7 +40,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
         val categoryRecyclerView: RecyclerView = itemView.findViewById(R.id.categoryRecyclerView)
     }
 
-    private var data = mutableListOf<ProjectsCategory>()
+    private var data = mutableListOf<ProjectCategoryWithResponses>()
     private lateinit var projectCallback: FeaturedProjectCallback
     private lateinit var categoryTitleCallback: CategoryTitleCallback
 
@@ -52,7 +52,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
         categoryTitleCallback = callback
     }
 
-    fun setItems(items: List<ProjectsCategory>) {
+    fun setItems(items: List<ProjectCategoryWithResponses>) {
         data.clear()
         data.addAll(items)
         notifyDataSetChanged()
@@ -73,9 +73,9 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.categoryTitle.apply {
-            text = item.name
+            text = item.category.name
             setOnClickListener {
-                categoryTitleCallback.onCategoryTitleClicked(item.type)
+                categoryTitleCallback.onCategoryTitleClicked(item.category.type)
             }
         }
         holder.categoryRecyclerView.apply {

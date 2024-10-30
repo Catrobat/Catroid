@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -71,7 +71,7 @@ public class FormulaEditorEditTextTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
 		script.addBrick(new ChangeSizeByNBrick(new Formula(10)));
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
@@ -183,5 +183,21 @@ public class FormulaEditorEditTextTest {
 				.performClickOn(COMPUTE);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText("-8.111")));
+	}
+
+	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
+	@Test
+	public void testTextViewInBrickIsUpdatedCorrectly() {
+		onFormulaEditor()
+				.performEnterFormula("1+");
+
+		onFormulaEditor()
+				.performClickOn(FUNCTIONS);
+
+		onView(withText("pi"))
+				.perform(click());
+
+		onView(withId(R.id.brick_change_size_by_edit_text))
+				.check(matches(withText("1 + pi ")));
 	}
 }

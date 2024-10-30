@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,9 +62,9 @@ import java.net.URLEncoder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
@@ -115,19 +115,19 @@ public class WebViewActivity extends AppCompatActivity {
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
-			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
 				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
 						ProjectDownloadUtil.INSTANCE).download(this);
 			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
 				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
 
-				MEDIA_LIBRARY_CACHE_DIR.mkdirs();
-				if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
-					Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
+				MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs();
+				if (!MEDIA_LIBRARY_CACHE_DIRECTORY.isDirectory()) {
+					Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIRECTORY);
 					return;
 				}
 
-				File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
+				File file = new File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName);
 				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
 				new MediaDownloader(this)
 						.startDownload(this, downloadUrl, fileName, file.getAbsolutePath());
@@ -208,15 +208,26 @@ public class WebViewActivity extends AppCompatActivity {
 			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
 				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
 			}
+
+			if (errorCode == ERROR_CONNECT
+					|| errorCode == ERROR_FILE_NOT_FOUND
+					|| errorCode == ERROR_HOST_LOOKUP
+					|| errorCode == ERROR_TIMEOUT
+					|| errorCode == ERROR_PROXY_AUTHENTICATION
+					|| errorCode == ERROR_UNKNOWN) {
+				setContentView(R.layout.activity_network_error);
+				setSupportActionBar(findViewById(R.id.toolbar));
+				getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+				getSupportActionBar().setTitle(R.string.app_name);
+			} else {
+				Log.e(TAG, "couldn't connect to the server! info: " + description + " : " + errorCode);
+			}
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(MAIN_URL_HTTPS) && !url.contains(CATROBAT_HELP_URL))
-					|| url.contains(LIBRARY_BASE_URL)) {
-				return false;
-			}
-			return true;
+			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
+					&& !url.contains(LIBRARY_BASE_URL);
 		}
 	}
 

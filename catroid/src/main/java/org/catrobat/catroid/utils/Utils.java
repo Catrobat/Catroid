@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,8 +36,12 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.common.base.Splitter;
+import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -49,11 +53,9 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
-import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,8 +86,10 @@ import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
+import static org.koin.java.KoinJavaComponent.get;
 
 public final class Utils {
 
@@ -122,8 +126,8 @@ public final class Utils {
 		return networkAvailable;
 	}
 
-	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
+	public static boolean checkForNetworkError(WebConnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebConnectionException.ERROR_NETWORK;
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
@@ -418,22 +422,23 @@ public final class Utils {
 
 			StringFinder stringFinder = new StringFinder();
 
-			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
+			String defaultProjectSpriteList = stringFinder.findBetween(defaultProjectXml,
+					"<scenes>", "</scenes>");
+
+			if (defaultProjectSpriteList == null) {
 				return false;
 			}
 
-			String defaultProjectSpriteList = stringFinder.getResult();
-
-			ProjectSaveTask
-					.task(projectToCheck, context);
+			saveProjectSerial(projectToCheck, context);
 
 			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 
-			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
+			String projectToCheckSpriteList = stringFinder.findBetween(projectToCheckXML,
+					"<scenes>", "</scenes");
+
+			if (projectToCheckSpriteList == null) {
 				return false;
 			}
-
-			String projectToCheckSpriteList = stringFinder.getResult();
 
 			String scriptIdRegex = "((?s)<scriptId>.*?</scriptId>)";
 			String brickIdRegex = "(?s)<brickId>.*?</brickId>";
@@ -474,11 +479,8 @@ public final class Utils {
 
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
 		googleLoginHandler.getGoogleSignInClient().signOut();
-		LogoutTask logoutTask = new LogoutTask(context, userName);
-		logoutTask.execute();
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)
@@ -524,32 +526,45 @@ public final class Utils {
 			return;
 		}
 
-		final Intent srIntent = new Intent(ACTION_GET_LANGUAGE_DETAILS);
-		srIntent.setPackage("com.google.android.googlequicksearchbox");
+		MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
 
-		context.sendOrderedBroadcast(srIntent, null, new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				final Bundle bundle = getResultExtras(true);
+		if (mobileServiceAvailability.isGmsAvailable(context)) {
+			final Intent srIntent = new Intent(ACTION_GET_LANGUAGE_DETAILS);
+			srIntent.setPackage("com.google.android.googlequicksearchbox");
 
-				if (bundle != null) {
-					String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
-					SensorHandler.setListeningLanguageSensor(defaultLanguage);
-					List<String> supportedLanguages = bundle
-							.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
-					if (supportedLanguages != null) {
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.addAll(supportedLanguages);
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.remove(defaultLanguage);
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(0, defaultLanguage);
+			context.sendOrderedBroadcast(srIntent, null, new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					final Bundle bundle = getResultExtras(true);
+
+					if (bundle != null) {
+						String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
+						SensorHandler.setListeningLanguageSensor(defaultLanguage);
+						List<String> supportedLanguages = bundle
+								.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
+						if (supportedLanguages != null) {
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.addAll(supportedLanguages);
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.remove(defaultLanguage);
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(0, defaultLanguage);
+						} else {
+							Log.w(TAG, "onReceive: EXTRA_SUPPORTED_LANGUAGES is null");
+						}
 					} else {
-						Log.w(TAG, "onReceive: EXTRA_SUPPORTED_LANGUAGES is null");
+						Log.w(TAG, "onReceive: Bundle is null");
 					}
-				} else {
-					Log.w(TAG, "onReceive: Bundle is null");
 				}
-			}
-		}, null, Activity.RESULT_OK, null, null);
+			}, null, Activity.RESULT_OK, null, null);
+		} else if (mobileServiceAvailability.isHmsAvailable(context)) {
+			SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_US);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_DE_DE);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_IN);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ES_ES);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_FR_FR);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);
+		}
 	}
 
 	public static void removeExifData(File directory, String fileName) {
@@ -569,5 +584,31 @@ public final class Utils {
 		} catch (IOException e) {
 			Log.e(TAG, "removeExifData: Failed to remove exif data");
 		}
+	}
+
+	public static boolean checkForDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object it: anyList) {
+			if (it == prev) {
+				return true;
+			}
+			prev = it;
+		}
+		return false;
+	}
+
+	public static void hideStandardSystemKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		View currentFocus = activity.getCurrentFocus();
+
+		if (currentFocus == null) {
+			currentFocus = new View(activity);
+		}
+
+		inputMethodManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+	}
+
+	public static void showStandardSystemKeyboard(Activity activity) {
+		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,8 @@ import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemInter
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -50,8 +48,8 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 	}
 
 	public void performDelete() {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settings_button)
+				.perform(click());
 		onView(withText(R.string.delete))
 				.perform(click());
 		onView(withText(R.string.delete))
@@ -59,19 +57,19 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 	}
 
 	public void performRename(String newName) {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settings_button)
+				.perform(click());
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), replaceText(newName), closeSoftKeyboard());
+				.perform(replaceText(newName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 	}
 
 	public void performEdit(String newValue) {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settings_button)
+				.perform(click());
 		onView(withText(R.string.edit))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
@@ -80,9 +78,20 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(click());
 	}
 
+	public void performClickDetails() {
+		onChildView(R.id.spinner)
+				.perform(click());
+	}
+
 	public T checkHasName(String name) {
 		onChildView(R.id.title_view)
 				.check(matches(withText(name)));
+		return (T) this;
+	}
+
+	public T checkHasValue(String value) {
+		onChildView(R.id.details_view)
+				.check(matches(withText(value)));
 		return (T) this;
 	}
 }
