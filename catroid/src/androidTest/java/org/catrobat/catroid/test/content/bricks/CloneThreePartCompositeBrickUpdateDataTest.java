@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -89,7 +90,7 @@ public class CloneThreePartCompositeBrickUpdateDataTest {
 	}
 
 	@Test
-	public void testUpdateUserVariableInNestedBricks() {
+	public void testUpdateUserVariableInNestedBricks() throws ImageTooLargeException {
 		sprite.addUserVariable(USER_VARIABLE);
 		UserVariableBrickWithFormula variableBrick = new SetVariableBrick(new Formula(0), USER_VARIABLE);
 		compositeBrick.getNestedBricks().add(variableBrick);
@@ -101,7 +102,7 @@ public class CloneThreePartCompositeBrickUpdateDataTest {
 	}
 
 	@Test
-	public void testUpdateUserListInNestedBricks() {
+	public void testUpdateUserListInNestedBricks() throws ImageTooLargeException {
 		sprite.addUserList(USER_LIST);
 		UserListBrick listBrick = new AddItemToUserListBrick(0.0);
 		listBrick.setUserList(USER_LIST);
@@ -114,7 +115,7 @@ public class CloneThreePartCompositeBrickUpdateDataTest {
 	}
 
 	@Test
-	public void testUpdateUserVariableInSecondaryNestedBricks() {
+	public void testUpdateUserVariableInSecondaryNestedBricks() throws ImageTooLargeException {
 		sprite.addUserVariable(USER_VARIABLE);
 		UserVariableBrickWithFormula variableBrick = new SetVariableBrick(new Formula(0), USER_VARIABLE);
 		compositeBrick.getSecondaryNestedBricks().add(variableBrick);
@@ -126,7 +127,7 @@ public class CloneThreePartCompositeBrickUpdateDataTest {
 	}
 
 	@Test
-	public void testUpdateUserListInSecondaryNestedBricks() {
+	public void testUpdateUserListInSecondaryNestedBricks() throws ImageTooLargeException {
 		sprite.addUserList(USER_LIST);
 		UserListBrick listBrick = new AddItemToUserListBrick(0.0);
 		listBrick.setUserList(USER_LIST);

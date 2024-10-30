@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -64,6 +65,7 @@ import static org.catrobat.catroid.io.StorageOperations.deleteDir;
 import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -76,7 +78,7 @@ public class SceneControllerTest {
 	private final String newName = "new Scene Name";
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ImageTooLargeException {
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
@@ -226,10 +228,10 @@ public class SceneControllerTest {
 		assertFileExists(new File(new File(scene.getDirectory(), Constants.SOUND_DIRECTORY_NAME), fileName));
 	}
 
-	private void createProject() throws IOException {
+	private void createProject() throws IOException, ImageTooLargeException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);
