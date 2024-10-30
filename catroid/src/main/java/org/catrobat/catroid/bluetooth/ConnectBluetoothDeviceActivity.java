@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothConnectionFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.bluetooth.ble.BleManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
@@ -122,7 +123,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		btConnectionFactory = connectionFactory;
 	}
 
-	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
+	private final OnItemClickListener deviceClickListener = new OnItemClickListener() {
 
 		private String getSelectedBluetoothAddress(View view) {
 			TextView textViewAddresses = view.findViewById(R.id.bluetooth_address);
@@ -132,7 +133,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		@Override
 		public void onItemClick(AdapterView<?> av, View view, int position, long id) {
 			String address = getSelectedBluetoothAddress(view);
-			Pair pair = null;
+			Pair<Pair<String, String>, Integer> pair = null;
 
 			if (!newDevicesArrayAdapter.isEmpty()) {
 				pair = newDevicesArrayAdapter.getItem(position);
@@ -140,6 +141,10 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 			if (pair == null || pair.second.equals(DEVICE_TYPE_CLASSIC)) {
 				connectDevice(address);
+			}
+			else if (pair.second.equals(DEVICE_TYPE_LE))
+			{
+				connectBleDevice(address);
 			}
 		}
 	};
@@ -432,6 +437,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	private void connectDevice(String address) {
 		cancelDiscovery();
 		new ConnectDeviceTask().execute(address);
+	}
+
+	private void connectBleDevice(String address) {
+		cancelDiscovery();
+		new BleManager(this, btDevice).connect(address);
 	}
 
 	@Override

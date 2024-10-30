@@ -29,12 +29,12 @@ import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 
 import java.nio.ByteBuffer;
 
-import name.antonsmirnov.firmata.BytesHelper;
-import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
-import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
-import name.antonsmirnov.firmata.writer.ReportAnalogPinMessageWriter;
-import name.antonsmirnov.firmata.writer.ReportDigitalPortMessageWriter;
-import name.antonsmirnov.firmata.writer.SetPinModeMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.BytesHelper;
+import org.catrobat.catroid.firmata.Firmata.writer.AnalogMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.DigitalMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.ReportAnalogPinMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.ReportDigitalPortMessageWriter;
+import org.catrobat.catroid.firmata.Firmata.writer.SetPinModeMessageWriter;
 
 public final class FirmataUtils {
 

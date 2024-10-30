@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,21 +26,22 @@ import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.ble.BleManager;
+import org.catrobat.catroid.bluetooth.ble.operations.DisconnectOperation;
+import org.catrobat.catroid.firmata.Firmata.Firmata;
+import org.catrobat.catroid.firmata.Firmata.message.AnalogMessage;
+import org.catrobat.catroid.firmata.Firmata.message.DigitalMessage;
+import org.catrobat.catroid.firmata.Firmata.message.Message;
+import org.catrobat.catroid.firmata.Firmata.message.ReportAnalogPinMessage;
+import org.catrobat.catroid.firmata.Firmata.message.ReportDigitalPortMessage;
+import org.catrobat.catroid.firmata.Firmata.message.ReportFirmwareVersionMessage;
+import org.catrobat.catroid.firmata.Firmata.message.SetPinModeMessage;
+import org.catrobat.catroid.firmata.Serial.ISerial;
+import org.catrobat.catroid.firmata.Serial.SerialException;
+import org.catrobat.catroid.firmata.Serial.StreamingSerialAdapter;
 
 import java.io.IOException;
 import java.util.UUID;
-
-import name.antonsmirnov.firmata.Firmata;
-import name.antonsmirnov.firmata.message.AnalogMessage;
-import name.antonsmirnov.firmata.message.DigitalMessage;
-import name.antonsmirnov.firmata.message.Message;
-import name.antonsmirnov.firmata.message.ReportAnalogPinMessage;
-import name.antonsmirnov.firmata.message.ReportDigitalPortMessage;
-import name.antonsmirnov.firmata.message.ReportFirmwareVersionMessage;
-import name.antonsmirnov.firmata.message.SetPinModeMessage;
-import name.antonsmirnov.firmata.serial.ISerial;
-import name.antonsmirnov.firmata.serial.SerialException;
-import name.antonsmirnov.firmata.serial.StreamingSerialAdapter;
 
 public class ArduinoImpl implements Arduino {
 
@@ -60,6 +61,7 @@ public class ArduinoImpl implements Arduino {
 
 	private ArduinoListener arduinoListener;
 	private BluetoothConnection btConnection;
+	private BleManager bleManager;
 
 	@Override
 	public String getName() {
@@ -69,6 +71,18 @@ public class ArduinoImpl implements Arduino {
 	@Override
 	public void setConnection(BluetoothConnection connection) {
 		this.btConnection = connection;
+	}
+
+	public void setBleManager(BleManager bleManager) {
+		this.bleManager = bleManager;
+	}
+
+	public BleManager getBleManager() {
+		return bleManager;
+	}
+
+	public Firmata getFirmata() {
+		return firmata;
 	}
 
 	@Override
@@ -86,7 +100,13 @@ public class ArduinoImpl implements Arduino {
 		try {
 			this.reportSensorData(false);
 			firmata.clearListeners();
-			firmata.getSerial().stop();
+			if(bleManager == null)
+			{
+				firmata.getSerial().stop();
+			} else {
+				bleManager.getBleQueueManager().clear();
+				bleManager.requestOperation(new DisconnectOperation(bleManager.getBluetoothGatt(), bleManager.getBtDevice()));
+			}
 			isInitialized = false;
 			firmata = null;
 		} catch (SerialException e) {
@@ -102,6 +122,7 @@ public class ArduinoImpl implements Arduino {
 		}
 
 		try {
+			bleManager.getBleQueueManager().clear();
 			firmata.send(new ReportFirmwareVersionMessage());
 			return true;
 		} catch (SerialException e) {
@@ -144,14 +165,21 @@ public class ArduinoImpl implements Arduino {
 	}
 
 	private void tryInitialize() throws IOException, SerialException {
-		ISerial serial = new StreamingSerialAdapter(btConnection.getInputStream(), btConnection.getOutputStream());
-
-		firmata = new Firmata(serial);
+		if(bleManager == null)
+		{
+			ISerial serial = new StreamingSerialAdapter(btConnection.getInputStream(),btConnection.getOutputStream());
+			firmata = new Firmata(serial);
+		} else {
+			firmata = new Firmata(this);
+		}
 
 		arduinoListener = new ArduinoListener();
 		firmata.addListener(arduinoListener);
 
-		firmata.getSerial().start();
+		if(bleManager == null)
+		{
+			firmata.getSerial().start();
+		}
 
 		for (int pin : PWM_PINS) {
 			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.PWM.getMode()));
