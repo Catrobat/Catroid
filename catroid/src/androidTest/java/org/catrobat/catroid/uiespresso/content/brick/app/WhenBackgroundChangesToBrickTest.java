@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,11 +54,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenBackgroundChangesToBrickTest {
-	private int brickPosition;
-
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	private int brickPosition;
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,12 +73,12 @@ public class WhenBackgroundChangesToBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_when_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_background_spinner)
-			.performSelectNameable(R.string.new_option);
+				.performSelectNameable(R.string.new_option);
 
 		Intents.init();
 
 		onView(withId(R.id.dialog_new_look_paintroid))
-			.perform(click());
+				.perform(click());
 
 		onView(withId(R.id.pocketpaint_drawing_surface_view)).perform(click());
 		pressBack();

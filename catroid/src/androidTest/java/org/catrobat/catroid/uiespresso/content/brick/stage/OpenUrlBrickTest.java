@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,30 +68,29 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 public class OpenUrlBrickTest {
 
-	private int openUrlBrickPosition;
 	private final String url = BrickValues.OPEN_IN_BROWSER;
-	private Matcher expectedIntent;
 	private final String projectName = "openUrlBrickTest";
-	private boolean bufferedWarningPreferenceSetting = false;
 	private final Context applicationContext = ApplicationProvider.getApplicationContext();
-
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	private int openUrlBrickPosition;
+	private Matcher expectedIntent;
+	private boolean bufferedWarningPreferenceSetting = false;
 
 	@Before
 	public void setUp() {
 		bufferedWarningPreferenceSetting = PreferenceManager
-			.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-			.getBoolean(DO_NOT_SHOW_WARNING, false);
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+				.getBoolean(DO_NOT_SHOW_WARNING, false);
 
 		PreferenceManager.getDefaultSharedPreferences(applicationContext.getApplicationContext())
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				true
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						true
+				)
+				.commit();
 
 		openUrlBrickPosition = 1;
 		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
@@ -117,12 +116,11 @@ public class OpenUrlBrickTest {
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(applicationContext)
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				bufferedWarningPreferenceSetting
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						bufferedWarningPreferenceSetting
+				).commit();
 
 		Intents.release();
 		baseActivityTestRule.finishActivity();

@@ -1,8 +1,6 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -126,10 +124,10 @@ android {
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
-        manifestPlaceholders += [appName: manifestAppName,
-                                 appIcon: manifestAppIcon,
-                                 intentFilterScheme: "https",
-                                 intentFilterHost: "share.catrob.at",
+        manifestPlaceholders += [appName                : manifestAppName,
+                                 appIcon                : manifestAppIcon,
+                                 intentFilterScheme     : "https",
+                                 intentFilterHost       : "share.catrob.at",
                                  intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
@@ -180,7 +178,6 @@ android {
         }
     }
 
-
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
@@ -204,7 +201,6 @@ android {
             excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
         }
     }
-
 
     signingConfigs {
         signedRelease {
@@ -277,7 +273,6 @@ android {
         xmlReport true
     }
 
-
     productFlavors {
         catroid {
             isDefault.set(true)
@@ -322,11 +317,9 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
 
-            if(variant.buildType.name == "signedRelease")
-            {
+            if (variant.buildType.name == "signedRelease") {
                 def flavorName
-                switch(variant.flavorName)
-                {
+                switch (variant.flavorName) {
                     case "catroid":
                         flavorName = "pocketCode"
                         break
@@ -355,14 +348,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Paintroid local aar lib files
-    if(rootProject.hasProperty('paintroidLocal')) {
+    if (rootProject.hasProperty('paintroidLocal')) {
         catroidImplementation "org.catrobat.paintroid:paintroid:-LOCAL"
         implementation "org.catrobat.paintroid:colorpicker:-LOCAL"
     } else {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation ('com.esotericsoftware:kryo:5.1.1')
+    implementation('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // WorkManager
@@ -388,7 +381,7 @@ dependencies {
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation ('com.opencsv:opencsv:5.0') {
+    implementation('com.opencsv:opencsv:5.0') {
         exclude group: 'org.apache.commons', module: 'commons-text'
         exclude group: 'commons-logging', module: 'commons-logging'
     }
@@ -434,7 +427,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ar.com.hjg:pngj:2.1.0'
 
-    implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
+    implementation('com.thoughtworks.xstream:xstream:1.4.11.1') {
         exclude group: 'xmlpull'
     }
 
@@ -567,9 +560,9 @@ tasks.whenTaskAdded { packageTask ->
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = "11"
-  }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

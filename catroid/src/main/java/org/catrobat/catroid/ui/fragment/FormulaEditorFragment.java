@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -125,28 +125,23 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		DataListFragment.FormulaEditorDataInterface {
 
 	public static final String TAG = FormulaEditorFragment.class.getSimpleName();
-
+	public static final int REQUEST_GPS = 1;
+	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
+	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
+	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
+	public static final String FORMULA_FIELD_BUNDLE_ARGUMENT = "formula_field";
+	public static final String DO_NOT_SHOW_WARNING = "DO_NOT_SHOW_WARNING";
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT = 2;
 	private static final int SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER = 3;
 	private static final int TIME_WINDOW = 2000;
-	public static final int REQUEST_GPS = 1;
-	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
-
-	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
-	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
-	public static final String FORMULA_FIELD_BUNDLE_ARGUMENT = "formula_field";
-	public static final String DO_NOT_SHOW_WARNING = "DO_NOT_SHOW_WARNING";
-
+	private static Brick.FormulaField currentFormulaField;
+	private static Formula currentFormula;
 	private FormulaEditorEditText formulaEditorEditText;
 	private TableLayout formulaEditorKeyboard;
 	private LinearLayout formulaEditorBrick;
-
 	private FormulaBrick formulaBrick;
-
-	private static Brick.FormulaField currentFormulaField;
-	private static Formula currentFormula;
 	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
@@ -158,33 +153,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private CategoryListRVAdapter.CategoryListItem chosenCategoryItem = null;
 	private UserData<?> chosenUserDataItem = null;
 	private FormulaEditorClipboard formulaEditorClipboard;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
-		if (isRestoringPreviouslyDestroyedActivity) {
-			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			return;
-		}
-
-		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
-		currentFormulaField = (Brick.FormulaField) getArguments().getSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT);
-		currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		actionBarTitleBuffer = actionBar.getTitle().toString();
-		actionBar.setTitle(R.string.formula_editor_title);
-
-		setHasOptionsMenu(true);
-		SettingsFragment.setToChosenLanguage(getActivity());
-	}
+	private boolean showCustomView = false;
 
 	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField, boolean showCustomView) {
 		AppCompatActivity activity = UiUtils.getActivityFromContextWrapper(context);
@@ -216,6 +185,41 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
+	public static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
+		showFragment(context, formulaBrick, formulaField, false);
+	}
+
+	public static void showCustomFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
+		showFragment(context, formulaBrick, formulaField, true);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			return;
+		}
+
+		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
+		currentFormulaField = (Brick.FormulaField) getArguments().getSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT);
+		currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		actionBarTitleBuffer = actionBar.getTitle().toString();
+		actionBar.setTitle(R.string.formula_editor_title);
+
+		setHasOptionsMenu(true);
+		SettingsFragment.setToChosenLanguage(getActivity());
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -228,16 +232,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						getActivity().getResources().getResourceName(R.string.formula_editor_intro_title_formula_editor));
 			}
 		}
-	}
-
-	private boolean showCustomView = false;
-
-	public static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
-		showFragment(context, formulaBrick, formulaField, false);
-	}
-
-	public static void showCustomFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField) {
-		showFragment(context, formulaBrick, formulaField, true);
 	}
 
 	public void updateBrickView() {
@@ -318,6 +312,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			private Handler handler;
 			private Runnable deleteAction;
 
+			@SuppressWarnings("checkstyle:Indentation")
 			private boolean handleLongClick(final View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					if (handler == null) {
@@ -455,11 +450,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			}
 
 			@Override
-			public void setValue(int value) {
-				addString(String.format("#%06X", (0xFFFFFF & value)));
-			}
-
-			@Override
 			public int getValue() {
 				String currentValue = getSelectedFormulaText();
 				if (currentValue != null && currentValue.matches("^#[0-9A-Fa-f]{6}$")) {
@@ -467,6 +457,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				} else {
 					return 0;
 				}
+			}
+
+			@Override
+			public void setValue(int value) {
+				addString(String.format("#%06X", (0xFFFFFF & value)));
 			}
 		}, fragmentManager);
 	}

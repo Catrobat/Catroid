@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -80,13 +79,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int REQUEST_GPS = 1;
-
+	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
 	private Brick.ResourcesSet requiredResourcesSet;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
-
 	private StageActivity stageActivity;
-	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
 
 	StageResourceHolder(final StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
@@ -289,18 +286,18 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
 				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-					.setTitle(R.string.error_no_network_title)
-					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
-						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-					})
-					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
-						endStageActivity();
-					})
-					.setOnDismissListener(dialog -> {
-						endStageActivity();
-					})
-					.create()
-					.show();
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
+							stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+						})
+						.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+							endStageActivity();
+						})
+						.setOnDismissListener(dialog -> {
+							endStageActivity();
+						})
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -71,6 +71,13 @@ import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
+	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<Class<?>>() {
+		{
+			add(CameraBrick.class);
+			add(ChooseCameraBrick.class);
+			add(FlashBrick.class);
+		}
+	};
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
 	private StageActivity gamepadActivity;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
@@ -87,14 +94,6 @@ public final class CastManager {
 	private MenuItem castButton;
 	private boolean pausedScreenShowing = false;
 	private boolean isCastDeviceAvailable;
-
-	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<Class<?>>() {
-		{
-			add(CameraBrick.class);
-			add(ChooseCameraBrick.class);
-			add(FlashBrick.class);
-		}
-	};
 
 	private CastManager() {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);
@@ -446,12 +445,11 @@ public final class CastManager {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
-						intent,PendingIntent.FLAG_IMMUTABLE);
+						intent, PendingIntent.FLAG_IMMUTABLE);
 			} else {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
 						intent, 0);
 			}
-
 
 			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
 					.NotificationSettings.Builder()

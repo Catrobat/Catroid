@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 public class PhiroSensorAction extends Action {
 
+	private static final int DISTANCE_THRESHOLD_VALUE = 850;
 	private int sensorNumber;
 	private Scope scope;
 	private Action ifAction;
@@ -44,8 +45,6 @@ public class PhiroSensorAction extends Action {
 	private boolean isInitialized = false;
 	private boolean isInterpretedCorrectly;
 
-	private static final int DISTANCE_THRESHOLD_VALUE = 850;
-
 	protected void begin() {
 		try {
 			if (ifCondition == null) {
@@ -53,7 +52,7 @@ public class PhiroSensorAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(scope);
-			ifConditionValue = interpretation.intValue() <= DISTANCE_THRESHOLD_VALUE ? true : false;
+			ifConditionValue = interpretation.intValue() <= DISTANCE_THRESHOLD_VALUE;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;
