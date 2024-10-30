@@ -25,6 +25,8 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.media.MediaPlayer;
 
+import com.esotericsoftware.minlog.Log;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -111,12 +113,24 @@ public class SceneTransitionWithSoundBrickStageTest {
 	}
 
 	@Test
-	public void testContinueSoundDoesNotStartFromBeginning() {
+	public void testContinueSoundDoesNotStartFromBeginning() throws InterruptedException {
 		secondScript.addBrick(new SceneTransitionBrick(firstSceneName));
+		//runProject(lastBrickFirstScript);
+
+		while(SoundManager.getInstance().getMediaPlayers().isEmpty() || !getMediaplayer().isPlaying()
+				|| getMediaplayer().getCurrentPosition() < 100){
+			Thread.sleep(20);
+		}
+		int oldCurrentPosition = getMediaplayer().getCurrentPosition();
+		android.util.Log.d("1599", "current time old" + oldCurrentPosition);
+		android.util.Log.d("1599", "current time new" + getMediaplayer().getCurrentPosition());
+		runProject(lastBrickSecondScript);
+		android.util.Log.d("1599", "lastBrickSecondScript time old" + oldCurrentPosition);
+		android.util.Log.d("1599", "lastBrickSecondScript time new" + getMediaplayer().getCurrentPosition());
 		runProject(lastBrickFirstScript);
-		MediaPlayer mediaPlayer = getMediaplayer();
-		assertTrue(mediaPlayer.isPlaying());
-		assertTrue(mediaPlayer.getCurrentPosition() > 50);
+		android.util.Log.d("1599", "lastBrickFirstScript time old" + oldCurrentPosition);
+		android.util.Log.d("1599", "lastBrickFirstScript time new" + getMediaplayer().getCurrentPosition());
+		assertTrue(getMediaplayer().getCurrentPosition() > oldCurrentPosition);
 	}
 
 	private void runProject(ScriptEvaluationGateBrick scriptBrick) {
