@@ -1356,8 +1356,20 @@
     <string formatted="false" name="default_project_sprites_animal_wings_down">Wings down</string>
     <string formatted="false" name="default_project_sprites_tweet_1">Tweet1</string>
     <string formatted="false" name="default_project_sprites_tweet_2">Tweet2</string>
+
+    <string formatted="false" name="default_project_red">Red</string>
+    <string formatted="false" name="default_project_pen">Pen</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_needle_name">Needle</string>
+    <string formatted="false" name="default_project_frame_name">Frame</string>
+    <string formatted="false" name="default_project_pattern_name">Pattern</string>
+    <!-- Default Embroidery Degrees -->
+    <!--suppress UnusedResources -->
+    <string formatted="false" name="embroidery_degree">embroidery degree</string>
+    <string formatted="false" name="embroidery_degree_0">embroidery degree 0</string>
+    <string formatted="false" name="embroidery_degree_90">embroidery degree 90</string>
+    <string formatted="false" name="embroidery_degree_180">embroidery degree 180</string>
+    <string formatted="false" name="embroidery_degree_270">embroidery degree 270</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_outer_loop">Outer Loop</string>
     <!--suppress UnusedResources -->
