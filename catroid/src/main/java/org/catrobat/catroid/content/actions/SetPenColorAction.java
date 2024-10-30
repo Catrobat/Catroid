@@ -42,9 +42,9 @@ public class SetPenColorAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		try {
-			int newRed = red == null ? 0 : red.interpretInteger(scope);
-			int newGreen = green == null ? 0 : green.interpretInteger(scope);
-			int newBlue = blue == null ? 0 : blue.interpretInteger(scope);
+			int newRed = red == null ? 0 : red.getInterpreter().interpretInteger(scope);
+			int newGreen = green == null ? 0 : green.getInterpreter().interpretInteger(scope);
+			int newBlue = blue == null ? 0 : blue.getInterpreter().interpretInteger(scope);
 			Color color = new Color();
 			Color.argb8888ToColor(color, android.graphics.Color.argb(0xFF, newRed, newGreen, newBlue));
 			scope.getSprite().penConfiguration.setPenColor(new PenColor(color.r, color.g, color.b, color.a));

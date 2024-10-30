@@ -112,7 +112,7 @@ public class PlayNoteForBeatsBrick extends FormulaBrick {
 			int note = 0;
 			try {
 				Formula formula = getFormulaWithBrickField(BrickField.NOTE_TO_PLAY);
-				note = formula.interpretInteger(null);
+				note = formula.getInterpreter().interpretInteger(null);
 			} catch (InterpretationException e) {
 				return 0;
 			}

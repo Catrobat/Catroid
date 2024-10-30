@@ -106,7 +106,7 @@ public class SetThreadColorBrick extends FormulaBrick {
 		private int getColorValueFromBrickField(BrickField brickField) {
 			Formula formula = getFormulaWithBrickField(brickField);
 			try {
-				String value = formula.interpretString(null);
+				String value = formula.getInterpreter().interpretString(null);
 				return Integer.decode(value);
 			} catch (InterpretationException e) {
 				return 0;

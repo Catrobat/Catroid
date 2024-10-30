@@ -34,7 +34,7 @@ class ChangeTempoByAction : TemporalAction() {
     lateinit var tempo: Formula
     override fun update(delta: Float) {
         try {
-            val newTempo: Int = tempo?.interpretInteger(scope) ?: 0
+            val newTempo: Int = tempo?.interpreter.interpretInteger(scope) ?: 0
             MidiSoundManager.getInstance().tempo = MidiSoundManager.getInstance().tempo + newTempo
         } catch (interpretationException: InterpretationException) {
             Log.d(

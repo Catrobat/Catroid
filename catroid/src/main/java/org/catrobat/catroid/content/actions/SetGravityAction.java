@@ -42,14 +42,14 @@ public class SetGravityAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newGravityX;
 		try {
-			newGravityX = gravityX == null ? Float.valueOf(0f) : gravityX.interpretFloat(scope);
+			newGravityX = gravityX == null ? Float.valueOf(0f) : gravityX.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
 		Float newGravityY;
 		try {
-			newGravityY = gravityY == null ? Float.valueOf(0f) : gravityY.interpretFloat(scope);
+			newGravityY = gravityY == null ? Float.valueOf(0f) : gravityY.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;

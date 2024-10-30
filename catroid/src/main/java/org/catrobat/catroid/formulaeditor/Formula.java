@@ -38,7 +38,6 @@ import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String ERROR_STRING = "ERROR";
 	private FormulaElement formulaTree;
 
 	private transient InternFormula internFormula = null;
@@ -225,46 +224,9 @@ public class Formula implements Serializable {
 		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
-	public String getUserFriendlyString(StringProvider stringProvider, Scope scope) {
-		if (formulaTree.isBoolean(scope)) {
-			return tryInterpretBooleanToString(stringProvider, scope);
-		} else {
-			return tryInterpretString(scope);
-		}
-	}
-
-	private String tryInterpretString(Scope scope) {
-		try {
-			return interpretString(scope);
-		} catch (InterpretationException interpretationException) {
-			return ERROR_STRING;
-		}
-	}
-
-	private String tryInterpretBooleanToString(StringProvider stringProvider, Scope scope) {
-		try {
-			return interpretBooleanToString(scope, stringProvider);
-		} catch (InterpretationException interpretationException) {
-			return ERROR_STRING;
-		}
-	}
-
-	public String interpretBooleanToString(Scope scope,
-			StringProvider stringProvider) throws InterpretationException {
-		boolean booleanValue = interpretBoolean(scope);
-		return toLocalizedString(booleanValue, stringProvider);
-	}
-
-	public boolean interpretBoolean(Scope scope) throws InterpretationException {
-		return interpretDouble(scope).intValue() != 0;
-	}
-
-	private String toLocalizedString(boolean value, StringProvider stringProvider) {
-		return stringProvider.getTrueOrFalse(value);
-	}
-
-	public interface StringProvider {
-		String getTrueOrFalse(Boolean value);
+	@NotNull
+	public FormulaInterpreter getInterpreter() {
+		return new FormulaInterpreter(formulaTree);
 	}
 
 	public void sceneFirstStart(boolean sceneFirstStart) {

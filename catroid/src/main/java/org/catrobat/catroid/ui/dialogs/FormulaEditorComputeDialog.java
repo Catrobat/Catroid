@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.FormulaInterpreter;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
@@ -126,12 +127,12 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		return true;
 	}
 
-	private void showFormulaResult(Scope scope, Formula.StringProvider stringProvider) {
+	private void showFormulaResult(Scope scope, FormulaInterpreter.StringProvider stringProvider) {
 		if (computeTextView == null) {
 			return;
 		}
 
-		String result = formulaToCompute.getUserFriendlyString(stringProvider, scope);
+		String result = formulaToCompute.getInterpreter().getUserFriendlyString(stringProvider, scope);
 		setDialogTextView(trimTrailingCharacters(result));
 	}
 

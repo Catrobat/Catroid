@@ -67,13 +67,16 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
 				ProjectManager projectManager = ProjectManager.getInstance();
-				Scope scope = new Scope(projectManager.getCurrentProject(),
-						projectManager.getCurrentSprite(), null);
-				times.setText(view.getResources().getQuantityString(
+				Scope scope = new Scope(
+						projectManager.getCurrentProject(), projectManager.getCurrentSprite(), null
+				);
+				Double steps = getFormulaWithBrickField(BrickField.STEPS)
+						.getInterpreter().interpretDouble(scope);
+				String quantityString = view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-								scope))
-				));
+						Utils.convertDoubleToPluralInteger(steps)
+				);
+				times.setText(quantityString);
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
 			}

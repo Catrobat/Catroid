@@ -57,7 +57,7 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
     fun synthesize(androidStringProvider: AndroidStringProvider) {
         val listener = listener ?: return
         interpretedText = if (text != null) {
-            text.getUserFriendlyString(androidStringProvider, scope)
+            text.interpreter.getUserFriendlyString(androidStringProvider, scope)
         } else {
             ""
         }

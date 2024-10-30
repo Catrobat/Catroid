@@ -100,7 +100,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
     }
 
     private fun getFileName(): String {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
+        var fileName = Utils.sanitizeFileName(formula?.interpreter?.interpretString(scope))
         if (!fileName.endsWith(Constants.TEXT_FILE_EXTENSION)) {
             fileName += Constants.TEXT_FILE_EXTENSION
         }

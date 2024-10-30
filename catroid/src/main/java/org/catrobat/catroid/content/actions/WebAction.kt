@@ -55,7 +55,7 @@ abstract class WebAction : Action(), WebRequestListener {
 
     private fun interpretUrl(): Boolean {
         return try {
-            formula!!.interpretString(scope)!!.let {
+            formula!!.interpreter.interpretString(scope)!!.let {
                 url = if (it.startsWith("http://") || it.startsWith("https://")) {
                     it
                 } else "https://$it"

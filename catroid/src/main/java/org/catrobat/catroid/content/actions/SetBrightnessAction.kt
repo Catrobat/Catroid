@@ -35,7 +35,7 @@ class SetBrightnessAction : TemporalAction() {
 
     override fun update(percent: Float) {
         try {
-            val newBrightness = brightness?.interpretFloat(scope) ?: 0f
+            val newBrightness = brightness?.interpreter?.interpretFloat(scope) ?: 0f
             scope?.sprite?.look?.brightnessInUserInterfaceDimensionUnit = newBrightness
         } catch (interpretationException: InterpretationException) {
             Log.d(

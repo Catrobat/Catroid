@@ -57,21 +57,21 @@ public class GlideToAction extends TemporalAction {
 
 		try {
 			durationInterpretation = duration == null ? Float.valueOf(0f)
-					: duration.interpretFloat(scope);
+					: duration.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.interpretFloat(scope);
+			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.interpretFloat(scope);
+			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

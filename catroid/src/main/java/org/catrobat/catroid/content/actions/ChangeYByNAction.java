@@ -38,7 +38,7 @@ public class ChangeYByNAction extends TemporalAction {
 	@Override
 	protected void update(float arg0) {
 		try {
-			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(scope);
+			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.getInterpreter().interpretFloat(scope);
 			scope.getSprite().look.changeYInUserInterfaceDimensionUnit(newY);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

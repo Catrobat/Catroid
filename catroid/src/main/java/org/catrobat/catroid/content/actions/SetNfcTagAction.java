@@ -67,7 +67,7 @@ public class SetNfcTagAction extends Action {
 		}
 		if (firstExecution) {
 			try {
-				message = NfcHandler.createMessage(nfcNdefMessage.interpretString(scope),
+				message = NfcHandler.createMessage(nfcNdefMessage.getInterpreter().interpretString(scope),
 						nfcTagNdefSpinnerSelection);
 				synchronized (StageActivity.class) {
 					StageActivity.setNfcTagMessage(message);

@@ -43,7 +43,7 @@ public class SetVelocityAction extends TemporalAction {
 		Float newVelocityX;
 		try {
 			newVelocityX = velocityX == null ? Float.valueOf(0f)
-					: velocityX.interpretFloat(scope);
+					: velocityX.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
@@ -51,7 +51,7 @@ public class SetVelocityAction extends TemporalAction {
 		Float newVelocityY;
 		try {
 			newVelocityY = velocityY == null ? Float.valueOf(0f)
-					: velocityY.interpretFloat(scope);
+					: velocityY.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;

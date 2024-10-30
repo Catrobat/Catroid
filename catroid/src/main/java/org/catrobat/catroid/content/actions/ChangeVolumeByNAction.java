@@ -39,7 +39,7 @@ public class ChangeVolumeByNAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			Float newVolume = volume == null ? Float.valueOf(0f) : volume.interpretFloat(scope);
+			Float newVolume = volume == null ? Float.valueOf(0f) : volume.getInterpreter().interpretFloat(scope);
 			SoundManager.getInstance().setVolume(SoundManager.getInstance().getVolume() + newVolume);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

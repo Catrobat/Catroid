@@ -112,6 +112,6 @@ public class ParserTestUserVariables {
 		FormulaElement parseTree = internParser.parseFormula(scope);
 		Formula userVariableFormula = new Formula(parseTree);
 
-		return userVariableFormula.interpretObject(scope);
+		return userVariableFormula.getInterpreter().interpretObject(scope);
 	}
 }
