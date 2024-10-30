@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@
         </TextView>
 
         <TextView
+            app:layout_newLine="true"
             android:id="@+id/brick_param_list_of_list_text"
             style="@style/BrickEditText">
         </TextView>
@@ -55,7 +56,7 @@
         <TextView
             app:layout_newLine="true"
             android:id="@+id/brick_param_second_label"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.MultipleLines"
             android:text=""
             >
         </TextView>
