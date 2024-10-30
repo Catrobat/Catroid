@@ -53,6 +53,7 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.MobileServiceAvailability;
@@ -130,7 +131,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.MICROPHONE)) {
-			sensorHandler.setSensorLoudness(new SensorLoudness());
+			sensorHandler.setSensorLoudness(new SensorLoudness(new SoundRecorder("/dev/null")));
 			resourceInitialized();
 		}
 
@@ -289,18 +290,18 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
 				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-					.setTitle(R.string.error_no_network_title)
-					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
-						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-					})
-					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
-						endStageActivity();
-					})
-					.setOnDismissListener(dialog -> {
-						endStageActivity();
-					})
-					.create()
-					.show();
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
+							stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+						})
+						.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+							endStageActivity();
+						})
+						.setOnDismissListener(dialog -> {
+							endStageActivity();
+						})
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}

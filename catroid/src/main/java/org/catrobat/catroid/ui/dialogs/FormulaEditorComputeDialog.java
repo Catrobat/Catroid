@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import androidx.appcompat.app.AlertDialog;
@@ -84,7 +85,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		formula.addRequiredResources(resourcesSet);
 
 		if (resourcesSet.contains(Brick.MICROPHONE)) {
-			SensorHandler.getInstance(getContext()).setSensorLoudness(new SensorLoudness());
+			SensorHandler.getInstance(getContext()).setSensorLoudness(new SensorLoudness(new SoundRecorder("/dev/null")));
 		}
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
