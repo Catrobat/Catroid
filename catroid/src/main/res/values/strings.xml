@@ -229,6 +229,9 @@
     <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
         robotics extension, please use Catrobat\'s Phiro Code app.</string>
 
+    <string name="preference_title_catblocks_advanced_mode">Advanced mode</string>
+    <string name="preference_description_catblocks_advanced_mode">Change to text-oriented interface</string>
+
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
