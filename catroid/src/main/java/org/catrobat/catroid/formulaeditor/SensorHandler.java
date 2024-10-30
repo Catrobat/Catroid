@@ -27,7 +27,6 @@ import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,12 +55,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
-		GpsStatus.Listener {
+public final class SensorHandler implements SensorEventListener, SensorCustomEventListener,
+		LocationListener {
 	private static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance;
@@ -89,8 +89,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private LocationManager locationManager;
 	private boolean isGpsConnected;
-	private Location lastLocationGps;
-	private long lastLocationGpsMillis;
+	private final GpsStatusHandler gpsSensor;
 
 	public static double timerReferenceValue;
 	public static double timerPauseValue;
@@ -134,6 +133,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				accelerationAvailable = false;
 			}
 		}
+		gpsSensor = new GpsStatusHandler(this);
 	}
 
 	public boolean compassAvailable() {
@@ -206,8 +206,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		if (instance.locationManager != null) {
 			instance.locationManager.removeUpdates(instance);
-			instance.locationManager.removeGpsStatusListener(instance);
-			instance.locationManager.addGpsStatusListener(instance);
+			instance.gpsSensor.deregisterGNSSCallback(instance.locationManager);
+			instance.gpsSensor.registerGNSSCallback(instance.locationManager, context);
+
 			if (gpsSensorAvailable()) {
 				instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
 			}
@@ -266,7 +267,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		if (instance.locationManager != null) {
 			instance.locationManager.removeUpdates(instance);
-			instance.locationManager.removeGpsStatusListener(instance);
+			instance.gpsSensor.deregisterGNSSCallback(instance.locationManager);
 		}
 
 		VisualDetectionHandler.removeListener(instance);
@@ -617,20 +618,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
-		if (location == null) {
-			return;
-		}
-		if (location.getProvider().equals(LocationManager.GPS_PROVIDER) || !isGpsConnected) {
+	public void onLocationChanged(@NonNull Location location) {
+		if (Objects.equals(location.getProvider(), LocationManager.GPS_PROVIDER) || !isGpsConnected) {
 			sensorValueMap.put(Sensors.LATITUDE, location.getLatitude());
 			sensorValueMap.put(Sensors.LONGITUDE, location.getLongitude());
 			sensorValueMap.put(Sensors.LOCATION_ACCURACY, location.getAccuracy());
 			sensorValueMap.put(Sensors.ALTITUDE, location.hasAltitude() ? location.getAltitude() : 0);
 		}
 
-		if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-			lastLocationGpsMillis = SystemClock.elapsedRealtime();
-			lastLocationGps = location;
+		if (Objects.equals(location.getProvider(), LocationManager.GPS_PROVIDER)) {
+			instance.gpsSensor.setLastLocationAndGpsMillis(location, SystemClock.elapsedRealtime());
 		}
 	}
 
@@ -646,18 +643,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public void onProviderDisabled(String provider) {
 	}
 
-	@Override
-	public void onGpsStatusChanged(int event) {
-		switch (event) {
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				if (lastLocationGps != null) {
-					isGpsConnected = (SystemClock.elapsedRealtime() - lastLocationGpsMillis) < 3000;
-				}
-				break;
-			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				isGpsConnected = true;
-				break;
-		}
+	public void setIsGpsConnected(boolean isGpsConnected) {
+		this.isGpsConnected = isGpsConnected;
 	}
 
 	public static void destroy() {
