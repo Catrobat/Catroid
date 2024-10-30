@@ -44,10 +44,11 @@
 
         <TextView
             android:id="@+id/brick_param_first_label"
-            style="@style/BrickText.SingleLine">
+            style="@style/BrickText.MultipleLines">
         </TextView>
 
         <TextView
+            app:layout_newLine="true"
             android:id="@+id/brick_param_list_of_list_text"
             style="@style/BrickEditText">
         </TextView>
@@ -55,7 +56,7 @@
         <TextView
             app:layout_newLine="true"
             android:id="@+id/brick_param_second_label"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.MultipleLines"
             android:text=""
             >
         </TextView>
