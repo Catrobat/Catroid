@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,6 @@
 
 @file:JvmName("ProjectUtils")
 
-/**
- * suspicious bricks as defined in CATROID-681
- *
- * StartListeningBrick and WebRequestBrick or BackgroundRequestBrick or LookRequestBrick
- * */
-
 package org.catrobat.catroid.ui
 
 import android.content.Context
@@ -46,32 +40,34 @@ import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.LookRequestBrick
+import org.catrobat.catroid.content.bricks.OpenUrlBrick
 import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.koin.java.KoinJavaComponent.inject
 
-/**
- * extension boolean function for List<Brick> data type.
- * check if the list contains suspicious bricks
- * */
-private fun List<Brick>.containsSuspiciousBricks(): Boolean {
+private val projectManager by inject(ProjectManager::class.java)
+
+private fun List<Brick>.containsStartListeningAndWebAccessBricks(): SuspiciousBricks {
+    val backgroundRequestOrWebRequestBrickExists = any { brick ->
+        brick is WebRequestBrick || brick is BackgroundRequestBrick || brick is LookRequestBrick || brick is OpenUrlBrick
+    }
     val startListeningBrickExists = any { brick ->
         brick is StartListeningBrick
     }
-    val backgroundRequestOrWebRequestBrickExists = any { brick ->
-        brick is WebRequestBrick || brick is BackgroundRequestBrick || brick is LookRequestBrick
+    return if (startListeningBrickExists and backgroundRequestOrWebRequestBrickExists) {
+        SuspiciousBricks.CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS
+    } else if (backgroundRequestOrWebRequestBrickExists) {
+        SuspiciousBricks.CONTAINS_WEB_ACCESS_BRICK
+    } else {
+        SuspiciousBricks.NO_SUSPICIOUS_BRICKS
     }
-    return startListeningBrickExists and backgroundRequestOrWebRequestBrickExists
 }
 
-/**
- * extension function for Sprite data type.
- * get list of all bricks and its nested bricks if exists
- * */
-public fun Sprite.getListAllBricks(): List<Brick> {
+fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
     allBricks.forEach { brick ->
         bricks.add(brick)
@@ -110,11 +106,7 @@ public fun Sprite.getListAllBricks(): List<Brick> {
     return bricks
 }
 
-/**
- * extension boolean function for Project data type.
- * check if the project contains suspicious bricks
- * */
-private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
+private fun Project.shouldDisplaySuspiciousBricksWarning(): SuspiciousBricks {
     val brickList = arrayListOf<Brick>()
     sceneList.forEach { scene ->
         brickList.run {
@@ -123,39 +115,50 @@ private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
             }
         }
     }
-    return brickList.containsSuspiciousBricks()
+    return brickList.containsStartListeningAndWebAccessBricks()
 }
 
 fun showWarningForSuspiciousBricksOnce(context: Context) {
-    // used for not showing the dialog again
     val sharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_approved_list_file_key),
         MODE_PRIVATE
     )
-    val currentProject = ProjectManager.getInstance().currentProject
+    val currentProject = projectManager.currentProject
     val projectUrl = currentProject?.xmlHeader?.remixParentsUrlString ?: return
-    // if project has an url => is a downloaded project
     val isDownloadedProject = projectUrl.isNotBlank()
-    // since the projectUrl is kinda unique, ues it as key for the shared preference, if it's null
-    // that means the dialog hasn't been displayed yet
     val showForFirstTime = sharedPreferences.getString(projectUrl, null).isNullOrBlank()
 
-    if (isDownloadedProject && currentProject.shouldDisplaySuspiciousBricksWarning() && showForFirstTime) {
-        AlertDialog.Builder(context)
-            .setTitle(context.resources.getString(R.string.warning))
-            .setMessage(context.resources.getString(R.string.security_warning_dialog_msg))
-            .setCancelable(false)
-            .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
-                sharedPreferences
-                    .edit()
-                    .putString(projectUrl, projectUrl)
-                    .apply()
-                dialog.dismiss()
-            }
-            .show()
+    if (isDownloadedProject && showForFirstTime && currentProject.shouldDisplaySuspiciousBricksWarning() > SuspiciousBricks.NO_SUSPICIOUS_BRICKS) {
+        if (currentProject.shouldDisplaySuspiciousBricksWarning() == SuspiciousBricks
+                .CONTAINS_WEB_ACCESS_BRICK) {
+            AlertDialog.Builder(context)
+                .setTitle(context.resources.getString(R.string.warning))
+                .setMessage(context.resources.getString(R.string.security_warning_dialog_msg_web_access))
+                .setCancelable(false)
+                .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
+                    sharedPreferences
+                        .edit()
+                        .putString(projectUrl, projectUrl)
+                        .apply()
+                    dialog.dismiss()
+                }
+                .show()
+        } else if (currentProject.shouldDisplaySuspiciousBricksWarning() == SuspiciousBricks
+                .CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS) {
+            AlertDialog.Builder(context)
+                .setTitle(context.resources.getString(R.string.warning))
+                .setMessage(context.resources.getString(R.string.security_warning_dialog_msg))
+                .setCancelable(false)
+                .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
+                    sharedPreferences
+                        .edit()
+                        .putString(projectUrl, projectUrl)
+                        .apply()
+                    dialog.dismiss()
+                }
+                .show()
+        }
     } else if (isDownloadedProject) {
-        // add it anyway to avoid showing this dialog for downloaded projects, but have
-        // suspicious bricks added by the user afterwards..
         sharedPreferences
             .edit()
             .putString(projectUrl, projectUrl)
