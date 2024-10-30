@@ -261,20 +261,28 @@ public abstract class Script implements Serializable, Cloneable {
 		if (subStackIndex == -1) {
 			if (scriptId.equals(parentId) || getScriptBrick().getBrickID().equals(parentId)) {
 				brickList.addAll(0, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(scriptBrick);
+				}
 				return true;
 			}
 
 			boolean found = false;
 			int index = 0;
+			Brick newParentBrick = null;
 			for (Brick brick : brickList) {
 				++index;
 				if (brick.getBrickID().equals(parentId)) {
 					found = true;
+					newParentBrick = brick;
 					break;
 				}
 			}
 			if (found) {
 				brickList.addAll(index, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(newParentBrick);
+				}
 				return true;
 			}
 		}

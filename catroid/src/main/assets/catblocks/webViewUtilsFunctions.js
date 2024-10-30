@@ -144,5 +144,40 @@ window.webViewUtilsFunctions = {
 
 		const rect = element.getBoundingClientRect();
 		return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+	},
+	getText: function (querySelector) {
+		const element = document.querySelector(querySelector);
+		if (!element) {
+			return null;
+		}
+		return element.textContent;
+	},
+	openBlocklySpinner: function (elementId) {
+		document.getElementById(elementId).dispatchEvent(new PointerEvent('pointerover', {
+			bubbles: true
+		}));
+		document.getElementById(elementId).dispatchEvent(new PointerEvent('pointerdown', {
+			bubbles: true
+		}));
+		document.getElementById(elementId).dispatchEvent(new PointerEvent('pointerup', {
+			bubbles: true
+		}));
+	},
+	getBlocklySpinnerElementToSelect: function() {
+		var element = document.querySelector('.blocklyMenu > :not(.blocklyMenuItemSelected)');
+		return { id: element.id, text: element.innerText };
+	},
+	selectBlocklySpinnerElement: function (elementId) {
+		var element = document.getElementById(elementId);
+		element.dispatchEvent(new PointerEvent('pointerover', {
+		  bubbles: true
+		}));
+		element.dispatchEvent(new PointerEvent('pointerenter', {
+		  bubbles: true
+		}));
+		element.dispatchEvent(new PointerEvent('pointerdown', {
+		  bubbles: true
+		}));
+		window.webViewUtilsFunctions.clickElement("#" + elementId);
 	}
 };

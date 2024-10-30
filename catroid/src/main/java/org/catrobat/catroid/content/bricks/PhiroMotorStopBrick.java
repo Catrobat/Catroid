@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import kotlin.Unit;
 
-public class PhiroMotorStopBrick extends BrickBaseType {
+public class PhiroMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,5 +83,13 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Motor[] motors = Motor.values();
+		if (itemIndex >= 0 && itemIndex < motors.length) {
+			motor = motors[itemIndex].name();
+		}
 	}
 }

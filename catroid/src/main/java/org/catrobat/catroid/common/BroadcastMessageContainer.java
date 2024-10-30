@@ -29,8 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.VisibleForTesting;
+
 public class BroadcastMessageContainer {
 
+	@VisibleForTesting
 	private final List<String> broadcastMessages;
 
 	public BroadcastMessageContainer() {
