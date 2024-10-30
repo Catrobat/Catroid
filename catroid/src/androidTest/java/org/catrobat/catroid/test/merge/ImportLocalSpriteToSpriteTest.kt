@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.dialog
+package org.catrobat.catroid.test.merge
 
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -52,16 +53,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 
-class MergeLocalSpriteTest {
+class ImportLocalSpriteToSpriteTest {
     lateinit var project: Project
-    lateinit var sameGlobalsProject: Project
-    lateinit var conflictProject: Project
-    var sameGlobalsName = "sameGlobals"
-    var defaultProjectName = "defaultProject"
-    var conflictProjectName = "conflictProject"
+    private lateinit var sameGlobalsProject: Project
+    private lateinit var conflictProject: Project
+    private var sameGlobalsName = "sameGlobals"
+    private var defaultProjectName = "defaultProject"
+    private var conflictProjectName = "conflictProject"
     val controller = SpriteController()
-    lateinit var originalSprite: Sprite
-    lateinit var originalSpriteCopy: Sprite
+    private lateinit var originalSprite: Sprite
+    private lateinit var originalSpriteCopy: Sprite
+    private val context = ApplicationProvider.getApplicationContext<Context>()
     private val projectManager = inject(
         ProjectManager::class.java
     )
@@ -98,8 +100,9 @@ class MergeLocalSpriteTest {
         initProjectVars()
         projectManager.value.currentProject = project
         projectManager.value.currentSprite = project.defaultScene.spriteList[1]
-        originalSpriteCopy = controller.copy(project.defaultScene.spriteList[1], project, project
-            .defaultScene)
+        originalSpriteCopy = controller.copy(
+            project.defaultScene.spriteList[1], project, project.defaultScene
+        )
         originalSpriteCopy.name = project.defaultScene.spriteList[1].name
         activityTestRule.launchActivity(null)
     }
@@ -117,16 +120,28 @@ class MergeLocalSpriteTest {
         Espresso.onView(
             allOf(
                 withText(R.string.from_local),
-                isDisplayed()))
+                isDisplayed()
+            )
+        )
             .perform(ViewActions.click())
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(
             allOf(
                 withText(sameGlobalsProject.name),
-                isDisplayed()))
+                isDisplayed()
+            )
+        )
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+        Espresso.onView(
+            allOf(
+                withText(context.getString(R.string.default_project_cloud_sprite_name_1)),
+                isDisplayed()
+            )
+        )
+            .perform(ViewActions.click())
 
         val sprite1: Sprite = sameGlobalsProject.defaultScene!!.spriteList!![1]
         val mergedSprite: Sprite = projectManager.value.currentProject.defaultScene.spriteList[1]
@@ -139,14 +154,21 @@ class MergeLocalSpriteTest {
     fun abortImportWithConflicts() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(allOf(withText(R.string.from_local), isDisplayed()))
-            .perform(ViewActions.click())
+        Espresso.onView(allOf(withText(R.string.from_local), isDisplayed())).perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withText(conflictProject.name))
-            .perform(ViewActions.click())
+        Espresso.onView(withText(conflictProject.name)).perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        val currentSprite: Sprite = projectManager.value.currentProject.defaultScene!!.spriteList!![1]
+        Espresso.onView(
+            allOf(
+                withText(context.getString(R.string.default_project_cloud_sprite_name_1)),
+                isDisplayed()
+            )
+        )
+            .perform(ViewActions.click())
+
+        val currentSprite: Sprite =
+            projectManager.value.currentProject.defaultScene!!.spriteList!![1]
         assertOriginalIntact(originalSprite, currentSprite)
     }
 
@@ -170,11 +192,22 @@ class MergeLocalSpriteTest {
     private fun mergeLocalSprite() {
         UiTestUtils.openSpriteActionMenu(projectManager.value.currentSprite.name, false)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(allOf(withText(R.string.from_local), isDisplayed()))
-        Espresso.onView(withText(R.string.from_local))
-            .perform(ViewActions.click())
+        Espresso.onView(
+            allOf(
+                withText(R.string.from_local),
+                isDisplayed()
+            )
+        )
+        Espresso.onView(withText(R.string.from_local)).perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withText(project.name))
+        Espresso.onView(withText(project.name)).perform(ViewActions.click())
+
+        Espresso.onView(
+            allOf(
+                withText(context.getString(R.string.default_project_sprites_animal_name)),
+                isDisplayed()
+            )
+        )
             .perform(ViewActions.click())
     }
 
@@ -183,13 +216,6 @@ class MergeLocalSpriteTest {
         project.defaultScene?.spriteList?.removeAt(2)
         project.defaultScene?.spriteList?.removeAt(1)
         saveProjectSerial(project, ApplicationProvider.getApplicationContext())
-
-        // Add conflicts to projects
-        val local1 = UserVariable("local1")
-        val conflictSprite = conflictProject.defaultScene?.spriteList?.get(1)
-        conflictSprite?.userVariables?.add(local1)
-        originalSprite = project.defaultScene?.spriteList?.get(1)!!
-        originalSprite.userVariables?.add(local1)
 
         // Add same globals to projects
         val global1 = UserVariable("global1")
@@ -202,6 +228,15 @@ class MergeLocalSpriteTest {
         sameGlobalsProject.userVariables?.add(global1)
         sameGlobalsProject.userLists?.add(userListGlobal1)
         saveProjectSerial(sameGlobalsProject, ApplicationProvider.getApplicationContext())
+
+        // Add conflicts to projects
+        val local1 = UserVariable("local1")
+        val conflictSprite = conflictProject.defaultScene?.spriteList?.get(1)
+        conflictSprite?.userVariables?.add(local1)
+        originalSprite = project.defaultScene?.spriteList?.get(1)!!
+        originalSprite.userVariables?.add(local1)
+        conflictProject.userVariables.add(global1)
+        saveProjectSerial(conflictProject, ApplicationProvider.getApplicationContext())
     }
 
     private fun assertMergedSprite(mergedSprite: Sprite, sprite1: Sprite, sprite2: Sprite) {
@@ -209,12 +244,18 @@ class MergeLocalSpriteTest {
         val mergedSoundList = mergedSprite.soundList
         val mergedLookList = mergedSprite.lookList
 
-        Assert.assertEquals(sprite1.lookList.size + sprite2.lookList.size,
-                            mergedLookList.size)
-        Assert.assertEquals(sprite1.scriptList.size + sprite2.scriptList.size,
-                            mergedScriptList.size)
-        Assert.assertEquals(sprite1.soundList.size + sprite2.soundList.size,
-                            mergedSoundList.size)
+        Assert.assertEquals(
+            sprite1.lookList.size + sprite2.lookList.size,
+            mergedLookList.size
+        )
+        Assert.assertEquals(
+            sprite1.scriptList.size + sprite2.scriptList.size,
+            mergedScriptList.size
+        )
+        Assert.assertEquals(
+            sprite1.soundList.size + sprite2.soundList.size,
+            mergedSoundList.size
+        )
     }
 
     private fun assertOriginalIntact(originalSprite: Sprite, currentSprite: Sprite) {
@@ -229,10 +270,12 @@ class MergeLocalSpriteTest {
     private fun assertGlobalsMerged(project: Project, currentProject: Project) {
         Assert.assertFalse(checkForDuplicates(currentProject.userLists as List<Any>?))
         Assert.assertFalse(checkForDuplicates(currentProject.userVariables as List<Any>?))
-        Assert.assertFalse(checkForDuplicates(
-            currentProject.broadcastMessageContainer
-                .broadcastMessages as List<Any>?
-        ))
+        Assert.assertFalse(
+            checkForDuplicates(
+                currentProject.broadcastMessageContainer
+                    .broadcastMessages as List<Any>?
+            )
+        )
 
         project.userLists.forEach { Assert.assertTrue(currentProject.userLists.contains(it)) }
         project.userVariables.forEach { Assert.assertTrue(currentProject.userVariables.contains(it)) }

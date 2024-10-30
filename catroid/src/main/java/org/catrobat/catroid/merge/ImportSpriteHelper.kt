@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.ProjectManager.checkForVariablesConflicts
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -43,20 +44,21 @@ import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.utils.ToastUtil
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
-private val TAG = ImportProjectHelper::class.simpleName
-private const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
-private const val GAP_WIDTH: Int = 15
-
-class ImportProjectHelper(
+class ImportSpriteHelper(
     private var lookFileName: String,
-    currentScene: Scene,
-    private var context: Activity
+    private var context: Activity,
+    var importType: Int,
+    sceneName: String? = null,
+    spriteName: String? = null
 ) {
-    private var currentScene: Scene? = currentScene
+    private val projectManager = inject(ProjectManager::class.java)
+    private val currentScene = projectManager.value.currentlyEditedScene
+    private var sourceScene: Scene? = null
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
 
@@ -72,27 +74,27 @@ class ImportProjectHelper(
         newProject?.let {
             for (userList in it.userLists) {
                 if (!currentScene?.project?.userLists!!.contains(userList)) {
-                    currentScene?.project?.userLists?.add(userList)
+                    currentScene.project?.userLists?.add(userList)
                 }
             }
         }
         newProject?.let {
             for (userVariable in it.userVariables) {
                 if (!currentScene?.project?.userVariables!!.contains(userVariable)) {
-                    currentScene?.project?.userVariables?.add(userVariable)
+                    currentScene.project?.userVariables?.add(userVariable)
                 }
             }
         }
         addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
-        addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
+        addGlobalsToProject(newProject!!.userVariables, currentScene.project.userVariables)
         addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
-                            currentScene!!.project.broadcastMessageContainer.broadcastMessages)
+                            currentScene.project.broadcastMessageContainer.broadcastMessages)
 
-        currentScene?.project?.broadcastMessageContainer?.update()
+        currentScene.project?.broadcastMessageContainer?.update()
         return newSprite
     }
 
-    fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
+    private fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
             if (!globalList.contains(global)) {
                 globalList.plus(global)
@@ -141,7 +143,7 @@ class ImportProjectHelper(
         return true
     }
 
-    fun getProject(resolvedName: String): Project? {
+    private fun getProject(resolvedName: String): Project? {
         val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
             XstreamSerializer.getInstance()
@@ -151,7 +153,7 @@ class ImportProjectHelper(
         }
     }
 
-    fun getNewProject(resolvedName: String): Project? {
+    private fun getNewProject(resolvedName: String): Project? {
         try {
             val cachedProjectDir =
                 File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, resolvedName)
@@ -210,15 +212,35 @@ class ImportProjectHelper(
         }
     }
 
+    private fun setSpriteToAdd(sceneName: String?, spriteName: String?) {
+        when (importType) {
+            REQUEST_LOCAL -> {
+                sourceScene = newProject?.getSceneByName(sceneName)
+                spriteToAdd = sourceScene?.getSprite(spriteName)
+            }
+            REQUEST_MEDIA_LIBRARY -> {
+                sourceScene = newProject?.defaultScene
+                spriteToAdd = sourceScene?.spriteList?.get(1)
+            }
+            else -> rejectImportDialog(null)
+        }
+    }
+
     init {
         val resolvedName = StorageOperations.getSanitizedFileName(lookFileName)
-        val project = getProject(resolvedName)
-        val firstScene = project?.defaultScene
-        if (project == null || firstScene!!.spriteList.size < 2) {
+        newProject = getProject(resolvedName)
+        setSpriteToAdd(sceneName, spriteName)
+
+        if (newProject == null || sourceScene == null || spriteToAdd == null) {
             rejectImportDialog(null)
-        } else {
-            newProject = project
-            spriteToAdd = firstScene.spriteList[1]
         }
+    }
+
+    companion object {
+        val TAG = ImportSpriteHelper::class.simpleName
+        const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
+        const val GAP_WIDTH: Int = 15
+        const val REQUEST_LOCAL = 0
+        const val REQUEST_MEDIA_LIBRARY = 1
     }
 }

@@ -540,7 +540,6 @@
     <string formatted="false" name="no_projects_selected">Aucun projet sélectionné pour l\'importation</string>
     <string formatted="false" name="only_select_catrobat_files">Sélectionner uniquement les fichiers du projet</string>
     <string formatted="false" name="error_no_files_found">Aucun fichier de projet trouvé.</string>
-    <string formatted="false" name="import_sprite_from_project_launcher">Importer un objet depuis un projet local</string>
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">Description</string>
     <string formatted="false" name="project_options_notes_and_credits">Credits</string>
