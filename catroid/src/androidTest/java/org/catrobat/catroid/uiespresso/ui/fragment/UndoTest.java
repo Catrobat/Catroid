@@ -103,6 +103,10 @@ public class UndoTest {
 		onBrickAtPosition(brickPosition)
 				.performDeleteBrick();
 
+		if (brickPosition == 1) {
+			onView(withId(R.id.confirm)).perform(click());
+		}
+
 		onView(withId(R.id.menu_undo))
 				.perform(waitFor(isDisplayed(), waitThreshold));
 	}
@@ -110,6 +114,10 @@ public class UndoTest {
 	@Test
 	public void testUndo() {
 		onBrickAtPosition(brickPosition).performDeleteBrick();
+
+		if (brickPosition == 1) {
+			onView(withId(R.id.confirm)).perform(click());
+		}
 
 		onView(withId(R.id.menu_undo))
 				.perform(click());
@@ -124,6 +132,10 @@ public class UndoTest {
 	@Test
 	public void checkScriptAfterUndo() {
 		onBrickAtPosition(brickPosition).performDeleteBrick();
+
+		if (brickPosition == 1) {
+			onView(withId(R.id.confirm)).perform(click());
+		}
 
 		onView(withId(R.id.menu_undo))
 				.perform(click());

@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -202,7 +203,7 @@ public class ScriptFragment extends ListFragment implements
 				mode.setTitle(getString(R.string.am_copy));
 				break;
 			case DELETE:
-				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				adapter.setCheckBoxMode(BrickAdapter.ALL_DELETE);
 				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case COMMENT:
@@ -767,6 +768,11 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_copy_brick:
 			case R.string.brick_context_dialog_copy_script:
+				if (brick instanceof CompositeBrick) {
+					prepareActionMode(COPY);
+					adapter.selectClickedBrick(brick);
+					break;
+				}
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
@@ -778,6 +784,11 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
+				if (brick instanceof CompositeBrick) {
+					prepareActionMode(DELETE);
+					adapter.selectClickedBrick(brick);
+					break;
+				}
 				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_delete_definition:
