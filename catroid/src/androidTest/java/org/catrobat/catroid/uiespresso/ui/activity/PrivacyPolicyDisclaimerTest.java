@@ -46,6 +46,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.FlavoredConstants.PRIVACY_POLICY_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN;
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -65,6 +66,7 @@ public class PrivacyPolicyDisclaimerTest {
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedOnBoardingWelcomeScreenShownSetting;
 	private Matcher expectedIntent;
 
 	@Before
@@ -74,10 +76,13 @@ public class PrivacyPolicyDisclaimerTest {
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		bufferedOnBoardingWelcomeScreenShownSetting = sharedPreferences
+				.getBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, false);
 
 		sharedPreferences
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, true)
 				.commit();
 
 		baseActivityTestRule.launchActivity(new Intent());
@@ -97,6 +102,8 @@ public class PrivacyPolicyDisclaimerTest {
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN,
+						bufferedOnBoardingWelcomeScreenShownSetting)
 				.commit();
 		baseActivityTestRule.finishActivity();
 	}

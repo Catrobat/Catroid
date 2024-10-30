@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,26 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.ui.dialog
+package org.catrobat.catroid.uiespresso.ui.activity
 
 import android.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.MainMenuActivity
+import org.catrobat.catroid.uiespresso.content.brick.utils.CustomSwipeAction
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.isVisibleWithTimeout
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule
-import org.catrobat.catroid.utils.Utils
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.`is`
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,14 +53,15 @@ import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AboutDialogTest {
+class OnBoardingWelcomeActivityTest {
+
     @get:Rule
     var baseActivityTestRule = DontGenerateDefaultProjectActivityTestRule(
         MainMenuActivity::class.java, true, false
     )
 
     private var bufferedPrivacyPolicyPreferenceSetting = 0
-    var bufferedOnBoardingWelcomeScreenShownSetting = false
+    private var bufferedOnBoardingWelcomeScreenShownSetting = false
 
     @Before
     @Throws(Exception::class)
@@ -64,7 +71,7 @@ class AboutDialogTest {
         bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
             .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
         bufferedOnBoardingWelcomeScreenShownSetting = sharedPreferences
-            .getBoolean(SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN, false)
+                .getBoolean(SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN, false)
 
         sharedPreferences
             .edit()
@@ -74,7 +81,7 @@ class AboutDialogTest {
             )
             .putBoolean(
                 SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN,
-                true
+                false
             )
             .commit()
 
@@ -100,35 +107,52 @@ class AboutDialogTest {
 
     @Category(AppUi::class, Smoke::class)
     @Test
-    fun aboutDialogTest() {
-        Espresso.openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
+    fun onBoardingWelcomeTest() {
+        var objectIsVisible: Boolean?
 
-        Espresso.onView(ViewMatchers.withText(R.string.main_menu_about))
-            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.welcome_pocket_code))
+            .check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(R.string.welcome_pocket_code))
+            .perform(swipeLeft())
 
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        var interaction =
+            Espresso.onView(allOf(ViewMatchers.withText(R.string.complete_control), isDisplayed()))
+        objectIsVisible = isVisibleWithTimeout(interaction)
+        assertThat(objectIsVisible, `is`(true))
+        Espresso.onView(ViewMatchers.withText(R.string.complete_control))
+            .perform(swipeLeft())
 
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_license_info))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        interaction =
+            Espresso.onView(allOf(ViewMatchers.withText(R.string.join_community), isDisplayed()))
+        objectIsVisible = isVisibleWithTimeout(interaction)
+        assertThat(objectIsVisible, `is`(true))
+        Espresso.onView(ViewMatchers.withText(R.string.login))
+            .check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(R.string.register))
+            .check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Sign in with Google"))
+            .check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(R.string.join_community))
+            .perform(swipeLeft())
 
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_license_link_text))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        interaction =
+            Espresso.onView(allOf(ViewMatchers.withText(R.string.begin), isDisplayed()))
+        objectIsVisible = isVisibleWithTimeout(interaction)
+        assertThat(objectIsVisible, `is`(true))
+        Espresso.onView(ViewMatchers.withText(R.string.tutorial_mode))
+            .check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(R.string.normal_mode))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_catrobat_link_text))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(R.string.normal_mode)).perform(click())
+        Espresso.onView(ViewMatchers.withText(R.string.app_name)).check(matches(isDisplayed()))
+    }
 
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_about_text_view_catrobat_version_name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Assert.assertNotNull(Utils.getVersionName(ApplicationProvider.getApplicationContext()))
-
-        Assert.assertNotEquals("", BuildConfig.VERSION_NAME)
-
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_title))
-            .check(ViewAssertions.doesNotExist())
+    private fun swipeLeft(): ViewAction {
+        return CustomSwipeAction(
+            Swipe.FAST,
+            CustomSwipeAction.SwipeAction.SWIPE_LEFT,
+            Press.THUMB
+        )
     }
 }

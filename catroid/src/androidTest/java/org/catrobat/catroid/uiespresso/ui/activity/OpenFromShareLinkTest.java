@@ -50,6 +50,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 
 import static androidx.test.espresso.intent.Intents.intended;
@@ -64,7 +65,8 @@ public class OpenFromShareLinkTest {
 	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
-	private int bufferedPreferenceSetting;
+	private int bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedOnBoardingWelcomeScreenShownSetting;
 
 	private Matcher expectedWebIntent;
 	private Uri shareUri;
@@ -86,13 +88,17 @@ public class OpenFromShareLinkTest {
 
 	@Before
 	public void setUp() throws Exception {
-		bufferedPreferenceSetting =
+		bufferedPrivacyPolicyPreferenceSetting =
 				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		bufferedOnBoardingWelcomeScreenShownSetting =
+				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+				.getBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, false);
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, true)
 				.commit();
 
 		shareUri = new Uri.Builder()
@@ -114,7 +120,8 @@ public class OpenFromShareLinkTest {
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
+				.putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, bufferedOnBoardingWelcomeScreenShownSetting)
 				.commit();
 		Intents.release();
 	}
