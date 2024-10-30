@@ -66,7 +66,9 @@ public class AndroidPackageRunner extends ParentRunner<Runner> {
 			DexFile dexFile = new DexFile(packageCodePath);
 			for (Enumeration<String> iter = dexFile.entries(); iter.hasMoreElements(); ) {
 				String className = iter.nextElement();
-				if (className.contains(annotation.value()) && className.endsWith("Test")) {
+				//if (className.contains(annotation.value()) && className.endsWith("Test")) {
+				if (className.contains(annotation.value()) && className.endsWith(
+						"StageResourceFailedTest")) {
 					classes.add(Class.forName(className));
 				}
 			}
