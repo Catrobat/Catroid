@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,9 @@ abstract class WebAction : Action(), WebRequestListener {
             formula!!.interpretString(scope)!!.let {
                 url = if (it.startsWith("http://") || it.startsWith("https://")) {
                     it
-                } else "https://$it"
+                } else {
+                    "https://$it"
+                }
             }
             val newlineIndex = url?.indexOf("\n")
             if (newlineIndex != -1) {
@@ -134,7 +136,9 @@ abstract class WebAction : Action(), WebRequestListener {
         return if (stageListener.webConnectionHolder.addConnection(webConnection!!)) {
             webConnection!!.sendWebRequest()
             true
-        } else false
+        } else {
+            false
+        }
     }
 
     abstract fun handleResponse()

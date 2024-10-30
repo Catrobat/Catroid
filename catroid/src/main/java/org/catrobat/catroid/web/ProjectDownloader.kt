@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -129,7 +129,7 @@ class ProjectDownloader(
     }
 
     @SuppressLint("ParcelCreator")
-    private inner class Receiver internal constructor(
+    private inner class Receiver(
         val projectName: String,
         handler: Handler
     ) : ResultReceiver(handler) {
@@ -138,7 +138,7 @@ class ProjectDownloader(
             when (resultCode) {
                 UPDATE_PROGRESS_CODE -> {
                     val progress = resultData.getInt(UPDATE_PROGRESS_EXTRA)
-                    callbackWeakReference.get()?.onDownloadProgress(progress.toInt(), url)
+                    callbackWeakReference.get()?.onDownloadProgress(progress, url)
                 }
                 SUCCESS_CODE -> {
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
@@ -161,7 +161,7 @@ object GlobalProjectDownloadQueue {
     val queue = ProjectDownloadQueue()
 
     class ProjectDownloadQueue : ProjectDownloader.ProjectDownloadQueue {
-        private var projectNameSet: Set<String> = Collections.synchronizedSet(HashSet<String>())
+        private var projectNameSet: Set<String> = Collections.synchronizedSet(HashSet())
 
         @Synchronized
         override fun alreadyInQueue(projectName: String): Boolean =

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,12 +67,12 @@ class StartListeningStageTest {
     @Before
     fun setUp() {
         createProject(javaClass.simpleName)
-        textToSpeech = TextToSpeech(ApplicationProvider.getApplicationContext(), TextToSpeech.OnInitListener
-        { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                textToSpeech.language = Locale.US
+        textToSpeech =
+            TextToSpeech(ApplicationProvider.getApplicationContext()) { status ->
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.language = Locale.US
+                }
             }
-        })
         baseActivityTestRule.launchActivity(null)
     }
 

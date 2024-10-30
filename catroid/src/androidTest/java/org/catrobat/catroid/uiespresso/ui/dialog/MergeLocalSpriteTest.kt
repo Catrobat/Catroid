@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,14 +54,14 @@ import org.koin.java.KoinJavaComponent.inject
 
 class MergeLocalSpriteTest {
     lateinit var project: Project
-    lateinit var sameGlobalsProject: Project
-    lateinit var conflictProject: Project
-    var sameGlobalsName = "sameGlobals"
-    var defaultProjectName = "defaultProject"
-    var conflictProjectName = "conflictProject"
+    private lateinit var sameGlobalsProject: Project
+    private lateinit var conflictProject: Project
+    private var sameGlobalsName = "sameGlobals"
+    private var defaultProjectName = "defaultProject"
+    private var conflictProjectName = "conflictProject"
     val controller = SpriteController()
-    lateinit var originalSprite: Sprite
-    lateinit var originalSpriteCopy: Sprite
+    private lateinit var originalSprite: Sprite
+    private lateinit var originalSpriteCopy: Sprite
     private val projectManager = inject(
         ProjectManager::class.java
     )
@@ -209,12 +209,18 @@ class MergeLocalSpriteTest {
         val mergedSoundList = mergedSprite.soundList
         val mergedLookList = mergedSprite.lookList
 
-        Assert.assertEquals(sprite1.lookList.size + sprite2.lookList.size,
-                            mergedLookList.size)
-        Assert.assertEquals(sprite1.scriptList.size + sprite2.scriptList.size,
-                            mergedScriptList.size)
-        Assert.assertEquals(sprite1.soundList.size + sprite2.soundList.size,
-                            mergedSoundList.size)
+        Assert.assertEquals(
+            sprite1.lookList.size + sprite2.lookList.size,
+            mergedLookList.size
+        )
+        Assert.assertEquals(
+            sprite1.scriptList.size + sprite2.scriptList.size,
+            mergedScriptList.size
+        )
+        Assert.assertEquals(
+            sprite1.soundList.size + sprite2.soundList.size,
+            mergedSoundList.size
+        )
     }
 
     private fun assertOriginalIntact(originalSprite: Sprite, currentSprite: Sprite) {

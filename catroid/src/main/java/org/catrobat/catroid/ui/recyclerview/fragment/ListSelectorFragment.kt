@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -273,17 +273,19 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val itemList: MutableList<UserData<*>> = ArrayList()
         itemList.add(item)
         val hiddenOptionMenuIds = intArrayOf(
-                R.id.backpack,
-                R.id.copy,
-                R.id.new_group,
-                R.id.new_scene,
-                R.id.show_details,
-                R.id.project_options,
-                R.id.from_library,
-                R.id.from_local
+            R.id.backpack,
+            R.id.copy,
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.from_library,
+            R.id.from_local
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, context, R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.rename -> showRenameDialog(listOf(item))

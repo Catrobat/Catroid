@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,13 +51,21 @@ class AddBrickFragment : ListFragment() {
     private var addBrickListener: OnAddBrickListener? = null
     private var previousActionBarTitle: CharSequence? = null
     private var adapter: PrototypeBrickAdapter? = null
-    private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
+    private fun onlyBeginnerBricks(): Boolean =
+        PreferenceManager.getDefaultSharedPreferences(activity)
+            .getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
+
     private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_brick_add, container, false)
         previousActionBarTitle = (activity as? AppCompatActivity)?.supportActionBar?.title
-        (activity as? AppCompatActivity)?.supportActionBar?.title = arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY)
+        (activity as? AppCompatActivity)?.supportActionBar?.title =
+            arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY)
         setupSelectedBrickCategory()
         return view
     }
@@ -71,11 +79,14 @@ class AddBrickFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val brickList = selectedCategory?.let { context?.let { it1 ->
-            categoryBricksFactory.getBricks(it, backgroundSprite == sprite,
-                                            it1
-            )
-        } }
+        val brickList = selectedCategory?.let {
+            context?.let { it1 ->
+                categoryBricksFactory.getBricks(
+                    it, backgroundSprite == sprite,
+                    it1
+                )
+            }
+        }
         adapter = brickList?.let { PrototypeBrickAdapter(it) }
         listAdapter = adapter
     }
@@ -111,13 +122,18 @@ class AddBrickFragment : ListFragment() {
             listView.setSelection(listIndexToFocus)
             listIndexToFocus = -1
         }
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { addBrickToScript(
-            it,
-            activity as SpriteActivity,
-            addBrickListener,
-            parentFragmentManager,
-            ADD_BRICK_FRAGMENT_TAG) }
-        }
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
+                adapter?.getItem(position)?.let {
+                    addBrickToScript(
+                        it,
+                        activity as SpriteActivity,
+                        addBrickListener,
+                        parentFragmentManager,
+                        ADD_BRICK_FRAGMENT_TAG
+                    )
+                }
+            }
     }
 
     interface OnAddBrickListener {
@@ -129,8 +145,12 @@ class AddBrickFragment : ListFragment() {
         val ADD_BRICK_FRAGMENT_TAG = AddBrickFragment::class.java.simpleName
         private const val BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category"
         private var listIndexToFocus = -1
+
         @JvmStatic
-        fun newInstance(selectedCategory: String?, addBrickListener: OnAddBrickListener?): AddBrickFragment {
+        fun newInstance(
+            selectedCategory: String?,
+            addBrickListener: OnAddBrickListener?
+        ): AddBrickFragment {
             val fragment = AddBrickFragment()
             val arguments = Bundle()
             arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory)
@@ -142,13 +162,25 @@ class AddBrickFragment : ListFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
-            (addBrickListener as BrickCategoryFragment.OnCategorySelectedListener).onCategorySelected(arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY))
+            (addBrickListener as BrickCategoryFragment.OnCategorySelectedListener).onCategorySelected(
+                arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY)
+            )
         }
         return super.onOptionsItemSelected(item)
     }
 }
-fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: AddBrickFragment.OnAddBrickListener?, parentFragmentManager: FragmentManager, tag: String) {
-    if (ProjectManager.getInstance().currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)) {
+
+fun addBrickToScript(
+    brick: Brick,
+    activity: SpriteActivity,
+    addBrickListener: AddBrickFragment.OnAddBrickListener?,
+    parentFragmentManager: FragmentManager,
+    tag: String
+) {
+    if (ProjectManager.getInstance().currentProject.isCastProject && CastManager.unsupportedBricks.contains(
+            brick.javaClass
+        )
+    ) {
         ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast)
         return
     }
@@ -157,7 +189,8 @@ fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: A
         addBrickListener?.addBrick(brickToAdd)
         SnackbarUtil.showHintSnackbar(activity, R.string.hint_scripts)
         val fragmentTransaction = parentFragmentManager.beginTransaction()
-        val categoryFragment = parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+        val categoryFragment =
+            parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
         if (categoryFragment != null) {
             fragmentTransaction.remove(categoryFragment)
             parentFragmentManager.popBackStack()

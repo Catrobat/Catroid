@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,11 @@ class UtteranceProgressListenerContainer : UtteranceProgressListener() {
     private val listeners: MutableMap<String?, MutableList<UtteranceProgressListener>?> = HashMap()
 
     @Synchronized
-    fun addUtteranceProgressListener(speechFile: File, utteranceProgressListener: UtteranceProgressListener, utteranceId: String?): Boolean {
+    fun addUtteranceProgressListener(
+        speechFile: File,
+        utteranceProgressListener: UtteranceProgressListener,
+        utteranceId: String?
+    ): Boolean {
         val utteranceIdListeners = listeners[utteranceId]
         return if (utteranceIdListeners == null) {
             if (speechFile.exists()) {

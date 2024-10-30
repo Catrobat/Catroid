@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,14 +79,18 @@ class DeleteImportedSpriteTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(IntentMatchers.hasExtra(
-            ProjectListActivity.IMPORT_LOCAL_INTENT,
-            baseActivityTestRule.activity.getString(R.string.import_sprite_from_project_launcher)
-        ))
+        expectedIntent = AllOf.allOf(
+            IntentMatchers.hasExtra(
+                ProjectListActivity.IMPORT_LOCAL_INTENT,
+                baseActivityTestRule.activity.getString(R.string.import_sprite_from_project_launcher)
+            )
+        )
 
         val resultData = Intent()
-        resultData.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT,
-                            localProject.directory.absoluteFile.absolutePath)
+        resultData.putExtra(
+            ProjectListActivity.IMPORT_LOCAL_INTENT,
+            localProject.directory.absoluteFile.absolutePath
+        )
 
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         Intents.intending(expectedIntent).respondWith(result)

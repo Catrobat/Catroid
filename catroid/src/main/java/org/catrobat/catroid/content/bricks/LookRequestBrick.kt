@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
 
-class LookRequestBrick constructor() : FormulaBrick() {
+class LookRequestBrick() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
 
     constructor(formula: Formula) : this() {
@@ -43,7 +43,8 @@ class LookRequestBrick constructor() : FormulaBrick() {
     override fun getViewResource(): Int = R.layout.brick_look_request
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createLookRequestAction(
+        sequence.addAction(
+            sprite.actionFactory.createLookRequestAction(
                 sprite, sequence,
                 getFormulaWithBrickField(BrickField.LOOK_REQUEST)
             )

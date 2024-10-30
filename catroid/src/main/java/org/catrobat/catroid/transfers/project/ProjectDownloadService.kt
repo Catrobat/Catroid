@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,10 +80,12 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             ?: return logWarning("Called ProjectDownloadService with null projectName -  aborting")
         val url = downloadIntent.getStringExtra(EXTRA_URL)
             ?: return logWarning("Called ProjectDownloadService without url - aborting")
-        val resultReceiver = downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
+        val resultReceiver =
+            downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
                 ?: return logWarning("Called ProjectDownloadService without url - aborting")
 
-        val zipFileString = File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
+        val zipFileString =
+            File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
         val destinationFile = File(zipFileString)
 
         if (((destinationFile.parentFile?.isDirectory ?: false) or
@@ -92,7 +94,8 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             return
         }
 
-        val notificationData = downloadIntent.getSerializableExtra(EXTRA_NOTIFICATION_DATA) as NotificationData
+        val notificationData =
+            downloadIntent.getSerializableExtra(EXTRA_NOTIFICATION_DATA) as NotificationData
         val notification = notificationData.toNotification(this, CHANNEL_ID, null)
         val id = notificationData.notificationID
 
@@ -114,12 +117,21 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
                 },
                 object : DownloadErrorCallback {
                     override fun onError(code: Int, message: String) {
-                        downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
+                        downloadErrorCallback(
+                            this@ProjectDownloadService,
+                            resultReceiver,
+                            projectName
+                        )
                     }
                 },
                 object : DownloadProgressCallback {
                     override fun onProgress(progress: Long) {
-                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
+                        downloadProgressCallback(
+                            this@ProjectDownloadService,
+                            resultReceiver,
+                            notificationData,
+                            progress
+                        )
                     }
                 }
             )
