@@ -368,11 +368,11 @@ public final class Constants {
 	public static final String FLAVOR_LUNA_AND_CAT = "lunaAndCat";
 	public static final String FLAVOR_CREATE_AT_SCHOOL = "createAtSchool";
 
-	public static final String PREFRENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.embroiderydesigner";
+	public static final String PREFRENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
 	public static final String PREFRENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
-	public static final String PREFRENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid";
+	public static final String PREFRENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
 	public static final String PREFRENCE_APPGALLERY_MINDSTORMS_URL = "https://appgallery.huawei.com/app/C100085769";
-	public static final String PREFRENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.phiro";
+	public static final String PREFRENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
 	public static final String PREFRENCE_APPGALLERY_PHIRO_URL = "https://appgallery.huawei.com/app/C100085769";
 
 	public static final String DEVICE_BRAND_HUAWEI = "huawei";
