@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.NoActivityResumedException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.intent.Intents
@@ -138,11 +139,20 @@ class ChromeCastDialogTest {
             .perform(click())
 
         Intents.intended(expectedWebIntent)
+        pressBack()
 
+        onView(withText(R.string.cast_searching_for_cast_devices))
+            .check(doesNotExist())
+    }
+
+    @Test(expected = NoActivityResumedException::class)
+    fun testNotShowDialogOnCancelledSelectionDoublePressBackCrash() {
+        onView(withId(R.id.button_add))
+            .perform(click())
+        onView(withId(R.id.dialog_new_look_media_library))
+            .perform(click())
         pressBack()
         pressBack()
-        Espresso.closeSoftKeyboard()
-
         onView(withText(R.string.cast_searching_for_cast_devices))
             .check(doesNotExist())
     }
