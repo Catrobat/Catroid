@@ -62,6 +62,7 @@ public class SpriteController {
 	public Sprite copy(Sprite spriteToCopy, Project destinationProject, Scene destinationScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToCopy.getName(), destinationScene.getSpriteList());
 		Sprite sprite = new SpriteFactory().newInstance(spriteToCopy.getClass().getSimpleName(), name);
+		sprite.isClone = spriteToCopy.isClone;
 
 		for (LookData look : spriteToCopy.getLookList()) {
 			sprite.getLookList().add(lookController.copy(look, destinationScene, sprite));
@@ -113,7 +114,8 @@ public class SpriteController {
 		sprite.setActionFactory(spriteToCopy.getActionFactory());
 
 		for (LookData look : spriteToCopy.getLookList()) {
-			sprite.getLookList().add(new LookData(look.getName(), look.getFile()));
+			LookData lookData = new LookData(look.getName(), look.getFile());
+			sprite.getLookList().add(lookData);
 		}
 
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
