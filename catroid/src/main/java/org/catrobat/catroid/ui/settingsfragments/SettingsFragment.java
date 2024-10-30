@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
+import android.preference.LanguageSettingListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -546,7 +546,8 @@ public class SettingsFragment extends PreferenceFragment {
 		String[] languages = new String[languagesNames.size()];
 		languagesNames.toArray(languages);
 
-		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
+		final LanguageSettingListPreference listPreference =
+				(LanguageSettingListPreference) findPreference(SETTINGS_MULTILINGUAL);
 		listPreference.setEntries(languages);
 		listPreference.setEntryValues(LANGUAGE_TAGS);
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
