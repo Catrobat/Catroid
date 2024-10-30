@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,25 +83,25 @@ public final class UiUtils {
 
 	public static @DrawableRes int getDrawableForItem(@StringRes int itemId) {
 		switch (itemId) {
-			case R.string.backpack_add:
+			case (R.string.backpack_add):
 				return R.drawable.ic_content_paste_small;
-			case R.string.brick_context_dialog_copy_brick:
-			case R.string.brick_context_dialog_copy_script:
+			case (R.string.brick_context_dialog_copy_brick):
+			case (R.string.brick_context_dialog_copy_script):
 				return R.drawable.ic_content_copy;
-			case R.string.brick_context_dialog_delete_brick:
-			case R.string.delete:
-			case R.string.brick_context_dialog_delete_script:
+			case (R.string.brick_context_dialog_delete_brick):
+			case (R.string.delete):
+			case (R.string.brick_context_dialog_delete_script):
 				return R.drawable.ic_delete;
-			case R.string.brick_context_dialog_formula_edit_brick:
-			case R.string.rename:
+			case (R.string.brick_context_dialog_formula_edit_brick):
+			case (R.string.rename):
 				return R.drawable.ic_edit;
-			case R.string.brick_context_dialog_help:
+			case (R.string.brick_context_dialog_help):
 				return R.drawable.ic_help_small;
-			case R.string.from_local:
+			case (R.string.from_local):
 				return R.drawable.ic_library_add_small;
-			case R.string.from_library:
+			case (R.string.from_library):
 				return R.drawable.ic_apps_small;
-			case R.string.menu_rate_us:
+			case (R.string.menu_rate_us):
 				return R.drawable.ic_star_rate;
 			default:
 				return R.drawable.ic_placeholder;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -360,48 +360,48 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					view.setPressed(true);
 
 					switch (view.getId()) {
-						case R.id.formula_editor_keyboard_compute:
+						case (R.id.formula_editor_keyboard_compute):
 							showComputeDialog();
 							return true;
-						case R.id.formula_editor_keyboard_function:
+						case (R.id.formula_editor_keyboard_function):
 							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
 							return true;
-						case R.id.formula_editor_keyboard_logic:
+						case (R.id.formula_editor_keyboard_logic):
 							showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
-						case R.id.formula_editor_keyboard_object:
+						case (R.id.formula_editor_keyboard_object):
 							showCategoryListFragment(CategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
-						case R.id.formula_editor_keyboard_sensors:
+						case (R.id.formula_editor_keyboard_sensors):
 							showCategoryListFragment(CategoryListFragment.SENSOR_TAG,
 									R.string.formula_editor_device);
 							return true;
-						case R.id.formula_editor_keyboard_data:
+						case (R.id.formula_editor_keyboard_data):
 							showDataFragment();
 							return true;
-						case R.id.formula_editor_keyboard_functional_button_toggle:
+						case (R.id.formula_editor_keyboard_functional_button_toggle):
 							toggleFunctionalButtons();
 							return true;
-						case R.id.formula_editor_keyboard_string:
+						case (R.id.formula_editor_keyboard_string):
 							if (isSelectedTextFirstParamOfRegularExpression()) {
 								showNewRegexAssistantDialog();
 							} else {
 								showNewStringDialog();
 							}
 							return true;
-						case R.id.formula_editor_keyboard_delete:
+						case (R.id.formula_editor_keyboard_delete):
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return handleLongClick(view, event);
-						case R.id.formula_editor_keyboard_color_picker:
+						case (R.id.formula_editor_keyboard_color_picker):
 							showColorPickerDialog(view);
 							return true;
-						case R.id.formula_editor_keyboard_paste:
+						case (R.id.formula_editor_keyboard_paste):
 							formulaEditorClipboard.paste();
 							return true;
-						case R.id.formula_editor_keyboard_copy:
+						case (R.id.formula_editor_keyboard_copy):
 							formulaEditorClipboard.checkIfSelectedAndCopy();
 							return true;
 						default:
@@ -756,10 +756,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_undo:
+			case (R.id.menu_undo):
 				formulaEditorEditText.undo();
 				break;
-			case R.id.menu_redo:
+			case (R.id.menu_redo):
 				formulaEditorEditText.redo();
 				break;
 		}

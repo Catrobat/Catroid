@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
-		selection = item != null ? item.getRotationStyle() : 0;
+		selection = item != null ? item.getRotationStyle() : Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 	}
 
 	class RotationStyleOption implements Nameable {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -260,11 +260,11 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	@Override
 	public CheckableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
+			case (R.layout.view_holder_variable_with_headline):
+			case (R.layout.view_holder_variable):
 				return globalVarAdapter.onCreateViewHolder(parent, viewType);
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
+			case (R.layout.view_holder_list_with_headline):
+			case (R.layout.view_holder_list):
 				return globalListAdapter.onCreateViewHolder(parent, viewType);
 			default:
 				throw new IllegalArgumentException("ViewType was not defined correctly.");
@@ -297,8 +297,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		position = getRelativeItemPosition(position, dataType);
 
 		switch (holder.getItemViewType()) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
+			case (R.layout.view_holder_variable_with_headline):
+			case (R.layout.view_holder_variable):
 				if (dataType == VAR_GLOBAL) {
 					globalVarAdapter.onBindViewHolder(holder, position);
 				} else if (dataType == VAR_LOCAL) {
@@ -309,8 +309,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
 				}
 				break;
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
+			case (R.layout.view_holder_list_with_headline):
+			case (R.layout.view_holder_list):
 				if (dataType == LIST_GLOBAL) {
 					globalListAdapter.onBindViewHolder(holder, position);
 				} else {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -62,11 +61,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
-		} else {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
-		}
+		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
 
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
@@ -216,13 +211,13 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 				R.menu.menu_project_activity, hiddenMenuOptionIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
 			switch (menuItem.getItemId()) {
-				case R.id.copy:
+				case (R.id.copy):
 					copyItems(itemList);
 					break;
-				case R.id.rename:
+				case (R.id.rename):
 					showRenameDialog(item);
 					break;
-				case R.id.delete:
+				case (R.id.delete):
 					deleteItems(itemList);
 					break;
 				default:

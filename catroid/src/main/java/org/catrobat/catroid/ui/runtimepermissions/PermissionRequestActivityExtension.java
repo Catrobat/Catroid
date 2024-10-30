@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.ui.runtimepermissions;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.view.ContextThemeWrapper;
 
 import org.catrobat.catroid.R;
@@ -84,9 +82,8 @@ public class PermissionRequestActivityExtension {
 		return matchedTask;
 	}
 
-	@TargetApi(23)
 	private void showPermissionRationale(final Activity activity, final RequiresPermissionTask task) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
+		if (activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
 			String message = activity.getResources().getString(task.getRationaleString());
 
 			OnClickListener okListener = (dialog, whichButton) -> {

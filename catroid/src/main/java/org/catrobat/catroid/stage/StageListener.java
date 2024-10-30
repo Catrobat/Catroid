@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,6 +91,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
@@ -518,6 +519,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	@OptIn(markerClass = kotlinx.coroutines.DelicateCoroutinesApi.class)
 	@Override
 	public void render() {
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
@@ -527,11 +529,13 @@ public class StageListener implements ApplicationListener {
 
 		if (reloadProject) {
 			stage.clear();
-			if (penActor != null)
+			if (penActor != null) {
 				penActor.dispose();
+			}
 
-			if (plotActor != null)
+			if (plotActor != null) {
 				plotActor.dispose();
+			}
 
 			embroideryPatternManager.clear();
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1166,12 +1166,12 @@
     <string formatted="false" name="default_list_name">Liste</string>
     <string formatted="false" name="default_project_background_name">Hintergrund</string>
     <string formatted="false" name="default_project_cloud_name">Wolken</string>
-    <string formatted="false" name="default_project_cloud_sprite_name_1">Wolken1</string>
+    <string formatted="false" name="default_project_cloud_sprite_name_1" tools:ignore="Typos">Wolken1</string>
     <string formatted="false" name="default_project_cloud_sprite_name_2">Wolken2</string>
     <string formatted="false" name="default_project_sprites_animal_name">Tier</string>
     <string formatted="false" name="default_project_sprites_animal_wings_up">Flügel oben</string>
     <string formatted="false" name="default_project_sprites_animal_wings_down">Flügel unten</string>
-    <string formatted="false" name="default_project_sprites_tweet_1">Zwitscher1</string>
+    <string formatted="false" name="default_project_sprites_tweet_1" tools:ignore="Typos">Zwitscher1</string>
     <string formatted="false" name="default_project_sprites_tweet_2">Zwitscher2</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_needle_name">Nadel</string>
@@ -1182,14 +1182,14 @@
     <!-- Default ChromeCast Values -->
     <string formatted="false" name="default_cast_project_background_name">Hintergrund</string>
     <string formatted="false" name="default_cast_project_cloud_name">Wolken</string>
-    <string formatted="false" name="default_cast_project_cloud_sprite_name1">Wolken1</string>
+    <string formatted="false" name="default_cast_project_cloud_sprite_name1" tools:ignore="Typos">Wolken1</string>
     <string formatted="false" name="default_cast_project_cloud_sprite_name2">Wolken2</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name">Vogel</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up">Flügel oben</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down">Flügel unten</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up_left">Flügel nach oben links</string>
     <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down_left">Flügel nach unten links</string>
-    <string formatted="false" name="default_cast_project_sprites_tweet_1">Zwitscher1</string>
+    <string formatted="false" name="default_cast_project_sprites_tweet_1" tools:ignore="Typos">Zwitscher1</string>
     <string formatted="false" name="default_cast_project_sprites_tweet_2">Zwitscher2</string>
     <string formatted="false" name="default_cast_project_var_direction">Richtung</string>
     <string formatted="false" name="default_cast_project_name">Mein erstes Cast-Projekt</string>
