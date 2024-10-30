@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -57,18 +57,24 @@
                 android:id="@+id/global"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/radio_button_vertical_margin"
+                android:padding="@dimen/radio_button_padding"
                 android:text="@string/new_data_for_all_sprites" />
 
             <RadioButton
                 android:id="@+id/local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/radio_button_vertical_margin"
+                android:padding="@dimen/radio_button_padding"
                 android:text="@string/new_data_for_this_sprite_only" />
 
             <RadioButton
                 android:id="@+id/multiplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/radio_button_vertical_margin"
+                android:padding="@dimen/radio_button_padding"
                 android:text="@string/new_data_for_connected_devices"
                 android:visibility="gone" />
         </RadioGroup>
@@ -77,6 +83,7 @@
             android:id="@+id/make_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/radio_button_padding"
             android:text="@string/formula_editor_data_dialog_is_list"
             android:visibility="gone"/>
 
