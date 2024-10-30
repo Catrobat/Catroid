@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1362,6 +1362,14 @@
     <string formatted="false" name="default_project_outer_loop">Outer Loop</string>
     <!--suppress UnusedResources -->
     <string formatted="false" name="default_project_inner_loop">Inner Loop</string>
+    <string formatted="false" name="default_project_panda_sprite_name">Panda</string>
+    <string formatted="false" name="default_project_panda_name">Panda (1)</string>
+    <string formatted="false" name="default_project_lynx_sprite_name">Lynx</string>
+    <string formatted="false" name="default_project_lynx_name">Lynx (1)</string>
+    <string formatted="false" name="default_project_elephant_sprite_name">Elephant</string>
+    <string formatted="false" name="default_project_elephant_name">Elephant (1)</string>
+    <string formatted="false" name="default_project_apple_sprite_name">Apple</string>
+    <string formatted="false" name="default_project_apple_name">Apple (1)</string>
 
     <!-- Default ChromeCast Values -->
     <string formatted="false" name="default_cast_project_background_name">Background</string>

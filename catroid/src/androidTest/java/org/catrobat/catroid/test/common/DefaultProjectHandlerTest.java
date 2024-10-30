@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,7 +72,7 @@ public class DefaultProjectHandlerTest {
 		Scene currentScene = project.getDefaultScene();
 		List<Sprite> spriteList = currentScene.getSpriteList();
 
-		assertEquals(4, spriteList.size());
+		assertEquals(8, spriteList.size());
 
 		assertEquals(1, spriteList.get(1).getNumberOfScripts());
 		assertEquals(1, spriteList.get(2).getNumberOfScripts());
@@ -82,6 +82,10 @@ public class DefaultProjectHandlerTest {
 		assertEquals(1, spriteList.get(1).getLookList().size());
 		assertEquals(1, spriteList.get(2).getLookList().size());
 		assertEquals(2, spriteList.get(3).getLookList().size());
+		assertEquals(1, spriteList.get(4).getLookList().size());
+		assertEquals(1, spriteList.get(5).getLookList().size());
+		assertEquals(1, spriteList.get(6).getLookList().size());
+		assertEquals(1, spriteList.get(7).getLookList().size());
 	}
 
 	@Test

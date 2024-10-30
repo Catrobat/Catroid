@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -163,6 +163,32 @@ public class DefaultProjectCreator extends ProjectCreator {
 				SCREENSHOT_AUTOMATIC_FILE_NAME,
 				1);
 
+		File pandaFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+						R.drawable.panda_a,
+						imageDir,
+						imageFileName,
+						backgroundImageScaleFactor);
+
+		File lynxFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				R.drawable.lynx_a,
+				imageDir,
+				imageFileName,
+				backgroundImageScaleFactor);
+
+		File elephantFile =
+				ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				R.drawable.elephant,
+				imageDir,
+				imageFileName,
+				backgroundImageScaleFactor);
+
+		File appleFile =
+				ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				R.drawable.apple,
+				imageDir,
+				imageFileName,
+				backgroundImageScaleFactor);
+
 		Sprite background = scene.getSpriteList().get(0);
 		background.getLookList()
 				.add(new LookData(context.getString(R.string.default_project_background_name), backgroundFile));
@@ -170,10 +196,18 @@ public class DefaultProjectCreator extends ProjectCreator {
 		Sprite cloud1 = new Sprite(context.getString(R.string.default_project_cloud_sprite_name_1));
 		Sprite cloud2 = new Sprite(context.getString(R.string.default_project_cloud_sprite_name_2));
 		Sprite bird = new Sprite(context.getString(R.string.default_project_sprites_animal_name));
+		Sprite panda = new Sprite(context.getString(R.string.default_project_panda_sprite_name));
+		Sprite lynx = new Sprite(context.getString(R.string.default_project_lynx_sprite_name));
+		Sprite elephant = new Sprite(context.getString(R.string.default_project_elephant_sprite_name));
+		Sprite apple = new Sprite(context.getString(R.string.default_project_apple_sprite_name));
 
 		scene.addSprite(cloud1);
 		scene.addSprite(cloud2);
 		scene.addSprite(bird);
+		scene.addSprite(panda);
+		scene.addSprite(lynx);
+		scene.addSprite(elephant);
+		scene.addSprite(apple);
 
 		cloud1.getLookList()
 				.add(new LookData(context.getString(R.string.default_project_cloud_name), cloudFile1));
@@ -187,6 +221,10 @@ public class DefaultProjectCreator extends ProjectCreator {
 				.add(new SoundInfo(context.getString(R.string.default_project_sprites_tweet_1), tweetFile1));
 		bird.getSoundList()
 				.add(new SoundInfo(context.getString(R.string.default_project_sprites_tweet_2), tweetFile2));
+		panda.getLookList().add(new LookData(context.getString(R.string.default_project_panda_name), pandaFile));
+		lynx.getLookList().add(new LookData(context.getString(R.string.default_project_lynx_name), lynxFile));
+		elephant.getLookList().add(new LookData(context.getString(R.string.default_project_elephant_name), elephantFile));
+		apple.getLookList().add(new LookData(context.getString(R.string.default_project_apple_sprite_name), appleFile));
 
 		Script script = new StartScript();
 		script.addBrick(new PlaceAtBrick(new Formula(0), new Formula(0)));
