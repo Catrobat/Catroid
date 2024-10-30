@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.common;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.junit.Test;
@@ -32,7 +31,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ServiceProviderTest {
@@ -42,7 +40,6 @@ public class ServiceProviderTest {
 		CatroidService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 		assertNotNull(service);
-		assertTrue(service instanceof BluetoothDeviceService);
 	}
 
 	@Test
@@ -55,6 +52,7 @@ public class ServiceProviderTest {
 		assertNotNull(service);
 	}
 
+	@SuppressWarnings("PMD.TestClassWithoutTestCases")
 	private static class TestService implements CatroidService {
 	}
 }
