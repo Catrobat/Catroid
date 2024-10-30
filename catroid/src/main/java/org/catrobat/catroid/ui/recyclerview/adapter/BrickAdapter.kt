@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -139,8 +139,15 @@ class BrickAdapter(private val sprite: Sprite) :
         } else {
             background.clearColorFilter()
         }
-
-        checkBoxClickListener(item, itemView, position)
+        if (checkBoxMode != NONE) {
+            checkBoxClickListener(item, itemView, position)
+        } else {
+            if (item is FormulaBrick) {
+                item.setClickListeners()
+            } else if (item is ListSelectorBrick) {
+                item.setClickListeners()
+            }
+        }
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
         return itemView
@@ -148,6 +155,11 @@ class BrickAdapter(private val sprite: Sprite) :
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
         item.checkBox.setOnClickListener { onCheckBoxClick(position) }
+        if (viewStateManager.isEnabled(position)) {
+            itemView.setOnClickListener { onCheckBoxClick(position) }
+        } else {
+            itemView.setOnClickListener(null)
+        }
         when (checkBoxMode) {
             NONE -> handleCheckBoxModeNone(item)
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
