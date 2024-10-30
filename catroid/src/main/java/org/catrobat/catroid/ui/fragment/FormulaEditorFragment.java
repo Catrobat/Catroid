@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,6 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
 import java.io.File;
@@ -102,6 +101,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -710,7 +710,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		if (requestCode == REQUEST_GPS && resultCode == AppCompatActivity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
 			showComputeDialog();
 		} else {
-			ToastUtil.showError(getActivity(), R.string.error_gps_not_available);
+			SnackbarUtil.hintSnackbar(requireActivity(), R.string.error_gps_not_available);
 		}
 	}
 
@@ -876,15 +876,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			confirmSwitchEditTextTimeStamp[0] = 0;
 			confirmSwitchEditTextTimeStamp[1] = 0;
 			confirmSwitchEditTextCounter = 0;
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_discarded);
+			SnackbarUtil.wasHintAlreadyShown(getActivity(), String.valueOf(R.string.formula_editor_changes_discarded));
 			return true;
 		} else {
 			switch (errorType) {
 				case InternFormulaParser.PARSER_INPUT_SYNTAX_ERROR:
-					ToastUtil.showError(getActivity(), R.string.formula_editor_parse_fail);
+					SnackbarUtil.hintSnackbar(requireActivity(), R.string.formula_editor_parse_fail);
 					break;
 				case InternFormulaParser.PARSER_STACK_OVERFLOW:
-					ToastUtil.showError(getActivity(), R.string.formula_editor_parse_fail_formula_too_long);
+					SnackbarUtil.hintSnackbar(requireActivity(),R.string.formula_editor_parse_fail_formula_too_long);
 					break;
 			}
 			return false;

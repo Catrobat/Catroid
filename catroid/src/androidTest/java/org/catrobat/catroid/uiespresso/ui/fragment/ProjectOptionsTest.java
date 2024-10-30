@@ -327,7 +327,7 @@ public class ProjectOptionsTest {
 					.perform(click());
 
 			onToast(withText(pendingToastText))
-					.check(matches(isDisplayed()));
+					.check(matches((isDisplayed())));
 			onView(isRoot()).perform(CustomActions
 					.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -48,7 +49,6 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.onToast;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -131,7 +131,7 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		pressBack();
-		onToast(withText(R.string.formula_editor_parse_fail))
+		onView(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
 	}
@@ -144,7 +144,7 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performEnterFormula("1+1+");
 		pressBack();
-		onToast(withText(R.string.formula_editor_parse_fail))
+		onView(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
 	}
@@ -157,7 +157,43 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performEnterFormula("+");
 		pressBack();
-		onToast(withText(R.string.formula_editor_parse_fail))
+		onView(withText(R.string.formula_editor_parse_fail))
+				.check(matches(isDisplayed()));
+		onView(isRoot()).perform(CustomActions.wait(3000));
+	}
+	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
+	@Test(expected = NoMatchingViewException.class)
+	public void testFormulaIsNotValidToastFail1() {
+		onFormulaEditor()
+				.performClickOn(BACKSPACE);
+		pressBack();
+		onView(withText(R.string.formula_editor_parse_fail_formula_too_long))
+				.check(matches(isDisplayed()));
+		onView(isRoot()).perform(CustomActions.wait(3000));
+	}
+
+	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
+	@Test(expected = NoMatchingViewException.class)
+	public void testFormulaIsNotValidToastFail2() {
+		onFormulaEditor()
+				.performClickOn(BACKSPACE);
+		onFormulaEditor()
+				.performEnterFormula("1+1+");
+		pressBack();
+		onView(withText(R.string.formula_editor_parse_fail_formula_too_long))
+				.check(matches(isDisplayed()));
+		onView(isRoot()).perform(CustomActions.wait(3000));
+	}
+
+	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
+	@Test(expected = NoMatchingViewException.class)
+	public void testFormulaIsNotValidToastFail3() {
+		onFormulaEditor()
+				.performClickOn(BACKSPACE);
+		onFormulaEditor()
+				.performEnterFormula("+");
+		pressBack();
+		onView(withText(R.string.formula_editor_parse_fail_formula_too_long))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
 	}
