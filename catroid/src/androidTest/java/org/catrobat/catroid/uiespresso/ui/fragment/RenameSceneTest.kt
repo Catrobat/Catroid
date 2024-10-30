@@ -58,7 +58,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
+import org.catrobat.catroid.ui.SpriteActivity.Companion.FRAGMENT_LOOKS
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.getResourcesString
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
