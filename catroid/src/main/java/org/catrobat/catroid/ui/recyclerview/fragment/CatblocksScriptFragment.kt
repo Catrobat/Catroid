@@ -405,6 +405,16 @@ class CatblocksScriptFragment(
         }
 
         @JavascriptInterface
+        fun commentOutBrick(brickStrIdToCommentOut: String) {
+            val brickIdToCommentOut = UUID.fromString(brickStrIdToCommentOut)
+
+            val foundBrick = projectManager.currentSprite.findBrickInSprite(brickIdToCommentOut)
+                ?: return
+
+            foundBrick.setCommentedOut(!foundBrick.isCommentedOut)
+        }
+
+        @JavascriptInterface
         fun getBricksForCategory(category: String): String {
             val bricksForCategory = CategoryBricksFactory().getBricks(category, projectManager
                 .currentSprite.isBackgroundSprite, requireContext())

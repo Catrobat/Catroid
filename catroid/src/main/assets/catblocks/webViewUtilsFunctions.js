@@ -93,6 +93,92 @@ window.webViewUtilsFunctions = {
 		}
 		return true;
 	},
+	isElementVisibleByString: function (querySelector, searchString) {
+		const elements = document.querySelectorAll(querySelector);
+		for (const element of elements) {
+			if (element && element.innerText === searchString) {
+				return window.webViewUtilsFunctions.isVisible(element);
+			}
+		}
+		return false;
+    },
+	getElementByString: function (querySelector, searchString) {
+		const elements = document.querySelectorAll(querySelector);
+		for (const element of elements) {
+			if (element && element.innerText === searchString) {
+				return element;
+			}
+		}
+		return null;
+    },
+    clickElementByString: function (querySelector, searchString) {
+		const element = window.webViewUtilsFunctions.getElementByString(querySelector, searchString);
+
+		const events = [
+			'pointerover',
+			'pointerenter',
+			'pointerdown',
+			'touchstart',
+			'pointerup',
+			'pointerout',
+			'pointerleave',
+			'touchend',
+			'mouseover',
+			'click'
+		];
+
+		for (const event of events) {
+			const opts = { bubbles: true };
+			let firedEvent;
+			if (event.includes('touch')) {
+				firedEvent = new TouchEvent(event, opts);
+			} else if (event.includes('pointer')) {
+				firedEvent = new PointerEvent(event, opts);
+			} else {
+				firedEvent = new MouseEvent(event, opts);
+			}
+
+			console.log('Fired Event:', firedEvent);
+			element.dispatchEvent(firedEvent);
+		}
+		return true;
+	},
+	rightClickElement: function (querySelector) {
+		const element = document.querySelector(querySelector);
+			if (!element) {
+				return false;
+			}
+
+			const events = [
+				'pointerover',
+				'pointerenter',
+				'pointerdown',
+				'contextmenu',
+				'pointerup',
+				'pointerout',
+				'pointerleave',
+				'mouseover',
+				'click'
+			];
+
+			const opts = { bubbles: true, button: 2 }; // Use button: 2 for the right button
+
+			for (const event of events) {
+				let firedEvent;
+				if (event.includes('contextmenu')) {
+					firedEvent = new MouseEvent(event, opts);
+				} else if (event.includes('pointer')) {
+					firedEvent = new PointerEvent(event, opts);
+				} else {
+					firedEvent = new MouseEvent(event, opts);
+				}
+
+				console.log('Fired Event:', firedEvent);
+				element.dispatchEvent(firedEvent);
+			}
+
+		return true;
+	},
 	moveElementByPixels: function (querySelector, directionX, directionY) {
 		const element = document.querySelector(querySelector);
 		if (!element) {
