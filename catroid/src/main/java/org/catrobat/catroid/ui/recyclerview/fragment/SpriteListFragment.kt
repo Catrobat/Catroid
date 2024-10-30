@@ -376,7 +376,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
-                R.id.delete -> deleteItems(itemList)
+                R.id.delete -> showDeleteAlert(itemList)
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_library -> addFromLibrary(item)
                 R.id.from_local -> addFromLocalProject(item)
