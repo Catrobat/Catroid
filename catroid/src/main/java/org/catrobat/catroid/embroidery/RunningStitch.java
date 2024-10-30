@@ -52,8 +52,7 @@ public class RunningStitch {
 		}
 	}
 
-	public void pause() {
-		isRunning = false;
+	public void pause() { isRunning = false;
 	}
 
 	public void resume() {
