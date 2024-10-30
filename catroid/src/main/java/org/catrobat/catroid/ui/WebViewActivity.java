@@ -37,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -67,6 +68,9 @@ import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTOR
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.FONT_STYLE;
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.HIGH_CONTRAST;
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.LARGE_TEXT;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends AppCompatActivity {
@@ -102,6 +106,8 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(new AccessibilityParametersJsInterface(),
+				"aParamsInterface");
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
@@ -109,10 +115,8 @@ public class WebViewActivity extends AppCompatActivity {
 		String buildType = BuildConfig.FLAVOR.equals("pocketCodeBeta") ? "debug" : BuildConfig.BUILD_TYPE;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + buildType);
-
 		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
 		webView.loadUrl(url);
-
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
 			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
@@ -325,5 +329,28 @@ public class WebViewActivity extends AppCompatActivity {
 		}
 
 		super.onDestroy();
+	}
+
+	public class AccessibilityParametersJsInterface {
+		@JavascriptInterface
+		public boolean highContrastEnabled() {
+			return PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext())
+					.getBoolean(HIGH_CONTRAST, false);
+		}
+
+		@JavascriptInterface
+		public boolean largeTextEnabled() {
+			return PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext())
+					.getBoolean(LARGE_TEXT, false);
+		}
+
+		@JavascriptInterface
+		public String getFontStyle() {
+			return PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext())
+					.getString(FONT_STYLE, "sans_serif");
+		}
 	}
 }
