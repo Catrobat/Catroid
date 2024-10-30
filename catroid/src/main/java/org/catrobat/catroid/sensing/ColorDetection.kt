@@ -85,7 +85,8 @@ abstract class ColorDetection(
     }
 
     private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
-        lookList.forEach { it.draw(batch, 1f) }
+        val sortedLookList = lookList.sortedBy { it.zIndex }
+        sortedLookList.forEach { it.draw(batch, 1f) }
     }
 
     protected fun createViewport(

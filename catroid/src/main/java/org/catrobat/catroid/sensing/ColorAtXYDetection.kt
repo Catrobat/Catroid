@@ -186,10 +186,10 @@ class ColorAtXYDetection(
     }
 
     private fun rgbaColorToRGBHexString(color: Color): String =
-        COLOR_HEX_PREFIX + color.toString().substring(RGBA_START_INDEX, RGBA_END_INDEX)
+        COLOR_HEX_PREFIX + color.toString().substring(RGBA_START_INDEX, RGBA_END_INDEX).uppercase()
 
     private fun argbColorToRGBHexString(color: Color): String =
-        COLOR_HEX_PREFIX + color.toString().substring(ARGB_START_INDEX, ARGB_END_INDEX)
+        COLOR_HEX_PREFIX + color.toString().substring(ARGB_START_INDEX, ARGB_END_INDEX).uppercase()
 
     private fun convertStageToBitmapCoordinate(
         position: Int,
