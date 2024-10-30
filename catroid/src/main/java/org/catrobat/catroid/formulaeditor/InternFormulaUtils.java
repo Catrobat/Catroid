@@ -254,6 +254,9 @@ public final class InternFormulaUtils {
 
 		do {
 			if (bracketsIndex >= internTokenList.size()) {
+				if (nestedBracketsCounter != 0) {
+					return bracketInternTokenListToReturn;
+				}
 				return null;
 			}
 			tempSearchToken = internTokenList.get(bracketsIndex);
@@ -292,6 +295,9 @@ public final class InternFormulaUtils {
 
 		do {
 			if (bracketSearchIndex < 0) {
+				if (nestedBracketsCounter != 0) {
+					return bracketInternTokenListToReturn;
+				}
 				return null;
 			}
 			tempSearchToken = internTokenList.get(bracketSearchIndex);
@@ -553,6 +559,8 @@ public final class InternFormulaUtils {
 
 	public static boolean applyBracketCorrection(List<InternToken> internFormula) throws EmptyStackException {
 
+		InternFormula.stackStatusBrackets = InternFormula.StackStatusBrackets.STACK_OK;
+
 		Stack<InternTokenType> stack = new Stack<InternTokenType>();
 
 		for (int index = 0; index < internFormula.size(); index++) {
@@ -567,6 +575,11 @@ public final class InternFormulaUtils {
 					break;
 
 				case BRACKET_CLOSE:
+					if (stack.isEmpty()) {
+						InternFormula.stackStatusBrackets =
+								InternFormula.StackStatusBrackets.BRACKET_CLOSE_STACK_NOT_EMPTY;
+						return false;
+					}
 					if (stack.peek() == InternTokenType.BRACKET_OPEN) {
 						stack.pop();
 					} else {
@@ -579,6 +592,11 @@ public final class InternFormulaUtils {
 					break;
 
 				case FUNCTION_PARAMETERS_BRACKET_CLOSE:
+					if (stack.isEmpty()) {
+						InternFormula.stackStatusBrackets =
+								InternFormula.StackStatusBrackets.FUNCTION_PARAMETERS_BRACKET_CLOSE_STACK_NOT_EMPTY;
+						return false;
+					}
 					if (stack.peek() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
 						stack.pop();
 					} else {
@@ -591,7 +609,17 @@ public final class InternFormulaUtils {
 					break;
 			}
 		}
-		return true;
+		if (stack.isEmpty()) {
+			return true;
+		}
+		if (stack.peek() == InternTokenType.BRACKET_OPEN) {
+			InternFormula.stackStatusBrackets =
+					InternFormula.StackStatusBrackets.BRACKET_OPEN_STACK_NOT_EMPTY;
+		} else if (stack.peek() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
+			InternFormula.stackStatusBrackets =
+					InternFormula.StackStatusBrackets.FUNCTION_PARAMETERS_BRACKET_OPEN_STACK_NOT_EMPTY;
+		}
+		return stack.isEmpty();
 	}
 
 	private static boolean swapBrackets(List<InternToken> internFormula, int firstBracketIndex,
@@ -605,5 +633,25 @@ public final class InternFormulaUtils {
 			}
 		}
 		return false;
+	}
+
+	public static int getFirstIndexOfToken(List<InternToken> internTokenFormulaList,
+			InternTokenType type) {
+		for (int i = 0; i < internTokenFormulaList.size(); i++) {
+			if (internTokenFormulaList.get(i).getInternTokenType() == type) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static int getLastIndexOfToken(List<InternToken> internTokenFormulaList,
+			InternTokenType type) {
+		for (int i = internTokenFormulaList.size() - 1; i > 0; i--) {
+			if (internTokenFormulaList.get(i).getInternTokenType() == type) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
