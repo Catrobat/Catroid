@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.utiltests
 
-import android.content.Context
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.TrustedDomainManager.addToUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.getUserTrustList
@@ -33,6 +32,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.TRUSTED_USER_DOMAINS_FILE
 import org.catrobat.catroid.common.Constants.TRUST_LIST_JSON_ARRAY_NAME
 import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.test.PowerMockUtil
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
 import org.json.JSONObject
@@ -64,8 +64,7 @@ class TrustedUserDomainsTest {
         given(Utils.getInputStreamFromAsset(any(), anyString())).willReturn(stream)
         given(Utils.getJsonObjectFromInputStream(stream)).willReturn(JSONObject())
 
-        mockStatic(CatroidApplication::class.java)
-        val context = mock(Context::class.java)
+        val context = PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons()
         val directory = TemporaryFolder()
         directory.create()
         given(CatroidApplication.getAppContext()).willReturn(context)

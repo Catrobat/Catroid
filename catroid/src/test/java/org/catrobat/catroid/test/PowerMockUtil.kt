@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,13 +27,22 @@ import android.content.Context
 import org.catrobat.catroid.CatroidApplication
 import org.mockito.Mockito
 import org.powermock.api.mockito.PowerMockito
+import org.powermock.reflect.Whitebox
 
 class PowerMockUtil private constructor() {
     companion object {
         @JvmStatic
         fun mockStaticAppContextAndInitializeStaticSingletons(): Context {
             val contextMock = Mockito.mock(Context::class.java)
-            PowerMockito.mockStatic(CatroidApplication::class.java)
+            PowerMockito.mockStatic(CatroidApplication.Companion::class.java)
+            val companionMock: CatroidApplication.Companion =
+                PowerMockito.mock(CatroidApplication.Companion::class.java)
+
+            Whitebox.setInternalState(
+                CatroidApplication::class.java, "Companion",
+                companionMock
+            )
+
             PowerMockito.`when`(CatroidApplication.getAppContext()).thenReturn(contextMock)
 
             StaticSingletonInitializer.initializeStaticSingletonMethodsWith(contextMock)

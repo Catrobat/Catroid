@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity
@@ -109,9 +108,9 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         surveyCampaign?.startAppTime(this)
     }
 
-    protected fun googleAnalyticsTrackScreenResume() {
+    private fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
-        googleTracker.setScreenName(this.javaClass.name)
+        googleTracker!!.setScreenName(this.javaClass.name)
         googleTracker.send(ScreenViewBuilder().build())
     }
 
