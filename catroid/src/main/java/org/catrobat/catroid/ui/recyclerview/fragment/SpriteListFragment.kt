@@ -343,8 +343,12 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                     val intent = Intent(requireContext(), SpriteActivity::class.java)
                     intent.putExtra(
                         SpriteActivity.EXTRA_FRAGMENT_POSITION,
-                        SpriteActivity.FRAGMENT_SCRIPTS
+                        if (item?.isBackgroundSprite(context) == true &&
+                                !SpriteActivity.wasBackgroundClickedOnce) {
+                            SpriteActivity.FRAGMENT_LOOKS
+                        } else SpriteActivity.FRAGMENT_SCRIPTS
                     )
+                    SpriteActivity.EXTRA_FRAGMENT_POSITION
                     startActivity(intent)
                 }
                 else -> super.onItemClick(item, selectionManager)
