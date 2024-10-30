@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectActivity.Companion.EXTRA_FRAGMENT_POSITION
 import org.catrobat.catroid.ui.ProjectActivity.Companion.FRAGMENT_SPRITES
 import org.catrobat.catroid.ui.ProjectActivity.Companion.SPRITE_CAMERA
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.AllOf.allOf
 import org.hamcrest.core.IsNot.not
@@ -88,6 +89,16 @@ class SpriteListFragmentNoObjectTest {
         checkToastMessageAfterPressingOverflowItem(R.string.copy)
         checkToastMessageAfterPressingOverflowItem(R.string.delete)
         checkToastMessageAfterPressingOverflowItem(R.string.rename)
+    }
+
+    @Test
+    fun testAddNewSceneOptions() {
+        openActionBarMenu()
+        onView(withText(R.string.new_scene)).perform(click())
+
+        onView(withId(R.id.dialog_new_blanc_scene)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_scene_backpack)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_scene_local_projects)).check(matches(isDisplayed()))
     }
 
     @Test

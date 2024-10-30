@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.Menu
@@ -32,11 +33,13 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
@@ -47,21 +50,30 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
-class SceneListFragment : RecyclerViewFragment<Scene?>(),
+class SceneListFragment :
+    RecyclerViewFragment<Scene?>(),
     ProjectLoadListener {
 
     private val sceneController = SceneController()
     private val projectManager: ProjectManager by inject()
 
+    private var externalProject: Project? = null
+
     override fun onResume() {
         super.onResume()
-        val currentProject = projectManager.currentProject
-        if (currentProject.sceneList.size < 2) {
+        if (!(requireActivity() as AppCompatActivity).intent.hasExtra(IMPORT_LOCAL_INTENT)) {
+            val currentProject = projectManager.currentProject
+            if (currentProject.sceneList.size < 2) {
+                projectManager.currentlyEditedScene = currentProject.defaultScene
+                switchToSpriteListFragment()
+            }
             projectManager.currentlyEditedScene = currentProject.defaultScene
-            switchToSpriteListFragment()
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = currentProject.name
+        } else {
+            projectManager.currentlyEditedScene = externalProject!!.defaultScene
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = externalProject!!.name
+            actionModeType = IMPORT_LOCAL
         }
-        projectManager.currentlyEditedScene = currentProject.defaultScene
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = currentProject.name
     }
 
     private fun switchToSpriteListFragment() {
@@ -78,7 +90,13 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
 
     override fun initializeAdapter() {
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY
-        val items = projectManager.currentProject.sceneList
+        val items = if (!(requireActivity() as AppCompatActivity).intent.hasExtra(IMPORT_LOCAL_INTENT)) {
+            projectManager.currentProject.sceneList
+        } else {
+            externalProject = (requireActivity() as AppCompatActivity).intent
+                .getSerializableExtra(IMPORT_LOCAL_INTENT) as Project
+            externalProject!!.sceneList
+        }
         adapter = SceneAdapter(items)
         onAdapterReady()
     }
@@ -217,6 +235,15 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                     .addToBackStack(SpriteListFragment.TAG)
                     .commit()
             }
+            IMPORT_LOCAL -> {
+                val intent = Intent()
+                intent.putExtra(
+                    IMPORT_LOCAL_INTENT,
+                    item?.directory?.absoluteFile?.absolutePath
+                )
+                requireActivity().setResult(Activity.RESULT_OK, intent)
+                requireActivity().finish()
+            }
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -257,7 +284,11 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
             ToastUtil.showError(activity, R.string.error_load_project)
             return
         }
-        adapter.items = projectManager.currentProject.sceneList
+        if (externalProject == null) {
+            adapter.items = projectManager.currentProject.sceneList
+        } else {
+            adapter.items = externalProject!!.sceneList
+        }
     }
 
     companion object {
