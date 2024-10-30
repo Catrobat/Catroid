@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +66,7 @@ public class EmptyEventBrick extends ScriptBrickBaseType {
 
 		view.setAlpha(DISABLED_BRICK_ALPHA);
 		View brickViewContainer = ((ViewGroup) view).getChildAt(1);
-		Drawable background = brickViewContainer.getBackground();
-		BrickAdapter.colorAsCommentedOut(background);
+		BrickAdapter.colorAsCommentedOut(brickViewContainer);
 
 		return view;
 	}
