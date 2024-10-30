@@ -1482,6 +1482,8 @@ needs read and write access to it. You can always change permissions through you
 
     <!-- Bluetooth Connection Strings -->
     <string formatted="false" name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+    <string formatted="false" name="notification_blueth_err_api_lvl">Can\'t enable
+        Bluetooth, requires Android 12</string>
     <string formatted="false" name="title_paired_devices">Paired devices</string>
     <string formatted="false" name="title_other_devices">Available devices</string>
     <string formatted="false" name="bluetooth_connection_title">Bluetooth connection</string>

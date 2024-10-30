@@ -82,7 +82,8 @@ class Multiplayer : MultiplayerInterface {
 
         closeStreams()
 
-        if (acceptThread?.isAlive == true) {
+        val hasCorrectApiVersion = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S
+        if (acceptThread?.isAlive == true && hasCorrectApiVersion) {
             acceptThread?.cancel()
             acceptThread?.interrupt()
         }

@@ -25,6 +25,12 @@ package org.catrobat.catroid.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresPermission;
+
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
 
 public class BluetoothManager {
 
@@ -40,6 +46,8 @@ public class BluetoothManager {
 		this.activity = activity;
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.S)
+	@RequiresPermission(BLUETOOTH_CONNECT)
 	public int activateBluetooth() {
 		if (bluetoothAdapter == null) {
 			bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
