@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,6 +39,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -59,6 +62,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -77,6 +81,8 @@ public class WebViewActivity extends AppCompatActivity {
 	public static final String INTENT_FORCE_OPEN_IN_APP = "openInApp";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
+	private static final String FILE_PICKER_CONTENT_TYPE = "image/*";
+	private static final int FILE_PICKER_REQUEST_CODE = 1000;
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
@@ -85,6 +91,9 @@ public class WebViewActivity extends AppCompatActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+
+	// used for image picker
+	private ValueCallback<Uri[]> filePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +110,7 @@ public class WebViewActivity extends AppCompatActivity {
 		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
+		webView.setWebChromeClient(new MyWebChromeClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		String flavor = Constants.FLAVOR_DEFAULT;
@@ -148,6 +158,23 @@ public class WebViewActivity extends AppCompatActivity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode != FILE_PICKER_REQUEST_CODE) {
+			return;
+		}
+
+		if (resultCode == Activity.RESULT_CANCELED) {
+			filePath.onReceiveValue(null);
+		} else if (resultCode == Activity.RESULT_OK && filePath != null) {
+			filePath.onReceiveValue(
+					WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+			filePath = null;
+		}
+	}
+
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
 			allowGoBack = false;
@@ -155,6 +182,22 @@ public class WebViewActivity extends AppCompatActivity {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	// Used for file selection
+	// attention: we only allow image files on all occasions!
+	public class MyWebChromeClient extends WebChromeClient {
+		@Override
+		public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+			filePath = filePathCallback;
+
+			Intent contentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+			contentIntent.setTypeAndNormalize(FILE_PICKER_CONTENT_TYPE);
+			contentIntent.addCategory(Intent.CATEGORY_OPENABLE);
+
+			startActivityForResult(contentIntent, FILE_PICKER_REQUEST_CODE);
+			return true;
+		}
 	}
 
 	private class MyWebViewClient extends WebViewClient {
