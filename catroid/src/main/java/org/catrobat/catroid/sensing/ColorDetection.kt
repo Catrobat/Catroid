@@ -76,6 +76,7 @@ abstract class ColorDetection(
         buffer.begin()
         batch.begin()
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        stageListener?.penActor?.draw(batch, 1f)
         drawSprites(lookList, batch)
         batch.end()
         val pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, buffer.width, buffer.height)
