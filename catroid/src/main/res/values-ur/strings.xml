@@ -66,7 +66,7 @@
     <!-- Replace Api dialog -->
     <string formatted="false" name="api_replacement_dialog_neutral">تبدیلی کے بغیر اپ لوڈ کریں</string>
     <string formatted="false" name="api_replacement_dialog_accept">چابیاں تبدیل کرنے کے ساتھ اپ لوڈ کریں</string>
-    <string formatted="false" name="api_replacement_dialog_warning">اس منصوبے میں اینٹوں پر مشتمل ہے جو
+    <string formatted="false" name="api_replacement_dialog_warning">اس منصوبے میں اینٹوں پر مشتمل ہے جو 
         ویب تک رسائی حاصل کرتی ہے، اور یہ بھی API کی چابیاں پر مشتمل ہے. براہ مہربانی %1s ملاحظہ کریں 
         کیوں ان چابیاں اپ لوڈ کر رہے ہیں خطرناک ہوسکتے ہیں.</string>
     <string formatted="false" name="api_replacement">یہاں API کلید داخل کریں</string>
@@ -90,6 +90,7 @@
     <string formatted="false" name="main_menu_help">مدد</string>
     <string formatted="false" name="main_menu_web">کاٹروبٹ کے تمام لوگ                      </string>
     <string formatted="false" name="main_menu_upload">پروجیکٹ کو اپ لوڈ کریں</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ہمیں اعزاز دیں!</string>
     <string formatted="false" name="main_menu_terms_of_use">استعمال اور خدمات کی شرائط</string>
     <string formatted="false" name="main_menu_privacy_policy">رازداری کا طریقہ کار</string>
@@ -128,7 +129,7 @@
         مصنوعی اینٹوں اور سینسر کو فعال کریں</string>
     <string formatted="false" name="preference_title_ai_face_detection">چہرہ
         شناخت</string>
-    <string formatted="false" name="preference_description_ai_face_detection">چہرے کا پتہ لگانے اینٹوں اور سینسر کو
+    <string formatted="false" name="preference_description_ai_face_detection">چہرے کا پتہ لگانے اینٹوں اور سینسر کو 
         فعال کریں</string>
     <string formatted="false" name="preference_title_ai_pose_detection">پوز کا تشخیص</string>
     <string formatted="false" name="preference_description_ai_pose_detection">پوز کا تشخیص اینٹوں اور سینسر کو فعال کریں</string>
@@ -180,6 +181,12 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">بڑے عنصر کی جگہ، ڈریگن ڈراپ تاخیر</string>
     <string formatted="false" name="preference_access_title_profile_tiro">ٹارو</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">ابتدائی موڈ</string>
+    <string name="preference_dialog_use_full_features"> تمام خصوصیات استعمال کریں</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">  Lego Mindstorms extensions کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Mindstorms Code EV3 NXT app کواستعمال کریں  </string>
+    <string name="preference_embroidery_dialog_text">   embroidery extension کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Embroidery Designer app کواستعمال کریں          </string>
+    <string name="preference_phiro_dialog_text">     Phiro robotics extension کی تمام خصوصیات کا فائدہ اٹھانےکےلیے  Catrobat کی Phiro Code app کواستعمال کریں  </string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">توتے AR.ڈرون2.0 توسیع</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">AR.ڈرون 2.0 کوارڈ کاپٹر کو سمبھالنے کی اجازت دیں</string>
@@ -200,6 +207,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">سلائی مشینوں کے لئے پیٹرن بنائیں</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast توسیع</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">کاسٹ بٹن دکھائیں اور کاسٹ منصوبوں کو فعال کریں</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">قریب فیلڈ مواصلات کی توسیع</string>
     <string formatted="false" name="preference_description_nfc_bricks">ایپ کو منصوبوں میں این ایف سی ٹیگز استعمال کرنے کی اجازت دیں</string>
     <string formatted="false" name="preference_title_enable_crash_reports">گمنام حادثات کی اطلاع بھیج رہا ہے</string>
@@ -579,15 +589,20 @@
     <!-- NewDataDialog -->
     <string formatted="false" name="new_data_for_all_sprites">تمام مناظر میں تمام اداکاروں، اشیاء اور کلونوں کے لئے</string>
     <string formatted="false" name="new_data_for_this_sprite_only">یہ اداکار، آبجیکٹ یا صرف اس کلون میں سے ایک کے لئے</string>
-    <string formatted="false" name="new_data_for_connected_devices">منسلک ملتی پلیر کهیل آلات پر منصوبوں کے
+    <string formatted="false" name="new_data_for_connected_devices">منسلک ملتی پلیر کهیل آلات پر منصوبوں کے 
         تمام مناظر میں تمام اداکاروں، اشیاء، اور کلونوں کے لئے</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">آپ کا بیک پیک</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">پیک</string>
     <string formatted="false" name="unpack">غیر پیکنگ</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">مثال کے طور پر منصوبے</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">افقی انداز</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">ضمنی منصوبے</string>
@@ -604,6 +619,8 @@
     <string formatted="false" name="add_look_choose_image">تصویر منتخب کریں</string>
     <string formatted="false" name="add_look_media_library">میڈیا لائبریری</string>
     <string formatted="false" name="add_look_from_local_project">مقامی منصوبے</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">آواز ا ضافہ کریں</string>
@@ -789,6 +806,7 @@
     <string formatted="false" name="category_motion">حرکت</string>
     <string formatted="false" name="category_looks">نظر</string>
     <string formatted="false" name="category_pen">قلم</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">آواز</string>
     <string formatted="false" name="category_control">کنٹرول</string>
     <string formatted="false" name="category_event">واقعہ</string>
@@ -958,6 +976,11 @@
     <string formatted="false" name="at_string">پر</string>
     <string formatted="false" name="seconds_string">سیکنڈ</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">سلائی</string>
     <string formatted="false" name="brick_running_stitch">لمبائی کے ساتھ سلائی چلانا شروع کریں۔</string>
@@ -1086,14 +1109,14 @@
     <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string formatted="false" name="brick_web_request_result">اور جواب میں اسٹور</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
-    <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ
+    <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ 
         لنک آپ کی ذاتی معلومات کو ظاہر کر سکتا ہے، جیسے کہ 
         آپ کا درست جغرافیائی محل وقوع یا کوئی بھی متن جو آپ نے بدنیتی پر مبنی دوسروں یا عوام کے لیے درج کیا ہے۔ ہمارا         &lt;a href=%1s&gt;wiki&lt;/a&gt;&lt;/a&gt;  دیکھیں مزید معلومات کے لیے یہ 
         انتہائی خطرناک کیوں ہو سکتا ہے۔
     </string>
     <string formatted="false" name="web_request_trust_domain_warning_title">ہمیشہ ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_trust_domain_warning_message">ہمیشہ رسائی کی اجازت دینے سے، آپ سے اس ڈومین سے ویب پتوں         کی تصدیق کرنے کے لیے دوبارہ نہیں کہا جائے گا۔</string>
-    <string formatted="false" name="trusted_domains_edit_hint">اگر آپ بعد میں اجازت
+    <string formatted="false" name="trusted_domains_edit_hint">اگر آپ بعد میں اجازت 
         منسوخ کرنا چاہتے ہیں، تو آپ اس ایپ کی سیٹنگز میں قابل اعتماد ڈومینز کی 
         فہرست سے اندراج کو ہٹا سکتے ہیں۔
     </string>
@@ -1245,7 +1268,7 @@
     <string formatted="false" name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
     <string formatted="false" name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروجیکٹ %s پہلے ہی قطار میں ہے۔"</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ 
         شروع نہیں ہو سکا، لگتا ہے ہمارے سرور میں کوئی مسئلہ ہے۔"</string>
     <string formatted="false" name="error_new_project">نئی منصوبہ بنانے کے دوران کچھ غلط ہو گیا.</string>
     <string formatted="false" name="error_rename_scene">منظر تبدیل کرنے کے دوران کچھ غلط ہوا.</string>
@@ -1264,6 +1287,9 @@
     <string formatted="false" name="error_embroidery_file_export">ایمبرائیڈری فائل شیئر کرتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_file_write">ایمبرائیڈری فائل لکھتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_data_not_found">کڑھائی غائب ہے۔</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">کچھ غلط ہو گیا!.</string>
     <string formatted="false" name="error_gps_not_available">جغرافیائی اعداد و شمار دستیاب نہیں ہے.</string>
     <string formatted="false" name="error_set_description">نئی وضاحت کو بچانے کے دوران کچھ غلط ہوا.</string>
@@ -1585,6 +1611,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\'ہیلو دنیا\')</string>
     <string formatted="false" name="formula_editor_function_letter">حرف</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1، \'ہیلو دنیا\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">بین السطّور</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">شامل ہوں</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'ہیلو دنیا\')</string>
     <string formatted="false" name="formula_editor_function_join3">شامل ہوں</string>
@@ -1688,6 +1716,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">گیم پیڈ نیچے دباؤ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">گیم پیڈ پر بائیں دبائیں</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">گیم پیڈ پر دائیں دبائیں</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">فیرو سامنے بائیں سینسر</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">فیرو سامنے دائیں سینسر</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">فیرو بائیں طرف سینسر</string>
@@ -1714,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_background_name">پس منظر کے نام</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">پس منظر کی تعداد</string>
     <string formatted="false" name="formula_editor_object_distance_to">پوزیشن کو چھونے کے لئے فاصلہ</string>
-    <string formatted="false" name="formula_editor_confirm">شمار</string>
+    <string formatted="false" name="formula_editor_confirm">تصدیق کریں</string>
     <string formatted="false" name="formula_editor_object">آبجیکٹ</string>
     <string formatted="false" name="formula_editor_functions">افعال</string>
     <string formatted="false" name="formula_editor_logic">منطق</string>
@@ -1888,7 +1918,7 @@
     <string formatted="false" name="formula_editor_speech_recognition">تقریر کی پہچان</string>
     <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string formatted="false" name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز،
+    <string formatted="false" name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز، 
         سینسرز، متغیرات اور دیگر فارمولہ عناصر استعمال کرنا چاہتے ہیں، تو براہ کرم فارمولا ایڈیٹر میں 
         بٹن استعمال کرنے کے بجائے انہیں منتخب کریں۔</string>
     <!--  -->
@@ -1914,9 +1944,8 @@
     <string formatted="false" name="choose_camera_back">پیچھے</string>
     <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
+    <string formatted="false" name="camera_error_face_detection">چہرہ شناخت کرنے میں مسئلہ تھا۔ کچھ اجزاء اب بھی پس منظر میں ڈاؤن لوڈ ہو سکتے ہیں۔
+          براہ کرم یقینی بنائیں کہ آپ انٹرنیٹ سے منسلک ہیں اور بعد میں دوبارہ چیک کریں۔</string>
     <!-- -->
     <!-- Cast strings -->
     <string formatted="false" name="cast_gamepad_A">اے</string>
@@ -1980,7 +2009,7 @@
     <string formatted="false" name="data_value">قدر</string>
     <string formatted="false" name="category_recently_used">حال ہی میں استعمال کیا گیا۔</string>
     <string formatted="false" name="new_sprite_dialog_place_visually">بصری طور پر رکھیں</string>
-    <string formatted="false" name="place_visually_text">آپ سے نئے اداکار یا
+    <string formatted="false" name="place_visually_text">آپ سے نئے اداکار یا 
         چیز کو اسٹیج پر رکھنے کے لیے کہا جائے گا۔</string>
     <string formatted="false" name="new_empty_sprite_note">نوٹ: اداکار یا شے بغیر         نظر کے بنائی جائے گی۔</string>
     <!-- Information -->
@@ -1988,7 +2017,7 @@
     <string formatted="false" name="search">تلاش کریں…</string>
     <string formatted="false" name="no_results_found">کوئی نتیجہ نہیں</string>
     <string formatted="false" name="query_field_is_empty">سوال کا میدان خالی ہے۔</string>
-    <string formatted="false" name="paste">پیسٹ</string>
+    <string formatted="false" name="paste"> چسپاں کریں</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">دھندلا ذرہ اثر</string>
     <string formatted="false" name="particle_effects_fade_in">میں</string>

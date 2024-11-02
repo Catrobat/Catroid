@@ -29,30 +29,30 @@
     <string formatted="false" name="redo">Gjenta</string>
     <string formatted="false" name="undo">Angre</string>
     <string formatted="false" name="new_option">Ny&#8230;</string>
-    <string formatted="false" name="edit_option">edit&#8230;</string>
-    <string formatted="false" name="confirm">Confirm</string>
-    <string formatted="false" name="ignore">Ignore</string>
+    <string formatted="false" name="edit_option">rediger&#8230;</string>
+    <string formatted="false" name="confirm">Bekreft</string>
+    <string formatted="false" name="ignore">Ignorer</string>
     <string formatted="false" name="cancel">Avbryt</string>
-    <string formatted="false" name="save">Save</string>
-    <string formatted="false" name="help">Help</string>
-    <string formatted="false" name="discard">Discard</string>
+    <string formatted="false" name="save">Lagre</string>
+    <string formatted="false" name="help">Hjelp</string>
+    <string formatted="false" name="discard">Slett</string>
     <string formatted="false" name="next">Neste</string>
     <string formatted="false" name="ok">Ok</string>
     <string formatted="false" name="done">Ferdig</string>
     <string formatted="false" name="close">Lukk</string>
-    <string formatted="false" name="assistant">Assistant</string>
+    <string formatted="false" name="assistant">Assistent</string>
     <string formatted="false" name="yes">Ja</string>
     <string formatted="false" name="no">Nei</string>
-    <string formatted="false" name="once">Once</string>
-    <string formatted="false" name="always">Always</string>
-    <string formatted="false" name="deny">Deny</string>
-    <string formatted="false" name="do_not_show_again">DO NOT SHOW AGAIN</string>
-    <string formatted="false" name="accept">Accept</string>
-    <string formatted="false" name="decline">Decline</string>
-    <string formatted="false" name="select_all">Select all</string>
-    <string formatted="false" name="deselect_all">Deselect all</string>
-    <string formatted="false" name="skip">skip</string>
-    <string formatted="false" name="warning">Warning</string>
+    <string formatted="false" name="once">En gang</string>
+    <string formatted="false" name="always">Alltid</string>
+    <string formatted="false" name="deny">Nekt</string>
+    <string formatted="false" name="do_not_show_again">IKKE VIS IGJEN</string>
+    <string formatted="false" name="accept">Godta</string>
+    <string formatted="false" name="decline">Avslå</string>
+    <string formatted="false" name="select_all">Velg alle</string>
+    <string formatted="false" name="deselect_all">Opphev alle</string>
+    <string formatted="false" name="skip">hopp over</string>
+    <string formatted="false" name="warning">Advarsel</string>
     <string formatted="false" name="error">Feil</string>
     <string formatted="false" name="loading">Laster inn&#8230;</string>
     <string formatted="false" name="please_wait">Et øyeblikk</string>
@@ -60,31 +60,31 @@
     <string formatted="false" name="backpack_add">Legg til i backpack</string>
     <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string formatted="false" name="security_warning_dialog_msg">Prosjektet du har lastet ned lytter til din stemme
+        i bakgrunnen og sender også data til Internett. Dette kan være ufarlig og nødvendig
+        for sin tiltenkte oppførsel. Derimot sørg for at det du sier mens
+        -prosjektet går, er trygt. Ved tvil vennligst slette det nedlastede prosjektet.
+        Du kan også rapportere prosjektet på sin side på Catrobat samfunn-plattformen i tilfelle
+        du er sikker på at det er skadelig.</string>
     <!-- Replace Api dialog -->
-    <string formatted="false" name="api_replacement_dialog_neutral">Upload without change</string>
-    <string formatted="false" name="api_replacement_dialog_accept">Upload with keys replaced</string>
-    <string formatted="false" name="api_replacement_dialog_warning">The project contains bricks that access the
-        web, and also seems to contain API keys. Please see %1s why
-        uploading these keys can be dangerous.</string>
-    <string formatted="false" name="api_replacement">insert API key here</string>
+    <string formatted="false" name="api_replacement_dialog_neutral">Last opp uten endring</string>
+    <string formatted="false" name="api_replacement_dialog_accept">Last opp med erstattet nøkler</string>
+    <string formatted="false" name="api_replacement_dialog_warning">Prosjektet inneholder blokker som får tilgang til
+        -nettet, og som også ser ut til å inneholde API-nøkler. Vennligst se %1s hvorfor
+        lastet opp disse nøklene kan være farlige.</string>
+    <string formatted="false" name="api_replacement">sett inn API-nøkkel her</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete&#8230;</string>
+    <string formatted="false" name="loading_check_oauth_token">Sjekker innloggingsdata&#8230;</string>
+    <string formatted="false" name="loading_google_exchange_code"> Overføring av Google innloggingsdata&#8230;</string>
+    <string formatted="false" name="loading_google_login"> Google innlogging på serveren vår er fullført&#8230;</string>
     <string formatted="false" name="logout_successful">Utlogging vellykket</string>
     <string formatted="false" name="degrees">grader</string>
     <string formatted="false" name="background">Bakgrunn</string>
     <string formatted="false" name="landscape">landskap</string>
     <string formatted="false" name="portrait">stående</string>
     <string formatted="false" name="unknown">ukjent</string>
-    <string formatted="false" name="disconnect">Disconnect</string>
+    <string formatted="false" name="disconnect">Frakoble</string>
     <!--  -->
     <!-- Main Menu -->
     <string formatted="false" name="main_menu_continue">Gå videre</string>
@@ -93,99 +93,109 @@
     <string formatted="false" name="main_menu_help">Hjelp</string>
     <string formatted="false" name="main_menu_web">Catrobat samfunn</string>
     <string formatted="false" name="main_menu_upload">Last opp</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Vurder oss!</string>
     <string formatted="false" name="main_menu_terms_of_use">Bruksvilkår og tjenester</string>
     <string formatted="false" name="main_menu_privacy_policy">Personvern</string>
-    <string formatted="false" name="main_menu_about">About this app</string>
+    <string formatted="false" name="main_menu_about">Om denne appen</string>
     <string formatted="false" name="main_menu_login">Logg på</string>
     <string formatted="false" name="main_menu_logout">Logg av</string>
     <string formatted="false" name="main_menu_scratch_converter">Scratch konverterer</string>
-    <string formatted="false" name="main_menu_play_store_not_installed">App store not found</string>
+    <string formatted="false" name="main_menu_play_store_not_installed">App store ikke funnet</string>
     <!--  -->
     <!-- Marketing activity -->
     <string formatted="false" name="marketing_created_with">Laget med</string>
     <string formatted="false" name="marketing_app_details">Detaljer om denne app</string>
     <string formatted="false" name="marketing_more_on_google_play">Flere programmer på Google Play</string>
-    <string formatted="false" name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
-        please try again later.</string>
+    <string formatted="false" name="error_cannot_open_huawei_app_gallery">Oops! Kunne ikke åpne Huawei AppGallery,
+        vennligst prøv igjen senere.</string>
     <string formatted="false" name="google_play_store_logo">Google Play</string>
-    <string formatted="false" name="huawei_app_gallery">Huawei App Gallery</string>
+    <string formatted="false" name="huawei_app_gallery">Huawei App-galleri</string>
     <!-- NFC activity -->
-    <string formatted="false" name="nfc_activity_title">NFC tags</string>
+    <string formatted="false" name="nfc_activity_title">NFC-tagger</string>
     <!-- Settings activity -->
     <string formatted="false" name="preference_title">Innstillinger</string>
     <string formatted="false" name="preference_title_language">Språk</string>
-    <string formatted="false" name="preference_description_language">Set the app\'s language</string>
-    <string formatted="false" name="preference_title_web_access">Web access</string>
-    <string formatted="false" name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string formatted="false" name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string formatted="false" name="preference_title_ai">Artificial intelligence (AI) extension</string>
-    <string formatted="false" name="preference_description_ai">Enable AI bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_speech_recognition">Speech
-        recognition</string>
-    <string formatted="false" name="preference_description_ai_speech_recognition">Enable
-        speech recognition bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_speech_synthetization">Speech
-        synthetization</string>
-    <string formatted="false" name="preference_description_ai_speech_synthetization">Enable
-        speech synthetization bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_face_detection">Face
-        detection</string>
-    <string formatted="false" name="preference_description_ai_face_detection">Enable
-        face detection bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
-    <string formatted="false" name="preference_description_ai_pose_detection">Enable
-        pose detection bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_text_recognition">Text
-        recognition</string>
-    <string formatted="false" name="preference_description_ai_text_recognition">Enable
-        text recognition bricks and sensors</string>
-    <string formatted="false" name="preference_title_ai_object_recognition">Object recognition</string>
-    <string formatted="false" name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
-    <string formatted="false" name="preference_title_accessibility">Accessibility</string>
-    <string formatted="false" name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string formatted="false" name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string formatted="false" name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string formatted="false" name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string formatted="false" name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string formatted="false" name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string formatted="false" name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string formatted="false" name="preference_title_accessibility_handling">Handling</string>
-    <string formatted="false" name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string formatted="false" name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string formatted="false" name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string formatted="false" name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string formatted="false" name="preference_title_accessibility_category_icons">Show icons</string>
-    <string formatted="false" name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string formatted="false" name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string formatted="false" name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string formatted="false" name="preference_title_accessibility_large_text">Large text</string>
-    <string formatted="false" name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string formatted="false" name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string formatted="false" name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string formatted="false" name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string formatted="false" name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string formatted="false" name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string formatted="false" name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string formatted="false" name="accessibility_font_regular">Regular</string>
+    <string formatted="false" name="preference_description_language">Angi appens språk</string>
+    <string formatted="false" name="preference_title_web_access">Web tilgang</string>
+    <string formatted="false" name="preference_description_web_access">Rediger for å legge til eller fjerne klarerte domener</string>
+    <string formatted="false" name="preference_screen_web_access_title">Rediger klarerte domener</string>
+    <string formatted="false" name="preference_title_ai">Kunstig intelligens (AI) utvidelse</string>
+    <string formatted="false" name="preference_description_ai">Aktiver AI-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_speech_recognition">Tale
+        gjenkjenning</string>
+    <string formatted="false" name="preference_description_ai_speech_recognition">Aktiver
+        talegjenkjennings-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_speech_synthetization">Tale
+        syntetisering</string>
+    <string formatted="false" name="preference_description_ai_speech_synthetization">Aktiver
+        talesyntetiserings-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_face_detection">Ansikt
+        deteksjon</string>
+    <string formatted="false" name="preference_description_ai_face_detection">Aktiver
+        ansiktsdeteksjons-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_pose_detection">Holdningsdeteksjon</string>
+    <string formatted="false" name="preference_description_ai_pose_detection">Aktiver
+        holdningsdeteksjons-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_text_recognition">Tekst
+        gjenkjenning</string>
+    <string formatted="false" name="preference_description_ai_text_recognition">Aktiver
+        tekstgjenkjennings-blokker og sensorer</string>
+    <string formatted="false" name="preference_title_ai_object_recognition">Gjenstands gjenkjenning</string>
+    <string formatted="false" name="preference_description_ai_object_recognition">Aktiver gjenstandsgjenkjenning og sporingssensorer</string>
+    <string formatted="false" name="preference_title_accessibility">Tilgjengelighet</string>
+    <string formatted="false" name="preference_description_accessibility">Endre appens utseende</string>
+    <string formatted="false" name="preference_title_accessibility_profiles">Tilgjengelighetsprofiler</string>
+    <string formatted="false" name="preference_title_accessibility_profile">Forhåndsdefinerte profiler</string>
+    <string formatted="false" name="preference_title_accessibility_profile_headline">Profiler</string>
+    <string formatted="false" name="preference_title_accessibility_predefined_profile_headline">Forhåndsdefinerte profiler</string>
+    <string formatted="false" name="preference_description_accessibility_profiles">Velg en forhåndsdefinert tilgjengelighetsprofil</string>
+    <string formatted="false" name="preference_title_accessibility_text_appearance">Tekstens utseende</string>
+    <string formatted="false" name="preference_title_accessibility_handling">Håndtering</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons_big">Store ikoner</string>
+    <string formatted="false" name="preference_description_accessibility_category_icons_big">Øk ikonstørrelsen.</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons_high_contrast">Høy kontrast ikoner</string>
+    <string formatted="false" name="preference_title_accessibility_Brick_icons">Ikoner</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons">Vis ikoner</string>
+    <string formatted="false" name="preference_description_accessibility_category_icons">Legg til ikoner i kategorier og blokker.</string>
+    <string formatted="false" name="preference_title_accessibility_high_contrast">Høy kontrast</string>
+    <string formatted="false" name="preference_description_accessibility_high_contrast">Øk tekstkontrasten.</string>
+    <string formatted="false" name="preference_description_accessibility_large_text">Øk tekststørrelsen.</string>
+    <string formatted="false" name="preference_title_accessibility_large_text">Stor tekst</string>
+    <string formatted="false" name="preference_title_accessibility_element_spacing">Stor elementavstand</string>
+    <string formatted="false" name="preference_description_accessibility_element_spacing">Øk elementavstand i lister.</string>
+    <string formatted="false" name="preference_title_accessibility_dragndrop_delay">Dra og slipp forsinkelse</string>
+    <string formatted="false" name="preference_description_accessibility_dragndrop_delay">Dra og slipp forsinkelse for blokker.</string>
+    <string formatted="false" name="preference_title_accessibility_beginner_bricks">Nybegynner modus</string>
+    <string formatted="false" name="preference_description_accessibility_beginner_bricks">Vis kun enkle funksjoner.</string>
+    <string formatted="false" name="preference_title_accessibility_font_style">Velg en teksttype</string>
+    <string formatted="false" name="accessibility_font_regular">Vanlig</string>
     <string formatted="false" name="accessibility_font_serif">Serif</string>
-    <string formatted="false" name="accessibility_font_dyslexic">Dyslexic</string>
-    <string formatted="false" name="accessibility_settings_applied">Changes applied</string>
-    <string formatted="false" name="preference_access_title_profile_default">Default</string>
-    <string formatted="false" name="preference_access_summary_profile_default">Default settings</string>
-    <string formatted="false" name="preference_access_title_profile_custom">My custom profile</string>
-    <string formatted="false" name="preference_access_summary_profile_custom">My personal settings</string>
+    <string formatted="false" name="accessibility_font_dyslexic">Dyslektisk</string>
+    <string formatted="false" name="accessibility_settings_applied">Endringer brukt</string>
+    <string formatted="false" name="preference_access_title_profile_default">Standard</string>
+    <string formatted="false" name="preference_access_summary_profile_default">Standard innstillinger</string>
+    <string formatted="false" name="preference_access_title_profile_custom">Min egendefinerte profil</string>
+    <string formatted="false" name="preference_access_summary_profile_custom">Mine personlige innstillinger</string>
     <string formatted="false" name="preference_access_title_profile_argus">Argus</string>
-    <string formatted="false" name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string formatted="false" name="preference_access_summary_profile_argus">Høy kontrast, ekstra ikoner</string>
     <string formatted="false" name="preference_access_title_profile_odin">Odin</string>
-    <string formatted="false" name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string formatted="false" name="preference_access_summary_profile_odin">Stor tekst, store ikoner, stor elementavstand
+       og høy kontrast</string>
     <string formatted="false" name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string formatted="false" name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
+    <string formatted="false" name="preference_access_summary_profile_fenrir">Stor elementavstand Dra og slipp
+       forsinkelse</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tiro</string>
-    <string formatted="false" name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string formatted="false" name="preference_access_summary_profile_tiro">Nybegynner modus</string>
+    <string name="preference_dialog_use_full_features">Bruk alle funksjoner</string>
+    <string name="preference_dialog_appgallery">AppGalleri</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">For å dra nytte av alle funksjonene i Lego
+        Mindstorms utvidelser, vennligst bruk Catrobats Mindstorm Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">For å dra nytte av alle funksjonene i broderi
+        utvidelsen, vennligst bruk Catrobats Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">For å dra nytte av alle funksjonene i Phiro
+        robotikk utvidelsen, vennligst bruk Catrobats Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
@@ -197,67 +207,71 @@
     <string formatted="false" name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
     <string formatted="false" name="preference_title_mindstorms_nxt_sensors">LEGO NXT sensorer</string>
     <string formatted="false" name="preference_title_mindstorms_ev3_sensors">LEGO EV3 sensorer</string>
-    <string formatted="false" name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string formatted="false" name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 konfigurasjon</string>
     <string formatted="false" name="preference_title_enable_phiro_bricks">Phiro blokker</string>
-    <string formatted="false" name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string formatted="false" name="preference_description_phiro_bricks">Tillat appen å kontrollere RobotixEdu\'s Phiro roboter </string>
     <string formatted="false" name="preference_title_enable_arduino_bricks">Arduino blokker</string>
-    <string formatted="false" name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string formatted="false" name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string formatted="false" name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
-    <string formatted="false" name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string formatted="false" name="preference_title_enable_nfc_bricks">Nær-felt kommunikasjon</string>
-    <string formatted="false" name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string formatted="false" name="preference_title_enable_crash_reports">Send anonyme programstopprapporter</string>
-    <string formatted="false" name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string formatted="false" name="preference_description_arduino_bricks">Tillat appen å kontrollere Arduino tavler</string>
+    <string formatted="false" name="preference_title_enable_embroidery_bricks">broderi utvidelse</string>
+    <string formatted="false" name="preference_description_embroidery_bricks">Lag mønstre til sydemaskiner</string>
+    <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast utvidelse</string>
+    <string formatted="false" name="preference_description_cast_feature_globally_enabled">Vis cast knapp og aktiver cast-prosjekter</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
+    <string formatted="false" name="preference_title_enable_nfc_bricks">Nærfeltskommunikasjon</string>
+    <string formatted="false" name="preference_description_nfc_bricks">Tillat appen å bruke NFC tagger i prosjekter</string>
+    <string formatted="false" name="preference_title_enable_crash_reports">Send anonyme krasjrapporter</string>
+    <string formatted="false" name="preference_description_crash_reports">Tillat appen å sende krasjrapporter ustomatisk</string>
     <!-- -->
-    <string formatted="false" name="preference_title_enable_raspi_bricks">Raspberry Pi blokker</string>
-    <string formatted="false" name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string formatted="false" name="preference_raspi_enable_bricks">Aktiver Raspberry Pi blokker</string>
+    <string formatted="false" name="preference_title_enable_raspi_bricks">Raspberry Pi utvidelse</string>
+    <string formatted="false" name="preference_description_raspi_bricks">Tillat appen å kontrollere Raspberry Pi datamaskiner</string>
+    <string formatted="false" name="preference_raspi_enable_bricks">Aktiver blokker og sensorer</string>
     <string formatted="false" name="preference_raspi_help">Hjelp / komme i gang</string>
-    <string formatted="false" name="preference_raspi_help_summary">Få hjelp om hvordan du konfigurerer innstillinger for tilkoblinger</string>
-    <string formatted="false" name="preference_raspi_host">Raspberry Pi IP-/ Host-adresse</string>
-    <string formatted="false" name="preference_raspi_port">Raspberry Pi Port</string>
+    <string formatted="false" name="preference_raspi_help_summary">Få hjelp om hvordan du konfigurerer tilkoblingsinnstillinger</string>
+    <string formatted="false" name="preference_raspi_host">Raspberry Pi IP-/ vertsadresse</string>
+    <string formatted="false" name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
-    <string formatted="false" name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string formatted="false" name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string formatted="false" name="preference_title_enable_test_bricks">Testing extension</string>
-    <string formatted="false" name="preference_description_test_bricks">Allows to create tests</string>
+    <string formatted="false" name="preference_title_multiplayer_variables_enabled">Flerspiller utvidelse</string>
+    <string formatted="false" name="preference_description_multiplayer_variables_enabled">Tillat appen å bruke
+        flerspillervariabler delt via Bluetooth</string>
+    <string formatted="false" name="preference_title_enable_test_bricks">Tester utvidelse</string>
+    <string formatted="false" name="preference_description_test_bricks">Tillat å lage tester</string>
     <!-- Scratch Converter activity -->
     <string formatted="false" name="beta">BETA</string>
-    <string formatted="false" name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string formatted="false" name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string formatted="false" name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string formatted="false" name="error_scratch_program_conversion_failed">Oisann! Konvertering av Scratch programmet feilet, prøv igjen senere!</string>
-    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">Oisann! Konvertering av %1$s feilet, prøv igjen senere!</string>
-    <string formatted="false" name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string formatted="false" name="error_scratch_program_not_accessible_any_more">Oops! Prosjektet ser ut til å ha forsvunnet
+        eller du kans ha mistet tilgangen til den.</string>
+    <string formatted="false" name="error_scratch_project_data_not_available">Oops! Noen deler av prosjektet ser ut til å være
+        mangler, prøv igjen senere.</string>
+    <string formatted="false" name="error_request_timeout">Oops! Vår server svarte ikke på tid, prøv igjen senere.</string>
+    <string formatted="false" name="error_scratch_program_conversion_failed">Oops! Konvertering av prosjektet feilet, prøv igjen
+        senere.</string>
+    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">Oops! Konvertering av %1$s feilet, prøv igjen senere!</string>
+    <string formatted="false" name="error_scratch_converter_outdated_app_version">Din versjon av denne appen er utdatert. Scratch
+        konverteren vår fungerer bare med den nyeste versjonen. Vennligst oppdater appen.</string>
     <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Kan ikke åpne dette Scratch programmet. Det virker som at du har avbrutt konvertering/nedlasting av Scratch programmet, eller at du i mellomtiden har endret navnet/slettet programmet!</string>
-    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">Du kan ikke åpne prosjektet ennå.
+        Vennligst vent til det er lastet ned.</string>
+    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">Du kan ikke åpne prosjektet ennå.
+        Vennligst last den ned først og den åpner den deretter.</string>
+    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">Jeg kunne ikke konvertere %1$s. Dette ser ut til å være
+        et gammelt Scratch prosjekt fra før %2$s. Vennligst prøv en annen.  </string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="one">Du kan ikke konvertere mer enn %d prosjekt samtidig. Vennligst vent til det
+            kjørende konverteringen er ferdig først.</item>
+        <item quantity="other">Du kan ikke konvertere mer enn %d prosjekter samtidig. Vennligst vent til de
+            kjørende konverteringene er ferdige først.</item>
     </plurals>
-    <string formatted="false" name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string formatted="false" name="search_failed">Nothing found, please retry later.</string>
-    <string formatted="false" name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string formatted="false" name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string formatted="false" name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string formatted="false" name="error_cannot_open_failed_scratch_program">Du kan ikke åpne prosjektet fordi det ikke ble
+         konvertert på riktig måte. Vennligst prøv å konvertere den igjen.</string>
+    <string formatted="false" name="search_failed">Ingenting funnet, vennligst prøv igjen senere.</string>
+    <string formatted="false" name="connection_lost_or_closed_by_server">Serverforbindelse mistet.</string>
+    <string formatted="false" name="connection_failed">Vi kan ikke koble deg til serveren akkurat nå, vennligst prøv igjen senere.</string>
+    <string formatted="false" name="authentication_failed">Det ser ut til å være et problem med tilkoblingen til tjenesten. Vennligst
+        kontakt Catrobat-teamet.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="one">Lagt til %d Scratch prosjektet i køen&#8230;</item>
+        <item quantity="other">Lagt til %d Scratch prosjekter i køen&#8230;</item>
     </plurals>
     <string formatted="false" name="scratch_conversion_started">Konvertering av Scratch program har startet&#8230;</string>
     <string formatted="false" name="convert">Konverter</string>
@@ -267,22 +281,22 @@
     <string formatted="false" name="status_started">Startet&#8230;</string>
     <string formatted="false" name="status_conversion_finished">Konvertering ferdig</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="one">I prosess: %d jobb</item>
+        <item quantity="other">I prosess: %d jobber</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="one">Fullført: %d jobb</item>
+        <item quantity="other">Fullført: %d jobber</item>
     </plurals>
     <string formatted="false" name="status_conversion_failed">Konvertering mislyktes!</string>
     <string formatted="false" name="status_downloading">Laster ned&#8230;</string>
     <string formatted="false" name="status_download_finished">Nedlastingen er ferdig!</string>
     <string formatted="false" name="status_download_canceled">Nedlastingen har blitt avbrutt!</string>
-    <string formatted="false" name="scratch_programs_in_progress_title">In progress</string>
-    <string formatted="false" name="scratch_programs_finished_title">Converted projects</string>
+    <string formatted="false" name="scratch_programs_in_progress_title">I prosess</string>
+    <string formatted="false" name="scratch_programs_finished_title">Konverterte prosjekter</string>
     <string formatted="false" name="by_x">av %1$s</string>
-    <string formatted="false" name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string formatted="false" name="warning_program_visibility">ADVARSEL:\nDette ser ut til å være et privat prosjekt. Du kan prøve å
+        konvertere det, men det fungerer kanskje ikke.</string>
     <string formatted="false" name="instructions">Instruksjoner</string>
     <string formatted="false" name="notes_and_credits">Merknader og kildeangivelse</string>
     <string formatted="false" name="shared_at_x">Delt: %1$s</string>
@@ -598,11 +612,16 @@
         on connected multiplayer devices</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Din backpack</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Pack</string>
     <string formatted="false" name="unpack">Pakk ut</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Opprett prosjekt</string>
     <string formatted="false" name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_portrait">Portrett</string>
+    <string name="new_project_dialog_landscape">Landskap</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">Merged project</string>
@@ -619,6 +638,8 @@
     <string formatted="false" name="add_look_choose_image">Velg tegning</string>
     <string formatted="false" name="add_look_media_library">Mediebibliotek</string>
     <string formatted="false" name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_empty_object">Tomt objekt</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Legg til lyd</string>
@@ -805,6 +826,7 @@
     <string formatted="false" name="category_motion">Bevegelse</string>
     <string formatted="false" name="category_looks">Utseende</string>
     <string formatted="false" name="category_pen">Penn</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Lyd</string>
     <string formatted="false" name="category_control">Styring</string>
     <string formatted="false" name="category_event">Hendelse</string>
@@ -974,6 +996,11 @@
     <string formatted="false" name="at_string">av </string>
     <string formatted="false" name="seconds_string">sekunder</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
     <string formatted="false" name="brick_running_stitch">Start running stitch with length</string>
@@ -1283,6 +1310,9 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">En ukjent feil har oppstått.</string>
     <string formatted="false" name="error_gps_not_available">Geolocation data is not available.</string>
     <string formatted="false" name="error_set_description">Det oppstod en feil under lagring av den nye beskrivelsen.</string>
@@ -1604,6 +1634,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_length_parameter">(\"hallo verden\")</string>
     <string formatted="false" name="formula_editor_function_letter">bokstav</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1, \'hallo verden\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">sett sammen</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string formatted="false" name="formula_editor_function_join3">sett sammen</string>
@@ -1710,6 +1742,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro_foran_venstre_sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro_foran_høyre_sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro_side_venstre_sensor</string>
@@ -1736,7 +1770,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">bakgrunns_navn</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">avstand til</string>
-    <string formatted="false" name="formula_editor_confirm">Beregn</string>
+    <string formatted="false" name="formula_editor_confirm">Bekreft</string>
     <string formatted="false" name="formula_editor_object">Objekt</string>
     <string formatted="false" name="formula_editor_functions">Funksjoner</string>
     <string formatted="false" name="formula_editor_logic">Logikk</string>
@@ -1750,9 +1784,9 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">bevegelse egenskaper</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
-    <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
+    <string formatted="false" name="formula_editor_device_pose_detection">Holdningsdeteksjon</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
-    <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
+    <string formatted="false" name="formula_editor_device_object_recognition">Gjenstands gjenkjenning</string>
     <string formatted="false" name="formula_editor_device_date_and_time">Dato og klokkeslett</string>
     <string formatted="false" name="formula_editor_device_touch_detection">Touch gjenkjenning</string>
     <string formatted="false" name="formula_editor_device_lego_nxt">LEGO NXT</string>

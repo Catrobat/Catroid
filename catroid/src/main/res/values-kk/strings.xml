@@ -56,7 +56,7 @@
     <string formatted="false" name="error">Қате</string>
     <string formatted="false" name="loading">Жүктелуде&#8230;</string>
     <string formatted="false" name="please_wait">Күте тұрыңыз</string>
-    <string formatted="false" name="search_hint">Іздеу…</string>
+    <string formatted="false" name="search_hint">Іздеу</string>
     <string formatted="false" name="backpack_add">Рюкзакқа салу</string>
     <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">Жəрдем</string>
     <string formatted="false" name="main_menu_web">Catrobat қауымдастығы</string>
     <string formatted="false" name="main_menu_upload">Жобаны жүктеу</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Бізді бағалаңыз!</string>
     <string formatted="false" name="main_menu_terms_of_use">Пайдалану және Қызмет Көрсету шарттары</string>
     <string formatted="false" name="main_menu_privacy_policy">Құпиялық саясаты</string>
@@ -106,7 +107,7 @@
     <string formatted="false" name="marketing_created_with">Жасалған</string>
     <string formatted="false" name="marketing_app_details">Бұл қолданба туралы толық ақпарат</string>
     <string formatted="false" name="marketing_more_on_google_play">Басқа бағдарламаларымыз Google Play-де</string>
-    <string formatted="false" name="error_cannot_open_huawei_app_gallery">Ой! Huawei AppGallery ашылмады,         кейінірек қайталап көріңіз</string>
+    <string formatted="false" name="error_cannot_open_huawei_app_gallery">Ойбай! Huawei AppGallery ашылмады,         кейінірек қайталап көріңіз</string>
     <string formatted="false" name="google_play_store_logo">Google Play</string>
     <string formatted="false" name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
@@ -183,6 +184,15 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">Үлкен элементтер аралығы, drag\'n\'drop        кідірту</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Тиро</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">Қарапайым режим</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 кеңейтімі</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Қолданбаға Parrot AR.Drone 2.0 квадкоптарын басқаруға рұқсат ету</string>
@@ -203,6 +213,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Тігіс машиналарына арналған үлгіні жасау</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast кеңейтімі</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Трансляция түймесін көрсетіп, трансляция жобаларын іске қосу</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Near Field Communication (NFC) кеңейтімі </string>
     <string formatted="false" name="preference_description_nfc_bricks">Қолданбаға NFC тегтерін жобаларда пайдалануға рұқсат ету</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Қателер туралы анонимдік есептер жіберу</string>
@@ -376,7 +389,7 @@
     <string formatted="false" name="nfc_tag_name_label">NFC тегінің атауы</string>
     <string formatted="false" name="string_label">Мәтін</string>
     <string formatted="false" name="data_label">Аты</string>
-    <string formatted="false" name="keyword_label">Іздеу…</string>
+    <string formatted="false" name="keyword_label">Іздеу</string>
     <string formatted="false" name="html_label">HTML мәтінін енгізу</string>
     <string formatted="false" name="Image_format_not_supported">Сурет форматына қолдау көрсетілмейді</string>
     <string formatted="false" name="import_conflicting_variables">Актёр немесе объект қосылуға мүмкін емес.</string>
@@ -569,8 +582,8 @@
     <string formatted="false" name="local_lists_headline">Тек осы актер немесе объектіге арналған тізімдер</string>
     <string formatted="false" name="fragment_data_text_description">Айнымалылар мен тізімдерді қосу үшін \"+\" түймесін түртіңіз</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Кірпіш үшін кірісті қосу:</item>
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="one">Бұл блокқа енгізу</item>
+        <item quantity="other">Бұл блокқа енгізулер</item>
     </plurals>
     <!-- NewDataDialog -->
     <string formatted="false" name="new_data_for_all_sprites">Барлық актерларға, обьектке және сахнадағы клондарға</string>
@@ -579,11 +592,16 @@
         қосылған құрылғыларға</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Сіздің рюкзак</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Орау</string>
     <string formatted="false" name="unpack">Орамнан шығару</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">Мысал жоба</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">Пейзаж</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">Біріктірілді жоба</string>
@@ -600,6 +618,8 @@
     <string formatted="false" name="add_look_choose_image">Галерея</string>
     <string formatted="false" name="add_look_media_library">Көрінеді</string>
     <string formatted="false" name="add_look_from_local_project">Жергілікті жобалар</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Дыбысту қосу</string>
@@ -781,6 +801,7 @@
     <string formatted="false" name="category_motion">Қозғалыс</string>
     <string formatted="false" name="category_looks">Көрініс</string>
     <string formatted="false" name="category_pen">Қалам</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Дыбыс</string>
     <string formatted="false" name="category_control">Бақылау</string>
     <string formatted="false" name="category_event">Оқиға</string>
@@ -948,23 +969,28 @@
     <string formatted="false" name="beats">бит</string>
     <string formatted="false" name="play_note">Нотаны ойнау</string>
     <string formatted="false" name="for_string">үшін</string>
-    <string formatted="false" name="at_string">at</string>
+    <string formatted="false" name="at_string"></string>
     <string formatted="false" name="seconds_string">секундтар</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
-    <string formatted="false" name="brick_stitch">Stitch</string>
-    <string formatted="false" name="brick_running_stitch">Start running stitch with length</string>
-    <string formatted="false" name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string formatted="false" name="brick_zigzag_stitch_width">and width</string>
-    <string formatted="false" name="brick_triple_stitch">Start triple stitch with length</string>
-    <string formatted="false" name="brick_stop_stitch">Stop current stitch</string>
-    <string formatted="false" name="brick_write_embroidery">Write embroidery data to file</string>
-    <string formatted="false" name="brick_default_embroidery_file">embroidery.dst</string>
-    <string formatted="false" name="brick_sew_up">Sew up</string>
-    <string formatted="false" name="brick_thread_color">Set thread color to</string>
+    <string formatted="false" name="brick_stitch">Тігіс</string>
+    <string formatted="false" name="brick_running_stitch">Ұзындықпен зигзаг жүргізу</string>
+    <string formatted="false" name="brick_zigzag_stitch">Ұзындықпен зигзаг тігісін бастау</string>
+    <string formatted="false" name="brick_zigzag_stitch_width">және ені</string>
+    <string formatted="false" name="brick_triple_stitch">Ұзындықпен үш тігісті бастау</string>
+    <string formatted="false" name="brick_stop_stitch">Ағымдағы тігісті тоқтату</string>
+    <string formatted="false" name="brick_write_embroidery">Файлға кесте деректерін сақтау</string>
+    <string formatted="false" name="brick_default_embroidery_file">тігін.dst</string>
+    <string formatted="false" name="brick_sew_up">Тігу</string>
+    <string formatted="false" name="brick_thread_color">Қалам түсін орнату</string>
     <!--  -->
     <!-- Device bricks -->
-    <string formatted="false" name="brick_reset_timer">Reset timer</string>
+    <string formatted="false" name="brick_reset_timer">Таймер қалпына келтіру</string>
     <string formatted="false" name="brick_open">Ашу</string>
     <string formatted="false" name="brick_in_browser">браузерда</string>
     <!-- Control bricks -->
@@ -1004,536 +1030,537 @@
     <string formatted="false" name="brick_loop_to">дейін</string>
     <string formatted="false" name="brick_repeat">Қайталау</string>
     <string formatted="false" name="brick_repeat_until">Дейін қайталау</string>
-    <string formatted="false" name="brick_when_touched">When stage is tapped</string>
-    <string formatted="false" name="brick_clone">Create clone of</string>
+    <string formatted="false" name="brick_when_touched">Сахна түртілгенде</string>
+    <string formatted="false" name="brick_clone">Клонын жасау:</string>
     <string formatted="false" name="brick_clone_this">өзің</string>
-    <string formatted="false" name="brick_when_cloned">When you start as a clone</string>
-    <string formatted="false" name="brick_delete_this_clone">Delete this clone</string>
-    <string formatted="false" name="brick_assert_that">Assert</string>
-    <string formatted="false" name="brick_is_equal_to">equals expected</string>
-    <string formatted="false" name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string formatted="false" name="brick_tap_at">"Single tap at"</string>
-    <string formatted="false" name="brick_touch_at">"Touch at"</string>
+    <string formatted="false" name="brick_when_cloned">Егер клон болып басталған кезде</string>
+    <string formatted="false" name="brick_delete_this_clone">Бұл клонды жою</string>
+    <string formatted="false" name="brick_assert_that">Мақұлдау</string>
+    <string formatted="false" name="brick_is_equal_to">күтілгенге тең</string>
+    <string formatted="false" name="brick_wait_till_idle">Баска скрипттің аяқталуынша күту</string>
+    <string formatted="false" name="brick_tap_at">"Бір рет басу"</string>
+    <string formatted="false" name="brick_touch_at">"Экранды басу"</string>
     <string formatted="false" name="brick_tap_for">"үшін"</string>
-    <string formatted="false" name="brick_touch_slide">"Touch and slide"</string>
-    <string formatted="false" name="brick_touch_from_x">"from x:"</string>
-    <string formatted="false" name="brick_finish_stage">Finish stage</string>
-    <string formatted="false" name="brick_finish_tests">Finish tests</string>
-    <string formatted="false" name="brick_assert_lists">Assert lists</string>
-    <string formatted="false" name="brick_assert_actual">Actual:</string>
-    <string formatted="false" name="brick_assert_expected">Expected:</string>
-    <string formatted="false" name="brick_parameterized_assert">assert</string>
-    <string formatted="false" name="brick_parameterized_equals">equals to expected item of</string>
+    <string formatted="false" name="brick_touch_slide">"Басып, сырғу"</string>
+    <string formatted="false" name="brick_touch_from_x">"x-тан:"</string>
+    <string formatted="false" name="brick_finish_stage">Программаны жабу</string>
+    <string formatted="false" name="brick_finish_tests">Тестті аяқтау</string>
+    <string formatted="false" name="brick_assert_lists">Тізімдерді бекіту</string>
+    <string formatted="false" name="brick_assert_actual">Нақтысы:</string>
+    <string formatted="false" name="brick_assert_expected">Күтілген:</string>
+    <string formatted="false" name="brick_parameterized_assert">кесте</string>
+    <string formatted="false" name="brick_parameterized_equals">күтілетін тармағына тең</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="one">Әр затқа</item>
+        <item quantity="other">Әр заттардың</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="one">бірдей атпен айнымалыда сақталады</item>
+        <item quantity="other">бірдей атаулары бар айнымалыларда сақталады</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
-        <item quantity="other">%d lists selected</item>
+        <item quantity="one">%d тізім таңдалды</item>
+        <item quantity="other">%d тізімдер таңдалды</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="one">рет</item>
         <item quantity="other">реттер</item>
     </plurals>
-    <string formatted="false" name="brick_loop_end">End of loop</string>
+    <string formatted="false" name="brick_loop_end">Циклдің аяғы</string>
     <string formatted="false" name="brick_if_begin">Егер</string>
-    <string formatted="false" name="brick_if_begin_second_part">is true then</string>
+    <string formatted="false" name="brick_if_begin_second_part">дұрыс болса, онда</string>
     <string formatted="false" name="brick_if_else">Басқа</string>
-    <string formatted="false" name="brick_if_end">End if</string>
-    <string formatted="false" name="brick_set_variable">Set variable</string>
-    <string formatted="false" name="brick_change_variable">Change variable</string>
-    <string formatted="false" name="brick_write_variable_on_device">Write variable on device</string>
-    <string formatted="false" name="brick_read_variable_from_device">Read variable from device</string>
-    <string formatted="false" name="brick_write_variable_to_file_top">Write variable</string>
-    <string formatted="false" name="brick_write_variable_to_file_bottom">to file</string>
-    <string formatted="false" name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string formatted="false" name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string formatted="false" name="brick_read_variable_from_file_top">Read variable</string>
-    <string formatted="false" name="brick_read_variable_from_file_center">from file</string>
-    <string formatted="false" name="brick_read_variable_from_file_bottom">and</string>
-    <string formatted="false" name="brick_read_variable_from_file_keep">keep the file</string>
-    <string formatted="false" name="brick_read_variable_from_file_delete">delete the file</string>
-    <string formatted="false" name="brick_write_list_on_device">Write list on device</string>
-    <string formatted="false" name="brick_read_list_from_device">Read list from device</string>
-    <string formatted="false" name="brick_note_default_value">add comment here&#8230;</string>
-    <string formatted="false" name="brick_think_bubble_default_value">Hmmmm!</string>
+    <string formatted="false" name="brick_if_end">Аяқтау егер</string>
+    <string formatted="false" name="brick_set_variable">Айнымалыға қою</string>
+    <string formatted="false" name="brick_change_variable">Айнымалыны өзгерту</string>
+    <string formatted="false" name="brick_write_variable_on_device">Айнымалыны телефонға сақтау</string>
+    <string formatted="false" name="brick_read_variable_from_device">Айнымалыны телефоннан оқу</string>
+    <string formatted="false" name="brick_write_variable_to_file_top">Айнымалыны жазу</string>
+    <string formatted="false" name="brick_write_variable_to_file_bottom">файлға</string>
+    <string formatted="false" name="brick_write_variable_to_file_default_value">айнымалы.txt</string>
+    <string formatted="false" name="brick_write_variable_to_file_success">"Деректер %1$s -ға сақталды"</string>
+    <string formatted="false" name="brick_read_variable_from_file_top">Айнымалыны оқу</string>
+    <string formatted="false" name="brick_read_variable_from_file_center">файлдан</string>
+    <string formatted="false" name="brick_read_variable_from_file_bottom">және</string>
+    <string formatted="false" name="brick_read_variable_from_file_keep">файлды қоя тұру</string>
+    <string formatted="false" name="brick_read_variable_from_file_delete">файлды өшіру</string>
+    <string formatted="false" name="brick_write_list_on_device">Тізімді телефонға сақтау</string>
+    <string formatted="false" name="brick_read_list_from_device">Тізімді телефоннан оқу</string>
+    <string formatted="false" name="brick_note_default_value">мына жерге пікір қалдырыңыз...</string>
+    <string formatted="false" name="brick_think_bubble_default_value">Хмм-мм?</string>
     <string formatted="false" name="brick_say_bubble_default_value">Сәлем!</string>
-    <string formatted="false" name="brick_broadcast_default_value">"new message"</string>
-    <string formatted="false" name="brick_add_item_to_userlist_add">Add</string>
-    <string formatted="false" name="brick_add_item_to_userlist">to list</string>
-    <string formatted="false" name="brick_clear_userlist">Delete all items from list</string>
-    <string formatted="false" name="brick_delete_item_from_userlist_delete">Delete item from list</string>
-    <string formatted="false" name="brick_delete_item_from_userlist">at position</string>
-    <string formatted="false" name="brick_insert_item_into_userlist_insert_into">Insert</string>
-    <string formatted="false" name="brick_insert_item_into_userlist_into_list">into list</string>
-    <string formatted="false" name="brick_insert_item_into_userlist_at_position">at position</string>
-    <string formatted="false" name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
-    <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">at position</string>
+    <string formatted="false" name="brick_broadcast_default_value">"жаңа хабарлама"</string>
+    <string formatted="false" name="brick_add_item_to_userlist_add">Қосу</string>
+    <string formatted="false" name="brick_add_item_to_userlist">тізімге</string>
+    <string formatted="false" name="brick_clear_userlist">Тізімдегі барлық затты өшіру</string>
+    <string formatted="false" name="brick_delete_item_from_userlist_delete">Тізімнен жою керек пе?</string>
+    <string formatted="false" name="brick_delete_item_from_userlist">позициядан</string>
+    <string formatted="false" name="brick_insert_item_into_userlist_insert_into">Енгізу</string>
+    <string formatted="false" name="brick_insert_item_into_userlist_into_list">тізімге</string>
+    <string formatted="false" name="brick_insert_item_into_userlist_at_position">позициядан</string>
+    <string formatted="false" name="brick_replace_item_in_userlist_replace_in_list">Тізімдегі затты алмастыру</string>
+    <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">позициядан</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">бірге</string>
-    <string formatted="false" name="brick_web_request">Send web request to</string>
+    <string formatted="false" name="brick_web_request">Веб-сұраныс жіберу</string>
     <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string formatted="false" name="brick_web_request_result">and store answer in</string>
-    <string formatted="false" name="web_request_warning_title">Allow web access?</string>
-    <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string formatted="false" name="brick_web_request_result">және жазбаша жауапты сақтаңыз</string>
+    <string formatted="false" name="web_request_warning_title">Кіруге рұқсат ету?</string>
+    <string formatted="false" name="web_request_warning_message">Қол жеткізуге рұқсат бермес бұрын өте сақ болыңыз, өйткені
+        сілтеме нақты географиялық орныңыз немесе кез келген мәтін сияқты жеке ақпаратыңызды ашуы мүмкін
+        сіз зиянды басқаларға немесе көпшілікке кірдіңіз. Біздің қараңыз
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; неге бұл мүмкін болатыны туралы қосымша ақпарат алу үшін
+        өте қауіпті болуы.
     </string>
-    <string formatted="false" name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string formatted="false" name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
+    <string formatted="false" name="web_request_trust_domain_warning_title">Әрқашан рұқсат беру керек пе?</string>
+    <string formatted="false" name="web_request_trust_domain_warning_message">Әрқашан кіруге рұқсат беру арқылы сіз аласыз
+        осы доменнен веб-мекенжайлары растау үшін қайта сұралмайды.
     </string>
-    <string formatted="false" name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
+    <string formatted="false" name="trusted_domains_edit_hint">Бұл рұқсатты қайтарып алғыңыз келсе
+        кейінірек жазбаны сенімді домендер тізімінен қолданбаның
+         параметрлерінде жоюға болады.
     </string>
-    <string formatted="false" name="brick_look_request">Get image from</string>
-    <string formatted="false" name="brick_look_request_result">and use as current look</string>
-    <string formatted="false" name="brick_background_request_result">and use as current background</string>
-    <string formatted="false" name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string formatted="false" name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string formatted="false" name="brick_store_csv_into_userlist_store">Store column</string>
-    <string formatted="false" name="brick_store_csv_into_userlist_of">of the</string>
-    <string formatted="false" name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string formatted="false" name="brick_store_csv_into_userlist_into">into list</string>
-    <string formatted="false" name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string formatted="false" name="brick_look_request">Суретті алу</string>
+    <string formatted="false" name="brick_look_request_result">және қалыпты сурет ретінде қолдану</string>
+    <string formatted="false" name="brick_background_request_result">және қалыпты фон ретінде қолдану</string>
+    <string formatted="false" name="look_request_http_error_message">"%1$s файлынан суретті алу HTTP қатесі %2$s қайтарылды"</string>
+    <string formatted="false" name="look_request_type_error_message">"%1$s қолданбасынан суретті алу танылған кескін пішімін шығарып ала алмады"</string>
+    <string formatted="false" name="brick_store_csv_into_userlist_store">Дүкен бағаны</string>
+    <string formatted="false" name="brick_store_csv_into_userlist_of"></string>
+    <string formatted="false" name="brick_store_csv_into_userlist_csv">yтірмен бөлінген мәндер</string>
+    <string formatted="false" name="brick_store_csv_into_userlist_into">тізімге</string>
+    <string formatted="false" name="brick_store_csv_into_userlist_data">марғау,сүйкімді\nкүшік,тентек\nсегізаяқ,ақылды</string>
     <!--  -->
     <!--Instruments-->
-    <string formatted="false" name="piano">piano</string>
-    <string formatted="false" name="electric_piano">electric piano</string>
-    <string formatted="false" name="cello">cello</string>
-    <string formatted="false" name="flute">flute</string>
-    <string formatted="false" name="vibraphone">vibraphone</string>
-    <string formatted="false" name="organ">organ</string>
-    <string formatted="false" name="guitar">guitar</string>
-    <string formatted="false" name="electric_guitar">electric guitar</string>
-    <string formatted="false" name="bass">bass</string>
-    <string formatted="false" name="pizzicato">pizzicato</string>
-    <string formatted="false" name="synth_pad">synth pad</string>
-    <string formatted="false" name="choir">choir</string>
-    <string formatted="false" name="synth_lead">synth lead</string>
-    <string formatted="false" name="wooden_flute">wooden flute</string>
-    <string formatted="false" name="trombone">trombone</string>
-    <string formatted="false" name="saxophone">saxophone</string>
-    <string formatted="false" name="bassoon">bassoon</string>
-    <string formatted="false" name="clarinet">clarinet</string>
-    <string formatted="false" name="music_box">music box</string>
-    <string formatted="false" name="steel_drum">steel drum</string>
-    <string formatted="false" name="marimba">marimba</string>
+    <string formatted="false" name="piano">фортепиано</string>
+    <string formatted="false" name="electric_piano">электрлі фортепиано</string>
+    <string formatted="false" name="cello">виолончель</string>
+    <string formatted="false" name="flute">флейта</string>
+    <string formatted="false" name="vibraphone">виброфон</string>
+    <string formatted="false" name="organ">орган</string>
+    <string formatted="false" name="guitar">гитара</string>
+    <string formatted="false" name="electric_guitar">Электрік гитара</string>
+    <string formatted="false" name="bass">бас</string>
+    <string formatted="false" name="pizzicato">пиццикато</string>
+    <string formatted="false" name="synth_pad">синтездік тақта</string>
+    <string formatted="false" name="choir">хор</string>
+    <string formatted="false" name="synth_lead">синтездік қорғасын</string>
+    <string formatted="false" name="wooden_flute">ағаш флейта</string>
+    <string formatted="false" name="trombone">тромбон</string>
+    <string formatted="false" name="saxophone">саксофон</string>
+    <string formatted="false" name="bassoon">бассон</string>
+    <string formatted="false" name="clarinet">кларнет</string>
+    <string formatted="false" name="music_box">музыкалық қорап</string>
+    <string formatted="false" name="steel_drum">болат барабан</string>
+    <string formatted="false" name="marimba">маримба</string>
     <!--  -->
     <!--Drums-->
-    <string formatted="false" name="snare_drum">snare drum</string>
-    <string formatted="false" name="bass_drum">bass drum</string>
-    <string formatted="false" name="side_stick">side stick</string>
-    <string formatted="false" name="crash_cymbal">crash cymbal</string>
-    <string formatted="false" name="open_hi_hat">open hi-hat</string>
-    <string formatted="false" name="closed_hi_hat">closed hi-hat</string>
-    <string formatted="false" name="tambourine">tambourine</string>
-    <string formatted="false" name="hand_clap">hand clap</string>
-    <string formatted="false" name="claves">claves</string>
-    <string formatted="false" name="wood_block">wood block</string>
-    <string formatted="false" name="cowbell">cowbell</string>
-    <string formatted="false" name="triangle">triangle</string>
-    <string formatted="false" name="bongo">bongo</string>
-    <string formatted="false" name="conga">conga</string>
-    <string formatted="false" name="cabasa">cabasa</string>
-    <string formatted="false" name="guiro">guiro</string>
-    <string formatted="false" name="vibraslap">vibraslap</string>
-    <string formatted="false" name="open_cuica">open cuica</string>
+    <string formatted="false" name="snare_drum">барабан</string>
+    <string formatted="false" name="bass_drum">басс барабан</string>
+    <string formatted="false" name="side_stick">бүйірлік таяқ</string>
+    <string formatted="false" name="crash_cymbal">апатты цимбал</string>
+    <string formatted="false" name="open_hi_hat">Ашық Хай-хет</string>
+    <string formatted="false" name="closed_hi_hat">Жабық Хай-хет</string>
+    <string formatted="false" name="tambourine">Тамбурин</string>
+    <string formatted="false" name="hand_clap">Шапалақ</string>
+    <string formatted="false" name="claves">Клавиштер</string>
+    <string formatted="false" name="wood_block">Ағаш қорап</string>
+    <string formatted="false" name="cowbell">Қоңырау</string>
+    <string formatted="false" name="triangle">Үшбұрыш</string>
+    <string formatted="false" name="bongo">Бонго</string>
+    <string formatted="false" name="conga">Конга</string>
+    <string formatted="false" name="cabasa">Кабаса</string>
+    <string formatted="false" name="guiro">Гуиро</string>
+    <string formatted="false" name="vibraslap">Вибра-шапалақ</string>
+    <string formatted="false" name="open_cuica">Ашық куика</string>
     <!--  -->
     <!-- Default Values -->
-    <string formatted="false" name="default_project_name">My project</string>
-    <string formatted="false" name="default_variable_name">Variable</string>
+    <string formatted="false" name="default_project_name">Менің жобам</string>
+    <string formatted="false" name="default_variable_name">Айнымалы</string>
     <string formatted="false" name="default_scene_name">Scene</string>
-    <string formatted="false" name="default_script_group_name">Script group</string>
-    <string formatted="false" name="default_broadcast_message_name">Message</string>
-    <string formatted="false" name="default_list_name">List</string>
-    <string formatted="false" name="default_project_background_name">Background</string>
-    <string formatted="false" name="default_project_cloud_name">Clouds</string>
-    <string formatted="false" name="default_project_cloud_sprite_name_1">Clouds1</string>
-    <string formatted="false" name="default_project_cloud_sprite_name_2">Clouds2</string>
-    <string formatted="false" name="default_project_sprites_animal_name">Animal</string>
-    <string formatted="false" name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string formatted="false" name="default_project_sprites_animal_wings_down">Wings down</string>
-    <string formatted="false" name="default_project_sprites_tweet_1">Tweet1</string>
-    <string formatted="false" name="default_project_sprites_tweet_2">Tweet2</string>
+    <string formatted="false" name="default_script_group_name">Сценарийлер тобы</string>
+    <string formatted="false" name="default_broadcast_message_name">Хабар</string>
+    <string formatted="false" name="default_list_name">Тізім</string>
+    <string formatted="false" name="default_project_background_name">Фон</string>
+    <string formatted="false" name="default_project_cloud_name">Бұлты</string>
+    <string formatted="false" name="default_project_cloud_sprite_name_1">Бұлты1</string>
+    <string formatted="false" name="default_project_cloud_sprite_name_2">Бұлты2</string>
+    <string formatted="false" name="default_project_sprites_animal_name">Жануар</string>
+    <string formatted="false" name="default_project_sprites_animal_wings_up">Қанаты көтеріңкі</string>
+    <string formatted="false" name="default_project_sprites_animal_wings_down">Қанаты төмен</string>
+    <string formatted="false" name="default_project_sprites_tweet_1">ҚұсДауысы1</string>
+    <string formatted="false" name="default_project_sprites_tweet_2">ҚұсДауысы2</string>
     <!--suppress UnusedResources -->
-    <string formatted="false" name="default_project_needle_name">Needle</string>
+    <string formatted="false" name="default_project_needle_name">Ине</string>
     <!--suppress UnusedResources -->
-    <string formatted="false" name="default_project_outer_loop">Outer Loop</string>
+    <string formatted="false" name="default_project_outer_loop">Сыртқы цикл</string>
     <!--suppress UnusedResources -->
-    <string formatted="false" name="default_project_inner_loop">Inner Loop</string>
+    <string formatted="false" name="default_project_inner_loop">Ішкі цикл</string>
     <!-- Default ChromeCast Values -->
-    <string formatted="false" name="default_cast_project_background_name">Background</string>
-    <string formatted="false" name="default_cast_project_cloud_name">Clouds</string>
-    <string formatted="false" name="default_cast_project_cloud_sprite_name1">Clouds1</string>
-    <string formatted="false" name="default_cast_project_cloud_sprite_name2">Clouds2</string>
-    <string formatted="false" name="default_cast_project_sprites_bird_name">Bird</string>
-    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
-    <string formatted="false" name="default_cast_project_sprites_tweet_1">Tweet1</string>
-    <string formatted="false" name="default_cast_project_sprites_tweet_2">Tweet2</string>
-    <string formatted="false" name="default_cast_project_var_direction">direction</string>
-    <string formatted="false" name="default_cast_project_name">My first Chromecast project</string>
+    <string formatted="false" name="default_cast_project_background_name">Фон</string>
+    <string formatted="false" name="default_cast_project_cloud_name">Бұлты</string>
+    <string formatted="false" name="default_cast_project_cloud_sprite_name1">Бұлты1</string>
+    <string formatted="false" name="default_cast_project_cloud_sprite_name2">Бұлты2</string>
+    <string formatted="false" name="default_cast_project_sprites_bird_name">Құстар</string>
+    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up">Құс Қанаты көтеріңкі</string>
+    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down">Құс Қанаты төмен</string>
+    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_up_left">Құс Қанаты көтеріңкі сол</string>
+    <string formatted="false" name="default_cast_project_sprites_bird_name_wing_down_left">Құс Қанаты төмен сол</string>
+    <string formatted="false" name="default_cast_project_sprites_tweet_1">ҚұсДауысы1</string>
+    <string formatted="false" name="default_cast_project_sprites_tweet_2">ҚұсДауысы2</string>
+    <string formatted="false" name="default_cast_project_var_direction">бағыт</string>
+    <string formatted="false" name="default_cast_project_name">Менің ең бірінші Chromecast жобам</string>
     <!-- Default Drone Values -->
     <string formatted="false" name="drone_brick_set_text">Текст</string>
     <string formatted="false" name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
-    <string formatted="false" name="drone_config_indoor_with_hull">indoor with hull</string>
-    <string formatted="false" name="drone_config_indoor_without_hull">indoor without hull</string>
-    <string formatted="false" name="drone_config_outdoor_with_hull">outdoor with hull</string>
-    <string formatted="false" name="drone_config_outdoor_without_hull">outdoor without hull</string>
+    <string formatted="false" name="drone_config_indoor_with_hull">корпусы бар жабық</string>
+    <string formatted="false" name="drone_config_indoor_without_hull">корпуссыз жабық</string>
+    <string formatted="false" name="drone_config_outdoor_with_hull">корпусы бар ашық</string>
+    <string formatted="false" name="drone_config_outdoor_without_hull">корпуссыз ашық</string>
     <!-- Drone altitude limit values  -->
-    <string formatted="false" name="drone_set_altitude_max_3m">3 meters</string>
-    <string formatted="false" name="drone_set_altitude_max_5m">5 meters</string>
-    <string formatted="false" name="drone_set_altitude_max_10m">10 meters</string>
-    <string formatted="false" name="drone_set_altitude_max_100m">100 meters</string>
+    <string formatted="false" name="drone_set_altitude_max_3m">3 метр</string>
+    <string formatted="false" name="drone_set_altitude_max_5m">5 метр</string>
+    <string formatted="false" name="drone_set_altitude_max_10m">10 метр</string>
+    <string formatted="false" name="drone_set_altitude_max_100m">100 метр</string>
     <!-- Drone max vertical speed limit values  -->
-    <string formatted="false" name="drone_set_vertical_min">200 mm/s</string>
-    <string formatted="false" name="drone_set_vertical_indoor">700 mm/s</string>
-    <string formatted="false" name="drone_set_vertical_outdoor">1000 mm/s</string>
-    <string formatted="false" name="drone_set_vertical_max">2000 mm/s</string>
+    <string formatted="false" name="drone_set_vertical_min">200 м/с</string>
+    <string formatted="false" name="drone_set_vertical_indoor">700 мм/с</string>
+    <string formatted="false" name="drone_set_vertical_outdoor">1000 мм/с</string>
+    <string formatted="false" name="drone_set_vertical_max">2000 мм/с</string>
     <!-- Drone max rotation speed limit values  -->
-    <string formatted="false" name="drone_set_rotation_min">40 degrees/s</string>
-    <string formatted="false" name="drone_set_rotation_indoor">100 degrees/s</string>
-    <string formatted="false" name="drone_set_rotation_outdoor">200 degrees/s</string>
-    <string formatted="false" name="drone_set_rotation_max">350 degrees/s</string>
+    <string formatted="false" name="drone_set_rotation_min">40 градус/с</string>
+    <string formatted="false" name="drone_set_rotation_indoor">100 градус/с</string>
+    <string formatted="false" name="drone_set_rotation_outdoor">200 градус/с</string>
+    <string formatted="false" name="drone_set_rotation_max">350 градус/с</string>
     <!-- Drone max tilt limit values  -->
-    <string formatted="false" name="drone_set_tilt_min">5 degrees</string>
-    <string formatted="false" name="drone_set_tilt_indoor">12 degrees</string>
-    <string formatted="false" name="drone_set_tilt_outdoor">20 degrees </string>
-    <string formatted="false" name="drone_set_tilt_max">30 degrees</string>
+    <string formatted="false" name="drone_set_tilt_min">5 градус</string>
+    <string formatted="false" name="drone_set_tilt_indoor">12 градус</string>
+    <string formatted="false" name="drone_set_tilt_outdoor">20 градус</string>
+    <string formatted="false" name="drone_set_tilt_max">30 градус</string>
     <!-- Notification Channel -->
-    <string formatted="false" name="channel_description">%1$s notification channel</string>
+    <string formatted="false" name="channel_description">%1$s хабарландыру арнасы</string>
     <!--  -->
     <!-- Notifications -->
-    <string formatted="false" name="notification_screenshot_ok">Preview image saved</string>
-    <string formatted="false" name="notification_download_project_cancel">Cancel project download</string>
-    <string formatted="false" name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string formatted="false" name="notification_upload_title_pending">"Uploading"</string>
-    <string formatted="false" name="notification_upload_title_finished">"Look at"</string>
-    <string formatted="false" name="notification_upload_pending">Upload in progress</string>
-    <string formatted="false" name="notification_upload_finished">Upload successful</string>
-    <string formatted="false" name="notification_upload_rejected">Uploaded project rejected</string>
-    <string formatted="false" name="notification_upload_retry">Retry</string>
-    <string formatted="false" name="notification_open_play_store">Open App store</string>
-    <string formatted="false" name="notification_download_title_pending">"Downloading"</string>
-    <string formatted="false" name="notification_download_pending">Download in progress</string>
-    <string formatted="false" name="notification_download_finished">Download successful</string>
+    <string formatted="false" name="notification_screenshot_ok">Превью сақталды</string>
+    <string formatted="false" name="notification_download_project_cancel">Жүктеуден бас тарту</string>
+    <string formatted="false" name="notification_reconvert_download_program_cancel">Жүктеу/конверттеу тоқтатылды</string>
+    <string formatted="false" name="notification_upload_title_pending">"Жүктелуде"</string>
+    <string formatted="false" name="notification_upload_title_finished">"Қарау"</string>
+    <string formatted="false" name="notification_upload_pending">Жүктеу орындалуда</string>
+    <string formatted="false" name="notification_upload_finished">Жүктеу сәтті болды</string>
+    <string formatted="false" name="notification_upload_rejected">Жүктелінген жоба қабылданбады</string>
+    <string formatted="false" name="notification_upload_retry">Қайталау</string>
+    <string formatted="false" name="notification_open_play_store">Қолданбалар дүкені ашу</string>
+    <string formatted="false" name="notification_download_title_pending">"Жүктелуде"</string>
+    <string formatted="false" name="notification_download_pending">Жүктеу процесі жүруде</string>
+    <string formatted="false" name="notification_download_finished">Жүктеу сәтті аяқталды</string>
     <string formatted="false" name="notification_title_open">"Ашу"</string>
     <string formatted="false" name="size_of_project">Өлшем:</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string formatted="false" name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string formatted="false" name="runtime_permission_general">Бұл қолданба дұрыс жұмыс істеуі үшін сұралған рұқсаттарды қажет етеді. Мысалы,
+Камера кірпішіне құрылғының камерасына рұқсат қажет, \"орын\" формуласы элементіне рұқсат қажет
+құрылғының геолокация сенсорын және жобаларды жергілікті жадтан және оған импорттау және экспорттау үшін қолданба
+оған оқу және жазу рұқсаты қажет. Рұқсаттарды әрқашан құрылғының параметрлері арқылы өзгертуге болады.</string>
     <!-- Error messages -->
-    <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
-    <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
-    <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
-    <string formatted="false" name="error_new_project">Something went wrong while creating a new project.</string>
-    <string formatted="false" name="error_rename_scene">Something went wrong while renaming the scene.</string>
-    <string formatted="false" name="error_load_project">Something went wrong while loading the project.</string>
-    <string formatted="false" name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
-    <string formatted="false" name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string formatted="false" name="error_project_compatibility">The project is not compatible with this version of the app.</string>
-    <string formatted="false" name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string formatted="false" name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
-        Please rename the project.</string>
-    <string formatted="false" name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
-    <string formatted="false" name="error_adding_brick">Something went wrong while adding this brick.</string>
-    <string formatted="false" name="error_copying_brick">Something went wrong while copying this brick.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
-    <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
-    <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
-    <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string formatted="false" name="error_project_upload">Жобаны жүктеу кезінде бір нәрсе дұрыс болмады :(</string>
+    <string formatted="false" name="error_project_download">Жобаны жүктеп алу кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_project_already_in_queue">"%s жобасы әлдеқашан кезекте."</string>
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">\"Сіздің жүктеп алуыңыз мүмкін емес
+        басталды, біздің серверде ақау бар сияқты\".</string>
+    <string formatted="false" name="error_new_project">Жаңа жобаны жасау кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_rename_scene">Көрініс атауын өзгерту кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_load_project">Жобаны жүктеу кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_screenshot_failed">Алдын ала қарау кескінін сақтау кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_internet_connection">Белгісіз қате орын алды. Интернет байланысын тексеріңіз.</string>
+    <string formatted="false" name="error_project_compatibility">Жоба қолданбаның осы нұсқасымен үйлесімді емес.</string>
+    <string formatted="false" name="error_outdated_version">Бұл қолданбаның нұсқасы ескірген. Қазір жаңартыңыз ба?</string>
+    <string formatted="false" name="error_upload_project_with_default_name">\"%s\" атты жобаны жүктеп салу мүмкін емес.
+        Жобаның атын өзгертіңіз.</string>
+    <string formatted="false" name="error_upload_default_project">Өзгертілмеген мысал жобасын жүктеп салу мүмкін емес.
+        Бір нәрсені өзгертіп, әрекетті қайталаңыз.</string>
+    <string formatted="false" name="error_adding_brick">Осы кірпішті қосу кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_copying_brick">Осы кірпішті көшіру кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_rename_incompatible_project">Үйлесімсіз жобаның атын өзгерту мүмкін емес.</string>
+    <string formatted="false" name="error_embroidery_file_export">Кесте файлын ортақ пайдалану кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_embroidery_file_write">Тігін файлын жазу кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_embroidery_data_not_found">Тігін табылмай тұр.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">Бірдеңе дұрыс болмады.</string>
-    <string formatted="false" name="error_gps_not_available">Geolocation data is not available.</string>
-    <string formatted="false" name="error_set_description">Something went wrong while saving the new description.</string>
-    <string formatted="false" name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
-    <string formatted="false" name="error_no_whatsapp">WhatsApp not installed</string>
-    <string formatted="false" name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
-        project.</string>
+    <string formatted="false" name="error_gps_not_available">Геолокация деректері қол жетімді емес.</string>
+    <string formatted="false" name="error_set_description">Жаңа сипаттаманы сақтау кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="error_set_notes_and_credits">Жаңа жазбалармен        авторларды сақтау кезінде бірдеңе дұрыс болмады</string>
+    <string formatted="false" name="error_no_whatsapp">WhatsApp орнатылмаған.</string>
+    <string formatted="false" name="error_unsupported_bricks_chromecast">Бұл сценарийді Chromecast құрылғысына қосу мүмкін емес
+        жоба.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
-    <string formatted="false" name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
-    <string formatted="false" name="title_paired_devices">Paired devices</string>
-    <string formatted="false" name="title_other_devices">Available devices</string>
-    <string formatted="false" name="bluetooth_connection_title">Bluetooth connection</string>
+    <string formatted="false" name="notification_blueth_err">Блютузды қосу мүмкін болмай тұр, Блютузды өшіріп қайтадан қосып көр.</string>
+    <string formatted="false" name="title_paired_devices">Қосылған құрылғылар</string>
+    <string formatted="false" name="title_other_devices">Қолжетімді құрылғылар</string>
+    <string formatted="false" name="bluetooth_connection_title">Bluetooth арқылы қосылу</string>
     <string formatted="false" name="skip_bluetooth_connection">Өткізу</string>
-    <string formatted="false" name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
-    <string formatted="false" name="bt_connection_failed">Connection to device failed!</string>
-    <string formatted="false" name="none_found">No unpaired devices found</string>
-    <string formatted="false" name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string formatted="false" name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string formatted="false" name="connecting_please_wait">Қүрылғыңызға қосылуда.\nКүте тұрыңыз&#8230;</string>
+    <string formatted="false" name="bt_connection_failed">Құрылғыңызға қосылу мүмкін болмады!</string>
+    <string formatted="false" name="none_found">Жұпталмаған құрылғылар табылмады</string>
+    <string formatted="false" name="multiplayer_bluetooth_connection_information_title">Bluetooth қосылымы
+        қажет!</string>
+    <string formatted="false" name="multiplayer_bluetooth_connection_information">Бұл ойынды ойнау үшін
+        Көп ойыншы Bluetooth байланысы қажет. Екі ойыншы да ойынды бастауы керек және
+        қосылым дұрыс жұмыс істеуі үшін осы экранда болыңыз!</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string formatted="false" name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
-    <string formatted="false" name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
+    <string formatted="false" name="brick_arduino_select_digital_value">Arduino-ға ПИН код қою</string>
+    <string formatted="false" name="brick_arduino_select_analog_value">Arduino PWM-ға ПИН код қою</string>
     <string formatted="false" name="brick_arduino_set_pin_value_to">дейін</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string formatted="false" name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+    <string formatted="false" name="brick_raspi_select_digital_value">Raspberry Pi-ға ПИН код қою</string>
     <string formatted="false" name="brick_raspi_set_pin_value_to">дейін</string>
-    <string formatted="false" name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string formatted="false" name="brick_raspi_if_begin_second_part">is true then</string>
-    <string formatted="false" name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-    <string formatted="false" name="brick_raspi_when_equals">changes to</string>
-    <string formatted="false" name="brick_raspi_pressed_text">high</string>
-    <string formatted="false" name="brick_raspi_released_text">low</string>
-    <string formatted="false" name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+    <string formatted="false" name="brick_raspi_if_begin">Егер Raspberry Pi ПИН-код</string>
+    <string formatted="false" name="brick_raspi_if_begin_second_part">дұрыс болса, онда</string>
+    <string formatted="false" name="brick_raspi_when_begin">Онда Raspberry Pi ПИН-код</string>
+    <string formatted="false" name="brick_raspi_when_equals">өзгеру</string>
+    <string formatted="false" name="brick_raspi_pressed_text">биік</string>
+    <string formatted="false" name="brick_raspi_released_text">төмен</string>
+    <string formatted="false" name="brick_raspi_set_pwm">Raspberry Pi PWM-ға ПИН код қою</string>
     <!--  -->
     <!-- Raspi Settings -->
-    <string formatted="false" name="raspi_settings_title_name">Raspberry Pi settings</string>
-    <string formatted="false" name="raspi_settings_gpio_version">GPIO Version</string>
-    <string formatted="false" name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string formatted="false" name="raspi_settings_title_name">Raspberry Pi баптаулары</string>
+    <string formatted="false" name="raspi_settings_gpio_version">GPIO нұсқасы</string>
+    <string formatted="false" name="error_connecting_to">Қателік: %s %d қосылу мүмкін болмады</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string formatted="false" name="nxt_brick_motor_move">Set NXT motor</string>
+    <string formatted="false" name="nxt_brick_motor_move">NXT моторын қою</string>
     <string formatted="false" name="nxt_motor_speed_to">дейін</string>
-    <string formatted="false" name="nxt_motor_speed">speed</string>
-    <string formatted="false" name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
+    <string formatted="false" name="nxt_motor_speed">жылдамдық</string>
+    <string formatted="false" name="nxt_brick_motor_turn_angle">NXT моторын айналдыру</string>
     <string formatted="false" name="nxt_motor_move_by">арқылы</string>
-    <string formatted="false" name="nxt_motor_stop">Stop NXT motor</string>
-    <string formatted="false" name="nxt_play_tone">Play NXT tone</string>
-    <string formatted="false" name="nxt_tone_duration">Duration</string>
-    <string formatted="false" name="nxt_tone_frequency">Frequency</string>
+    <string formatted="false" name="nxt_motor_stop">NXT моторын тоқтату</string>
+    <string formatted="false" name="nxt_play_tone">NXT дыбысын ойнау</string>
+    <string formatted="false" name="nxt_tone_duration">Ұзақтық</string>
+    <string formatted="false" name="nxt_tone_frequency">Жиілік</string>
     <string formatted="false" name="nxt_tone_hundred_hz">×100Hz</string>
     <string formatted="false" name="nxt_motor_a">A</string>
     <string formatted="false" name="nxt_motor_b">B</string>
     <string formatted="false" name="nxt_motor_c">C</string>
     <string formatted="false" name="nxt_motor_b_and_c">B+C</string>
     <string formatted="false" name="nxt_motor_all">Барлық</string>
-    <string formatted="false" name="nxt_choose_sensor_1">Sensor connected on port 1</string>
-    <string formatted="false" name="nxt_choose_sensor_2">Sensor connected on port 2</string>
-    <string formatted="false" name="nxt_choose_sensor_3">Sensor connected on port 3</string>
-    <string formatted="false" name="nxt_choose_sensor_4">Sensor connected on port 4</string>
-    <string formatted="false" name="nxt_no_sensor">none</string>
-    <string formatted="false" name="nxt_sensor_touch">NXT touch sensor</string>
-    <string formatted="false" name="nxt_sensor_sound">NXT sound sensor</string>
-    <string formatted="false" name="nxt_sensor_light">NXT light sensor</string>
-    <string formatted="false" name="nxt_sensor_light_active">NXT light sensor active</string>
-    <string formatted="false" name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
-    <string formatted="false" name="nxt_sensor_not_found">Sensor not found!</string>
-    <string formatted="false" name="lego_nxt_sensor_config_info_title">NXT sensor configuration</string>
-    <string formatted="false" name="preference_disable_nxt_info_dialog">Disable info dialog</string>
-    <string formatted="false" name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when
-        opening a project.</string>
-    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project
-        specific and can only be configured for opened projects.</string>
-    <string formatted="false" name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For
-        proper functionality please connect the sensors to the robot as follows</string>
-    <string formatted="false" name="lego_port_1">Port 1</string>
-    <string formatted="false" name="lego_port_2">Port 2</string>
-    <string formatted="false" name="lego_port_3">Port 3</string>
-    <string formatted="false" name="lego_port_4">Port 4</string>
-    <string formatted="false" name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
-    <string formatted="false" name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
-    <string formatted="false" name="lego_ev3_sensor_config_info_title">EV3 sensor configuration</string>
-    <string formatted="false" name="preference_disable_ev3_info_dialog_description">Project specific EV3 settings are not shown when
-        opening a project.</string>
-    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is project
-        specific and can only be configured for opened projects.</string>
-    <string formatted="false" name="lego_ev3_sensor_config_info_text">The current project uses Lego Mindstorms EV3 bricks or sensors. For
-        proper functionality please connect the sensors to the robot as follows</string>
-    <string formatted="false" name="ev3_choose_sensor_1">Sensor connected on port 1</string>
-    <string formatted="false" name="ev3_choose_sensor_2">Sensor connected on port 2</string>
-    <string formatted="false" name="ev3_choose_sensor_3">Sensor connected on port 3</string>
-    <string formatted="false" name="ev3_choose_sensor_4">Sensor connected on port 4</string>
-    <string formatted="false" name="ev3_no_sensor">none</string>
-    <string formatted="false" name="ev3_sensor_touch">EV3 touch sensor</string>
-    <string formatted="false" name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string formatted="false" name="ev3_sensor_color">EV3 color sensor</string>
-    <string formatted="false" name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
-    <string formatted="false" name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
-    <string formatted="false" name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
-    <string formatted="false" name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
-    <string formatted="false" name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
-    <string formatted="false" name="ev3_sensor_nxt_light">NXT light sensor</string>
-    <string formatted="false" name="ev3_sensor_nxt_light_active">NXT light sensor active</string>
-    <string formatted="false" name="ev3_sensor_nxt_sound">NXT sound sensor</string>
-    <string formatted="false" name="ev3_sensor_nxt_ultrasonic">NXT ultrasonic sensor</string>
+    <string formatted="false" name="nxt_choose_sensor_1">Сенсор 1 портқа қосылған</string>
+    <string formatted="false" name="nxt_choose_sensor_2">Сенсор 2 портқа қосылған</string>
+    <string formatted="false" name="nxt_choose_sensor_3">Сенсор 3 портқа қосылған</string>
+    <string formatted="false" name="nxt_choose_sensor_4">Сенсор 4 портқа қосылған</string>
+    <string formatted="false" name="nxt_no_sensor">ешқандай</string>
+    <string formatted="false" name="nxt_sensor_touch">NXT түрту сенсоры</string>
+    <string formatted="false" name="nxt_sensor_sound">NXT дыбыс сенсоры</string>
+    <string formatted="false" name="nxt_sensor_light">NXT жарық сенсоры</string>
+    <string formatted="false" name="nxt_sensor_light_active">NXT жарық сенсоры белсенді</string>
+    <string formatted="false" name="nxt_sensor_ultrasonic">NXT ультрадыбыстық сенсор</string>
+    <string formatted="false" name="nxt_sensor_not_found">Сенсор табылмаған!</string>
+    <string formatted="false" name="lego_nxt_sensor_config_info_title">NXT сенсорының конфигурациясы</string>
+    <string formatted="false" name="preference_disable_nxt_info_dialog">Ақпарат диалогын өшіру</string>
+    <string formatted="false" name="preference_disable_nxt_info_dialog_description">Жобаны ашқан кезде NXT-ке арналған баптаулары көрсетілмейді</string>
+    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">NXT сенсорларын порттарға салыстыру жоба болып табылады
+        арнайы және тек ашылған жобалар үшін конфигурациялануы мүмкін.</string>
+    <string formatted="false" name="lego_nxt_sensor_config_info_text">Ағымдағы жоба Lego Mindstorms NXT кірпіштерін немесе сенсорларын пайдаланады. Үшін
+        дұрыс жұмыс істеу үшін сенсорларды роботқа төмендегідей қосыңыз</string>
+    <string formatted="false" name="lego_port_1">Порт 1</string>
+    <string formatted="false" name="lego_port_2">Порт 2</string>
+    <string formatted="false" name="lego_port_3">Порт 3</string>
+    <string formatted="false" name="lego_port_4">Порт 4</string>
+    <string formatted="false" name="lego_sensor_config_dont_show_again">Мұны қайтадан көрсетпеу</string>
+    <string formatted="false" name="lego_sensor_port_config_dialog_title">%1$s желісіне қосылу үшін портты таңдаңыз.</string>
+    <string formatted="false" name="lego_ev3_sensor_config_info_title">EV3 сенсорының конфигурациясы</string>
+    <string formatted="false" name="preference_disable_ev3_info_dialog_description">Жобаның арнайы EV3 параметрлері қашан көрсетілмейді
+        жобаны ашу.</string>
+    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">EV3 сенсорларын порттарға салыстыру жоба болып табылады
+        арнайы және тек ашылған жобалар үшін конфигурациялануы мүмкін.</string>
+    <string formatted="false" name="lego_ev3_sensor_config_info_text">Ағымдағы жобада Lego Mindstorms EV3 кірпіштері немесе сенсорлары қолданылады. Үшін
+        дұрыс жұмыс істеу үшін сенсорларды роботқа төмендегідей қосыңыз</string>
+    <string formatted="false" name="ev3_choose_sensor_1">Сенсор 1 портқа қосылған</string>
+    <string formatted="false" name="ev3_choose_sensor_2">Сенсор 2 портқа қосылған</string>
+    <string formatted="false" name="ev3_choose_sensor_3">Сенсор 3 портқа қосылған</string>
+    <string formatted="false" name="ev3_choose_sensor_4">Сенсор 4 портқа қосылған</string>
+    <string formatted="false" name="ev3_no_sensor">жоқ</string>
+    <string formatted="false" name="ev3_sensor_touch">EV3 түрту сенсор</string>
+    <string formatted="false" name="ev3_sensor_infrared">EV3 инфрақызыл сенсоры</string>
+    <string formatted="false" name="ev3_sensor_color">EV3 түс сенсоры</string>
+    <string formatted="false" name="ev3_sensor_color_ambient">EV3 қоршаған ортаның түс сенсоры</string>
+    <string formatted="false" name="ev3_sensor_color_reflected">EV3 түс сенсоры шағылысты</string>
+    <string formatted="false" name="ev3_sensor_hitechnic_color">HiTechnic түс сенсоры</string>
+    <string formatted="false" name="ev3_sensor_nxt_temperature_c">NXT температура сенсоры (°C)</string>
+    <string formatted="false" name="ev3_sensor_nxt_temperature_f">NXT температура сенсоры (°F)</string>
+    <string formatted="false" name="ev3_sensor_nxt_light">NXT жарық сенсоры</string>
+    <string formatted="false" name="ev3_sensor_nxt_light_active">NXT жарық сенсоры белсенді</string>
+    <string formatted="false" name="ev3_sensor_nxt_sound">NXT дыбыс сенсоры</string>
+    <string formatted="false" name="ev3_sensor_nxt_ultrasonic">NXT ультрадыбыстық сенсор</string>
     <string formatted="false" name="ev3_motor_a">A</string>
     <string formatted="false" name="ev3_motor_b">B</string>
     <string formatted="false" name="ev3_motor_c">C</string>
     <string formatted="false" name="ev3_motor_d">D</string>
     <string formatted="false" name="ev3_motor_b_and_c">B+C</string>
     <string formatted="false" name="ev3_motor_all">Барлық</string>
-    <string formatted="false" name="ev3_play_tone">Play EV3 tone</string>
+    <string formatted="false" name="ev3_play_tone">EV3 дыбысын ойнау</string>
     <string formatted="false" name="ev3_tone_duration_for">үшін</string>
-    <string formatted="false" name="ev3_tone_volume">Volume</string>
+    <string formatted="false" name="ev3_tone_volume">Дыбыс</string>
     <string formatted="false" name="ev3_tone_percent">%</string>
-    <string formatted="false" name="ev3_motor_stop">Stop EV3 motor</string>
-    <string formatted="false" name="ev3_motor_move">Set EV3 motor</string>
-    <string formatted="false" name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
+    <string formatted="false" name="ev3_motor_stop">EV3 моторын тоқтату</string>
+    <string formatted="false" name="ev3_motor_move">EV3 моторын қою</string>
+    <string formatted="false" name="ev3_brick_motor_turn_angle">EV3 моторын айналдыру</string>
     <string formatted="false" name="ev3_motor_move_by">арқылы</string>
-    <string formatted="false" name="ev3_set_led_status">Set EV3 LED status</string>
-    <string formatted="false" name="ev3_led_status_off">Off</string>
+    <string formatted="false" name="ev3_set_led_status">EV3 жарық диоды күйін орнату</string>
+    <string formatted="false" name="ev3_led_status_off">Өшіру</string>
     <string formatted="false" name="ev3_led_status_green">Жасыл</string>
     <string formatted="false" name="ev3_led_status_red">Қызыл</string>
-    <string formatted="false" name="ev3_led_status_orange">Orange</string>
-    <string formatted="false" name="ev3_led_status_green_flashing">Green flashing</string>
-    <string formatted="false" name="ev3_led_status_red_flashing">Red flashing</string>
-    <string formatted="false" name="ev3_led_status_orange_flashing">Orange flashing</string>
-    <string formatted="false" name="ev3_led_status_green_pulse">Green pulse</string>
-    <string formatted="false" name="ev3_led_status_red_pulse">Red pulse</string>
-    <string formatted="false" name="ev3_led_status_orange_pulse">Orange pulse</string>
+    <string formatted="false" name="ev3_led_status_orange">Қызғылт сары</string>
+    <string formatted="false" name="ev3_led_status_green_flashing">Жасыл жыпылықтау</string>
+    <string formatted="false" name="ev3_led_status_red_flashing">Қызыл жыпылықтау</string>
+    <string formatted="false" name="ev3_led_status_orange_flashing">Қызғылт сары жыпылықтау</string>
+    <string formatted="false" name="ev3_led_status_green_pulse">Жасыл пульс</string>
+    <string formatted="false" name="ev3_led_status_red_pulse">Қызыл пульс</string>
+    <string formatted="false" name="ev3_led_status_orange_pulse">Қызғылт сары пульс</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string formatted="false" name="brick_drone_takeoff_land">Take off / land AR.Drone 2.0</string>
-    <string formatted="false" name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-    <string formatted="false" name="brick_drone_flip">Flip AR.Drone 2.0</string>
-    <string formatted="false" name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-    <string formatted="false" name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-    <string formatted="false" name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-    <string formatted="false" name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-    <string formatted="false" name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-    <string formatted="false" name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-    <string formatted="false" name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-    <string formatted="false" name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-    <string formatted="false" name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-    <string formatted="false" name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-    <string formatted="false" name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-    <string formatted="false" name="brick_drone_set_altitude">Altitude limit </string>
-    <string formatted="false" name="brick_drone_set_vertical_speed">Vertical speed limit</string>
-    <string formatted="false" name="brick_drone_set_rotation_speed">Rotation speed limit</string>
-    <string formatted="false" name="brick_drone_set_tilt_limit">Tilt limit</string>
+    <string formatted="false" name="brick_drone_takeoff_land">AR.Drone 2.0 жоғарыға ұшыру / түсіру</string>
+    <string formatted="false" name="brick_drone_play_led_animation">AR.Drone 2.0 жыпылықтау анимациясын ойнау</string>
+    <string formatted="false" name="brick_drone_flip">AR.Drone 2.0 айналдыру</string>
+    <string formatted="false" name="brick_drone_move_left">AR.Drone 2.0 солға жүргізу</string>
+    <string formatted="false" name="brick_drone_move_right">AR.Drone 2.0 оңға жүргізу</string>
+    <string formatted="false" name="brick_drone_move_forward">AR.Drone 2.0 алға жүргізу</string>
+    <string formatted="false" name="brick_drone_move_backward">AR.Drone 2.0 артқа жүргізу</string>
+    <string formatted="false" name="brick_drone_move_up">AR.Drone 2.0 жоғарыға жүргізу</string>
+    <string formatted="false" name="brick_drone_move_down">AR.Drone 2.0 төменге жүргізу</string>
+    <string formatted="false" name="brick_drone_emergency">AR.Drone 2.0 апаты</string>
+    <string formatted="false" name="brick_drone_turn_right">AR.Drone 2.0 оңға айналдыру</string>
+    <string formatted="false" name="brick_drone_turn_left">AR.Drone 2.0 солға айналдыру</string>
+    <string formatted="false" name="brick_drone_set_config">AR.Drone 2.0 конфигурациясын орнату</string>
+    <string formatted="false" name="brick_drone_switch_camera">AR.Drone 2.0 камерасын алмастыру</string>
+    <string formatted="false" name="brick_drone_set_altitude">Биіктік шегі</string>
+    <string formatted="false" name="brick_drone_set_vertical_speed">Тік жылдамдық шегі</string>
+    <string formatted="false" name="brick_drone_set_rotation_speed">Айналу жылдамдығының шегі</string>
+    <string formatted="false" name="brick_drone_set_tilt_limit">Еңкейту шегі</string>
     <string formatted="false" name="brick_drone_with.">бірге</string>
-    <string formatted="false" name="brick_drone_power">power</string>
+    <string formatted="false" name="brick_drone_power">Қуат</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string formatted="false" name="drone_animation_blinkgreenred">Blink green red</string>
-    <string formatted="false" name="drone_animation_blinkgreen">Blink green</string>
-    <string formatted="false" name="drone_animation_blinkred">Blink red</string>
-    <string formatted="false" name="drone_animation_blinkorange">Blink orange</string>
-    <string formatted="false" name="drone_animation_snakegreenred">Snake green red</string>
-    <string formatted="false" name="drone_animation_fire">Fire</string>
-    <string formatted="false" name="drone_animation_standard">Standard</string>
+    <string formatted="false" name="drone_animation_blinkgreenred">Жасыл-қызыл түспен жыпылықтау</string>
+    <string formatted="false" name="drone_animation_blinkgreen">Жасыл түспен жыпылықтау</string>
+    <string formatted="false" name="drone_animation_blinkred">Қызыл түспен жыпылықтау</string>
+    <string formatted="false" name="drone_animation_blinkorange">Қызғылт сары түспен жыпылықтау</string>
+    <string formatted="false" name="drone_animation_snakegreenred">Қызыл-жасыл жылан</string>
+    <string formatted="false" name="drone_animation_fire">От</string>
+    <string formatted="false" name="drone_animation_standard">Стандартты</string>
     <string formatted="false" name="drone_animation_red">Қызыл</string>
     <string formatted="false" name="drone_animation_green">Жасыл</string>
-    <string formatted="false" name="drone_animation_redsnake">Red snake</string>
-    <string formatted="false" name="drone_animation_blank">Blank</string>
-    <string formatted="false" name="drone_animation_rightmissile">Right missile</string>
-    <string formatted="false" name="drone_animation_leftmissile">Left missile</string>
-    <string formatted="false" name="drone_animation_doublemissile">Double missile</string>
-    <string formatted="false" name="drone_animation_frontleftgreenothersred">Front left green others red</string>
-    <string formatted="false" name="drone_animation_frontrightgreenothersred">Front right green others red</string>
-    <string formatted="false" name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
-    <string formatted="false" name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string formatted="false" name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string formatted="false" name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string formatted="false" name="drone_animation_blinkstandard">Blink standard</string>
+    <string formatted="false" name="drone_animation_redsnake">Қызыл жылан</string>
+    <string formatted="false" name="drone_animation_blank">Бланк</string>
+    <string formatted="false" name="drone_animation_rightmissile">Оң ракета</string>
+    <string formatted="false" name="drone_animation_leftmissile">Сол жақ ракета</string>
+    <string formatted="false" name="drone_animation_doublemissile">Қос ракета</string>
+    <string formatted="false" name="drone_animation_frontleftgreenothersred">Алдыңғы сол жасыл, басқалары қызыл</string>
+    <string formatted="false" name="drone_animation_frontrightgreenothersred">Алдыңғы оң жақ жасыл басқалары қызыл</string>
+    <string formatted="false" name="drone_animation_rearrightgreenothersred">Артқы оң жақ жасыл, басқалары қызыл</string>
+    <string formatted="false" name="drone_animation_rearleftgreenothersred">Артқы сол жасыл, басқалары қызыл</string>
+    <string formatted="false" name="drone_animation_leftgreenrightred">Сол жасыл оң қызыл</string>
+    <string formatted="false" name="drone_animation_leftredrightgreen">Сол қызыл оң жасыл</string>
+    <string formatted="false" name="drone_animation_blinkstandard">Жыпылықтау стандарты</string>
     <!-- Jumping Sumo Bricks -->
-    <string formatted="false" name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-    <string formatted="false" name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-    <string formatted="false" name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <string formatted="false" name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string formatted="false" name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-    <string formatted="false" name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string formatted="false" name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
-    <string formatted="false" name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
+    <string formatted="false" name="brick_jumping_sumo_move_forward">Jumping Sumo-ны алға жүргізу</string>
+    <string formatted="false" name="brick_jumping_sumo_move_backward">Jumping Sumo-ны артқа жүргізу</string>
+    <string formatted="false" name="brick_jumping_sumo_animation">Jumping Sumo-ның анимациялары</string>
+    <string formatted="false" name="brick_jumping_sumo_no_sound">Jumping Sumo дыбысы жоқ</string>
+    <string formatted="false" name="brick_jumping_sumo_jump_long">Jumping Sumo ұзақ секірту</string>
+    <string formatted="false" name="brick_jumping_sumo_jump_high">Jumping Sumo жоғарыға секірту</string>
+    <string formatted="false" name="brick_jumping_sumo_rotate_left">Jumping Sumo солға айналдыру</string>
+    <string formatted="false" name="brick_jumping_sumo_rotate_right">Jumping Sumo оңға айналдыру</string>
     <string formatted="false" name="brick_jumping_sumo_rotate_text">градус</string>
-    <string formatted="false" name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
-    <string formatted="false" name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+    <string formatted="false" name="brick_jumping_sumo_turn">Jumping Sumo айналдыру</string>
+    <string formatted="false" name="brick_jumping_sumo_taking_picture">Jumping Sumo арқылы суретке түсіру</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
     <string formatted="false" name="default_jumping_sumo_project_sprites_sound">Дыбыс</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string formatted="false" name="animation_spin">Spin</string>
-    <string formatted="false" name="animation_tab">Tab</string>
-    <string formatted="false" name="animation_slowshake">Slowshake</string>
-    <string formatted="false" name="animation_metronome">Metronome</string>
-    <string formatted="false" name="animation_ondulation">Ondulation</string>
-    <string formatted="false" name="animation_spinjump">Spinjump</string>
-    <string formatted="false" name="animation_spiral">Spiral</string>
-    <string formatted="false" name="animation_slalom">Slalom</string>
+    <string formatted="false" name="animation_spin">Айналдыру</string>
+    <string formatted="false" name="animation_tab">Қойындылар</string>
+    <string formatted="false" name="animation_slowshake">Жәй сілкіну</string>
+    <string formatted="false" name="animation_metronome">Метроном</string>
+    <string formatted="false" name="animation_ondulation">Ондуляция</string>
+    <string formatted="false" name="animation_spinjump">Айналып секіру</string>
+    <string formatted="false" name="animation_spiral">Спираль</string>
+    <string formatted="false" name="animation_slalom">Слалом</string>
     <!-- Jumping Sumo sound strings -->
-    <string formatted="false" name="jumping_sumo_volume">Volume</string>
-    <string formatted="false" name="sound_default">Normal</string>
-    <string formatted="false" name="sound_robot">Robot</string>
-    <string formatted="false" name="sound_insect">Insect</string>
-    <string formatted="false" name="sound_monster">Monster</string>
+    <string formatted="false" name="jumping_sumo_volume">Дыбыс</string>
+    <string formatted="false" name="sound_default">Қалыпты</string>
+    <string formatted="false" name="sound_robot">Робот</string>
+    <string formatted="false" name="sound_insect">Жәндік</string>
+    <string formatted="false" name="sound_monster">Құбыжық</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string formatted="false" name="phiro_motor_stop">Stop Phiro motor</string>
-    <string formatted="false" name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
-    <string formatted="false" name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
-    <string formatted="false" name="phiro_motor_speed">Speed</string>
+    <string formatted="false" name="phiro_motor_stop">Phiro моторын тоқтату</string>
+    <string formatted="false" name="brick_phiro_motor_forward_action">Phiro қозғалтқышын алға жылжыту</string>
+    <string formatted="false" name="brick_phiro_motor_backward_action">Phiro моторын артқа жылжыту</string>
+    <string formatted="false" name="phiro_motor_speed">Жылдамдық</string>
     <!-- sensor -->
-    <string formatted="false" name="brick_phiro_sensor_begin">If Phiro</string>
-    <string formatted="false" name="brick_phiro_sensor_second_part">is activated</string>
+    <string formatted="false" name="brick_phiro_sensor_begin">Егер Phiro</string>
+    <string formatted="false" name="brick_phiro_sensor_second_part">белсендірілген</string>
     <!-- tone -->
-    <string formatted="false" name="phiro_play_tone">Play Phiro music\n</string>
-    <string formatted="false" name="phiro_tone_duration">Duration</string>
-    <string formatted="false" name="brick_phiro_select_tone">tone</string>
+    <string formatted="false" name="phiro_play_tone">Phiro музыкасын ойнау\n</string>
+    <string formatted="false" name="phiro_tone_duration">Ұзақтық</string>
+    <string formatted="false" name="brick_phiro_select_tone">үн</string>
     <string formatted="false" name="phiro_seconds">секундтар</string>
     <!-- light -->
-    <string formatted="false" name="brick_phiro_rgb_led_action">Set Phiro light</string>
+    <string formatted="false" name="brick_phiro_rgb_led_action">Phiro шамын орнату</string>
     <string formatted="false" name="phiro_rgb_led_red">Қызыл</string>
     <string formatted="false" name="phiro_rgb_led_green">Жасыл</string>
     <string formatted="false" name="phiro_rgb_led_blue">Көк</string>
     <!--  -->
     <!-- Phiro tone strings -->
-    <string formatted="false" name="phiro_tone_do">Do</string>
-    <string formatted="false" name="phiro_tone_re">Re</string>
-    <string formatted="false" name="phiro_tone_mi">Mi</string>
-    <string formatted="false" name="phiro_tone_fa">Fa</string>
-    <string formatted="false" name="phiro_tone_so">So</string>
-    <string formatted="false" name="phiro_tone_la">La</string>
-    <string formatted="false" name="phiro_tone_ti">Ti</string>
+    <string formatted="false" name="phiro_tone_do">Жасау</string>
+    <string formatted="false" name="phiro_tone_re">Ре</string>
+    <string formatted="false" name="phiro_tone_mi">Ми</string>
+    <string formatted="false" name="phiro_tone_fa">Фа</string>
+    <string formatted="false" name="phiro_tone_so">Со</string>
+    <string formatted="false" name="phiro_tone_la">Ля</string>
+    <string formatted="false" name="phiro_tone_ti">Ти</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string formatted="false" name="phiro_motor_left">Left</string>
-    <string formatted="false" name="phiro_motor_right">Right</string>
-    <string formatted="false" name="phiro_motor_both">Both</string>
+    <string formatted="false" name="phiro_motor_left">Сол</string>
+    <string formatted="false" name="phiro_motor_right">Оң</string>
+    <string formatted="false" name="phiro_motor_both">Екеуі</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string formatted="false" name="phiro_light_left">Left</string>
-    <string formatted="false" name="phiro_light_right">Right</string>
-    <string formatted="false" name="phiro_light_both">Both</string>
+    <string formatted="false" name="phiro_light_left">Сол</string>
+    <string formatted="false" name="phiro_light_right">Оң жақ</string>
+    <string formatted="false" name="phiro_light_both">Екеуі де</string>
     <!--  -->
     <!-- Phiro sensor strings -->
-    <string formatted="false" name="phiro_sensor_front_left">Front Left Sensor</string>
-    <string formatted="false" name="phiro_sensor_front_right">Front Right Sensor</string>
-    <string formatted="false" name="phiro_sensor_side_left">Side Left Sensor</string>
-    <string formatted="false" name="phiro_sensor_side_right">Side Right Sensor</string>
-    <string formatted="false" name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
-    <string formatted="false" name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
+    <string formatted="false" name="phiro_sensor_front_left">Алдыңғы сол жақ сенсор</string>
+    <string formatted="false" name="phiro_sensor_front_right">Алдыңғы оң жақ сенсор</string>
+    <string formatted="false" name="phiro_sensor_side_left">Бүйірлік сол жақ сенсор</string>
+    <string formatted="false" name="phiro_sensor_side_right">Бүйірлік оң жақ сенсор</string>
+    <string formatted="false" name="phiro_sensor_bottom_left">Төменгі сол жақ сенсор</string>
+    <string formatted="false" name="phiro_sensor_bottom_right">Төменгі оң жақ сенсор</string>
     <!--  -->
-    <string formatted="false" name="color_red">red</string>
-    <string formatted="false" name="color_green">green</string>
-    <string formatted="false" name="color_blue">blue</string>
+    <string formatted="false" name="color_red">қызыл</string>
+    <string formatted="false" name="color_green">жасыл</string>
+    <string formatted="false" name="color_blue">көк</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string formatted="false" name="formula_editor_data">Деректер</string>
-    <string formatted="false" name="formula_editor_true">true</string>
-    <string formatted="false" name="formula_editor_false">false</string>
+    <string formatted="false" name="formula_editor_true">Ақиқат</string>
+    <string formatted="false" name="formula_editor_false">Жалған</string>
     <string formatted="false" name="formula_editor_decimal_mark">.</string>
-    <string formatted="false" name="formula_editor_title">Formula editor</string>
-    <string formatted="false" name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string formatted="false" name="formula_editor_parse_fail">Formula is not valid!</string>
-    <string formatted="false" name="formula_nothing_selected">Define input value</string>
-    <string formatted="false" name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
-    <string formatted="false" name="formula_editor_choose_object_variable">Properties of this actor or object</string>
+    <string formatted="false" name="formula_editor_title">Формула редакторы</string>
+    <string formatted="false" name="formula_editor_changes_discarded">Өзгерістер жойылды!</string>
+    <string formatted="false" name="formula_editor_parse_fail">Формула жарамсыз!</string>
+    <string formatted="false" name="formula_nothing_selected">Енгізілген мәнді анықтаңыз</string>
+    <string formatted="false" name="formula_editor_parse_fail_formula_too_long">Формула өте ұзын!</string>
+    <string formatted="false" name="formula_editor_choose_object_variable">Осы актердің немесе объектін қасиеттер</string>
     <string formatted="false" name="formula_editor_bracket_open">(</string>
     <string formatted="false" name="formula_editor_bracket_close">)</string>
     <string formatted="false" name="formula_editor_function_sin">sine</string>
@@ -1548,14 +1575,14 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_log_parameter">(10)</string>
     <string formatted="false" name="formula_editor_function_pi">pi</string>
     <string formatted="false" name="formula_editor_function_pi_parameter"></string>
-    <string formatted="false" name="formula_editor_object_color">color</string>
-    <string formatted="false" name="formula_editor_function_sqrt">square root</string>
+    <string formatted="false" name="formula_editor_object_color">түс</string>
+    <string formatted="false" name="formula_editor_function_sqrt">квадрат түбір</string>
     <string formatted="false" name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string formatted="false" name="formula_editor_function_rand">random value from to</string>
+    <string formatted="false" name="formula_editor_function_rand">бастап кездейсоқ мән</string>
     <string formatted="false" name="formula_editor_function_rand_parameter">(1,6)</string>
     <string formatted="false" name="formula_editor_function_abs">absolute value</string>
     <string formatted="false" name="formula_editor_function_abs_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_round">round</string>
+    <string formatted="false" name="formula_editor_function_round">дөнгелектеу</string>
     <string formatted="false" name="formula_editor_function_round_parameter">(1.6)</string>
     <string formatted="false" name="formula_editor_function_mod">modulo</string>
     <string formatted="false" name="formula_editor_function_mod_parameter">(3,2)</string>
@@ -1565,194 +1592,198 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_arccos_parameter">(0)</string>
     <string formatted="false" name="formula_editor_function_arctan">arctangent</string>
     <string formatted="false" name="formula_editor_function_arctan_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_arctan2">arctangent2</string>
+    <string formatted="false" name="formula_editor_function_arctan2">арктангенс2</string>
     <string formatted="false" name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string formatted="false" name="formula_editor_function_exp">exponent</string>
     <string formatted="false" name="formula_editor_function_exp_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_power">power</string>
+    <string formatted="false" name="formula_editor_function_power">қуат</string>
     <string formatted="false" name="formula_editor_function_power_parameter">(2,3)</string>
-    <string formatted="false" name="formula_editor_function_floor">floor</string>
+    <string formatted="false" name="formula_editor_function_floor">кішіге дөңгелектеу</string>
     <string formatted="false" name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string formatted="false" name="formula_editor_function_ceil">ceiling</string>
+    <string formatted="false" name="formula_editor_function_ceil">үлкенге дөңгелектеу</string>
     <string formatted="false" name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string formatted="false" name="formula_editor_function_max">maximum of</string>
+    <string formatted="false" name="formula_editor_function_max">максимум</string>
     <string formatted="false" name="formula_editor_function_max_parameter">(5,4)</string>
-    <string formatted="false" name="formula_editor_function_min">minimum of</string>
+    <string formatted="false" name="formula_editor_function_min">минимум</string>
     <string formatted="false" name="formula_editor_function_min_parameter">(7,2)</string>
-    <string formatted="false" name="formula_editor_function_if_then_else">if then else</string>
-    <string formatted="false" name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string formatted="false" name="formula_editor_function_true">true</string>
-    <string formatted="false" name="formula_editor_function_false">false</string>
-    <string formatted="false" name="formula_editor_function_length">length</string>
+    <string formatted="false" name="formula_editor_function_if_then_else">болса, онда</string>
+    <string formatted="false" name="formula_editor_function_if_then_else_parameter">(қате, 2, 3)</string>
+    <string formatted="false" name="formula_editor_function_true">Ақиқат</string>
+    <string formatted="false" name="formula_editor_function_false">Жалған</string>
+    <string formatted="false" name="formula_editor_function_length">ұзындық</string>
     <string formatted="false" name="formula_editor_function_length_parameter">(\'hello world\')</string>
-    <string formatted="false" name="formula_editor_function_letter">letter</string>
+    <string formatted="false" name="formula_editor_function_letter">әріп</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
-    <string formatted="false" name="formula_editor_function_join">join</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
+    <string formatted="false" name="formula_editor_function_join">қосу</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
-    <string formatted="false" name="formula_editor_function_join3">join</string>
+    <string formatted="false" name="formula_editor_function_join3">қосу</string>
     <string formatted="false" name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string formatted="false" name="formula_editor_function_regex">regular expression</string>
-    <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string formatted="false" name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
-    <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string formatted="false" name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string formatted="false" name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
-    <string formatted="false" name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
-    <string formatted="false" name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string formatted="false" name="formula_editor_function_regex">тұрақты өрнек</string>
+    <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Мен пандамын.\')</string>
+    <string formatted="false" name="formula_editor_function_regex_assistant">Тұрақты өрнек
+        көмекшісі</string>
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Тұрақты
+        өрнек көмекшісі</string>
+    <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">Кілт сөз табылмады.</string>
+    <string formatted="false" name="formula_editor_function_regex_json_extractor_title">JSON экстракторы</string>
+    <string formatted="false" name="formula_editor_function_arduino_read_pin_value_digital">нөмірлі Arduino пин-коды</string>
+    <string formatted="false" name="formula_editor_function_arduino_read_pin_value_analog">аналогті Arduino пин-коды</string>
+    <string formatted="false" name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi пин-коды</string>
     <string formatted="false" name="formula_editor_function_pin_default_parameter">(0)</string>
-    <string formatted="false" name="formula_editor_function_finger_x">stage touch x</string>
-    <string formatted="false" name="formula_editor_function_finger_y">stage touch y</string>
-    <string formatted="false" name="formula_editor_function_is_finger_touching">stage is touched</string>
-    <string formatted="false" name="formula_editor_function_multi_finger_x">stage touch x</string>
-    <string formatted="false" name="formula_editor_function_multi_finger_y">stage touch y</string>
-    <string formatted="false" name="formula_editor_function_is_multi_finger_touching">stage is touched</string>
-    <string formatted="false" name="formula_editor_function_index_of_last_finger">last stage touch index</string>
-    <string formatted="false" name="formula_editor_function_number_of_current_touches">number of current touches</string>
-    <string formatted="false" name="formula_editor_function_index_of_current_touch">index of current touch</string>
+    <string formatted="false" name="formula_editor_function_finger_x">экранды басу X координатасы</string>
+    <string formatted="false" name="formula_editor_function_finger_y">экранды басу Y координатасы</string>
+    <string formatted="false" name="formula_editor_function_is_finger_touching">экран басылса</string>
+    <string formatted="false" name="formula_editor_function_multi_finger_x">сахнаны түрту x</string>
+    <string formatted="false" name="formula_editor_function_multi_finger_y">сахнаны түрту y</string>
+    <string formatted="false" name="formula_editor_function_is_multi_finger_touching">Сахна түртілгенде</string>
+    <string formatted="false" name="formula_editor_function_index_of_last_finger">соңғы сахнада сенсорлық индекс</string>
+    <string formatted="false" name="formula_editor_function_number_of_current_touches">ағымдағы түртулер саны</string>
+    <string formatted="false" name="formula_editor_function_index_of_current_touch">ағымдағы түртулін индексі</string>
     <string formatted="false" name="formula_editor_function_no_parameter"></string>
     <string formatted="false" name="formula_editor_function_touch_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_list_item">item</string>
-    <string formatted="false" name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
-    <string formatted="false" name="formula_editor_function_contains">contains</string>
-    <string formatted="false" name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string formatted="false" name="formula_editor_function_index_of_item">item\'s index</string>
-    <string formatted="false" name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
-    <string formatted="false" name="formula_editor_function_number_of_items">number of items</string>
-    <string formatted="false" name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
-    <string formatted="false" name="formula_editor_function_flatten">flatten</string>
-    <string formatted="false" name="formula_editor_function_flatten_parameter">(*list name*)</string>
-    <string formatted="false" name="formula_editor_function_collision">touches actor or object</string>
-    <string formatted="false" name="formula_editor_function_collides_with_edge">touches edge</string>
-    <string formatted="false" name="formula_editor_function_touched">touches finger</string>
-    <string formatted="false" name="formula_editor_function_collides_with_color">touches color</string>
-    <string formatted="false" name="formula_editor_function_color_touches_color">color touches color</string>
-    <string formatted="false" name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">color equals color with %
-        tolerance</string>
-    <string formatted="false" name="formula_editor_sensor_x_acceleration">acceleration x</string>
-    <string formatted="false" name="formula_editor_sensor_y_acceleration">acceleration y</string>
-    <string formatted="false" name="formula_editor_sensor_z_acceleration">acceleration z</string>
-    <string formatted="false" name="formula_editor_sensor_compass_direction">compass direction</string>
-    <string formatted="false" name="formula_editor_sensor_latitude">latitude</string>
-    <string formatted="false" name="formula_editor_sensor_longitude">longitude</string>
-    <string formatted="false" name="formula_editor_sensor_location_accuracy">location accuracy</string>
-    <string formatted="false" name="formula_editor_sensor_altitude">altitude</string>
-    <string formatted="false" name="formula_editor_sensor_user_language">user language</string>
-    <string formatted="false" name="formula_editor_sensor_x_inclination">inclination x</string>
-    <string formatted="false" name="formula_editor_sensor_y_inclination">inclination y</string>
-    <string formatted="false" name="formula_editor_sensor_loudness">loudness</string>
-    <string formatted="false" name="formula_editor_sensor_timer">timer</string>
-    <string formatted="false" name="formula_editor_sensor_date_year">year</string>
-    <string formatted="false" name="formula_editor_sensor_date_month">month</string>
-    <string formatted="false" name="formula_editor_sensor_date_day">day</string>
-    <string formatted="false" name="formula_editor_sensor_date_weekday">weekday</string>
-    <string formatted="false" name="formula_editor_sensor_time_hour">hour</string>
-    <string formatted="false" name="formula_editor_sensor_time_minute">minute</string>
+    <string formatted="false" name="formula_editor_function_list_item">элемент</string>
+    <string formatted="false" name="formula_editor_function_list_item_parameter">(1,*тізім атауы*)</string>
+    <string formatted="false" name="formula_editor_function_contains">қамтиды</string>
+    <string formatted="false" name="formula_editor_function_contains_parameter">(*тізімнің аты*,1)</string>
+    <string formatted="false" name="formula_editor_function_index_of_item">заттың индексі</string>
+    <string formatted="false" name="formula_editor_function_index_of_item_parameter">(1,*тізімнің аты*)</string>
+    <string formatted="false" name="formula_editor_function_number_of_items">заттар саны</string>
+    <string formatted="false" name="formula_editor_function_number_of_items_parameter">(*тізім атауы*)</string>
+    <string formatted="false" name="formula_editor_function_flatten">тегістеу</string>
+    <string formatted="false" name="formula_editor_function_flatten_parameter">(*тізімнің аты*)</string>
+    <string formatted="false" name="formula_editor_function_collision">спрайтқа тиіссе</string>
+    <string formatted="false" name="formula_editor_function_collides_with_edge">жиегіне тиіссе</string>
+    <string formatted="false" name="formula_editor_function_touched">саусақпен басса</string>
+    <string formatted="false" name="formula_editor_function_collides_with_color">түске тиіссе</string>
+    <string formatted="false" name="formula_editor_function_color_touches_color">түс түске тиіссе</string>
+    <string formatted="false" name="formula_editor_sensor_color_at_x_y">x және y координатасындағы түс</string>
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">түс %-ға тең түс
+        төзімділікпен</string>
+    <string formatted="false" name="formula_editor_sensor_x_acceleration">үдеу X</string>
+    <string formatted="false" name="formula_editor_sensor_y_acceleration">үдеу Y</string>
+    <string formatted="false" name="formula_editor_sensor_z_acceleration">үдеу Z</string>
+    <string formatted="false" name="formula_editor_sensor_compass_direction">компас бағыты</string>
+    <string formatted="false" name="formula_editor_sensor_latitude">ендік</string>
+    <string formatted="false" name="formula_editor_sensor_longitude">бойлық</string>
+    <string formatted="false" name="formula_editor_sensor_location_accuracy">орынның дәлдігі</string>
+    <string formatted="false" name="formula_editor_sensor_altitude">биіктік</string>
+    <string formatted="false" name="formula_editor_sensor_user_language">қолданушы тілі</string>
+    <string formatted="false" name="formula_editor_sensor_x_inclination">бейімділік x</string>
+    <string formatted="false" name="formula_editor_sensor_y_inclination">бейімділік y</string>
+    <string formatted="false" name="formula_editor_sensor_loudness">дыбысы</string>
+    <string formatted="false" name="formula_editor_sensor_timer">таймер</string>
+    <string formatted="false" name="formula_editor_sensor_date_year">жыл</string>
+    <string formatted="false" name="formula_editor_sensor_date_month">ай</string>
+    <string formatted="false" name="formula_editor_sensor_date_day">күн</string>
+    <string formatted="false" name="formula_editor_sensor_date_weekday">жұма күні</string>
+    <string formatted="false" name="formula_editor_sensor_time_hour">сағат</string>
+    <string formatted="false" name="formula_editor_sensor_time_minute">минут</string>
     <string formatted="false" name="formula_editor_sensor_time_second">секунд</string>
-    <string formatted="false" name="formula_editor_sensor_drone_battery_status">drone battery status</string>
-    <string formatted="false" name="formula_editor_sensor_drone_emergency_state">drone emergency state</string>
-    <string formatted="false" name="formula_editor_sensor_drone_flying">drone flying</string>
-    <string formatted="false" name="formula_editor_sensor_drone_initialized">drone initialized</string>
-    <string formatted="false" name="formula_editor_sensor_drone_usb_active">drone usb active</string>
-    <string formatted="false" name="formula_editor_sensor_drone_usb_remaining_time">drone usb remaining time</string>
-    <string formatted="false" name="formula_editor_sensor_drone_camera_ready">drone camera ready</string>
-    <string formatted="false" name="formula_editor_sensor_drone_record_ready">drone record ready</string>
-    <string formatted="false" name="formula_editor_sensor_drone_recording">drone camera recording</string>
-    <string formatted="false" name="formula_editor_sensor_drone_num_frames">drone camera number of frames</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_4">NXT sensor 4</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_1">EV3 sensor 1</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_2">EV3 sensor 2</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_3">EV3 sensor 3</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_4">EV3 sensor 4</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_touch">NXT touch</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_sound">NXT sound</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_light">NXT light</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_light_active">NXT light active</string>
-    <string formatted="false" name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_a_pressed">gamepad A pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_b_pressed">gamepad B pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_up_pressed">gamepad up pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_side_right">phiro side right sensor</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_bottom_left">phiro bottom left sensor</string>
-    <string formatted="false" name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
-    <string formatted="false" name="formula_editor_nfc_tag_id">nfc tag id</string>
-    <string formatted="false" name="formula_editor_nfc_tag_message">nfc tag message</string>
-    <string formatted="false" name="formula_editor_object_x">position x</string>
-    <string formatted="false" name="formula_editor_object_y">position y</string>
-    <string formatted="false" name="formula_editor_object_transparency">transparency</string>
-    <string formatted="false" name="formula_editor_object_brightness">brightness</string>
-    <string formatted="false" name="formula_editor_object_size">size</string>
-    <string formatted="false" name="formula_editor_object_rotation">motion direction</string>
-    <string formatted="false" name="formula_editor_object_rotation_look">look direction</string>
+    <string formatted="false" name="formula_editor_sensor_drone_battery_status">дронның батарея күйі</string>
+    <string formatted="false" name="formula_editor_sensor_drone_emergency_state">дронның төтенше жағдайы</string>
+    <string formatted="false" name="formula_editor_sensor_drone_flying">дрон ұшады</string>
+    <string formatted="false" name="formula_editor_sensor_drone_initialized">дрон іске қосылды</string>
+    <string formatted="false" name="formula_editor_sensor_drone_usb_active">dron usb белсенді</string>
+    <string formatted="false" name="formula_editor_sensor_drone_usb_remaining_time">dron usb қалған уақыты</string>
+    <string formatted="false" name="formula_editor_sensor_drone_camera_ready">дрон камерасы дайын</string>
+    <string formatted="false" name="formula_editor_sensor_drone_record_ready">дрон жазбасы дайын</string>
+    <string formatted="false" name="formula_editor_sensor_drone_recording">дрон камерасы жазу</string>
+    <string formatted="false" name="formula_editor_sensor_drone_num_frames">дрон камерасының кадрлар саны</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_1">NXT сенсор 1</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_2">NXT сенсор 2</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_3">NXT сенсор 3</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_4">NXT сенсор 4</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_1">EV3 сенсор 1</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_2">EV3 сенсор 2</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_3">EV3 сенсор 3</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_4">EV3 сенсор 4</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_touch">NTX түрту</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_sound">NTX дыбысы</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_light">NXT шамы</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_light_active">NXT шамы белсенді</string>
+    <string formatted="false" name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ультрадыбыстық</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 түрту</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 инфрақызылы</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color">EV3 түсі</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 қоршаған орта түсі</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 шағылысқан түс</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 техникалық түсі</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT °C температурасы </string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT °F температурасы </string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT шамы</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT шамы белсенді</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT дыбысы</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ультрадыбыстық</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_a_pressed">геймпад A басылды</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_b_pressed">геймпад B басылды</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_up_pressed">геймпадтын жоғары басылған</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">геймпадтын төменгі басылған</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">геймпадтын сол жағы басылған</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">геймпадтын оң жағы басылған</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro алдыңғы сол жақ сенсоры</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro алдыңғы оң жақ сенсоры</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro сол жақ сенсоры</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_side_right">phiro оң жақ сенсоры</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_bottom_left">төменгі сол жақ сенсор</string>
+    <string formatted="false" name="formula_editor_phiro_sensor_bottom_right">phiro төменгі оң жақ сенсоры</string>
+    <string formatted="false" name="formula_editor_nfc_tag_id">nfc тег анықтауы</string>
+    <string formatted="false" name="formula_editor_nfc_tag_message">nfc тег хабарламасы</string>
+    <string formatted="false" name="formula_editor_object_x">X координатасы</string>
+    <string formatted="false" name="formula_editor_object_y">Y координатасы</string>
+    <string formatted="false" name="formula_editor_object_transparency">ашықтық</string>
+    <string formatted="false" name="formula_editor_object_brightness">жарықтық</string>
+    <string formatted="false" name="formula_editor_object_size">өлшем</string>
+    <string formatted="false" name="formula_editor_object_rotation">қозғалыстың бағыты</string>
+    <string formatted="false" name="formula_editor_object_rotation_look">көру бағыты</string>
     <string formatted="false" name="formula_editor_object_layer">қабат</string>
-    <string formatted="false" name="formula_editor_object_x_velocity">x velocity</string>
-    <string formatted="false" name="formula_editor_object_y_velocity">y velocity</string>
-    <string formatted="false" name="formula_editor_object_angular_velocity">angular velocity</string>
-    <string formatted="false" name="formula_editor_object_look_number">look number</string>
-    <string formatted="false" name="formula_editor_object_look_name">look name</string>
-    <string formatted="false" name="formula_editor_object_number_of_looks">number of looks</string>
-    <string formatted="false" name="formula_editor_object_background_number">background number</string>
-    <string formatted="false" name="formula_editor_object_background_name">background name</string>
-    <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
-    <string formatted="false" name="formula_editor_object_distance_to">distance to touch position</string>
-    <string formatted="false" name="formula_editor_confirm">Confirm</string>
-    <string formatted="false" name="formula_editor_object">Properties</string>
-    <string formatted="false" name="formula_editor_functions">Functions</string>
-    <string formatted="false" name="formula_editor_logic">Logic</string>
-    <string formatted="false" name="formula_editor_device">Sensors</string>
-    <string formatted="false" name="formula_editor_device_sensors">Device sensors</string>
-    <string formatted="false" name="formula_editor_functions_maths">Maths</string>
+    <string formatted="false" name="formula_editor_object_x_velocity">X жылдамдық</string>
+    <string formatted="false" name="formula_editor_object_y_velocity">Y жылдамдық</string>
+    <string formatted="false" name="formula_editor_object_angular_velocity">бұрыш жылдамдығы</string>
+    <string formatted="false" name="formula_editor_object_look_number">суреттің нөмірі</string>
+    <string formatted="false" name="formula_editor_object_look_name">суреттің атауы</string>
+    <string formatted="false" name="formula_editor_object_number_of_looks">барлық сурет саны</string>
+    <string formatted="false" name="formula_editor_object_background_number">фонның саны</string>
+    <string formatted="false" name="formula_editor_object_background_name">фон атауы</string>
+    <string formatted="false" name="formula_editor_object_number_of_backgrounds">барлық фонның саны</string>
+    <string formatted="false" name="formula_editor_object_distance_to">жанасу орнына дейінгі қашықтық</string>
+    <string formatted="false" name="formula_editor_confirm">Растау</string>
+    <string formatted="false" name="formula_editor_object">Қасиеттері</string>
+    <string formatted="false" name="formula_editor_functions">Функциялар</string>
+    <string formatted="false" name="formula_editor_logic">Логикалық</string>
+    <string formatted="false" name="formula_editor_device">Сенсор</string>
+    <string formatted="false" name="formula_editor_device_sensors">Құрылғы сенсорлары</string>
+    <string formatted="false" name="formula_editor_functions_maths">Математика</string>
     <string formatted="false" name="formula_editor_functions_strings">Текст</string>
-    <string formatted="false" name="formula_editor_functions_lists">Lists</string>
-    <string formatted="false" name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
-    <string formatted="false" name="formula_editor_logic_comparison">Comparison operators</string>
-    <string formatted="false" name="formula_editor_object_look">Look properties</string>
-    <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
-    <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_functions_lists">Тізім</string>
+    <string formatted="false" name="formula_editor_logic_boolean">Логикалық (Boolean) операторлар және тұрақтылар</string>
+    <string formatted="false" name="formula_editor_logic_comparison">Салыстыру операторлары</string>
+    <string formatted="false" name="formula_editor_object_look">Қасиеттері көру</string>
+    <string formatted="false" name="formula_editor_object_movement">Қозғалыс қасиеттері</string>
+    <string formatted="false" name="formula_editor_device_face_detection">Бет анықтау</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Қалыпты анықтау</string>
-    <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
+    <string formatted="false" name="formula_editor_device_text_recognition">Мәтінді тану</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Обьектті тану</string>
-    <string formatted="false" name="formula_editor_device_date_and_time">Date and time</string>
-    <string formatted="false" name="formula_editor_device_touch_detection">Touch detection</string>
+    <string formatted="false" name="formula_editor_device_date_and_time">Күні мен уақыты</string>
+    <string formatted="false" name="formula_editor_device_touch_detection">Түрті анықтау </string>
     <string formatted="false" name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
     <string formatted="false" name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
     <string formatted="false" name="formula_editor_device_arduino">Arduino</string>
     <string formatted="false" name="formula_editor_device_phiro">Phiro</string>
     <string formatted="false" name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string formatted="false" name="formula_editor_device_drone">Drone</string>
+    <string formatted="false" name="formula_editor_device_drone">Дрон</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
-    <string formatted="false" name="formula_editor_string">Abc</string>
+    <string formatted="false" name="formula_editor_string">Абв</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>
     <string formatted="false" name="formula_editor_logic_greaterthan">&gt;</string>
-    <string formatted="false" name="formula_editor_logic_and">and</string>
-    <string formatted="false" name="formula_editor_logic_or">or</string>
-    <string formatted="false" name="formula_editor_logic_not">not</string>
+    <string formatted="false" name="formula_editor_logic_and">және</string>
+    <string formatted="false" name="formula_editor_logic_or">немесе</string>
+    <string formatted="false" name="formula_editor_logic_not">болмаса</string>
     <string formatted="false" name="formula_editor_logic_greaterequal">≥</string>
     <string formatted="false" name="formula_editor_logic_leserequal">≤</string>
     <string formatted="false" name="formula_editor_logic_equal">=</string>
@@ -1761,266 +1792,262 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_operator_minus">-</string>
     <string formatted="false" name="formula_editor_operator_divide">÷</string>
     <string formatted="false" name="formula_editor_operator_power">^</string>
-    <string formatted="false" name="formula_editor_image_button_description_delete">delete</string>
-    <string formatted="false" name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string formatted="false" name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
-    <string formatted="false" name="formula_editor_variable_dialog_title">New variable</string>
-    <string formatted="false" name="formula_editor_list_dialog_title">New list</string>
-    <string formatted="false" name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string formatted="false" name="formula_editor_image_button_description_delete">жою</string>
+    <string formatted="false" name="formula_editor_image_button_description_color_picker">түс таңдаушы</string>
+    <string formatted="false" name="formula_editor_image_button_description_functions_toggle">ауысу функциялары</string>
+    <string formatted="false" name="formula_editor_variable_dialog_title">Жаңа айнымалы</string>
+    <string formatted="false" name="formula_editor_list_dialog_title">Жаңа тізім</string>
+    <string formatted="false" name="formula_editor_regex_html_extractor_dialog_title">HTML экстракторы</string>
     <string formatted="false" name="formula_editor_discard_changes_dialog_message">Өзгерістерді сақтағыңыз келе ме?</string>
     <string formatted="false" name="formula_editor_discard_changes_dialog_title">Өзгерістерді сақтау?</string>
-    <string formatted="false" name="formula_editor_new_string_name">New text</string>
-    <string formatted="false" name="formula_editor_dialog_change_text">Change text</string>
-    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
-    <string formatted="false" name="formula_editor_fragment_data_current_items">current items</string>
-    <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
+    <string formatted="false" name="formula_editor_new_string_name">Жаңа текст</string>
+    <string formatted="false" name="formula_editor_dialog_change_text">Текстті өзгерту</string>
+    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Тұрақты өрнек
+        өзгерту</string>
+    <string formatted="false" name="formula_editor_fragment_data_current_items">осы заттар</string>
+    <string formatted="false" name="formula_editor_data_dialog_is_list">Тізім қылу</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">face is visible</string>
     <string formatted="false" name="formula_editor_sensor_face_size">face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">face y position</string>
-    <string formatted="false" name="formula_editor_sensor_second_face_detected">second face is visible</string>
-    <string formatted="false" name="formula_editor_sensor_second_face_size">second face size</string>
-    <string formatted="false" name="formula_editor_sensor_second_face_x_position">second face x position</string>
-    <string formatted="false" name="formula_editor_sensor_second_face_y_position">second face y position</string>
-    <string formatted="false" name="formula_editor_sensor_head_top_x">head top x</string>
-    <string formatted="false" name="formula_editor_sensor_head_top_y">head top y</string>
-    <string formatted="false" name="formula_editor_sensor_neck_x">neck x</string>
-    <string formatted="false" name="formula_editor_sensor_neck_y">neck y</string>
-    <string formatted="false" name="formula_editor_sensor_nose_x">nose x</string>
-    <string formatted="false" name="formula_editor_sensor_nose_y">nose y</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_inner_y">left eye inner y</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_center_x">left eye center x</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_center_y">left eye center y</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_outer_x">left eye outer x</string>
-    <string formatted="false" name="formula_editor_sensor_left_eye_outer_y">left eye outer y</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_inner_x">right eye inner x</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_inner_y">right eye inner y</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_center_x">right eye center x</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_center_y">right eye center y</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_outer_x">right eye outer x</string>
-    <string formatted="false" name="formula_editor_sensor_right_eye_outer_y">right eye outer y</string>
-    <string formatted="false" name="formula_editor_sensor_left_ear_x">left ear x</string>
-    <string formatted="false" name="formula_editor_sensor_left_ear_y">left ear y</string>
-    <string formatted="false" name="formula_editor_sensor_right_ear_x">right ear x</string>
-    <string formatted="false" name="formula_editor_sensor_right_ear_y">right ear y</string>
-    <string formatted="false" name="formula_editor_sensor_mouth_left_corner_x">mouth left corner x</string>
-    <string formatted="false" name="formula_editor_sensor_mouth_left_corner_y">mouth left corner y</string>
-    <string formatted="false" name="formula_editor_sensor_mouth_right_corner_x">mouth right corner x</string>
-    <string formatted="false" name="formula_editor_sensor_mouth_right_corner_y">mouth right corner y</string>
-    <string formatted="false" name="formula_editor_sensor_left_shoulder_x">left shoulder x</string>
-    <string formatted="false" name="formula_editor_sensor_left_shoulder_y">left shoulder y</string>
-    <string formatted="false" name="formula_editor_sensor_right_shoulder_x">right shoulder x</string>
-    <string formatted="false" name="formula_editor_sensor_right_shoulder_y">right shoulder y</string>
-    <string formatted="false" name="formula_editor_sensor_left_elbow_x">left elbow x</string>
-    <string formatted="false" name="formula_editor_sensor_left_elbow_y">left elbow y</string>
-    <string formatted="false" name="formula_editor_sensor_right_elbow_x">right elbow x</string>
-    <string formatted="false" name="formula_editor_sensor_right_elbow_y">right elbow y</string>
-    <string formatted="false" name="formula_editor_sensor_left_wrist_x">left wrist x</string>
-    <string formatted="false" name="formula_editor_sensor_left_wrist_y">left wrist y</string>
-    <string formatted="false" name="formula_editor_sensor_right_wrist_x">right wrist x</string>
-    <string formatted="false" name="formula_editor_sensor_right_wrist_y">right wrist y</string>
-    <string formatted="false" name="formula_editor_sensor_left_pinky_knuckle_x">left pinky knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_left_pinky_knuckle_y">left pinky knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_right_pinky_knuckle_x">right pinky knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_right_pinky_knuckle_y">right pinky knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_left_index_knuckle_x">left index knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_left_index_knuckle_y">left index knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_right_index_knuckle_x">right index knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_right_index_knuckle_y">right index knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_left_thumb_knuckle_x">left thumb knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_left_thumb_knuckle_y">left thumb knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_right_thumb_knuckle_x">right thumb knuckle x</string>
-    <string formatted="false" name="formula_editor_sensor_right_thumb_knuckle_y">right thumb knuckle y</string>
-    <string formatted="false" name="formula_editor_sensor_left_hip_x">left hip x</string>
-    <string formatted="false" name="formula_editor_sensor_left_hip_y">left hip y</string>
-    <string formatted="false" name="formula_editor_sensor_right_hip_x">right hip x</string>
-    <string formatted="false" name="formula_editor_sensor_right_hip_y">right hip y</string>
-    <string formatted="false" name="formula_editor_sensor_left_knee_x">left knee x</string>
-    <string formatted="false" name="formula_editor_sensor_left_knee_y">left knee y</string>
-    <string formatted="false" name="formula_editor_sensor_right_knee_x">right knee x</string>
-    <string formatted="false" name="formula_editor_sensor_right_knee_y">right knee y</string>
-    <string formatted="false" name="formula_editor_sensor_left_ankle_x">left ankle x</string>
-    <string formatted="false" name="formula_editor_sensor_left_ankle_y">left ankle y</string>
-    <string formatted="false" name="formula_editor_sensor_right_ankle_x">right ankle x</string>
-    <string formatted="false" name="formula_editor_sensor_right_ankle_y">right ankle y</string>
-    <string formatted="false" name="formula_editor_sensor_left_heel_x">left heel x</string>
-    <string formatted="false" name="formula_editor_sensor_left_heel_y">left heel y</string>
-    <string formatted="false" name="formula_editor_sensor_right_heel_x">right heel x</string>
-    <string formatted="false" name="formula_editor_sensor_right_heel_y">right heel y</string>
-    <string formatted="false" name="formula_editor_sensor_left_foot_index_x">left foot index x</string>
-    <string formatted="false" name="formula_editor_sensor_left_foot_index_y">left foot index y</string>
-    <string formatted="false" name="formula_editor_sensor_right_foot_index_x">right foot index x</string>
-    <string formatted="false" name="formula_editor_sensor_right_foot_index_y">right foot index y</string>
-    <string formatted="false" name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string formatted="false" name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string formatted="false" name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string formatted="false" name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string formatted="false" name="formula_editor_function_text_block_size">text block size from camera</string>
-    <string formatted="false" name="formula_editor_function_text_block_from_camera">text block from camera</string>
-    <string formatted="false" name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string formatted="false" name="formula_editor_sensor_second_face_detected">екінші бет көрініп тұр</string>
+    <string formatted="false" name="formula_editor_sensor_second_face_size">екінші беттің өлшемі</string>
+    <string formatted="false" name="formula_editor_sensor_second_face_x_position">екінші беттің X координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_second_face_y_position">екінші беттің Y координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_head_top_x">бастың төбесі X координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_head_top_y">бастың төбесі Y координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_neck_x">мойын X координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_neck_y">мойын Y координатасы</string>
+    <string formatted="false" name="formula_editor_sensor_nose_x">мұрын x</string>
+    <string formatted="false" name="formula_editor_sensor_nose_y">мұрын Y</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_inner_x">сол көздің ішкі x</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_inner_y">сол көздің ішкі y</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_center_x">сол жақ көз орталығы x</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_center_y">сол жақ көз орталығы y</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_outer_x">сол көздің сыртқы x</string>
+    <string formatted="false" name="formula_editor_sensor_left_eye_outer_y">сол көздің сыртқы y</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_inner_x">оң көздің ішкі x</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_inner_y">оң көздің ішкі y</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_center_x">оң жақ көз орталығы x</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_center_y">оң жақ көз орталығы y</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_outer_x">оң көздің сыртқы x</string>
+    <string formatted="false" name="formula_editor_sensor_right_eye_outer_y">оң көздің сыртқы y</string>
+    <string formatted="false" name="formula_editor_sensor_left_ear_x">сол құлақ x</string>
+    <string formatted="false" name="formula_editor_sensor_left_ear_y">сол құлақ y</string>
+    <string formatted="false" name="formula_editor_sensor_right_ear_x">оң құлақ x</string>
+    <string formatted="false" name="formula_editor_sensor_right_ear_y">оң құлақ y</string>
+    <string formatted="false" name="formula_editor_sensor_mouth_left_corner_x">ауыздың сол жақ бұрышы x</string>
+    <string formatted="false" name="formula_editor_sensor_mouth_left_corner_y">ауыздың сол жақ бұрышы y</string>
+    <string formatted="false" name="formula_editor_sensor_mouth_right_corner_x">ауыздың оң жақ бұрышы x</string>
+    <string formatted="false" name="formula_editor_sensor_mouth_right_corner_y">ауыздың оң жақ бұрышы y</string>
+    <string formatted="false" name="formula_editor_sensor_left_shoulder_x">сол жақ иық x</string>
+    <string formatted="false" name="formula_editor_sensor_left_shoulder_y">сол жақ иық y</string>
+    <string formatted="false" name="formula_editor_sensor_right_shoulder_x">оң иық x</string>
+    <string formatted="false" name="formula_editor_sensor_right_shoulder_y">оң иық y</string>
+    <string formatted="false" name="formula_editor_sensor_left_elbow_x">сол жақ шынтақ x</string>
+    <string formatted="false" name="formula_editor_sensor_left_elbow_y">сол жақ шынтақ y</string>
+    <string formatted="false" name="formula_editor_sensor_right_elbow_x">оң жақ шынтақ x</string>
+    <string formatted="false" name="formula_editor_sensor_right_elbow_y">оң жақ шынтақ y</string>
+    <string formatted="false" name="formula_editor_sensor_left_wrist_x">сол жақ білек x</string>
+    <string formatted="false" name="formula_editor_sensor_left_wrist_y">сол жақ білек y</string>
+    <string formatted="false" name="formula_editor_sensor_right_wrist_x">оң жақтағы білек x</string>
+    <string formatted="false" name="formula_editor_sensor_right_wrist_y">оң жақтағы білек y</string>
+    <string formatted="false" name="formula_editor_sensor_left_pinky_knuckle_x">сол жақ қызғылт буын x</string>
+    <string formatted="false" name="formula_editor_sensor_left_pinky_knuckle_y">сол жақ қызғылт буын y</string>
+    <string formatted="false" name="formula_editor_sensor_right_pinky_knuckle_x">оң жақ қызғылт буын x</string>
+    <string formatted="false" name="formula_editor_sensor_right_pinky_knuckle_y">оң жақ қызғылт буын y</string>
+    <string formatted="false" name="formula_editor_sensor_left_index_knuckle_x">сол жақ индикатор x</string>
+    <string formatted="false" name="formula_editor_sensor_left_index_knuckle_y">сол жақ индекс y</string>
+    <string formatted="false" name="formula_editor_sensor_right_index_knuckle_x">оң жақ индекс x</string>
+    <string formatted="false" name="formula_editor_sensor_right_index_knuckle_y">оң жақ индекс y</string>
+    <string formatted="false" name="formula_editor_sensor_left_thumb_knuckle_x">сол жақ бас бармақ x</string>
+    <string formatted="false" name="formula_editor_sensor_left_thumb_knuckle_y">сол жақ бас бармақ y</string>
+    <string formatted="false" name="formula_editor_sensor_right_thumb_knuckle_x">оң жақ бас бармақ x</string>
+    <string formatted="false" name="formula_editor_sensor_right_thumb_knuckle_y">оң жақ бас бармақ y</string>
+    <string formatted="false" name="formula_editor_sensor_left_hip_x">сол жамбас x</string>
+    <string formatted="false" name="formula_editor_sensor_left_hip_y">сол жамбас y</string>
+    <string formatted="false" name="formula_editor_sensor_right_hip_x">оң жамбас x</string>
+    <string formatted="false" name="formula_editor_sensor_right_hip_y">оң жамбас y</string>
+    <string formatted="false" name="formula_editor_sensor_left_knee_x">сол жақ тізе x</string>
+    <string formatted="false" name="formula_editor_sensor_left_knee_y">сол жақ тізе y</string>
+    <string formatted="false" name="formula_editor_sensor_right_knee_x">оң тізе x</string>
+    <string formatted="false" name="formula_editor_sensor_right_knee_y">оң тізе y</string>
+    <string formatted="false" name="formula_editor_sensor_left_ankle_x">сол жақ сирақ x</string>
+    <string formatted="false" name="formula_editor_sensor_left_ankle_y">сол жақ сирақ y</string>
+    <string formatted="false" name="formula_editor_sensor_right_ankle_x">оң жақ сирақ x</string>
+    <string formatted="false" name="formula_editor_sensor_right_ankle_y">оң жақ сирақ y</string>
+    <string formatted="false" name="formula_editor_sensor_left_heel_x">сол жақ өкшесі x</string>
+    <string formatted="false" name="formula_editor_sensor_left_heel_y">сол жақ өкшесі y</string>
+    <string formatted="false" name="formula_editor_sensor_right_heel_x">оң жақ өкшесі x</string>
+    <string formatted="false" name="formula_editor_sensor_right_heel_y">оң жақ өкшесі y</string>
+    <string formatted="false" name="formula_editor_sensor_left_foot_index_x">сол аяқтың x индексі</string>
+    <string formatted="false" name="formula_editor_sensor_left_foot_index_y">сол аяқтың y индексі</string>
+    <string formatted="false" name="formula_editor_sensor_right_foot_index_x">оң аяқтың x индексі</string>
+    <string formatted="false" name="formula_editor_sensor_right_foot_index_y">оң аяқтың y индексі</string>
+    <string formatted="false" name="formula_editor_sensor_text_from_camera">камерадан алынған мәтін</string>
+    <string formatted="false" name="formula_editor_sensor_text_blocks_number">мәтін блоктар саны</string>
+    <string formatted="false" name="formula_editor_function_text_block_x">камерадан x мәтін блогы</string>
+    <string formatted="false" name="formula_editor_function_text_block_y">камерадан y мәтін блогы</string>
+    <string formatted="false" name="formula_editor_function_text_block_size">камерадан мәтін блогының өлшемі</string>
+    <string formatted="false" name="formula_editor_function_text_block_from_camera">камерадан мәтіндік блок</string>
+    <string formatted="false" name="formula_editor_function_text_block_language_from_camera">камерадан мәтіндік блок тілі</string>
     <string formatted="false" name="formula_editor_function_text_block_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
-    <string formatted="false" name="formula_editor_function_object_with_id_visible">object with ID visible</string>
-    <string formatted="false" name="formula_editor_intro_title_formula_editor">Formula editor</string>
+    <string formatted="false" name="formula_editor_function_get_id_of_detected_object">Анықталған объектінің идентификаторы</string>
+    <string formatted="false" name="formula_editor_function_object_with_id_visible">идентификаторы көрінетін обхект</string>
+    <string formatted="false" name="formula_editor_intro_title_formula_editor">Формула редакторы</string>
     <string formatted="false" name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
         the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
         bottom left corner.</string>
-    <string formatted="false" name="formula_editor_intro_title_input_field">Input field</string>
-    <string formatted="false" name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
-    <string formatted="false" name="formula_editor_intro_title_keyboard">Keyboard</string>
-    <string formatted="false" name="formula_editor_intro_summary_keyboard">This is where you can create
-        your formula, just like on a calculator.</string>
-    <string formatted="false" name="formula_editor_intro_title_compute">Compute</string>
-    <string formatted="false" name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
-        use \"Compute\".</string>
-    <string formatted="false" name="formula_editor_intro_title_object">Properties</string>
-    <string formatted="false" name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
-        current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
-    <string formatted="false" name="formula_editor_intro_title_functions">Functions</string>
-    <string formatted="false" name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
-        a random number generator, and text and list functions.</string>
-    <string formatted="false" name="formula_editor_intro_title_logic">Logic</string>
-    <string formatted="false" name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
-        compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
-        logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string formatted="false" name="formula_editor_intro_title_device">Sensors</string>
-    <string formatted="false" name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
-        device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+    <string formatted="false" name="formula_editor_intro_title_input_field">енгізу өрісі</string>
+    <string formatted="false" name="formula_editor_intro_summary_input_field">Мұнда сіз формуланы көре аласыз және өңдей аласыз.</string>
+    <string formatted="false" name="formula_editor_intro_title_keyboard">Пернетақта</string>
+    <string formatted="false" name="formula_editor_intro_summary_keyboard">Бұл жерде сіз формуланы калькулятордағы
+        сияқты жасай аласыз.</string>
+    <string formatted="false" name="formula_editor_intro_title_compute">Есептеу</string>
+    <string formatted="false" name="formula_editor_intro_summary_compute">Формуланың ағымдағы нәтижесін көрсету үшін, мүмкін
+        \"Есептеуді\" пайдаланыңыз.</string>
+    <string formatted="false" name="formula_editor_intro_title_object">Қасиеттері</string>
+    <string formatted="false" name="formula_editor_intro_summary_object">Бұл сіздің сипаттарыңызды сипаттайтын мәндер жинағы
+        ағымдағы актер немесе объект. Мысалдар x және y координаталары немесе қазіргі жылдамдық болып табылады.</string>
+    <string formatted="false" name="formula_editor_intro_title_functions">Функциялар</string>
+    <string formatted="false" name="formula_editor_intro_summary_functions">Калькулятор сияқты формула редакторы ұсынады
+        көптеген математикалық функциялар.\nСіз \"sin\" және \"cos\" сияқты тригонометриялық функциялар
+        кездейсоқ сандар генераторы және мәтін және тізім функциялары.</string>
+    <string formatted="false" name="formula_editor_intro_title_logic">Логикалық</string>
+    <string formatted="false" name="formula_editor_intro_summary_logic">Логика мәндерді салыстыру және логикалық формулаларды біріктіру үшін пайдаланылады.\nКімге
+        мәндерді салыстырыңыз, сіз \"&gt;\" сияқты логикалық әрекеттерді пайдалана аласыз. (үлкен) немесе \"=\" (тең).\nБіріктіру үшін
+        логикалық формулаларда «ЖӘНЕ», «НЕМЕСЕ» және «ЕМЕС» сияқты логикалық операцияларды қолдануға болады.</string>
+    <string formatted="false" name="formula_editor_intro_title_device">Сенсор</string>
+    <string formatted="false" name="formula_editor_intro_summary_device">«Сенсорларда» сіз өзіңізге қажетті ақпаратты таба аласыз
+        құрылғы жазбалары.\nМысалы, құрылғыңыздың қисаюы немесе айналаңыздың қаттылығы.</string>
     <string formatted="false" name="formula_editor_intro_title_data">Деректер</string>
-    <string formatted="false" name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
-        \nYou can simply insert these in your formula, or add new ones.</string>
-    <string formatted="false" name="formula_editor_listening_language_sensor">listening language</string>
-    <string formatted="false" name="formula_editor_speech_recognition">Speech recognition</string>
-    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
-    <string formatted="false" name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
-        sensors, variables and other formula elements, please select them instead using the
-        buttons in the formula editor.</string>
+    <string formatted="false" name="formula_editor_intro_summary_data">Жобаңызда қолданылатын айнымалылар мен тізімдерді осы жерден табуға болады.
+        \nОларды формулаңызға енгізуге немесе жаңаларын қосуға болады.</string>
+    <string formatted="false" name="formula_editor_listening_language_sensor">тыңдалым тілі</string>
+    <string formatted="false" name="formula_editor_speech_recognition">Айтылған сөзді тану</string>
+    <string formatted="false" name="camera_error_text_detection">        Мәтінді анықтау кезінде қате пайда болды. Кейбір компоненттер әлі де         фондық режимде жүктелуі мүмкін. Интернет байланысын тексеріп, әрекетті кейінірек қайталаңыз.</string>
+    <string formatted="false" name="warning_formula_recognized">Сіз формулаға ұқсайтын мәтін енгіздіңіз. Функцияларды пайдаланғыңыз келсе,
+        датчиктерді, айнымалыларды және басқа формула элементтерін пайдаланып, орнына оларды таңдаңыз
+        формула өңдегішіндегі түймелер.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string formatted="false" name="brick_show_variable">Show variable</string>
-    <string formatted="false" name="brick_hide_variable">Hide variable</string>
-    <string formatted="false" name="brick_show_variable_position">at</string>
-    <string formatted="false" name="brick_show_variable_size">size:</string>
-    <string formatted="false" name="brick_show_variable_color">color:</string>
-    <string formatted="false" name="brick_show_variable_aligned">aligned</string>
-    <string formatted="false" name="brick_show_variable_aligned_centered">centered</string>
-    <string formatted="false" name="brick_show_variable_aligned_left">left</string>
-    <string formatted="false" name="brick_show_variable_aligned_right">right</string>
-    <string formatted="false" name="brick_context_dialog_pick_color">Pick color</string>
-    <string formatted="false" name="brick_context_dialog_pick_note">Pick note</string>
+    <string formatted="false" name="brick_show_variable">Айнымалыны көрсету</string>
+    <string formatted="false" name="brick_hide_variable">Айнымалыны жасыру</string>
+    <string formatted="false" name="brick_show_variable_position"></string>
+    <string formatted="false" name="brick_show_variable_size">өлшемі:</string>
+    <string formatted="false" name="brick_show_variable_color">түс:</string>
+    <string formatted="false" name="brick_show_variable_aligned">түзелген</string>
+    <string formatted="false" name="brick_show_variable_aligned_centered">ортасында</string>
+    <string formatted="false" name="brick_show_variable_aligned_left">сол</string>
+    <string formatted="false" name="brick_show_variable_aligned_right">оң</string>
+    <string formatted="false" name="brick_context_dialog_pick_color">Түс таңдау</string>
+    <string formatted="false" name="brick_context_dialog_pick_note">Нотаны таңдау</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string formatted="false" name="brick_video">Turn camera</string>
+    <string formatted="false" name="brick_video">Камераны қосу</string>
     <string formatted="false" name="video_brick_camera_on">қосулы</string>
     <string formatted="false" name="video_brick_camera_off">сөндірулі</string>
-    <string formatted="false" name="brick_choose_camera">Use camera</string>
-    <string formatted="false" name="choose_camera_front">front</string>
-    <string formatted="false" name="choose_camera_back">rear</string>
-    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string formatted="false" name="brick_choose_camera">Камераны пайдалану</string>
+    <string formatted="false" name="choose_camera_front">алдыңғы</string>
+    <string formatted="false" name="choose_camera_back">артқы</string>
+    <string formatted="false" name="camera_error_generic">        Камераны пайдалану кезінде бірдеңе дұрыс болмады.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
+    <string formatted="false" name="camera_error_face_detection">        Бетті анықтау кезінде қате пайда болды. Кейбір компоненттер әлі де         фондық режимде жүктелуі мүмкін. Интернет байланысын тексеріп, әрекетті кейінірек қайталаңыз.</string>
     <!-- -->
     <!-- Cast strings -->
     <string formatted="false" name="cast_gamepad_A">A</string>
     <string formatted="false" name="cast_gamepad_B">B</string>
-    <string formatted="false" name="cast_gamepad_up">up</string>
-    <string formatted="false" name="cast_gamepad_down">down</string>
-    <string formatted="false" name="cast_gamepad_left">left</string>
-    <string formatted="false" name="cast_gamepad_right">right</string>
-    <string formatted="false" name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-    <string formatted="false" name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started
-        locally</string>
-    <string formatted="false" name="cast_device_selector_dialog_title">Cast to</string>
-    <string formatted="false" name="cast_button_menu_item_title">Cast button</string>
-    <string formatted="false" name="cast_ready_to_cast">Ready to cast to</string>
-    <string formatted="false" name="cast_enable_cast_feature">Chromecast features disabled. Please enable cast features in the settings.</string>
-    <string formatted="false" name="cast_searching_for_cast_devices">Searching for Chromecast devices</string>
-    <string formatted="false" name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
-    <string formatted="false" name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-    <string formatted="false" name="cast_screen_pause_text">Paused</string>
+    <string formatted="false" name="cast_gamepad_up">жоғары</string>
+    <string formatted="false" name="cast_gamepad_down">төмен</string>
+    <string formatted="false" name="cast_gamepad_left">сол</string>
+    <string formatted="false" name="cast_gamepad_right">оң</string>
+    <string formatted="false" name="cast_error_not_connected_msg">Алдымен Chromecast құрылғыңызға қосылыңыз</string>
+    <string formatted="false" name="cast_error_cast_bricks_in_no_cast_project">Жобаңыз Chromecast кірпіштерін пайдаланады және оны жергілікті бастау 
+        мүмкін емес</string>
+    <string formatted="false" name="cast_device_selector_dialog_title">Трансляция жасау:</string>
+    <string formatted="false" name="cast_button_menu_item_title">Трансляция батырмасы</string>
+    <string formatted="false" name="cast_ready_to_cast">Трансляциялауға дайын</string>
+    <string formatted="false" name="cast_enable_cast_feature">Chromecast мүмкіндіктер өшірілген. Параметрлерде трансляция мүмкіндіктер қосыңыз.</string>
+    <string formatted="false" name="cast_searching_for_cast_devices">Chromecast құрылғылар ізделуде</string>
+    <string formatted="false" name="cast_trouble_finding_devices_tip">.\nҚұрылғы көрмейсіз бе? Құрылғын Wi-Fi желісін өшіріп көріңіз
+        және қосыныз.</string>
+    <string formatted="false" name="cast_connection_timout_msg">Қосылу уақыты аяқталды. Қайталап көріңіз.</string>
+    <string formatted="false" name="cast_screen_pause_text">Тоқтатылды</string>
     <!-- -->
-    <string formatted="false" name="deletion_alert_title">Delete?</string>
-    <string formatted="false" name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
+    <string formatted="false" name="deletion_alert_title">Жоямызба, а?</string>
+    <string formatted="false" name="deletion_alert_text">Қолданыстағы айнымалыны немесе тізімді жою қателер жасаулы
+        себеп болуы мүмкін . Сіз мұны қайтара алмайсыз!</string>
     <!-- Upload progress dialog -->
-    <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
-        can use and download it. You can also download your project as a standalone app.</string>
-    <string formatted="false" name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
-    <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
+    <string formatted="false" name="progress_upload_dialog_message">Жобаңыз басқалармен бөлісетін қолданбаның ортақ сайтына жүктеп
+        пайдалана алады және жүктей алады. Сондай-ақ жобаңызды жеке қолданба ретінде жүктеп алуға болады.</string>
+    <string formatted="false" name="progress_upload_dialog_failed">Жобаны жүктеу мүмкін болмады. Интернет байланысын тексеріп, қайтадан қайталап көріңіз!</string>
+    <string formatted="false" name="progress_upload_dialog_show_program">Жобаны көрсету</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string formatted="false" name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string formatted="false" name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <string formatted="false" name="unchanged_upload_warning">Жүктеп салуға тырысып жатқан жоба бұрыннан бар
+        қауымдастық платформасы дәл сол пішінде. Жобаңызды өзгертіңіз, ең дұрысы
+        ремикстелген жобаны жүктеп салмас бұрын оны жақсартыңыз.</string>
+    <string formatted="false" name="unchanged_upload_info">Түпнұсқаға жылы сөздерді қосуды қарастырыңыз
+        қауымдастық сайтындағы Несиелер бөлімінде немесе жоба опцияларында автор. Ескерту
+        сәтті жүктеп салғаннан кейін пайдаланушы хабарландыру алады.</string>
+    <string formatted="false" name="unchanged_upload_url">Ремикстер туралы көбірек ақпарат алу үшін %1s сайтына кіріңіз.</string>
     <!-- -->
     <!-- Snackbar hints -->
-    <string formatted="false" name="got_it">Got it</string>
-    <string formatted="false" name="preference_description_hints">Enable to show hints</string>
-    <string formatted="false" name="preference_title_enable_hints">Show hints </string>
-    <string formatted="false" name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
-    <string formatted="false" name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string formatted="false" name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string formatted="false" name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string formatted="false" name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string formatted="false" name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string formatted="false" name="got_it">Түсіндім</string>
+    <string formatted="false" name="preference_description_hints">Кеңес көрсетуді қосу</string>
+    <string formatted="false" name="preference_title_enable_hints">Кеңестерді көрсету</string>
+    <string formatted="false" name="hint_category">Барлық кірпіштер санаттар бойынша сұрыпталған. Іздеген санатты таңдаңыз.</string>
+    <string formatted="false" name="hint_bricks">Скриптқа кірпіш қосу үшін пайдаланғыңыз келетін кірпішті түртіңіз.</string>
+    <string formatted="false" name="hint_scripts">Сценарий актердің немесе обхектің әрекетін анықтайды. Скриптқа кірпіш қосу үшін,
+        \"+\" белгісін түртіңіз.</string>
+    <string formatted="false" name="hint_looks">Мұнда сіз актердің немесе объектің әртүрлі сыртқы түрін таба аласыз. Жаңа көрініс қосу үшін,
+        \"+\" белгісін түртіңіз.</string>
+    <string formatted="false" name="hint_sounds">Мұнда сіз актеріңізге немесе объектіңізге жаңа дыбыстар қоса аласыз. Дыбыс категориясынан кірпішті 
+        пайдалануды ұмытпаңыз.</string>
+    <string formatted="false" name="hint_objects">Сіздің бағдарламаңыз бір-бірімен әрекеттесе алатын әртүрлі актерлер мен объектерден тұрады.
+        Жаңа актер немесе объекті қосу үшін «+» белгісін түртіңіз.</string>
     <!--  -->
     <!-- Dialog Disable hints -->
-    <string formatted="false" name="dialog_disable_hints_title">Show hints?</string>
-    <string formatted="false" name="dialog_disable_hints_text">Hints provide you with helpful information
-        while making your first project.\n\nVisibility of hints can be changed in the
-        settings.</string>
-    <string formatted="false" name="dialog_disable_hints_button_hide">HIDE</string>
-    <string formatted="false" name="dialog_disable_hints_button_show">SHOW</string>
+    <string formatted="false" name="dialog_disable_hints_title">Кеңестер көрсету?</string>
+    <string formatted="false" name="dialog_disable_hints_text">Кеңестер сізге пайдалы ақпарат сіздің
+        бірінші жобаңызды жасау кезінде береді.\n\nКеңестер көріну параметрледе өзгертуге
+        болады .</string>
+    <string formatted="false" name="dialog_disable_hints_button_hide">ЖАСЫРУ</string>
+    <string formatted="false" name="dialog_disable_hints_button_show">КӨРСЕТУ</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
-    <string formatted="false" name="device_language">Your device\'s language</string>
+    <string formatted="false" name="device_language">Құрылғыңыздың тілі</string>
     <!-- Symbols -->
     <string formatted="false" name="percent_symbol">%</string>
-    <string formatted="false" name="hertz_symbol">㎐</string>
-    <string formatted="false" name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
-    data is turned on.</string>
-    <string formatted="false" name="edit">Edit</string>
-    <string formatted="false" name="data_value">Value</string>
-    <string formatted="false" name="category_recently_used">Recently used</string>
+    <string formatted="false" name="hertz_symbol">Гц</string>
+    <string formatted="false" name="no_internet_connection">Интернет байланысы жоқ. Wi-Fi немесе ұялы телефон деректері қосулы
+    тексеріңіз.</string>
+    <string formatted="false" name="edit">Өңдеу</string>
+    <string formatted="false" name="data_value">Мәні</string>
+    <string formatted="false" name="category_recently_used">Жақында пайдаланылғандар</string>
     <string formatted="false" name="new_sprite_dialog_place_visually">Көрнекі түрде орналастырыңыз</string>
-    <string formatted="false" name="place_visually_text">You will be asked to place the new actor or object on the
-        stage.</string>
-    <string formatted="false" name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string formatted="false" name="place_visually_text">Сізден жаңа актер немесе объекті кезеңге орналастыру
+        сұралады.</string>
+    <string formatted="false" name="new_empty_sprite_note">Ескерту: Актер немесе объект жасалған
+        қарамай.</string>
     <!-- Information -->
-    <string formatted="false" name="no_variable_selected">No variable selected</string>
-    <string formatted="false" name="search">Іздеу…</string>
-    <string formatted="false" name="no_results_found">No results found</string>
-    <string formatted="false" name="query_field_is_empty">Query field is empty</string>
+    <string formatted="false" name="no_variable_selected">Айнымалы таңдалмаған</string>
+    <string formatted="false" name="search">Іздеу</string>
+    <string formatted="false" name="no_results_found">Ештеңе табылмады</string>
+    <string formatted="false" name="query_field_is_empty">Сұрау өрісі бос</string>
     <string formatted="false" name="paste">Қою</string>
     <!-- Particle Effects -->
-    <string formatted="false" name="fade_particle_effect">Fade particle effect</string>
+    <string formatted="false" name="fade_particle_effect">Бөлшектерді қосу</string>
     <string formatted="false" name="particle_effects_fade_in">ішінде</string>
-    <string formatted="false" name="particle_effects_fade_out">out</string>
-    <string formatted="false" name="turn_particle_effect_additivity">Turn particle effect additivity</string>
+    <string formatted="false" name="particle_effects_fade_out">көрсетпеу</string>
+    <string formatted="false" name="turn_particle_effect_additivity">Бөлшектер эффектісін қосу</string>
     <string formatted="false" name="particle_effects_additive_on">қосулы</string>
     <string formatted="false" name="particle_effects_additive_off">сөндірулі</string>
-    <string formatted="false" name="set_particle_color_to">Set particle color to</string>
-    <string formatted="false" name="undo_sort">Undo sort</string>
+    <string formatted="false" name="set_particle_color_to">Бөлшек түсін өзгерту</string>
+    <string formatted="false" name="undo_sort">Сұрыптамау</string>
     <string formatted="false" name="sort">Сорт</string>
-    <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="checkbox">жалауша</string>
 </resources>

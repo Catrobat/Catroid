@@ -60,7 +60,7 @@
     <string formatted="false" name="backpack_add">په کڅوړه کې اضافه کړئ</string>
     <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې ستاسو غږ په شالید
+    <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې ستاسو غږ په شالید 
         کې اوري او انټرنیټ ته ډیټا هم لیږي. دا کیدای شي بې ضرر وي، او د
          هغې د ټاکل شوي چلند لپاره اړین وي. په هرصورت، مهرباني وکړئ ډاډ 
         ترلاسه کړئ چې هغه څه چې تاسو یې وایئ پداسې حال کې چې پروژه روانه وي خوندي وي. د شک په صورت کې، مهرباني وکړئ ډاونلوډ شوی پروژه حذف کړئ.
@@ -70,7 +70,7 @@
     <!-- Replace Api dialog -->
     <string formatted="false" name="api_replacement_dialog_neutral">پرته له بدلون څخه پورته کول</string>
     <string formatted="false" name="api_replacement_dialog_accept">د بدل شوي کیلي سره اپلوډ کړئ</string>
-    <string formatted="false" name="api_replacement_dialog_warning">په پروژه کې خښتې شاملې دي چې
+    <string formatted="false" name="api_replacement_dialog_warning">په پروژه کې خښتې شاملې دي چې 
         ویب ته لاسرسی لري، او داسې ښکاري چې د API کلیدونه هم لري
         مهرباني وکړئ %1s وګورئ ولې دا کیلي پورته کول خطرناک کیدی شي.</string>
     <string formatted="false" name="api_replacement">د API کیلي دلته دننه کړئ</string>
@@ -94,6 +94,7 @@
     <string formatted="false" name="main_menu_help">مرسته</string>
     <string formatted="false" name="main_menu_web">د کاټروبیټ ټولنه</string>
     <string formatted="false" name="main_menu_upload">پروژه پورته کړئ</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">موږ ته درجه ورکړئ!</string>
     <string formatted="false" name="main_menu_terms_of_use">د کارولو او خدماتو شرایط</string>
     <string formatted="false" name="main_menu_privacy_policy">د پټتیا تګلاره</string>
@@ -107,7 +108,7 @@
     <string formatted="false" name="marketing_created_with">سره جوړ شوی</string>
     <string formatted="false" name="marketing_app_details">د دې اپلیکیشن په اړه توضیحات</string>
     <string formatted="false" name="marketing_more_on_google_play">په اپل سټور کې نور ایپسونه</string>
-    <string formatted="false" name="error_cannot_open_huawei_app_gallery">هو! د Huawei AppGallery په خلاصولو کې پاتې راغلی،
+    <string formatted="false" name="error_cannot_open_huawei_app_gallery">هو! د Huawei AppGallery په خلاصولو کې پاتې راغلی، 
         مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
     <string formatted="false" name="google_play_store_logo">Google Play</string>
     <string formatted="false" name="huawei_app_gallery">د Huawei اپلیکیشن ګالري</string>
@@ -122,23 +123,23 @@
     <string formatted="false" name="preference_screen_web_access_title">باوري ډومینونه ایډیټ کړئ</string>
     <string formatted="false" name="preference_title_ai">د مصنوعي استخباراتو (AI) توسیع</string>
     <string formatted="false" name="preference_description_ai">د AI خښتې او سینسرونه فعال کړئ</string>
-    <string formatted="false" name="preference_title_ai_speech_recognition">د وینا
+    <string formatted="false" name="preference_title_ai_speech_recognition">د وینا 
         پیژندنه</string>
-    <string formatted="false" name="preference_description_ai_speech_recognition">د وینا پیژندنې
+    <string formatted="false" name="preference_description_ai_speech_recognition">د وینا پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
-    <string formatted="false" name="preference_title_ai_speech_synthetization">د وینا
+    <string formatted="false" name="preference_title_ai_speech_synthetization">د وینا 
         ترکیب</string>
-    <string formatted="false" name="preference_description_ai_speech_synthetization">د وینا
+    <string formatted="false" name="preference_description_ai_speech_synthetization">د وینا 
         ترکیب خښتې او سینسرونه فعال کړئ</string>
-    <string formatted="false" name="preference_title_ai_face_detection">د مخ
+    <string formatted="false" name="preference_title_ai_face_detection">د مخ 
         کشف</string>
     <string formatted="false" name="preference_description_ai_face_detection">د مخ کشف خښتې او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">د حالت کشف</string>
-    <string formatted="false" name="preference_description_ai_pose_detection">د پوز
+    <string formatted="false" name="preference_description_ai_pose_detection">د پوز 
         کشف خښتې او سینسرونه فعال کړئ</string>
-    <string formatted="false" name="preference_title_ai_text_recognition">د متن
+    <string formatted="false" name="preference_title_ai_text_recognition">د متن 
         پیژندنه</string>
-    <string formatted="false" name="preference_description_ai_text_recognition">د متن پیژندنې
+    <string formatted="false" name="preference_description_ai_text_recognition">د متن پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_object_recognition">د څیز پیژندنه</string>
     <string formatted="false" name="preference_description_ai_object_recognition">د څیز پیژندنې او تعقیب سینسرونه فعال کړئ</string>
@@ -179,13 +180,22 @@
     <string formatted="false" name="preference_access_title_profile_argus">ارګس</string>
     <string formatted="false" name="preference_access_summary_profile_argus">لوړ برعکس، اضافي عکسونه</string>
     <string formatted="false" name="preference_access_title_profile_odin">اوډین</string>
-    <string formatted="false" name="preference_access_summary_profile_odin">لوی متن، لوی
+    <string formatted="false" name="preference_access_summary_profile_odin">لوی متن، لوی 
        عکسونه، لوی عنصر فاصله، لوړ برعکس</string>
     <string formatted="false" name="preference_access_title_profile_fenrir">فینر</string>
-    <string formatted="false" name="preference_access_summary_profile_fenrir">د لوی عنصر فاصله، د ډریګ او ډراپ
+    <string formatted="false" name="preference_access_summary_profile_fenrir">د لوی عنصر فاصله، د ډریګ او ډراپ 
        ځنډ</string>
     <string formatted="false" name="preference_access_title_profile_tiro">تيرو</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">د پیل کونکي حالت</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">د توتا AR.Drone 2.0 توسیع</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">اپلیکیشن ته اجازه ورکړئ چې توت AR.Drone 2.0 quadcopters کنټرول کړي</string>
@@ -206,6 +216,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">د ګنډلو ماشینونو لپاره نمونې رامینځته کړئ</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">د Chromecast توسیع</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">د کاسټ تڼۍ وښایاست او د کاسټ پروژې فعال کړئ</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">د نږدې ساحې مخابراتو توسیع</string>
     <string formatted="false" name="preference_description_nfc_bricks">ایپ ته اجازه ورکړئ چې په پروژو کې د NFC ټاګونه وکاروي</string>
     <string formatted="false" name="preference_title_enable_crash_reports">د نامعلوم حادثې راپورونه لیږل</string>
@@ -220,7 +233,7 @@
     <string formatted="false" name="preference_raspi_port">د راسبیري پای بندر</string>
     <!--  -->
     <string formatted="false" name="preference_title_multiplayer_variables_enabled">ملټي پلیر توسیع</string>
-    <string formatted="false" name="preference_description_multiplayer_variables_enabled">اپلیکیشن ته اجازه ورکړئ چې د
+    <string formatted="false" name="preference_description_multiplayer_variables_enabled">اپلیکیشن ته اجازه ورکړئ چې د 
         بلوتوټ له لارې شریک شوي ملټي پلیر تغیرات وکاروئ</string>
     <string formatted="false" name="preference_title_enable_test_bricks">د ازموینې توسیع</string>
     <string formatted="false" name="preference_description_test_bricks">د ازموینې رامینځته کولو ته اجازه ورکوي</string>
@@ -233,11 +246,11 @@
     <string formatted="false" name="error_request_timeout">هو! زموږ سرور په وخت ځواب نه دی ورکړی، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
     <string formatted="false" name="error_scratch_program_conversion_failed">هو! د پروژې په بدلولو کې پاتې راغلی، مهرباني وکړئ بیا هڅه وکړئ
         وروسته</string>
-    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">هو! د %1$s په بدلولو کې پاتې راغلل، مهرباني وکړئ
+    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">هو! د %1$s په بدلولو کې پاتې راغلل، مهرباني وکړئ 
         وروسته بیا هڅه وکړئ.</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">ستاسو د دې اپلیکیشن نسخه پخوانۍ ده. زموږ سکریچ
         کنورټر یوازې په وروستي نسخه کار کوي. مهرباني وکړئ اپلیکیشن تازه کړئ.</string>
-    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">زه نشم کولی دا سکریچ پروژه خلاص کړم. داسې ښکاري چې تاسو
+    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">زه نشم کولی دا سکریچ پروژه خلاص کړم. داسې ښکاري چې تاسو 
         د سکریچ پروژې تبادله/ډاونلوډ لغوه کړی، یا تاسو په ورته وخت کې د پروژې نوم بدل کړی / حذف 
         کړی دی.</string>
     <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">تاسو لاهم نشئ کولی پروژه خلاص کړئ.
@@ -283,7 +296,7 @@
     <string formatted="false" name="scratch_programs_in_progress_title">د پرمختګ په حال کې</string>
     <string formatted="false" name="scratch_programs_finished_title">بدلې شوې پروژې</string>
     <string formatted="false" name="by_x">د %1$s لخوا</string>
-    <string formatted="false" name="warning_program_visibility">خبرداری:\n داسې ښکاري چې دا یوه شخصي پروژه ده. تاسو کولی شئ د دې
+    <string formatted="false" name="warning_program_visibility">خبرداری:\n داسې ښکاري چې دا یوه شخصي پروژه ده. تاسو کولی شئ د دې 
         بدلولو هڅه وکړئ مګر دا ممکن کار ونکړي.</string>
     <string formatted="false" name="instructions">لارښوونې</string>
     <string formatted="false" name="notes_and_credits">یادښتونه او کریډیټ</string>
@@ -599,11 +612,16 @@
         په تړل شوي ملټي پلیر وسیلو کې</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">ستاسو کڅوړه</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">پیک</string>
     <string formatted="false" name="unpack">خلاص کړئ</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">د پروژې بېلګه</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">منظره</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">یوځای شوی پروژه</string>
@@ -620,6 +638,8 @@
     <string formatted="false" name="add_look_choose_image">ګالری</string>
     <string formatted="false" name="add_look_media_library">ښکاري</string>
     <string formatted="false" name="add_look_from_local_project">محلي پروژې</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">غږ اضافه کړئ</string>
@@ -639,7 +659,7 @@
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string formatted="false" name="dialog_terms_of_use_title">د کارولو او خدماتو شرایط</string>
-    <string formatted="false" name="dialog_terms_of_use_info">د دې لپاره چې
+    <string formatted="false" name="dialog_terms_of_use_info">د دې لپاره چې 
         د کاټروباټ پروژې لخوا وړاندیز شوي ایپسونو او نورو خدماتو کارولو ته اجازه ورکړل شي، تاسو 
         باید زموږ د کارولو او خدماتو شرایطو سره موافق یاست. تاسو باید دا شرایط په کلکه تعقیب کړئ کله چې زموږ ایپسونه 
         او نور خدمات وکاروئ. مهرباني وکړئ د دوی دقیق جوړښت لپاره لاندې لینک وګورئ.</string>
@@ -651,7 +671,7 @@
     <!-- -->
     <!-- About Dialog -->
     <string formatted="false" name="dialog_about_title">د دې اپلیکیشن په اړه</string>
-    <string formatted="false" name="dialog_about_license_info">دا اپلیکیشن
+    <string formatted="false" name="dialog_about_license_info">دا اپلیکیشن 
         د بصری پروګرامینګ ژبې Catrobat لپاره د کوډ کولو چاپیریال او ترجمان وړاندې کوي.\n
         د دې اپلیکیشن سرچینې کوډ په عمده ډول د GNU AGPL v3 جواز لاندې جواز لري.
         د لایسنس په اړه د نورو جزیاتو لپاره لاندې لینک وګورئ.\n</string>
@@ -734,9 +754,9 @@
     <string formatted="false" name="error_session_expired">ناسته پای ته ورسیده، مهرباني وکړئ ننوتل.</string>
     <string formatted="false" name="error_register_empty_username">خالي کارن نوم</string>
     <string formatted="false" name="error_register_username_as_email">د بریښنالیک پته د کارن نوم په توګه نشي کارول کیدی</string>
-    <string formatted="false" name="error_register_invalid_username">د کارن نوم باید یوازې حروف (a-z)، شمیرې (0-9)،
+    <string formatted="false" name="error_register_invalid_username">د کارن نوم باید یوازې حروف (a-z)، شمیرې (0-9)، 
         ډشز (-)، انډر سکور (_)، او دوره (.) ولري.</string>
-    <string formatted="false" name="error_register_username_start_with">د کارن نوم باید د ډیشونو (-)، انډر سکور (_)، یا دورې
+    <string formatted="false" name="error_register_username_start_with">د کارن نوم باید د ډیشونو (-)، انډر سکور (_)، یا دورې 
         (.) سره پیل نشي.</string>
     <string formatted="false" name="error_register_invalid_email_format">د بریښنالیک ناسم بڼه</string>
     <string formatted="false" name="error_register_empty_password">د پټنوم ساحه خالي ده</string>
@@ -757,7 +777,7 @@
     <string formatted="false" name="pocket_music_default_track_name">ټریک 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string formatted="false" name="prestage_text_to_speech_engine_not_installed">د متن څخه تر وینا انجن نه دی نصب شوی!\n ایا تاسو غواړئ
+    <string formatted="false" name="prestage_text_to_speech_engine_not_installed">د متن څخه تر وینا انجن نه دی نصب شوی!\n ایا تاسو غواړئ 
         دا نصب کړئ؟</string>
     <string formatted="false" name="prestage_resource_not_available_title">اجزا شتون نلري</string>
     <string formatted="false" name="prestage_resource_not_available_text">له بده مرغه دا پروژه ستاسو په وسیله کار نه کوي.
@@ -806,6 +826,7 @@
     <string formatted="false" name="category_motion">حرکت</string>
     <string formatted="false" name="category_looks">ښکاري</string>
     <string formatted="false" name="category_pen">قلم</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">غږ</string>
     <string formatted="false" name="category_control">کنټرول</string>
     <string formatted="false" name="category_event">پیښه</string>
@@ -975,6 +996,11 @@
     <string formatted="false" name="at_string">په</string>
     <string formatted="false" name="seconds_string">دوهم </string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">ډنډ</string>
     <string formatted="false" name="brick_running_stitch">د اوږدوالي سره ډنډ چلول پیل کړئ</string>
@@ -1103,13 +1129,13 @@
     <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string formatted="false" name="brick_web_request_result">او ځواب په کې ذخیره کړئ</string>
     <string formatted="false" name="web_request_warning_title">د ویب لاسرسي اجازه؟</string>
-    <string formatted="false" name="web_request_warning_message">د لاسرسي اجازه ورکولو دمخه خورا محتاط اوسئ ، ځکه چې
+    <string formatted="false" name="web_request_warning_message">د لاسرسي اجازه ورکولو دمخه خورا محتاط اوسئ ، ځکه چې 
         لینک ممکن ستاسو شخصي معلومات افشا کړي ، لکه ستاسو دقیق جغرافیایی موقعیت یا کوم متن 
         چې تاسو ناوړه نورو یا خلکو ته داخل کړی وي. د نورو
         &lt;a href=%1s&gt;ویکی&lt;/a&gt;&lt;/a&gt;&lt;/a&gt; معلوماتو لپاره خپل وګورئ ولې دا خورا خطرناک کیدی شي.
     </string>
     <string formatted="false" name="web_request_trust_domain_warning_title">تل د ویب لاسرسي اجازه؟</string>
-    <string formatted="false" name="web_request_trust_domain_warning_message">د تل لپاره د لاسرسي اجازه ورکولو سره، تاسو به
+    <string formatted="false" name="web_request_trust_domain_warning_message">د تل لپاره د لاسرسي اجازه ورکولو سره، تاسو به 
         بیا د دې ډومین څخه د ویب پتې تصدیق کولو لپاره نه وپوښتل شي.
     </string>
     <string formatted="false" name="trusted_domains_edit_hint">که تاسو غواړئ دا اجازه لغوه کړئ
@@ -1264,7 +1290,7 @@
     <string formatted="false" name="error_project_upload">د پروژې د پورته کولو په وخت کې یو څه غلط شو.</string>
     <string formatted="false" name="error_project_download">د پروژې ډاونلوډ کولو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروژه %s لا دمخه په کتار کې ده."</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"ستاسو ډاونلوډ
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">"ستاسو ډاونلوډ 
         پیل نه شو، داسې ښکاري چې زموږ په سرور کې ستونزه ده."</string>
     <string formatted="false" name="error_new_project">د نوې پروژې د جوړولو پر مهال یو څه غلط شول.</string>
     <string formatted="false" name="error_rename_scene">د صحنې د نوم بدلولو په وخت کې یو څه غلط شو.</string>
@@ -1273,9 +1299,9 @@
     <string formatted="false" name="error_internet_connection">یوه نامعلومه تېروتنه رامنځته شوه. خپل انټرنیټ پیوستون چیک کړئ.</string>
     <string formatted="false" name="error_project_compatibility">پروژه د ایپ د دې نسخې سره مطابقت نلري.</string>
     <string formatted="false" name="error_outdated_version">د دې اپلیکیشن نسخه پخوانۍ ده. اوس تازه کړئ؟</string>
-    <string formatted="false" name="error_upload_project_with_default_name">تاسو نشئ کولی د \"%s\" نوم سره پروژه اپلوډ کړئ.
+    <string formatted="false" name="error_upload_project_with_default_name">تاسو نشئ کولی د \"%s\" نوم سره پروژه اپلوډ کړئ. 
         مهرباني وکړئ د پروژې نوم بدل کړئ.</string>
-    <string formatted="false" name="error_upload_default_project">تاسو نشئ کولی د نه بدلیدونکي مثال پروژه اپلوډ کړئ. مهرباني
+    <string formatted="false" name="error_upload_default_project">تاسو نشئ کولی د نه بدلیدونکي مثال پروژه اپلوډ کړئ. مهرباني 
         وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
     <string formatted="false" name="error_adding_brick">د دې خښتې د اضافه کولو په وخت کې یو څه غلط شو.</string>
     <string formatted="false" name="error_copying_brick">د دې خښتې د کاپي کولو پرمهال یو څه غلط شو.</string>
@@ -1283,13 +1309,16 @@
     <string formatted="false" name="error_embroidery_file_export">د ګنډلو فایل شریکولو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_embroidery_file_write">د ګنډلو فایل لیکلو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ګنډل ورک دي.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">کومه تیروتنه وشوه.</string>
     <string formatted="false" name="error_gps_not_available">د جیولیکیشن ډاټا شتون نلري.</string>
     <string formatted="false" name="error_set_description">د نوي توضیحاتو خوندي کولو پرمهال یو څه غلط شو.</string>
-    <string formatted="false" name="error_set_notes_and_credits">د نوي نوټونو او کریډیټ خوندي کولو
+    <string formatted="false" name="error_set_notes_and_credits">د نوي نوټونو او کریډیټ خوندي کولو 
         پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_no_whatsapp">WhatsApp نه دی نصب شوی</string>
-    <string formatted="false" name="error_unsupported_bricks_chromecast">دا سکریپټ د Chromecast
+    <string formatted="false" name="error_unsupported_bricks_chromecast">دا سکریپټ د Chromecast 
         پروژې ته نشي اضافه کیدی.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
@@ -1357,11 +1386,11 @@
     <string formatted="false" name="nxt_sensor_not_found">سینسر ونه موندل شو!</string>
     <string formatted="false" name="lego_nxt_sensor_config_info_title">د NXT سینسر ترتیب</string>
     <string formatted="false" name="preference_disable_nxt_info_dialog">د معلوماتو ډیالوګ غیر فعال کړئ</string>
-    <string formatted="false" name="preference_disable_nxt_info_dialog_description">د پروژې ځانګړي NXT ترتیبات نه ښودل کیږي کله چې
+    <string formatted="false" name="preference_disable_nxt_info_dialog_description">د پروژې ځانګړي NXT ترتیبات نه ښودل کیږي کله چې 
         پروژه پرانیزي.</string>
-    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">بندرونو ته د NXT سینسرونو نقشه کول د پروژې ځانګړي دي او یوازې د پرانیستې پروژو
+    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">بندرونو ته د NXT سینسرونو نقشه کول د پروژې ځانګړي دي او یوازې د پرانیستې پروژو 
         لپاره تنظیم کیدی شي.</string>
-    <string formatted="false" name="lego_nxt_sensor_config_info_text">اوسنۍ پروژه د Lego Mindstorms NXT خښتې یا سینسر کاروي. د
+    <string formatted="false" name="lego_nxt_sensor_config_info_text">اوسنۍ پروژه د Lego Mindstorms NXT خښتې یا سینسر کاروي. د 
         سم فعالیت لپاره مهرباني وکړئ سینسرونه په لاندې ډول روبوټ سره وصل کړئ</string>
     <string formatted="false" name="lego_port_1">پورټ ۱</string>
     <string formatted="false" name="lego_port_2">پورټ ۲</string>
@@ -1372,9 +1401,9 @@
     <string formatted="false" name="lego_ev3_sensor_config_info_title">د EV3 سینسر ترتیب</string>
     <string formatted="false" name="preference_disable_ev3_info_dialog_description">د پروژې ځانګړي EV3 تنظیمات نه ښودل کیږي کله چې
          پروژه پرانیزي.</string>
-    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">بندرونو ته د EV3 سینسرونو نقشه کول د پروژې
+    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">بندرونو ته د EV3 سینسرونو نقشه کول د پروژې 
         ځانګړي دي او یوازې د پرانیستې پروژو لپاره تنظیم کیدی شي.</string>
-    <string formatted="false" name="lego_ev3_sensor_config_info_text">اوسنۍ پروژه د Lego Mindstorms EV3 خښتې یا سینسر کاروي. د
+    <string formatted="false" name="lego_ev3_sensor_config_info_text">اوسنۍ پروژه د Lego Mindstorms EV3 خښتې یا سینسر کاروي. د 
         سم فعالیت لپاره مهرباني وکړئ سینسرونه په لاندې ډول روبوټ سره وصل کړئ</string>
     <string formatted="false" name="ev3_choose_sensor_1">سینسر په ۱ بندر کې وصل شوی</string>
     <string formatted="false" name="ev3_choose_sensor_2">سینسر په ۲ بندر کې وصل شوی</string>
@@ -1610,6 +1639,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\'سلام نړی\')</string>
     <string formatted="false" name="formula_editor_function_letter">لیک</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1، \'سلام نړۍ\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">یوځای کیدل</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string formatted="false" name="formula_editor_function_join3">یوځای کیدل</string>
@@ -1617,7 +1648,7 @@
     <string formatted="false" name="formula_editor_function_regex">منظم بیان</string>
     <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string formatted="false" name="formula_editor_function_regex_assistant">د منظم بیان معاون</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">د منظم
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">د منظم 
         بیان معاون</string>
     <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">کلیمه ونه موندل شوه.</string>
     <string formatted="false" name="formula_editor_function_regex_json_extractor_title">JSON استخراج</string>
@@ -1652,7 +1683,7 @@
     <string formatted="false" name="formula_editor_function_collides_with_color">رنګ لمس کوي</string>
     <string formatted="false" name="formula_editor_function_color_touches_color">رنګ رنګ لمس کوي</string>
     <string formatted="false" name="formula_editor_sensor_color_at_x_y">رنګ په x y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنګ د٪
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنګ د٪ 
         زغم سره رنګ سره مساوي دی</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">سرعت x</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">سرعت y</string>
@@ -1715,6 +1746,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">د لوبې پیډ لاندې فشار شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">د لوبې پیډ کیڼ فشار شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">د لوبې پیډ ښی فشار شوی</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro مخکی کیڼ سینسر</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">د فیرو مخکی ښی سینسر</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">د فیرو اړخ کیڼ سینسر</string>
@@ -1741,7 +1774,7 @@
     <string formatted="false" name="formula_editor_object_background_name">د شاليد نوم</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">د شالید شمیر</string>
     <string formatted="false" name="formula_editor_object_distance_to">د تماس موقعیت ته واټن</string>
-    <string formatted="false" name="formula_editor_confirm">محاسبه</string>
+    <string formatted="false" name="formula_editor_confirm">تایید کړه</string>
     <string formatted="false" name="formula_editor_object">ملکیتونه</string>
     <string formatted="false" name="formula_editor_functions">افعال</string>
     <string formatted="false" name="formula_editor_logic">منطق</string>
@@ -1892,14 +1925,14 @@
     <string formatted="false" name="formula_editor_intro_title_input_field">د ننوتلو ساحه</string>
     <string formatted="false" name="formula_editor_intro_summary_input_field">دلته تاسو کولی شئ خپل فارمول وګورئ او سم کړئ.</string>
     <string formatted="false" name="formula_editor_intro_title_keyboard">کیبورډ</string>
-    <string formatted="false" name="formula_editor_intro_summary_keyboard">دا هغه ځای دی چې تاسو کولی شئ
+    <string formatted="false" name="formula_editor_intro_summary_keyboard">دا هغه ځای دی چې تاسو کولی شئ 
         خپل فارمول جوړ کړئ، لکه څنګه چې په کیلکولیټر کې.</string>
     <string formatted="false" name="formula_editor_intro_title_compute">محاسبه</string>
     <string formatted="false" name="formula_editor_intro_summary_compute">د خپل فارمول اوسنۍ پایلې ښودلو لپاره، تاسو کولی شئ \"کمپیوټ\" وکاروئ.</string>
     <string formatted="false" name="formula_editor_intro_title_object">ملکیتونه</string>
     <string formatted="false" name="formula_editor_intro_summary_object">دا د ارزښتونو ټولګه ده چې ستاسو د اوسني اداکار یا اعتراض ملکیتونه بیانوي. مثالونه x- او y- همغږي، یا اوسنی سرعت دی.</string>
     <string formatted="false" name="formula_editor_intro_title_functions">افعال</string>
-    <string formatted="false" name="formula_editor_intro_summary_functions">د یو کیلکولیټر په څیر، د فارمول ایډیټر
+    <string formatted="false" name="formula_editor_intro_summary_functions">د یو کیلکولیټر په څیر، د فارمول ایډیټر 
         ډیری ریاضیاتي دندې وړاندې کوي.\n تاسو کولی شئ د مثلثاتو فنکشنونه ومومئ لکه \"sin\" او \"cos\"، 
         یو تصادفي شمیره جنریټر، او د متن او لیست دندې.</string>
     <string formatted="false" name="formula_editor_intro_title_logic">منطق</string>
@@ -1912,7 +1945,7 @@
     <string formatted="false" name="formula_editor_speech_recognition">د وینا پیژندنه</string>
     <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string formatted="false" name="warning_formula_recognized">تاسو یو متن داخل کړی چې د فورمول په څیر ښکاري. که تاسو غواړئ فنکشنونه،
+    <string formatted="false" name="warning_formula_recognized">تاسو یو متن داخل کړی چې د فورمول په څیر ښکاري. که تاسو غواړئ فنکشنونه، 
         سینسرونه، متغیرات او نور د فورمول عناصر وکاروئ، نو مهرباني وکړئ د فورمول مدیر کې د         بټونو کارولو پرځای یې غوره کړئ.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
@@ -2013,7 +2046,7 @@
     <string formatted="false" name="search">لټون</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="paste">پیسټ</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>
     <string formatted="false" name="particle_effects_fade_in">په</string>

@@ -60,7 +60,7 @@
     <string formatted="false" name="backpack_add">Agregar a la Mochila</string>
     <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string formatted="false" name="security_warning_dialog_msg">El proyecto que ha descargado escucha su voz.
+    <string formatted="false" name="security_warning_dialog_msg">El proyecto que ha descargado escucha su voz. 
         en segundo plano y también envía datos a Internet. Esto puede ser inofensivo y necesario
         para su comportamiento esperado. for its intended behavior. Sin embargo, por favor asegúrese de que que lo que está diciendo mientras el
         proyecto se está ejecutando es seguro. En caso de dudas, por favor elimine el proyecto descargado. 
@@ -92,6 +92,7 @@
     <string formatted="false" name="main_menu_help">Ayuda</string>
     <string formatted="false" name="main_menu_web">Comunidad Catrobat</string>
     <string formatted="false" name="main_menu_upload">Cargar programa</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Valóranos!</string>
     <string formatted="false" name="main_menu_terms_of_use">Términos de uso y servicios</string>
     <string formatted="false" name="main_menu_privacy_policy">Política de privacidad</string>
@@ -184,6 +185,15 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">Espaciado de elementos grande, retraso de arrastrar y soltar</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tiro</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">Bloques de principiante</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Permitir a la aplicación controlar los cuadricópteros Parrot Ar.Drone 2.0</string>
@@ -204,6 +214,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Crear patrones para maquinas de puntadas</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Mostrar el botón de cast y habilitar los proyectos de cast</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string formatted="false" name="preference_description_nfc_bricks">Permite utilizar etiquetas NFC en los programas</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Enviar los informes de errores de manera anónima</string>
@@ -595,11 +608,16 @@
         en dispositivos multijugador conectados</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Tu mochila</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Pack</string>
     <string formatted="false" name="unpack">Desempacar</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">Ejemplo de proyecto</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">Apaisado</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">Proyecto fusionado</string>
@@ -616,6 +634,8 @@
     <string formatted="false" name="add_look_choose_image">Seleccione una imagen</string>
     <string formatted="false" name="add_look_media_library">Libreria de medios</string>
     <string formatted="false" name="add_look_from_local_project">Proyectos locales</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Añadir sonido</string>
@@ -802,6 +822,7 @@
     <string formatted="false" name="category_motion">Movimiento</string>
     <string formatted="false" name="category_looks">Aparencia</string>
     <string formatted="false" name="category_pen">Lápiz</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Sonido</string>
     <string formatted="false" name="category_control">Control</string>
     <string formatted="false" name="category_event">Eventos</string>
@@ -971,6 +992,11 @@
     <string formatted="false" name="at_string">en </string>
     <string formatted="false" name="seconds_string">segundos</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Unir</string>
     <string formatted="false" name="brick_running_stitch">Empezar a correr stitch con longitud</string>
@@ -1279,6 +1305,9 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="error_embroidery_file_export">Algo salió mal al compartir el archivo de bordado.</string>
     <string formatted="false" name="error_embroidery_file_write">Algo salió mal al escribir el archivo de bordado.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Falta la borda.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">Se ha producido un error desconocido.</string>
     <string formatted="false" name="error_gps_not_available">Los datos de geolocalización no están disponibles.</string>
     <string formatted="false" name="error_set_description">Ocurrió un error mientras se guardaba la descripción.</string>
@@ -1600,6 +1629,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_function_length_parameter">(\'Hola mundo\')</string>
     <string formatted="false" name="formula_editor_function_letter">letra</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1, \'Hola mundo\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">unir</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hola\',\' mundo\')</string>
     <string formatted="false" name="formula_editor_function_join3">unir</string>
@@ -1704,6 +1735,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">botón Abajo pulsado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">botón Izquierda pulsado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">botón Derecha pulsado</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro_sensor_frontal_izquierdo</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro_sensor_frontal_derecho</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro_sensor_lado_izquierdo</string>
@@ -1730,7 +1763,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_object_background_name">nombre_fondo</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">número de fondos</string>
     <string formatted="false" name="formula_editor_object_distance_to">distancia a</string>
-    <string formatted="false" name="formula_editor_confirm">Calcular</string>
+    <string formatted="false" name="formula_editor_confirm">Confirmar</string>
     <string formatted="false" name="formula_editor_object">Objeto</string>
     <string formatted="false" name="formula_editor_functions">Funciones</string>
     <string formatted="false" name="formula_editor_logic">Lógica</string>
@@ -1896,8 +1929,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">idioma para escuchar</string>
     <string formatted="false" name="formula_editor_speech_recognition">Reconocimiento de voz</string>
-    <string formatted="false" name="camera_error_text_detection">        Hubo un problema con la detección de texto. Algunos componentes pueden estar descargándose en el fondo de
-        . Por favor, asegúrese de que está conectado a Internet y vuelva a intentarlo más tarde.</string>
+    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">Has introducido un texto que parece una fórmula. Si desea utilizar funciones
         sensores, variables y otros elementos de la fórmula, selecciónelos en su lugar utilizando los
         en el editor de fórmulas.</string>
@@ -1922,10 +1955,10 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="brick_choose_camera">Utilizar la cámara</string>
     <string formatted="false" name="choose_camera_front">frontal</string>
     <string formatted="false" name="choose_camera_back">trasero</string>
-    <string formatted="false" name="camera_error_generic">        Algo salió mal al intentar usar la cámara.
+    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        Hubo un problema con la detección de caras. Algunos componentes pueden estar descargándose en el fondo de
-        . Por favor, asegúrese de que está conectado a Internet y vuelva más tarde.
+    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2009,7 +2042,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="search">Búsqueda…</string>
     <string formatted="false" name="no_results_found">No se han encontrado resultados</string>
     <string formatted="false" name="query_field_is_empty">El campo de consulta está vacío</string>
-    <string formatted="false" name="paste">Pegar</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efecto de partículas desvanecidas</string>
     <string formatted="false" name="particle_effects_fade_in">en</string>

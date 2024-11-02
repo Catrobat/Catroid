@@ -81,18 +81,19 @@
     <string formatted="false" name="logout_successful">ออกจากระบบสำเร็จ</string>
     <string formatted="false" name="degrees">องศา</string>
     <string formatted="false" name="background">พื้นหลัง</string>
-    <string formatted="false" name="landscape">ภูมิประเทศ</string>
+    <string formatted="false" name="landscape">แนวนอน</string>
     <string formatted="false" name="portrait">แนวตั้ง</string>
     <string formatted="false" name="unknown">ไม่รู้จัก</string>
     <string formatted="false" name="disconnect">ตัดการเชื่อมต่อ</string>
     <!--  -->
     <!-- Main Menu -->
-    <string formatted="false" name="main_menu_continue">ดำเนินการโครงการ</string>
-    <string formatted="false" name="main_menu_new">โครงการใหม่</string>
-    <string formatted="false" name="main_menu_programs">โปรแกรม</string>
-    <string formatted="false" name="main_menu_help">ช่วย</string>
+    <string formatted="false" name="main_menu_continue">ทำโปรเจ็กต์ต่อ</string>
+    <string formatted="false" name="main_menu_new">โปรเจ็กต์ใหม่</string>
+    <string formatted="false" name="main_menu_programs">โปรเจ็กต์บนอุปกรณ์</string>
+    <string formatted="false" name="main_menu_help">ช่วยเหลือ</string>
     <string formatted="false" name="main_menu_web">ชุมชน Catrobat</string>
     <string formatted="false" name="main_menu_upload">อัพโหลดโปรเจกต์</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ให้คะแนนเรา</string>
     <string formatted="false" name="main_menu_terms_of_use">ข้อกำหนดการใช้งานและบริการ</string>
     <string formatted="false" name="main_menu_privacy_policy">นโยบายความเป็นส่วนตัว</string>
@@ -108,7 +109,7 @@
     <string formatted="false" name="marketing_more_on_google_play">แอพเพิ่มเติมใน App Store</string>
     <string formatted="false" name="error_cannot_open_huawei_app_gallery">อ๊ะ! ไม่สามารถเปิด Huawei AppGallery
          กรุณาลองใหม่อีกครั้งในภายหลัง</string>
-    <string formatted="false" name="google_play_store_logo">Google Play</string>
+    <string formatted="false" name="google_play_store_logo">Google Play สโตร์</string>
     <string formatted="false" name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string formatted="false" name="nfc_activity_title">แท็ก NFC</string>
@@ -179,13 +180,22 @@
     <string formatted="false" name="preference_access_title_profile_argus">อาร์กัส</string>
     <string formatted="false" name="preference_access_summary_profile_argus">ความคมชัดสูง, ไอคอนเพิ่มเติม</string>
     <string formatted="false" name="preference_access_title_profile_odin">โอดิน</string>
-    <string formatted="false" name="preference_access_summary_profile_odin">ข้อความขนาดใหญ่, ไอคอนขนาดใหญ่, ระยะห่างองค์ประกอบขนาดใหญ่,
+    <string formatted="false" name="preference_access_summary_profile_odin">ข้อความขนาดใหญ่, ไอคอนขนาดใหญ่, ระยะห่างองค์ประกอบขนาดใหญ่, 
        ความคมชัดสูง</string>
     <string formatted="false" name="preference_access_title_profile_fenrir">เฟนเรีย</string>
     <string formatted="false" name="preference_access_summary_profile_fenrir">การเว้นวรรคองค์ประกอบขนาดใหญ่ drag\'n\'drop
        ล่าช้า</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tiro</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">โหมดเริ่มต้น</string>
+    <string name="preference_dialog_use_full_features">ใช้คุณสมบัติทั้งหมด</string>
+    <string name="preference_dialog_appgallery">แอพแกลเลอรี</string>
+    <string name="preference_dialog_google_play">กูเกิลเพลย์</string>
+    <string name="preference_lego_dialog_text">เพื่อใช้ประโยชน์จากคุณสมบัติทั้งหมดของเลโก้
+         ส่วนขยาย Mindstorms โปรดใช้แอป Mindstorms Code EV3 NXT ของ Catrobat</string>
+    <string name="preference_embroidery_dialog_text">เพื่อใช้ประโยชน์จากคุณสมบัติทั้งหมดของ
+         ส่วนต่อขยายการปัก โปรดใช้แอป ออกแบบการปักของ Catrobat</string>
+    <string name="preference_phiro_dialog_text">เพื่อใช้ประโยชน์จากฟีเจอร์ทั้งหมดของ Piro
+         ส่วนขยายวิทยาการหุ่นยนต์ โปรดใช้แอป Phiro Code ของ Catrobat</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">อนุญาตให้แอปควบคุม Parrot AR.Drone 2.0 quadcopters</string>
@@ -206,6 +216,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">สร้างรูปแบบสำหรับเครื่องเย็บ</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">ส่วนขยาย Chromecast</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">แสดงปุ่มแคสต์และเปิดใช้โปรเจ็กต์แคสต์</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">ส่วนขยายการสื่อสารระยะใกล้</string>
     <string formatted="false" name="preference_description_nfc_bricks">อนุญาตให้แอปใช้แท็ก NFC ในโครงการ</string>
     <string formatted="false" name="preference_title_enable_crash_reports">การส่งรายงานข้อผิดพลาดที่ไม่ระบุชื่อ</string>
@@ -231,14 +244,14 @@
     <string formatted="false" name="error_request_timeout">อ๊ะ! เซิร์ฟเวอร์ของเราไม่ตอบสนองโปรดลองอีกครั้งในภายหลัง</string>
     <string formatted="false" name="error_scratch_program_conversion_failed">อ๊ะ!  การแปลงโครงการล้มเหลวโปรดลองอีกครั้งในภายหลัง</string>
     <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">อ๊ะ!  ไม่สามารถแปลง %1$s ได้โปรดลองอีกครั้งในภายหลัง</string>
-    <string formatted="false" name="error_scratch_converter_outdated_app_version">แอพเวอร์ชันนี้ของคุณล้าสมัยแล้ว  ตัวแปลง
+    <string formatted="false" name="error_scratch_converter_outdated_app_version">แอพเวอร์ชันนี้ของคุณล้าสมัยแล้ว  ตัวแปลง 
         Scratch ของเราใช้งานได้กับเวอร์ชันล่าสุดเท่านั้น  โปรดอัปเดตแอป</string>
     <string formatted="false" name="error_cannot_open_not_existing_scratch_program">ฉันไม่สามารถเปิดโครงการ Scratch นี้ได้ ดูเหมือนว่าคุณ
         ได้ยกเลิกการแปลง/ดาวน์โหลดโครงการ Scratch หรือคุณได้เปลี่ยนชื่อ/ลบโครงการใน
         ในขณะเดียวกัน.</string>
-    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">คุณยังไม่สามารถเปิดโครงการ
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">คุณยังไม่สามารถเปิดโครงการ  
         โปรดรอจนกว่ามันจะถูกดาวน์โหลด</string>
-    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">คุณยังไม่สามารถเปิดโครงการ
+    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">คุณยังไม่สามารถเปิดโครงการ  
         โปรดดาวน์โหลดก่อนแล้วจึงเปิด</string>
     <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">ฉันไม่สามารถแปลง %1$s ได้  ดูเหมือนว่าจะเป็นโครงการเก่าก่อนหน้า %2$s  โปรดลองอันอื่น</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
@@ -552,11 +565,16 @@
          บนอุปกรณ์มัลติเพลเยอร์ที่เชื่อมต่อ</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">ชุดข้อมูลของคุณ</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">จัดเก็บ</string>
     <string formatted="false" name="unpack">นำไปใช้</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">สร้างโครงการ</string>
     <string formatted="false" name="new_project_dialog_example_project">ตัวอย่างโครงการ</string>
+    <string name="new_project_dialog_portrait">แนวตั้ง</string>
+    <string name="new_project_dialog_landscape">แนวนอน</string>
+    <string name="new_project_dialog_cast">ทิ้ง</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">รวมโครงการแล้ว</string>
@@ -573,6 +591,8 @@
     <string formatted="false" name="add_look_choose_image">แกลลอรี่</string>
     <string formatted="false" name="add_look_media_library">ไลบรารีสื่อ</string>
     <string formatted="false" name="add_look_from_local_project">โครงการในความจำเครื่อง</string>
+    <string name="add_look_empty_object">ไม่มีวัตถุ</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">เพิ่มเสียง</string>
@@ -687,7 +707,7 @@
     <string formatted="false" name="error_session_expired">เซสชันหมดอายุโปรดเข้าสู่ระบบ</string>
     <string formatted="false" name="error_register_empty_username">ชื่อผู้ใช้ว่างเปล่า</string>
     <string formatted="false" name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
-    <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9),
+    <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9), 
         เครื่องหมายขีดกลาง (-), เครื่องหมายขีดล่าง (_) และจุด (.)</string>
     <string formatted="false" name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
     <string formatted="false" name="error_register_invalid_email_format">รูปแบบอีเมลไม่ถูกต้อง</string>
@@ -757,6 +777,7 @@
     <string formatted="false" name="category_motion">เคลื่อนไหว</string>
     <string formatted="false" name="category_looks">รูปลักษณ์</string>
     <string formatted="false" name="category_pen">ปากกา</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">เสียง</string>
     <string formatted="false" name="category_control">ควบคุม</string>
     <string formatted="false" name="category_event">เหตุการณ์</string>
@@ -924,6 +945,11 @@
     <string formatted="false" name="at_string">ที่</string>
     <string formatted="false" name="seconds_string">วินาที</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">ตะเข็บ</string>
     <string formatted="false" name="brick_running_stitch">เริ่มใช้ตะเข็บที่มีความยาว</string>
@@ -1219,6 +1245,9 @@
     <string formatted="false" name="error_embroidery_file_export">เกิดข้อผิดพลาดบางอย่างขณะแชร์ไฟล์การปัก</string>
     <string formatted="false" name="error_embroidery_file_write">เกิดข้อผิดพลาดขณะเขียนไฟล์ปัก</string>
     <string formatted="false" name="error_embroidery_data_not_found">เย็บปักถักร้อยขาดหายไป</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">บางอย่างผิดพลาด.</string>
     <string formatted="false" name="error_gps_not_available">ไม่มีข้อมูลตำแหน่งทางภูมิศาสตร์</string>
     <string formatted="false" name="error_set_description">เกิดข้อผิดพลาดขณะบันทึกคำอธิบายใหม่</string>
@@ -1545,6 +1574,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\'สวัสดีโลก\')</string>
     <string formatted="false" name="formula_editor_function_letter">ตัวอักษร</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1 \'สวัสดีโลก\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">ข้อความย่อย</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'สวัสดีชาวโลก\')</string>
     <string formatted="false" name="formula_editor_function_join">รวม</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'สวัสดีชาวโลก\')</string>
     <string formatted="false" name="formula_editor_function_join3">เข้าร่วม</string>
@@ -1651,6 +1682,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad ลง ที่ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">กดซ้ายค้างไว้</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">กดขวาค้างไว้</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของหน้าจอ</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">ความสูงของหน้าจอ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro เซ็นเซอร์ด้านหน้าซ้าย</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro เซ็นเซอร์ด้านหน้าขวา</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro เซ็นเซอร์ด้านซ้าย</string>
@@ -1677,7 +1710,7 @@
     <string formatted="false" name="formula_editor_object_background_name">ชื่อพื้นหลัง</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">จำนวนพื้นหลัง</string>
     <string formatted="false" name="formula_editor_object_distance_to">ระยะทางไปยังตำแหน่งที่สัมผัส</string>
-    <string formatted="false" name="formula_editor_confirm">คำนวณ</string>
+    <string formatted="false" name="formula_editor_confirm">ยืนยัน</string>
     <string formatted="false" name="formula_editor_object">วัตถุ</string>
     <string formatted="false" name="formula_editor_functions">ฟังก์ชัน</string>
     <string formatted="false" name="formula_editor_logic">ตรรกะ</string>
@@ -1852,8 +1885,8 @@
         \n คุณสามารถแทรกสิ่งเหล่านี้ในสูตรของคุณหรือเพิ่มใหม่ได้</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">ภาษาที่ใช้ในการฟัง</string>
     <string formatted="false" name="formula_editor_speech_recognition">การเรียนรู้จดจำเสียง</string>
-    <string formatted="false" name="camera_error_text_detection">        มีปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังดาวน์โหลดอยู่ในไฟล์
-         พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่ออินเทอร์เน็ตแล้วและกลับมาตรวจสอบในภายหลัง</string>
+    <string formatted="false" name="camera_error_text_detection">       เกิดปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ใน
+         พื้นหลัง. โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับอินเทอร์เน็ตแล้วและกลับมาตรวจสอบอีกครั้งในภายหลัง</string>
     <string formatted="false" name="warning_formula_recognized">คุณป้อนข้อความที่ดูเหมือนสูตร หากคุณต้องการใช้ฟังก์ชัน
          เซ็นเซอร์ ตัวแปร และองค์ประกอบสูตรอื่นๆ โปรดเลือกแทนโดยใช้
          ปุ่มในตัวแก้ไขสูตร</string>
@@ -1878,11 +1911,9 @@
     <string formatted="false" name="brick_choose_camera">ใช้กล้องถ่ายรูป</string>
     <string formatted="false" name="choose_camera_front">ด้านหน้า</string>
     <string formatted="false" name="choose_camera_back">ด้านหลัง</string>
-    <string formatted="false" name="camera_error_generic">        เกิดข้อผิดพลาดขณะพยายามใช้กล้อง
-    </string>
-    <string formatted="false" name="camera_error_face_detection">        มีปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ในไฟล์
-        พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่อกับอินเทอร์เน็ตและกลับมาตรวจสอบในภายหลัง
-    </string>
+    <string formatted="false" name="camera_error_generic">        เกิดข้อผิดพลาดขณะพยายามใช้กล้อง    </string>
+    <string formatted="false" name="camera_error_face_detection">        เกิดปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ใน
+         พื้นหลัง. โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับอินเทอร์เน็ตแล้วและกลับมาตรวจสอบอีกครั้งในภายหลัง</string>
     <!-- -->
     <!-- Cast strings -->
     <string formatted="false" name="cast_gamepad_A">A</string>
@@ -1932,7 +1963,7 @@
     <string formatted="false" name="hint_scripts">สคริปต์จะกำหนดพฤติกรรมของนักแสดงหรือวัตถุของคุณ  ในการเพิ่มบล็อกลงในสคริปต์ให้แตะสัญลักษณ์ \"+\"</string>
     <string formatted="false" name="hint_looks">ที่นี่คุณสามารถค้นหาลักษณะที่แตกต่างของนักแสดงหรือวัตถุของคุณ  หากต้องการเพิ่มรูปลักษณ์ใหม่ให้แตะสัญลักษณ์ \"+\"</string>
     <string formatted="false" name="hint_sounds">ที่นี่คุณสามารถเพิ่มเสียงใหม่ให้กับนักแสดงหรือวัตถุของคุณ  จำไว้ว่าใช้คำสั่งจากหมวดเสียง</string>
-    <string formatted="false" name="hint_objects">โปรแกรมของคุณประกอบด้วยนักแสดงและวัตถุต่าง ๆ ที่สามารถโต้ตอบซึ่งกันและกันได้
+    <string formatted="false" name="hint_objects">โปรแกรมของคุณประกอบด้วยนักแสดงและวัตถุต่าง ๆ ที่สามารถโต้ตอบซึ่งกันและกันได้  
         หากต้องการเพิ่มนักแสดงหรือวัตถุใหม่ให้แตะสัญลักษณ์ \"+\"</string>
     <!--  -->
     <!-- Dialog Disable hints -->
@@ -1975,5 +2006,5 @@
     <string formatted="false" name="set_particle_color_to">ตั้งค่าสีอนุภาคเป็น</string>
     <string formatted="false" name="undo_sort">เลิกทำการเรียงลำดับ</string>
     <string formatted="false" name="sort">เรียงลำดับ</string>
-    <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="checkbox">ทำเครื่องหมาย</string>
 </resources>

@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">Pomoc</string>
     <string formatted="false" name="main_menu_web">Społeczność Catrobat</string>
     <string formatted="false" name="main_menu_upload">Wyślij projekt</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Oceń nas!</string>
     <string formatted="false" name="main_menu_terms_of_use">Warunki użytkowania i korzystania z usługi</string>
     <string formatted="false" name="main_menu_privacy_policy">Polityka prywatności</string>
@@ -184,6 +185,15 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">Duże odstępy między blokami, opóźnienie przeciągania bloczków</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tyr</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">Bloczki dla początkujących</string>
+    <string name="preference_dialog_use_full_features">Użyj pełnych funkcji</string>
+    <string name="preference_dialog_appgallery">Galeria Aplikacji</string>
+    <string name="preference_dialog_google_play">Sklep Play</string>
+    <string name="preference_lego_dialog_text">Aby wykorzystać wszystkie funkcje rozszerzeń Lego
+        Mindstorms, użyj aplikacji Catrobat Mindstorms Code EV3 NXT.</string>
+    <string name="preference_embroidery_dialog_text">Aby skorzystać ze wszystkich funkcji rozszerzenia
+        haftu, użyj aplikacji Catrobat Embroidery Designer.</string>
+    <string name="preference_phiro_dialog_text">Aby skorzystać ze wszystkich funkcji rozszerzenia robotyki Phiro
+        użyj aplikacji Catrobat Phiro Code.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Bloki Parrot AR.Drone 2.0</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Pozwala aplikacji kontrolę quadrocopterów ARDrone 2.0</string>
@@ -204,6 +214,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Twórz wzory dla maszyn do szycia</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Włącz funkcję Cast</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Pokaż przycisk Cast i włącz projekty Cast</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Bloki NFC</string>
     <string formatted="false" name="preference_description_nfc_bricks">Pozwala aplikacji na używanie tagów NFC w programach</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Wyślij anonimowe raporty o awariach</string>
@@ -660,11 +673,16 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         na podłączonych urządzeniach wieloosobowych</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Twój plecak</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Zapakuj</string>
     <string formatted="false" name="unpack">Rozpakuj</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Utwórz projekt</string>
     <string formatted="false" name="new_project_dialog_example_project">Przykładowy projekt</string>
+    <string name="new_project_dialog_portrait">Pionowo</string>
+    <string name="new_project_dialog_landscape">Poziomo</string>
+    <string name="new_project_dialog_cast">Rzuć</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">Scal projekt</string>
@@ -677,10 +695,12 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="new_look_dialog_title">Dodaj wygląd</string>
     <string formatted="false" name="add_look_from_camera">Kamera</string>
     <string formatted="false" name="add_look_object_library">Biblioteka</string>
-    <string formatted="false" name="add_look_draw_new_image">Rysju obraz</string>
+    <string formatted="false" name="add_look_draw_new_image">Rysuj obraz</string>
     <string formatted="false" name="add_look_choose_image">Galeria</string>
     <string formatted="false" name="add_look_media_library">Wygląd</string>
     <string formatted="false" name="add_look_from_local_project">Projekty lokalne</string>
+    <string name="add_look_empty_object">Pusty obiekt</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Dodaj dźwięk</string>
@@ -858,6 +878,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="category_motion">Ruch</string>
     <string formatted="false" name="category_looks">Wygląd</string>
     <string formatted="false" name="category_pen">Pisak</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Dźwięk</string>
     <string formatted="false" name="category_control">Kontrola</string>
     <string formatted="false" name="category_event">Wydarzenie</string>
@@ -1031,6 +1052,11 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="at_string">w </string>
     <string formatted="false" name="seconds_string">sekund</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Szyj</string>
     <string formatted="false" name="brick_running_stitch">Szyj szwem o długości</string>
@@ -1345,6 +1371,9 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="error_embroidery_file_export">Coś poszło nie tak podczas udostępniania pliku haftu.</string>
     <string formatted="false" name="error_embroidery_file_write">Coś poszło nie tak podczas zapisywania pliku haftu.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Brak haftu.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">Coś poszło nie tak.</string>
     <string formatted="false" name="error_gps_not_available">Błąd, GPS jest niedostępny.</string>
     <string formatted="false" name="error_set_description">Podczas zapisywania nowego opisu wystąpił błąd.</string>
@@ -1665,6 +1694,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_letter">litera</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">podtekst</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'witaj świecie\')</string>
     <string formatted="false" name="formula_editor_function_join">połącz</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'witaj\',\'świecie\')</string>
     <string formatted="false" name="formula_editor_function_join3">połącz</string>
@@ -1769,6 +1800,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad_dół_naciśnięto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad_lewo_naciśnięto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad_prawo_naciśnięto</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">szerokość sceny</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">wysokość sceny</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro_przedni_lewy_czujnik</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro_przedni_prawy_czujnik</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro_boczny_lewy_czujnik</string>
@@ -1795,7 +1828,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_object_background_name">nazwa_tła</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">liczba teł</string>
     <string formatted="false" name="formula_editor_object_distance_to">odległość do</string>
-    <string formatted="false" name="formula_editor_confirm">Oblicz</string>
+    <string formatted="false" name="formula_editor_confirm">Potwierdź</string>
     <string formatted="false" name="formula_editor_object">Właściwości</string>
     <string formatted="false" name="formula_editor_functions">Funkcje</string>
     <string formatted="false" name="formula_editor_logic">Logika</string>

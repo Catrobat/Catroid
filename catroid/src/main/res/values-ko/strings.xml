@@ -88,6 +88,7 @@
     <string formatted="false" name="main_menu_help">도움말</string>
     <string formatted="false" name="main_menu_web">Catrobat 공유</string>
     <string formatted="false" name="main_menu_upload">프로그램 업로드</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">평가하기</string>
     <string formatted="false" name="main_menu_terms_of_use">사용과 서비스 약관</string>
     <string formatted="false" name="main_menu_privacy_policy">개인 정보 보호 정책</string>
@@ -179,6 +180,15 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">넓는 간격, 드래그앤드롭 지연</string>
     <string formatted="false" name="preference_access_title_profile_tiro">초보자</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">초급 수준</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 블럭</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">AR.Drone 2.0 quadcopter 제어 허용하기</string>
@@ -199,6 +209,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">십자수 기계용 패턴 제작</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">전체 기능 활성화</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">캐스트 버튼 표시하고 캐스트 프로그램 허용하기</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">NFC(Near Field Communication)</string>
     <string formatted="false" name="preference_description_nfc_bricks">NFC 태그 사용 승인</string>
     <string formatted="false" name="preference_title_enable_crash_reports">익명 충돌 보고서 보내기</string>
@@ -539,11 +552,16 @@
         연결된 멀티 플레이어 장치</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">당신의 스크립트 모음</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">묶기</string>
     <string formatted="false" name="unpack">풀기</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">예제 프로젝트</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">가로 보기</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">병합된 프로젝트</string>
@@ -560,6 +578,8 @@
     <string formatted="false" name="add_look_choose_image">그림 선택하기</string>
     <string formatted="false" name="add_look_media_library">미디어 라이브러리</string>
     <string formatted="false" name="add_look_from_local_project">지역 프로젝트</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">소리 추가</string>
@@ -744,6 +764,7 @@
     <string formatted="false" name="category_motion">동작</string>
     <string formatted="false" name="category_looks">모양</string>
     <string formatted="false" name="category_pen">펜</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">소리</string>
     <string formatted="false" name="category_control">제어</string>
     <string formatted="false" name="category_event">이벤트</string>
@@ -911,6 +932,11 @@
     <string formatted="false" name="at_string">에</string>
     <string formatted="false" name="seconds_string">초</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">스티치</string>
     <string formatted="false" name="brick_running_stitch">길이만큼 스티치 시작</string>
@@ -1212,6 +1238,9 @@
     <string formatted="false" name="error_embroidery_file_export">자수 파일을 공유하는데 문제가 생겼습니다.</string>
     <string formatted="false" name="error_embroidery_file_write">패턴 파일을 작성하는 중 문제가 생겼습니다.</string>
     <string formatted="false" name="error_embroidery_data_not_found">패턴이 없습니다.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
     <string formatted="false" name="error_gps_not_available">위치 정보 사용 불가.</string>
     <string formatted="false" name="error_set_description">저장하는 중에 오류가 발생했습니다.</string>
@@ -1537,6 +1566,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\' 안녕하세요 \')</string>
     <string formatted="false" name="formula_editor_function_letter">문자</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1,\' 안녕하세요 \')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">결합</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string formatted="false" name="formula_editor_function_join3">결합</string>
@@ -1643,6 +1674,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">게임패드의 아래로 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">게임패드의 왼쪽으로 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">게임패드의 오른쪽으로 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 앞 왼쪽 센서</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">Phiro 앞 오른쪽 센서</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">Phiro 옆 왼쪽 센서</string>
@@ -1669,7 +1702,7 @@
     <string formatted="false" name="formula_editor_object_background_name">배경 이름</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">배경 수</string>
     <string formatted="false" name="formula_editor_object_distance_to">거리</string>
-    <string formatted="false" name="formula_editor_confirm">연산결과 미리보기</string>
+    <string formatted="false" name="formula_editor_confirm">확인</string>
     <string formatted="false" name="formula_editor_object">오브젝트</string>
     <string formatted="false" name="formula_editor_functions">함수</string>
     <string formatted="false" name="formula_editor_logic">논리 연산</string>
@@ -1841,8 +1874,8 @@
         \n수식에 간단히 삽입하거나 새로 추가할 수 있습니다.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">듣기 언어</string>
     <string formatted="false" name="formula_editor_speech_recognition">음성 인식</string>
-    <string formatted="false" name="camera_error_text_detection">        텍스트 감지에 문제가 있습니다. 일부 구성 요소는 아직 다운로드 중일 수 있습니다.
-        배경. 인터넷에 연결되어 있는지 확인하고 나중에 다시 확인하세요.</string>
+    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">수식처럼 보이는 텍스트를 입력했습니다. 기능을 사용하고 싶다면,
         센서, 변수 및 기타 공식 요소를 사용하여 대신 선택하십시오.
         수식 편집기의 버튼.</string>
@@ -1893,7 +1926,7 @@
     <string formatted="false" name="cast_screen_pause_text">정지</string>
     <!-- -->
     <string formatted="false" name="deletion_alert_title">삭제하시겠습니까?</string>
-    <string formatted="false" name="deletion_alert_text">현재 사용되고 있는 목록이나 변수를 삭제한다면 에러가 발생할 수 있습니다.
+    <string formatted="false" name="deletion_alert_text">현재 사용되고 있는 목록이나 변수를 삭제한다면 에러가 발생할 수 있습니다. 
         이 실행을 취소할 수 없습니다!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">프로젝트가 다른 사용자가있는 앱의 공유 사이트에 업로드됩니다.
@@ -1951,7 +1984,7 @@
     <string formatted="false" name="search">검색…</string>
     <string formatted="false" name="no_results_found">검색 결과가 없습니다</string>
     <string formatted="false" name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
-    <string formatted="false" name="paste">풀</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">페이드 파티클 효과</string>
     <string formatted="false" name="particle_effects_fade_in">에서</string>

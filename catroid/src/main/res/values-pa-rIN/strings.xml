@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">ਮਦਦ ਕਰੋ</string>
     <string formatted="false" name="main_menu_web">ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ</string>
     <string formatted="false" name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਕਰੋ</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
     <string formatted="false" name="main_menu_terms_of_use">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
     <string formatted="false" name="main_menu_privacy_policy">ਪਰਾਈਵੇਟ ਨੀਤੀ</string>
@@ -186,6 +187,15 @@
         ਦੇਰੀ</string>
     <string formatted="false" name="preference_access_title_profile_tiro">ਤਿਰੋ</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">ਸ਼ੁਰੂਆਤੀ ਮੋਡ</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">ਤੋਤਾ ਏਆਰ ਡ੍ਰੋਨ 2.0 ਐਕਸਟੈਂਸ਼ਨ</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">ਐਪ ਨੂੰ ਤੋਤਾ ਏਆਰ.ਡ੍ਰੋਨ 2.0 ਕਵਾਡਕਾੱਪਟਰਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
@@ -206,6 +216,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">ਸਿਲਾਈ ਮਸ਼ੀਨਾਂ ਲਈ ਪੈਟਰਨ ਤਿਆਰ ਕਰੋ</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">ਕਰੋਮਕਾਸਟ ਐਕਸਟੈਂਸ਼ਨ</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">ਕਾਸਟ ਬਟਨ ਦਿਖਾਓ ਅਤੇ ਕਾਸਟ ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਸਮਰੱਥ ਕਰੋ</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">ਫੀਲਡ ਕਮਿicationਨੀਕੇਸ਼ਨ ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਨੇੜੇ</string>
     <string formatted="false" name="preference_description_nfc_bricks">ਐਪ ਨੂੰ ਪ੍ਰੋਜੈਕਟਾਂ ਵਿੱਚ NFC ਟੈਗਸ ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
     <string formatted="false" name="preference_title_enable_crash_reports">ਅਗਿਆਤ ਕਰੈਸ਼ ਰਿਪੋਰਟਾਂ ਭੇਜ ਰਿਹਾ ਹੈ</string>
@@ -602,11 +615,16 @@
          ਜੁੜੇ ਮਲਟੀਪਲੇਅਰ ਡਿਵਾਈਸਾਂ ਤੇ</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">ਤੁਹਾਡਾ ਬੈਕਪੈਕ</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">ਪੈਕ</string>
     <string formatted="false" name="unpack">ਅਨਪੈਕ</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">ਪ੍ਰਾਜੈਕਟ ਦੀ ਉਦਾਹਰਣ</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">ਲੈਂਡਸਕੇਪ</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">ਮਰਜ ਪ੍ਰੋਜੈਕਟ</string>
@@ -623,6 +641,8 @@
     <string formatted="false" name="add_look_choose_image">ਚਿੱਤਰ ਚੁਣੋ</string>
     <string formatted="false" name="add_look_media_library">ਮੀਡੀਆ ਲਾਇਬ੍ਰੇਰੀ</string>
     <string formatted="false" name="add_look_from_local_project">ਸਥਾਨਕ ਪ੍ਰਾਜੈਕਟ</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">ਆਵਾਜ਼ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -810,6 +830,7 @@
     <string formatted="false" name="category_motion">ਗਤੀ</string>
     <string formatted="false" name="category_looks">ਲੁੱਕਸ</string>
     <string formatted="false" name="category_pen">ਕਲਮ</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">ਆਵਾਜ਼</string>
     <string formatted="false" name="category_control">ਨਿਯੰਤਰਣ</string>
     <string formatted="false" name="category_event">ਘਟਨਾ</string>
@@ -979,6 +1000,11 @@
     <string formatted="false" name="at_string">ਤੇ</string>
     <string formatted="false" name="seconds_string">ਸਕਿੰਟ</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">ਸਿਲਾਈ</string>
     <string formatted="false" name="brick_running_stitch">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
@@ -1286,6 +1312,9 @@
     <string formatted="false" name="error_embroidery_file_export">ਕਢਾਈ ਫਾਇਲ ਸ਼ੇਅਰਿੰਗ, ਜਦਕਿ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_embroidery_file_write">ਜਦਕਿ ਕਢਾਈ ਫਾਇਲ ਲਿਖਣ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ਕਢਾਈ ਗੁੰਮ ਹੈ.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_gps_not_available">ਭੂਗੋਲਿਕ ਸਥਾਨ ਉਪਲਬਧ ਨਹੀਂ ਹੈ.</string>
     <string formatted="false" name="error_set_description">ਨਵਾਂ ਵੇਰਵਾ ਸੁਰੱਖਿਅਤ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
@@ -1613,6 +1642,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\'ਹੈਲੋ ਵਰਲਡ\')</string>
     <string formatted="false" name="formula_editor_function_letter">ਪੱਤਰ</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1, \'ਹੈਲੋ ਵਰਲਡ\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">ਜੁੜੋ</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'ਹੈਲੋ\', \'ਵਰਲਡ\')</string>
     <string formatted="false" name="formula_editor_function_join3">ਜੁੜੋ</string>
@@ -1719,6 +1750,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ਗੇਮਪੈਡ ਥੱਲੇ ਦੱਬਿਆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ਗੇਮਪੈਡ ਦਬਾਇਆ ਖੱਬੇ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ਗੇਮਪੈਡ ਸੱਜੇ ਦਬਾਇਆ</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ਸਾਹਮਣੇ ਛੱਡ ਦਿੱਤਾ ਸੂਚਕ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro ਸਾਹਮਣੇ ਸੱਜੇ ਸੂਚਕ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro ਪਾਸੇ ਸੂਚਕ ਛੱਡ ਦਿੱਤਾ</string>
@@ -1745,7 +1778,7 @@
     <string formatted="false" name="formula_editor_object_background_name">ਪਿਛੋਕੜ ਦਾ ਨਾਮ</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">ਪਿਛੋਕੜ ਦੀ ਗਿਣਤੀ</string>
     <string formatted="false" name="formula_editor_object_distance_to">ਸਥਿਤੀ ਨੂੰ ਛੂਹਣ ਲਈ ਦੂਰੀ</string>
-    <string formatted="false" name="formula_editor_confirm">ਗਣਨਾ</string>
+    <string formatted="false" name="formula_editor_confirm">ਪੁਸ਼ਟੀ ਕਰੋ</string>
     <string formatted="false" name="formula_editor_object">ਗੁਣ</string>
     <string formatted="false" name="formula_editor_functions">ਕਾਰਜ</string>
     <string formatted="false" name="formula_editor_logic">ਤਰਕ</string>
@@ -1921,8 +1954,8 @@
         \n ਤੁਹਾਨੂੰ ਸਿਰਫ਼ ਆਪਣੇ ਫਾਰਮੂਲੇ ਵਿਚ ਇਹ ਪਾਓ, ਜ ਨਵ ਲੋਕ ਸ਼ਾਮਿਲ ਕਰ ਸਕਦੇ ਹੋ.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">ਸੁਣਨ ਦੀ ਭਾਸ਼ਾ</string>
     <string formatted="false" name="formula_editor_speech_recognition">ਬੋਲਣ ਦੀ ਪਛਾਣ</string>
-    <string formatted="false" name="camera_error_text_detection">        ਟੈਕਸਟ ਖੋਜ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਆਈ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.</string>
+    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">ਤੁਸੀਂ ਇੱਕ ਪਾਠ ਦਾਖਲ ਕੀਤਾ ਹੈ ਜੋ ਇੱਕ ਫਾਰਮੂਲੇ ਵਰਗਾ ਲਗਦਾ ਹੈ. ਜੇ ਤੁਸੀਂ ਫੰਕਸ਼ਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ,
         ਸੈਂਸਰ, ਵੇਰੀਏਬਲ ਅਤੇ ਹੋਰ ਫਾਰਮੂਲਾ ਤੱਤ, ਕਿਰਪਾ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਚੋਣ ਕਰੋ
         ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ ਵਿੱਚ ਬਟਨ.</string>
@@ -1947,10 +1980,10 @@
     <string formatted="false" name="brick_choose_camera">ਕੈਮਰਾ ਵਰਤੋ</string>
     <string formatted="false" name="choose_camera_front">ਸਾਹਮਣੇ</string>
     <string formatted="false" name="choose_camera_back">ਰੀਅਰ</string>
-    <string formatted="false" name="camera_error_generic">         ਕੈਮਰਾ ਵਰਤਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦਿਆਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.
+    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.
+    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2037,7 +2070,7 @@
     <string formatted="false" name="search">ਖੋਜ ਕਰੋ…</string>
     <string formatted="false" name="no_results_found">ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ</string>
     <string formatted="false" name="query_field_is_empty">ਕਿ fieldਰੀ ਫੀਲਡ ਖਾਲੀ ਹੈ</string>
-    <string formatted="false" name="paste">ਚਿਪਕਾਓ</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">ਫੇਡ ਕਣ ਪ੍ਰਭਾਵ</string>
     <string formatted="false" name="particle_effects_fade_in">ਵਿੱਚ</string>

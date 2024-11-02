@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">உதவி</string>
     <string formatted="false" name="main_menu_web">கற்றோபாட்டுச் சமூகம்</string>
     <string formatted="false" name="main_menu_upload">திட்டப்பணி ஏற்றுக</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">எங்களை மதிப்பிடுக!</string>
     <string formatted="false" name="main_menu_terms_of_use">பயன்பாட்டு மற்றும் சேவை விதிமுறைகள்</string>
     <string formatted="false" name="main_menu_privacy_policy">சுய செயலிட கொள்கை</string>
@@ -184,6 +185,15 @@
     <string formatted="false" name="preference_access_summary_profile_fenrir">பெரிய உறுப்பு இடைவெளி, drag\'n\'drop, தாமதம்</string>
     <string formatted="false" name="preference_access_title_profile_tiro">டிரோ</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">தொடக்க முறை</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 நீட்டிப்பு</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Parrot AR.Drone 2.0 குவாட்காப்டர்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
@@ -204,6 +214,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">தையல் இயந்திரங்களுக்கான வடிவங்களை உருவாக்கவும்</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast நீட்டிப்பு</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">வார்ப்பு பொத்தானைக் காண்பி மற்றும் நடிகர் திட்டங்களை இயக்கவும்</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">புல தொடர்பு நீட்டிப்புக்கு அருகில்</string>
     <string formatted="false" name="preference_description_nfc_bricks">திட்டங்களில் NFC குறிச்சொற்களைப் பயன்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
     <string formatted="false" name="preference_title_enable_crash_reports">அநாமதேய செயலிழப்பு அறிக்கைகளை அனுப்புகிறது</string>
@@ -593,11 +606,16 @@
         on connected multiplayer devices</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">உங்கள் பை</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">கட்டு</string>
     <string formatted="false" name="unpack">கட்டைப்பிரி</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">படுக்கைவாட்டம்</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">இணைக்கப்பட்ட திட்டம்</string>
@@ -614,6 +632,8 @@
     <string formatted="false" name="add_look_choose_image">படம் தேர்ந்தெடு</string>
     <string formatted="false" name="add_look_media_library">ஊடக நூலகம்</string>
     <string formatted="false" name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">ஒலி சேர்க்கவும்</string>
@@ -801,6 +821,7 @@
     <string formatted="false" name="category_motion">மோஷன்</string>
     <string formatted="false" name="category_looks">தோற்றம்</string>
     <string formatted="false" name="category_pen">பேனா</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">ஒலி</string>
     <string formatted="false" name="category_control">கட்டுப்பாடு</string>
     <string formatted="false" name="category_event">நிகழ்வு</string>
@@ -970,6 +991,11 @@
     <string formatted="false" name="at_string">இல்</string>
     <string formatted="false" name="seconds_string">விநாடிகள்</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">தைத்து</string>
     <string formatted="false" name="brick_running_stitch">Start running stitch with length</string>
@@ -1273,6 +1299,9 @@
     <string formatted="false" name="error_embroidery_file_export">எம்பிராய்டரி கோப்பைப் பகிரும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">ஏதோ தவறு நடைபெற்றிருக்கிறது.</string>
     <string formatted="false" name="error_gps_not_available">புவிஇருப்பிட தரவு கிடைக்கவில்லை.</string>
     <string formatted="false" name="error_set_description">புதிய விளக்கத்தைச் சேமிக்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
@@ -1593,6 +1622,8 @@
     <string formatted="false" name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_letter">கடிதம்</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">சேர்</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string formatted="false" name="formula_editor_function_join3">சேர்</string>
@@ -1699,6 +1730,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">கேம்பேட் கீழ் அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">கேம்பேட் இடது அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">கேம்பேட் வலது அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">பைரோ முன் இடது சென்சார்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">பைரோ முன் வலது சென்சார்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">பைரோ இடது பக்க சென்சார்</string>
@@ -1725,7 +1758,7 @@
     <string formatted="false" name="formula_editor_object_background_name">பின்னணி பெயர்</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">தொடுவதற்கான தூரம்</string>
-    <string formatted="false" name="formula_editor_confirm">கம்ப்யூட்</string>
+    <string formatted="false" name="formula_editor_confirm">உறுதிபடுத்து</string>
     <string formatted="false" name="formula_editor_object">பொருள்</string>
     <string formatted="false" name="formula_editor_functions">பணிகள்</string>
     <string formatted="false" name="formula_editor_logic">தர்க்கம்</string>
@@ -2002,7 +2035,7 @@
     <string formatted="false" name="search">தேடு…</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="paste">ஒட்டு</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>
     <string formatted="false" name="particle_effects_fade_in">in</string>
