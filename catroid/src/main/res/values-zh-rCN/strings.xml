@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">Trợ giúp</string>
     <string formatted="false" name="main_menu_web">Catrobat社区</string>
     <string formatted="false" name="main_menu_upload">Tải lên chương trình</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">给我们评分！</string>
     <string formatted="false" name="main_menu_terms_of_use">使用与服务条例</string>
     <string formatted="false" name="main_menu_privacy_policy">Chính sách bảo mật</string>
@@ -186,6 +187,15 @@
        拖延</string>
     <string formatted="false" name="preference_access_title_profile_tiro">蒂罗</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">初砖</string>
+    <string name="preference_dialog_use_full_features">使用完整功能</string>
+    <string name="preference_dialog_appgallery">应用库</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR无人机2.0积木</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">允许控制AR2.0版四轴无人机</string>
@@ -206,6 +216,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">创建缝纫机图案</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">启用强制转换功能</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">显示投射按钮并启用投射项目</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">近距离无线通信</string>
     <string formatted="false" name="preference_description_nfc_bricks">允许应用程序在项目中使用 NFC 标签</string>
     <string formatted="false" name="preference_title_enable_crash_reports">发送匿名故障报告</string>
@@ -554,11 +567,16 @@
         的所有演员、对象和克隆在已连接的多人手设备上</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">你的背包</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">组件</string>
     <string formatted="false" name="unpack">取出</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">创建项目</string>
     <string formatted="false" name="new_project_dialog_example_project">示例项目</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">横向</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">已合并 个项目</string>
@@ -575,6 +593,8 @@
     <string formatted="false" name="add_look_choose_image">选择图片</string>
     <string formatted="false" name="add_look_media_library">媒体库</string>
     <string formatted="false" name="add_look_from_local_project">本地项目</string>
+    <string name="add_look_empty_object">空对象</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">添加声音</string>
@@ -754,6 +774,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="category_motion">运动</string>
     <string formatted="false" name="category_looks">看起来</string>
     <string formatted="false" name="category_pen">画笔</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">声音</string>
     <string formatted="false" name="category_control">控制</string>
     <string formatted="false" name="category_event">事件</string>
@@ -921,6 +942,11 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="at_string">在 </string>
     <string formatted="false" name="seconds_string">秒</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">缝制</string>
     <string formatted="false" name="brick_running_stitch">开始进行缝制，按照长度</string>
@@ -1224,6 +1250,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="error_embroidery_file_export">分享刺绣文件时出了错。</string>
     <string formatted="false" name="error_embroidery_file_write">写刺绣文件时出了错。</string>
     <string formatted="false" name="error_embroidery_data_not_found">不存在刺绣。</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">发生未知错误。</string>
     <string formatted="false" name="error_gps_not_available">地理定位数据不可用。</string>
     <string formatted="false" name="error_set_description">在保存说明时发生了一个错误。</string>
@@ -1544,6 +1573,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="formula_editor_function_length_parameter">(\'你好世界\')</string>
     <string formatted="false" name="formula_editor_function_letter">字母</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1，\'你好，世界\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">连接</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'你好\',\'世界\')</string>
     <string formatted="false" name="formula_editor_function_join3">连接</string>
@@ -1650,6 +1681,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">游戏操作杆向下键被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">游戏操纵杆左键被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">游戏操纵杆右键被按下</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro左前方传感器</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro右前方传感器</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro左侧传感器</string>
@@ -1676,7 +1709,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="formula_editor_object_background_name">背景名称</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">背景数</string>
     <string formatted="false" name="formula_editor_object_distance_to">到目标的距离</string>
-    <string formatted="false" name="formula_editor_confirm">计算</string>
+    <string formatted="false" name="formula_editor_confirm">确认</string>
     <string formatted="false" name="formula_editor_object">对象</string>
     <string formatted="false" name="formula_editor_functions">函数</string>
     <string formatted="false" name="formula_editor_logic">逻辑</string>

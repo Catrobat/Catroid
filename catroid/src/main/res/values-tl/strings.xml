@@ -93,6 +93,7 @@
     <string formatted="false" name="main_menu_help">Tulong</string>
     <string formatted="false" name="main_menu_web">Catrobat community</string>
     <string formatted="false" name="main_menu_upload">I-upload ang proyekto</string>
+    <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">I-Rate kami!</string>
     <string formatted="false" name="main_menu_terms_of_use">Terms ng Paggamit at Serbisyo</string>
     <string formatted="false" name="main_menu_privacy_policy">Patakaran sa Privacy</string>
@@ -186,6 +187,15 @@
               delay</string>
     <string formatted="false" name="preference_access_title_profile_tiro">Tiro</string>
     <string formatted="false" name="preference_access_summary_profile_tiro">Mode para sa baguhan</string>
+    <string name="preference_dialog_use_full_features">Use full features</string>
+    <string name="preference_dialog_appgallery">AppGallery</string>
+    <string name="preference_dialog_google_play">Google Play</string>
+    <string name="preference_lego_dialog_text">To take advantage of all features of the Lego
+        Mindstorms extensions, please use Catrobat\'s Mindstorms Code EV3 NXT app.</string>
+    <string name="preference_embroidery_dialog_text">To take advantage of all features of the
+        embroidery extension, please use Catrobat\'s Embroidery Designer app.</string>
+    <string name="preference_phiro_dialog_text">To take advantage of all features of the Phiro
+        robotics extension, please use Catrobat\'s Phiro Code app.</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string formatted="false" name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string formatted="false" name="preference_description_quadcopter_bricks">Pinapayagan ang app na kontrolin ang Parrot AR.Drone 2.0 quadcopters</string>
@@ -206,6 +216,9 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Lumikha ng pattern para sa stitching machines</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Ipakita ang mga pindutan para sa cast at i-enable ang mga proyektong cast</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_description_plot_bricks">Create patterns
+        for plotting machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">ekstensiyon ng Near Field Communication</string>
     <string formatted="false" name="preference_description_nfc_bricks">Pinapayagan ang app na gumamit ng NFC tags sa mga projects.</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Nagpapadala ng di-kilalang mga ulat tungkol sa mga crash</string>
@@ -237,7 +250,7 @@
        muli sa ibang pagkakataon.</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">Ang iyong bersiyon ng app ay luma na. Ang aming Scratch
          converter ay gumagana lamang sa mas mataas na bersiyon. Mangyaring i-update ang app.</string>
-    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Hindi ko mabuksan ang Scratch project na ito. Mukhang
+    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Hindi ko mabuksan ang Scratch project na ito. Mukhang 
        kinansela mo ang pag-convert/pag-download ng Scratch project,o di kaya iniba mo ng pangalan/binura mo ang proyekto
           sa kasalukuyan.</string>
     <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">Hindi mo pa maaaring buksan ang proyekto.
@@ -603,11 +616,16 @@ Pakiusap sumubok na lamang ng iba.</string>
     sa magkakonektang multiplayer devices</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">Ang iyong backpack</string>
+    <string formatted="false" name="actor_object_title">Actors and Objects</string>
     <string formatted="false" name="pack">Pack</string>
     <string formatted="false" name="unpack">Unpack</string>
     <!--  -->
     <!-- NewProjectDialog -->
+    <string name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">Halimbawang proyekto</string>
+    <string name="new_project_dialog_portrait">Portrait</string>
+    <string name="new_project_dialog_landscape">Landscape</string>
+    <string name="new_project_dialog_cast">Cast</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string formatted="false" name="new_merge_project_dialog_title">Pinagsanib na proyekto</string>
@@ -624,6 +642,8 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="add_look_choose_image">Gallery</string>
     <string formatted="false" name="add_look_media_library">Larawan</string>
     <string formatted="false" name="add_look_from_local_project">Lokal na mga proyekto</string>
+    <string name="add_look_empty_object">Empty object</string>
+    <string name="add_look_actors_and_object">Local actors and objects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Magdagdag ng tunog</string>
@@ -808,6 +828,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="category_motion">Paggalaw</string>
     <string formatted="false" name="category_looks">Larawan</string>
     <string formatted="false" name="category_pen">Panulat</string>
+    <string formatted="false" name="category_plot">Plot</string>
     <string formatted="false" name="category_sound">Tunog</string>
     <string formatted="false" name="category_control">Kontrol</string>
     <string formatted="false" name="category_event">Event</string>
@@ -977,6 +998,11 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="at_string">at</string>
     <string formatted="false" name="seconds_string">mga segundo</string>
     <!--  -->
+    <!-- Plot bricks -->
+    <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_stop_plot">Stop to plot</string>
+    <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
     <string formatted="false" name="brick_running_stitch">Start running stitch with length</string>
@@ -1286,6 +1312,9 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
+        svg plot file.</string>
+    <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
     <string formatted="false" name="error_unknown_error">May maling nangyari.</string>
     <string formatted="false" name="error_gps_not_available">Geolocation data is not available.</string>
     <string formatted="false" name="error_set_description">Something went wrong while saving the new description.</string>
@@ -1613,6 +1642,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_letter">letter</string>
     <string formatted="false" name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string formatted="false" name="formula_editor_function_subtext">subtext</string>
+    <string formatted="false" name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string formatted="false" name="formula_editor_function_join">join</string>
     <string formatted="false" name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string formatted="false" name="formula_editor_function_join3">join</string>
@@ -1719,6 +1750,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
@@ -1745,7 +1778,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">background name</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">distance to touch position</string>
-    <string formatted="false" name="formula_editor_confirm">Confirm</string>
+    <string formatted="false" name="formula_editor_confirm">Kumpirmahin</string>
     <string formatted="false" name="formula_editor_object">Properties</string>
     <string formatted="false" name="formula_editor_functions">Functions</string>
     <string formatted="false" name="formula_editor_logic">Logic</string>
@@ -2037,7 +2070,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="search">Maghanap</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="paste">I-paste</string>
+    <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>
     <string formatted="false" name="particle_effects_fade_in">in</string>
