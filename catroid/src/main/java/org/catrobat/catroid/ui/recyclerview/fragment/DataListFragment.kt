@@ -65,10 +65,10 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
 
-class DataListFragment : Fragment(),
+class DataListFragment<T : UserData<String>> : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
-    RVAdapter.OnItemClickListener<UserData<*>> {
-    @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
+    RVAdapter.OnItemClickListener<T> {
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(NONE, DELETE)
     internal annotation class ActionModeType
 
@@ -150,7 +150,11 @@ class DataListFragment : Fragment(),
         BottomBar.showAddButton(activity)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val parent = inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
         emptyView = parent.findViewById(R.id.empty_view)
@@ -238,8 +242,10 @@ class DataListFragment : Fragment(),
             .getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
 
         if (!indexVariable) {
-            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+            initialIndexing(
+                userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+                globalLists, localLists
+            )
             indexVariable = true
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
@@ -247,8 +253,10 @@ class DataListFragment : Fragment(),
                 .apply()
         }
 
-        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+        sortVariableAndList(
+            userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+            globalLists, localLists
+        )
         adapter?.notifyDataSetChanged()
     }
 
@@ -391,6 +399,7 @@ class DataListFragment : Fragment(),
                     .apply()
                 indexAndSort()
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -431,8 +440,12 @@ class DataListFragment : Fragment(),
             adapter?.remove(item)
         }
         ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
-        ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
-                                                                    selectedItems.size, selectedItems.size))
+        ToastUtil.showSuccess(
+            activity, resources.getQuantityString(
+                R.plurals.deleted_Items,
+                selectedItems.size, selectedItems.size
+            )
+        )
     }
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
@@ -464,7 +477,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    private fun showEditDialog(selectedItems: List<UserData<*>>) {
+    private fun showEditDialog(selectedItems: List<T>) {
         val item = selectedItems[0]
         val builder = TextInputDialog.Builder(requireContext())
 
@@ -478,7 +491,7 @@ class DataListFragment : Fragment(),
             .show()
     }
 
-    private fun editItem(item: UserData<*>, value: String?) {
+    private fun editItem(item: T, value: String?) {
         updateUserVariableValue(value, item)
         adapter?.updateDataSet()
         finishActionMode()
@@ -490,7 +503,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
+    override fun onItemClick(item: T, selectionManager: MultiSelectionManager?) {
         if (actionModeType == NONE) {
             val formulaEditorFragment =
                 fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
@@ -499,7 +512,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
+    override fun onItemLongClick(item: T, holder: CheckableViewHolder) {
         onItemClick(item, null)
     }
 
@@ -518,16 +531,20 @@ class DataListFragment : Fragment(),
 
         @JvmStatic
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
-            ProjectManager.getInstance().currentProject.updateUserDataReferences(oldName, newName, item)
+            ProjectManager.getInstance().currentProject.updateUserDataReferences(
+                oldName,
+                newName,
+                item
+            )
         }
 
         @JvmStatic
-        fun updateUserVariableValue(value: String?, item: UserData<*>) {
+        fun <T> updateUserVariableValue(value: T?, item: UserData<T>) {
             item.value = value
         }
     }
 
-    override fun onSettingsClick(item: UserData<*>, view: View?) {
+    override fun onSettingsClick(item: T, view: View?) {
         if (item is UserDefinedBrickInput) {
             return
         }
@@ -538,9 +555,11 @@ class DataListFragment : Fragment(),
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
         if (item is UserVariable) {
-            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
-                                                            R.menu.menu_project_activity,
-                                                            hiddenOptionsMenu.toIntArray())
+            val popupMenu = UiUtils.createSettingsPopUpMenu(
+                view, requireContext(),
+                R.menu.menu_project_activity,
+                hiddenOptionsMenu.toIntArray()
+            )
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
@@ -552,9 +571,11 @@ class DataListFragment : Fragment(),
             popupMenu.show()
         } else {
             hiddenOptionsMenu.add(R.id.edit)
-            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
-                                                            R.menu.menu_project_activity,
-                                                            hiddenOptionsMenu.toIntArray())
+            val popupMenu = UiUtils.createSettingsPopUpMenu(
+                view, requireContext(),
+                R.menu.menu_project_activity,
+                hiddenOptionsMenu.toIntArray()
+            )
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))

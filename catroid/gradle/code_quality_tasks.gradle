@@ -52,7 +52,7 @@ task checkstyle(type: Checkstyle) {
 
     reports {
         xml.required = true
-        xml.destination file("build/reports/checkstyle.xml")
+        xml.outputLocation = file("build/reports/checkstyle.xml")
     }
 }
 
@@ -68,8 +68,7 @@ task pmd(type: Pmd) {
 
     reports {
         xml.required = true
-        html.enabled = false
-        xml.destination file("build/reports/pmd.xml")
+        xml.outputLocation = file("build/reports/pmd.xml")
     }
 }
 
