@@ -125,7 +125,6 @@ android {
         versionName defaultVersionName
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
-        multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
@@ -386,7 +385,6 @@ dependencies {
     implementation 'androidx.browser:browser:1.2.0'
 
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation ('com.opencsv:opencsv:5.0') {
         exclude group: 'org.apache.commons', module: 'commons-text'
@@ -498,7 +496,6 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
 
     testImplementation 'org.robolectric:robolectric:4.7.3'
-    testImplementation 'org.robolectric:shadows-multidex:4.7.3'
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
