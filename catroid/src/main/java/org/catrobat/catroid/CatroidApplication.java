@@ -40,8 +40,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
 
-import androidx.multidex.MultiDex;
-
 public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
@@ -87,12 +85,6 @@ public class CatroidApplication extends Application {
 
 		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
 		MLApplication.getInstance().setApiKey(apiKey);
-	}
-
-	@Override
-	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(base);
-		MultiDex.install(this);
 	}
 
 	public synchronized Tracker getDefaultTracker() {

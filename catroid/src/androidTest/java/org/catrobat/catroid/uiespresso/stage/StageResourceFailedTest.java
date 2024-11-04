@@ -44,8 +44,12 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -68,8 +72,6 @@ public class StageResourceFailedTest {
 	@Test
 	public void testResourceFailedDialog() {
 		baseActivityTestRule.launchActivity(null);
-
-		onView(isRoot()).perform(CustomActions.wait(5000));
 
 		onView(withText(R.string.prestage_resource_not_available_title))
 				.check(matches(isDisplayed()));
