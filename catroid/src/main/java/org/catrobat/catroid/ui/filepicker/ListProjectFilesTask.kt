@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,23 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.filepicker
-
-import android.os.AsyncTask
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.ref.WeakReference
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.FlavoredConstants
 import java.util.ArrayList
 
-class ListProjectFilesTask(listener: OnListProjectFilesListener) :
-    AsyncTask<File?, Void?, List<File>>() {
+class ListProjectFilesTask(listener: OnListProjectFilesListener, coroutineScope: CoroutineScope) {
     private val weakListenerReference: WeakReference<OnListProjectFilesListener> = WeakReference(listener)
-    @SuppressWarnings("SpreadOperator")
-    override fun doInBackground(vararg params: File?): List<File> = task(*params as Array<out File>)
-
-    override fun onPostExecute(files: List<File>) {
-        val listener = weakListenerReference.get()
-        listener?.onListProjectFilesComplete(files)
+    private var scope: CoroutineScope = coroutineScope
+    fun execute(files: Array<File>) {
+        scope.launch {
+            val resultFiles = withContext(Dispatchers.IO) {
+                task(*files)
+            }
+            weakListenerReference.get()?.onListProjectFilesComplete(resultFiles)
+        }
     }
 
     interface OnListProjectFilesListener {
@@ -46,10 +49,12 @@ class ListProjectFilesTask(listener: OnListProjectFilesListener) :
 
     companion object {
         @JvmStatic
-        fun task(vararg startDir: File): List<File> {
+        fun task(vararg startDir: File?): List<File> {
             val files: MutableList<File> = ArrayList()
-            for (dir in startDir) {
-                findProjectFiles(dir, files)
+            startDir.forEach { dir ->
+                dir?.let {
+                    findProjectFiles(dir, files)
+                }
             }
             getAllProjectsFromPocketCodeFolder(files)
             return files
@@ -70,11 +75,12 @@ class ListProjectFilesTask(listener: OnListProjectFilesListener) :
         }
         @SuppressWarnings("ComplexCondition")
         private fun getAllProjectsFromPocketCodeFolder(projectFiles: MutableList<File>) {
-            if (FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles() == null) {
-                return
-            }
             FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()?.forEach { dir ->
-                if (dir.name != Constants.BACKPACK_DIRECTORY_NAME && dir.name != Constants.TMP_DIRECTORY_NAME && dir.isDirectory && File(dir, Constants.CODE_XML_FILE_NAME).exists()) {
+                if (dir.name != Constants.BACKPACK_DIRECTORY_NAME &&
+                    dir.name != Constants.TMP_DIRECTORY_NAME &&
+                    dir.isDirectory &&
+                    File(dir, Constants.CODE_XML_FILE_NAME).exists())
+                {
                     projectFiles.add(dir)
                 }
             }
