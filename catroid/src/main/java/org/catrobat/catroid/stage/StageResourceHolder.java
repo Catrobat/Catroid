@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -67,8 +66,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import androidx.annotation.VisibleForTesting;
-
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
@@ -85,18 +82,19 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
 
-	private StageActivity stageActivity;
-	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
+	private final StageActivity stageActivity;
+	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory =
+			get(SpeechRecognitionHolderFactory.class);
 
 	StageResourceHolder(final StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
 		TouchUtil.reset();
 	}
 
-	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-	public static List<String> getProjectsRuntimePermissionList() {
+	public static List<String> getProjectsRuntimePermissionList(int apiLevel) {
 		return BrickResourcesToRuntimePermissions.translate(
-				ProjectManager.getInstance().getCurrentProject().getRequiredResources());
+				ProjectManager.getInstance().getCurrentProject().getRequiredResources(),
+				apiLevel);
 	}
 
 	public void initResources() {
@@ -170,8 +168,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
-			requiredResourceCounter++;
+		if (requiredResourcesSet.contains(Brick.BLUETOOTH_MULTIPLAYER)) {
 			connectBTDevice(BluetoothDevice.MULTIPLAYER);
 		}
 
@@ -289,18 +286,18 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
 				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-					.setTitle(R.string.error_no_network_title)
-					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
-						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-					})
-					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
-						endStageActivity();
-					})
-					.setOnDismissListener(dialog -> {
-						endStageActivity();
-					})
-					.create()
-					.show();
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
+							stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+						})
+						.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+							endStageActivity();
+						})
+						.setOnDismissListener(dialog -> {
+							endStageActivity();
+						})
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}
@@ -509,10 +506,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 	}
 
-	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
-		BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+	private void connectBTDevice(Class<? extends BluetoothDevice> deviceType) {
+		BluetoothDeviceService btService =
+				ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		if (btService.connectDevice(service, stageActivity, REQUEST_CONNECT_DEVICE)
+		if (btService.connectDevice(deviceType, stageActivity, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
 		}
@@ -525,7 +523,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();
 		} else {
-			ToastUtil.showError(stageActivity, stageActivity.getString(R.string.error_connecting_to, host, port));
+			ToastUtil.showError(
+					stageActivity,
+					stageActivity.getString(R.string.error_connecting_to, host, port));
 			endStageActivity();
 		}
 	}
@@ -543,7 +543,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		resourceInitialized();
 	}
 
-	// for GatherCollisionInformationTask.OnPolygonLoadedListener, this is NOT any Activity or Lifecycle event
+	// for GatherCollisionInformationTask.OnPolygonLoadedListener,
+	// this is NOT any Activity or Lifecycle event
 	@Override
 	public void onFinished() {
 		resourceInitialized();

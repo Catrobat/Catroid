@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -326,6 +328,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					handler.removeCallbacks(deleteAction);
 					handler = null;
 				}
+
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					deleteAction = new Runnable() {
 						@Override
@@ -356,7 +359,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				}
 
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
 					view.setPressed(true);
 
 					switch (view.getId()) {
@@ -685,7 +687,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 		final Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formulaElement.addRequiredResources(resourcesSet);
-		List<String> requiredRuntimePermissions = BrickResourcesToRuntimePermissions.translate(resourcesSet);
+		List<String> requiredRuntimePermissions = BrickResourcesToRuntimePermissions.translate(
+				resourcesSet, Build.VERSION.SDK_INT);
 
 		new RequiresPermissionTask(REQUEST_PERMISSIONS_COMPUTE_DIALOG, requiredRuntimePermissions, R.string.runtime_permission_general) {
 			public void task() {
