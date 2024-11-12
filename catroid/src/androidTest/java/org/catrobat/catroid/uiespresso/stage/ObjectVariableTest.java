@@ -108,7 +108,7 @@ public class ObjectVariableTest {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula(scope);
 		Formula sensorFormula = new Formula(parseTree);
-		return sensorFormula.interpretDouble(scope);
+		return sensorFormula.getInterpreter().interpretDouble(scope);
 	}
 
 	private void createProject(String projectName) {

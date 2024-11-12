@@ -41,7 +41,7 @@ public class TripleStitchAction extends TemporalAction {
 		int stepsInterpretation = 0;
 		try {
 			if (steps != null) {
-				stepsInterpretation = steps.interpretInteger(scope);
+				stepsInterpretation = steps.getInterpreter().interpretInteger(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			stepsInterpretation = 0;

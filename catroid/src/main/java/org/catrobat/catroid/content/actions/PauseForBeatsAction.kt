@@ -37,7 +37,7 @@ class PauseForBeatsAction : TemporalAction() {
 
     override fun begin() {
         try {
-            val pausedBeats: Float = beats.interpretFloat(scope)
+            val pausedBeats: Float = beats.interpreter.interpretFloat(scope)
             super.setDuration(MidiSoundManager.getInstance().getDurationForBeats(pausedBeats).toFloat() / MILLISECONDS_IN_A_SECOND)
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)

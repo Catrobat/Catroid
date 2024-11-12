@@ -29,9 +29,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.Formula.StringProvider;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.FormulaInterpreter.StringProvider;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -222,7 +222,7 @@ public class FormulaTest {
 				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = joinFormula.getUserFriendlyString(stringProvider, null);
+		String computeDialogResult = joinFormula.getInterpreter().getUserFriendlyString(stringProvider, null);
 		assertEquals("helloworld", computeDialogResult);
 	}
 
@@ -234,7 +234,7 @@ public class FormulaTest {
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = letterFormula.getUserFriendlyString(stringProvider, null);
+		String computeDialogResult = letterFormula.getInterpreter().getUserFriendlyString(stringProvider, null);
 		assertEquals("h", computeDialogResult);
 	}
 
@@ -247,7 +247,7 @@ public class FormulaTest {
 				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = regexFormula.getUserFriendlyString(stringProvider, null);
+		String computeDialogResult = regexFormula.getInterpreter().getUserFriendlyString(stringProvider, null);
 		assertEquals("elephant", computeDialogResult);
 	}
 
@@ -259,7 +259,7 @@ public class FormulaTest {
 				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
 		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = bracketWrappedFormula.getUserFriendlyString(stringProvider, null);
+		String computeDialogResult = bracketWrappedFormula.getInterpreter().getUserFriendlyString(stringProvider, null);
 		assertEquals("1", computeDialogResult);
 	}
 }

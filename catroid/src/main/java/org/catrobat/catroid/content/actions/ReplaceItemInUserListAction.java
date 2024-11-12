@@ -46,12 +46,12 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 		}
 
 		Object value = formulaItemToInsert == null ? Double.valueOf(0d)
-				: formulaItemToInsert.interpretObject(scope);
+				: formulaItemToInsert.getInterpreter().interpretObject(scope);
 		int indexToReplace;
 
 		try {
 			indexToReplace = formulaIndexToReplace == null ? 1
-					: formulaIndexToReplace.interpretInteger(scope);
+					: formulaIndexToReplace.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			indexToReplace = 1;
 		}

@@ -42,7 +42,7 @@ public class SetThreadColorAction extends TemporalAction {
 		try {
 			String colorStringInterpretation = "0xff0000";
 			if (color != null) {
-				colorStringInterpretation = color.interpretString(scope);
+				colorStringInterpretation = color.getInterpreter().interpretString(scope);
 			}
 
 			String red = "0x" + colorStringInterpretation.substring(1, 3);

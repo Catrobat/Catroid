@@ -40,7 +40,7 @@ class IfLogicAction : Action() {
 
     private fun interpretCondition() {
         isInterpretedCorrectly = try {
-            ifConditionValue = ifCondition?.interpretDouble(scope)?.toInt() != 0
+            ifConditionValue = ifCondition?.interpreter?.interpretDouble(scope)?.toInt() != 0
             ifCondition != null
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)

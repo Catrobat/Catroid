@@ -132,7 +132,7 @@ public class SetPenColorBrick extends FormulaBrick {
 		private int getColorValueFromBrickField(BrickField brickField) {
 			Formula formula = getFormulaWithBrickField(brickField);
 			try {
-				int value = formula.interpretInteger(null);
+				int value = formula.getInterpreter().interpretInteger(null);
 				return Math.max(0, Math.min(255, value));
 			} catch (InterpretationException e) {
 				return 0;

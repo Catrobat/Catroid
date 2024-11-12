@@ -268,7 +268,7 @@ public final class FormulaEditorTestUtil {
 		Formula formula = new Formula(parseTree);
 
 		assertNotNull(parseTree);
-		assertEquals(expected, formula.interpretObject(testScope));
+		assertEquals(expected, formula.getInterpreter().interpretObject(testScope));
 	}
 
 	public static void testSingleToken(InternTokenType firstInternTokenType, String firstParameter, Object expected,
@@ -279,7 +279,7 @@ public final class FormulaEditorTestUtil {
 		Formula formula = new Formula(parseTree);
 
 		assertNotNull(parseTree);
-		assertEquals(expected, formula.interpretObject(testScope));
+		assertEquals(expected, formula.getInterpreter().interpretObject(testScope));
 	}
 
 	public static void testSingleTokenError(InternTokenType firstInternTokenType,
@@ -302,7 +302,7 @@ public final class FormulaEditorTestUtil {
 		Formula formula = new Formula(parseTree);
 
 		assertNotNull(parseTree);
-		assertEquals(expected, formula.interpretObject(testScope));
+		assertEquals(expected, formula.getInterpreter().interpretObject(testScope));
 	}
 
 	public static List<InternToken> buildBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,

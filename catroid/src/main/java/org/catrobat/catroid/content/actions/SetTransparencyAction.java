@@ -39,7 +39,7 @@ public class SetTransparencyAction extends TemporalAction {
 	protected void update(float percent) {
 		try {
 			Float newTransparency = transparency == null ? Float.valueOf(0f)
-					: transparency.interpretFloat(scope);
+					: transparency.getInterpreter().interpretFloat(scope);
 			scope.getSprite().look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

@@ -36,7 +36,7 @@ class RepeatUntilAction : LoopAction() {
 
     private fun isValidConditionFormula(): Boolean {
         try {
-            repeatCondition?.interpretDouble(scope) ?: return false
+            repeatCondition?.interpreter?.interpretDouble(scope) ?: return false
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName, "Formula interpretation for this specific Brick failed.",
@@ -48,7 +48,7 @@ class RepeatUntilAction : LoopAction() {
     }
 
     private fun isConditionTrue(): Boolean = try {
-        repeatCondition?.interpretDouble(scope) != 0.0
+        repeatCondition?.interpreter?.interpretDouble(scope) != 0.0
     } catch (interpretationException: InterpretationException) {
         Log.d(
             javaClass.simpleName, "Formula interpretation for this specific Brick failed.",

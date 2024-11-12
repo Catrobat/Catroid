@@ -44,7 +44,7 @@ public class ZigZagStitchAction extends TemporalAction {
 		float heightInterpretation = 0;
 		try {
 			if (length != null) {
-				lengthInterpretation = length.interpretFloat(scope);
+				lengthInterpretation = length.getInterpreter().interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			lengthInterpretation = 0;
@@ -52,7 +52,7 @@ public class ZigZagStitchAction extends TemporalAction {
 		}
 		try {
 			if (width != null) {
-				heightInterpretation = width.interpretFloat(scope);
+				heightInterpretation = width.getInterpreter().interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			heightInterpretation = 0;

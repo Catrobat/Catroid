@@ -46,12 +46,12 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 		}
 
 		Object value = formulaItemToInsert == null ? Double.valueOf(0d)
-				: formulaItemToInsert.interpretObject(scope);
+				: formulaItemToInsert.getInterpreter().interpretObject(scope);
 		int indexToInsert;
 
 		try {
 			indexToInsert = formulaIndexToInsert == null ? 1
-					: formulaIndexToInsert.interpretInteger(scope);
+					: formulaIndexToInsert.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			indexToInsert = 1;
 		}

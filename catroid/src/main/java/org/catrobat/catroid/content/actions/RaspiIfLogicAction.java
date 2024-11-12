@@ -53,7 +53,7 @@ public class RaspiIfLogicAction extends Action {
 
 		try {
 			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0)
-					: pinNumber.interpretInteger(scope);
+					: pinNumber.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
 			Log.e(TAG, "Formula interpretation for this specific Brick failed.",

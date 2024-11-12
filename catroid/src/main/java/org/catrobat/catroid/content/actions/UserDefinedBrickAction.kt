@@ -50,7 +50,7 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
         val interpretedInputs = mutableListOf<Any>()
 
         userDefinedBrickInputs?.forEach {
-            val parameter = it.value.interpretObject(scope)
+            val parameter = it.value.interpreter.interpretObject(scope)
             interpretedInputs?.add(UserVariable(it.name, parameter))
         }
         return interpretedInputs

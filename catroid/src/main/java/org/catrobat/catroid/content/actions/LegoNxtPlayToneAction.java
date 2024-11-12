@@ -49,14 +49,14 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 		float durationInterpretation;
 
 		try {
-			hertzInterpretation = hertz.interpretInteger(scope);
+			hertzInterpretation = hertz.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			hertzInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			durationInterpretation = durationInSeconds.interpretFloat(scope);
+			durationInterpretation = durationInSeconds.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
