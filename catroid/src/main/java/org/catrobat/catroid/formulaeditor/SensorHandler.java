@@ -27,7 +27,6 @@ import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,21 +55,22 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
-		GpsStatus.Listener {
+public final class SensorHandler implements SensorEventListener, SensorCustomEventListener,
+		LocationListener {
 	private static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance;
 	private static final BluetoothDeviceService BT_SERVICE = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-	private SensorManagerInterface sensorManager;
-	private Sensor linearAccelerationSensor;
+	private final SensorManagerInterface sensorManager;
+	private final Sensor linearAccelerationSensor;
 	private Sensor accelerometerSensor;
 	private Sensor magneticFieldSensor;
-	private Sensor rotationVectorSensor;
+	private final Sensor rotationVectorSensor;
 	private final float[] rotationMatrix = new float[16];
 	private final float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
@@ -89,8 +89,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private LocationManager locationManager;
 	private boolean isGpsConnected;
-	private Location lastLocationGps;
-	private long lastLocationGpsMillis;
+	private final GpsStatusHandler gpsSensor;
 
 	public static double timerReferenceValue;
 	public static double timerPauseValue;
@@ -99,7 +98,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private SensorLoudness sensorLoudness;
 
-	private final Map<Sensors, Object> sensorValueMap = new HashMap();
+	private final Map<Sensors, Object> sensorValueMap = new HashMap<>();
 
 	public static void setUserLocaleTag(String userLocale) {
 		userLocaleTag = userLocale;
@@ -134,6 +133,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				accelerationAvailable = false;
 			}
 		}
+		gpsSensor = new GpsStatusHandler(this);
 	}
 
 	public boolean compassAvailable() {
@@ -206,8 +206,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		if (instance.locationManager != null) {
 			instance.locationManager.removeUpdates(instance);
-			instance.locationManager.removeGpsStatusListener(instance);
-			instance.locationManager.addGpsStatusListener(instance);
+			instance.gpsSensor.deregisterGNSSCallback(instance.locationManager);
+			instance.gpsSensor.registerGNSSCallback(instance.locationManager, context);
+
 			if (gpsSensorAvailable()) {
 				instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
 			}
@@ -266,7 +267,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		if (instance.locationManager != null) {
 			instance.locationManager.removeUpdates(instance);
-			instance.locationManager.removeGpsStatusListener(instance);
+			instance.gpsSensor.deregisterGNSSCallback(instance.locationManager);
 		}
 
 		VisualDetectionHandler.removeListener(instance);
@@ -300,19 +301,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case TIMER:
 				return (SystemClock.uptimeMillis() - timerReferenceValue) / 1000d;
 			case DATE_YEAR:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+				return (double) Calendar.getInstance().get(Calendar.YEAR);
 			case DATE_MONTH:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
+				return (double) (Calendar.getInstance().get(Calendar.MONTH) + 1);
 			case DATE_DAY:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+				return (double) Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 			case DATE_WEEKDAY:
 				return startWeekWithMonday();
 			case TIME_HOUR:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+				return (double) Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 			case TIME_MINUTE:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
+				return (double) Calendar.getInstance().get(Calendar.MINUTE);
 			case TIME_SECOND:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.SECOND));
+				return (double) Calendar.getInstance().get(Calendar.SECOND);
 
 			case NXT_SENSOR_1:
 			case NXT_SENSOR_2:
@@ -321,7 +322,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 				LegoNXT nxt = BT_SERVICE.getDevice(BluetoothDevice.LEGO_NXT);
 				if (nxt != null) {
-					return Double.valueOf(nxt.getSensorValue(sensor));
+					return (double) nxt.getSensorValue(sensor);
 				}
 				break;
 
@@ -331,7 +332,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case EV3_SENSOR_4:
 				LegoEV3 ev3 = BT_SERVICE.getDevice(BluetoothDevice.LEGO_EV3);
 				if (ev3 != null) {
-					return Double.valueOf(ev3.getSensorValue(sensor));
+					return (double) ev3.getSensorValue(sensor);
 				}
 				break;
 
@@ -356,15 +357,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
 
 			case LAST_FINGER_INDEX:
-				return Double.valueOf(TouchUtil.getLastTouchIndex());
+				return (double) TouchUtil.getLastTouchIndex();
 			case FINGER_TOUCHED:
 				return TouchUtil.isTouching();
 			case FINGER_X:
-				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
+				return (double) TouchUtil.getX(TouchUtil.getLastTouchIndex());
 			case FINGER_Y:
-				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
+				return (double) TouchUtil.getY(TouchUtil.getLastTouchIndex());
 			case NUMBER_CURRENT_TOUCHES:
-				return Double.valueOf(TouchUtil.getNumberOfCurrentTouches());
+				return (double) TouchUtil.getNumberOfCurrentTouches();
 			case NFC_TAG_MESSAGE:
 				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 			case NFC_TAG_ID:
@@ -378,13 +379,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case STAGE_HEIGHT:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 			default:
-				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
+				return Objects.requireNonNull(instance.sensorValueMap.getOrDefault(sensor, 0.0d));
 		}
 		return 0.0d;
 	}
 
 	private static Double calculateCompassDirection(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		int rotate;
 		float[] orientations = new float[3];
 		if (!instance.useRotationVectorFallback) {
@@ -402,12 +403,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		} else {
 			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 		}
-		sensorValue = (double) orientations[0];
+		sensorValue = orientations[0];
 		return sensorValue * RADIAN_TO_DEGREE_CONST * -1.0d;
 	}
 
 	private static Object calculateXInclination(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		float[] orientations;
 		int rotate;
 		if (instance.useRotationVectorFallback) {
@@ -458,7 +459,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static Object calculateYInclination(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		float[] orientations;
 		int rotate;
 		if (instance.useRotationVectorFallback) {
@@ -501,12 +502,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
 
-			sensorValue = (double) orientations[1];
+			sensorValue = orientations[1];
 
 			if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 			} else {
-				float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
+				float uncorrectedYInclination = (float) (sensorValue * RADIAN_TO_DEGREE_CONST * -1f);
 
 				if (uncorrectedYInclination > 0f) {
 					return (double) 180f - uncorrectedYInclination;
@@ -617,20 +618,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
-		if (location == null) {
-			return;
-		}
-		if (location.getProvider().equals(LocationManager.GPS_PROVIDER) || !isGpsConnected) {
+	public void onLocationChanged(@NonNull Location location) {
+		if (Objects.equals(location.getProvider(), LocationManager.GPS_PROVIDER) || !isGpsConnected) {
 			sensorValueMap.put(Sensors.LATITUDE, location.getLatitude());
 			sensorValueMap.put(Sensors.LONGITUDE, location.getLongitude());
 			sensorValueMap.put(Sensors.LOCATION_ACCURACY, location.getAccuracy());
 			sensorValueMap.put(Sensors.ALTITUDE, location.hasAltitude() ? location.getAltitude() : 0);
 		}
 
-		if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-			lastLocationGpsMillis = SystemClock.elapsedRealtime();
-			lastLocationGps = location;
+		if (Objects.equals(location.getProvider(), LocationManager.GPS_PROVIDER)) {
+			instance.gpsSensor.setLastLocationAndGpsMillis(location, SystemClock.elapsedRealtime());
 		}
 	}
 
@@ -639,25 +636,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	@Override
-	public void onProviderEnabled(String provider) {
+	public void onProviderEnabled(@NonNull String provider) {
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {
+	public void onProviderDisabled(@NonNull String provider) {
 	}
 
-	@Override
-	public void onGpsStatusChanged(int event) {
-		switch (event) {
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				if (lastLocationGps != null) {
-					isGpsConnected = (SystemClock.elapsedRealtime() - lastLocationGpsMillis) < 3000;
-				}
-				break;
-			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				isGpsConnected = true;
-				break;
-		}
+	public void setIsGpsConnected(boolean isGpsConnected) {
+		this.isGpsConnected = isGpsConnected;
 	}
 
 	public static void destroy() {
