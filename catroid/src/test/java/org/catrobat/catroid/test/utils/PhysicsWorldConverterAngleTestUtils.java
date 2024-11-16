@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.test.utils;
 
-public final class TestConstants {
+public final class PhysicsWorldConverterAngleTestUtils {
 	public static final double DELTA = 0.00001;
 
-	private TestConstants() {
+	private PhysicsWorldConverterAngleTestUtils() {
 		throw new AssertionError();
 	}
 }
