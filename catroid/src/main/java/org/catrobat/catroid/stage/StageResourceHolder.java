@@ -353,10 +353,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
 		Intent intent = new Intent(stageActivity, getClass());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			int flags = PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP;
-			intent.addFlags(PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0, intent,
-					flags);
+					PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
 		} else {
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,

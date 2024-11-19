@@ -51,14 +51,14 @@ ext {
     manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"
-    gdxVersion = "1.9.10"
-    mockitoVersion = "3.12.4"
-    espressoVersion = "3.1.0"
-    playServicesVersion = '17.0.1'
-    cameraXVersion = "1.0.0-beta07"
+    gdxVersion = "1.13.0"
+    mockitoVersion = '5.14.2'
+    espressoVersion = '3.6.1'
+    playServicesVersion = '18.1.1'
+    cameraXVersion = '1.4.0'
     room_version = "2.6.1"
-    coroutines_version = "1.3.2"
-    work_manager_version = '2.7.1'
+    coroutines_version = '1.9.0'
+    work_manager_version = '2.9.1'
 }
 
 apply plugin: 'com.android.application'
@@ -66,7 +66,6 @@ apply plugin: 'kotlin-android'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
-apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/setup_jacoco.gradle'
 apply from: 'gradle/emulator.gradle'
@@ -77,10 +76,6 @@ if (rootProject.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
-}
-
-if (!rootProject.hasProperty("signingKeystore")) {
-    ext.signingKeystore = "dummyKeystore"
 }
 
 ext.getProperty = { property, defaultValue ->
@@ -102,8 +97,8 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 97
-def defaultVersionName = "1.3.0"
+def defaultVersionCode = 98
+def defaultVersionName = "1.3.1"
 
 android {
     compileSdk 34
@@ -207,11 +202,10 @@ android {
 
     signingConfigs {
         signedRelease {
-            // credentials loaded in release_task.gradle
-            storeFile file(project.getProperty("signingKeystore"))
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storeFile file(System.getenv("SIGNING_KEYSTORE") ?: "dummyKeystore")
+            storePassword System.getenv("SIGNING_KEYSTORE_PASSWORD") ?: ""
+            keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: ""
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: ""
         }
 
         debug {
@@ -219,15 +213,6 @@ android {
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
-        }
-    }
-
-    if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
-            rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
-        android.signingConfigs.signedRelease {
-            storePassword = rootProject.property("signingKeystorePassword")
-            keyAlias = rootProject.property("signingKeyAlias")
-            keyPassword = rootProject.property("signingKeyPassword")
         }
     }
 
@@ -264,16 +249,24 @@ android {
     androidResources {
         noCompress 'lite'
     }
+
     lint {
         abortOnError false
         baseline file('config/lint-baseline.xml')
-        htmlOutput file('build/reports/lint-report.html')
-        htmlReport true
+
         ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
         lintConfig file('config/lint.xml')
-        textReport true
-        xmlOutput file('build/reports/lint-report.xml')
+
+        htmlReport true
+        htmlOutput file('build/reports/html/lint.html')
+
         xmlReport true
+        xmlOutput file('build/reports/lint.xml')
+
+        textReport true
+
+        sarifReport true
+        sarifOutput file('build/reports/lint.sarif')
     }
 
     productFlavors {
@@ -441,7 +434,7 @@ dependencies {
     implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
-    implementation 'com.github.oliewa92:MidiDroid:v1.1'
+    implementation 'com.github.pdrogfer:MidiDroid:1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.16'
 
     // CameraX
@@ -489,7 +482,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
     testImplementation 'junit:junit:4.13.2'
+
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
     testImplementation 'org.powermock:powermock:1.6.6'

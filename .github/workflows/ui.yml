@@ -1,0 +1,252 @@
+name: Catroid UI Test Pipeline
+
+on:
+  push:
+    branches:
+      - "develop"
+      - "DEVOPS-837" # for testing
+  pull_request:
+    branches:
+      - "**"
+  schedule:
+    - cron: "0 0 * * *" # Daily at midnight
+  workflow_dispatch:
+
+jobs:
+  ui-tests:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      BROWSERSTACK_DEVICES: |
+        Samsung Galaxy S25 Ultra-15.0
+      RETRY_INTERVAL: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 21
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build APKs
+        run: ./gradlew -Pindependent='#${{ github.run_number }} ${{ github.ref_name }}' assembleAndroidTest assembleDebug
+
+      # see https://www.browserstack.com/docs/app-automate/espresso/getting-started
+      - name: Upload App APK to BrowserStack
+        id: upload_app
+        run: |
+          RESPONSE=$(curl -s -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/app" \
+            -F "file=@catroid/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk")
+
+          echo "$RESPONSE" | tee app_upload_response.json
+          echo "BROWSERSTACK_APP_URL=$(jq -r '.app_url' <<< "$RESPONSE")" >> $GITHUB_ENV
+
+      - name: Upload Testsuite to BrowserStack
+        id: upload_test
+        run: |
+          RESPONSE=$(curl -s -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite" \
+            -F "file=@catroid/build/outputs/apk/androidTest/catroid/debug/catroid-catroid-debug-androidTest.apk")
+
+          echo "$RESPONSE" | tee test_upload_response.json
+          echo "BROWSERSTACK_TEST_URL=$(jq -r '.test_suite_url' <<< "$RESPONSE")" >> $GITHUB_ENV
+
+      - name: Start BrowserStack Test Run
+        id: start_run
+        run: |
+          # Convert device list to JSON array
+          DEVICE_JSON=$(echo "${BROWSERSTACK_DEVICES}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+
+          # Generate dynamic identifiers
+          BRANCH_NAME="${GITHUB_REF_NAME:-unknown-branch}"
+          RUN_ID="${{ github.run_number }}"
+          RUN_IDENTIFIER="run-${BRANCH_NAME}-${RUN_ID}"
+          BUILD_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          PROJECT_NAME="Catroid"
+
+          jq -n \
+            --arg app "$BROWSERSTACK_APP_URL" \
+            --arg testSuite "$BROWSERSTACK_TEST_URL" \
+            --argjson devices "$DEVICE_JSON" \
+            --arg build_url "$BUILD_URL" \
+            --arg job_name "${{ github.job }}" \
+            --arg build_number "${{ github.run_id }}" \
+            --arg run_id "$RUN_IDENTIFIER" \
+            --arg project "$PROJECT_NAME" \
+            --arg tag "$RUN_IDENTIFIER" \
+            '{
+              app: $app,
+              testSuite: $testSuite,
+              devices: $devices,
+              disableAnimations: true,
+              testObservability: true,
+              shards: { numberOfShards: 5 },
+              project: $project,
+              o11y_buildTags: [$tag],
+              o11y_ciInfo: {
+                name: "Catroid UI Test Pipeline",
+                build_url: $build_url,
+                job_name: $job_name,
+                build_number: $build_number
+              },
+              o11y_buildRunIdentifier: $run_id,
+              o11y_reRun: true
+            }' > run_payload.json
+
+          echo "📝 BrowserStack run payload:"
+          cat run_payload.json
+
+          while true; do
+            echo "🔁 Attempting to start test run..."
+
+            RESPONSE=$(curl -s -w "\n%{http_code}" -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/build" \
+            -H "Content-Type: application/json" \
+            -d @run_payload.json)
+
+            BODY=$(head -n -1 <<< "$RESPONSE")
+            STATUS_CODE=$(tail -n1 <<< "$RESPONSE")
+
+            echo "$BODY" | tee run_response.json
+
+            if [[ "$STATUS_CODE" == "200" ]]; then
+              echo "✅ Test run started successfully."
+              echo "BROWSERSTACK_BUILD_ID=$(jq -r '.build_id' <<< "$BODY")" >> $GITHUB_ENV
+              break
+            elif [[ "$STATUS_CODE" == "422" && "$BODY" == *"BROWSERSTACK_ALL_PARALLELS_IN_USE"* ]]; then
+              echo "⚠️ All parallel tests in use. Waiting $RETRY_INTERVAL seconds before retry..."
+              sleep $RETRY_INTERVAL
+            else
+              echo "❌ Unexpected response from BrowserStack (status: $STATUS_CODE)."
+              echo "Message: $(jq -r '.message // "No message found"' <<< "$BODY")"
+              exit 1
+            fi
+          done
+
+      - name: Poll and Collect Results
+        run: |
+          echo "📡 Polling BrowserStack for build ID: $BROWSERSTACK_BUILD_ID"
+          BROWSERSTACK_RUN_URL="https://app-automate.browserstack.com/dashboard/v2/builds/$BROWSERSTACK_BUILD_ID"
+          echo "🔗 Dashboard: $BROWSERSTACK_RUN_URL"
+          echo ""
+
+          # Terminal states according to API
+          TERMINAL_STATES=("failed" "error" "timed out" "passed" "skipped")
+
+          while true; do
+            RESPONSE=$(curl -s -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+              "https://api-cloud.browserstack.com/app-automate/espresso/v2/builds/$BROWSERSTACK_BUILD_ID")
+
+            echo "$RESPONSE" > poll_result.json
+            STATUS=$(jq -r '.status' < poll_result.json)
+
+            echo "🕒 Current Status: $STATUS"
+            echo "🔗 $BROWSERSTACK_RUN_URL"
+            echo ""
+
+            jq -r '
+              .devices[].sessions[] |
+              "🔸 Shard \(.shard.name): status=\(.status), id=\(.id)"
+            ' < poll_result.json || echo "⚠️  No sessions found yet."
+
+            # Check if current status is in terminal states
+            if [[ " ${TERMINAL_STATES[@]} " =~ " ${STATUS} " ]]; then
+              echo "✅ Test run reached terminal state: $STATUS"
+              break
+            fi
+
+            sleep $RETRY_INTERVAL
+          done
+
+          echo ""
+          echo "📊 Final session summary:"
+
+          # Print high-level counts
+          TOTAL_SESSIONS=$(jq '[.devices[].sessions[]] | length' < poll_result.json)
+          TOTAL_TESTS=$(jq '[.devices[].sessions[].testcases.count] | add' < poll_result.json)
+          TOTAL_PASSED=$(jq '[.devices[].sessions[].testcases.status.passed] | add' < poll_result.json)
+          TOTAL_FAILED=$(jq '[.devices[].sessions[].testcases.status.failed] | add' < poll_result.json)
+          TOTAL_SKIPPED=$(jq '[.devices[].sessions[].testcases.status.skipped] | add' < poll_result.json)
+          TOTAL_TIMEDOUT=$(jq '[.devices[].sessions[].testcases.status.timedout] | add' < poll_result.json)
+          TOTAL_ERRORS=$(jq '[.devices[].sessions[].testcases.status.error] | add' < poll_result.json)
+
+          echo "📦 Sessions: $TOTAL_SESSIONS"
+          echo "🧪 Total tests: $TOTAL_TESTS"
+          echo "✅ Passed: $TOTAL_PASSED"
+          echo "❌ Failed: $TOTAL_FAILED"
+          echo "⏭️ Skipped: $TOTAL_SKIPPED"
+          echo "⏱️ Timed out: $TOTAL_TIMEDOUT"
+          echo "⚠️ Errors: $TOTAL_ERRORS"
+          echo ""
+
+          # Detailed shard/session view
+          jq -r '
+          .devices[].sessions[] |
+          "🔹 Shard \(.shard.name): status=\(.status), session=\(.id)\n" +
+          "    ▪ Total: \(.testcases.count), ✅ Passed: \(.testcases.status.passed), ❌ Failed: \(.testcases.status.failed), ⏭️ Skipped: \(.testcases.status.skipped), ⏱️ Timed out: \(.testcases.status.timedout), ⚠️ Errors: \(.testcases.status.error)\n"
+          ' < poll_result.json
+
+          echo ""
+          echo "📥 Fetching JUnit XML reports..."
+          mkdir -p junit_reports
+
+          BROWSERSTACK_SESSION_IDS=$(jq -r '.devices[].sessions[].id' < poll_result.json)
+          FAILED_COUNT=0
+
+          for BROWSERSTACK_SESSION_ID in $BROWSERSTACK_SESSION_IDS; do
+            REPORT_URL="https://api-cloud.browserstack.com/app-automate/espresso/v2/builds/$BROWSERSTACK_BUILD_ID/sessions/$BROWSERSTACK_SESSION_ID/report"
+            REPORT_FILE="junit_reports/session_${BROWSERSTACK_SESSION_ID}.xml"
+
+            echo "➡️  Downloading report for session: $BROWSERSTACK_SESSION_ID"
+            HTTP_RESPONSE=$(curl -s -w "%{http_code}" -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" -X GET "$REPORT_URL" -o "$REPORT_FILE")
+
+            if [[ "$HTTP_RESPONSE" == "200" ]]; then
+              if grep -q "<failure>" "$REPORT_FILE"; then
+                echo "❌ Test failures detected in session $BROWSERSTACK_SESSION_ID"
+                FAILED_COUNT=$((FAILED_COUNT + 1))
+              else
+                echo "✅ No failures in session $BROWSERSTACK_SESSION_ID"
+              fi
+            elif [[ "$HTTP_RESPONSE" == "404" ]]; then
+              echo "⚠️  JUnit report not found for session $BROWSERSTACK_SESSION_ID (404). Skipping."
+              rm -f "$REPORT_FILE"
+            else
+              echo "❌ Unexpected error while fetching report for session $BROWSERSTACK_SESSION_ID (HTTP $HTTP_RESPONSE)"
+              exit 1
+            fi
+          done
+
+          echo ""
+          echo "📦 All JUnit XML reports saved in ./junit_reports"
+          echo "❌ Failed sessions: $FAILED_COUNT"
+          echo "🔗 Full report: $BROWSERSTACK_RUN_URL"
+
+          if [[ "$FAILED_COUNT" -gt 0 ]]; then
+            echo "🔥 Failing pipeline due to test failures"
+            exit 1
+          fi
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: BrowserStack Instrumentation Report
+          path: junit_reports/*.xml
+          reporter: java-junit
+
+      - name: Upload Unit Test Reports
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: browserstack-junit-reports
+          path: |
+            junit_reports/

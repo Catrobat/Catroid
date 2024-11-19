@@ -38,7 +38,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -86,7 +86,7 @@ public class VisualPlacementTouchListenerTest {
 		when(firstEvent.getPointerId(0)).thenReturn(1);
 		boolean returnValue = listener.onTouch(imageView, firstEvent, coordinateInterface);
 		assertFalse(returnValue);
-		verifyZeroInteractions(coordinateInterface);
+		verifyNoInteractions(coordinateInterface);
 	}
 
 	@Test

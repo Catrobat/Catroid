@@ -86,7 +86,7 @@ public final class StatusBarNotificationManager {
 					PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		} else {
 			pendingIntent = PendingIntent.getActivity(context, notificationId,
-					uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+					uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		}
 
 		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
@@ -242,7 +242,7 @@ public final class StatusBarNotificationManager {
 							PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 				} else {
 					pendingIntent = PendingIntent.getActivity(context, notificationId,
-							openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+							openIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 				}
 
 				builder.setContentIntent(pendingIntent);

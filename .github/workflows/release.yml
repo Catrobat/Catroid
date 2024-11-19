@@ -1,0 +1,99 @@
+name: Catroid Release Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      RELEASE_CATROID:
+        description: "Release a new version of Catroid"
+        type: boolean
+        default: true
+      RELEASE_EMBROIDERY:
+        description: "Release a new version of Embroidery Designer"
+        type: boolean
+        default: true
+      TRACK:
+        description: "Track to release the app to (e.g., internal, alpha, beta, production)"
+        type: string
+        default: "alpha"
+
+jobs:
+  check_release_config:
+    name: Check Release Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Release Configuration
+        run: |
+          if [ "${{ inputs.RELEASE_CATROID }}" = "false" ] && [ "${{ inputs.RELEASE_EMBROIDERY }}" = "false" ]; then
+            echo "At least one release build must be selected for release"
+            exit 1
+          fi
+
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    environment: production
+    needs: check_release_config
+    permissions:
+      # write permission is required to create a github release
+      contents: write
+      # write permission is required for autolabeler
+      # otherwise, read permission is required at least
+      pull-requests: write
+
+    strategy:
+      matrix:
+        build:
+          - name: "Catroid"
+            enabled: ${{ inputs.RELEASE_CATROID }}
+            packageName: "org.catrobat.catroid"
+            buildPath: "catroid/build/outputs/bundle/catroidSignedRelease/catroid-catroid-signedRelease.aab"
+            buildName: Catroid
+          - name: "Embroidery Designer"
+            enabled: ${{ inputs.RELEASE_EMBROIDERY }}
+            packageName: "org.catrobat.catroid.embroiderydesigner"
+            buildPath: "catroid/build/outputs/bundle/embroideryDesignerSignedRelease/catroid-embroideryDesigner-signedRelease.aab"
+            buildName: EmbroideryDesigner
+
+    steps:
+      - name: Skip Build if Not Enabled
+        if: ${{ matrix.build.enabled == 'false' }}
+        run: echo "Skipping build for ${{ matrix.build.name }}" && exit 0
+
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 21
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode Signing Key
+        run: |
+          echo "${{ secrets.SIGNING_KEYSTORE }}" | base64 -d > $RUNNER_TEMP/signing-key.jks
+
+      - name: Build Release AAB for ${{ matrix.build.name }}
+        run: ./gradlew copyAndroidNatives bundle${{ matrix.build.buildName }}
+        env:
+          SIGNING_KEYSTORE: ${{ runner.temp }}/signing-key.jks
+          SIGNING_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ vars.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+
+      - name: Archive AABs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.build.buildName }}-AAB
+          path: "catroid/build/outputs/bundle/**/*-signedRelease.aab"
+
+      - name: Upload AAB to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          releaseFiles: ${{ matrix.build.buildPath }}
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+          packageName: ${{ matrix.build.packageName }}
+          track: ${{ inputs.TRACK }}

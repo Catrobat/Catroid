@@ -62,7 +62,7 @@ class CreateProjectTest {
     private var bufferedChromeCastSetting = false
     private var bufferedPrivacyPolicyPreferenceSetting = 0
     private lateinit var sharedPreferences: SharedPreferences
-    private val newProjectName = CreateProjectTest::class.simpleName
+    private val newProjectName = CreateProjectTest::class.simpleName.orEmpty()
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
