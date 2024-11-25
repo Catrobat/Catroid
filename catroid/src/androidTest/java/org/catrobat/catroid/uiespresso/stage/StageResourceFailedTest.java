@@ -71,14 +71,14 @@ public class StageResourceFailedTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testResourceFailedDialog() {
-		baseActivityTestRule.launchActivity(null);
-
-		onView(withText(R.string.prestage_resource_not_available_title))
-				.check(matches(isDisplayed()));
-
 		String failedResourceMessage =
 				UiTestUtils.getResourcesString(R.string.prestage_resource_not_available_text)
 						+ UiTestUtils.getResourcesString(R.string.prestage_no_acceleration_sensor_available);
+		baseActivityTestRule.launchActivity(null);
+
+
+		onView(withText(R.string.prestage_resource_not_available_title))
+				.check(matches(isDisplayed()));
 
 		onView(withText(failedResourceMessage))
 				.check(matches(isDisplayed()));
