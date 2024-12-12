@@ -102,11 +102,11 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 88
-def defaultVersionName = "1.1.2"
+def defaultVersionCode = 97
+def defaultVersionName = "1.3.0"
 
 android {
-    compileSdk 33
+    compileSdk 34
     buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
@@ -117,16 +117,14 @@ android {
     }
 
     defaultConfig {
-
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion 28
+        targetSdkVersion 34
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
         versionName defaultVersionName
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
-        multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
@@ -197,7 +195,6 @@ android {
         }
     }
 
-    dexOptions.javaMaxHeapSize "4g"
     packagingOptions {
         jniLibs {
             excludes += ['lib/mips/*', 'lib/armeabi/*']
@@ -386,9 +383,11 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+
+
 
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation ('com.opencsv:opencsv:5.0') {
         exclude group: 'org.apache.commons', module: 'commons-text'
@@ -500,7 +499,6 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
 
     testImplementation 'org.robolectric:robolectric:4.7.3'
-    testImplementation 'org.robolectric:shadows-multidex:4.7.3'
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'

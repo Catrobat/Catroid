@@ -325,7 +325,7 @@
     <string formatted="false" name="am_merge_error">Es wird keine Zusammenlegung durchgeführt. Es müssen genau 2 Projekte ausgewählt werden, welche zusammengeführt werden sollen.</string>
     <string formatted="false" name="am_backpack">Einpacken</string>
     <string formatted="false" name="am_unpack">Auspacken</string>
-    <string formatted="false" name="am_copy">Kopiert</string>
+    <string formatted="false" name="am_copy">Kopieren</string>
     <string formatted="false" name="am_delete">Löschen</string>
     <string formatted="false" name="am_rename">Umbenennen</string>
     <string formatted="false" name="am_convert">Konvertieren</string>
@@ -334,7 +334,7 @@
     <string formatted="false" name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string formatted="false" name="backpack">Rucksack</string>
-    <string formatted="false" name="copy">Kopiert</string>
+    <string formatted="false" name="copy">Kopieren</string>
     <string formatted="false" name="delete">Löschen</string>
     <string formatted="false" name="rename">Umbenennen</string>
     <string formatted="false" name="merge">Zusammenführen</string>
@@ -614,6 +614,7 @@
     <string formatted="false" name="add_look_choose_image">Bild auswählen</string>
     <string formatted="false" name="add_look_media_library">Medienbibliothek</string>
     <string formatted="false" name="add_look_from_local_project">Lokale Projekte</string>
+    <string formatted="false" name="add_look_actors_and_object">Lokale Figuren und Objekte</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string formatted="false" name="new_sound_dialog_title">Klang hinzufügen</string>
@@ -683,8 +684,8 @@
     <string formatted="false" name="brick_context_dialog_move_script">Skript bewegen</string>
     <string formatted="false" name="brick_context_dialog_move_definition">Verschiebe diese Definition</string>
     <string formatted="false" name="brick_context_dialog_delete_brick">Baustein löschen</string>
-    <string formatted="false" name="brick_context_dialog_copy_brick">Baustein kopiert</string>
-    <string formatted="false" name="brick_context_dialog_copy_script">Skript kopiert</string>
+    <string formatted="false" name="brick_context_dialog_copy_brick">Baustein kopieren</string>
+    <string formatted="false" name="brick_context_dialog_copy_script">Skript kopieren</string>
     <string formatted="false" name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string formatted="false" name="brick_context_dialog_delete_script">Skript löschen</string>
     <string formatted="false" name="brick_context_dialog_delete_definition">Lösche diese Definition</string>

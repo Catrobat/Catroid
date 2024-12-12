@@ -43,7 +43,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" tools:node="remove" />
 
@@ -82,6 +81,10 @@
         android:required="true" /><uses-feature
     android:name="android.hardware.camera"
     android:required="false" />
+
+    <!-- foreground services -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <application
         android:name=".CatroidApplication"
@@ -249,8 +252,12 @@
         <activity
             android:name=".ui.filepicker.FilePickerActivity" />
 
-        <service android:name=".transfers.project.ProjectUploadService" />
-        <service android:name=".transfers.project.ProjectDownloadService" />
+        <service
+            android:name=".transfers.project.ProjectUploadService"
+            android:foregroundServiceType="dataSync" />
+        <service
+            android:name=".transfers.project.ProjectDownloadService"
+            android:foregroundServiceType="dataSync" />
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
         <service android:name=".cast.CastService"/>

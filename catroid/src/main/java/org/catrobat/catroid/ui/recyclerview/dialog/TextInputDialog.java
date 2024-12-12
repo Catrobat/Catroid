@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Editable;
 import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -132,39 +131,6 @@ public final class TextInputDialog extends AlertDialog {
 			}
 			return uniqueNameProvider;
 		}
-	}
-
-	public abstract static class TextWatcher implements android.text.TextWatcher {
-
-		private TextInputLayout inputLayout;
-		private AlertDialog alertDialog;
-
-		private void setInputLayout(@NonNull TextInputLayout inputLayout) {
-			this.inputLayout = inputLayout;
-		}
-
-		private void setAlertDialog(@NonNull AlertDialog alertDialog) {
-			this.alertDialog = alertDialog;
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-		}
-
-		@Override
-		public void afterTextChanged(Editable s) {
-			String input = s.toString();
-			String error = validateInput(input, alertDialog.getContext());
-			inputLayout.setError(error);
-			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
-		}
-
-		@Nullable
-		public abstract String validateInput(String input, Context context);
 	}
 
 	public interface OnClickListener {

@@ -223,7 +223,7 @@
 
        </LinearLayout>
 
-       <Button
+       <com.google.android.material.button.MaterialButton
            android:id="@+id/project_options_delete"
            android:layout_width="220dp"
            android:layout_height="wrap_content"
@@ -232,7 +232,9 @@
            android:layout_marginTop="@dimen/material_design_spacing_x_large"
            android:backgroundTint="@color/red"
            android:text="@string/project_options_delete_project"
-           android:textAllCaps="true" />
+           android:textAllCaps="true"
+           android:textColor="@color/white"
+           app:cornerRadius="360dp" />
 
     </LinearLayout>
 </ScrollView>
