@@ -258,7 +258,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             scratchConverter.length, scratchConverterBeta.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        menu.findItem(R.id.menu_scratch_converter).title = scratchConverterBeta
+//        menu.findItem(R.id.menu_scratch_converter).title = scratchConverterBeta
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -267,9 +267,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             !Utils.isUserLoggedIn(this)
         menu.findItem(R.id.menu_logout).isVisible =
             Utils.isUserLoggedIn(this)
-        if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-            menu.removeItem(R.id.menu_scratch_converter)
-        }
+//        if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
+////            menu.removeItem(R.id.menu_scratch_converter)
+//        }
         return true
     }
 
@@ -303,9 +303,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 supportFragmentManager,
                 AboutDialogFragment.TAG
             )
-            R.id.menu_scratch_converter -> if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
-                startActivity(Intent(this, ScratchConverterActivity::class.java))
-            }
+//            R.id.menu_scratch_converter -> if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
+//                startActivity(Intent(this, ScratchConverterActivity::class.java))
+//            }
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
             R.id.menu_login -> startActivity(Intent(this, SignInActivity::class.java))
             R.id.menu_logout -> {
