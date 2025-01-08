@@ -68,7 +68,6 @@ task pmd(type: Pmd) {
 
     reports {
         xml.required = true
-        html.enabled = false
         xml.destination file("build/reports/pmd.xml")
     }
 }

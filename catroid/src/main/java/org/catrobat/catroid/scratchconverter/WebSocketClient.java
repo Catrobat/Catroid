@@ -45,6 +45,7 @@ import org.catrobat.catroid.scratchconverter.protocol.message.base.ClientIDMessa
 import org.catrobat.catroid.scratchconverter.protocol.message.base.ErrorMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.base.InfoMessage;
 
+/*
 public final class WebSocketClient<T extends MessageListener & StringCallback>
 		implements Client, BaseMessageHandler, CompletedCallback {
 
@@ -289,3 +290,5 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 		webSocket.send(dataToSend);
 	}
 }
+
+ */

@@ -68,6 +68,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.utils.NumberFormats.toMetricUnitRepresentation;
 
+/*
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
 		JobViewListener, Client.ProjectDownloadCallback,
@@ -398,3 +399,5 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		}
 	}
 }
+
+ */

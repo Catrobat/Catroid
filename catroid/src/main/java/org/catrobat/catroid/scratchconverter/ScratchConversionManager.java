@@ -64,6 +64,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY;
 
+/*
 public class ScratchConversionManager implements ConversionManager {
 
 	private static final String TAG = ScratchConversionManager.class.getSimpleName();
@@ -600,3 +601,4 @@ public class ScratchConversionManager implements ConversionManager {
 		}
 	}
 }
+ */

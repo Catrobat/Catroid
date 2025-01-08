@@ -158,7 +158,7 @@ android {
         buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
+        //buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"

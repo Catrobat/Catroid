@@ -213,11 +213,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
 
+        <!-- Menu Scratch Converter removed.
         <activity
             android:name=".ui.ScratchConverterActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
-        </activity>
+        </activity> -->
 
         <activity
             android:name=".ui.ScratchProgramDetailsActivity"

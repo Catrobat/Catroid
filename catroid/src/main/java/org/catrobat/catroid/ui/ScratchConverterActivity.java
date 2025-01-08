@@ -57,6 +57,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
 
+//Scratch Converter activity removal
+/*
 public class ScratchConverterActivity extends BaseActivity implements
 		BaseInfoViewListener,
 		JobViewListener,
@@ -362,3 +364,5 @@ public class ScratchConverterActivity extends BaseActivity implements
 		void onJobListChanged();
 	}
 }
+
+ */
