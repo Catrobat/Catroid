@@ -24,4 +24,5 @@
 
 <resources>
         <string name="app_name">Pocket Code</string>
+        <string name="project_id">""</string>
 </resources>

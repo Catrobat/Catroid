@@ -63,6 +63,9 @@
     <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- custom media picker -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+
     <!-- gps -->
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -92,6 +95,7 @@
         android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Catroid"
+        tools:targetAPI="34"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="false"
         tools:ignore="UnusedAttribute"
@@ -272,5 +276,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <receiver android:name=".bluetooth.ConnectBluetoothDeviceActivity"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.bluetooth.device.action.FOUND" />
+            <action android:name="android.bluetooth.adapter.action.DISCOVERY_STARTED" />
+            <action android:name="android.bluetooth.adapter.action.DISCOVERY_FINISHED" />
+        </intent-filter>
+    </receiver>
     </application>
 </manifest>
