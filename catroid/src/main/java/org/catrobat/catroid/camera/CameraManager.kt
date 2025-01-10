@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ import org.koin.java.KoinJavaComponent.get
 
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
-    private val lifecycle = LifecycleRegistry(this)
+    override val lifecycle = LifecycleRegistry(this)
     val previewView = PreviewView(stageActivity).apply {
         visibility = View.INVISIBLE
     }
@@ -282,5 +282,5 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         destroy()
     }
 
-    override fun getLifecycle() = lifecycle
+
 }

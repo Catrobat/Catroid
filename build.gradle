@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,30 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.21'
+    ext {
+        agp_version1 = '8.6.1'
+        agp_version = '8.0.0'
+    }
+    ext.kotlin_version = '1.8.22'
     ext.koin_version = '2.1.6'
     ext.lifecycle_version = '2.2.0'
     ext.jacoco_core_version = '0.8.7'
+
     repositories {
         google()
         mavenCentral()
         maven { url "https://developer.huawei.com/repo/" }
+        gradlePluginPortal() // Required for Gradle plugins
     }
 
     dependencies {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "com.android.tools.build:gradle:$agp_version1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
         classpath 'com.huawei.agconnect:agcp:1.4.2.300'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.51.0' // Add the plugin here
     }
 }
 
@@ -51,4 +58,13 @@ allprojects {
         mavenCentral()
         maven { url "https://developer.huawei.com/repo/" }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'org.xerial:sqlite-jdbc:3.34.0'
+        }
+    }
 }
+
+// Apply the plugin explicitly to the root project
+apply plugin: 'com.github.ben-manes.versions'
