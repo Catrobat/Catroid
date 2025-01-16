@@ -623,7 +623,7 @@
     <string formatted="false" name="project_options_notes_and_credits">Credits</string>
     <string formatted="false" name="project_options_tags">Tags</string>
     <string formatted="false" name="project_options_aspect_ratio">Keep original aspect ratio</string>
-    <string formatted="false" name="project_options_more_details">More details</string>
+    <string formatted="false" name="project_options_more_details">Project Properties</string>
     <string formatted="false" name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
     <string formatted="false" name="fragment_script_text_description">Klepni na \"+\" pro přidání skriptů</string>
