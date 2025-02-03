@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.content.Intent;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -29,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -74,8 +77,8 @@ public class StageResourceFailedTest {
 		String failedResourceMessage =
 				UiTestUtils.getResourcesString(R.string.prestage_resource_not_available_text)
 						+ UiTestUtils.getResourcesString(R.string.prestage_no_acceleration_sensor_available);
-		baseActivityTestRule.launchActivity(null);
 
+		baseActivityTestRule.launchActivity(new Intent());
 
 		onView(withText(R.string.prestage_resource_not_available_title))
 				.check(matches(isDisplayed()));
