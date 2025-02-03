@@ -165,7 +165,6 @@ public class StageListener implements ApplicationListener {
 
 	private static final int Z_LAYER_PEN_ACTOR = 1;
 	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
-	private static final int Z_LAYER_PLOT_ACTOR = 3;
 
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
@@ -527,11 +526,13 @@ public class StageListener implements ApplicationListener {
 
 		if (reloadProject) {
 			stage.clear();
-			if (penActor != null)
+			if (penActor != null) {
 				penActor.dispose();
+			}
 
-			if (plotActor != null)
+			if (plotActor != null) {
 				plotActor.dispose();
+			}
 
 			embroideryPatternManager.clear();
 
@@ -714,11 +715,13 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
 		embroideryPatternManager = null;
-		if (penActor != null)
+		if (penActor != null) {
 			penActor.dispose();
+		}
 
-		if(plotActor != null)
+		if(plotActor != null) {
 			plotActor.dispose();
+		}
 	}
 
 	public void finish() {

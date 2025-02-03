@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.backpack;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -100,11 +99,6 @@ public abstract class ActorAndObjectRecyclerViewFragment<T> extends Fragment imp
 		finishActionMode();
 	}
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-	}
-
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
@@ -113,7 +107,6 @@ public abstract class ActorAndObjectRecyclerViewFragment<T> extends Fragment imp
 	@Override
 	public void onItemClick(final T item, MultiSelectionManager selectionManager) {
 		unpackItems(new ArrayList<>(Collections.singletonList(item)));
-
 	}
 
 	public void setShowProgressBar(boolean show) {

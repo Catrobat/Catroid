@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
-import org.catrobat.catroid.test.utils.TestConstants;
+import org.catrobat.catroid.test.utils.PhysicsWorldConverterAngleTestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class PhysicsWorldConverterAngleTest {
@@ -55,11 +55,11 @@ public class PhysicsWorldConverterAngleTest {
 
 	@Test
 	public void testBox2dToNormalAngleConversion() {
-		Assert.assertEquals(deg, PhysicsWorldConverter.convertBox2dToNormalAngle(rad), TestConstants.DELTA);
+		assertEquals(deg, PhysicsWorldConverter.convertBox2dToNormalAngle(rad), PhysicsWorldConverterAngleTestUtils.DELTA);
 	}
 
 	@Test
 	public void testNormalToBox2dAngleConversion() {
-		Assert.assertEquals(rad, PhysicsWorldConverter.convertNormalToBox2dAngle(deg), TestConstants.DELTA);
+		assertEquals(rad, PhysicsWorldConverter.convertNormalToBox2dAngle(deg), PhysicsWorldConverterAngleTestUtils.DELTA);
 	}
 }
