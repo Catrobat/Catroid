@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.content.Intent;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -67,21 +69,18 @@ public class StageResourceFailedTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testResourceFailedDialog() {
-		baseActivityTestRule.launchActivity(null);
-
-		onView(isRoot()).perform(CustomActions.wait(5000));
-
-		onView(withText(R.string.prestage_resource_not_available_title))
-				.check(matches(isDisplayed()));
-
 		String failedResourceMessage =
 				UiTestUtils.getResourcesString(R.string.prestage_resource_not_available_text)
 						+ UiTestUtils.getResourcesString(R.string.prestage_no_acceleration_sensor_available);
 
+		baseActivityTestRule.launchActivity(new Intent());
+
+		onView(withText(R.string.prestage_resource_not_available_title))
+				.check(matches(isDisplayed()));
+
 		onView(withText(failedResourceMessage))
 				.check(matches(isDisplayed()));
 	}
-
 	public void createProject(String projectName) {
 		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
 		Formula accelerationFormula = new Formula(
