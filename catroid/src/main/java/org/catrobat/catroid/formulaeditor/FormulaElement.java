@@ -501,6 +501,12 @@ public class FormulaElement implements Serializable {
 		if (element == null) {
 			return null;
 		}
+		if(element.type == ElementType.FUNCTION && (element.value.equals("TRUE") || element.value.equals("FALSE"))){
+			if(element.value.equals("TRUE")){
+				return true;
+			}
+			return false;
+		}
 		return element.interpretRecursive(scope);
 	}
 
