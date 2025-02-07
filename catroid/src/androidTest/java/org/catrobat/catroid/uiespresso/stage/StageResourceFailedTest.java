@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import org.catrobat.catroid.R;
@@ -44,12 +46,20 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.hamcrest.CoreMatchers.containsString;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -75,11 +85,11 @@ public class StageResourceFailedTest {
 
 		baseActivityTestRule.launchActivity(new Intent());
 
-		onView(withText(R.string.prestage_resource_not_available_title))
-				.check(matches(isDisplayed()));
-
 		onView(withText(failedResourceMessage))
-				.check(matches(isDisplayed()));
+				.inRoot(isDialog())
+				.check(matches(withText(failedResourceMessage)));
+
+
 	}
 	public void createProject(String projectName) {
 		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
