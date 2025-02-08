@@ -276,13 +276,5 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <receiver android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-            android:exported="true">
-            <intent-filter>
-            <action android:name="android.bluetooth.device.action.FOUND" />
-            <action android:name="android.bluetooth.adapter.action.DISCOVERY_STARTED" />
-            <action android:name="android.bluetooth.adapter.action.DISCOVERY_FINISHED" />
-        </intent-filter>
-    </receiver>
     </application>
 </manifest>
