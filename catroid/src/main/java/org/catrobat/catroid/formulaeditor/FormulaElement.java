@@ -68,6 +68,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETER_DELIMITER;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.SENSOR;
@@ -99,7 +100,8 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT,
+		BRACKET, STRING, COLLISION_FORMULA, LIST
 	}
 
 	private ElementType type;
@@ -191,6 +193,9 @@ public class FormulaElement implements Serializable {
 				break;
 			case USER_LIST:
 				addToken(tokens, USER_LIST, value);
+				break;
+			case LIST:
+				addToken(tokens, LIST, value);
 				break;
 			case USER_DEFINED_BRICK_INPUT:
 				addToken(tokens, USER_DEFINED_BRICK_INPUT, value);
@@ -421,6 +426,8 @@ public class FormulaElement implements Serializable {
 			case USER_LIST:
 				UserList userList = UserDataWrapper.getUserList(value, scope);
 				return interpretUserList(userList);
+			case LIST:
+				return interpretList(value);
 			case USER_DEFINED_BRICK_INPUT:
 				UserData userBrickVariable = UserDataWrapper.getUserDefinedBrickInput(value,
 						scope.getSequence());
@@ -475,6 +482,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionIndexOfItem(arguments.get(0), scope);
 			case FLATTEN:
 				return interpretFunctionFlatten(scope, leftChild);
+			case APPEND:
+				return interpretFunctionAppend(scope, leftChild, rightChild);
 			case COLLIDES_WITH_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(scope, StageActivity.stageListener)
 						.tryInterpretFunctionTouchesColor(arguments.get(0)));
@@ -607,6 +616,11 @@ public class FormulaElement implements Serializable {
 		return interpretFunctionString(leftChild, scope);
 	}
 
+	private  static String interpretFunctionAppend(Scope scope, FormulaElement leftChild,
+			FormulaElement rightChild) {
+		return interpretFunctionString(leftChild, scope) + " " + interpretFunctionString(rightChild, scope);
+	}
+
 	private static String tryInterpretFunctionRegex(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild) {
 		try {
@@ -655,6 +669,28 @@ public class FormulaElement implements Serializable {
 			formattedNumberString += isInteger(number) ? (int) number : number;
 		}
 		return trimTrailingCharacters(formattedNumberString);
+	}
+
+	private static String interpretList(String value) {
+		StringBuilder listString = new StringBuilder();
+		value = value.trim();
+		if(!value.startsWith("[") || !value.endsWith("]")) {
+			return null;
+		}
+		String content = value.substring(1, value.length() - 1).trim();
+		String[] tokens = content.split(";");
+		if(tokens.length < 2) {
+			return null;
+		}
+		for(String token : tokens){
+			try {
+				listString.append(token).append(" ");
+			} catch (NumberFormatException ex) {
+				return null;
+			}
+		}
+		listString.deleteCharAt(listString.length()-1);
+		return listString.toString();
 	}
 
 	private Object interpretFunctionLength(Object left, Scope scope) {

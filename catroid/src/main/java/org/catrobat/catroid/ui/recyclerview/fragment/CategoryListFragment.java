@@ -154,12 +154,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_flatten_parameter);
 	private static final List<Integer> LIST_FUNCTIONS = asList(R.string.formula_editor_function_number_of_items,
 			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
-			R.string.formula_editor_function_index_of_item, R.string.formula_editor_function_flatten);
+			R.string.formula_editor_function_index_of_item,
+			R.string.formula_editor_function_flatten, R.string.formula_editor_function_append);
 	private static final List<Integer> LIST_PARAMS = asList(R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter,
 			R.string.formula_editor_function_index_of_item_parameter,
-			R.string.formula_editor_function_flatten_parameter);
+			R.string.formula_editor_function_flatten_parameter,
+			R.string.formula_editor_function_append_parameter);
 	private static final List<Integer> LOGIC_BOOL = asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);
@@ -663,7 +665,13 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			FragmentActivity activity,
 			TextInputDialog.Builder builder) {
 
-		if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
+		if(categoryListItem.nameResId == R.string.formula_editor_function_append) {
+			addResourceToActiveFormulaInFormulaEditor(categoryListItem);
+			getActivity().onBackPressed();
+			return;
+		}
+
+			if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
 			showNewUserListDialog(categoryListItem, projectUserList, spriteUserList,
 					activity, builder);
 			return;

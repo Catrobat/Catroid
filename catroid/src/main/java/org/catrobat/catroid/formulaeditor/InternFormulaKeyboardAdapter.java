@@ -34,6 +34,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETER_DELIMITER;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.PERIOD;
@@ -189,6 +190,10 @@ public class InternFormulaKeyboardAdapter {
 						USER_LIST, "list_name");
 			case R.string.formula_editor_function_flatten:
 				return buildSingleParameterFunction(Functions.FLATTEN, STRING, "list_name");
+			case R.string.formula_editor_function_append:
+				return buildDoubleParameterFunction(Functions.APPEND,
+						LIST, "[1;2]",
+						LIST, "[3;4]");
 			case R.string.formula_editor_function_arduino_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.ARDUINODIGITAL, NUMBER, "0");
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:

@@ -26,6 +26,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.content.Scope;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -239,6 +240,10 @@ public class InternFormulaParser {
 				currentElement.replaceElement(userList(scope));
 				break;
 
+			case LIST:
+				currentElement.replaceElement(list());
+				break;
+
 			case USER_DEFINED_BRICK_INPUT:
 				currentElement.replaceElement(userDefinedBrickInput(scope));
 				break;
@@ -290,6 +295,21 @@ public class InternFormulaParser {
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_LIST,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement list() throws InternFormulaParserException {
+
+		List<Object> list = tryParseList(currentToken.getTokenStringValue());
+
+		if (list == null) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.LIST,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
@@ -365,5 +385,29 @@ public class InternFormulaParser {
 		String currentStringValue = currentToken.getTokenStringValue();
 		getNextToken();
 		return currentStringValue;
+	}
+
+	private List<Object> tryParseList(String value){
+		if(value == null || value.isEmpty()) {
+			return null;
+		}
+		value = value.trim();
+		if(!value.startsWith("[") || !value.endsWith("]")) {
+			return null;
+		}
+		String content = value.substring(1, value.length() - 1).trim();
+		String[] tokens = content.split(";");
+		if(tokens.length < 2) {
+			return null;
+		}
+		List <Object> list = new ArrayList<>();
+		for(String token : tokens){
+			try {
+				list.add(Integer.parseInt(token));
+			} catch (NumberFormatException ex) {
+				return null;
+			}
+		}
+		return list;
 	}
 }
