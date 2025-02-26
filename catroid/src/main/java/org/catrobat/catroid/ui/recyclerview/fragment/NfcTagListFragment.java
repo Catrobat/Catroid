@@ -65,7 +65,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
 		} else {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
 		}
 
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {

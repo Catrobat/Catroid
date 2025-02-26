@@ -449,7 +449,7 @@ public final class CastManager {
 						intent,PendingIntent.FLAG_IMMUTABLE);
 			} else {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
-						intent, 0);
+						intent, PendingIntent.FLAG_IMMUTABLE);
 			}
 
 
