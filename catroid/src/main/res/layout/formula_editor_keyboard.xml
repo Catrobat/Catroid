@@ -243,11 +243,18 @@
             android:layout_span="1"
             android:text="@string/formula_editor_decimal_mark" />
 
-        <Button
+        <ImageButton
             android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorComputeButton"
-            android:layout_marginBottom="@dimen/key_margin"
-            android:layout_span="2"
-            android:text="@string/formula_editor_confirm" />
+            android:layout_span="1"
+            android:contentDescription="@string/formula_editor_image_button_description_calculate"
+            android:src="@drawable/ic_input_calculate" />
+
+        <ImageButton
+            android:id="@+id/formula_editor_keyboard_confirm"
+            style="@style/FormulaEditorConfirmButton"
+            android:layout_span="1"
+            android:contentDescription="@string/formula_editor_image_button_description_confirm"
+            android:src="@drawable/ic_input_confirm" />
     </TableRow>
 </TableLayout>
