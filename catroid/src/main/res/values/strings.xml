@@ -2016,6 +2016,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_operator_divide">÷</string>
     <string formatted="false" name="formula_editor_operator_power">^</string>
     <string formatted="false" name="formula_editor_image_button_description_delete">delete</string>
+    <string formatted="false" name="formula_editor_image_button_description_calculate">calculate</string>
+    <string formatted="false" name="formula_editor_image_button_description_confirm">confirm</string>
     <string formatted="false" name="formula_editor_image_button_description_color_picker">color picker</string>
     <string formatted="false" name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string formatted="false" name="formula_editor_variable_dialog_title">New variable</string>

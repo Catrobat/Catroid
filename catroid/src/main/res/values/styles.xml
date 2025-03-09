@@ -562,6 +562,11 @@
         <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
     </style>
 
+    <style name="FormulaEditorConfirmButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
+    </style>
+
+
     <style name="FormulaEditorDeleteButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_delete_button_selector</item>
     </style>

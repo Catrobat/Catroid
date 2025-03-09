@@ -363,6 +363,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_compute:
 							showComputeDialog();
 							return true;
+						case R.id.formula_editor_keyboard_confirm:
+							exitFormulaEditorFragment();
+							return true;
 						case R.id.formula_editor_keyboard_function:
 							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
