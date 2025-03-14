@@ -215,4 +215,35 @@ public class ImageEditingTest {
 		double sampleSizeHeight = ((double) originalBackgroundImageDimensions[1]) / ((double) newHeight);
 		return (1d / Math.max(sampleSizeWidth, sampleSizeHeight));
 	}
+	@Test
+	public void testScaleThumbnailForImageEdgeCase() throws Exception {
+		int originalWidth = 2;
+		int originalHeight = 302;
+
+		Bitmap originalBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.RGB_565);
+
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "test_thumbnail.png");
+		FileOutputStream fos = new FileOutputStream(testImageFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fos, 8192);
+		originalBitmap.compress(CompressFormat.PNG, 100, bos);
+		bos.flush();
+		bos.close();
+
+		int targetWidth = 150;  // THUMBNAIL_WIDTH
+		int targetHeight = 150; // THUMBNAIL_HEIGHT
+
+		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(
+				testImageFile.getAbsolutePath(),
+				targetWidth,
+				targetHeight,
+				ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO,
+				true
+		);
+
+		int expectedWidth = 1;
+		int expectedHeight = 150;
+
+		assertEquals("Scaled width should be " + expectedWidth, expectedWidth, scaledBitmap.getWidth());
+		assertEquals("Scaled height should be " + expectedHeight, expectedHeight, scaledBitmap.getHeight());
+	}
 }
