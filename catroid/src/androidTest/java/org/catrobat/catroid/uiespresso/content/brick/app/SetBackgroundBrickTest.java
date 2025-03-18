@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_BACKGROUNDS_URL;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.AllOf.allOf;
@@ -85,7 +85,7 @@ public class SetBackgroundBrickTest {
 
 		intended(allOf(hasComponent(WebViewActivity.class.getName()),
 				hasExtras(allOf(hasEntry(equalTo(WebViewActivity.INTENT_PARAMETER_URL),
-				equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
+				equalTo(CATROBAT_CONTENT_BACKGROUNDS_URL))))));
 
 		Intents.release();
 	}

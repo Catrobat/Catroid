@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,10 +93,9 @@ import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_BACKGROUNDS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_SOUNDS_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
@@ -667,7 +666,7 @@ public class SpriteActivity extends BaseActivity {
 			alertDialog.dismiss();
 		});
 		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_LOOKS_URL)
 					.startActivityForResult(SPRITE_LIBRARY);
 			alertDialog.dismiss();
 		});
@@ -693,21 +692,13 @@ public class SpriteActivity extends BaseActivity {
 				.setView(root)
 				.create();
 
-		String mediaLibraryUrl;
-
-		if (projectManager.isCurrentProjectLandscapeMode()) {
-			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-		} else {
-			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-		}
-
 		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
 			new ImportFromPocketPaintLauncher(this)
 					.startActivityForResult(BACKGROUND_POCKET_PAINT);
 			alertDialog.dismiss();
 		});
 		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, mediaLibraryUrl)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_BACKGROUNDS_URL)
 					.startActivityForResult(BACKGROUND_LIBRARY);
 			alertDialog.dismiss();
 		});
@@ -736,13 +727,9 @@ public class SpriteActivity extends BaseActivity {
 		String mediaLibraryUrl;
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			if (projectManager.isCurrentProjectLandscapeMode()) {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-			} else {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-			}
+			mediaLibraryUrl = CATROBAT_CONTENT_BACKGROUNDS_URL;
 		} else {
-			mediaLibraryUrl = LIBRARY_LOOKS_URL;
+			mediaLibraryUrl = CATROBAT_CONTENT_LOOKS_URL;
 		}
 
 		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
@@ -783,7 +770,7 @@ public class SpriteActivity extends BaseActivity {
 		});
 
 		root.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, LIBRARY_SOUNDS_URL)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_SOUNDS_URL)
 					.startActivityForResult(SOUND_LIBRARY);
 			alertDialog.dismiss();
 		});
