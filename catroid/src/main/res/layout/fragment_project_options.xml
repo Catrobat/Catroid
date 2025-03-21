@@ -179,6 +179,7 @@
                android:paddingStart="@dimen/material_design_spacing_x_large"
                android:paddingTop="@dimen/material_design_spacing_x_large"
                android:background="@drawable/button_background_selector_dark"
+               android:visibility="gone"
                android:text="@string/upload_project_dialog_title" />
 
        </LinearLayout>
