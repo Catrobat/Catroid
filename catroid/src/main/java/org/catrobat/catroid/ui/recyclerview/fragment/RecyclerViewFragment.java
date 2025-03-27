@@ -58,6 +58,7 @@ import java.util.List;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.PluralsRes;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -74,7 +75,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
 
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
@@ -249,6 +251,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
+	}
+
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		if (getActivity().isFinishing()) {
 			return;
 		}

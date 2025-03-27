@@ -28,6 +28,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -35,48 +36,32 @@ import androidx.work.ListenableWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.common.ProjectData
-import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
+import org.catrobat.catroid.content.backwardcompatibility.ProjectRepository
 import org.catrobat.catroid.sync.FeaturedProjectSyncWorker
 import org.catrobat.catroid.sync.ProjectsCategoriesSyncWorker
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.combineWith
-import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class MainFragmentViewModel(
     private val workManager: WorkManager,
     private val featuredProjectsRepository: FeaturedProjectsRepository,
     private val projectCategoriesRepository: ProjectCategoriesRepository,
-    private val connectionMonitor: NetworkConnectionMonitor
+    private val connectionMonitor: NetworkConnectionMonitor,
+    private val projectRepository: ProjectRepository
 ) : ViewModel() {
     private val projectList = MutableLiveData<List<ProjectData>>()
 
     fun getProjects(): LiveData<List<ProjectData>> = projectList
 
-    private fun getProjectData(): List<ProjectData> {
-        val myProjects = mutableListOf<ProjectData>()
-        FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()?.forEach { projectDir ->
-            val xmlFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
-            if (xmlFile.exists()) {
-                val metaDataParser = ProjectMetaDataParser(xmlFile)
-                try {
-                    myProjects.add(metaDataParser.projectMetaData)
-                } catch (e: IOException) {
-                    Log.e(javaClass.simpleName, "Project not parsable", e)
-                }
-            }
-        }
-        return myProjects.sortedByDescending { it.lastUsed }
-    }
-
     fun forceUpdate() {
-        projectList.postValue(getProjectData())
+        viewModelScope.launch {
+            projectList.postValue(projectRepository.fetchProjectData(ProjectRepository.SortBy.LAST_USED_DESC))
+        }
     }
 
     init {

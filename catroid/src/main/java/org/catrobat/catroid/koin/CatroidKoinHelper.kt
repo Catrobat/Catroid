@@ -29,6 +29,7 @@ import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.backwardcompatibility.ProjectRepository
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
@@ -49,6 +50,7 @@ import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesR
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
+import org.catrobat.catroid.ui.viewmodel.ProjectListViewModel
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
@@ -88,7 +90,8 @@ val componentsModules = module(createdAtStart = true, override = false) {
  * https://github.com/InsertKoinIO/koin/blob/master/koin-projects/docs/reference/koin-android/viewmodel.md
  */
 val viewModelModules = module {
-    viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
+    viewModel { MainFragmentViewModel(get(), get(), get(), get(), get()) }
+    viewModel { ProjectListViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -102,6 +105,9 @@ val repositoryModules = module {
 
     single {
         DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
+    }
+    single {
+        ProjectRepository() as ProjectRepository
     }
 }
 

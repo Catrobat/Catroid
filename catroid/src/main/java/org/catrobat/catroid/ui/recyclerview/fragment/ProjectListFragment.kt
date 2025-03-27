@@ -41,10 +41,9 @@ import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.common.SharedPreferenceKeys
-import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
+import org.catrobat.catroid.content.backwardcompatibility.ProjectRepository
 import org.catrobat.catroid.exceptions.LoadingProjectException
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
@@ -64,10 +63,12 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.viewmodel.ProjectListViewModel
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("NotifyDataSetChanged")
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
@@ -75,9 +76,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     private var hasUnzipAndImportTaskFinished = false
 
     private val projectManager: ProjectManager by inject()
+    private val viewModel: ProjectListViewModel by viewModel()
 
-    override fun onActivityCreated(savedInstance: Bundle?) {
-        super.onActivityCreated(savedInstance)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         filesForUnzipAndImportTask = ArrayList()
         hasUnzipAndImportTaskFinished = true
         if (arguments != null) {
@@ -87,10 +90,20 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             adapter.showSettings = false
             actionModeType = IMPORT_LOCAL
         }
+        observeData()
+        setAdapterItems()
+    }
+
+    private fun observeData() {
+        viewModel.projects.observe(viewLifecycleOwner) { projects ->
+            adapter.setItems(projects)
+            adapter.notifyDataSetChanged()
+            checkForEmptyList()
+        }
     }
 
     private fun onImportProjectFinished(success: Boolean) {
-        setAdapterItems(adapter.projectsSorted)
+        setAdapterItems()
         if (!success) {
             ToastUtil.showError(requireContext(), R.string.error_import_project)
         } else {
@@ -116,7 +129,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 )
                 filesForUnzipAndImportTask?.clear()
             }
-            setAdapterItems(adapter.projectsSorted)
+            setAdapterItems()
         } else {
             ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
@@ -127,40 +140,17 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (actionModeType != IMPORT_LOCAL) {
             projectManager.currentProject = null
         }
-
-        setAdapterItems(adapter.projectsSorted)
-        checkForEmptyList()
+        setAdapterItems()
         BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
     override fun initializeAdapter() {
+        Log.e("peter", "initializeAdapter:")
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
-        adapter = ProjectAdapter(itemList)
+        adapter = ProjectAdapter(ArrayList())
         onAdapterReady()
     }
-
-    private val itemList: List<ProjectData>
-        get() {
-            val items: MutableList<ProjectData> = ArrayList()
-            getLocalProjectList(items)
-            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
-                project2.lastUsed.compareTo(project1.lastUsed)
-            })
-            return items
-        }
-
-    private val sortedItemList: List<ProjectData>
-        get() {
-            val items: MutableList<ProjectData> = ArrayList()
-            getLocalProjectList(items)
-            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
-                project1.name.compareTo(
-                    project2.name
-                )
-            })
-            return items
-        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -180,7 +170,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 adapter.projectsSorted
             )
             .apply()
-        setAdapterItems(adapter.projectsSorted)
+        setAdapterItems()
     }
 
     private fun showImportChooser() {
@@ -327,7 +317,8 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         val usedProjectNames = ArrayList(adapter.items)
         for (projectData in selectedItems) {
             projectData ?: continue
-            val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
+            val name =
+                uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
             usedProjectNames.add(ProjectData(name, null, 0.0, false))
             val projectCopier = ProjectCopier(projectData.directory, name)
             projectCopier.copyProjectAsync({ success: Boolean -> onCopyProjectComplete(success) })
@@ -360,15 +351,14 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             )
         )
         finishActionMode()
-        setAdapterItems(adapter.projectsSorted)
-        checkForEmptyList()
+        setAdapterItems()
     }
 
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
             setShowProgressBar(true)
             if (projectManager.initializeDefaultProject()) {
-                setAdapterItems(adapter.projectsSorted)
+                setAdapterItems()
                 setShowProgressBar(false)
             } else {
                 ToastUtil.showError(requireContext(), R.string.wtf_error)
@@ -408,7 +398,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            setAdapterItems(adapter.projectsSorted)
+            setAdapterItems()
         } else {
             ToastUtil.showError(requireContext(), R.string.error_copy_project)
         }
@@ -421,11 +411,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 super.onItemClick(item, null)
                 return
             }
+
             NONE -> {
                 setShowProgressBar(true)
                 val directoryFile = item?.directory ?: return
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
+
             IMPORT_LOCAL -> {
                 val intent = Intent()
                 intent.putExtra(
@@ -435,6 +427,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 requireActivity().setResult(RESULT_OK, intent)
                 requireActivity().finish()
             }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -503,13 +496,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             )
     }
 
-    private fun setAdapterItems(sortProjects: Boolean) {
-        if (sortProjects) {
-            adapter.setItems(sortedItemList)
+    private fun setAdapterItems() {
+        val sortBy: ProjectRepository.SortBy = if (adapter.projectsSorted) {
+            ProjectRepository.SortBy.NAME_ASC
         } else {
-            adapter.setItems(itemList)
+            ProjectRepository.SortBy.LAST_USED_DESC
         }
-        adapter.notifyDataSetChanged()
+        viewModel.loadProjects(sortBy)
     }
 
     interface ProjectImportFinishedListener {
@@ -522,20 +515,5 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         private const val PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801
         private const val REQUEST_IMPORT_PROJECT = 7
 
-        @JvmStatic
-        fun getLocalProjectList(items: MutableList<ProjectData>) {
-            FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()?.forEach { projectDir ->
-                val xmlFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
-                if (!xmlFile.exists()) {
-                    return@forEach
-                }
-                val metaDataParser = ProjectMetaDataParser(xmlFile)
-                try {
-                    items.add(metaDataParser.projectMetaData)
-                } catch (exception: IOException) {
-                    Log.e(TAG, "Could no parse local project.", exception)
-                }
-            }
-        }
     }
 }
