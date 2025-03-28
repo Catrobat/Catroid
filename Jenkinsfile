@@ -215,6 +215,7 @@ pipeline {
                                         }
                                     }
 
+                                    sh 'rm -rf Paintroid'
                                     // Build the flavors so that they can be installed next independently of older versions.
                                     sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
