@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -47,7 +48,6 @@ import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
-import java.util.ArrayList
 
 class LookListFragment : RecyclerViewFragment<LookData?>() {
     private val lookController = LookController()
@@ -147,6 +147,35 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         }
     }
 
+    private fun addLookFromUri(uri: Uri, name: String?) {
+        val activity = requireActivity()
+        if (activity is SpriteActivity) {
+            activity.createNewLookData(
+                name + Constants.DEFAULT_IMAGE_EXTENSION, name, uri
+            )
+            disposeItem()
+        }
+    }
+
+    private fun overwriteLook(look: LookData?) {
+        val fileName = look?.name
+        try {
+            StorageOperations.deleteFile(look?.file)
+            adapter.items.remove(look)
+            val uri = Uri.fromFile(
+                StorageOperations.getLastModified(
+                    String.format(
+                        "%s/%s",
+                        Constants.CACHE_DIRECTORY, Constants.IMAGE_DIRECTORY_NAME
+                    )
+                )
+            )
+            addLookFromUri(uri, fileName)
+        } catch (e: IOException) {
+            Log.e(SpriteActivity.TAG, Log.getStackTraceString(e))
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         disposeItem()
@@ -192,6 +221,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         if (requestCode == SpriteActivity.EDIT_LOOK && resultCode == Activity.RESULT_OK) {
             val activity: Activity = requireActivity()
             if (activity is SpriteActivity) {
+                overwriteLook(currentItem)
                 activity.setUndoMenuItemVisibility(true)
             }
         }
