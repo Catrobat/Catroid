@@ -40,6 +40,7 @@ import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.ui.controller.RecentBrickListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
@@ -68,6 +69,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
     single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
+    single { RecentBrickListManager.getInstance() }
     single { NetworkConnectionMonitor(androidContext()) }
     factory { HuaweiApiAvailability.getInstance() }
     factory { GoogleApiAvailability.getInstance() }

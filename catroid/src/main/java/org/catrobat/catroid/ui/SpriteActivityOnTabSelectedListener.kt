@@ -34,9 +34,9 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
-import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
-import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS
-import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS
+import org.catrobat.catroid.ui.SpriteActivity.Companion.FRAGMENT_LOOKS
+import org.catrobat.catroid.ui.SpriteActivity.Companion.FRAGMENT_SCRIPTS
+import org.catrobat.catroid.ui.SpriteActivity.Companion.FRAGMENT_SOUNDS
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment.Companion.TAG
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment
@@ -79,6 +79,7 @@ fun Activity?.addTabLayout(selectedTabPosition: Int) {
 
 fun SpriteActivity.loadFragment(fragmentPosition: Int) {
     val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+    val currentFragment = getCurrentFragment()
     if (unableToSelectNewFragmentFromCurrent(currentFragment)) {
         setTabSelection(currentFragment)
         return
