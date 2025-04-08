@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import org.koin.android.ext.android.inject
 import java.io.File
 
-class ProjectActivity : BaseCastActivity() {
+class ProjectActivity : BaseCastActivity(), ImportProjectHelper.MergeProjectListener {
 
     companion object {
         const val EXTRA_FRAGMENT_POSITION = "fragmentPosition"
@@ -307,16 +307,28 @@ class ProjectActivity : BaseCastActivity() {
         var importProjectHelper: ImportProjectHelper? = null
         if (isObject) {
             importProjectHelper = ImportProjectHelper(
-                lookFileName, currentScene, this
+                lookFileName, currentScene, this, lookDataName, uri
             )
-            if (!importProjectHelper.checkForConflicts()) {
-                return
-            }
+            importProjectHelper.setMergeProjectListener(this)
             lookDataName = UniqueNameProvider().getUniqueNameInNameables(
                 importProjectHelper.getSpriteToAddName(),
                 currentScene.spriteList
             )
+            importProjectHelper.lookDataName = lookDataName
+            if (!importProjectHelper.checkForConflicts()) {
+                return
+            }
         }
+        openNewSpriteDialogFragment(isObject, lookDataName, lookFileName, uri, importProjectHelper)
+    }
+
+    private fun openNewSpriteDialogFragment(
+        isObject: Boolean,
+        lookDataName: String,
+        lookFileName: String,
+        uri: Uri?,
+        importProjectHelper: ImportProjectHelper?
+    ) {
         NewSpriteDialogFragment(
             false,
             lookDataName,
@@ -482,6 +494,16 @@ class ProjectActivity : BaseCastActivity() {
         if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
             val dialog: DialogFragment = LegoSensorConfigInfoDialog.newInstance(Constants.EV3)
             dialog.show(supportFragmentManager, LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG)
+        }
+    }
+
+    override fun onResolvedConflicts(importProjectHelper: ImportProjectHelper) {
+        importProjectHelper.lookDataName?.let {
+            openNewSpriteDialogFragment(
+                true,
+                it, importProjectHelper
+                    .lookFileName, importProjectHelper.uri, importProjectHelper
+            )
         }
     }
 }

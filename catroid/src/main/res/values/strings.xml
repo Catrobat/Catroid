@@ -46,6 +46,7 @@
     <string formatted="false" name="ok">OK</string>
     <string formatted="false" name="done">Done</string>
     <string formatted="false" name="close">Close</string>
+    <string formatted="false" name="merge_automatically">Merge automatically</string>
 
     <string formatted="false" name= "assistant">Assistant</string>
 
