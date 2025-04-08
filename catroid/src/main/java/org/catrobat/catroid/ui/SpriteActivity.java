@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -135,6 +135,8 @@ public class SpriteActivity extends BaseActivity {
 	public static final int SOUND_RECORD = 12;
 	public static final int SOUND_LIBRARY = 13;
 	public static final int SOUND_FILE = 14;
+
+	public static final int SOUND_POCKET_MUSIC = 15;
 
 	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
 	public static final int EDIT_LOOK = 2020;
@@ -402,11 +404,15 @@ public class SpriteActivity extends BaseActivity {
 			case SOUND_RECORD:
 			case SOUND_FILE:
 				uri = data.getData();
-				addSoundFromUri(uri);
+				addSoundFromUri(uri, false);
+				break;
+			case SOUND_POCKET_MUSIC:
+				uri = data.getData();
+				addSoundFromUri(uri, true);
 				break;
 			case SOUND_LIBRARY:
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
-				addSoundFromUri(uri);
+				addSoundFromUri(uri, false);
 				break;
 			case REQUEST_CODE_VISUAL_PLACEMENT:
 				Bundle extras = data.getExtras();
@@ -593,7 +599,7 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	private void addSoundFromUri(Uri uri) {
+	private void addSoundFromUri(Uri uri, Boolean pocketMusic) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String soundInfoName;
 		String soundFileName;
@@ -603,6 +609,9 @@ public class SpriteActivity extends BaseActivity {
 		if (useSpriteName) {
 			soundInfoName = currentSprite.getName();
 			soundFileName = soundInfoName + DEFAULT_SOUND_EXTENSION;
+		} else if (pocketMusic) {
+			soundInfoName = getString(R.string.pocket_music_default_project_name);
+			soundFileName = resolvedFileName;
 		} else {
 			soundInfoName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			soundFileName = resolvedFileName;
@@ -796,7 +805,7 @@ public class SpriteActivity extends BaseActivity {
 		if (BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
 			root.findViewById(R.id.dialog_new_sound_pocketmusic).setVisibility(View.VISIBLE);
 			root.findViewById(R.id.dialog_new_sound_pocketmusic).setOnClickListener(view -> {
-				startActivity(new Intent(this, PocketMusicActivity.class));
+				startActivityForResult(new Intent(this, PocketMusicActivity.class), SOUND_POCKET_MUSIC);
 				alertDialog.dismiss();
 			});
 		}
