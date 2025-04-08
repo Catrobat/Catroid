@@ -2219,8 +2219,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
-    <string formatted="false" name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
 
