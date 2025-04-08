@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
@@ -174,6 +175,18 @@ class ImportFromLocalProjectListLauncher(
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(activity, ProjectListActivity::class.java)
         intent.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT, title)
+        activity.startActivityForResult(intent, requestCode)
+    }
+}
+
+class ImportFromLocalSceneListLauncher(
+    private val activity: AppCompatActivity,
+    private val sceneProject: Project,
+) : ImportLauncher {
+
+    override fun startActivityForResult(requestCode: Int) {
+        val intent = Intent(activity, ProjectActivity::class.java)
+        intent.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT, sceneProject)
         activity.startActivityForResult(intent, requestCode)
     }
 }

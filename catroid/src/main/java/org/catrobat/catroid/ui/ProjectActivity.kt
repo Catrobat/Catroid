@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,13 +46,16 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.databinding.ActivityRecyclerBinding
 import org.catrobat.catroid.databinding.DialogNewActorBinding
+import org.catrobat.catroid.databinding.DialogNewSceneBinding
 import org.catrobat.catroid.databinding.ProgressBarBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.merge.ImportSceneHelper
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
+import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.controller.ActorsAndObjectsManager
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog
@@ -89,6 +92,9 @@ class ProjectActivity : BaseCastActivity() {
         const val SPRITE_CAMERA = 3
         const val SPRITE_OBJECT = 4
         const val SPRITE_FROM_LOCAL = 5
+
+        const val SCENE_FROM_LOCAL = 6
+        const val SCENE_FROM_LOCAL_SELECTED = 7
     }
 
     private lateinit var binding: ActivityRecyclerBinding
@@ -126,11 +132,17 @@ class ProjectActivity : BaseCastActivity() {
     private fun loadFragment(fragmentPosition: Int) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         when (fragmentPosition) {
-            FRAGMENT_SCENES -> fragmentTransaction.replace(
-                R.id.fragment_container,
-                SceneListFragment(),
-                SceneListFragment.TAG
-            )
+            FRAGMENT_SCENES -> {
+                if (intent.hasExtra(IMPORT_LOCAL_INTENT)) {
+                    BottomBar.hideAddButton(this)
+                    BottomBar.hidePlayButton(this)
+                }
+                fragmentTransaction.replace(
+                    R.id.fragment_container,
+                    SceneListFragment(),
+                    SceneListFragment.TAG
+                )
+            }
             FRAGMENT_SPRITES -> fragmentTransaction.replace(
                 R.id.fragment_container,
                 SpriteListFragment(),
@@ -269,13 +281,65 @@ class ProjectActivity : BaseCastActivity() {
                 startScript.addBrick(placeAtBrick)
             }
             SPRITE_FROM_LOCAL ->
-                if (data != null && data.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
+                if (data != null && data.hasExtra(IMPORT_LOCAL_INTENT)) {
                     uri = Uri.fromFile(
-                        File(data.getStringExtra(ProjectListActivity.IMPORT_LOCAL_INTENT))
+                        File(data.getStringExtra(IMPORT_LOCAL_INTENT))
                     )
                     addObjectFromUri(uri)
                 }
+            SCENE_FROM_LOCAL ->
+                if (data != null && data.hasExtra(IMPORT_LOCAL_INTENT)) {
+                    uri = Uri.fromFile(
+                        File(data.getStringExtra(IMPORT_LOCAL_INTENT))
+                    )
+                    addImportSceneHelperFromUri(uri)
+                }
+            SCENE_FROM_LOCAL_SELECTED ->
+                if (data != null && data.hasExtra(IMPORT_LOCAL_INTENT)) {
+                    uri = Uri.fromFile(
+                        File(data.getStringExtra(IMPORT_LOCAL_INTENT))
+                    )
+                    addImportedScene(projectManager.currentImportSceneHelper, uri)
+                }
         }
+    }
+
+    private fun addImportSceneHelperFromUri(uri: Uri?) {
+        val resolvedFileName = StorageOperations.resolveFileName(contentResolver, uri)
+        val importSceneHelper = ImportSceneHelper(
+            resolvedFileName, this, projectManager
+                .currentProject, null
+        )
+
+        if (importSceneHelper.getSceneCount()!! > 1) {
+            projectManager.currentImportSceneHelper = importSceneHelper
+            importSceneHelper.newProject?.let {
+                ImportFromLocalSceneListLauncher(
+                    this,
+                    it
+                ).startActivityForResult(SCENE_FROM_LOCAL_SELECTED)
+            }
+            return
+        }
+
+        addImportedScene(importSceneHelper, null)
+    }
+
+    private fun addImportedScene(importSceneHelper: ImportSceneHelper?, sceneUri: Uri?) {
+        if (importSceneHelper == null) {
+            return
+        }
+
+        if (sceneUri != null) {
+            val resolvedFileName = StorageOperations.resolveFileName(contentResolver, sceneUri)
+            importSceneHelper.setSpecificScene(resolvedFileName)
+        }
+
+        if (!importSceneHelper.checkForConflicts()) {
+            return
+        }
+
+        importSceneHelper.importScene()
     }
 
     private fun addSpriteFromUri(uri: Uri?, imageExtension: String = DEFAULT_IMAGE_EXTENSION) {
@@ -352,7 +416,7 @@ class ProjectActivity : BaseCastActivity() {
         }
     }
 
-    fun handleAddSceneButton() {
+    private fun addBlancScene() {
         val currentProject = projectManager.currentProject
         val defaultSceneName = UniqueNameProvider().getUniqueNameInNameables(
             resources.getString(R.string.default_scene_name),
@@ -384,6 +448,36 @@ class ProjectActivity : BaseCastActivity() {
         builder.setTitle(R.string.new_scene_dialog)
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+    private fun handleAddSceneButton() {
+        val dialogNewSceneBinding = DialogNewSceneBinding.inflate(layoutInflater)
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle(R.string.new_scene_dialog)
+            .setView(dialogNewSceneBinding.root)
+            .create()
+
+        dialogNewSceneBinding.dialogNewBlancScene.setOnClickListener {
+            addBlancScene()
+            alertDialog.dismiss()
+        }
+
+        dialogNewSceneBinding.dialogNewSceneBackpack.setOnClickListener {
+            val intent = Intent(this, BackpackActivity::class.java)
+            intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, BackpackActivity.FRAGMENT_SCENES)
+            startActivity(intent)
+            alertDialog.dismiss()
+        }
+
+        dialogNewSceneBinding.dialogNewSceneLocalProjects.setOnClickListener {
+            ImportFromLocalProjectListLauncher(
+                this,
+                getString(R.string.import_scene_from_project_launcher)
+            )
+                .startActivityForResult(SCENE_FROM_LOCAL)
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     private fun handleAddSpriteButton() {
