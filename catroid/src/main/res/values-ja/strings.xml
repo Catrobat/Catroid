@@ -503,7 +503,6 @@
     <string formatted="false" name="no_projects_selected">インポート用に選択されたプロジェクトはありません</string>
     <string formatted="false" name="only_select_catrobat_files">プロジェクトファイルのみを選択</string>
     <string formatted="false" name="error_no_files_found">プロジェクトファイルが見つかりません。</string>
-    <string formatted="false" name="import_sprite_from_project_launcher">ローカルプロジェクトからオブジェクトをインポート</string>
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">説明</string>
     <string formatted="false" name="project_options_notes_and_credits">ノートとクレジット</string>

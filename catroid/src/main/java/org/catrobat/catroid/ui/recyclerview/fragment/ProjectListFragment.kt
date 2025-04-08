@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,9 +53,11 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SCENE
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SPRITE
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
@@ -82,10 +84,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         hasUnzipAndImportTaskFinished = true
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
-        }
-        if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
-            adapter.showSettings = false
-            actionModeType = IMPORT_LOCAL
         }
     }
 
@@ -126,11 +124,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun onResume() {
         if (actionModeType != IMPORT_LOCAL) {
             projectManager.currentProject = null
+            BottomBar.showBottomBar(requireActivity())
         }
 
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
-        BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
@@ -427,13 +425,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
             IMPORT_LOCAL -> {
-                val intent = Intent()
-                intent.putExtra(
-                    ProjectListActivity.IMPORT_LOCAL_INTENT,
-                    item?.directory?.absoluteFile?.absolutePath
-                )
-                requireActivity().setResult(RESULT_OK, intent)
-                requireActivity().finish()
+                ImportLocalObjectActivity.projectToImportFrom = XstreamSerializer.getInstance()
+                    .loadProject(item!!.directory.absoluteFile, context)
+                if (!ImportLocalObjectActivity.projectToImportFrom.hasMultipleScenes()) {
+                    ImportLocalObjectActivity.sceneToImportFrom = ImportLocalObjectActivity
+                        .projectToImportFrom.defaultScene
+                    (activity as ImportLocalObjectActivity).loadSelector(REQUEST_SPRITE)
+                } else {
+                    (activity as ImportLocalObjectActivity).loadSelector(REQUEST_SCENE)
+                }
             }
             else -> super.onItemClick(item, selectionManager)
         }
@@ -491,16 +491,18 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-        menu.findItem(R.id.sort_projects)
-            .setTitle(
-                if (adapter.projectsSorted) {
-                    R.string.unsort_projects
-                } else {
-                    R.string.sort_projects
-                }
-            )
+        if (actionModeType != IMPORT_LOCAL) {
+            adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
+            menu.findItem(R.id.sort_projects)
+                .setTitle(
+                    if (adapter.projectsSorted) {
+                        R.string.unsort_projects
+                    } else {
+                        R.string.sort_projects
+                    }
+                )
+        }
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,7 +106,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 				onItemClickListener.onItemLongClick(item, holder);
 				return true;
 			});
-		} else if (ripples != null && !showRipples) {
+		} else if (ripples != null) {
 			ripples.setVisibility(View.GONE);
 			holder.itemView.setOnLongClickListener(v -> true);
 		}
@@ -114,7 +114,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {
 			settings.setVisibility(View.VISIBLE);
-		} else if (settings != null && !showSettings) {
+		} else if (settings != null) {
 			settings.setVisibility(View.GONE);
 		}
 	}

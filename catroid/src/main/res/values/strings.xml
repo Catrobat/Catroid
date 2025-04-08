@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -402,7 +402,6 @@
     <string formatted="false" name="am_convert">Convert</string>
     <string formatted="false" name="am_merge">Merge</string>
     <string formatted="false" name="dialog_confirm_delete">You can\'t undo this!</string>
-
     <string formatted="false" name="list_headline_sprites">Actors and objects</string>
 
     <!-- Options Menu Options -->
@@ -418,7 +417,6 @@
     <string formatted="false" name="from_local">Add from local</string>
     <string formatted="false" name="sort_projects">Sort</string>
     <string formatted="false" name="unsort_projects">Unsort</string>
-    <string formatted="false" name= "import_from_project">Select project to import from</string>
 
     <!-- New Dialog Titles -->
     <string formatted="false" name="new_scene_dialog">New scene</string>
@@ -497,6 +495,11 @@
 
     <!-- New Scene Menu -->
     <string formatted="false" name="new_scene">New scene</string>
+
+    <!-- Import Local Sprite -->
+    <string name= "import_from_project">Select project to import from</string>
+    <string name= "import_from_scene">Select scene to import from</string>
+    <string name= "import_object">Select object to import</string>
 
     <!-- Action Toasts -->
     <!-- Backpack -->
@@ -618,7 +621,6 @@
     <string formatted="false" name="no_projects_selected">No projects selected for import</string>
     <string formatted="false" name="only_select_catrobat_files">Only select project files</string>
     <string formatted="false" name="error_no_files_found">No project files found.</string>
-    <string formatted="false" name="import_sprite_from_project_launcher">Import Object from Local Project</string>
 
     <!-- ProjectOptionsFragment -->
     <string formatted="false" name="project_options_description">Description</string>
