@@ -40,7 +40,6 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Sprite
@@ -303,13 +302,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
     }
 
-    private fun addFromLibrary(selectedItem: Sprite?) {
-        currentSprite = selectedItem
-        val intent = Intent(requireContext(), WebViewActivity::class.java)
-        intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_OBJECT_URL)
-        startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
-    }
-
     private fun addFromLocalProject(item: Sprite?) {
         currentSprite = item
         val intent = Intent(requireContext(), ProjectListActivity::class.java)
@@ -365,7 +357,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         if (item is GroupSprite) {
             hiddenMenuOptionIds.add(R.id.backpack)
             hiddenMenuOptionIds.add(R.id.copy)
-            hiddenMenuOptionIds.add(R.id.from_library)
             hiddenMenuOptionIds.add(R.id.from_local)
         }
         val popupMenu = UiUtils.createSettingsPopUpMenu(
@@ -378,7 +369,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 R.id.copy -> copyItems(itemList)
                 R.id.delete -> deleteItems(itemList)
                 R.id.rename -> showRenameDialog(item)
-                R.id.from_library -> addFromLibrary(item)
                 R.id.from_local -> addFromLocalProject(item)
             }
             true
