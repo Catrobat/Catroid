@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,14 +85,16 @@ class ImportProjectHelper(
         }
         addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
         addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
-        addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
-                            currentScene!!.project.broadcastMessageContainer.broadcastMessages)
+        addGlobalsToProject(
+            newProject!!.broadcastMessageContainer.broadcastMessages,
+            currentScene!!.project.broadcastMessageContainer.broadcastMessages
+        )
 
         currentScene?.project?.broadcastMessageContainer?.update()
         return newSprite
     }
 
-    fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
+    private fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
             if (!globalList.contains(global)) {
                 globalList.plus(global)
@@ -141,7 +143,7 @@ class ImportProjectHelper(
         return true
     }
 
-    fun getProject(resolvedName: String): Project? {
+    private fun getProject(resolvedName: String): Project? {
         val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
             XstreamSerializer.getInstance()
@@ -151,7 +153,7 @@ class ImportProjectHelper(
         }
     }
 
-    fun getNewProject(resolvedName: String): Project? {
+    private fun getNewProject(resolvedName: String): Project? {
         try {
             val cachedProjectDir =
                 File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, resolvedName)

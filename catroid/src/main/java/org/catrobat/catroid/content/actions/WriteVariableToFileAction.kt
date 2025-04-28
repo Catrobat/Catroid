@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,7 +86,9 @@ class WriteVariableToFileAction : Action(), IntentListener {
         val file = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
         return if (file.exists() || file.createNewFile()) {
             file
-        } else null
+        } else {
+            null
+        }
     }
 
     @VisibleForTesting

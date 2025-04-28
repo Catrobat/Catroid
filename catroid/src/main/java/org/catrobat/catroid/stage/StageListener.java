@@ -719,7 +719,7 @@ public class StageListener implements ApplicationListener {
 			penActor.dispose();
 		}
 
-		if(plotActor != null) {
+		if (plotActor != null) {
 			plotActor.dispose();
 		}
 	}

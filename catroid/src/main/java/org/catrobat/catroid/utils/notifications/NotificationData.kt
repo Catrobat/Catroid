@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,18 +46,23 @@ data class NotificationData(
         private const val serialVersionUID: Long = 42
     }
 
-    fun toNotification(context: Context, channelId: String, contentIntent: PendingIntent?): Notification {
-        val title = (if (progressInPercent < maxProgress) titleWorking else titleDone) + " " + programName
+    fun toNotification(
+        context: Context,
+        channelId: String,
+        contentIntent: PendingIntent?
+    ): Notification {
+        val title =
+            (if (progressInPercent < maxProgress) titleWorking else titleDone) + " " + programName
         val text = if (progressInPercent < maxProgress) textWorking else textDone
 
         return NotificationCompat.Builder(context, channelId)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setSmallIcon(notificationIconResId)
-                .setProgress(maxProgress, progressInPercent, false)
-                .setOngoing(ongoing)
-                .setAutoCancel(autoCancel)
-                .setContentIntent(contentIntent)
-                .build()
+            .setContentTitle(title)
+            .setContentText(text)
+            .setSmallIcon(notificationIconResId)
+            .setProgress(maxProgress, progressInPercent, false)
+            .setOngoing(ongoing)
+            .setAutoCancel(autoCancel)
+            .setContentIntent(contentIntent)
+            .build()
     }
 }

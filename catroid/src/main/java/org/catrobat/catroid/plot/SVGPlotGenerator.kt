@@ -24,33 +24,36 @@
 package org.catrobat.catroid.plot
 
 import android.graphics.PointF
-import android.icu.text.DecimalFormat
 import java.io.File
 import java.util.Locale
 
-class SVGPlotGenerator(plot : Plot?){
+class SVGPlotGenerator(plot: Plot?) {
     private val data = plot?.data()
     private var width = plot?.width
     private var height = plot?.height
 
-    private fun dotDecinalRound(number : Float?) : String {
+    private fun dotDecinalRound(number: Float?): String {
         return "%.2f".format(Locale.ENGLISH, number)
     }
 
-    fun writeToSVGFile(targetFile : File){
+    fun writeToSVGFile(targetFile: File) {
         targetFile.writeText(generateSVGContent())
     }
-    private fun generateSVGPath(line : List<PointF>, xAlignment : Float?, yAlignment : Float?) :
+
+    private fun generateSVGPath(line: List<PointF>, xAlignment: Float?, yAlignment: Float?):
         String {
         var path = ""
-        if(line.size < 2) return path
-        path = "<path fill=\"none\" style=\"stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-opacity:1;\" d=\"M"
+        if (line.size < 2) return path
+        path =
+            "<path fill=\"none\" style=\"stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-opacity:1;\" d=\"M"
         path += dotDecinalRound(line[0].x - xAlignment!!) + " " + dotDecinalRound(line[0].y - yAlignment!!)
 
         for (point in line.subList(1, line.size))
-            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(point
-                                                                                               .y
-                                                                                               - yAlignment)
+            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(
+                point
+                    .y
+                    - yAlignment
+            )
 
         path += "\" />\n"
         return path

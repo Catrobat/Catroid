@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -115,13 +115,9 @@ class AssertEqualsBrickTest {
 
     private fun handleConstraints(action: ViewAction, constraints: Matcher<View>): ViewAction {
         return object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return constraints
-            }
+            override fun getConstraints(): Matcher<View> = constraints
 
-            override fun getDescription(): String {
-                return action.description
-            }
+            override fun getDescription(): String = action.description
 
             override fun perform(uiController: UiController?, view: View?) {
                 action.perform(uiController, view)

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import java.io.File
 import java.io.IOException
 
+@Suppress("LongParameterList")
 class NewSpriteDialogFragment(
     private val emptySprite: Boolean,
     private val lookDataName: String,

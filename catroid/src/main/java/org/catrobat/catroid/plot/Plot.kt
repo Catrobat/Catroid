@@ -30,8 +30,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Queue
 import org.catrobat.catroid.stage.StageActivity
 
-class Plot
-{
+class Plot {
     private var isPlotting = false
     private var dataPointLists = ArrayList<ArrayList<PointF>>()
     private var drawQueue = Queue<Queue<PointF>>()
@@ -39,54 +38,58 @@ class Plot
     var width = 0.0F
     var height = 0.0F
 
-
-    fun pause(){
-        isPlotting = false;
+    companion object {
+        private const val MAX_COLOR_VALUE = 255.0F
+        private const val MIN_COLOR_VALUE = 0.0F
     }
 
-    fun resume(){
-        isPlotting = true;
+    fun pause() {
+        isPlotting = false
     }
 
-    fun isPlotting(): Boolean {
-        return isPlotting
+    fun resume() {
+        isPlotting = true
     }
 
-    fun startNewPlotLine(){
+    fun isPlotting(): Boolean = isPlotting
+
+    fun startNewPlotLine() {
         dataPointLists.add(ArrayList())
         drawQueue.addLast(Queue())
     }
-    fun startNewPlotLine(point : PointF){
+
+    fun startNewPlotLine(point: PointF) {
         dataPointLists.add(arrayListOf(point))
         drawQueue.addLast(Queue())
         drawQueue.last().addLast(point)
     }
 
-    fun addPoint(point : PointF){
+    fun addPoint(point: PointF) {
         dataPointLists.last().add(point)
         drawQueue.last().addLast(point)
     }
 
-    fun data() : ArrayList<ArrayList<PointF>>{
-        return dataPointLists
-    }
+    fun data(): ArrayList<ArrayList<PointF>> = dataPointLists
 
-    private fun canDraw(): Boolean {
-        return drawQueue.size > 2 || (!drawQueue.isEmpty && drawQueue.last().size > 2)
-    }
+    private fun canDraw(): Boolean =
+        drawQueue.size > 2 || (!drawQueue.isEmpty && drawQueue.last().size > 2)
 
-    private fun updateQueue(){
-        if (drawQueue.isEmpty || drawQueue.size == 1) return
-        if(drawQueue.first().size == 1)
+    private fun updateQueue() {
+        if (drawQueue.isEmpty || drawQueue.size == 1) {
+            return
+        }
+        if (drawQueue.first().size == 1) {
             drawQueue.removeFirst()
+        }
     }
 
     fun drawLinesForSprite(screenRatio: Float, camera: Camera?) {
-        if (camera == null)
+        if (camera == null) {
             return
+        }
 
         val renderer = StageActivity.stageListener.shapeRenderer
-        renderer.color = Color(0.0F, 0.0F, 0.0F, 255.0F)
+        renderer.color = Color(MIN_COLOR_VALUE, MIN_COLOR_VALUE, MIN_COLOR_VALUE, MAX_COLOR_VALUE)
         renderer.begin(ShapeRenderer.ShapeType.Filled)
 
         while (canDraw()) {
@@ -97,7 +100,6 @@ class Plot
         renderer.end()
         width = camera.viewportWidth
         height = camera.viewportHeight
-
     }
 
     private fun drawLine(screenRatio: Float, renderer: ShapeRenderer, camera: Camera) {

@@ -411,7 +411,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		for (Scene scene: project.getSceneList()) {
+		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);

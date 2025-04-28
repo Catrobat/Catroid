@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,9 @@ abstract class SetRelativeLookAction : SetLookByIndexAction() {
                 (look.lookListIndexBeforeLookRequest + change + lookList.size) % lookList.size
             } else if (currentLookData != null && lookList?.contains(currentLookData) == true) {
                 (lookList.indexOf(currentLookData) + change + lookList.size) % lookList.size
-            } else 0
+            } else {
+                0
+            }
         formula = Formula(newIndex + 1)
         look?.lookListIndexBeforeLookRequest = -1
         return super.getEventId()

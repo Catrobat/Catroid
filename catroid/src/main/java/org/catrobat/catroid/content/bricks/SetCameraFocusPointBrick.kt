@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,12 +36,12 @@ class SetCameraFocusPointBrick : FormulaBrick() {
 
     init {
         addAllowedBrickField(
-                BrickField.HORIZONTAL_FLEXIBILITY,
-                R.id.brick_set_camera_focus_horizontal_input
+            BrickField.HORIZONTAL_FLEXIBILITY,
+            R.id.brick_set_camera_focus_horizontal_input
         )
         addAllowedBrickField(
-                BrickField.VERTICAL_FLEXIBILITY,
-                R.id.brick_set_camera_focus_vertical_input
+            BrickField.VERTICAL_FLEXIBILITY,
+            R.id.brick_set_camera_focus_vertical_input
         )
     }
 
@@ -51,11 +51,11 @@ class SetCameraFocusPointBrick : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
-                sprite.actionFactory.createSetCameraFocusPointAction(
-                        sprite, sequence,
-                        getFormulaWithBrickField(BrickField.HORIZONTAL_FLEXIBILITY),
-                        getFormulaWithBrickField(BrickField.VERTICAL_FLEXIBILITY)
-                )
+            sprite.actionFactory.createSetCameraFocusPointAction(
+                sprite, sequence,
+                getFormulaWithBrickField(BrickField.HORIZONTAL_FLEXIBILITY),
+                getFormulaWithBrickField(BrickField.VERTICAL_FLEXIBILITY)
+            )
         )
     }
 }

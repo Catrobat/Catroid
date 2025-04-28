@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -263,7 +263,10 @@ class ScriptController {
 
     private fun isUserDataAlreadyInScript(userDataName: String, map: HashMap<String, Int>?, variableType: Int): Boolean = map?.get(userDataName) == variableType
 
-    private fun checkIfUserDefinedBrickDefinitionIsInBricksToPack(bricksToPack: List<Brick>?, userDefinedBrick: UserDefinedBrick): Boolean {
+    private fun checkIfUserDefinedBrickDefinitionIsInBricksToPack(
+        bricksToPack: List<Brick>?,
+        userDefinedBrick: UserDefinedBrick
+    ): Boolean {
         bricksToPack?.forEach { brick ->
             if (brick is UserDefinedReceiverBrick && brick.userDefinedBrick.userDefinedBrickID == userDefinedBrick.userDefinedBrickID) {
                 return true
@@ -352,7 +355,12 @@ class ScriptController {
         }
     }
 
-    private fun addUserVariableToBrick(sprite: Sprite, name: String, destinationList: MutableList<UserVariable>, brick: Brick) {
+    private fun addUserVariableToBrick(
+        sprite: Sprite,
+        name: String,
+        destinationList: MutableList<UserVariable>,
+        brick: Brick
+    ) {
         if (renamedUserVariables.containsKey(name)) {
             if (brick is UserVariableBrickInterface) {
                 brick.userVariable = destinationList.find { userVariable ->
@@ -362,7 +370,8 @@ class ScriptController {
 
             updateFormula(brick, name, renamedUserVariables[name], USER_VARIABLE)
         } else if (!destinationList.any { variable -> variable.name == name }) {
-            val newNameForVariable = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
+            val newNameForVariable =
+                UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
 
             if (newNameForVariable != name) {
                 renamedUserVariables[name] = newNameForVariable

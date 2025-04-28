@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,9 @@ import org.powermock.api.mockito.PowerMockito.spy
 import java.io.File
 
 @RunWith(Parameterized::class)
+@Suppress("LongParameterList")
 class ReadVariableFromFileActionTest(
+    @Suppress("unused")
     private val name: String,
     private val formula: Formula?,
     private val userVariable: UserVariable?,
@@ -58,24 +60,42 @@ class ReadVariableFromFileActionTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("USER_VARIABLE_NULL", Formula("file.txt"), null, DEFAULT_FILE_CONTENT,
-                    null, 0, 0, false),
-            arrayOf("FORMULA_NULL", null, UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, 0.0, 0,
-                    0, false),
-            arrayOf("VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("DELETE_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, true),
-            arrayOf("CANNOT_READ_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, 0.0, 1, 0, false),
-            arrayOf("NO_SUFFIX", Formula("file"), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
-                    UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("UNICODE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "🐼~🐵~🐘", "🐼~🐵~🐘", 1, 1, false),
-            arrayOf("NUMBER", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "-3.14", -3.14, 1, 1, false)
+            arrayOf(
+                "USER_VARIABLE_NULL", Formula("file.txt"), null, DEFAULT_FILE_CONTENT,
+                null, 0, 0, false
+            ),
+            arrayOf(
+                "FORMULA_NULL", null, UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, 0.0, 0,
+                0, false
+            ),
+            arrayOf(
+                "VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
+                DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false
+            ),
+            arrayOf(
+                "DELETE_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
+                DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, true
+            ),
+            arrayOf(
+                "CANNOT_READ_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
+                DEFAULT_FILE_CONTENT, 0.0, 1, 0, false
+            ),
+            arrayOf(
+                "NO_SUFFIX", Formula("file"), UserVariable(VAR_NAME),
+                DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false
+            ),
+            arrayOf(
+                "INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
+                UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false
+            ),
+            arrayOf(
+                "UNICODE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
+                "🐼~🐵~🐘", "🐼~🐵~🐘", 1, 1, false
+            ),
+            arrayOf(
+                "NUMBER", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
+                "-3.14", -3.14, 1, 1, false
+            )
         )
 
         private const val DEFAULT_FILE_NAME = "file.txt"

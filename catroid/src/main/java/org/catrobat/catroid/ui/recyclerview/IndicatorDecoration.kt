@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,50 +79,51 @@ class IndicatorDecoration(context: Context) : RecyclerView.ItemDecoration() {
 
                 (parent.layoutManager as? LinearLayoutManager)
                     ?.let { layoutManager ->
-                    val firstItemPosition = layoutManager.findFirstVisibleItemPosition()
-                    val actualItemPosition = firstItemPosition % itemCount
+                        val firstItemPosition = layoutManager.findFirstVisibleItemPosition()
+                        val actualItemPosition = firstItemPosition % itemCount
 
-                    layoutManager.findViewByPosition(firstItemPosition)
-                        ?.let { firstView ->
-                        val totalWidth = margin * (itemCount - 1)
-                        val startX = (parent.width - totalWidth) / 2
-                        val y = parent.height - margin
+                        layoutManager.findViewByPosition(firstItemPosition)
+                            ?.let { firstView ->
+                                val totalWidth = margin * (itemCount - 1)
+                                val startX = (parent.width - totalWidth) / 2
+                                val y = parent.height - margin
 
-                        val left = firstView.left
-                        val width = firstView.width
-                        val progress = interpolator.getInterpolation(-1 * left / width.toFloat())
+                                val left = firstView.left
+                                val width = firstView.width
+                                val progress =
+                                    interpolator.getInterpolation(-1 * left / width.toFloat())
 
-                        for (i in 0 until itemCount) {
-                            var radius = unselectedRadius
+                                for (i in 0 until itemCount) {
+                                    var radius = unselectedRadius
 
-                            when (i) {
-                                actualItemPosition -> {
-                                    radius += diffRadius * (1 - progress)
-                                    paint.color = evaluator.evaluate(
-                                        1 - progress,
-                                        unselectedColor,
-                                        selectedColor
-                                    ) as Int
+                                    when (i) {
+                                        actualItemPosition -> {
+                                            radius += diffRadius * (1 - progress)
+                                            paint.color = evaluator.evaluate(
+                                                1 - progress,
+                                                unselectedColor,
+                                                selectedColor
+                                            ) as Int
+                                        }
+
+                                        actualItemPosition + 1 -> {
+                                            radius += diffRadius * progress
+                                            paint.color =
+                                                evaluator.evaluate(
+                                                    progress,
+                                                    unselectedColor,
+                                                    selectedColor
+                                                ) as Int
+                                        }
+
+                                        else ->
+                                            paint.color = unselectedColor
+                                    }
+
+                                    canvas.drawCircle(startX + i * margin, y, radius, paint)
                                 }
-
-                                actualItemPosition + 1 -> {
-                                    radius += diffRadius * progress
-                                    paint.color =
-                                        evaluator.evaluate(
-                                            progress,
-                                            unselectedColor,
-                                            selectedColor
-                                        ) as Int
-                                }
-
-                                else ->
-                                    paint.color = unselectedColor
                             }
-
-                            canvas.drawCircle(startX + i * margin, y, radius, paint)
-                        }
                     }
-                }
             }
     }
 }
