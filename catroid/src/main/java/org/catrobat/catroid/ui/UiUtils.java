@@ -99,8 +99,6 @@ public final class UiUtils {
 				return R.drawable.ic_help_small;
 			case R.string.from_local:
 				return R.drawable.ic_library_add_small;
-			case R.string.from_library:
-				return R.drawable.ic_apps_small;
 			case R.string.menu_rate_us:
 				return R.drawable.ic_star_rate;
 			default:
