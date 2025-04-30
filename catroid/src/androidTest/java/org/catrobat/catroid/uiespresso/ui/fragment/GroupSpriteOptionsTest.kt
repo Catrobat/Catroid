@@ -121,9 +121,6 @@ class GroupSpriteOptionsTest {
         onView(withText(R.string.new_scene))
             .check(doesNotExist())
 
-        onView(withText(R.string.from_library))
-            .check(doesNotExist())
-
         onView(withText(R.string.project_options))
             .check(doesNotExist())
     }

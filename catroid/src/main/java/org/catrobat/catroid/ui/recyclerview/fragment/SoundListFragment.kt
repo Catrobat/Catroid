@@ -205,7 +205,6 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
             R.id.project_options,
             R.id.edit,
             R.id.from_local,
-            R.id.from_library
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
             .menu_project_activity, hiddenOptionMenuIds)
