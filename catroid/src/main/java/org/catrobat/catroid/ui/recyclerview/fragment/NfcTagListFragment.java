@@ -211,7 +211,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		List<NfcTagData> itemList = new ArrayList<>();
 		itemList.add(item);
 		int[] hiddenMenuOptionIds = {R.id.new_group, R.id.new_scene, R.id.show_details,
-				R.id.project_options, R.id.edit, R.id.from_library, R.id.from_local};
+				R.id.project_options, R.id.edit, R.id.from_local};
 		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
 				R.menu.menu_project_activity, hiddenMenuOptionIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
