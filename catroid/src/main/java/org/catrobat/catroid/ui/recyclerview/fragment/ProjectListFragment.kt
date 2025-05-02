@@ -38,6 +38,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -68,13 +72,20 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.locks.ReentrantLock
 
 @SuppressLint("NotifyDataSetChanged")
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
+    private var items: MutableList<ProjectData> = ArrayList()
+
     private var filesForUnzipAndImportTask: ArrayList<File>? = null
     private var hasUnzipAndImportTaskFinished = false
 
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     private val projectManager: ProjectManager by inject()
+
+    private val lock = ReentrantLock()
 
     override fun onActivityCreated(savedInstance: Bundle?) {
         super.onActivityCreated(savedInstance)
@@ -90,7 +101,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     private fun onImportProjectFinished(success: Boolean) {
-        setAdapterItems(adapter.projectsSorted)
         if (!success) {
             ToastUtil.showError(requireContext(), R.string.error_import_project)
         } else {
@@ -103,8 +113,14 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 )
             )
         }
-        filesForUnzipAndImportTask?.clear()
-        setShowProgressBar(false)
+
+        getLocalProjectListAsync(object: LoadProjectsListener {
+            override fun onProjectsLoaded() {
+                setAdapterItems(adapter.projectsSorted)
+                filesForUnzipAndImportTask?.clear()
+                setShowProgressBar(false)
+            }
+        })
     }
 
     private fun onRenameFinished(success: Boolean) {
@@ -116,11 +132,16 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 )
                 filesForUnzipAndImportTask?.clear()
             }
-            setAdapterItems(adapter.projectsSorted)
+
+            getLocalProjectListAsync(object: LoadProjectsListener {
+                override fun onProjectsLoaded() {
+                    setAdapterItems(adapter.projectsSorted)
+                    setShowProgressBar(false)
+                }
+            })
         } else {
             ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
-        setShowProgressBar(false)
     }
 
     override fun onResume() {
@@ -128,39 +149,44 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             projectManager.currentProject = null
         }
 
-        setAdapterItems(adapter.projectsSorted)
-        checkForEmptyList()
+        if (adapter != null) {
+            setAdapterItems(adapter.projectsSorted)
+            checkForEmptyList()
+        }
+
+        getLocalProjectListAsync(object: LoadProjectsListener {
+            override fun onProjectsLoaded() {
+                if (adapter != null) {
+                    setAdapterItems(adapter.projectsSorted)
+                    checkForEmptyList()
+                    setShowProgressBar(false)
+                }
+            }
+        })
+
         BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
     override fun initializeAdapter() {
-        sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
-        adapter = ProjectAdapter(itemList)
-        onAdapterReady()
+        getLocalProjectListAsync(object: LoadProjectsListener {
+            override fun onProjectsLoaded() {
+                sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
+                adapter = ProjectAdapter(items)
+                onAdapterReady()
+            }
+        })
     }
 
-    private val itemList: List<ProjectData>
-        get() {
-            val items: MutableList<ProjectData> = ArrayList()
-            getLocalProjectList(items)
-            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
-                project2.lastUsed.compareTo(project1.lastUsed)
-            })
-            return items
-        }
-
-    private val sortedItemList: List<ProjectData>
-        get() {
-            val items: MutableList<ProjectData> = ArrayList()
-            getLocalProjectList(items)
-            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
-                project1.name.compareTo(
-                    project2.name
-                )
-            })
-            return items
-        }
+    private fun getSortedItemList(): MutableList<ProjectData> {
+        val sortedItems = items.toMutableList()
+        sortedItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
+            project1.name.compareTo(
+                project2.name
+            )
+        })
+        return sortedItems
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -172,15 +198,17 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     private fun sortProjects() {
-        adapter.projectsSorted = !adapter.projectsSorted
-        PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .edit()
-            .putBoolean(
-                SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY,
-                adapter.projectsSorted
-            )
-            .apply()
-        setAdapterItems(adapter.projectsSorted)
+        if (adapter != null) {
+            adapter.projectsSorted = !adapter.projectsSorted
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .edit()
+                .putBoolean(
+                    SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY,
+                    adapter.projectsSorted
+                )
+                .apply()
+            setAdapterItems(adapter.projectsSorted)
+        }
     }
 
     private fun showImportChooser() {
@@ -272,6 +300,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         prepareFilesForImport(uris)
         filesForUnzipAndImportTask?.apply {
             if (isNotEmpty()) {
+                setShowProgressBar(true)
                 val filesToUnzipAndImport = filesForUnzipAndImportTask?.toTypedArray() ?: arrayOf()
                 ProjectUnZipperAndImporter({ success: Boolean -> onImportProjectFinished(success) })
                     .unZipAndImportAsync(filesToUnzipAndImport)
@@ -346,6 +375,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             try {
                 projectManager.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
+                items.remove(item)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
@@ -408,11 +438,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            setAdapterItems(adapter.projectsSorted)
+            getLocalProjectListAsync(object: LoadProjectsListener {
+                override fun onProjectsLoaded() {
+                    setAdapterItems(adapter.projectsSorted)
+                    setShowProgressBar(false)
+                }
+            })
         } else {
             ToastUtil.showError(requireContext(), R.string.error_copy_project)
         }
-        setShowProgressBar(false)
     }
 
     override fun onItemClick(item: ProjectData?, selectionManager: MultiSelectionManager?) {
@@ -491,29 +525,52 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-        menu.findItem(R.id.sort_projects)
-            .setTitle(
-                if (adapter.projectsSorted) {
-                    R.string.unsort_projects
-                } else {
-                    R.string.sort_projects
-                }
-            )
+        if (adapter != null) {
+            adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
+            menu.findItem(R.id.sort_projects)
+                .setTitle(
+                    if (adapter.projectsSorted) {
+                        R.string.unsort_projects
+                    } else {
+                        R.string.sort_projects
+                    }
+                )
+        }
+
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
         if (sortProjects) {
-            adapter.setItems(sortedItemList)
+            adapter.setItems(getSortedItemList().toList())
         } else {
-            adapter.setItems(itemList)
+            adapter.setItems(items.toList())
         }
         adapter.notifyDataSetChanged()
     }
 
+    private fun getLocalProjectListAsync(callback: LoadProjectsListener) {
+        coroutineScope.launch {
+            val newItems: MutableList<ProjectData> = ArrayList()
+
+            lock.lock()
+            getLocalProjectList(newItems)
+            newItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData -> project2.lastUsed.compareTo(project1.lastUsed) })
+            items = newItems
+            lock.unlock()
+
+            withContext(Dispatchers.Main) {
+                callback.onProjectsLoaded()
+            }
+        }
+    }
+
     interface ProjectImportFinishedListener {
         fun notifyActivityFinished(success: Boolean)
+    }
+
+    interface LoadProjectsListener {
+        fun onProjectsLoaded()
     }
 
     companion object {
