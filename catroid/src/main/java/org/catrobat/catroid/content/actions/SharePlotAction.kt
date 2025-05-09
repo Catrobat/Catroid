@@ -106,7 +106,6 @@ open class SharePlotAction : Action(), IntentListener {
         return fileName
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val file = createFile(getFileName())
         sharePlot(file)

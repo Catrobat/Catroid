@@ -166,7 +166,7 @@ class Plot {
             return
 
         val renderer = StageActivity.stageListener.shapeRenderer
-        renderer.color = Color(0.0F, 0.0F, 0.0F, 255.0F)
+        renderer.color = Color.BLACK
         renderer.begin(ShapeRenderer.ShapeType.Filled)
 
         while (canDraw()) {
@@ -175,7 +175,7 @@ class Plot {
         }
         renderer.end()
 
-        renderer.color = Color(255.0F, 0.0F, 0.0F, 255.0F)
+        renderer.color = Color.RED
         renderer.begin(ShapeRenderer.ShapeType.Filled)
         while (canCut()) {
             drawLine(cutQueue, screenRatio, renderer, camera)
@@ -184,7 +184,7 @@ class Plot {
         renderer.end()
 
 
-        renderer.color = Color(0.0F, 0.0F, 255.0F, 255.0F)
+        renderer.color = Color.BLUE
         renderer.begin(ShapeRenderer.ShapeType.Filled)
         while (canEngrave()) {
             drawLine(engraveQueue, screenRatio, renderer, camera)

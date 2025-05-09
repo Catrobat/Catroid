@@ -490,7 +490,6 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopPlotBrick");
 
 	}
-
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		List<Object[]> parameters = new ArrayList<>();

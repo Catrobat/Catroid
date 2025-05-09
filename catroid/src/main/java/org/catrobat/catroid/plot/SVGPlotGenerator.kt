@@ -38,10 +38,10 @@ class SVGPlotGenerator(plot: Plot) {
     private var height: Float = plot.height
     private var lineWidth: Double = 1.0
     var action: PlotColor = PlotColor.BLACK
-    private val scaleFactor: Float = 0.2f / 0.2646f // mm to px
+    private val scaleMMtoPx: Float = 0.2f / 0.2646f
 
     private fun dotDecinalRound(number: Float): String {
-        return "%.2f".format(Locale.ENGLISH, number * scaleFactor)
+        return "%.2f".format(Locale.ENGLISH, number * scaleMMtoPx)
     }
 
     fun writeToSVGFile(targetFile: File, path: String) {
@@ -49,7 +49,6 @@ class SVGPlotGenerator(plot: Plot) {
     }
 
     private fun toHexSting(rgb: Int): String {
-        // convert int to hex string with # prefix
         return String.format("#%06X", 0xFFFFFF and rgb)
     }
 
@@ -57,7 +56,7 @@ class SVGPlotGenerator(plot: Plot) {
         return toHexSting(action.rgb)
     }
 
-    private fun generateSVGPath(line: List<PointF>, xAlignment: Float?, yAlignment: Float?):
+    private fun generateSVGPath(line: List<PointF>, xAlignment: Float, yAlignment: Float):
         String {
         var path = ""
         if (line.size < 2) return path
@@ -65,7 +64,7 @@ class SVGPlotGenerator(plot: Plot) {
             "<path fill=\"none\" style=\"stroke:" + stroke() + ";" +
                 "stroke-width:" + lineWidth.toString() + ";" +
                 "stroke-linecap:round;stroke-opacity:1;\" d=\"M"
-        path += dotDecinalRound(line[0].x - xAlignment!!) + " " + dotDecinalRound(line[0].y - yAlignment!!)
+        path += dotDecinalRound(line[0].x - xAlignment) + " " + dotDecinalRound(line[0].y - yAlignment)
 
         for (point in line.subList(1, line.size))
             path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(
@@ -102,13 +101,11 @@ class SVGPlotGenerator(plot: Plot) {
     }
 
     fun pathFromData(data: ArrayList<ArrayList<PointF>>): String {
-        val xAlignment = width?.div(-2.0F)
-        val yAlignment = height?.div(-2.0F)
+        val xAlignment = width.div(-2.0F)
+        val yAlignment = height.div(-2.0F)
         val builder = StringBuilder()
-        if (data != null) {
-            for (line in data) {
-                builder.append(generateSVGPath(line, xAlignment, yAlignment))
-            }
+        for (line in data) {
+            builder.append(generateSVGPath(line, xAlignment, yAlignment))
         }
         return builder.toString()
     }

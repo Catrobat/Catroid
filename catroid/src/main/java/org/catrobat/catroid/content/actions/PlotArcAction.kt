@@ -33,9 +33,9 @@ import kotlin.math.sin
 
 class PlotArcAction : TemporalAction() {
     private var scope: Scope? = null
-    private var direction: PlotArcBrick.Directions? = null
-    private var radius: Formula? = null
-    private var degrees: Formula? = null
+    private var direction: PlotArcBrick.Directions = PlotArcBrick.Directions.LEFT
+    lateinit var radius: Formula
+    lateinit var degrees: Formula
 
     private var degreesValue: Double = 0.0
     private var radiusValue: Double = 0.0
@@ -49,20 +49,14 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            degreesValue = if (degrees == null) 0.0 else
-                degrees!!.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT)
-                    -1 else 1
-
-            radiusValue = if (radius == null) 0.0 else
-                radius!!.interpretDouble(scope)
-
+            degreesValue = degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) -1 else 1
+            radiusValue = radius.interpretDouble(scope)
             val sprite = scope!!.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
             val y = sprite.look.yInUserInterfaceDimensionUnit
             angle = Math.toRadians(sprite.look.rotation.toDouble())
             centerX = x + radiusValue * cos(angle)
             centerY = y + radiusValue * sin(angle)
-
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -73,6 +67,9 @@ class PlotArcAction : TemporalAction() {
     }
 
     override fun update(percent: Float) {
+        if (scope == null) {
+            return
+        }
         try {
             for (i in 0 until 101){
                 val radians = Math.toRadians(degreesValue * i/100)
@@ -94,15 +91,7 @@ class PlotArcAction : TemporalAction() {
         this.scope = scope
     }
 
-    fun setDirection(direction: PlotArcBrick.Directions?) {
+    fun setDirection(direction: PlotArcBrick.Directions) {
         this.direction = direction
-    }
-
-    fun setRadius(radius: Formula?){
-        this.radius = radius
-    }
-
-    fun setDegrees(degrees: Formula?){
-        this.degrees = degrees
     }
 }

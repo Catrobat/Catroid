@@ -29,7 +29,7 @@ class StopPlotAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if(!sprite!!.plot.isPlotting()) return
+        if(sprite == null || !sprite!!.plot.isPlotting()) return
 
         sprite!!.plot.pausePlot()
         sprite?.plot?.addPlotPoint(

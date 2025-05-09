@@ -37,10 +37,10 @@ import kotlin.math.sqrt
 
 class PlotThroughAction : TemporalAction() {
     private var scope: Scope? = null
-    private var x1: Formula? = null
-    private var y1: Formula? = null
-    private var x2: Formula? = null
-    private var y2: Formula? = null
+    lateinit var x1: Formula
+    lateinit var y1: Formula
+    lateinit var x2: Formula
+    lateinit var y2: Formula
 
     private var p1: Point = Point()
     private var p2: Point = Point()
@@ -51,10 +51,10 @@ class PlotThroughAction : TemporalAction() {
             return
         }
         try {
-            p1.x = if (x1 == null) 0 else x1!!.interpretInteger(scope)
-            p1.y = if (y1 == null) 0 else y1!!.interpretInteger(scope)
-            p2.x = if (x2 == null) 0 else x2!!.interpretInteger(scope)
-            p2.y = if (y2 == null) 0 else y2!!.interpretInteger(scope)
+            p1.x = x1.interpretInteger(scope)
+            p1.y = y1.interpretInteger(scope)
+            p2.x = x2.interpretInteger(scope)
+            p2.y = y2.interpretInteger(scope)
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -65,21 +65,24 @@ class PlotThroughAction : TemporalAction() {
     }
 
     override fun update(percent: Float) {
+        if (scope == null) {
+            return
+        }
         try {
             // calculate slope from current sprite look position to x2, y2
-            val ps = Point()
-            ps.x = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toInt()
-            ps.y = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toInt()
+            val startPoint = Point()
+            startPoint.x = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toInt()
+            startPoint.y = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toInt()
 
-            val pa = Point()
-            pa.x = (4 * p1.x - ps.x - p2.x) / 2
-            pa.y = (4 * p1.y - ps.y - p2.y) / 2
+            val anchorPoint = Point()
+            anchorPoint.x = (4 * p1.x - startPoint.x - p2.x) / 2
+            anchorPoint.y = (4 * p1.y - startPoint.y - p2.y) / 2
 
             val steps = 100
             for (i in 0..steps) {
-                val t = i.toDouble() / steps
-                val x = (1 - t).pow(2) * ps.x + 2 * (1 - t) * t * pa.x + t.pow(2) * p2.x
-                val y = (1 - t).pow(2) * ps.y + 2 * (1 - t) * t * pa.y + t.pow(2) * p2.y
+                val timeStep = i.toDouble() / steps
+                val x = (1 - timeStep).pow(2) * startPoint.x + 2 * (1 - timeStep) * timeStep * anchorPoint.x + timeStep.pow(2) * p2.x
+                val y = (1 - timeStep).pow(2) * startPoint.y + 2 * (1 - timeStep) * timeStep * anchorPoint.y + timeStep.pow(2) * p2.y
                 scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(x.toFloat(), y.toFloat())
             }
         } catch (interpretationException: InterpretationException) {
@@ -95,7 +98,7 @@ class PlotThroughAction : TemporalAction() {
         this.scope = scope
     }
 
-    fun setTargetCoordinates(x1: Formula?, y1: Formula?, x2: Formula?, y2: Formula?) {
+    fun setTargetCoordinates(x1: Formula, y1: Formula, x2: Formula, y2: Formula) {
         this.x1 = x1
         this.y1 = y1
         this.x2 = x2

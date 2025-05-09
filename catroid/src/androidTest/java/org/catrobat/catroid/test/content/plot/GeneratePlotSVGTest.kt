@@ -71,12 +71,6 @@ class GeneratePlotSVGTest {
     }
 
     @Test
-    fun testNullPlot() {
-        val generator = SVGPlotGenerator(Plot(), )
-        generator.writeToSVGFile(plotFile, "")
-    }
-
-    @Test
     fun testNoData() {
         val generator = SVGPlotGenerator(Plot())
         generator.writeToSVGFile(plotFile, generator.pathFromData(Plot().data()))

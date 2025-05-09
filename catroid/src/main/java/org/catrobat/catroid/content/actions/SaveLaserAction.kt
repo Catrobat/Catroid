@@ -28,7 +28,10 @@ import java.io.File
 
 class SaveLaserAction : SavePlotAction() {
     override fun writePlotDataToFile(destinationFile: File) {
-        val plot = scope?.sprite?.plot!!
+        if (scope == null) {
+            return
+        }
+        val plot = scope!!.sprite.plot
         val svgFileGenerator = SVGPlotGenerator(plot)
         svgFileGenerator.action = PlotColor.BLUE
         val engravePath = svgFileGenerator.pathFromData(plot.engraveDataPointLists)

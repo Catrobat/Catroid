@@ -1134,7 +1134,7 @@
     <string formatted="false" name="brick_start_engrave">Start to engrave</string>
 
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
-    <string formatted="false" name="brick_share">Share </string>
+    <string formatted="false" name="brick_share">Share</string>
     <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
     <string formatted="false" name="brick_default_laser_file">laser.svg</string>
 

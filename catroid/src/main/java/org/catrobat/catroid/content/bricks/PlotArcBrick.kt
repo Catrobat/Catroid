@@ -78,7 +78,8 @@ class PlotArcBrick() : FormulaBrick() {
         val spinner = view.findViewById<Spinner>(R.id.brick_plot_arc_spinner)
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = AdapterViewOnItemSelectedListenerImpl { position: Int? ->
-            direction = Directions.values()[position!!]
+            if (position != null)
+                direction = Directions.values()[position]
             Unit
         }
         spinner.setSelection(direction.ordinal)

@@ -74,7 +74,8 @@ class LaserArcBrick() : FormulaBrick() {
         val spinner = view.findViewById<Spinner>(R.id.brick_laser_arc_spinner)
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = AdapterViewOnItemSelectedListenerImpl { position: Int? ->
-            direction = PlotArcBrick.Directions.values()[position!!]
+            if (position != null)
+                direction = PlotArcBrick.Directions.values()[position]
             Unit
         }
         spinner.setSelection(direction.ordinal)

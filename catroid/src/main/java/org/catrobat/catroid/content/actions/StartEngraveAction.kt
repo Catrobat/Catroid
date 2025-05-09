@@ -30,6 +30,9 @@ class StartEngraveAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
+        if (sprite == null) {
+            return
+        }
         if (sprite!!.plot.isEngraving())
             return
 

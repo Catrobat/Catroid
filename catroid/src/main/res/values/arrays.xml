@@ -211,7 +211,7 @@
     </string-array>
 
 
-    <!-- Jumping Sumo sound spinner -->
+    <!-- Plot arc directions -->
     <string-array name="brick_plot_arc_direction_spinner">
         <item>@string/direction_left</item>
         <item>@string/direction_right</item>
