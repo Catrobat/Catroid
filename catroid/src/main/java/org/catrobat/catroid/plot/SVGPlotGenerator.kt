@@ -28,35 +28,58 @@ import android.icu.text.DecimalFormat
 import java.io.File
 import java.util.Locale
 
-class SVGPlotGenerator(plot : Plot?){
-    private val data = plot?.data()
-    private var width = plot?.width
-    private var height = plot?.height
+enum class PlotColor(val rgb: Int) {
+    RED(0xFF0000),
+    BLACK(0x000000),
+    BLUE(0x0000FF)
+}
 
-    private fun dotDecinalRound(number : Float?) : String {
-        return "%.2f".format(Locale.ENGLISH, number)
+class SVGPlotGenerator(plot: Plot?, private val data: ArrayList<ArrayList<PointF>>) {
+    private var width: Float = plot?.width!!
+    private var height: Float = plot?.height!!
+    private var lineWidth: Double = 0.1
+    public var action: PlotColor = PlotColor.BLACK
+    private val scaleFactor: Float = 2.0f / 0.2646f // mm to px
+
+    private fun dotDecinalRound(number: Float): String {
+        return "%.2f".format(Locale.ENGLISH, number * scaleFactor)
     }
 
-    fun writeToSVGFile(targetFile : File){
+    fun writeToSVGFile(targetFile: File) {
         targetFile.writeText(generateSVGContent())
     }
-    private fun generateSVGPath(line : List<PointF>, xAlignment : Float?, yAlignment : Float?) :
+
+    private fun toHexSting(rgb: Int): String {
+        // convert int to hex string with # prefix
+        return String.format("#%06X", 0xFFFFFF and rgb)
+    }
+
+    private fun generateSVGPath(line: List<PointF>, xAlignment: Float?, yAlignment: Float?):
         String {
         var path = ""
-        if(line.size < 2) return path
-        path = "<path fill=\"none\" style=\"stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-opacity:1;\" d=\"M"
+        // val fill == None if red
+        val fill = if (action == PlotColor.RED) "none" else toHexSting(action.rgb)
+        val stroke = toHexSting(action.rgb)
+
+        if (line.size < 2) return path
+        path =
+            "<path fill=\"" + fill +
+                "\" style=\"stroke:" + stroke + ";stroke-width:" + lineWidth.toString() + "mm;" +
+                "stroke-linecap:round;stroke-opacity:1;\" d=\"M"
         path += dotDecinalRound(line[0].x - xAlignment!!) + " " + dotDecinalRound(line[0].y - yAlignment!!)
 
         for (point in line.subList(1, line.size))
-            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(point
-                                                                                               .y
-                                                                                               - yAlignment)
+            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(
+                point
+                    .y
+                    - yAlignment
+            )
 
         path += "\" />\n"
         return path
     }
 
-    private fun generateSVGContent() : String {
+    private fun generateSVGContent(): String {
         val xAlignment = width?.div(-2.0F)
         val yAlignment = height?.div(-2.0F)
         val builder = StringBuilder()

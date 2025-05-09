@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,29 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions
 
-import android.graphics.PointF
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+package org.catrobat.catroid.content.bricks
+
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick.BrickField
+import org.catrobat.catroid.formulaeditor.Formula
 
-class StartPlotAction : TemporalAction() {
-    private var sprite: Sprite? = null
+class SaveLaserBrick() : FormulaBrick() {
+    constructor(value: String) : this(Formula(value))
 
-    override fun update(delta: Float) {
-        if (sprite!!.plot.isPlotting())
-            return
-
-        sprite!!.plot.startNewPlotLine(
-            PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
-            )
-        )
-        sprite!!.plot.resumePlot()
+    constructor(formula: Formula) : this() {
+        setFormulaWithBrickField(BrickField.WRITE_FILENAME, formula)
     }
 
-    fun setSprite(sprite: Sprite?) {
-        this.sprite = sprite
+    init {
+        addAllowedBrickField(
+            BrickField.WRITE_FILENAME, R.id.brick_save_laser_edit_text
+        )
+    }
+
+    override fun getViewResource(): Int = R.layout.brick_save_engrave
+
+    override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
+        sequence.addAction(
+            sprite.actionFactory.createSaveLaserAction(
+                sprite, sequence, getFormulaWithBrickField(BrickField.WRITE_FILENAME)
+            )
+        )
     }
 }

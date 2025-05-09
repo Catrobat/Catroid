@@ -51,6 +51,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
         }
         if (SettingsFragment.isPlotSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_plot, null))
+            categories.add(inflater.inflate(R.layout.brick_category_laser, null))
         }
         if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null))

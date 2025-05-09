@@ -930,6 +930,7 @@
     <string formatted="false" name="category_looks">Looks</string>
     <string formatted="false" name="category_pen">Pen</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">Sound</string>
     <string formatted="false" name="category_control">Control</string>
     <string formatted="false" name="category_event">Event</string>
@@ -1122,7 +1123,16 @@
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
+
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
+
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
 
 
     <!-- Embroidery bricks -->

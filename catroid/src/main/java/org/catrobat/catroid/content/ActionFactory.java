@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
+import org.catrobat.catroid.content.actions.SaveLaserAction;
 import org.catrobat.catroid.content.actions.SavePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
@@ -151,8 +152,12 @@ import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StartCutAction;
+import org.catrobat.catroid.content.actions.StartEngraveAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StartPlotAction;
+import org.catrobat.catroid.content.actions.StopCutAction;
+import org.catrobat.catroid.content.actions.StopEngraveAction;
 import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
@@ -583,6 +588,31 @@ public class ActionFactory extends Actions {
 
 	public Action createStopPlotAction(Sprite sprite) {
 		StopPlotAction action = Actions.action(StopPlotAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStartEngraveAction(Sprite sprite) {
+		StartEngraveAction action = Actions.action(StartEngraveAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopEngraveAction(Sprite sprite) {
+		StopEngraveAction action = Actions.action(StopEngraveAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+
+	public Action createStartCutAction(Sprite sprite) {
+		StartCutAction action = Actions.action(StartCutAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopCutAction(Sprite sprite) {
+		StopCutAction action = Actions.action(StopCutAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
@@ -1170,6 +1200,13 @@ public class ActionFactory extends Actions {
 
 	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
 		SavePlotAction action = Actions.action(SavePlotAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
+		return action;
+	}
+	public Action createSaveLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		SaveLaserAction action = Actions.action(SaveLaserAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(fileName);

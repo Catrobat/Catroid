@@ -94,7 +94,7 @@ public class Sprite implements Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
-	public transient Plot plot = new Plot();
+	public transient Plot plot = new Plot(); // plot
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();

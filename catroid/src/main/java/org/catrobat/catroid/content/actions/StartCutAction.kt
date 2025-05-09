@@ -26,20 +26,20 @@ import android.graphics.PointF
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Sprite
 
-class StartPlotAction : TemporalAction() {
+class StartCutAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite!!.plot.isPlotting())
+        if (sprite!!.plot.isCutting())
             return
 
-        sprite!!.plot.startNewPlotLine(
+        sprite!!.plot.startNewCutLine(
             PointF(
                 sprite!!.look.xInUserInterfaceDimensionUnit,
                 sprite!!.look.yInUserInterfaceDimensionUnit
             )
         )
-        sprite!!.plot.resumePlot()
+        sprite!!.plot.resumeCut()
     }
 
     fun setSprite(sprite: Sprite?) {

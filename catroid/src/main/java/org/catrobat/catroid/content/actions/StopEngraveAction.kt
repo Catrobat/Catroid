@@ -21,25 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.actions
-
 import android.graphics.PointF
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Sprite
 
-class StartPlotAction : TemporalAction() {
+class StopEngraveAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite!!.plot.isPlotting())
-            return
+        if(!sprite!!.plot.isEngraving()) return
 
-        sprite!!.plot.startNewPlotLine(
-            PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
+        sprite!!.plot.pauseEngrave()
+        sprite?.plot?.addEngravePoint(
+            PointF(sprite!!.look.xInUserInterfaceDimensionUnit,
+                   sprite!!.look.yInUserInterfaceDimensionUnit
             )
         )
-        sprite!!.plot.resumePlot()
     }
 
     fun setSprite(sprite: Sprite?) {

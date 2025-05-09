@@ -46,7 +46,7 @@ import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
 
-class SavePlotAction : TemporalAction(), IntentListener {
+open class SavePlotAction : TemporalAction(), IntentListener {
     var scope: Scope? = null
     var formula: Formula? = null
     val context: Context = CatroidApplication.getAppContext()
@@ -135,9 +135,11 @@ class SavePlotAction : TemporalAction(), IntentListener {
         }
     }
 
-    private fun writePlotDataToFile(destinationFile: File) {
+    open fun writePlotDataToFile(destinationFile: File) {
+        val plot = scope?.sprite?.plot
+        val data = plot?.plotDataPointLists
         val svgFileGenerator = SVGPlotGenerator(
-            scope?.sprite?.plot
+            plot, data!!
         )
         svgFileGenerator.writeToSVGFile(destinationFile)
     }

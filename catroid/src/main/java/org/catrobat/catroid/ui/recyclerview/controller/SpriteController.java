@@ -155,7 +155,15 @@ public class SpriteController {
 			sprite.penConfiguration.addQueue();
 		}
 		if(spriteToCopy.plot.isPlotting()){
-			sprite.plot.resume();
+			sprite.plot.resumePlot();
+			sprite.plot.startNewPlotLine();
+		}
+		if (spriteToCopy.plot.isEngraving()){
+			sprite.plot.resumeEngrave();
+			sprite.plot.startNewPlotLine();
+		}
+		if(spriteToCopy.plot.isCutting()){
+			sprite.plot.resumeCut();
 			sprite.plot.startNewPlotLine();
 		}
 		return sprite;

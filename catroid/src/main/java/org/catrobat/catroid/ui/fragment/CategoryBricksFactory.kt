@@ -153,6 +153,7 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ReportBrick
 import org.catrobat.catroid.content.bricks.ResetTimerBrick
 import org.catrobat.catroid.content.bricks.RunningStitchBrick
+import org.catrobat.catroid.content.bricks.SaveLaserBrick
 import org.catrobat.catroid.content.bricks.SavePlotBrick
 import org.catrobat.catroid.content.bricks.SayBubbleBrick
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick
@@ -195,10 +196,14 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
+import org.catrobat.catroid.content.bricks.StartCutBrick
+import org.catrobat.catroid.content.bricks.StartEngraveBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.StartPlotBrick
 import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick
+import org.catrobat.catroid.content.bricks.StopCutBrick
+import org.catrobat.catroid.content.bricks.StopEngraveBrick
 import org.catrobat.catroid.content.bricks.StopPlotBrick
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
@@ -269,6 +274,7 @@ open class CategoryBricksFactory {
             context.getString(R.string.category_raspi) -> return setupRaspiCategoryList()
             context.getString(R.string.category_embroidery) -> return setupEmbroideryCategoryList(context)
             context.getString(R.string.category_plot) -> return setupPlotCategoryList(context)
+            context.getString(R.string.category_laser) -> return setupLaserCategoryList(context)
             context.getString(R.string.category_assertions) -> return setupAssertionsCategoryList(context)
             else -> return emptyList()
         }
@@ -722,6 +728,16 @@ open class CategoryBricksFactory {
         plotBrickList.add(StartPlotBrick())
         plotBrickList.add(StopPlotBrick())
         plotBrickList.add(SavePlotBrick(context.getString(R.string.brick_default_plot_file)))
+        return plotBrickList
+    }
+
+    private fun setupLaserCategoryList(context: Context): List<Brick> {
+        val plotBrickList: MutableList<Brick> = ArrayList()
+        plotBrickList.add(StartEngraveBrick())
+        plotBrickList.add(StopEngraveBrick())
+        plotBrickList.add(StartCutBrick())
+        plotBrickList.add(StopCutBrick())
+        plotBrickList.add(SaveLaserBrick(context.getString(R.string.brick_default_laser_file)))
         return plotBrickList
     }
 

@@ -22,27 +22,18 @@
  */
 package org.catrobat.catroid.content.actions
 
-import android.graphics.PointF
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.plot.PlotColor
+import org.catrobat.catroid.plot.SVGPlotGenerator
+import java.io.File
 
-class StartPlotAction : TemporalAction() {
-    private var sprite: Sprite? = null
-
-    override fun update(delta: Float) {
-        if (sprite!!.plot.isPlotting())
-            return
-
-        sprite!!.plot.startNewPlotLine(
-            PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
-            )
+class SaveLaserAction : SavePlotAction() {
+    override fun writePlotDataToFile(destinationFile: File) {
+        val plot = scope?.sprite?.plot
+        val data = plot?.engraveDataPointLists
+        val svgFileGenerator = SVGPlotGenerator(
+            plot, data!!
         )
-        sprite!!.plot.resumePlot()
-    }
-
-    fun setSprite(sprite: Sprite?) {
-        this.sprite = sprite
+        svgFileGenerator.action = PlotColor.BLUE
+        svgFileGenerator.writeToSVGFile(destinationFile)
     }
 }
