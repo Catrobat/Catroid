@@ -468,6 +468,27 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetCameraFocusPointBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetParticleColorBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetParticleColorBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartCutBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopCutBrick", "https://wiki"
+				+ ".catrobat.org/bin/view/Documentation/BrickDocumentation/StopCutBrick");
+		brickToHelpUrlMapping.put(".catrobat.org/bin/view/Documentation/BrickDocumentation"
+				+ "/StartCutBrick", "http://wiki.catrobat"
+				+ ".org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SaveLaserBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SaveLaserBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopEngraveBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopEngraveBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartEngraveBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation"
+						+ "/StartEngraveBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SavePlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SavePlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartPlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartPlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopPlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopPlotBrick");
+
 	}
 
 	@Parameterized.Parameters(name = "{0}")

@@ -136,12 +136,10 @@ open class SavePlotAction : TemporalAction(), IntentListener {
     }
 
     open fun writePlotDataToFile(destinationFile: File) {
-        val plot = scope?.sprite?.plot
-        val data = plot?.plotDataPointLists
-        val svgFileGenerator = SVGPlotGenerator(
-            plot, data!!
-        )
-        svgFileGenerator.writeToSVGFile(destinationFile)
+        val plot = scope?.sprite?.plot!!
+        val svgFileGenerator = SVGPlotGenerator(plot)
+        val path =svgFileGenerator.pathFromData(plot.plotDataPointLists)
+        svgFileGenerator.writeToSVGFile(destinationFile, path)
     }
 
     private fun getFileName(): String {
