@@ -95,6 +95,7 @@ public final class ActorsAndObjectsManager {
 
 				sprites.add(generateSprite("Needle", R.drawable.plotter, 0.2));
 			} else {
+				sprites.add(generateSprite("Turtle", R.drawable.turtle, 0.2));
 				sprites.add(generateSprite("Plotter", R.drawable.plotter, 0.2));
 				sprites.add(generateSprite("PandaA", R.drawable.panda_a, 1.0));
 				sprites.add(generateSprite("PandaB", R.drawable.panda_b, 1.0));
