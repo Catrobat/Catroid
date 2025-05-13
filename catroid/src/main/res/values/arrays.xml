@@ -210,6 +210,13 @@
         <item>@string/sound_monster</item>
     </string-array>
 
+
+    <!-- Jumping Sumo sound spinner -->
+    <string-array name="brick_plot_arc_direction_spinner">
+        <item>@string/direction_left</item>
+        <item>@string/direction_right</item>
+    </string-array>
+
     <!-- Phiro tone spinner -->
     <string-array name="brick_phiro_select_tone_spinner">
         <item>@string/phiro_tone_do</item>

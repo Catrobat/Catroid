@@ -1122,6 +1122,7 @@
 
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
 
@@ -1133,8 +1134,9 @@
     <string formatted="false" name="brick_start_engrave">Start to engrave</string>
 
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Share </string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
     <string formatted="false" name="brick_default_laser_file">laser.svg</string>
-
 
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
@@ -1147,6 +1149,8 @@
     <string formatted="false" name="brick_default_embroidery_file">embroidery.dst</string>
     <string formatted="false" name="brick_sew_up">Sew up</string>
     <string formatted="false" name="brick_thread_color">Set thread color to</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
 
     <!-- Device bricks -->
@@ -1716,6 +1720,18 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="sound_robot">Robot</string>
     <string formatted="false" name="sound_insect">Insect</string>
     <string formatted="false" name="sound_monster">Monster</string>
+    <!--  -->
+
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">left</string>
+    <string formatted="false" name="direction_right">right</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">for</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Stitch arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
 
     <!-- Phiro bricks -->
