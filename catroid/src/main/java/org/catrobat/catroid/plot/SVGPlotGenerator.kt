@@ -60,10 +60,9 @@ class SVGPlotGenerator(plot: Plot) {
     private fun generateSVGPath(line: List<PointF>, xAlignment: Float?, yAlignment: Float?):
         String {
         var path = ""
-
         if (line.size < 2) return path
         path =
-            "<path fill=\"" + stroke() + "\" style=\"stroke:" + stroke() + ";" +
+            "<path fill=\"none\" style=\"stroke:" + stroke() + ";" +
                 "stroke-width:" + lineWidth.toString() + ";" +
                 "stroke-linecap:round;stroke-opacity:1;\" d=\"M"
         path += dotDecinalRound(line[0].x - xAlignment!!) + " " + dotDecinalRound(line[0].y - yAlignment!!)
