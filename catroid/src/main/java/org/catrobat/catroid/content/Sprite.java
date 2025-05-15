@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,7 @@ public class Sprite implements Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
-	public transient Plot plot = new Plot(); // plot
+	public transient Plot plot = new Plot();
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
