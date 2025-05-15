@@ -1730,7 +1730,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="plot_with_radius">with radius</string>
     <string formatted="false" name="plot_for_degrees">for</string>
     <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Stitch arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
     <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
 
