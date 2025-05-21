@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
-import org.catrobat.catroid.ui.ProjectUploadTestActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -55,7 +55,6 @@ import androidx.test.core.app.ApplicationProvider;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -68,8 +67,8 @@ public class ReplaceApiKeyDialogTest {
 	private static final String TAG = ReplaceApiKeyDialogTest.class.getSimpleName();
 
 	@Rule
-	public BaseActivityTestRule<ProjectUploadTestActivity> activityTestRule =
-			new BaseActivityTestRule<>(ProjectUploadTestActivity.class, false, false);
+	public BaseActivityTestRule<MainMenuActivity> activityTestRule =
+			new BaseActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
 
@@ -103,7 +102,7 @@ public class ReplaceApiKeyDialogTest {
 		saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext());
 
 		Intent intent = new Intent();
-		intent.putExtra(PROJECT_DIR, dummyProject.getDirectory());
+		intent.putExtra("project_dir", dummyProject.getDirectory());
 
 		activityTestRule.launchActivity(intent);
 	}
@@ -122,7 +121,7 @@ public class ReplaceApiKeyDialogTest {
 		saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext());
 
 		Intent intent = new Intent();
-		intent.putExtra(PROJECT_DIR, dummyProject.getDirectory());
+		intent.putExtra("project_dir", dummyProject.getDirectory());
 
 		activityTestRule.launchActivity(intent);
 	}

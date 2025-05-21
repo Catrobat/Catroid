@@ -94,8 +94,6 @@
     <activity
         android:name=".ui.ConnectBluetoothDeviceTestActivity" />
 
-    <activity
-        android:name=".ui.ProjectUploadTestActivity" />
 <!--
         <activity
             android:name=".ui.SettingsActivity"

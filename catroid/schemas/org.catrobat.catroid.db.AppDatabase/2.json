@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "c60ebf67428479ff4619d56d1eb30d08",
+    "identityHash": "6987b55bf036ac282ddf57e61075b4cf",
     "entities": [
       {
         "tableName": "featured_project",
@@ -82,7 +82,7 @@
       },
       {
         "tableName": "project_response",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `version` TEXT NOT NULL, `views` INTEGER NOT NULL, `download` INTEGER NOT NULL, `flavor` TEXT NOT NULL, `tags` TEXT NOT NULL, `uploaded` INTEGER NOT NULL, `uploadedString` TEXT NOT NULL, `screenshotLarge` TEXT NOT NULL, `screenshotSmall` TEXT NOT NULL, `projectUrl` TEXT NOT NULL, `downloadUrl` TEXT NOT NULL, `fileSize` REAL NOT NULL, `categoryType` TEXT NOT NULL, PRIMARY KEY(`id`, `categoryType`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `version` TEXT NOT NULL, `views` INTEGER NOT NULL, `download` INTEGER NOT NULL, `flavor` TEXT NOT NULL, `tags` TEXT NOT NULL, `screenshotLarge` TEXT NOT NULL, `screenshotSmall` TEXT NOT NULL, `projectUrl` TEXT NOT NULL, `downloadUrl` TEXT NOT NULL, `fileSize` REAL NOT NULL, `categoryType` TEXT NOT NULL, PRIMARY KEY(`id`, `categoryType`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -139,18 +139,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "uploaded",
-            "columnName": "uploaded",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "uploadedString",
-            "columnName": "uploadedString",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "screenshotLarge",
             "columnName": "screenshotLarge",
             "affinity": "TEXT",
@@ -201,7 +189,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c60ebf67428479ff4619d56d1eb30d08')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6987b55bf036ac282ddf57e61075b4cf')"
     ]
   }
 }

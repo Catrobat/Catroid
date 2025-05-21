@@ -41,7 +41,6 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -60,7 +59,6 @@ public final class StatusBarNotificationManager {
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
 
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
-	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0xFFFF;
 
 	private static int notificationId = 1;
 	private NotificationManager notificationManager;
@@ -272,40 +270,10 @@ public final class StatusBarNotificationManager {
 				}
 				closeNotificationBar();
 			}
-			if (ACTION_RETRY_UPLOAD.equals(action)) {
-				Intent reuploadIntent = prepareReuploadIntent(intent);
-				String projectName = intent.getBundleExtra("bundle").getString("projectName");
-
-				NotificationData notificationData = new StatusBarNotificationManager(getApplicationContext())
-						.createAndShowUploadNotification(getApplicationContext(), projectName);
-				int notificationId = notificationData == null ? -1 : notificationData.getNotificationID();
-				reuploadIntent.putExtra("notificationId", notificationId);
-				getApplicationContext().startService(reuploadIntent);
-			}
 
 			if (ACTION_CANCEL_UPLOAD.equals(action)) {
 				closeNotificationBar();
 			}
-		}
-
-		private Intent prepareReuploadIntent(Intent intent) {
-			String projectName = intent.getBundleExtra("bundle").getString("projectName");
-			String projectDescription = intent.getBundleExtra("bundle").getString("projectDescription");
-			String projectPath = intent.getBundleExtra("bundle").getString("projectPath");
-			String[] sceneNames = intent.getBundleExtra("bundle").getStringArray("sceneNames");
-			String token = intent.getBundleExtra("bundle").getString("token");
-			String username = intent.getBundleExtra("bundle").getString("username");
-			ResultReceiver receiver = intent.getBundleExtra("bundle").getParcelable("receiver");
-
-			Intent reuploadIntent = new Intent(getApplicationContext(), ProjectUploadService.class);
-			reuploadIntent.putExtra("receiver", receiver);
-			reuploadIntent.putExtra("uploadName", projectName);
-			reuploadIntent.putExtra("projectDescription", projectDescription);
-			reuploadIntent.putExtra("projectPath", projectPath);
-			reuploadIntent.putExtra("username", username);
-			reuploadIntent.putExtra("token", token);
-			reuploadIntent.putExtra("sceneNames", sceneNames);
-			return reuploadIntent;
 		}
 
 		private void closeNotificationBar() {

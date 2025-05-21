@@ -75,8 +75,6 @@ fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<P
             private = src.private,
             flavor = src.flavor,
             tags = src.tags,
-            uploaded = src.uploaded,
-            uploadedString = src.uploaded_string,
             screenshotSmall = src.screenshot_small,
             screenshotLarge = src.screenshot_large,
             projectUrl = src.project_url,
