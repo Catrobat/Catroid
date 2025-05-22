@@ -76,6 +76,8 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
+import org.catrobat.catroid.content.bricks.EmbroideryArcBrick;
+import org.catrobat.catroid.content.bricks.EmbroideryThroughBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
@@ -103,6 +105,8 @@ import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
+import org.catrobat.catroid.content.bricks.LaserArcBrick;
+import org.catrobat.catroid.content.bricks.LaserThroughBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -135,6 +139,8 @@ import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PlotArcBrick;
+import org.catrobat.catroid.content.bricks.PlotThroughBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
@@ -149,6 +155,8 @@ import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
+import org.catrobat.catroid.content.bricks.SaveLaserBrick;
+import org.catrobat.catroid.content.bricks.SavePlotBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -183,15 +191,23 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SewUpBrick;
+import org.catrobat.catroid.content.bricks.ShareLaserBrick;
+import org.catrobat.catroid.content.bricks.SharePlotBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartCutBrick;
+import org.catrobat.catroid.content.bricks.StartEngraveBrick;
 import org.catrobat.catroid.content.bricks.StartListeningBrick;
+import org.catrobat.catroid.content.bricks.StartPlotBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopCutBrick;
+import org.catrobat.catroid.content.bricks.StopEngraveBrick;
+import org.catrobat.catroid.content.bricks.StopPlotBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
@@ -291,7 +307,23 @@ public class BrickCategoryTest {
 						TripleStitchBrick.class,
 						SewUpBrick.class,
 						StopRunningStitchBrick.class,
-						WriteEmbroideryToFileBrick.class)},
+						WriteEmbroideryToFileBrick.class,
+						EmbroideryArcBrick.class,
+						EmbroideryThroughBrick.class)},
+				{"Laser Cutter", Arrays.asList(StartEngraveBrick.class,
+						StopEngraveBrick.class,
+						StartCutBrick.class,
+						StopCutBrick.class,
+						SaveLaserBrick.class,
+						ShareLaserBrick.class,
+						LaserArcBrick.class,
+						LaserThroughBrick.class)},
+				{"Plot", Arrays.asList(StartPlotBrick.class,
+						StopPlotBrick.class,
+						SavePlotBrick.class,
+						SharePlotBrick.class,
+						PlotArcBrick.class,
+						PlotThroughBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,

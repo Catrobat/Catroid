@@ -57,7 +57,7 @@ class StopPlotActionTest {
         TestUtils.deleteProjects(projectName)
     }
 
-    @Test(expected = NullPointerException::class)
+    @Test
     fun testNullSprite() {
         val factory = ActionFactory()
         val action = factory.createStopPlotAction(null)

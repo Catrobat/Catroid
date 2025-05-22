@@ -488,6 +488,22 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartPlotBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopPlotBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopPlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LaserArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LaserArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LaserThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LaserThroughBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShareLaserBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShareLaserBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmbroideryArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmbroideryArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlotArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlotArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SharePlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SharePlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlotThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlotThroughBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmbroideryThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmbroideryThroughBrick");
 
 	}
 	@Parameterized.Parameters(name = "{0}")
