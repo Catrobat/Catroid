@@ -26,9 +26,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
@@ -47,19 +45,19 @@ open class SharePlotAction : Action(), IntentListener {
     var scope: Scope? = null
     var formula: Formula? = null
     val context: Context = CatroidApplication.getAppContext()
-    private val duration = 0.1f
 
-   override fun act(delta: Float): Boolean {
-       if (formula == null) {
-           return true
-       }
-       writeUsingSystemFilePicker()
-       return true
-   }
+    override fun act(delta: Float): Boolean {
+        if (formula == null) {
+            return true
+        }
+        writeUsingSystemFilePicker()
+        return true
+    }
 
     private fun writeUsingSystemFilePicker() {
         StageActivity.messageHandler?.obtainMessage(
-            StageActivity.REGISTER_INTENT, arrayListOf(this))?.sendToTarget()
+            StageActivity.REGISTER_INTENT, arrayListOf(this)
+        )?.sendToTarget()
     }
 
     private fun showMessagePlotDataIsMissing() {
@@ -75,26 +73,26 @@ open class SharePlotAction : Action(), IntentListener {
         return if (file.exists())
             file
         else
-            File.createTempFile(file.nameWithoutExtension, file.extension, Constants
-                .CACHE_DIRECTORY)
+            File.createTempFile(
+                file.nameWithoutExtension, file.extension, Constants
+                    .CACHE_DIRECTORY
+            )
     }
 
     @VisibleForTesting
     fun sharePlot(file: File) {
-        var message = context.getString(R.string.brick_write_variable_to_file_success, file)
         try {
             writePlotDataToFile(file)
         } catch (e: IOException) {
-            message = context.getString(R.string.error_plot_file_write)
-            Log.e(javaClass.simpleName, "Writing plot data to file failed")
+            val message = context.getString(R.string.error_plot_file_write)
+            Log.e(javaClass.simpleName, message)
         }
     }
-
 
     open fun writePlotDataToFile(destinationFile: File) {
         val plot = scope?.sprite?.plot!!
         val svgFileGenerator = SVGPlotGenerator(plot)
-        val path =svgFileGenerator.pathFromData(plot.plotDataPointLists)
+        val path = svgFileGenerator.pathFromData(plot.plotDataPointLists)
         svgFileGenerator.writeToSVGFile(destinationFile, path)
     }
 

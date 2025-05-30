@@ -98,12 +98,14 @@ class PlotActor : Actor() {
     private fun calculateScreenRatio(): Float {
         val metrics = Resources.getSystem().displayMetrics
         val deviceDiagonalPixel =
-            sqrt(metrics.widthPixels.toFloat().pow(2) + metrics.heightPixels .toFloat().pow(2))
+            sqrt(metrics.widthPixels.toFloat().pow(2) + metrics.heightPixels.toFloat().pow(2))
 
         val header = ProjectManager.getInstance().currentProject.xmlHeader
         val creatorDiagonalPixel =
-            sqrt(header.getVirtualScreenWidth().toFloat().pow(2) + header.getVirtualScreenHeight
-                ().toFloat().pow(2))
+            sqrt(
+                header.getVirtualScreenWidth().toFloat().pow(2) + header.getVirtualScreenHeight
+                    ().toFloat().pow(2)
+            )
         return creatorDiagonalPixel / deviceDiagonalPixel
     }
 }

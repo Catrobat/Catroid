@@ -40,7 +40,7 @@ class SVGPlotGenerator(plot: Plot) {
     var action: PlotColor = PlotColor.BLACK
     private val scaleMMtoPx: Float = 0.2f / 0.2646f
 
-    private fun dotDecinalRound(number: Float): String {
+    private fun dotDecimalRound(number: Float): String {
         return "%.2f".format(Locale.ENGLISH, number * scaleMMtoPx)
     }
 
@@ -64,10 +64,10 @@ class SVGPlotGenerator(plot: Plot) {
             "<path fill=\"none\" style=\"stroke:" + stroke() + ";" +
                 "stroke-width:" + lineWidth.toString() + ";" +
                 "stroke-linecap:round;stroke-opacity:1;\" d=\"M"
-        path += dotDecinalRound(line[0].x - xAlignment) + " " + dotDecinalRound(line[0].y - yAlignment)
+        path += dotDecimalRound(line[0].x - xAlignment) + " " + dotDecimalRound(line[0].y - yAlignment)
 
         for (point in line.subList(1, line.size))
-            path = path + " L" + dotDecinalRound(point.x - xAlignment) + " " + dotDecinalRound(
+            path = path + " L" + dotDecimalRound(point.x - xAlignment) + " " + dotDecimalRound(
                 point
                     .y
                     - yAlignment
@@ -81,18 +81,18 @@ class SVGPlotGenerator(plot: Plot) {
         val builder = StringBuilder()
         builder.append("<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n")
         builder.append("<svg width=\"")
-        builder.append(dotDecinalRound(width))
+        builder.append(dotDecimalRound(width))
         builder.append("\" height=\"")
-        builder.append(dotDecinalRound(height))
+        builder.append(dotDecimalRound(height))
         builder.append("\" ")
         builder.append("viewBox=\"")
-        builder.append(dotDecinalRound(0.0F))
+        builder.append(dotDecimalRound(0.0F))
         builder.append(" ")
-        builder.append(dotDecinalRound(0.0F))
+        builder.append(dotDecimalRound(0.0F))
         builder.append(" ")
-        builder.append(dotDecinalRound(width))
+        builder.append(dotDecimalRound(width))
         builder.append(" ")
-        builder.append(dotDecinalRound(height))
+        builder.append(dotDecimalRound(height))
         builder.append("\" ")
         builder.append("style=\"background-color:#ffffff\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n")
 
@@ -110,7 +110,7 @@ class SVGPlotGenerator(plot: Plot) {
         return builder.toString()
     }
 
-    fun generateSVGContent(path: String): String {
+    private fun generateSVGContent(path: String): String {
         val builder = StringBuilder()
         builder.append(generateSVGHeader())
         builder.append(path)

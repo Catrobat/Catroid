@@ -24,10 +24,7 @@ package org.catrobat.catroid.content.bricks
 
 import android.content.Context
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
@@ -54,10 +51,19 @@ class LaserThroughBrick() : FormulaBrick() {
         )
     }
 
-    constructor(x1: Int, y1: Int, x2: Int, y2: Int) : this(Formula(x1), Formula(y1), Formula(x2), Formula(y2))
+    constructor(x1: Int, y1: Int, x2: Int, y2: Int) : this(
+        Formula(x1),
+        Formula(y1),
+        Formula(x2),
+        Formula(y2)
+    )
 
-    constructor(formula1: Formula, formula2: Formula, formula3: Formula, formula4: Formula) : this
-        () {
+    constructor(
+        formula1: Formula,
+        formula2: Formula,
+        formula3: Formula,
+        formula4: Formula
+    ) : this() {
         setFormulaWithBrickField(BrickField.X_POSITION, formula1)
         setFormulaWithBrickField(BrickField.Y_POSITION, formula2)
         setFormulaWithBrickField(BrickField.X_DESTINATION, formula3)
@@ -75,10 +81,13 @@ class LaserThroughBrick() : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
-            sprite.actionFactory?.createPlotThroughAction(sprite, sequence, getFormulaWithBrickField(BrickField.X_POSITION),
-                                                          getFormulaWithBrickField(BrickField.Y_POSITION),
-                                                          getFormulaWithBrickField(BrickField.X_DESTINATION),
-                                                          getFormulaWithBrickField(BrickField.Y_DESTINATION)));
+            sprite.actionFactory?.createPlotThroughAction(
+                sprite, sequence, getFormulaWithBrickField(BrickField.X_POSITION),
+                getFormulaWithBrickField(BrickField.Y_POSITION),
+                getFormulaWithBrickField(BrickField.X_DESTINATION),
+                getFormulaWithBrickField(BrickField.Y_DESTINATION)
+            )
+        )
     }
 
     companion object {

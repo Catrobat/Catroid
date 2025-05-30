@@ -23,17 +23,12 @@
 package org.catrobat.catroid.content.actions
 
 import android.graphics.Point
-import android.graphics.PointF
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
-import org.catrobat.catroid.content.bricks.PlotArcBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import kotlin.math.cos
 import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
 
 class PlotThroughAction : TemporalAction() {
     private var scope: Scope? = null
@@ -81,9 +76,18 @@ class PlotThroughAction : TemporalAction() {
             val steps = 100
             for (i in 0..steps) {
                 val timeStep = i.toDouble() / steps
-                val x = (1 - timeStep).pow(2) * startPoint.x + 2 * (1 - timeStep) * timeStep * anchorPoint.x + timeStep.pow(2) * p2.x
-                val y = (1 - timeStep).pow(2) * startPoint.y + 2 * (1 - timeStep) * timeStep * anchorPoint.y + timeStep.pow(2) * p2.y
-                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(x.toFloat(), y.toFloat())
+                val x =
+                    (1 - timeStep).pow(2) * startPoint.x + 2 * (1 - timeStep) * timeStep * anchorPoint.x + timeStep.pow(
+                        2
+                    ) * p2.x
+                val y =
+                    (1 - timeStep).pow(2) * startPoint.y + 2 * (1 - timeStep) * timeStep * anchorPoint.y + timeStep.pow(
+                        2
+                    ) * p2.y
+                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
+                    x.toFloat(),
+                    y.toFloat()
+                )
             }
         } catch (interpretationException: InterpretationException) {
             Log.d(

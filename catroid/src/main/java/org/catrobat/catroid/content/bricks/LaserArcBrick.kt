@@ -48,11 +48,17 @@ class LaserArcBrick() : FormulaBrick() {
         )
     }
 
-    constructor(directionEnum: PlotArcBrick.Directions, radius: Float, degrees: Float) : this(directionEnum,
-                                                                               Formula
-        (radius), Formula(degrees))
+    constructor(directionEnum: PlotArcBrick.Directions, radius: Float, degrees: Float) : this(
+        directionEnum,
+        Formula
+            (radius), Formula(degrees)
+    )
 
-    constructor(directionEnum: PlotArcBrick.Directions, formula1: Formula?, formula2: Formula?) : this() {
+    constructor(
+        directionEnum: PlotArcBrick.Directions,
+        formula1: Formula?,
+        formula2: Formula?
+    ) : this() {
         direction = directionEnum
         setFormulaWithBrickField(BrickField.SIZE, formula1)
         setFormulaWithBrickField(BrickField.DEGREES, formula2)
@@ -84,9 +90,12 @@ class LaserArcBrick() : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
-            sprite.actionFactory?.createPlotArcAction(sprite, sequence, direction,
-                                                      getFormulaWithBrickField(BrickField.SIZE),
-                                                      getFormulaWithBrickField(BrickField.DEGREES)));
+            sprite.actionFactory?.createPlotArcAction(
+                sprite, sequence, direction,
+                getFormulaWithBrickField(BrickField.SIZE),
+                getFormulaWithBrickField(BrickField.DEGREES)
+            )
+        )
     }
 
     companion object {

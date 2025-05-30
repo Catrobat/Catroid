@@ -24,10 +24,7 @@ package org.catrobat.catroid.content.bricks
 
 import android.content.Context
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
@@ -78,7 +75,7 @@ class PlotThroughBrick() : FormulaBrick() {
             sprite.actionFactory?.createPlotThroughAction(sprite, sequence, getFormulaWithBrickField(BrickField.X_POSITION),
                                                           getFormulaWithBrickField(BrickField.Y_POSITION),
                                                           getFormulaWithBrickField(BrickField.X_DESTINATION),
-                                                          getFormulaWithBrickField(BrickField.Y_DESTINATION)));
+                                                          getFormulaWithBrickField(BrickField.Y_DESTINATION)))
     }
 
     companion object {

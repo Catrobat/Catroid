@@ -47,24 +47,27 @@ class Plot {
     var height = 0.0F
 
     fun pausePlot() {
-        isPlotting = false;
+        isPlotting = false
     }
 
     fun resumePlot() {
-        isPlotting = true;
+        isPlotting = true
     }
 
     fun pauseCut() {
-        isCutting = false;
+        isCutting = false
     }
+
     fun resumeCut() {
-        isCutting = true;
+        isCutting = true
     }
+
     fun pauseEngrave() {
-        isEngraving = false;
+        isEngraving = false
     }
+
     fun resumeEngrave() {
-        isEngraving = true;
+        isEngraving = true
     }
 
     fun isPlotting(): Boolean {
@@ -115,20 +118,12 @@ class Plot {
         addPoint(point, plotDataPointLists, plotQueue)
     }
 
-    fun startNewCutLine() {
-        startLine(cutDataPointLists, cutQueue)
-    }
-
     fun startNewCutLine(point: PointF) {
         startNewLine(point, cutDataPointLists, cutQueue)
     }
 
     fun addCutPoint(point: PointF) {
         addPoint(point, cutDataPointLists, cutQueue)
-    }
-
-    fun startNewEngraveLine() {
-        startLine(engraveDataPointLists, engraveQueue)
     }
 
     fun startNewEngraveLine(point: PointF) {

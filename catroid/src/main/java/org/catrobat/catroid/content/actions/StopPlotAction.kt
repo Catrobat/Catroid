@@ -21,6 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.actions
+
 import android.graphics.PointF
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Sprite
@@ -29,12 +30,13 @@ class StopPlotAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if(sprite == null || !sprite!!.plot.isPlotting()) return
+        if (sprite == null || !sprite!!.plot.isPlotting()) return
 
         sprite!!.plot.pausePlot()
         sprite?.plot?.addPlotPoint(
-            PointF(sprite!!.look.xInUserInterfaceDimensionUnit,
-                   sprite!!.look.yInUserInterfaceDimensionUnit
+            PointF(
+                sprite!!.look.xInUserInterfaceDimensionUnit,
+                sprite!!.look.yInUserInterfaceDimensionUnit
             )
         )
     }

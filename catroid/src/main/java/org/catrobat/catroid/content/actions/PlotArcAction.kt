@@ -49,7 +49,8 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            degreesValue = degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) -1 else 1
+            degreesValue =
+                degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) -1 else 1
             radiusValue = radius.interpretDouble(scope)
             val sprite = scope!!.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
@@ -71,11 +72,14 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            for (i in 0 until 101){
-                val radians = Math.toRadians(degreesValue * i/100)
+            for (i in 0 until 101) {
+                val radians = Math.toRadians(degreesValue * i / 100)
                 val x1 = centerX - radiusValue * cos(radians + angle)
                 val y1 = centerY - radiusValue * sin(radians + angle)
-                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(x1.toFloat(), y1.toFloat())
+                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
+                    x1.toFloat(),
+                    y1.toFloat()
+                )
             }
             scope!!.sprite.look.rotation = Math.toDegrees(angle - degreesValue).toFloat()
         } catch (interpretationException: InterpretationException) {

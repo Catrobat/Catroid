@@ -23,8 +23,6 @@
 package org.catrobat.catroid.ui.fragment
 
 import android.content.Context
-import android.widget.Spinner
-import android.widget.TextView
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -264,16 +262,42 @@ open class CategoryBricksFactory {
 
     fun getBricks(category: String, isBackgroundSprite: Boolean, context: Context): List<Brick> {
         when (category) {
-            context.getString(R.string.category_recently_used) -> return setupRecentBricksCategoryList(isBackgroundSprite)
-            context.getString(R.string.category_event) -> return setupEventCategoryList(context, isBackgroundSprite)
+            context.getString(R.string.category_recently_used) -> return setupRecentBricksCategoryList(
+                isBackgroundSprite
+            )
+
+            context.getString(R.string.category_event) -> return setupEventCategoryList(
+                context,
+                isBackgroundSprite
+            )
+
             context.getString(R.string.category_control) -> return setupControlCategoryList(context)
-            context.getString(R.string.category_motion) -> return setupMotionCategoryList(context, isBackgroundSprite)
+            context.getString(R.string.category_motion) -> return setupMotionCategoryList(
+                context,
+                isBackgroundSprite
+            )
+
             context.getString(R.string.category_sound) -> return setupSoundCategoryList(context)
-            context.getString(R.string.category_looks) -> return setupLooksCategoryList(context, isBackgroundSprite)
-            context.getString(R.string.category_pen) -> return setupPenCategoryList(isBackgroundSprite)
+            context.getString(R.string.category_looks) -> return setupLooksCategoryList(
+                context,
+                isBackgroundSprite
+            )
+
+            context.getString(R.string.category_pen) -> return setupPenCategoryList(
+                isBackgroundSprite
+            )
+
             context.getString(R.string.category_user_bricks) -> return setupUserBricksCategoryList()
-            context.getString(R.string.category_data) -> return setupDataCategoryList(context, isBackgroundSprite)
-            context.getString(R.string.category_device) -> return setupDeviceCategoryList(context, isBackgroundSprite)
+            context.getString(R.string.category_data) -> return setupDataCategoryList(
+                context,
+                isBackgroundSprite
+            )
+
+            context.getString(R.string.category_device) -> return setupDeviceCategoryList(
+                context,
+                isBackgroundSprite
+            )
+
             context.getString(R.string.category_lego_nxt) -> return setupLegoNxtCategoryList()
             context.getString(R.string.category_lego_ev3) -> return setupLegoEv3CategoryList()
             context.getString(R.string.category_arduino) -> return setupArduinoCategoryList()
@@ -282,15 +306,22 @@ open class CategoryBricksFactory {
             context.getString(R.string.category_phiro) -> return setupPhiroProCategoryList()
             context.getString(R.string.category_cast) -> return setupChromecastCategoryList(context)
             context.getString(R.string.category_raspi) -> return setupRaspiCategoryList()
-            context.getString(R.string.category_embroidery) -> return setupEmbroideryCategoryList(context)
+            context.getString(R.string.category_embroidery) -> return setupEmbroideryCategoryList(
+                context
+            )
+
             context.getString(R.string.category_plot) -> return setupPlotCategoryList(context)
             context.getString(R.string.category_laser) -> return setupLaserCategoryList(context)
-            context.getString(R.string.category_assertions) -> return setupAssertionsCategoryList(context)
+            context.getString(R.string.category_assertions) -> return setupAssertionsCategoryList(
+                context
+            )
+
             else -> return emptyList()
         }
     }
 
-    fun setupRecentBricksCategoryList(isBackgroundSprite: Boolean): List<Brick> = RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite)
+    private fun setupRecentBricksCategoryList(isBackgroundSprite: Boolean): List<Brick> =
+        RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite)
 
     protected open fun setupEventCategoryList(
         context: Context,
@@ -331,9 +362,25 @@ open class CategoryBricksFactory {
     }
 
     protected open fun setupControlCategoryList(context: Context): List<Brick> {
-        val ifConditionFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null)
-        ifConditionFormulaElement.setLeftChild(FormulaElement(FormulaElement.ElementType.NUMBER, "1", null))
-        ifConditionFormulaElement.setRightChild(FormulaElement(FormulaElement.ElementType.NUMBER, "2", null))
+        val ifConditionFormulaElement = FormulaElement(
+            FormulaElement.ElementType.OPERATOR,
+            Operators.SMALLER_THAN.toString(),
+            null
+        )
+        ifConditionFormulaElement.setLeftChild(
+            FormulaElement(
+                FormulaElement.ElementType.NUMBER,
+                "1",
+                null
+            )
+        )
+        ifConditionFormulaElement.setRightChild(
+            FormulaElement(
+                FormulaElement.ElementType.NUMBER,
+                "2",
+                null
+            )
+        )
         val ifConditionFormula = Formula(ifConditionFormulaElement)
         val controlBrickList: MutableList<Brick> = ArrayList()
         controlBrickList.add(WaitBrick(BrickValues.WAIT))
@@ -344,7 +391,12 @@ open class CategoryBricksFactory {
         controlBrickList.add(WaitUntilBrick(ifConditionFormula))
         controlBrickList.add(RepeatBrick(Formula(BrickValues.REPEAT)))
         controlBrickList.add(RepeatUntilBrick(ifConditionFormula))
-        controlBrickList.add(ForVariableFromToBrick(Formula(BrickValues.FOR_LOOP_FROM), Formula(BrickValues.FOR_LOOP_TO)))
+        controlBrickList.add(
+            ForVariableFromToBrick(
+                Formula(BrickValues.FOR_LOOP_FROM),
+                Formula(BrickValues.FOR_LOOP_TO)
+            )
+        )
         controlBrickList.add(ForItemInUserListBrick())
         controlBrickList.add(SceneTransitionBrick(null))
         controlBrickList.add(SceneStartBrick(null))
@@ -370,8 +422,22 @@ open class CategoryBricksFactory {
         controlBrickList.add(BroadcastBrick(broadcastMessage))
         controlBrickList.add(BroadcastWaitBrick(broadcastMessage))
         controlBrickList.add(TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START))
-        controlBrickList.add(TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_DURATION))
-        controlBrickList.add(TouchAndSlideBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL, BrickValues.TOUCH_DURATION))
+        controlBrickList.add(
+            TapForBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_DURATION
+            )
+        )
+        controlBrickList.add(
+            TouchAndSlideBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_X_GOAL,
+                BrickValues.TOUCH_Y_GOAL,
+                BrickValues.TOUCH_DURATION
+            )
+        )
         controlBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
         return controlBrickList
     }
@@ -409,7 +475,13 @@ open class CategoryBricksFactory {
         motionBrickList.add(PointInDirectionBrick(BrickValues.POINT_IN_DIRECTION))
         motionBrickList.add(PointToBrick(null))
         motionBrickList.add(SetRotationStyleBrick())
-        motionBrickList.add(GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION, BrickValues.GLIDE_SECONDS))
+        motionBrickList.add(
+            GlideToBrick(
+                BrickValues.X_POSITION,
+                BrickValues.Y_POSITION,
+                BrickValues.GLIDE_SECONDS
+            )
+        )
         if (!isBackgroundSprite) {
             motionBrickList.add(GoNStepsBackBrick(BrickValues.GO_BACK))
             motionBrickList.add(ComeToFrontBrick())
@@ -426,8 +498,18 @@ open class CategoryBricksFactory {
         motionBrickList.add(SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * BrickValues.PHYSIC_MULTIPLIER))
         motionBrickList.add(SetFrictionBrick(BrickValues.PHYSIC_FRICTION * BrickValues.PHYSIC_MULTIPLIER))
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
-            motionBrickList.add(PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT, BrickValues.PHIRO_SPEED))
-            motionBrickList.add(PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT, BrickValues.PHIRO_SPEED))
+            motionBrickList.add(
+                PhiroMotorMoveForwardBrick(
+                    PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
+                    BrickValues.PHIRO_SPEED
+                )
+            )
+            motionBrickList.add(
+                PhiroMotorMoveBackwardBrick(
+                    PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
+                    BrickValues.PHIRO_SPEED
+                )
+            )
             motionBrickList.add(PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH))
         }
         motionBrickList.add(FadeParticleEffectBrick())
@@ -448,7 +530,12 @@ open class CategoryBricksFactory {
             soundBrickList.add(SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)))
         }
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
-            soundBrickList.add(PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO, BrickValues.PHIRO_DURATION))
+            soundBrickList.add(
+                PhiroPlayToneBrick(
+                    PhiroPlayToneBrick.Tone.DO,
+                    BrickValues.PHIRO_DURATION
+                )
+            )
         }
         if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
             soundBrickList.add(AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)))
@@ -456,7 +543,12 @@ open class CategoryBricksFactory {
             soundBrickList.add(SetListeningLanguageBrick())
         }
         soundBrickList.add(SetInstrumentBrick())
-        soundBrickList.add(PlayNoteForBeatsBrick(BrickValues.DEFAULT_NOTE, BrickValues.PAUSED_BEATS_INT))
+        soundBrickList.add(
+            PlayNoteForBeatsBrick(
+                BrickValues.DEFAULT_NOTE,
+                BrickValues.PAUSED_BEATS_INT
+            )
+        )
         soundBrickList.add(PlayDrumForBeatsBrick(BrickValues.PAUSED_BEATS_INT))
         soundBrickList.add(SetTempoBrick(BrickValues.DEFAULT_TEMPO))
         soundBrickList.add(ChangeTempoByNBrick(BrickValues.CHANGE_TEMPO))
@@ -464,7 +556,10 @@ open class CategoryBricksFactory {
         return soundBrickList
     }
 
-    protected open fun setupLooksCategoryList(context: Context, isBackgroundSprite: Boolean): List<Brick> {
+    protected open fun setupLooksCategoryList(
+        context: Context,
+        isBackgroundSprite: Boolean
+    ): List<Brick> {
         val looksBrickList = mutableListOf<Brick>()
         if (!isBackgroundSprite) {
             looksBrickList.add(SetLookBrick())
@@ -479,12 +574,29 @@ open class CategoryBricksFactory {
         looksBrickList.add(AskBrick(context.getString(R.string.brick_ask_default_question)))
         if (!isBackgroundSprite) {
             looksBrickList.add(SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)))
-            looksBrickList.add(SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f))
+            looksBrickList.add(
+                SayForBubbleBrick(
+                    context.getString(R.string.brick_say_bubble_default_value),
+                    1.0f
+                )
+            )
             looksBrickList.add(ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)))
-            looksBrickList.add(ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f))
+            looksBrickList.add(
+                ThinkForBubbleBrick(
+                    context.getString(R.string.brick_think_bubble_default_value),
+                    1.0f
+                )
+            )
         }
         looksBrickList.add(ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION))
-        looksBrickList.add(ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION, BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR))
+        looksBrickList.add(
+            ShowTextColorSizeAlignmentBrick(
+                BrickValues.X_POSITION,
+                BrickValues.Y_POSITION,
+                BrickValues.RELATIVE_SIZE_IN_PERCENT,
+                BrickValues.SHOW_VARIABLE_COLOR
+            )
+        )
         looksBrickList.add(SetTransparencyBrick(BrickValues.SET_TRANSPARENCY))
         looksBrickList.add(ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT))
         looksBrickList.add(SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO))
@@ -508,11 +620,19 @@ open class CategoryBricksFactory {
         }
         when {
             !isBackgroundSprite -> looksBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> looksBrickList.add(
+                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+            )
+
             else -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) looksBrickList.add(
-            PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE)
+            PhiroRGBLightBrick(
+                PhiroRGBLightBrick.Eye.BOTH,
+                BrickValues.PHIRO_VALUE_RED,
+                BrickValues.PHIRO_VALUE_GREEN,
+                BrickValues.PHIRO_VALUE_BLUE
+            )
         )
         looksBrickList.add(PaintNewLookBrick(context.getString(R.string.brick_paint_new_look_name)))
         looksBrickList.add(EditLookBrick())
@@ -528,7 +648,13 @@ open class CategoryBricksFactory {
             penBrickList.add(PenDownBrick())
             penBrickList.add(PenUpBrick())
             penBrickList.add(SetPenSizeBrick(BrickValues.PEN_SIZE))
-            penBrickList.add(SetPenColorBrick(BrickValues.PEN_COLOR_R, BrickValues.PEN_COLOR_G, BrickValues.PEN_COLOR_B))
+            penBrickList.add(
+                SetPenColorBrick(
+                    BrickValues.PEN_COLOR_R,
+                    BrickValues.PEN_COLOR_G,
+                    BrickValues.PEN_COLOR_B
+                )
+            )
             penBrickList.add(StampBrick())
         }
         penBrickList.add(ClearBackgroundBrick())
@@ -543,7 +669,14 @@ open class CategoryBricksFactory {
         dataBrickList.add(SetVariableBrick(BrickValues.SET_VARIABLE))
         dataBrickList.add(ChangeVariableBrick(BrickValues.CHANGE_VARIABLE))
         dataBrickList.add(ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION))
-        dataBrickList.add(ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION, BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR))
+        dataBrickList.add(
+            ShowTextColorSizeAlignmentBrick(
+                BrickValues.X_POSITION,
+                BrickValues.Y_POSITION,
+                BrickValues.RELATIVE_SIZE_IN_PERCENT,
+                BrickValues.SHOW_VARIABLE_COLOR
+            )
+        )
         dataBrickList.add(HideTextBrick())
         dataBrickList.add(WriteVariableOnDeviceBrick())
         dataBrickList.add(ReadVariableFromDeviceBrick())
@@ -552,15 +685,33 @@ open class CategoryBricksFactory {
         dataBrickList.add(AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST))
         dataBrickList.add(DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST))
         dataBrickList.add(ClearUserListBrick())
-        dataBrickList.add(InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX))
-        dataBrickList.add(ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX))
+        dataBrickList.add(
+            InsertItemIntoUserListBrick(
+                BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
+                BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX
+            )
+        )
+        dataBrickList.add(
+            ReplaceItemInUserListBrick(
+                BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE,
+                BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX
+            )
+        )
         dataBrickList.add(WriteListOnDeviceBrick())
         dataBrickList.add(ReadListFromDeviceBrick())
-        dataBrickList.add(StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN, context.getString(R.string.brick_store_csv_into_userlist_data)))
+        dataBrickList.add(
+            StoreCSVIntoUserListBrick(
+                BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+                context.getString(R.string.brick_store_csv_into_userlist_data)
+            )
+        )
         dataBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
         when {
             !isBackgroundSprite -> dataBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(
+                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+            )
+
             else -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         dataBrickList.add(AskBrick(context.getString(R.string.brick_ask_default_question)))
@@ -580,7 +731,10 @@ open class CategoryBricksFactory {
     }
 
     @SuppressWarnings("ComplexMethod")
-    protected fun setupDeviceCategoryList(context: Context, isBackgroundSprite: Boolean): List<Brick> {
+    protected fun setupDeviceCategoryList(
+        context: Context,
+        isBackgroundSprite: Boolean
+    ): List<Brick> {
         val deviceBrickList: MutableList<Brick> = ArrayList()
         deviceBrickList.add(ResetTimerBrick())
         deviceBrickList.add(WhenBrick())
@@ -592,7 +746,10 @@ open class CategoryBricksFactory {
         deviceBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
         when {
             !isBackgroundSprite -> deviceBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(
+                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+            )
+
             else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
@@ -619,35 +776,98 @@ open class CategoryBricksFactory {
         deviceBrickList.add(WriteListOnDeviceBrick())
         deviceBrickList.add(ReadListFromDeviceBrick())
         deviceBrickList.add(TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START))
-        deviceBrickList.add(TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_DURATION))
-        deviceBrickList.add(TouchAndSlideBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL, BrickValues.TOUCH_DURATION))
-        if (SettingsFragment.isCastSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupChromecastCategoryList(context))
-        if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupLegoNxtCategoryList())
-        if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(context)) deviceBrickList.addAll(setupLegoEv3CategoryList())
-        if (SettingsFragment.isDroneSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupDroneCategoryList())
-        if (SettingsFragment.isJSSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupJumpingSumoCategoryList())
-        if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupPhiroProCategoryList())
-        if (SettingsFragment.isArduinoSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupArduinoCategoryList())
-        if (SettingsFragment.isRaspiSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupRaspiCategoryList())
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) deviceBrickList.addAll(setupEmbroideryCategoryList(context))
+        deviceBrickList.add(
+            TapForBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_DURATION
+            )
+        )
+        deviceBrickList.add(
+            TouchAndSlideBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_X_GOAL,
+                BrickValues.TOUCH_Y_GOAL,
+                BrickValues.TOUCH_DURATION
+            )
+        )
+        if (SettingsFragment.isCastSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupChromecastCategoryList(context)
+        )
+        if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupLegoNxtCategoryList()
+        )
+        if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupLegoEv3CategoryList()
+        )
+        if (SettingsFragment.isDroneSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupDroneCategoryList()
+        )
+        if (SettingsFragment.isJSSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupJumpingSumoCategoryList()
+        )
+        if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupPhiroProCategoryList()
+        )
+        if (SettingsFragment.isArduinoSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupArduinoCategoryList()
+        )
+        if (SettingsFragment.isRaspiSharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupRaspiCategoryList()
+        )
+        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) deviceBrickList.addAll(
+            setupEmbroideryCategoryList(context)
+        )
         return deviceBrickList
     }
 
     private fun setupLegoNxtCategoryList(): List<Brick> {
         val legoNXTBrickList: MutableList<Brick> = ArrayList()
-        legoNXTBrickList.add(LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BrickValues.LEGO_ANGLE))
+        legoNXTBrickList.add(
+            LegoNxtMotorTurnAngleBrick(
+                LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
+                BrickValues.LEGO_ANGLE
+            )
+        )
         legoNXTBrickList.add(LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A))
-        legoNXTBrickList.add(LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, BrickValues.LEGO_SPEED))
-        legoNXTBrickList.add(LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION))
+        legoNXTBrickList.add(
+            LegoNxtMotorMoveBrick(
+                LegoNxtMotorMoveBrick.Motor.MOTOR_A,
+                BrickValues.LEGO_SPEED
+            )
+        )
+        legoNXTBrickList.add(
+            LegoNxtPlayToneBrick(
+                BrickValues.LEGO_FREQUENCY,
+                BrickValues.LEGO_DURATION
+            )
+        )
         return legoNXTBrickList
     }
 
     private fun setupLegoEv3CategoryList(): List<Brick> {
         val legoEV3BrickList: MutableList<Brick> = ArrayList()
-        legoEV3BrickList.add(LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, BrickValues.LEGO_ANGLE))
-        legoEV3BrickList.add(LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, BrickValues.LEGO_SPEED))
+        legoEV3BrickList.add(
+            LegoEv3MotorTurnAngleBrick(
+                LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A,
+                BrickValues.LEGO_ANGLE
+            )
+        )
+        legoEV3BrickList.add(
+            LegoEv3MotorMoveBrick(
+                LegoEv3MotorMoveBrick.Motor.MOTOR_A,
+                BrickValues.LEGO_SPEED
+            )
+        )
         legoEV3BrickList.add(LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A))
-        legoEV3BrickList.add(LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME))
+        legoEV3BrickList.add(
+            LegoEv3PlayToneBrick(
+                BrickValues.LEGO_FREQUENCY,
+                BrickValues.LEGO_DURATION,
+                BrickValues.LEGO_VOLUME
+            )
+        )
         legoEV3BrickList.add(LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN))
         return legoEV3BrickList
     }
@@ -656,14 +876,54 @@ open class CategoryBricksFactory {
         val droneBrickList: MutableList<Brick> = ArrayList()
         droneBrickList.add(DroneTakeOffLandBrick())
         droneBrickList.add(DroneEmergencyBrick())
-        droneBrickList.add(DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
-        droneBrickList.add(DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT))
+        droneBrickList.add(
+            DroneMoveUpBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneMoveDownBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneMoveLeftBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneMoveRightBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneMoveForwardBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneMoveBackwardBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneTurnLeftBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
+        droneBrickList.add(
+            DroneTurnRightBrick(
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT
+            )
+        )
         droneBrickList.add(DroneFlipBrick())
         droneBrickList.add(DronePlayLedAnimationBrick())
         droneBrickList.add(DroneSwitchCameraBrick())
@@ -672,10 +932,25 @@ open class CategoryBricksFactory {
 
     private fun setupJumpingSumoCategoryList(): List<Brick> {
         val jumpingSumoBrickList: MutableList<Brick> = ArrayList()
-        jumpingSumoBrickList.add(JumpingSumoMoveForwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT))
-        jumpingSumoBrickList.add(JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT))
+        jumpingSumoBrickList.add(
+            JumpingSumoMoveForwardBrick(
+                BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT
+            )
+        )
+        jumpingSumoBrickList.add(
+            JumpingSumoMoveBackwardBrick(
+                BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+                BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT
+            )
+        )
         jumpingSumoBrickList.add(JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN))
-        jumpingSumoBrickList.add(JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT))
+        jumpingSumoBrickList.add(
+            JumpingSumoSoundBrick(
+                JumpingSumoSoundBrick.Sounds.DEFAULT,
+                BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT
+            )
+        )
         jumpingSumoBrickList.add(JumpingSumoNoSoundBrick())
         jumpingSumoBrickList.add(JumpingSumoJumpLongBrick())
         jumpingSumoBrickList.add(JumpingSumoJumpHighBrick())
@@ -688,11 +963,33 @@ open class CategoryBricksFactory {
 
     private fun setupPhiroProCategoryList(): List<Brick> {
         val phiroProBrickList: MutableList<Brick> = ArrayList()
-        phiroProBrickList.add(PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT, BrickValues.PHIRO_SPEED))
-        phiroProBrickList.add(PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT, BrickValues.PHIRO_SPEED))
+        phiroProBrickList.add(
+            PhiroMotorMoveForwardBrick(
+                PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
+                BrickValues.PHIRO_SPEED
+            )
+        )
+        phiroProBrickList.add(
+            PhiroMotorMoveBackwardBrick(
+                PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
+                BrickValues.PHIRO_SPEED
+            )
+        )
         phiroProBrickList.add(PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH))
-        phiroProBrickList.add(PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO, BrickValues.PHIRO_DURATION))
-        phiroProBrickList.add(PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE))
+        phiroProBrickList.add(
+            PhiroPlayToneBrick(
+                PhiroPlayToneBrick.Tone.DO,
+                BrickValues.PHIRO_DURATION
+            )
+        )
+        phiroProBrickList.add(
+            PhiroRGBLightBrick(
+                PhiroRGBLightBrick.Eye.BOTH,
+                BrickValues.PHIRO_VALUE_RED,
+                BrickValues.PHIRO_VALUE_GREEN,
+                BrickValues.PHIRO_VALUE_BLUE
+            )
+        )
         phiroProBrickList.add(PhiroIfLogicBeginBrick())
         phiroProBrickList.add(SetVariableBrick(Sensors.PHIRO_FRONT_LEFT))
         phiroProBrickList.add(SetVariableBrick(Sensors.PHIRO_FRONT_RIGHT))
@@ -705,8 +1002,18 @@ open class CategoryBricksFactory {
 
     private fun setupArduinoCategoryList(): List<Brick> {
         val arduinoBrickList: MutableList<Brick> = ArrayList()
-        arduinoBrickList.add(ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE))
-        arduinoBrickList.add(ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE))
+        arduinoBrickList.add(
+            ArduinoSendDigitalValueBrick(
+                BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER,
+                BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE
+            )
+        )
+        arduinoBrickList.add(
+            ArduinoSendPWMValueBrick(
+                BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER,
+                BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE
+            )
+        )
         return arduinoBrickList
     }
 
@@ -715,8 +1022,19 @@ open class CategoryBricksFactory {
         val raspiBrickList: MutableList<Brick> = ArrayList()
         raspiBrickList.add(WhenRaspiPinChangedBrick(defaultScript))
         raspiBrickList.add(RaspiIfLogicBeginBrick(Formula(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER)))
-        raspiBrickList.add(RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE))
-        raspiBrickList.add(RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_PWM_INITIAL_FREQUENCY, BrickValues.RASPI_PWM_INITIAL_PERCENTAGE))
+        raspiBrickList.add(
+            RaspiSendDigitalValueBrick(
+                BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
+                BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE
+            )
+        )
+        raspiBrickList.add(
+            RaspiPwmBrick(
+                BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
+                BrickValues.RASPI_PWM_INITIAL_FREQUENCY,
+                BrickValues.RASPI_PWM_INITIAL_PERCENTAGE
+            )
+        )
         return raspiBrickList
     }
 
@@ -725,13 +1043,18 @@ open class CategoryBricksFactory {
         embroideryBrickList.add(StitchBrick())
         embroideryBrickList.add(SetThreadColorBrick(Formula(BrickValues.THREAD_COLOR)))
         embroideryBrickList.add(RunningStitchBrick(Formula(BrickValues.STITCH_LENGTH)))
-        embroideryBrickList.add(ZigZagStitchBrick(Formula(BrickValues.ZIGZAG_STITCH_LENGTH), Formula(BrickValues.ZIGZAG_STITCH_WIDTH)))
+        embroideryBrickList.add(
+            ZigZagStitchBrick(
+                Formula(BrickValues.ZIGZAG_STITCH_LENGTH),
+                Formula(BrickValues.ZIGZAG_STITCH_WIDTH)
+            )
+        )
         embroideryBrickList.add(TripleStitchBrick(Formula(BrickValues.STITCH_LENGTH)))
         embroideryBrickList.add(SewUpBrick())
         embroideryBrickList.add(StopRunningStitchBrick())
         embroideryBrickList.add(WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)))
         embroideryBrickList.add(EmbroideryArcBrick(PlotArcBrick.Directions.LEFT, 10.0f, 360.0f))
-        embroideryBrickList.add(EmbroideryThroughBrick(0,0,0,0))
+        embroideryBrickList.add(EmbroideryThroughBrick(0, 0, 0, 0))
         return embroideryBrickList
     }
 
@@ -742,7 +1065,7 @@ open class CategoryBricksFactory {
         plotBrickList.add(SavePlotBrick(context.getString(R.string.brick_default_plot_file)))
         plotBrickList.add(SharePlotBrick(context.getString(R.string.brick_default_plot_file)))
         plotBrickList.add(PlotArcBrick(PlotArcBrick.Directions.LEFT, 10.0f, 360.0f))
-        plotBrickList.add(PlotThroughBrick(0,0,0,0))
+        plotBrickList.add(PlotThroughBrick(0, 0, 0, 0))
         return plotBrickList
     }
 
@@ -755,7 +1078,7 @@ open class CategoryBricksFactory {
         laserBrickList.add(SaveLaserBrick(context.getString(R.string.brick_default_laser_file)))
         laserBrickList.add(ShareLaserBrick(context.getString(R.string.brick_default_laser_file)))
         laserBrickList.add(LaserArcBrick(PlotArcBrick.Directions.LEFT, 10.0f, 360.0f))
-        laserBrickList.add(LaserThroughBrick(0,0,0,0))
+        laserBrickList.add(LaserThroughBrick(0, 0, 0, 0))
         return laserBrickList
     }
 
@@ -766,15 +1089,35 @@ open class CategoryBricksFactory {
         assertionsBrickList.add(ParameterizedBrick())
         assertionsBrickList.add(WaitTillIdleBrick())
         assertionsBrickList.add(TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START))
-        assertionsBrickList.add(TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_DURATION))
-        assertionsBrickList.add(TouchAndSlideBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL, BrickValues.TOUCH_DURATION))
+        assertionsBrickList.add(
+            TapForBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_DURATION
+            )
+        )
+        assertionsBrickList.add(
+            TouchAndSlideBrick(
+                BrickValues.TOUCH_X_START,
+                BrickValues.TOUCH_Y_START,
+                BrickValues.TOUCH_X_GOAL,
+                BrickValues.TOUCH_Y_GOAL,
+                BrickValues.TOUCH_DURATION
+            )
+        )
         assertionsBrickList.add(FinishStageBrick())
-        assertionsBrickList.add(StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN, context.getString(R.string.brick_store_csv_into_userlist_data)))
+        assertionsBrickList.add(
+            StoreCSVIntoUserListBrick(
+                BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+                context.getString(R.string.brick_store_csv_into_userlist_data)
+            )
+        )
         assertionsBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
         return assertionsBrickList
     }
 
-    fun searchList(searchBrick: Brick, list: List<Brick>): Boolean = list.any { it == searchBrick.javaClass }
+    private fun searchList(searchBrick: Brick, list: List<Brick>): Boolean =
+        list.any { it == searchBrick.javaClass }
 
     fun getBrickCategory(brick: Brick, isBackgroundSprite: Boolean, context: Context): String {
         val res = context.resources
@@ -784,23 +1127,77 @@ open class CategoryBricksFactory {
         res.updateConfiguration(config, null)
         var category: String
         category = when {
-            searchList(brick, setupControlCategoryList(context)) -> res.getString(R.string.category_control)
-            searchList(brick, setupEventCategoryList(context, isBackgroundSprite)) -> res.getString(R.string.category_event)
-            searchList(brick, setupMotionCategoryList(context, isBackgroundSprite)) -> res.getString(R.string.category_motion)
-            searchList(brick, setupSoundCategoryList(context)) -> res.getString(R.string.category_sound)
-            searchList(brick, setupLooksCategoryList(context, isBackgroundSprite)) -> res.getString(R.string.category_looks)
-            searchList(brick, setupPenCategoryList(isBackgroundSprite)) -> res.getString(R.string.category_pen)
-            searchList(brick, setupDataCategoryList(context, isBackgroundSprite)) -> res.getString(R.string.category_data)
-            searchList(brick, setupLegoNxtCategoryList()) -> res.getString(R.string.category_lego_nxt)
-            searchList(brick, setupLegoEv3CategoryList()) -> res.getString(R.string.category_lego_ev3)
-            searchList(brick, setupArduinoCategoryList()) -> res.getString(R.string.category_arduino)
+            searchList(
+                brick,
+                setupControlCategoryList(context)
+            ) -> res.getString(R.string.category_control)
+
+            searchList(brick, setupEventCategoryList(context, isBackgroundSprite)) -> res.getString(
+                R.string.category_event
+            )
+
+            searchList(
+                brick,
+                setupMotionCategoryList(context, isBackgroundSprite)
+            ) -> res.getString(R.string.category_motion)
+
+            searchList(
+                brick,
+                setupSoundCategoryList(context)
+            ) -> res.getString(R.string.category_sound)
+
+            searchList(brick, setupLooksCategoryList(context, isBackgroundSprite)) -> res.getString(
+                R.string.category_looks
+            )
+
+            searchList(
+                brick,
+                setupPenCategoryList(isBackgroundSprite)
+            ) -> res.getString(R.string.category_pen)
+
+            searchList(
+                brick,
+                setupDataCategoryList(context, isBackgroundSprite)
+            ) -> res.getString(R.string.category_data)
+
+            searchList(
+                brick,
+                setupLegoNxtCategoryList()
+            ) -> res.getString(R.string.category_lego_nxt)
+
+            searchList(
+                brick,
+                setupLegoEv3CategoryList()
+            ) -> res.getString(R.string.category_lego_ev3)
+
+            searchList(
+                brick,
+                setupArduinoCategoryList()
+            ) -> res.getString(R.string.category_arduino)
+
             searchList(brick, setupDroneCategoryList()) -> res.getString(R.string.category_drone)
-            searchList(brick, setupJumpingSumoCategoryList()) -> res.getString(R.string.category_jumping_sumo)
+            searchList(
+                brick,
+                setupJumpingSumoCategoryList()
+            ) -> res.getString(R.string.category_jumping_sumo)
+
             searchList(brick, setupPhiroProCategoryList()) -> res.getString(R.string.category_phiro)
             searchList(brick, setupRaspiCategoryList()) -> res.getString(R.string.category_raspi)
-            searchList(brick, setupChromecastCategoryList(context)) -> res.getString(R.string.category_cast)
-            searchList(brick, setupEmbroideryCategoryList(context)) -> res.getString(R.string.category_embroidery)
-            searchList(brick, setupAssertionsCategoryList(context)) -> res.getString(R.string.category_assertions)
+            searchList(
+                brick,
+                setupChromecastCategoryList(context)
+            ) -> res.getString(R.string.category_cast)
+
+            searchList(
+                brick,
+                setupEmbroideryCategoryList(context)
+            ) -> res.getString(R.string.category_embroidery)
+
+            searchList(
+                brick,
+                setupAssertionsCategoryList(context)
+            ) -> res.getString(R.string.category_assertions)
+
             else -> "No Match"
         }
 

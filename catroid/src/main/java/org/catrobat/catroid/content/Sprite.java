@@ -835,12 +835,12 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
-		for (UserVariable userVariable: sprite.userVariables) {
+		for (UserVariable userVariable : sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
+		for (UserList userlist : sprite.userLists) {
 			if (!this.userLists.contains(userlist)) {
 				this.userLists.add(userlist);
 			}
@@ -861,6 +861,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
+
 	public boolean isGliding() {
 		return isGliding;
 	}
@@ -868,6 +869,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGlidingVelocityX(float velocity) {
 		glidingVelocityX = velocity;
 	}
+
 	public void setGlidingVelocityY(float velocity) {
 		glidingVelocityY = velocity;
 	}
@@ -875,6 +877,7 @@ public class Sprite implements Nameable, Serializable {
 	public float getGlidingVelocityX() {
 		return glidingVelocityX;
 	}
+
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
 	}

@@ -86,12 +86,11 @@ class GeneratePlotSVGTest {
         generator.writeToSVGFile(plotFile, generator.pathFromData(plot.data()))
         Assert.assertTrue(plotFile.readText().contains("path"))
         var count = 0
-        for(line in plotFile.readLines())
-        {
-            if(line.contains("path"))
+        for (line in plotFile.readLines()) {
+            if (line.contains("path"))
                 count++
         }
-        Assert.assertEquals(count,1)
+        Assert.assertEquals(count, 1)
     }
 
     @Test
@@ -105,15 +104,12 @@ class GeneratePlotSVGTest {
         generator.writeToSVGFile(plotFile, generator.pathFromData(plot.data()))
         Assert.assertTrue(plotFile.readText().contains("path"))
         var count = 0
-        for(line in plotFile.readLines())
-        {
-            if(line.contains("path"))
+        for (line in plotFile.readLines()) {
+            if (line.contains("path"))
                 count++
         }
-        Assert.assertEquals(count,2)
+        Assert.assertEquals(count, 2)
     }
-
-
 
     private fun createTestProject() {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
