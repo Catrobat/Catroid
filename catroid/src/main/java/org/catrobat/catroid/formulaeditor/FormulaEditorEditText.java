@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -35,7 +36,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
-
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -357,14 +357,30 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
 		}
-
 		highlightSelection();
-
 		return newExternFormulaString;
 	}
 
 	@Override
 	public boolean onTouch(View view, MotionEvent motion) {
+		if (motion.getAction() == MotionEvent.ACTION_UP) {
+			Spannable spannable = (Spannable) getText();
+			int x = (int) (motion.getX() - getTotalPaddingLeft() + getScrollX());
+			int y = (int) (motion.getY() - getTotalPaddingTop()  + getScrollY());
+
+			VisualizeColorImageSpan[] spans = spannable.getSpans(0, spannable.length(),
+					VisualizeColorImageSpan.class);
+			for (VisualizeColorImageSpan span : spans) {
+				Rect rect = span.getLastDrawRect();
+
+				if (rect != null && rect.contains(x, y)) {
+					formulaEditorFragment.showColorPickerDialog(view);
+					// something like formulaEditorFragment.openColorPicker(span.colorValue);
+
+					return true;
+				}
+			}
+		}
 		return gestureDetector.onTouchEvent(motion);
 	}
 
