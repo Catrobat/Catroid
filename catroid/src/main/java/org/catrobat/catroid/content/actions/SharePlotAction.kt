@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.CatroidApplication
@@ -37,6 +36,7 @@ import org.catrobat.catroid.plot.SVGPlotGenerator
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageActivity.IntentListener
 import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.ui.ExportSVGFileLauncher
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
@@ -70,11 +70,12 @@ open class SharePlotAction : Action(), IntentListener {
     @VisibleForTesting
     fun createFile(fileName: String): File {
         val file = File(Constants.CACHE_DIRECTORY, fileName)
-        return if (file.exists())
+        return if (file.exists() || file.createNewFile())
             file
         else
             File.createTempFile(
-                file.nameWithoutExtension, file.extension, Constants
+                fileName.replace(Constants.SVG_FILE_EXTENSION, ""), Constants.SVG_FILE_EXTENSION,
+                Constants
                     .CACHE_DIRECTORY
             )
     }
@@ -107,13 +108,16 @@ open class SharePlotAction : Action(), IntentListener {
     override fun getTargetIntent(): Intent {
         val file = createFile(getFileName())
         sharePlot(file)
-        val title = context.getString(R.string.brick_share_plot)
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_TITLE, title)
-            putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
-            type = "image/svg+xml"
+        val stageActivity = StageActivity.activeStageActivity.get();
+        if (stageActivity == null) {
+            showMessagePlotDataIsMissing()
+            return Intent()
         }
-        return Intent.createChooser(intent, title)
+        val launcher = ExportSVGFileLauncher(
+            stageActivity,
+            file
+        )
+        return launcher.getIntent()
     }
 
     override fun onIntentResult(resultCode: Int, data: Intent?) {
