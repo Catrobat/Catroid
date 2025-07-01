@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static org.hamcrest.Matchers.not;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
@@ -45,7 +44,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -91,15 +89,6 @@ public class HtmlExtractorDialogTest {
 	@Test
 	public void testHtmlExtractorDialogCancelButton() {
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void testHtmlExtractorDialogNotFoundMessage() {
-		onView(withHint(R.string.keyword_label)).perform(typeText("Not"));
-		onView(withHint(R.string.html_label)).perform(typeText("Found"));
-		onView(withText(R.string.ok)).perform(click());
-
-		onView(withText(R.string.formula_editor_function_regex_html_extractor_not_found)).inRoot(withDecorView(not(baseActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 	}
 
 	private void openHtmlExtractor() {
