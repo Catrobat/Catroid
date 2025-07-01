@@ -82,6 +82,9 @@
     <dimen name="sprite_group_item_view_holder_padding">40dp</dimen>
     <dimen name="checkbox_margin">16dp</dimen>
 
+    <!-- Padding -->
+    <dimen name="padding_for_scrolling">150dp</dimen>
+
     <!-- Activity -->
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
 
