@@ -37,6 +37,7 @@ import androidx.test.runner.AndroidJUnit4
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
+import org.catrobat.catroid.common.SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
@@ -64,6 +65,7 @@ class FormulaEditorTouchesActorOrObjectTest {
     private val brickPosition = 1
     val applicationContext = ApplicationProvider.getApplicationContext<android.content.Context>()
     var bufferedPrivacyPolicyPreferenceSetting = 0
+    var bufferedOnBoardingWelcomeScreenShownSetting = false
     val germanLocale = Locale.forLanguageTag("de")
     val projectName = "FormulaEditorTouchesActorOrObjectTest"
     val spriteName = "testSprite"
@@ -76,15 +78,25 @@ class FormulaEditorTouchesActorOrObjectTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        bufferedPrivacyPolicyPreferenceSetting = PreferenceManager
+        val sharedPreferences = PreferenceManager
             .getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-            .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
 
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            .edit().putInt(
+        bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
+            .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+        bufferedOnBoardingWelcomeScreenShownSetting = sharedPreferences
+            .getBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, false)
+
+        sharedPreferences
+            .edit()
+            .putInt(
                 AGREED_TO_PRIVACY_POLICY_VERSION,
                 Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
-            ).commit()
+            )
+            .putBoolean(
+                ONBOARDING_WELCOME_SCREEN_SHOWN,
+                true
+            )
+            .commit()
 
         setLanguageSharedPreference(applicationContext, "en")
 
@@ -101,6 +113,10 @@ class FormulaEditorTouchesActorOrObjectTest {
             .putInt(
                 AGREED_TO_PRIVACY_POLICY_VERSION,
                 bufferedPrivacyPolicyPreferenceSetting
+            )
+            .putBoolean(
+                ONBOARDING_WELCOME_SCREEN_SHOWN,
+                bufferedOnBoardingWelcomeScreenShownSetting
             )
             .commit()
         SettingsFragment.removeLanguageSharedPreference(applicationContext)

@@ -75,6 +75,24 @@
 
     <string formatted="false" name="share_website_text">share.catrob.at</string>
 
+    <!-- Onboarding screens -->
+    <string name="website">website</string>
+    <string name="click_visit_app">Click here to visit the app</string>
+    <string name="complete_control">Complete Control</string>
+    <string name="join_community">Join the Community</string>
+    <string name="join_community_description">Become a member of the community, share your
+        programs, explore other programs and remix them</string>
+    <string name="complete_control_description">Create, edit and execute Catrobat programs
+        in a visual programming environment</string>
+    <string name="welcome_pocket_code">Welcome to Pocket Code</string>
+    <string name="begin">Begin</string>
+    <string name="normal_mode">Normal mode</string>
+    <string name="tutorial_mode">Tutorial mode</string>
+    <string name="select_app_version">Select which version of the application you want to
+        start</string>
+    <string name="you_are_logged_in_as">You are already logged in as:</string>
+    <string name="making_your_programs">Making your own programs has never been easier</string>
+
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
         in the background and also sends data to the internet. This may be harmless, and necessary

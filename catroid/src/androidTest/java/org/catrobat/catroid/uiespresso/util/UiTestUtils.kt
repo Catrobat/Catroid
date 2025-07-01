@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,8 +33,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.FailureHandler
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
@@ -65,6 +67,10 @@ import org.koin.java.KoinJavaComponent.inject
 class UiTestUtils private constructor() {
     companion object {
         private val projectManager by inject(ProjectManager::class.java)
+        private var wasDisplayed = false
+        private const val TIMEOUT_MILLISECONDS = 5000
+        private const val SLEEP_MILLISECONDS = 100
+        private var time = 0
 
         @JvmStatic
         val resources: Resources
@@ -222,6 +228,28 @@ class UiTestUtils private constructor() {
             if (activity.window.currentFocus?.findViewById<SwitchCompat>(R.id.place_visually_sprite_switch)?.isChecked == true) {
                 switchCompat.perform(ViewActions.scrollTo(), click())
             }
+        }
+
+        fun isVisibleWithTimeout(interaction: ViewInteraction): Boolean? {
+            interaction.withFailureHandler(FailureHandler { _: Throwable?, _: Matcher<View?>? ->
+                wasDisplayed = false
+            })
+            if (wasDisplayed) {
+                time = 0
+                wasDisplayed = false
+                return true
+            }
+            if (time >= TIMEOUT_MILLISECONDS) {
+                time = 0
+                wasDisplayed = false
+                return false
+            }
+
+            wasDisplayed = true
+            Thread.sleep(SLEEP_MILLISECONDS.toLong())
+            time += SLEEP_MILLISECONDS
+            interaction.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            return isVisibleWithTimeout(interaction)
         }
     }
 }

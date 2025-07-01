@@ -39,6 +39,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
+import org.catrobat.catroid.common.SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
@@ -56,8 +57,8 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class MainMenuFragmentActivityRecreateRegressionTest {
     var bufferedPrivacyPolicyPreferenceSetting = 0
+    var bufferedOnBoardingWelcomeScreenShownSetting = false
     val applicationContext: Context = getApplicationContext<Context>()
-
     @get:Rule
     var baseActivityTestRule = DontGenerateDefaultProjectActivityTestRule(
         MainMenuActivity::class.java, false, false
@@ -65,14 +66,20 @@ class MainMenuFragmentActivityRecreateRegressionTest {
 
     @Before
     fun setUp() {
-        bufferedPrivacyPolicyPreferenceSetting = getDefaultSharedPreferences(getApplicationContext())
+        bufferedPrivacyPolicyPreferenceSetting = getDefaultSharedPreferences(applicationContext)
             .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+
+        bufferedOnBoardingWelcomeScreenShownSetting = getDefaultSharedPreferences(applicationContext)
+            .getBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, false)
 
         getDefaultSharedPreferences(applicationContext)
             .edit()
-            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, CATROBAT_TERMS_OF_USE_ACCEPTED)
+            .putInt(
+                AGREED_TO_PRIVACY_POLICY_VERSION,
+                CATROBAT_TERMS_OF_USE_ACCEPTED
+            )
+            .putBoolean(ONBOARDING_WELCOME_SCREEN_SHOWN, true)
             .commit()
-
         baseActivityTestRule.launchActivity(null)
     }
 
@@ -81,6 +88,10 @@ class MainMenuFragmentActivityRecreateRegressionTest {
         getDefaultSharedPreferences(applicationContext)
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
+            .putBoolean(
+                ONBOARDING_WELCOME_SCREEN_SHOWN,
+                bufferedOnBoardingWelcomeScreenShownSetting
+            )
             .commit()
     }
 
