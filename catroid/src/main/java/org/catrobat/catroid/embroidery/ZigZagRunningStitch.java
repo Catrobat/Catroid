@@ -102,4 +102,20 @@ public class ZigZagRunningStitch extends RunningStitchType {
 	public interface Listener {
 		void onAdd(float x, float y);
 	}
+
+	public float getLength() {
+		return length;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getStartXCoordinate() {
+		return firstX;
+	}
+
+	public float getStartYCoordinate() {
+		return firstY;
+	}
 }
