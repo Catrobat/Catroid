@@ -46,7 +46,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
-		NewItemInterface<SoundInfo> {
+		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 	protected SoundInfo sound;
@@ -136,5 +136,12 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 	public void addItem(SoundInfo item) {
 		spinner.add(item);
 		spinner.setSelection(item);
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

@@ -40,11 +40,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
+public class WhenGamepadButtonBrick extends ScriptBrickBaseType
+		implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick{
 
 	private static final long serialVersionUID = 1L;
 
 	private WhenGamepadButtonScript script;
+	private transient BrickSpinner<StringOption> spinner;
 
 	public WhenGamepadButtonBrick() {
 		script = new WhenGamepadButtonScript();
@@ -81,7 +83,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_left)));
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_right)));
 
-		BrickSpinner<StringOption> spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getAction());
 		return view;
@@ -116,5 +118,12 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

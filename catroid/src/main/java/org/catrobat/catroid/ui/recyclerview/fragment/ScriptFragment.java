@@ -1058,10 +1058,16 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void scrollToFocusItem() {
-		if (scriptToFocus == null && brickToFocus == null) {
-			return;
+		if (scriptToFocus != null) {
+			focusBrick(scriptToFocus.getScriptBrick());
+		} else if (brickToFocus != null) {
+			focusBrick(brickToFocus);
 		}
+		scriptToFocus = null;
+		brickToFocus = null;
+	}
 
+	public void focusBrick(Brick brickToFocus) {
 		int scrollToIndex = -1;
 		for (int i = 0; i < listView.getAdapter().getCount(); ++i) {
 			Object item = listView.getItemAtPosition(i);
@@ -1069,8 +1075,7 @@ public class ScriptFragment extends ListFragment implements
 				continue;
 			}
 			Brick brick = (Brick) item;
-			if ((brickToFocus != null && brick == brickToFocus)
-					|| (scriptToFocus != null && brick.getScript() == scriptToFocus)) {
+			if (brick == brickToFocus) {
 				scrollToIndex = i;
 				break;
 			}
@@ -1087,8 +1092,6 @@ public class ScriptFragment extends ListFragment implements
 				}
 			});
 		}
-		scriptToFocus = null;
-		brickToFocus = null;
 	}
 
 	public int getActionModeType() {

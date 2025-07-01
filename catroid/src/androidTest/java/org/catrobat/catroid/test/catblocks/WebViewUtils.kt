@@ -146,6 +146,50 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
     }
 
+    fun openBlocklySpinner(elementId: String) {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        val jsCode = "javascript:window.webViewUtilsFunctions.openBlocklySpinner('$elementId');"
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                if (result == "false") {
+                    throw ElementNotFoundException("Element '$elementId' not found")
+                } else {
+                    currentLatch.countDown()
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Element '$elementId' not found within the specified timeout")
+        }
+    }
+
+    fun selectBlocklySpinnerItem(elementId: String) {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        val jsCode = "javascript:window.webViewUtilsFunctions.selectBlocklySpinnerElement('$elementId');"
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                if (result == "false") {
+                    throw ElementNotFoundException("Element '$elementId' not found")
+                } else {
+                    currentLatch.countDown()
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Element '$elementId' not found within the specified timeout")
+        }
+    }
+
     fun moveElementByPixels(querySelector: String, directionX: Int, directionY: Int) {
         waitForPageToLoad()
         val currentLatch = CountDownLatch(1)
@@ -201,6 +245,65 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
 
         return resultRect
+    }
+
+    data class BlocklySpinnerItem(val id: String, val text: String)
+    fun getNotSelectedBlocklySpinnerItem(): BlocklySpinnerItem? {
+        waitForPageToLoad()
+
+        val currentLatch = CountDownLatch(1)
+        val jsCode = "javascript:window.webViewUtilsFunctions.getBlocklySpinnerElementToSelect();"
+
+        var spinnerItem: BlocklySpinnerItem? = null
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                try {
+                    val resultObject = JSONObject(result)
+                    spinnerItem = BlocklySpinnerItem(
+                        resultObject.getString("id"),
+                        resultObject.getString("text"))
+                    currentLatch.countDown()
+                } catch (e: Exception) {
+                    Log.e("CatBlocks", "Error parsing JSON: $result", e)
+                    throw ElementNotFoundException("No Blockly spinner item found")
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Failed to get free Blockly spinner item.")
+        }
+
+        return spinnerItem
+    }
+    fun getText(querySelector: String): String? {
+        waitForPageToLoad()
+
+        val currentLatch = CountDownLatch(1)
+        val jsCode = "javascript:window.webViewUtilsFunctions.getText('$querySelector');"
+
+        var foundText: String? = null
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                try {
+                    foundText = result
+                    currentLatch.countDown()
+                } catch (e: Exception) {
+                    Log.e("CatBlocks", "Error parsing JSON: $result", e)
+                    throw ElementNotFoundException("Element '$querySelector' not found")
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Element '$querySelector' not found within the specified timeout")
+        }
+
+        return foundText
     }
 
     private fun waitForPageToLoad() {

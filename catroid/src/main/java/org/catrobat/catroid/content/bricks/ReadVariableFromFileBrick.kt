@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
 
-class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
+class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), UpdateableSpinnerBrick {
     constructor(value: String) : this(Formula(value))
 
     constructor(formula: Formula) : this() {
@@ -95,5 +95,18 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
     override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {
         requiredResourcesSet.add(STORAGE_READ)
         super.addRequiredResources(requiredResourcesSet)
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (spinnerId == getSpinnerId()) {
+            super.updateSelectedItem(context, spinnerId, itemName, itemIndex)
+        } else if (spinnerId == R.id.brick_read_variable_from_file_spinner_mode) {
+            spinnerSelectionID = itemIndex
+        }
     }
 }

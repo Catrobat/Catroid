@@ -40,12 +40,14 @@ import androidx.annotation.Nullable;
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 
 public class SetRotationStyleBrick extends BrickBaseType implements
-		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
+		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	@Look.RotationStyle
 	private int selection;
+
+	private transient BrickSpinner<RotationStyleOption> spinner;
 
 	public SetRotationStyleBrick() {
 	}
@@ -67,7 +69,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 		items.add(new RotationStyleOption(context.getString(R.string.brick_set_rotation_style_no),
 				Look.ROTATION_STYLE_NONE));
 
-		BrickSpinner<RotationStyleOption> spinner = new BrickSpinner<>(R.id.brick_set_rotation_style_spinner,
+		spinner = new BrickSpinner<>(R.id.brick_set_rotation_style_spinner,
 				view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(selection);
@@ -94,6 +96,13 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 
 	class RotationStyleOption implements Nameable {

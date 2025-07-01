@@ -39,11 +39,12 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 public class SetNfcTagBrick extends FormulaBrick implements
-		BrickSpinner.OnItemSelectedListener<SetNfcTagBrick.NfcTypeOption> {
+		BrickSpinner.OnItemSelectedListener<SetNfcTagBrick.NfcTypeOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private int nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTPS;
+	private transient BrickSpinner<NfcTypeOption> spinner;
 
 	public SetNfcTagBrick() {
 		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
@@ -77,7 +78,7 @@ public class SetNfcTagBrick extends FormulaBrick implements
 		items.add(new NfcTypeOption(context.getString(R.string.tnf_external_type), BrickValues.TNF_EXTERNAL_TYPE));
 		items.add(new NfcTypeOption(context.getString(R.string.tnf_empty), BrickValues.TNF_EMPTY));
 
-		BrickSpinner<NfcTypeOption> spinner = new BrickSpinner<>(R.id.brick_set_nfc_tag_ndef_record_spinner,
+		spinner = new BrickSpinner<>(R.id.brick_set_nfc_tag_ndef_record_spinner,
 				view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(nfcTagNdefType);
@@ -113,6 +114,13 @@ public class SetNfcTagBrick extends FormulaBrick implements
 		sequence.addAction(sprite.getActionFactory()
 				.createSetNfcTagAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 
 	class NfcTypeOption implements Nameable {

@@ -46,7 +46,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick {
 
 	protected UserList userList;
 
@@ -137,5 +137,12 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserList item) {
 		userList = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

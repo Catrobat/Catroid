@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 
-class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType() {
+class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType(), UpdateableSpinnerBrick {
 
     override fun getView(context: Context): View {
         super.getView(context)
@@ -69,5 +69,14 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createUpdateCameraPreviewAction(spinnerSelectionON))
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        spinnerSelectionON = itemIndex == 1
     }
 }
