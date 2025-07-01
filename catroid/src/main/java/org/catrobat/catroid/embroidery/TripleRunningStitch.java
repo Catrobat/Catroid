@@ -85,4 +85,8 @@ public class TripleRunningStitch extends RunningStitchType {
 			previousY = y;
 		}
 	}
+
+	public int getSteps() {
+		return steps;
+	}
 }
