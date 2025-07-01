@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.viewholder;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 
@@ -33,10 +34,12 @@ public class CheckableViewHolder extends ViewHolder {
 
 	public CheckBox checkBox;
 	public ImageButton settings;
+	public ImageView ripples;
 
 	public CheckableViewHolder(View itemView) {
 		super(itemView);
 		checkBox = itemView.findViewById(R.id.checkbox);
 		settings = itemView.findViewById(R.id.settings_button);
+		ripples = itemView.findViewById(R.id.ic_ripples);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GroupSprite extends Sprite {
 
 	private static final long serialVersionUID = 1L;
+	private ArrayList<GroupItemSprite> childrenSpriteList = new ArrayList<>();
 
 	private transient boolean collapsed = true;
 
@@ -44,20 +46,10 @@ public class GroupSprite extends Sprite {
 		super(name);
 	}
 
-	public List<GroupItemSprite> getGroupItems() {
-		List<Sprite> allSprites = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
-		List<GroupItemSprite> groupItems = new ArrayList<>();
-
-		int position = allSprites.indexOf(this);
-
-		for (Sprite sprite : allSprites.subList(position + 1, allSprites.size())) {
-			if (sprite instanceof GroupItemSprite) {
-				groupItems.add((GroupItemSprite) sprite);
-			} else {
-				break;
-			}
-		}
-		return groupItems;
+	public List<GroupItemSprite> getReversedGroupItems() {
+		List<GroupItemSprite> reversedGroupItemSpriteList = new ArrayList<>(childrenSpriteList);
+		Collections.reverse(reversedGroupItemSpriteList);
+		return reversedGroupItemSpriteList;
 	}
 
 	public boolean isCollapsed() {
@@ -66,13 +58,9 @@ public class GroupSprite extends Sprite {
 
 	public void setCollapsed(boolean collapsed) {
 		this.collapsed = collapsed;
-		for (GroupItemSprite item : getGroupItems()) {
+		for (GroupItemSprite item : childrenSpriteList) {
 			item.setCollapsed(collapsed);
 		}
-	}
-
-	public int getNumberOfItems() {
-		return getGroupItems().size();
 	}
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName, List<Sprite> sprites) {
@@ -93,6 +81,22 @@ public class GroupSprite extends Sprite {
 			}
 		}
 		return result;
+	}
+
+	public void addToChildrenSpriteList(GroupItemSprite child) {
+		childrenSpriteList.add(child);
+	}
+
+	public void removeFromChildrenSpriteList(GroupItemSprite child) {
+		childrenSpriteList.remove(child);
+	}
+
+	public int getNumberOfChildren() {
+		return childrenSpriteList.size();
+	}
+
+	public List<GroupItemSprite> getChildrenSpriteList() {
+		return childrenSpriteList;
 	}
 
 	@Override
