@@ -128,4 +128,6 @@ public class PenConfiguration {
 	public Queue<Queue<PointF>> getPositions() {
 		return positions;
 	}
+
+	public PenColor getPenColor() { return penColor; }
 }
