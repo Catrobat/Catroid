@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.ui.fragment.HelpBrickFragment;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -532,6 +533,9 @@ public class ScriptFragment extends ListFragment implements
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
 			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
+		} else if (currentFragment instanceof AddBrickFragment && category.endsWith(getString(R.string.help))) {
+			fragment = HelpBrickFragment.newInstance(category.replace(getString(R.string.help), ""), getString(R.string.help));
+			tag = HelpBrickFragment.HELP_BRICK_FRAGMENT_TAG;
 		} else if (currentFragment instanceof AddBrickFragment || category.equals(getContext().getString(R.string.category_search_bricks))) {
 			fragment = BrickSearchFragment.newInstance(this, category);
 			tag = BrickSearchFragment.BRICK_SEARCH_FRAGMENT_TAG;
