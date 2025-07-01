@@ -45,6 +45,8 @@ import androidx.appcompat.widget.Toolbar
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import java.io.File
 import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class FilePickerActivity : BaseCastActivity(), OnListProjectFilesListener, ActionModeClickListener,
     ProjectImportFinishedListener {
@@ -78,7 +80,8 @@ class FilePickerActivity : BaseCastActivity(), OnListProjectFilesListener, Actio
             ) {
                 @SuppressWarnings("SpreadOperator")
                 override fun task() {
-                    ListProjectFilesTask(this@FilePickerActivity).execute(*storageRoots.toTypedArray())
+                    ListProjectFilesTask(this@FilePickerActivity, CoroutineScope(Dispatchers.IO))
+                        .execute(*storageRoots.toTypedArray())
                 }
             }.execute(this)
         }
