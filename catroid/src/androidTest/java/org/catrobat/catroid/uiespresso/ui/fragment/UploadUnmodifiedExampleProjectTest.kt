@@ -24,7 +24,8 @@
 package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.content.Context
-import android.preference.PreferenceManager
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
@@ -51,6 +52,7 @@ import org.junit.runner.RunWith
 class UploadUnmodifiedExampleProjectTest {
     private var privacyPreferenceSetting: Int = 0
     private lateinit var applicationContext: Context
+    private lateinit var sharedPreferences: SharedPreferences
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
@@ -62,11 +64,10 @@ class UploadUnmodifiedExampleProjectTest {
     @Before
     fun setUp() {
         applicationContext = ApplicationProvider.getApplicationContext()
-        privacyPreferenceSetting = PreferenceManager
-            .getDefaultSharedPreferences(applicationContext)
-            .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+        sharedPreferences = applicationContext.getSharedPreferences(AGREED_TO_PRIVACY_POLICY_VERSION, MODE_PRIVATE)
+        privacyPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
 
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        sharedPreferences
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, CATROBAT_TERMS_OF_USE_ACCEPTED)
             .commit()
@@ -79,7 +80,7 @@ class UploadUnmodifiedExampleProjectTest {
     @After
     fun tearDown() {
         TestUtils.deleteProjects(javaClass.simpleName)
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        sharedPreferences
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, privacyPreferenceSetting)
             .commit()
