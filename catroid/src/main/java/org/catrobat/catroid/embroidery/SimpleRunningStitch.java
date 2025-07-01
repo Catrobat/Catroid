@@ -77,4 +77,8 @@ public class SimpleRunningStitch extends RunningStitchType {
 					sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 		}
 	}
+
+	public int getLength() {
+		return length;
+	}
 }
