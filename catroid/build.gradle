@@ -520,6 +520,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'org.robolectric:shadows-framework:4.7.3'
 
     // Room Test helpers
     testImplementation("androidx.room:room-testing:$room_version")

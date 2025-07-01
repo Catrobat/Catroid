@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -170,4 +170,9 @@ public final class SnackbarUtil {
 			hint.dismiss();
 		}
 	}
+
+//	public static void showError(Context context, String message) {
+//		Snackbar.make(context, message, Toast.LENGTH_SHORT, DEFAULT_COLOR);
+//	}
+
 }
