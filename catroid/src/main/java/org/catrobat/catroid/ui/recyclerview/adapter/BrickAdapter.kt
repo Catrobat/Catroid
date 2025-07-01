@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,19 @@
  */
 package org.catrobat.catroid.ui.recyclerview.adapter
 
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.drawable.Drawable
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.IntDef
+import androidx.core.content.ContextCompat
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
@@ -44,7 +48,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
-import java.util.ArrayList
 import java.util.Collections
 
 class BrickAdapter(private val sprite: Sprite) :
@@ -83,12 +86,67 @@ class BrickAdapter(private val sprite: Sprite) :
         const val CONNECTED_ONLY = 3
 
         @JvmStatic
-        fun colorAsCommentedOut(background: Drawable) {
-            val matrix = ColorMatrix()
-            matrix.setSaturation(0f)
-            val filter = ColorMatrixColorFilter(matrix)
-            background.mutate()
-            background.colorFilter = filter
+        fun colorAsCommentedOut(view: View) {
+            val blackLayer = ContextCompat.getColor(view.context, R.color.commented_out_black_layer)
+            val filter = PorterDuffColorFilter(blackLayer, PorterDuff.Mode
+                .SRC_ATOP)
+
+            view.background?.mutate()?.colorFilter = filter
+
+            if (view is ViewGroup) {
+                for (i in 0 until view.childCount) {
+                    when (val child = view.getChildAt(i)) {
+                        is TextView -> commentOutTextView(child)
+                        is Spinner -> commentOutSpinner(child)
+                    }
+                }
+            }
+        }
+
+        private fun commentOutTextView(textView: TextView) {
+            val white = ContextCompat.getColor(textView.context, R.color.solid_white)
+            val commentedOutWhite = ContextCompat.getColor(textView.context, R.color.commented_out_solid_white)
+
+            val darkBlue = ContextCompat.getColor(textView.context, R.color.dark_blue)
+            val commentedOutDarkBlue = ContextCompat.getColor(textView.context, R.color.commented_out_dark_blue)
+
+            val commentedOutColor = when (textView.currentTextColor) {
+                white -> commentedOutWhite
+                darkBlue -> commentedOutDarkBlue
+                else -> commentedOutWhite
+            }
+
+            textView.setTextColor(commentedOutColor)
+            textView.background?.mutate()?.colorFilter = PorterDuffColorFilter(commentedOutColor, PorterDuff.Mode.SRC_ATOP)
+        }
+
+        private fun commentOutSpinner(spinner: Spinner) {
+            val commentedOutWhite = ContextCompat.getColor(spinner.context, R.color
+                .commented_out_solid_white)
+
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (view is TextView) {
+                        view.setTextColor(commentedOutWhite)
+                    }
+                }
+
+                @Suppress("EmptyFunctionBlock")
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+
+            spinner.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    val selectedView = spinner.selectedView
+                    if (selectedView is TextView) {
+                        selectedView.setTextColor(commentedOutWhite)
+                    }
+                    spinner.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
+
+            spinner.background?.mutate()?.colorFilter = PorterDuffColorFilter(commentedOutWhite, PorterDuff.Mode.SRC_ATOP)
         }
     }
 
@@ -135,7 +193,7 @@ class BrickAdapter(private val sprite: Sprite) :
 
         val background = brickViewContainer.background
         if (item.isCommentedOut || item is EmptyEventBrick) {
-            colorAsCommentedOut(background)
+            colorAsCommentedOut(brickViewContainer)
         } else {
             background.clearColorFilter()
         }

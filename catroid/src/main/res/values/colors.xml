@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2024 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,11 @@
     <color name="view_holder_item_title">#aadbf0</color>
     <color name="view_holder_item_details">@color/solid_white</color>
     <color name="spinner_icon_and_inactive_elements">@color/solid_white</color>
+
+    <!-- Disabled text colors -->
+    <color name="commented_out_solid_white">#616161</color>
+    <color name="commented_out_dark_blue">#131F3C</color>
+    <color name="commented_out_black_layer">#9E000000</color>
 
     <!-- Backgrounds -->
     <color name="app_background">#04222C</color>
