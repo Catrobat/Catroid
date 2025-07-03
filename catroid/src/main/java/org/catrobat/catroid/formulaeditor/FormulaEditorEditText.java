@@ -374,13 +374,16 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				Rect rect = span.getLastDrawRect();
 
 				if (rect != null && rect.contains(x, y)) {
-					internFormula.selectWholeFormula();
 					formulaEditorFragment.showColorPickerDialog(view);
 					return true;
 				}
 			}
 		}
 		return gestureDetector.onTouchEvent(motion);
+	}
+
+	public void setSelectedColorValue() {
+		internFormula.selectWholeFormula();
 	}
 
 	@Override
