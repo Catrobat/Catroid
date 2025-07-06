@@ -58,11 +58,12 @@ class ActionPhysicsFactory : ActionFactory() {
     }
 
     override fun createGlideToAction(sprite: Sprite, sequence: SequenceAction, x: Formula?, y: Formula?, duration: Formula?): Action {
+
         val action = Actions.action(GlideToPhysicsAction::class.java)
         action.setPosition(x, y)
-        action.setDuration(duration)
+        action.duration = duration
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
-        action.setScope(scope)
+        action.scope = scope
         action.setPhysicsLook(sprite.look as PhysicsLook)
         return action
     }
