@@ -595,18 +595,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	public String getHelpUrl(String tag, SpriteActivity activity) {
-		String language = getLanguage(activity);
-		switch (tag) {
-			case FUNCTION_TAG:
-				return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language;
-			case LOGIC_TAG:
-				return Constants.CATROBAT_LOGIC_WIKI_URL + language;
-			case OBJECT_TAG:
-				return Constants.CATROBAT_OBJECT_WIKI_URL + language;
-			case SENSOR_TAG:
-				return Constants.CATROBAT_SENSORS_WIKI_URL + language;
-		}
-		return null;
+		return "https://catrobat.org/docs/brickdocumentation/";
 	}
 
 	private static SharedPreferences getSharedPreferences(Context context) {
