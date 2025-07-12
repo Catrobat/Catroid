@@ -459,7 +459,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 			@Override
 			public void setValue(int value) {
-				formulaEditorEditText.setSelectedColorValue();
 				addString(String.format("#%06X", (0xFFFFFF & value)));
 			}
 

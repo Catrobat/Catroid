@@ -43,6 +43,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 import java.util.Map;
 
+import static org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType.USER_SELECTION;
+
 @SuppressLint("AppCompatCustomView")
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
@@ -370,10 +372,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 			VisualizeColorImageSpan[] spans = spannable.getSpans(0, spannable.length(),
 					VisualizeColorImageSpan.class);
-			for (VisualizeColorImageSpan span : spans) {
-				Rect rect = span.getLastDrawRect();
+			for (int i = 0; i < spans.length; i++) {
+				Rect rect = spans[i].getDrawRect();
 
 				if (rect != null && rect.contains(x, y)) {
+					internFormula.internFormulaTokenSelection = new InternFormulaTokenSelection(
+							USER_SELECTION, i, i);
+
 					formulaEditorFragment.showColorPickerDialog(view);
 					return true;
 				}

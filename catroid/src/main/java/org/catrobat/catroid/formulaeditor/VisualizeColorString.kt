@@ -81,12 +81,12 @@ class VisualizeColorImageSpan(
     drawable: RoundedBitmapDrawable,
     val colorValue: Int,
 ) : ImageSpan(drawable, ALIGN_BOTTOM) {
-    var lastDrawRect: android.graphics.Rect? = null
+    var drawRect: android.graphics.Rect? = null
     override fun draw(
         canvas: Canvas, text: CharSequence,
         start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         super.draw(canvas, text, start, end, x, top, y, bottom, paint)
-        lastDrawRect = android.graphics.Rect(
+        drawRect = android.graphics.Rect(
             x.toInt(),
             top,
             (x + drawable.bounds.width()).toInt(),
