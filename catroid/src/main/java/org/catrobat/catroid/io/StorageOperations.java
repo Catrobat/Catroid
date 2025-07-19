@@ -31,6 +31,9 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -364,6 +367,15 @@ public final class StorageOperations {
 		}
 		if (!dir.delete()) {
 			throw new IOException("Cannot delete directory: " + dir.getAbsolutePath());
+		}
+	}
+
+	public static void copyUriContentToFile(ContentResolver contentResolver, Uri uri, File destinationFile) throws IOException {
+		try (InputStream inputStream = contentResolver.openInputStream(uri)) {
+			if (inputStream == null) {
+				throw new IOException("Could not open InputStream from URI: " + uri);
+			}
+			copyStreamToFile(inputStream, destinationFile);
 		}
 	}
 }

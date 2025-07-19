@@ -1235,7 +1235,7 @@ public class ActionFactory extends Actions {
 	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
 		SavePlotAction action = Actions.action(SavePlotAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		action.setScope(scope);
+			action.setScope(scope);
 		action.setFormula(fileName);
 		return action;
 	}

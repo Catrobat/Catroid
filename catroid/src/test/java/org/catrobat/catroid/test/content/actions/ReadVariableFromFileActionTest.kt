@@ -20,103 +20,77 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction
-import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.powermock.api.mockito.PowerMockito.doReturn
-import org.powermock.api.mockito.PowerMockito.spy
 import java.io.File
 
-@RunWith(Parameterized::class)
-class ReadVariableFromFileActionTest(
-    private val name: String,
-    private val formula: Formula?,
-    private val userVariable: UserVariable?,
-    private val fileContent: String,
-    private val expectedValue: Any?,
-    private val createFile: Int,
-    private val readFromFile: Int,
-    private val deleteFile: Boolean
-) {
-    private lateinit var sprite: Sprite
-    private lateinit var file: File
-
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters(name = "{0}")
-        fun parameters() = listOf(
-            arrayOf("USER_VARIABLE_NULL", Formula("file.txt"), null, DEFAULT_FILE_CONTENT,
-                    null, 0, 0, false),
-            arrayOf("FORMULA_NULL", null, UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, 0.0, 0,
-                    0, false),
-            arrayOf("VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("DELETE_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, true),
-            arrayOf("CANNOT_READ_FILE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, 0.0, 1, 0, false),
-            arrayOf("NO_SUFFIX", Formula("file"), UserVariable(VAR_NAME),
-                    DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
-                    UserVariable(VAR_NAME), DEFAULT_FILE_CONTENT, DEFAULT_FILE_CONTENT, 1, 1, false),
-            arrayOf("UNICODE", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "🐼~🐵~🐘", "🐼~🐵~🐘", 1, 1, false),
-            arrayOf("NUMBER", Formula(DEFAULT_FILE_NAME), UserVariable(VAR_NAME),
-                    "-3.14", -3.14, 1, 1, false)
-        )
-
-        private const val DEFAULT_FILE_NAME = "file.txt"
-        private const val VAR_NAME = "testUserVariable"
-        private const val DEFAULT_FILE_CONTENT = "testContent"
-    }
+class ReadVariableFromFileActionTest {
+    private lateinit var action: ReadVariableFromFileAction
+    private lateinit var testFile: File
 
     @Before
     fun setUp() {
-        sprite = Sprite("testSprite")
-        file = Mockito.mock(File::class.java)
-        doReturn(true).`when`(file).delete()
+        action = ReadVariableFromFileAction()
+        testFile = File.createTempFile("read_test", ".txt")
+        testFile.deleteOnExit()
     }
 
     @Test
-    fun testReadVariableFromFile() {
-        val action = spy(sprite.actionFactory.createReadVariableFromFileAction(
-            sprite,
-            SequenceAction(),
-            formula,
-            userVariable,
-            deleteFile
-        ) as ReadVariableFromFileAction)
+    fun testCheckIfDataIsReady() {
+        action.userVariable = null
+        assertTrue("ction should not be ready when no user variable is assigned", !action.checkIfDataIsReady())
 
-        if (readFromFile > 0) {
-            doReturn(file).`when`(action).getFile(anyString())
-        } else {
-            doReturn(null).`when`(action).getFile(anyString())
-        }
+        action.userVariable = UserVariable("test", 0.0)
+        assertTrue("Action should be ready when a user variable is assigned", action.checkIfDataIsReady())
+    }
 
-        doReturn(fileContent).`when`(action).readFromFile(file)
-        Assert.assertTrue(action.act(1f))
-        Assert.assertEquals(expectedValue, userVariable?.value)
+    @Test
+    fun testHandleFileWorkReadsDoubleCorrectly() {
+        testFile.writeText("42.5")
+        val variable = UserVariable("v", 0.0)
+        action.userVariable = variable
+        val result = action.handleFileWork(testFile)
 
-        verify(action, times(createFile)).getFile(DEFAULT_FILE_NAME)
-        verify(action, times(readFromFile)).readFromFile(file)
+        assertTrue(result)
+        assertEquals(42.5, variable.value)
+    }
 
-        if (readFromFile > 0 && deleteFile) {
-            verify(file, times(1)).delete()
-        }
+    @Test
+    fun testHandleFileWorkReadsStringCorrectly() {
+        val expectedText = "Hallo Catrobat"
+        testFile.writeText(expectedText)
+        val variable = UserVariable("v", "")
+        action.userVariable = variable
+        action.handleFileWork(testFile)
+
+        assertEquals(expectedText, variable.value)
+    }
+
+    @Test
+    fun testHandleFileWorkWithInvalidNumberFallsBackToString() {
+        val mixedText = "123_abc"
+        testFile.writeText(mixedText)
+        val variable = UserVariable("v", 0.0)
+        action.userVariable = variable
+        action.handleFileWork(testFile)
+
+        assertEquals(mixedText, variable.value)
+    }
+
+    @Test
+    fun testHandleFileWorkWithEmptyFile() {
+        testFile.writeText("")
+        val variable = UserVariable("v", "initial")
+        action.userVariable = variable
+        action.handleFileWork(testFile)
+
+        assertEquals("", variable.value)
     }
 }
-*/

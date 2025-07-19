@@ -34,11 +34,11 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/embroidery/";
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/embroidery/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/CodedEmbroideryDocumentation";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
@@ -58,7 +58,7 @@ public final class FlavoredConstants {
 	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
 	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
 	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
-	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
+	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");
