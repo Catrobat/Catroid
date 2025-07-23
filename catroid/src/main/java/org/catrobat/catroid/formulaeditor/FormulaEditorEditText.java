@@ -36,6 +36,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -368,7 +369,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (motion.getAction() == MotionEvent.ACTION_UP) {
 			Spannable spannable = (Spannable) getText();
 			int x = (int) (motion.getX() - getTotalPaddingLeft() + getScrollX());
-			int y = (int) (motion.getY() - getTotalPaddingTop()  + getScrollY());
+			int y = (int) (motion.getY() - getTotalPaddingTop() + getScrollY());
 
 			VisualizeColorImageSpan[] spans = spannable.getSpans(0, spannable.length(),
 					VisualizeColorImageSpan.class);
