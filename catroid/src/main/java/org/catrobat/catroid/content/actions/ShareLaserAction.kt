@@ -28,10 +28,8 @@ import java.io.File
 
 class ShareLaserAction : SharePlotAction() {
     override fun writePlotDataToFile(destinationFile: File) {
-        if (scope == null) {
-            return
-        }
-        val plot = scope!!.sprite.plot
+        val scope = this.scope ?: return
+        val plot = scope.sprite.plot
         val svgFileGenerator = SVGPlotGenerator(plot)
         svgFileGenerator.action = PlotColor.BLUE
         val engravePath = svgFileGenerator.pathFromData(plot.engraveDataPointLists)

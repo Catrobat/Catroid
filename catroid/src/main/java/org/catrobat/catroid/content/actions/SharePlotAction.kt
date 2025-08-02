@@ -91,7 +91,7 @@ open class SharePlotAction : Action(), IntentListener {
     }
 
     open fun writePlotDataToFile(destinationFile: File) {
-        val plot = scope?.sprite?.plot!!
+        val plot = scope?.sprite?.plot ?: return
         val svgFileGenerator = SVGPlotGenerator(plot)
         val path = svgFileGenerator.pathFromData(plot.plotDataPointLists)
         svgFileGenerator.writeToSVGFile(destinationFile, path)

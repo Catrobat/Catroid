@@ -30,19 +30,17 @@ class StartCutAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite == null) {
-            return
-        }
-        if (sprite!!.plot.isCutting())
+        val sprite = this.sprite ?: return
+        if (sprite.plot.isCutting())
             return
 
-        sprite!!.plot.startNewCutLine(
+        sprite.plot.startNewCutLine(
             PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
+                sprite.look.xInUserInterfaceDimensionUnit,
+                sprite.look.yInUserInterfaceDimensionUnit
             )
         )
-        sprite!!.plot.resumeCut()
+        sprite.plot.resumeCut()
     }
 
     fun setSprite(sprite: Sprite?) {

@@ -69,7 +69,7 @@ class StartPlotActionTest {
     fun testNullSprite() {
         val factory = ActionFactory()
         val action = factory.createStartPlotAction(null)
-        action.act(1.0f)
+        Assert.assertTrue(action.act(1.0f))
     }
 
     @Test

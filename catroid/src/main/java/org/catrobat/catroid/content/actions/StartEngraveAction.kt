@@ -30,19 +30,16 @@ class StartEngraveAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite == null) {
-            return
-        }
-        if (sprite!!.plot.isEngraving())
-            return
+        val sprite = this.sprite ?: return
+        if (sprite.plot.isEngraving()) return
 
-        sprite!!.plot.startNewEngraveLine(
+        sprite.plot.startNewEngraveLine(
             PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
+                sprite.look.xInUserInterfaceDimensionUnit,
+                sprite.look.yInUserInterfaceDimensionUnit
             )
         )
-        sprite!!.plot.resumeEngrave()
+        sprite.plot.resumeEngrave()
     }
 
     fun setSprite(sprite: Sprite?) {

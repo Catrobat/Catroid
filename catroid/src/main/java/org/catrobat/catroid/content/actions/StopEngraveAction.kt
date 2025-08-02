@@ -30,13 +30,14 @@ class StopEngraveAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite == null || !sprite!!.plot.isEngraving()) return
+        val sprite = this.sprite ?: return
+        if (!sprite.plot.isEngraving()) return
 
-        sprite!!.plot.pauseEngrave()
-        sprite?.plot?.addEngravePoint(
+        sprite.plot.pauseEngrave()
+        sprite.plot.addEngravePoint(
             PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
+                sprite.look.xInUserInterfaceDimensionUnit,
+                sprite.look.yInUserInterfaceDimensionUnit
             )
         )
     }
