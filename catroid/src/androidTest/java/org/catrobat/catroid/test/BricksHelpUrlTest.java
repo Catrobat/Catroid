@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -468,8 +468,44 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetCameraFocusPointBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetParticleColorBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetParticleColorBrick");
-	}
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartCutBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopCutBrick", "https://wiki"
+				+ ".catrobat.org/bin/view/Documentation/BrickDocumentation/StopCutBrick");
+		brickToHelpUrlMapping.put(".catrobat.org/bin/view/Documentation/BrickDocumentation"
+				+ "/StartCutBrick", "http://wiki.catrobat"
+				+ ".org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SaveLaserBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SaveLaserBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopEngraveBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopEngraveBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartEngraveBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation"
+						+ "/StartEngraveBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SavePlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SavePlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartPlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartPlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopPlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopPlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LaserArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LaserArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LaserThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LaserThroughBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShareLaserBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShareLaserBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmbroideryArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmbroideryArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlotArcBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlotArcBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SharePlotBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SharePlotBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlotThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlotThroughBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmbroideryThroughBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmbroideryThroughBrick");
 
+	}
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		List<Object[]> parameters = new ArrayList<>();
