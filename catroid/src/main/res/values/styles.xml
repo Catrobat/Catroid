@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2025  The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -338,6 +338,24 @@
     </style>
 
 
+    <style name="BrickContainer.Laser" />
+
+    <style name="BrickContainer.Laser.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_raspberry_1h</item>
+    </style>
+
+    <style name="BrickContainer.Laser.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_raspberry_2h</item>
+    </style>
+
+    <style name="BrickContainer.Laser.Big" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_raspberry_3h</item>
+    </style>
+
+
     <style name="BrickContainer.Pen" />
 
     <style name="BrickContainer.Pen.Small">
@@ -642,6 +660,10 @@
 
     <style name="BrickCategory.Plot">
         <item name="android:background">@drawable/brick_categories_winered</item>
+    </style>
+
+    <style name="BrickCategory.Laser">
+        <item name="android:background">@drawable/brick_categories_raspberry</item>
     </style>
 
     <style name="BrickCategory.Drone">

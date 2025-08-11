@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -95,6 +95,7 @@ public final class ActorsAndObjectsManager {
 
 				sprites.add(generateSprite("Needle", R.drawable.plotter, 0.2));
 			} else {
+				sprites.add(generateSprite("Turtle", R.drawable.turtle, 0.2));
 				sprites.add(generateSprite("Plotter", R.drawable.plotter, 0.2));
 				sprites.add(generateSprite("PandaA", R.drawable.panda_a, 1.0));
 				sprites.add(generateSprite("PandaB", R.drawable.panda_b, 1.0));

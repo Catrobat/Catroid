@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -155,7 +155,15 @@ public class SpriteController {
 			sprite.penConfiguration.addQueue();
 		}
 		if(spriteToCopy.plot.isPlotting()){
-			sprite.plot.resume();
+			sprite.plot.resumePlot();
+			sprite.plot.startNewPlotLine();
+		}
+		if (spriteToCopy.plot.isEngraving()){
+			sprite.plot.resumeEngrave();
+			sprite.plot.startNewPlotLine();
+		}
+		if(spriteToCopy.plot.isCutting()){
+			sprite.plot.resumeCut();
 			sprite.plot.startNewPlotLine();
 		}
 		return sprite;

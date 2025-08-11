@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -71,15 +71,9 @@ class GeneratePlotSVGTest {
     }
 
     @Test
-    fun testNullPlot() {
-        val generator = SVGPlotGenerator(null)
-        generator.writeToSVGFile(plotFile)
-    }
-
-    @Test
     fun testNoData() {
         val generator = SVGPlotGenerator(Plot())
-        generator.writeToSVGFile(plotFile)
+        generator.writeToSVGFile(plotFile, generator.pathFromData(Plot().data()))
         Assert.assertFalse(plotFile.readText().contains("path"))
     }
 
@@ -87,39 +81,35 @@ class GeneratePlotSVGTest {
     fun testData() {
         val plot = Plot()
         plot.startNewPlotLine(PointF(0.0f, 0.0f))
-        plot.addPoint(PointF(0.0f, 1.0f))
+        plot.addPlotPoint(PointF(0.0f, 1.0f))
         val generator = SVGPlotGenerator(plot)
-        generator.writeToSVGFile(plotFile)
+        generator.writeToSVGFile(plotFile, generator.pathFromData(plot.data()))
         Assert.assertTrue(plotFile.readText().contains("path"))
         var count = 0
-        for(line in plotFile.readLines())
-        {
-            if(line.contains("path"))
+        for (line in plotFile.readLines()) {
+            if (line.contains("path"))
                 count++
         }
-        Assert.assertEquals(count,1)
+        Assert.assertEquals(count, 1)
     }
 
     @Test
     fun testMultiLineData() {
         val plot = Plot()
         plot.startNewPlotLine(PointF(0.0f, 0.0f))
-        plot.addPoint(PointF(0.0f, 1.0f))
+        plot.addPlotPoint(PointF(0.0f, 1.0f))
         plot.startNewPlotLine(PointF(1.0f, 0.0f))
-        plot.addPoint(PointF(0.0f, 1.0f))
+        plot.addPlotPoint(PointF(0.0f, 1.0f))
         val generator = SVGPlotGenerator(plot)
-        generator.writeToSVGFile(plotFile)
+        generator.writeToSVGFile(plotFile, generator.pathFromData(plot.data()))
         Assert.assertTrue(plotFile.readText().contains("path"))
         var count = 0
-        for(line in plotFile.readLines())
-        {
-            if(line.contains("path"))
+        for (line in plotFile.readLines()) {
+            if (line.contains("path"))
                 count++
         }
-        Assert.assertEquals(count,2)
+        Assert.assertEquals(count, 2)
     }
-
-
 
     private fun createTestProject() {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)

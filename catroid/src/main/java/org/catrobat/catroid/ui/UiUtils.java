@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -99,8 +99,6 @@ public final class UiUtils {
 				return R.drawable.ic_help_small;
 			case R.string.from_local:
 				return R.drawable.ic_library_add_small;
-			case R.string.from_library:
-				return R.drawable.ic_apps_small;
 			case R.string.menu_rate_us:
 				return R.drawable.ic_star_rate;
 			default:

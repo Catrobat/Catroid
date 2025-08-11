@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -314,11 +314,16 @@ public class Look extends Image {
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
 		}
-		if (sprite != null && sprite.plot != null && sprite.plot.isPlotting()
+		if (sprite != null && sprite.plot != null
 				&& !simultaneousMovementXY) {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
-			sprite.plot.addPoint(new PointF(x, y));
+			if (sprite.plot.isPlotting())
+				sprite.plot.addPlotPoint(new PointF(x, y));
+			if (sprite.plot.isCutting())
+				sprite.plot.addCutPoint(new PointF(x, y));
+			if (sprite.plot.isEngraving())
+				sprite.plot.addEngravePoint(new PointF(x, y));
 		}
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -208,6 +208,13 @@
         <item>@string/sound_robot</item>
         <item>@string/sound_insect</item>
         <item>@string/sound_monster</item>
+    </string-array>
+
+
+    <!-- Plot arc directions -->
+    <string-array name="brick_plot_arc_direction_spinner">
+        <item>@string/direction_left</item>
+        <item>@string/direction_right</item>
     </string-array>
 
     <!-- Phiro tone spinner -->

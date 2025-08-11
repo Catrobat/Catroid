@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
         }
         if (SettingsFragment.isPlotSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_plot, null))
+            categories.add(inflater.inflate(R.layout.brick_category_laser, null))
         }
         if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null))
