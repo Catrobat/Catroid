@@ -58,6 +58,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogUserDefinedBrickInputTest(
+    @Suppress("unused") private val label: String,
     private val formula: Formula,
     private val expectedString: String
 ) {
