@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
@@ -49,10 +48,8 @@ class StopSoundActionTest {
 
     @Before
     fun setUp() {
-        project = Project(
-            ApplicationProvider.getApplicationContext(),
-            TestUtils.DEFAULT_TEST_PROJECT_NAME
-        )
+        project = TestUtils.createProjectWithLanguageVersion(1.0, TestUtils
+            .DEFAULT_TEST_PROJECT_NAME)
         soundFile = createSoundFile(project, R.raw.testsound, "soundTest.mp3")
         sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
     }
