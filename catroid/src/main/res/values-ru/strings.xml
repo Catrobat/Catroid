@@ -907,6 +907,7 @@
     <string formatted="false" name="category_looks">Образы</string>
     <string formatted="false" name="category_pen">Перо</string>
     <string formatted="false" name="category_plot">Работа с svg</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">Звук</string>
     <string formatted="false" name="category_control">Управление</string>
     <string formatted="false" name="category_event">Событие</string>
@@ -1082,9 +1083,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Сохранить диаграмму как SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Перестать рисовать диаграмму</string>
     <string formatted="false" name="brick_start_plot">Начать рисовать диаграмму</string>
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Поделиться</string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Прикрепить</string>
     <string formatted="false" name="brick_running_stitch">Запустить вышивку с длиной</string>
@@ -1096,6 +1106,8 @@
     <string formatted="false" name="brick_default_embroidery_file">вышивка.dst</string>
     <string formatted="false" name="brick_sew_up">Шить</string>
     <string formatted="false" name="brick_thread_color">Задать цвет нити</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Сбросить таймер</string>
@@ -1617,6 +1629,17 @@
     <string formatted="false" name="sound_robot">Робот</string>
     <string formatted="false" name="sound_insect">Насекомое</string>
     <string formatted="false" name="sound_monster">Монстр</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">влево</string>
+    <string formatted="false" name="direction_right">вправо</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">в течении</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->

@@ -209,9 +209,10 @@
     <string formatted="false" name="preference_description_embroidery_bricks">십자수 기계용 패턴 제작</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">전체 기능 활성화</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">캐스트 버튼 표시하고 캐스트 프로그램 허용하기</string>
-    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot and Laser
+        extension</string>
     <string formatted="false" name="preference_description_plot_bricks">Create patterns
-        for plotting machines</string>
+        for plotting and laser cutter machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">NFC(Near Field Communication)</string>
     <string formatted="false" name="preference_description_nfc_bricks">NFC 태그 사용 승인</string>
     <string formatted="false" name="preference_title_enable_crash_reports">익명 충돌 보고서 보내기</string>
@@ -764,6 +765,7 @@
     <string formatted="false" name="category_looks">모양</string>
     <string formatted="false" name="category_pen">펜</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">소리</string>
     <string formatted="false" name="category_control">제어</string>
     <string formatted="false" name="category_event">이벤트</string>
@@ -933,9 +935,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">공유</string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">스티치</string>
     <string formatted="false" name="brick_running_stitch">길이만큼 스티치 시작</string>
@@ -947,6 +958,8 @@
     <string formatted="false" name="brick_default_embroidery_file">자수 .dst</string>
     <string formatted="false" name="brick_sew_up">바느질</string>
     <string formatted="false" name="brick_thread_color">실 색상을 다음으로 설정</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">타이머 초기화</string>
@@ -1449,6 +1462,17 @@
     <string formatted="false" name="sound_robot">로봇</string>
     <string formatted="false" name="sound_insect">곤충</string>
     <string formatted="false" name="sound_monster">괴물</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">왼쪽</string>
+    <string formatted="false" name="direction_right">오른쪽</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">동안</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->

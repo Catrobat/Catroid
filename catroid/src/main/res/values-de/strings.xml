@@ -211,8 +211,8 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Erstelle Muster für Stickmaschinen</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Erlaubt Cast-Funktionen</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Zeigt den Cast-Button und erlaubt die Einstellung eines Cast-Projektes</string>
-    <string formatted="false" name="preference_title_enable_plot_bricks">Plot Erweiterung</string>
-    <string formatted="false" name="preference_description_plot_bricks">Erstelle Muster für Plotter</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot und Laser Cutter Erweiterung</string>
+    <string formatted="false" name="preference_description_plot_bricks">Erstelle Muster für Plotter und Laser Cutter</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Nahfeldkommunikation</string>
     <string formatted="false" name="preference_description_nfc_bricks">Erlaube die Nutzung von NFC-Tags in Projekten</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Sende anonyme Absturzberichte</string>
@@ -817,6 +817,7 @@
     <string formatted="false" name="category_looks">Aussehen</string>
     <string formatted="false" name="category_pen">Malstift</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">Klang</string>
     <string formatted="false" name="category_control">Steuerung</string>
     <string formatted="false" name="category_event">Ereignisse</string>
@@ -987,9 +988,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Plot als SVG speichern</string>
+    <string formatted="false" name="brick_share_plot">Plot als SVG teilen</string>
     <string formatted="false" name="brick_stop_plot">Plotten beenden</string>
     <string formatted="false" name="brick_start_plot">Plotten starten</string>
+    <string formatted="false" name="brick_stop_cut">Beende Schnitt</string>
+    <string formatted="false" name="brick_start_cut">Starte Schnitt</string>
+    <string formatted="false" name="brick_save_laser">Laser Cutter Datei als SVG speichern</string>
+    <string formatted="false" name="brick_stop_engrave">Beende Gravur</string>
+    <string formatted="false" name="brick_start_engrave">Starte Gravur</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Teilen</string>
+    <string formatted="false" name="brick_share_laser">Laser Cutter Datei als SVG teilen</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stich</string>
     <string formatted="false" name="brick_running_stitch">Starte Laufstich mit Länge</string>
@@ -1001,6 +1011,8 @@
     <string formatted="false" name="brick_default_embroidery_file">Stickerei.dst</string>
     <string formatted="false" name="brick_sew_up">vernähen</string>
     <string formatted="false" name="brick_thread_color">Setze auf Farbe </string>
+    <string formatted="false" name="embroider_arc_direction">Sticke Bogen</string>
+    <string formatted="false" name="embroidery_through">Erstelle Bogen durch Punkt</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Timer zurücksetzen</string>
@@ -1488,6 +1500,17 @@
     <string formatted="false" name="sound_robot">Roboter</string>
     <string formatted="false" name="sound_insect">Insekt</string>
     <string formatted="false" name="sound_monster">Monster</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">links</string>
+    <string formatted="false" name="direction_right">rechts</string>
+    <string formatted="false" name="plot_arc_direction">Plotte Bogen</string>
+    <string formatted="false" name="laser_arc_direction">Erstelle Bogen</string>
+    <string formatted="false" name="plot_with_radius">mit Radius</string>
+    <string formatted="false" name="plot_for_degrees">für</string>
+    <string formatted="false" name="plot_through">Plotte Bogen durch Punkt</string>
+    <string formatted="false" name="laser_through">Erstelle Bogen durch Punkt</string>
+    <string formatted="false" name="plot_through_target">zum Punkt</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->

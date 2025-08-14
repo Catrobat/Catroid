@@ -214,9 +214,10 @@
     <string formatted="false" name="preference_description_embroidery_bricks">সেলাই মেশিনগুলির জন্য নিদর্শনগুলি তৈরি করুন</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">ক্রোমকাস্ট বিস্তার</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">কাস্ট বোতামটি দেখান এবং কাস্ট প্রজেক্টসমূহ সক্ষম করুন</string>
-    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot and Laser
+        extension</string>
     <string formatted="false" name="preference_description_plot_bricks">Create patterns
-        for plotting machines</string>
+        for plotting and laser cutter machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">ফিল্ড যোগাযোগের সম্প্রসারণের কাছাকাছি</string>
     <string formatted="false" name="preference_description_nfc_bricks">অ্যাপ্লিকেশনটিকে এনএফসি ট্যাগগুলি ব্যবহার করার অনুমতি দিন</string>
     <string formatted="false" name="preference_title_enable_crash_reports">বেনামে ক্র্যাশ রিপোর্ট পাঠানো হচ্ছে</string>
@@ -802,6 +803,7 @@
     <string formatted="false" name="category_looks">চেহারা</string>
     <string formatted="false" name="category_pen">কলম</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">শব্দ</string>
     <string formatted="false" name="category_control">নিয়ন্ত্রণ</string>
     <string formatted="false" name="category_event">ঘটনা</string>
@@ -973,9 +975,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">ভাগ করুন</string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">সেলাই</string>
     <string formatted="false" name="brick_running_stitch">দৈর্ঘ্য দিয়ে সেলাই চালানো শুরু করুন</string>
@@ -987,6 +998,8 @@
     <string formatted="false" name="brick_default_embroidery_file">সূচিকর্ম.dst</string>
     <string formatted="false" name="brick_sew_up">টুকা</string>
     <string formatted="false" name="brick_thread_color">থ্রেড রঙ সেট করুন</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">টাইমার পুনরায় সেট করুন</string>
@@ -1486,6 +1499,17 @@
     <string formatted="false" name="sound_robot">রোবট</string>
     <string formatted="false" name="sound_insect">পোকামাকড়</string>
     <string formatted="false" name="sound_monster">দৈত্য</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">বাম</string>
+    <string formatted="false" name="direction_right">ডান</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">জন্য</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->

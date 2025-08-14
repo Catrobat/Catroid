@@ -214,9 +214,10 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Dikiş makineleri için desenler oluşturun</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast özelliklerini etkinleştir</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Yayın düğmesini göster ve yayın projelerini etkinleştir</string>
-    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot and Laser
+        extension</string>
     <string formatted="false" name="preference_description_plot_bricks">Create patterns
-        for plotting machines</string>
+        for plotting and laser cutter machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Yakın Alan İletişimi</string>
     <string formatted="false" name="preference_description_nfc_bricks">Uygulamanın projelerde NFC etiketleri kullanmasına izin verin</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Anonim çökme raporları gönder</string>
@@ -802,6 +803,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="category_looks">Görüntü</string>
     <string formatted="false" name="category_pen">Kalem</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">Ses</string>
     <string formatted="false" name="category_control">Denetim</string>
     <string formatted="false" name="category_event">Etkinlik</string>
@@ -972,9 +974,18 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Paylaş</string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Dikiş</string>
     <string formatted="false" name="brick_running_stitch">Uzunluğunda dikişe başla</string>
@@ -986,6 +997,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="brick_default_embroidery_file">nakıs.dst</string>
     <string formatted="false" name="brick_sew_up">Yukarı dik</string>
     <string formatted="false" name="brick_thread_color">İplik rengini şu değere ayarlayın</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Zamanlayıcıyı sıfırla</string>
@@ -1478,6 +1491,17 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="sound_robot">Robot</string>
     <string formatted="false" name="sound_insect">Böcek</string>
     <string formatted="false" name="sound_monster">Canavar</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">sol</string>
+    <string formatted="false" name="direction_right">sağ</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">için</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
