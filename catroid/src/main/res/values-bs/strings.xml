@@ -214,9 +214,10 @@
     <string formatted="false" name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string formatted="false" name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
     <string formatted="false" name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string formatted="false" name="preference_title_enable_plot_bricks">Plot extension</string>
+    <string formatted="false" name="preference_title_enable_plot_bricks">Plot and Laser
+        extension</string>
     <string formatted="false" name="preference_description_plot_bricks">Create patterns
-        for plotting machines</string>
+        for plotting and laser cutter machines</string>
     <string formatted="false" name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
     <string formatted="false" name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
     <string formatted="false" name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
@@ -853,6 +854,7 @@
     <string formatted="false" name="category_looks">Izgledi</string>
     <string formatted="false" name="category_pen">Olovka</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Laser Cutter</string>
     <string formatted="false" name="category_sound">Zvuk</string>
     <string formatted="false" name="category_control">Kontrola</string>
     <string formatted="false" name="category_event">Događaj</string>
@@ -1026,9 +1028,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Save plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
     <string formatted="false" name="brick_stop_plot">Stop to plot</string>
     <string formatted="false" name="brick_start_plot">Start to plot</string>
+    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
+    <string formatted="false" name="brick_start_cut">Start to cut</string>
+    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
+    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Share</string>
+    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
     <string formatted="false" name="brick_running_stitch">Start running stitch with length</string>
@@ -1040,6 +1051,8 @@
     <string formatted="false" name="brick_default_embroidery_file">embroidery.dst</string>
     <string formatted="false" name="brick_sew_up">Sew up</string>
     <string formatted="false" name="brick_thread_color">Set thread color to</string>
+    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
+    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Reset timer</string>
@@ -1551,6 +1564,17 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="sound_robot">Robot</string>
     <string formatted="false" name="sound_insect">Insekt</string>
     <string formatted="false" name="sound_monster">Čudovište</string>
+    <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">lijevo</string>
+    <string formatted="false" name="direction_right">desno</string>
+    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
+    <string formatted="false" name="laser_arc_direction">Create arc going</string>
+    <string formatted="false" name="plot_with_radius">with radius</string>
+    <string formatted="false" name="plot_for_degrees">za</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Create arc going through</string>
+    <string formatted="false" name="plot_through_target">going to</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->

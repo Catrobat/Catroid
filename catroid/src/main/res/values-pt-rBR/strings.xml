@@ -823,6 +823,7 @@
     <string formatted="false" name="category_looks">Aparências</string>
     <string formatted="false" name="category_pen">Caneta</string>
     <string formatted="false" name="category_plot">Plot</string>
+    <string formatted="false" name="category_laser">Cortador Laser</string>
     <string formatted="false" name="category_sound">Som</string>
     <string formatted="false" name="category_control">Controle</string>
     <string formatted="false" name="category_event">Evento</string>
@@ -994,9 +995,18 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Salvar plot como SVG</string>
+    <string formatted="false" name="brick_share_plot">Salvar plot como SVG</string>
     <string formatted="false" name="brick_stop_plot">Parar a plotagem</string>
     <string formatted="false" name="brick_start_plot">Iniciar a plotagem</string>
+    <string formatted="false" name="brick_stop_cut">Parar o corte</string>
+    <string formatted="false" name="brick_start_cut">Iniciar o corte</string>
+    <string formatted="false" name="brick_save_laser">Salvar dados de corte de laser como SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Parar de gravar</string>
+    <string formatted="false" name="brick_start_engrave">Começar a gravar</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
+    <string formatted="false" name="brick_share">Compartilhar</string>
+    <string formatted="false" name="brick_share_laser">Compartilhar dados de corte laser como SVG</string>
+    <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Ponto de costura</string>
     <string formatted="false" name="brick_running_stitch">Iniciar a realização de costuras com comprimento</string>
@@ -1008,6 +1018,8 @@
     <string formatted="false" name="brick_default_embroidery_file">bordado.dst</string>
     <string formatted="false" name="brick_sew_up">Costurar para cima</string>
     <string formatted="false" name="brick_thread_color">Definir a cor do tópico para</string>
+    <string formatted="false" name="embroider_arc_direction">Costura de arco em andamento</string>
+    <string formatted="false" name="embroidery_through">Criar arco passando</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Resetar cronômetro</string>
@@ -1521,6 +1533,17 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string formatted="false" name="sound_insect">Inseto</string>
     <string formatted="false" name="sound_monster">Monstro</string>
     <!--  -->
+    <!-- Plot Arc direction strings -->
+    <string formatted="false" name="direction_left">esquerda</string>
+    <string formatted="false" name="direction_right">direita</string>
+    <string formatted="false" name="plot_arc_direction">Traçar costura de arco</string>
+    <string formatted="false" name="laser_arc_direction">Criar costura de arco</string>
+    <string formatted="false" name="plot_with_radius">com raio</string>
+    <string formatted="false" name="plot_for_degrees">para</string>
+    <string formatted="false" name="plot_through">Plot arc going through</string>
+    <string formatted="false" name="laser_through">Criar arco passando</string>
+    <string formatted="false" name="plot_through_target">going to</string>
+    <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
     <string formatted="false" name="phiro_motor_stop">Parar motor Phiro</string>
@@ -1814,8 +1837,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string formatted="false" name="formula_editor_operator_divide">÷</string>
     <string formatted="false" name="formula_editor_operator_power">^</string>
     <string formatted="false" name="formula_editor_image_button_description_delete">apagar</string>
-    <string formatted="false" name="formula_editor_image_button_description_calculate">calculate</string>
-    <string formatted="false" name="formula_editor_image_button_description_confirm">confirm</string>
+    <string formatted="false" name="formula_editor_image_button_description_calculate">calcular</string>
+    <string formatted="false" name="formula_editor_image_button_description_confirm">confirmar</string>
     <string formatted="false" name="formula_editor_image_button_description_color_picker">seletor de cores</string>
     <string formatted="false" name="formula_editor_image_button_description_functions_toggle">alternar funções</string>
     <string formatted="false" name="formula_editor_variable_dialog_title">Nova Variável</string>
