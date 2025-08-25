@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,7 +85,8 @@ abstract class ColorDetection(
     }
 
     private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
-        lookList.forEach { it.draw(batch, 1f) }
+        val sortedLookList = lookList.sortedBy { it.zIndex }
+        sortedLookList.forEach { it.draw(batch, 1f) }
     }
 
     protected fun createViewport(

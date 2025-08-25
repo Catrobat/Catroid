@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -501,7 +501,7 @@
     <string formatted="false" name="project_options_notes_and_credits">Credits</string>
     <string formatted="false" name="project_options_tags">Tags</string>
     <string formatted="false" name="project_options_aspect_ratio">Keep original aspect ratio</string>
-    <string formatted="false" name="project_options_more_details">More details</string>
+    <string formatted="false" name="project_options_more_details">Project Properties</string>
     <string formatted="false" name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
     <string formatted="false" name="fragment_script_text_description">Tap \"+\" to add scripts</string>

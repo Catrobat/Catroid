@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -252,6 +252,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		if (getActivity().isFinishing()) {
 			return;
 		}
+
 		initializeAdapter();
 	}
 
@@ -270,6 +271,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		touchHelper = new ItemTouchHelper(callback);
 		touchHelper.attachToRecyclerView(recyclerView);
 
+		adapter.registerAdapterDataObserver(observer);
+		notifyDataSetChanged();
+		setShowEmptyView(shouldShowEmptyView());
 		setShowProgressBar(false);
 	}
 
@@ -279,14 +283,23 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 		BackpackListManager.getInstance().loadBackpack();
 
-		adapter.notifyDataSetChanged();
-		adapter.registerAdapterDataObserver(observer);
-		setShowEmptyView(shouldShowEmptyView());
+		if (adapter != null) {
+			notifyDataSetChanged();
+
+			try {
+				adapter.registerAdapterDataObserver(observer);
+			} catch (IllegalStateException exception) {
+				Log.d(TAG, "Observer is already registered");
+			}
+
+			setShowEmptyView(shouldShowEmptyView());
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		
 		try {
 			adapter.unregisterAdapterDataObserver(observer);
 		} catch (IllegalStateException exception) {

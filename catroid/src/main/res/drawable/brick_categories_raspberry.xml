@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,15 +23,28 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="56dp"
-    android:height="24dp"
-    android:viewportWidth="56"
-    android:viewportHeight="24">
-  <group>
-    <clip-path
-        android:pathData="M0,0h56v24h-56z"/>
-    <path
-        android:pathData="M20,8L24,8L24,4L20,4L20,8ZM26,20L30,20L30,16L26,16L26,20ZM20,20L24,20L24,16L20,16L20,20ZM20,14L24,14L24,10L20,10L20,14ZM26,14L30,14L30,10L26,10L26,14ZM32,4L32,8L36,8L36,4L32,4ZM26,8L30,8L30,4L26,4L26,8ZM32,14L36,14L36,10L32,10L32,14ZM32,20L36,20L36,16L32,16L32,20Z"
-        android:fillColor="#FFFFFF"/>
-  </group>
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="348dp"
+    android:height="90dp"
+    android:viewportWidth="348"
+    android:viewportHeight="71.941"
+    tools:ignore="VectorRaster">
+
+<path
+    android:pathData="M0,2h348v87h-348z"
+    android:fillColor="@color/brick_color_raspberry"/>
+<path
+    android:pathData="M0,2h348v1h-348z"
+    android:strokeAlpha="0.4"
+    android:fillColor="#fff"
+    android:fillAlpha="0.4"/>
+<path
+    android:pathData="M0,1h348v1h-348z"
+    android:strokeAlpha="0.75"
+    android:fillColor="#383838"
+    android:fillAlpha="0.75"/>
+<path
+    android:pathData="M0,87h348v1h-348z"
+    android:fillColor="#222222"/>
 </vector>

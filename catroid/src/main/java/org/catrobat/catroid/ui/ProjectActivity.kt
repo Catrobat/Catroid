@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -151,7 +151,6 @@ class ProjectActivity : BaseCastActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_project_activity, menu)
-        menu.findItem(R.id.from_library).isVisible = false
         menu.findItem(R.id.from_local).isVisible = false
         menu.findItem(R.id.edit).isVisible = false
         return super.onCreateOptionsMenu(menu)
@@ -399,16 +398,11 @@ class ProjectActivity : BaseCastActivity() {
             alertDialog.dismiss()
         }
         dialogNewActorBinding.dialogNewLookMediaLibrary.setOnClickListener {
-            ImportFormMediaLibraryLauncher(this, FlavoredConstants.LIBRARY_LOOKS_URL)
+            ImportFormMediaLibraryLauncher(this, FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL)
                 .startActivityForResult(SPRITE_LIBRARY)
             alertDialog.dismiss()
         }
 
-        dialogNewActorBinding.dialogNewLookObjectLibrary.setOnClickListener {
-            ImportFormMediaLibraryLauncher(this, FlavoredConstants.LIBRARY_OBJECT_URL)
-                .startActivityForResult(SPRITE_OBJECT)
-            alertDialog.dismiss()
-        }
         dialogNewActorBinding.dialogNewLookGallery.setOnClickListener {
             ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
                 .startActivityForResult(SPRITE_FILE)

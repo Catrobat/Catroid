@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,8 +39,6 @@ import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
-
-import androidx.multidex.MultiDex;
 
 public class CatroidApplication extends Application {
 
@@ -87,12 +85,6 @@ public class CatroidApplication extends Application {
 
 		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
 		MLApplication.getInstance().setApiKey(apiKey);
-	}
-
-	@Override
-	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(base);
-		MultiDex.install(this);
 	}
 
 	public synchronized Tracker getDefaultTracker() {

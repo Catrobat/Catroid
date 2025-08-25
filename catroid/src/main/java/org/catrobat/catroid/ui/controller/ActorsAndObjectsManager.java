@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -43,12 +40,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public final class ActorsAndObjectsManager {
 
 	private static ActorsAndObjectsManager instance = null;
+
 	public static ActorsAndObjectsManager getInstance() {
 		if (instance == null) {
 			instance = new ActorsAndObjectsManager();
@@ -62,14 +61,15 @@ public final class ActorsAndObjectsManager {
 	private Sprite generateSprite(String name, int imgId, double scale) throws IOException {
 		var sprite = new Sprite(name);
 		var folder = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, IMAGE_DIRECTORY_NAME);
-		if(!folder.exists())
+		if (!folder.exists()) {
 			folder.mkdirs();
+		}
 		var path =
 				ResourceImporter.createImageFileFromResourcesInDirectory(ProjectManager.getInstance().getApplicationContext().getResources(),
 						imgId,
 						folder,
-				"img" + DEFAULT_IMAGE_EXTENSION,
-				scale);
+						"img" + DEFAULT_IMAGE_EXTENSION,
+						scale);
 		var lookData = new LookData(name, path);
 		sprite.getLookList().add(lookData);
 
@@ -80,7 +80,7 @@ public final class ActorsAndObjectsManager {
 		var sprites = new ArrayList<Sprite>();
 
 		try {
-			if(SettingsFragment.isEmroiderySharedPreferenceEnabled(ProjectManager.getInstance().getApplicationContext())){
+			if (SettingsFragment.isEmroiderySharedPreferenceEnabled(ProjectManager.getInstance().getApplicationContext())) {
 				var frame = generateSprite("10x10", R.drawable.frame, 1.0);
 				var script = new StartScript();
 				script.addBrick(new SetTransparencyBrick(100.0));
@@ -95,6 +95,7 @@ public final class ActorsAndObjectsManager {
 
 				sprites.add(generateSprite("Needle", R.drawable.plotter, 0.2));
 			} else {
+				sprites.add(generateSprite("Turtle", R.drawable.turtle, 0.2));
 				sprites.add(generateSprite("Plotter", R.drawable.plotter, 0.2));
 				sprites.add(generateSprite("PandaA", R.drawable.panda_a, 1.0));
 				sprites.add(generateSprite("PandaB", R.drawable.panda_b, 1.0));
