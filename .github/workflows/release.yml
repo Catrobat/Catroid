@@ -47,6 +47,12 @@ jobs:
     environment: production
     needs: check_release_config
 
+    # Required for attestations
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+
     strategy:
       fail-fast: false
       matrix:
@@ -63,13 +69,13 @@ jobs:
             buildName: EmbroideryDesigner
 
     steps:
-      - name: Skip Build if Not Enabled
+      - name: Skip Disabled Builds
         if: ${{ !matrix.build.enabled }}
         run: echo "Skipping build for ${{ matrix.build.name }}" && exit 0
 
       - uses: actions/checkout@v4
 
-      - name: Setup JDK
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
@@ -83,7 +89,7 @@ jobs:
         run: |
           echo "${{ secrets.SIGNING_KEYSTORE }}" | base64 -d > $RUNNER_TEMP/signing-key.jks
 
-      - name: Build Release AAB for ${{ matrix.build.name }}
+      - name: Build ${{ matrix.build.name }} AAB
         run: ./gradlew copyAndroidNatives bundle${{ matrix.build.buildName }}
         env:
           SIGNING_KEYSTORE: ${{ runner.temp }}/signing-key.jks
@@ -91,17 +97,22 @@ jobs:
           SIGNING_KEY_ALIAS: ${{ vars.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
 
-      - name: Cleanup Signing Key
+      - name: Clean Up Signing Key
         run: shred -u $RUNNER_TEMP/signing-key.jks
 
-      - name: Archive AABs
+      - name: Upload ${{ matrix.build.name }} AAB
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.build.buildName }}-AAB
-          path: "catroid/build/outputs/bundle/**/*-signedRelease.aab"
+          path: ${{ matrix.build.buildPath }}
           retention-days: 90
 
-      - name: Upload AAB to Google Play
+      - name: Generate artifact attestation for ${{ matrix.build.name }}
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: ${{ matrix.build.buildPath }}
+
+      - name: Upload ${{ matrix.build.name }} to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           releaseFiles: ${{ matrix.build.buildPath }}

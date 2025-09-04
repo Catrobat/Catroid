@@ -2,13 +2,10 @@ name: Catroid Build Pipeline
 
 on:
   push:
-    branches:
-      - "**"
+  fork:
   pull_request:
-    branches:
-      - "**"
-  #  schedule:
-  #    - cron: "0 0 * * *" # Run daily at midnight
+  schedule:
+    - cron: "0 0 * * *" # Run daily at midnight
   workflow_dispatch:
     inputs:
       WEB_TEST_URL:

@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - "develop"
-      - "DEVOPS-837" # for testing
-  pull_request:
-    branches:
-      - "**"
   schedule:
     - cron: "0 0 * * *" # Daily at midnight
   workflow_dispatch:
@@ -39,7 +35,6 @@ jobs:
       - name: Build APKs
         run: ./gradlew -Pindependent='#${{ github.run_number }} ${{ github.ref_name }}' assembleAndroidTest assembleDebug
 
-      # see https://www.browserstack.com/docs/app-automate/espresso/getting-started
       - name: Upload App APK to BrowserStack
         id: upload_app
         run: |
