@@ -8,6 +8,10 @@ on:
     - cron: "0 0 * * *" # Daily at midnight
   workflow_dispatch:
 
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
 jobs:
   ui-tests:
     name: UI Tests
@@ -22,11 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Setup Gradle

@@ -19,6 +19,10 @@ on:
         type: boolean
         default: false
 
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
 jobs:
   build:
     name: Build APK
@@ -30,11 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Setup Gradle
@@ -42,19 +46,6 @@ jobs:
 
       - name: Build APK
         run: ./gradlew ${{ env.WEB_TEST_URL }} -Pindependent='#${{ github.run_number }} ${{ github.ref_name }}' assembleCatroidDebug ${{ env.ALL_FLAVOURS_PARAMETERS }}
-  # TODO: Check where to upload the APKs as GitHub Storage is an issue
-  #
-  #      - name: Rename APKs
-  #        run: |
-  #          for file in $(find . -name "*.apk"); do
-  #            mv "$file" "$(dirname "$file")/${{ github.ref_name }}-${{ github.run_number }}-$(basename "$file")"
-  #          done
-  #
-  #      - name: Archive APKs
-  #        uses: actions/upload-artifact@v4
-  #        with:
-  #          name: apk-artifacts
-  #          path: "**/*.apk"
 
   unit-tests:
     name: Unit Tests
@@ -66,11 +57,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Setup Gradle
@@ -109,11 +100,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Setup Gradle
