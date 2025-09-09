@@ -38,6 +38,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,7 +76,9 @@ import java.io.IOException
 import java.util.concurrent.locks.ReentrantLock
 
 @SuppressLint("NotifyDataSetChanged")
-class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
+class ProjectListFragment(
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+) : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
     private var items: MutableList<ProjectData> = ArrayList()
 
     private var filesForUnzipAndImportTask: ArrayList<File>? = null
@@ -95,7 +98,9 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             importProject(requireArguments().getParcelable("intent"))
         }
         if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
-            adapter.showSettings = false
+            if (adapter != null) {
+                adapter.showSettings = false
+            }
             actionModeType = IMPORT_LOCAL
         }
     }
@@ -559,7 +564,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             items = newItems
             lock.unlock()
 
-            withContext(Dispatchers.Main) {
+            withContext(mainDispatcher) {
                 callback.onProjectsLoaded()
             }
         }
