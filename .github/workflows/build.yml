@@ -128,6 +128,7 @@ jobs:
 
       - name: Upload ${{ matrix.tool.name }} HTML Report
         uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: ${{ matrix.tool.name }}-report
           path: |
