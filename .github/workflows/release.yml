@@ -1,4 +1,4 @@
-name: Catroid Release Pipeline
+name: Catroid Release Workflow
 
 on:
   workflow_dispatch:

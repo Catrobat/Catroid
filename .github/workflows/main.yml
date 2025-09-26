@@ -1,4 +1,4 @@
-name: Catroid Build Pipeline
+name: Catroid Main Workflow
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Catroid UI Test Pipeline
+name: Catroid UI Test Workflow
 
 on:
   push:
