@@ -37,8 +37,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS
-import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
-import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment.Companion.TAG
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment
@@ -103,18 +101,10 @@ fun SpriteActivity.loadFragment(fragmentPosition: Int) {
 }
 
 private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction) {
-    if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED || !SettingsFragment.useCatBlocks(this)) {
-        fragmentTransaction.replace(
-            R.id.fragment_container, ScriptFragment(),
-            ScriptFragment.TAG
-        )
-    } else {
-        fragmentTransaction.replace(
-            R.id.fragment_container,
-            CatblocksScriptFragment(null),
-            TAG
-        )
-    }
+    fragmentTransaction.replace(
+        R.id.fragment_container, ScriptFragment(),
+        ScriptFragment.TAG
+    )
 }
 
 fun Fragment?.isFragmentWithTablayout() =

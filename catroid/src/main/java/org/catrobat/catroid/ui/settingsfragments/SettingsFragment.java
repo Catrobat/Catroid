@@ -134,8 +134,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 	public static final String TAG = SettingsFragment.class.getSimpleName();
 
-	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -594,16 +592,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void removeLanguageSharedPreference(Context context) {
 		getSharedPreferences(context).edit()
 				.remove(LANGUAGE_TAG_KEY)
-				.apply();
-	}
-
-	public static boolean useCatBlocks(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_USE_CATBLOCKS, context);
-	}
-
-	public static void setUseCatBlocks(Context context, boolean useCatBlocks) {
-		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
 	}
 

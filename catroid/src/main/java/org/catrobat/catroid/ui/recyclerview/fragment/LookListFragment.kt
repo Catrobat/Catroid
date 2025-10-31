@@ -70,8 +70,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
-        menu.findItem(R.id.catblocks).isVisible = false
         menu.findItem(R.id.find).isVisible = false
     }
 
