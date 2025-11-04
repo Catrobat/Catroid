@@ -2062,4 +2062,15 @@
     <string formatted="false" name="undo_sort">sortieren rückgängig machen </string>
     <string formatted="false" name="sort">Sortieren</string>
     <string formatted="false" name="checkbox">Häkchen</string>
+
+    <!-- Accessibility content descriptions -->
+    <string formatted="false" name="button_add_description">Neue Figur oder Objekt hinzufügen</string>
+    <string formatted="false" name="button_play_description">Projekt wiedergeben</string>
+    <string formatted="false" name="stage_dialog_button_share">Teilen</string>
+
+    <!-- Tabs -->
+    <string formatted="false" name="tab_scripts">Skripte</string>
+    <string formatted="false" name="tab_looks">Aussehen</string>
+    <string formatted="false" name="tab_sound">Audio</string>
+
 </resources>

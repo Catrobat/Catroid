@@ -2330,4 +2330,15 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+
+    <!-- Accessibility content descriptions -->
+    <string formatted="false" name="button_add_description">Add new actor or object</string>
+    <string formatted="false" name="button_play_description">Play project</string>
+    <string formatted="false" name="stage_dialog_button_share">Share</string>
+
+    <!-- Tabs -->
+    <string formatted="false" name="tab_scripts">Scripts</string>
+    <string formatted="false" name="tab_looks">Looks</string>
+    <string formatted="false" name="tab_sound">Sound</string>
+
 </resources>
