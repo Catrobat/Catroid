@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.app
+package org.catrobat.catroid.test.content.bricks
 
 import android.content.Context
 import android.preference.PreferenceManager
