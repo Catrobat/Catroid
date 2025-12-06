@@ -660,9 +660,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">비활성화 스크립트</string>
     <string formatted="false" name="brick_context_dialog_help">도움말</string>
     <string formatted="false" name="comment_in_out">사용/사용 안함</string>
-    <string formatted="false" name="catblocks">토글 2D</string>
-    <string formatted="false" name="catblocks_reorder">스크립트 삭제</string>
-    <string formatted="false" name="switch_to_1d">1D보기</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">플레이 장면:</string>

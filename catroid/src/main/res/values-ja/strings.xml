@@ -680,9 +680,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">スクリプトを無効にする</string>
     <string formatted="false" name="brick_context_dialog_help">ヘルプ</string>
     <string formatted="false" name="comment_in_out">無効/有効にする</string>
-    <string formatted="false" name="catblocks">2Dの切り替え</string>
-    <string formatted="false" name="catblocks_reorder">スクリプトをクリーンアップする</string>
-    <string formatted="false" name="switch_to_1d">1D表示</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">再生シーン:</string>

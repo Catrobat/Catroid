@@ -723,9 +723,6 @@ app
     <string formatted="false" name="brick_context_dialog_comment_out_script">Disabilita lo script</string>
     <string formatted="false" name="brick_context_dialog_help">Aiuto</string>
     <string formatted="false" name="comment_in_out">Disabilita/Abilita</string>
-    <string formatted="false" name="catblocks">Attiva/disattiva 2D</string>
-    <string formatted="false" name="catblocks_reorder">Pulisci gli script</string>
-    <string formatted="false" name="switch_to_1d">Vista 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Riproduci la scena:</string>

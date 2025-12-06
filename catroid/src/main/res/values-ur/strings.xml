@@ -700,9 +700,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">اینٹ کو غیر فعال کریں</string>
     <string formatted="false" name="brick_context_dialog_help">مدد</string>
     <string formatted="false" name="comment_in_out">اہل/نااہل</string>
-    <string formatted="false" name="catblocks">ٹوگل 2D</string>
-    <string formatted="false" name="catblocks_reorder">اسکرپٹس کو صاف کریں۔</string>
-    <string formatted="false" name="switch_to_1d">1D منظر</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">منظر چلائیں:</string>

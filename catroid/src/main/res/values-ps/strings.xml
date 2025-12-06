@@ -720,9 +720,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">سکریپټ غیر فعال کړئ</string>
     <string formatted="false" name="brick_context_dialog_help">مرسته</string>
     <string formatted="false" name="comment_in_out">غیر فعال/فعال کړئ</string>
-    <string formatted="false" name="catblocks">2D بدل کړئ</string>
-    <string formatted="false" name="catblocks_reorder">سکریپټونه پاک کړئ</string>
-    <string formatted="false" name="switch_to_1d">1D لید</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">د لوبې صحنه:</string>
