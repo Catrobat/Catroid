@@ -58,6 +58,7 @@
     <item
         android:id="@+id/menu_scratch_converter"
         android:title="@string/main_menu_scratch_converter"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_placeholder"/>
     <item
@@ -68,11 +69,13 @@
     <item
         android:id="@+id/menu_login"
         android:title="@string/main_menu_login"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_login"/>
     <item
         android:id="@+id/menu_logout"
         android:title="@string/main_menu_logout"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_logout"/>
 
