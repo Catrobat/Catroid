@@ -93,7 +93,6 @@
     <string formatted="false" name="main_menu_programs">په وسیله کې پروژې</string>
     <string formatted="false" name="main_menu_help">مرسته</string>
     <string formatted="false" name="main_menu_web">د کاټروبیټ ټولنه</string>
-    <string formatted="false" name="main_menu_upload">پروژه پورته کړئ</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">موږ ته درجه ورکړئ!</string>
     <string formatted="false" name="main_menu_terms_of_use">د کارولو او خدماتو شرایط</string>
@@ -683,12 +682,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">پروژه پورته کړئ</string>
-    <string formatted="false" name="upload_description">تفصیل:</string>
-    <string formatted="false" name="upload_notes_and_credits">یادښتونه او کریډیټ:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">تاسو دا پروژه څنګه جوړه کړه؟ ایا تاسو د نورو خلکو نظریات، سکریپټ یا هنري کار کارولی؟ دلته یې مننه وکړه.</string>
-    <string formatted="false" name="upload_tag_dialog_title">مهرباني وکړئ تر دریو کټګوریو پورې غوره کړئ</string>
-    <string formatted="false" name="upload_tags_maximum_error">د ۳ څخه ډیر ټګ غوره کول ممکن ندي.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">د صادراتو پروژه</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

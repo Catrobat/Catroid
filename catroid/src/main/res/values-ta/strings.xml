@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">சாதனத்தில் உள்ள திட்டங்கள்</string>
     <string formatted="false" name="main_menu_help">உதவி</string>
     <string formatted="false" name="main_menu_web">கற்றோபாட்டுச் சமூகம்</string>
-    <string formatted="false" name="main_menu_upload">திட்டப்பணி ஏற்றுக</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">எங்களை மதிப்பிடுக!</string>
     <string formatted="false" name="main_menu_terms_of_use">பயன்பாட்டு மற்றும் சேவை விதிமுறைகள்</string>
@@ -677,12 +676,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">நெட்வொர்க் இல்லை</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">பதிவேற்றும் திட்டம்</string>
-    <string formatted="false" name="upload_description">விளக்கம்:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes and credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string formatted="false" name="upload_tag_dialog_title">மூன்று வகைகள் வரை தேர்வு செய்யவும்</string>
-    <string formatted="false" name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கவும்</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

@@ -90,7 +90,6 @@
     <string formatted="false" name="main_menu_programs">البرامج</string>
     <string formatted="false" name="main_menu_help">المساعدة</string>
     <string formatted="false" name="main_menu_web">مجتمع كاتروبات</string>
-    <string formatted="false" name="main_menu_upload">تحميل البرنامج</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">قم بالتقييم!</string>
     <string formatted="false" name="main_menu_terms_of_use">شروط الاستخدام والخدمات</string>
@@ -831,12 +830,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">تحميل البرنامج</string>
-    <string formatted="false" name="upload_description">الوصف:</string>
-    <string formatted="false" name="upload_notes_and_credits">الملاحظات والائتمانات</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">كيف قمت بإنشاء هذا المشروع؟ هل استخدمت الأفكار أو البرامج النصية أو الأعمال الفنية من أشخاص آخرين؟ شكراً لهم هنا.</string>
-    <string formatted="false" name="upload_tag_dialog_title">اختر كحد أقصى ثلاث فئات</string>
-    <string formatted="false" name="upload_tags_maximum_error">لا يمكن اختيار أكثر من 3 علامات.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">حفظ المشروع على الذاكرة الخارجية</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

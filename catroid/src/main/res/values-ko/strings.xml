@@ -87,7 +87,6 @@
     <string formatted="false" name="main_menu_programs">프로그램</string>
     <string formatted="false" name="main_menu_help">도움말</string>
     <string formatted="false" name="main_menu_web">Catrobat 공유</string>
-    <string formatted="false" name="main_menu_upload">프로그램 업로드</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">평가하기</string>
     <string formatted="false" name="main_menu_terms_of_use">사용과 서비스 약관</string>
@@ -623,12 +622,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">네트워크 연결 불가</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">프로그램 업로드</string>
-    <string formatted="false" name="upload_description">설명:</string>
-    <string formatted="false" name="upload_notes_and_credits">노트와 크레딧</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">어떻게 이 프로젝트를 만드셨나요? 다른 사람의 아이디어나 작품을 이용했나요? 여기에 감사를 써보세요.</string>
-    <string formatted="false" name="upload_tag_dialog_title">최대 3개의 카테고리 선택</string>
-    <string formatted="false" name="upload_tags_maximum_error">3 개 이상의 태그를 선택할 수 없습니다.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">외부 저장장치에 저장</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

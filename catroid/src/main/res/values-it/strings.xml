@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Progetti sul dispositivo</string>
     <string formatted="false" name="main_menu_help">Aiuto</string>
     <string formatted="false" name="main_menu_web">Community di Catrobat</string>
-    <string formatted="false" name="main_menu_upload">Carica il progetto</string>
     <string formatted="false" name="main_menu_play">Esegui progetto</string>
     <string formatted="false" name="main_menu_rate_app">Valutaci!</string>
     <string formatted="false" name="main_menu_terms_of_use">Condizioni d\'Uso e Servizio</string>
@@ -686,12 +685,6 @@ app
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Nessuna rete</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Carica il progetto</string>
-    <string formatted="false" name="upload_description">Descrizione:</string>
-    <string formatted="false" name="upload_notes_and_credits">Note e crediti:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Come hai creato questo progetto? Hai usato idee, script o opere altrui? Ringraziali qui.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Sei pregato di scegliere fino a tre categorie</string>
-    <string formatted="false" name="upload_tags_maximum_error">È impossibile selezionare oltre 3 tag.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Esporta il progetto</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

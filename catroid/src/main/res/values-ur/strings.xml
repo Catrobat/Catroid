@@ -89,7 +89,6 @@
     <string formatted="false" name="main_menu_programs">پروگرامات</string>
     <string formatted="false" name="main_menu_help">مدد</string>
     <string formatted="false" name="main_menu_web">کاٹروبٹ کے تمام لوگ                      </string>
-    <string formatted="false" name="main_menu_upload">پروجیکٹ کو اپ لوڈ کریں</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ہمیں اعزاز دیں!</string>
     <string formatted="false" name="main_menu_terms_of_use">استعمال اور خدمات کی شرائط</string>
@@ -663,12 +662,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">کوئی نیٹ ورک نہیں</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">پروجیکٹ کو اپ لوڈ کریں</string>
-    <string formatted="false" name="upload_description">وضاحت:</string>
-    <string formatted="false" name="upload_notes_and_credits">نوٹس اور کریڈٹ:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">آپ نے اس منصوبے کو کیسے بنایا؟ کیا آپ نے دوسرے لوگوں سے خیالات، سکرپٹ یا آرٹ ورک کا استعمال کیا؟ یہاں ان کا شکریہ اداه کریں.</string>
-    <string formatted="false" name="upload_tag_dialog_title">تین زمرے کا انتخاب کریں</string>
-    <string formatted="false" name="upload_tags_maximum_error">۳ سے زیادہ ٹیگز کا انتخاب ممکن نہیں ہے۔</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">پراجیکٹ کے لیے بیرونی ذخیرہ محفوظ کریں</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

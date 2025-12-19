@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Proyekto sa device</string>
     <string formatted="false" name="main_menu_help">Tulong</string>
     <string formatted="false" name="main_menu_web">Catrobat community</string>
-    <string formatted="false" name="main_menu_upload">I-upload ang proyekto</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">I-Rate kami!</string>
     <string formatted="false" name="main_menu_terms_of_use">Terms ng Paggamit at Serbisyo</string>
@@ -687,12 +686,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Walang network</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">I-upload ang proyekto</string>
-    <string formatted="false" name="upload_description">Paglalarawan:</string>
-    <string formatted="false" name="upload_notes_and_credits">Mga Notes at Credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Paano mo nabuo ang iyong proyekto? Gumamit ka ba ng mga ideya,mga script o artwork mula sa ibang tao? Pasalamatan mo sila rito.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Pakiusap pumili ng hanggang sa tatlong kategorya</string>
-    <string formatted="false" name="upload_tags_maximum_error">Ang pagpili ng mas higit sa 3 tag ay hindi possible.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Mag-export ng proyekto</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

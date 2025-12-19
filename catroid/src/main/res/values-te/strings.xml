@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Projects on device</string>
     <string formatted="false" name="main_menu_help">సహాయం</string>
     <string formatted="false" name="main_menu_web">Catrobat community</string>
-    <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Rate us!</string>
     <string formatted="false" name="main_menu_terms_of_use">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
@@ -686,12 +685,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Upload project</string>
-    <string formatted="false" name="upload_description">Description:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes and credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">మీరు ఈ ప్రాజెక్ట్‌ను ఎలా సృష్టించారు? మీరు ఇతర వ్యక్తుల నుండి ఆలోచనలు, స్క్రిప్ట్‌లు లేదా కళాకృతులను ఉపయోగించారా? వారికి ఇక్కడ ధన్యవాదాలు.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <string formatted="false" name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Export project</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>
