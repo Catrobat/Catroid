@@ -39,8 +39,7 @@ import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
-import org.catrobat.catroid.transfers.project.ProjectUploadData;
-import org.catrobat.catroid.web.requests.HttpRequestsKt;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,13 +124,15 @@ public final class ServerCalls implements ScratchDataFetcher {
 			final String owner = jsonData.getString("owner");
 			final String imageURL = jsonData.isNull("image_url") ? null : jsonData.getString("image_url");
 			final String instructions = jsonData.isNull("instructions") ? null : jsonData.getString("instructions");
-			final String notesAndCredits = jsonData.isNull("notes_and_credits") ? null : jsonData.getString("notes_and_credits");
+			final String notesAndCredits = jsonData.isNull("notes_and_credits") ? null
+					: jsonData.getString("notes_and_credits");
 			final String sharedDateString = jsonData.getString("shared_date");
 			final String modifiedDateString = jsonData.getString("modified_date");
 			final int views = jsonData.getInt("views");
 			final int favorites = jsonData.getInt("favorites");
 			final int loves = jsonData.getInt("loves");
-			final ScratchVisibilityState visibilityState = ScratchVisibilityState.valueOf(jsonObject.getInt("visibility"));
+			final ScratchVisibilityState visibilityState = ScratchVisibilityState
+					.valueOf(jsonObject.getInt("visibility"));
 
 			Date sharedDate;
 			try {
@@ -296,48 +297,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		return programDataList;
 	}
 
-	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
-			UploadErrorCallback errorCallback) {
-
-		executeUploadCall(
-				HttpRequestsKt.createUploadRequest(uploadData),
-				(uploadResponse) -> {
-					String newToken = uploadResponse.token;
-					projectId = uploadResponse.projectId;
-
-					if (uploadResponse.statusCode != SERVER_RESPONSE_TOKEN_OK) {
-						errorCallback.onError(uploadResponse.statusCode, "Upload failed! JSON Response was " + uploadResponse.statusCode);
-					} else if (newToken.equals(TOKEN_CODE_INVALID) || newToken.length() != TOKEN_LENGTH) {
-						errorCallback.onError(uploadResponse.statusCode, uploadResponse.answer);
-					} else {
-						successCallback.onSuccess(projectId, uploadData.getUsername(), newToken);
-					}
-				},
-				errorCallback
-		);
-	}
-
-	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
-		Response response;
-		UploadResponse uploadResponse;
-		try {
-			response = okHttpClient.newCall(request).execute();
-			if (response.isSuccessful()) {
-				uploadResponse = new Gson().fromJson(response.body().string(), UploadResponse.class);
-				successCallback.onSuccess(uploadResponse);
-			} else {
-				Log.v(TAG, "Upload not successful");
-				errorCallback.onError(response.code(), "Upload failed! HTTP Status code was " + response.code());
-			}
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			errorCallback.onError(WebConnectionException.ERROR_NETWORK, "I/O Exception");
-		} catch (JsonSyntaxException jsonSyntaxException) {
-			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
-			errorCallback.onError(WebConnectionException.ERROR_JSON, "JsonSyntaxException");
-		}
-	}
-
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebConnectionException {
 
@@ -355,10 +314,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response originalResponse = chain.proceed(chain.request());
 			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
 					progress -> {
-				Bundle bundle = new Bundle();
-				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
-				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
-			});
+						Bundle bundle = new Bundle();
+						bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+						receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+					});
 			return originalResponse.newBuilder()
 					.body(body)
 					.build();
@@ -376,6 +335,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			throw new WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
+
 	private String getRequestInterruptable(String url) throws WebConnectionException {
 		Request request = new Request.Builder()
 				.url(url)
@@ -404,8 +364,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 		String token;
 	}
 
-	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
-			WebConnectionException {
+	public boolean googleLogin(String mail, String username, String id, String locale, Context context)
+			throws WebConnectionException {
 
 		if (context == null) {
 			throw new WebConnectionException(WebConnectionException.ERROR_JSON, "Context is null.");
