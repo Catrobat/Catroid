@@ -83,16 +83,6 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
 
-    <!-- Replace Api dialog -->
-    <string formatted="false" name="api_replacement_dialog_neutral">Upload without change</string>
-    <string formatted="false" name="api_replacement_dialog_accept">Upload with keys replaced</string>
-    <string formatted="false" name="api_replacement_dialog_warning">The project contains bricks that access the
-        web, and also seems to contain API keys. Please see %1s why
-        uploading these keys can be dangerous.</string>
-    <string formatted="false" name="api_replacement">insert API key here</string>
-    <!-- -->
-
-
     <!-- Login/Logout Mechanism -->
     <string formatted="false" name="loading_check_oauth_token">Checking login data…</string>
     <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data…</string>
@@ -114,7 +104,6 @@
     <string formatted="false" name="main_menu_programs">Projects on device</string>
     <string formatted="false" name="main_menu_help">Help</string>
     <string formatted="false" name="main_menu_web">Catrobat community</string>
-    <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
 
     <string formatted="false" name="main_menu_rate_app">Rate us!</string>
@@ -767,14 +756,6 @@
 
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">No network</string>
-
-    <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Upload project</string>
-    <string formatted="false" name="upload_description">Description:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes and credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <string formatted="false" name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Export project</string>
@@ -1436,12 +1417,6 @@
     <string formatted="false" name="notification_screenshot_ok">Preview image saved</string>
     <string formatted="false" name="notification_download_project_cancel">Cancel project download</string>
     <string formatted="false" name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string formatted="false" name="notification_upload_title_pending">"Uploading"</string>
-    <string formatted="false" name="notification_upload_title_finished">"Look at"</string>
-    <string formatted="false" name="notification_upload_pending">Upload in progress</string>
-    <string formatted="false" name="notification_upload_finished">Upload successful</string>
-    <string formatted="false" name="notification_upload_rejected">Uploaded project rejected</string>
-    <string formatted="false" name="notification_upload_retry">Retry</string>
     <string formatted="false" name="notification_open_play_store">Open App store</string>
     <string formatted="false" name="notification_download_title_pending">"Downloading"</string>
     <string formatted="false" name="notification_download_pending">Download in progress</string>
@@ -1469,10 +1444,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string formatted="false" name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string formatted="false" name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string formatted="false" name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
-        Please rename the project.</string>
-    <string formatted="false" name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Something went wrong while adding this brick.</string>
     <string formatted="false" name="error_copying_brick">Something went wrong while copying this brick.</string>
     <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
@@ -2242,24 +2213,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="deletion_alert_text">Deleting a variable or list that is still in use can cause
         errors. You can\'t undo this!</string>
 
-    <!-- Upload progress dialog -->
-    <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
-        can use and download it. You can also download your project as a standalone app.</string>
-    <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
-    <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
-    <!--  -->
-
-    <!-- unchanged upload dialog -->
-    <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string formatted="false" name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string formatted="false" name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
-    <!-- -->
-
-    <!-- Snackbar hints -->
     <string formatted="false" name="got_it">Got it</string>
     <string formatted="false" name="preference_description_hints">Enable to show hints</string>
     <string formatted="false" name="preference_title_enable_hints">Show hints </string>

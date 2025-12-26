@@ -60,8 +60,6 @@ import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.ui.PROJECT_DIR
-import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
@@ -100,7 +98,6 @@ class ProjectOptionsFragment : Fragment() {
         setupNotesAndCreditsInputLayout()
         addTags()
         setupProjectAspectRatio()
-        setupProjectUpload()
         setupProjectSaveExternal()
         setupProjectMoreDetails()
         setupProjectOptionDelete()
@@ -155,12 +152,6 @@ class ProjectOptionsFragment : Fragment() {
             setOnCheckedChangeListener { _, isChecked ->
                 handleAspectRatioChecked(isChecked)
             }
-        }
-    }
-
-    private fun setupProjectUpload() {
-        binding.projectOptionsUpload.setOnClickListener {
-            projectUpload()
         }
     }
 
@@ -280,29 +271,6 @@ class ProjectOptionsFragment : Fragment() {
                 ToastUtil.showError(requireContext(), R.string.error_set_notes_and_credits)
             }
         }
-    }
-
-    fun projectUpload() {
-        val currentProject = projectManager.currentProject
-        ProjectSaver(currentProject, requireContext())
-            .saveProjectAsync({ onSaveProjectComplete() })
-        Utils.setLastUsedProjectName(requireContext(), currentProject.name)
-    }
-
-    private fun onSaveProjectComplete() {
-        val currentProject = projectManager.currentProject
-
-        if (Utils.isDefaultProject(currentProject, activity)) {
-            binding.root.apply {
-                Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
-            }
-            return
-        }
-
-        val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
-        intent.putExtra(PROJECT_DIR, currentProject.directory)
-
-        startActivity(intent)
     }
 
     private fun exportProject() {

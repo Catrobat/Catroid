@@ -127,14 +127,11 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
-	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
 	// Default "flavor" in the web which equals "pocketcode"
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
-
-	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String CATROBAT_FORMULA_WIKI_URL = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
@@ -264,9 +261,6 @@ public final class Constants {
 	public static final String EXTRA_LANGUAGE = "language";
 	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
 	public static final String EXTRA_PROVIDER = "provider";
-	public static final String EXTRA_UPLOAD_NAME = "uploadName";
-
-	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
@@ -297,9 +291,6 @@ public final class Constants {
 	public static final int PADDING_TOP = 40;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
 
-	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
-	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
-
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 
 	public static final int MAX_NUMBER_OF_CHECKED_TAGS = 3;
@@ -311,16 +302,6 @@ public final class Constants {
 
 	//Up-/Download Status Codes
 	public static final int STATUS_CODE_INTERNAL_SERVER_ERROR = 500;
-	public static final int STATUS_CODE_UPLOAD_MISSING_DATA = 501;
-	public static final int STATUS_CODE_UPLOAD_MISSING_CHECKSUM = 503;
-	public static final int STATUS_CODE_UPLOAD_INVALID_CHECKSUM = 504;
-	public static final int STATUS_CODE_UPLOAD_COPY_FAILED = 505;
-	public static final int STATUS_CODE_UPLOAD_UNZIP_FAILED = 506;
-	public static final int STATUS_CODE_UPLOAD_MISSING_XML = 507;
-	public static final int STATUS_CODE_UPLOAD_RENAME_FAILED = 513;
-	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
-	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
-	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
 	//ExifTags for Exifremover
 	public static final ArrayList<String> EXIFTAGS_FOR_EXIFREMOVER =

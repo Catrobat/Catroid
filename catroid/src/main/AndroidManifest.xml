@@ -144,11 +144,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ProjectUploadActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
-
-        <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/stage"
@@ -253,9 +248,6 @@
         <activity
             android:name=".ui.filepicker.FilePickerActivity" />
 
-        <service
-            android:name=".transfers.project.ProjectUploadService"
-            android:foregroundServiceType="dataSync" />
         <service
             android:name=".transfers.project.ProjectDownloadService"
             android:foregroundServiceType="dataSync" />

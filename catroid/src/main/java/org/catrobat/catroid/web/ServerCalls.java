@@ -39,8 +39,6 @@ import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
-import org.catrobat.catroid.transfers.project.ProjectUploadData;
-import org.catrobat.catroid.web.requests.HttpRequestsKt;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -295,28 +293,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 		return programDataList;
 	}
-
-	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
-			UploadErrorCallback errorCallback) {
-
-		executeUploadCall(
-				HttpRequestsKt.createUploadRequest(uploadData),
-				(uploadResponse) -> {
-					String newToken = uploadResponse.token;
-					projectId = uploadResponse.projectId;
-
-					if (uploadResponse.statusCode != SERVER_RESPONSE_TOKEN_OK) {
-						errorCallback.onError(uploadResponse.statusCode, "Upload failed! JSON Response was " + uploadResponse.statusCode);
-					} else if (newToken.equals(TOKEN_CODE_INVALID) || newToken.length() != TOKEN_LENGTH) {
-						errorCallback.onError(uploadResponse.statusCode, uploadResponse.answer);
-					} else {
-						successCallback.onSuccess(projectId, uploadData.getUsername(), newToken);
-					}
-				},
-				errorCallback
-		);
-	}
-
 	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
 		Response response;
 		UploadResponse uploadResponse;
