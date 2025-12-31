@@ -187,16 +187,6 @@ class MainMenuFragmentTest : KoinTest {
     }
 
     @Test
-    fun testBackButtonAfterTappingOnUploadButton() {
-        syncBeforeLaunch(false)
-        onView(withId(R.id.uploadProject))
-            .perform(ViewActions.click())
-        pressBack()
-        onView(withId(R.id.projectImageView))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
     fun testBackButtonAfterTappingOnPlayButton() {
         syncBeforeLaunch(false)
         onView(withId(R.id.playProject))

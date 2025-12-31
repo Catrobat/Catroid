@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">โปรเจ็กต์บนอุปกรณ์</string>
     <string formatted="false" name="main_menu_help">ช่วยเหลือ</string>
     <string formatted="false" name="main_menu_web">ชุมชน Catrobat</string>
-    <string formatted="false" name="main_menu_upload">อัพโหลดโปรเจกต์</string>
     <string formatted="false" name="main_menu_play">รันโครงการ</string>
     <string formatted="false" name="main_menu_rate_app">ให้คะแนนเรา</string>
     <string formatted="false" name="main_menu_terms_of_use">ข้อกำหนดการใช้งานและบริการ</string>
@@ -635,12 +634,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">ไม่มีเครือข่าย</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">อัพโหลดโปรแกรม</string>
-    <string formatted="false" name="upload_description">คำอธิบาย:</string>
-    <string formatted="false" name="upload_notes_and_credits">หมายเหตุและเครดิต:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">คุณสร้างโครงการนี้ได้อย่างไร คุณใช้ไอเดียสคริปต์หรืออาร์ตเวิร์คจากคนอื่นหรือไม่? ขอบคุณพวกเขาที่นี่</string>
-    <string formatted="false" name="upload_tag_dialog_title">โปรดเลือกได้สูงสุดสามหมวด</string>
-    <string formatted="false" name="upload_tags_maximum_error">ไม่สามารถเลือกมากกว่า 3 แท็กได้</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">บันทึกโครงการไปยังที่จัดเก็บข้อมูลภายนอก</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

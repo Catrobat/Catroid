@@ -94,8 +94,6 @@
     <activity
         android:name=".ui.ConnectBluetoothDeviceTestActivity" />
 
-    <activity
-        android:name=".ui.ProjectUploadTestActivity" />
 <!--
         <activity
             android:name=".ui.SettingsActivity"
@@ -141,11 +139,6 @@
 <!--        <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />-->
-
-<!--        <activity
-            android:name=".ui.ProjectUploadActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>-->
 
 <!--        <activity
             android:name=".stage.StageActivity"
@@ -249,12 +242,6 @@
 <!--        <activity
             android:name=".ui.filepicker.FilePickerActivity"
             />-->
-
-<!--        <service android:name=".transfers.project.ProjectUploadService" />
-        <service android:name=".transfers.project.ProjectDownloadService" />
-        <service android:name=".transfers.MediaDownloadService" />
-        <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
-        <service android:name=".cast.CastService" android:exported="false"/>-->
 
         <provider
             android:authorities="${applicationId}.fileProvider"

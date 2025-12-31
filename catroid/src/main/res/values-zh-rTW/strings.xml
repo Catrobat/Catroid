@@ -89,7 +89,6 @@
     <string formatted="false" name="main_menu_programs">程式檔</string>
     <string formatted="false" name="main_menu_help">說明</string>
     <string formatted="false" name="main_menu_web">Catrobat社群</string>
-    <string formatted="false" name="main_menu_upload">上傳程式檔</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">對我們評分！</string>
     <string formatted="false" name="main_menu_terms_of_use">使用與服務條款</string>
@@ -644,12 +643,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">沒有網絡</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">上傳程式檔</string>
-    <string formatted="false" name="upload_description">描述:</string>
-    <string formatted="false" name="upload_notes_and_credits">註釋和學分：</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">你是如何創建這個項目的？您是否使用了其他人的想法、腳本或藝術作品？在此感謝他們。</string>
-    <string formatted="false" name="upload_tag_dialog_title">請最多選擇三個類別</string>
-    <string formatted="false" name="upload_tags_maximum_error">不能選擇超過 3 個標籤。</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">將項目保存到外部存儲</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

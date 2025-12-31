@@ -83,7 +83,6 @@
     <string formatted="false" name="main_menu_programs">Пројекти на уређају</string>
     <string formatted="false" name="main_menu_help">Помоћ</string>
     <string formatted="false" name="main_menu_web">Catrobat заједница</string>
-    <string formatted="false" name="main_menu_upload">Окачи пројекат</string>
     <string formatted="false" name="main_menu_rate_app">Оцените нас!</string>
     <string formatted="false" name="main_menu_terms_of_use">Услови коришћења и услуге</string>
     <string formatted="false" name="main_menu_privacy_policy">Правила о приватности</string>
@@ -698,11 +697,6 @@
     <string formatted="false" name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
     <string formatted="false" name="upload_button">Upload</string>
-    <string formatted="false" name="upload_project_dialog_title">Upload project</string>
-    <string formatted="false" name="upload_description">Опис:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes and credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Please choose up to three categories</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Save project to external storage</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

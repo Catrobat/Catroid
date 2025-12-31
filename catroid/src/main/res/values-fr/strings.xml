@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Programmes</string>
     <string formatted="false" name="main_menu_help">Aide</string>
     <string formatted="false" name="main_menu_web">Communauté Catrobat</string>
-    <string formatted="false" name="main_menu_upload">Envoyer le programme</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Note-nous !</string>
     <string formatted="false" name="main_menu_terms_of_use">Conditions d’utilisation et de services</string>
@@ -681,12 +680,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Pas de réseau</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Envoyer le programme</string>
-    <string formatted="false" name="upload_description">Description :</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes et crédits :</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Comment avez-vous créé ce projet ? Avez-vous utilisé des idées, des scripts ou des œuvres d\'art d\'autres personnes ? Merci ici.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Veuillez choisir jusqu\'à trois catégories</string>
-    <string formatted="false" name="upload_tags_maximum_error">La sélection de plus de 3 tags n\'est pas possible.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Enregistrer le projet sur le stockage externe</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

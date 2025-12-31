@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">プログラム</string>
     <string formatted="false" name="main_menu_help">ヘルプ</string>
     <string formatted="false" name="main_menu_web">Catrobat コミュニティ</string>
-    <string formatted="false" name="main_menu_upload">プログラムをアップロード</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">アプリを評価して！</string>
     <string formatted="false" name="main_menu_terms_of_use">利用とサービスの規約</string>
@@ -643,12 +642,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">ネットワーク接続がありません</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">プログラムをアップロード</string>
-    <string formatted="false" name="upload_description">デスクリプション：</string>
-    <string formatted="false" name="upload_notes_and_credits">ノートとクレジット:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">どのようにしてこのプロジェクトを作ったのですか? アイデア、スクリプト、または他の人々のアートワークを使ったのですか?</string>
-    <string formatted="false" name="upload_tag_dialog_title">最大3つのカテゴリを選択してください</string>
-    <string formatted="false" name="upload_tags_maximum_error">3つ以上のタグは選択できません。</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">プロジェクトを外部ストレージに保存</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

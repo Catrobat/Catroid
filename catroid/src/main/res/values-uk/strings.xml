@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Проєкти на пристрої</string>
     <string formatted="false" name="main_menu_help">Довідка</string>
     <string formatted="false" name="main_menu_web">Спільнота Catrobat</string>
-    <string formatted="false" name="main_menu_upload">Вивантажити проєкт</string>
     <string formatted="false" name="main_menu_play">Грати в проєкт</string>
     <string formatted="false" name="main_menu_rate_app">Оцініть нас!</string>
     <string formatted="false" name="main_menu_terms_of_use">Умови використання та послуги</string>
@@ -763,12 +762,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Немає мережі</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Вивантажити проєкт</string>
-    <string formatted="false" name="upload_description">Опис:</string>
-    <string formatted="false" name="upload_notes_and_credits">Примітки та автори:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Як ви створили цей проєкт? Чи використовували ви ідеї, скрипти чи витвори інших людей? Скажіть їм спасибі тут.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Будь ласка, виберіть до трьох категорій</string>
-    <string formatted="false" name="upload_tags_maximum_error">Вибрати понад 3 тегів неможливо.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Експортувати проєкт</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

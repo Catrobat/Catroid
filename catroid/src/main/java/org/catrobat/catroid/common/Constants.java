@@ -127,7 +127,6 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
-	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
@@ -266,7 +265,6 @@ public final class Constants {
 	public static final String EXTRA_PROVIDER = "provider";
 	public static final String EXTRA_UPLOAD_NAME = "uploadName";
 
-	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
@@ -297,8 +295,6 @@ public final class Constants {
 	public static final int PADDING_TOP = 40;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
 
-	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
-	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
 
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 

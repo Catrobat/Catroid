@@ -212,8 +212,6 @@ class CatroidWebServerTest : KoinTest {
                     assertNotNull(projectResponse.private)
                     assertNotNull(projectResponse.flavor)
                     assertNotNull(projectResponse.tags)
-                    assertNotNull(projectResponse.uploaded)
-                    assertNotNull(projectResponse.uploaded_string)
                     assertNotNull(projectResponse.screenshot_small)
                     assertTrue(projectResponse.screenshot_small.contains(Constants.DEFAULT_IMAGE_EXTENSION))
                     assertNotNull(projectResponse.screenshot_large)

@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Projelerin</string>
     <string formatted="false" name="main_menu_help">Yardım</string>
     <string formatted="false" name="main_menu_web">Catrobat topluluğu</string>
-    <string formatted="false" name="main_menu_upload">Projeyi topluluğa yükle</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Bizi değerlendirin!</string>
     <string formatted="false" name="main_menu_terms_of_use">Kullanım Koşulları ve Hizmetleri</string>
@@ -663,12 +662,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Bağlantı yok</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Topluluğa yükle</string>
-    <string formatted="false" name="upload_description">Açıklama:</string>
-    <string formatted="false" name="upload_notes_and_credits">Yapanlar:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Bu projeyi nasıl yarattınız? Başkalarının fikirlerini, senaryolarını veya sanat eserlerini kullandınız mı? Onlara burada teşekkür edin.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Lütfen en fazla üç kategori seçin</string>
-    <string formatted="false" name="upload_tags_maximum_error">3\'ten fazla etiket seçmek mümkün değildir.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Projeyi harici depolamaya kaydedin</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

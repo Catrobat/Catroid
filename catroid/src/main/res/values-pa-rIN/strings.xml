@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">ਡਿਵਾਈਸ ਤੇ ਪ੍ਰਾਜੈਕਟ</string>
     <string formatted="false" name="main_menu_help">ਮਦਦ ਕਰੋ</string>
     <string formatted="false" name="main_menu_web">ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ</string>
-    <string formatted="false" name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਕਰੋ</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
     <string formatted="false" name="main_menu_terms_of_use">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
@@ -686,12 +685,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">ਕੋਈ ਨੈੱਟਵਰਕ ਨਹੀਂ</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">ਅੱਪਲੋਡ ਪ੍ਰਾਜੈਕਟ ਨੂੰ</string>
-    <string formatted="false" name="upload_description">ਵੇਰਵਾ:</string>
-    <string formatted="false" name="upload_notes_and_credits">ਨੋਟਸ ਅਤੇ ਕ੍ਰੈਡਿਟ:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">ਤੁਸੀਂ ਇਹ ਪ੍ਰੋਜੈਕਟ ਕਿਵੇਂ ਬਣਾਇਆ? ਕੀ ਤੁਸੀਂ ਦੂਜੇ ਲੋਕਾਂ ਦੇ ਵਿਚਾਰਾਂ, ਸਕ੍ਰਿਪਟਾਂ ਜਾਂ ਕਲਾਕਾਰੀ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਹੈ? ਇਥੇ ਉਨ੍ਹਾਂ ਦਾ ਧੰਨਵਾਦ ਕਰੋ.</string>
-    <string formatted="false" name="upload_tag_dialog_title">ਕਿਰਪਾ ਕਰਕੇ ਤਿੰਨ ਸ਼੍ਰੇਣੀਆਂ ਦੀ ਚੋਣ ਕਰੋ</string>
-    <string formatted="false" name="upload_tags_maximum_error">3 ਤੋਂ ਵੱਧ ਟੈਗ ਚੁਣਨਾ ਸੰਭਵ ਨਹੀਂ ਹੈ.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

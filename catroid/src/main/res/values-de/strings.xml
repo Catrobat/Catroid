@@ -91,7 +91,6 @@
     <string formatted="false" name="main_menu_programs">Projekte am Gerät</string>
     <string formatted="false" name="main_menu_help">Hilfe</string>
     <string formatted="false" name="main_menu_web">Catrobat Community</string>
-    <string formatted="false" name="main_menu_upload">Projekt hochladen</string>
     <string formatted="false" name="main_menu_play">Projekt abspielen</string>
     <string formatted="false" name="main_menu_rate_app">Bewerte uns!</string>
     <string formatted="false" name="main_menu_terms_of_use">Nutzungsbedingungen und Leistungen</string>
@@ -676,12 +675,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Keine Netzwerkverbindung</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Projekt hochladen</string>
-    <string formatted="false" name="upload_description">Beschreibung:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notizen und Credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">Wie hast du dieses Projekt erstellt? Hast du Ideen, Skripte oder Kunstwerke von anderen Leuten verwendet? Danke ihnen hier.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Bitte wähle bis zu drei Kategorien</string>
-    <string formatted="false" name="upload_tags_maximum_error">Das Auswählen von mehr als 3 Tags ist nicht möglich.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Projekt im externen Speicher speichern</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

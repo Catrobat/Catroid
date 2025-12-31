@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">Programi</string>
     <string formatted="false" name="main_menu_help">Pomoć</string>
     <string formatted="false" name="main_menu_web">Catrobat zajednica</string>
-    <string formatted="false" name="main_menu_upload">Ucitaj projekt</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Ocijenite nas!</string>
     <string formatted="false" name="main_menu_terms_of_use">Uvjeti koristenja i usluga</string>
@@ -718,12 +717,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">Nema mreže</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">Ucitaj projekt</string>
-    <string formatted="false" name="upload_description">Opis:</string>
-    <string formatted="false" name="upload_notes_and_credits">Notes and credits:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string formatted="false" name="upload_tag_dialog_title">Molimo izaberite najvise 3 kategorije</string>
-    <string formatted="false" name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">Spremanje projekta na vanjski prostor za pohranu</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

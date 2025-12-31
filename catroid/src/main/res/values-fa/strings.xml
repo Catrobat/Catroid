@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">پروژه ها بر روی دستگاه</string>
     <string formatted="false" name="main_menu_help">کمک</string>
     <string formatted="false" name="main_menu_web">جامعه کاتروبات Catrobat</string>
-    <string formatted="false" name="main_menu_upload">آپلود پروژه</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">به ما رای دهید!</string>
     <string formatted="false" name="main_menu_terms_of_use">شرایط استفاده و خدمات</string>
@@ -634,12 +633,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">بارگذاری پروژه</string>
-    <string formatted="false" name="upload_description">شرح:</string>
-    <string formatted="false" name="upload_notes_and_credits">یادداشت ها و اعتبارات:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">چگونه این پروژه را ایجاد کردید؟ آیا از اندیشه های، اسکریپت ها یا آثار هنری از دیگران استفاده کرده اید؟ اینجا از آنها تشکری کن. </string>
-    <string formatted="false" name="upload_tag_dialog_title">لطفا تا سه دسته را انتخاب کنید</string>
-    <string formatted="false" name="upload_tags_maximum_error">انتخاب بیش از 3 تگ امکان پذیر نیست.</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">پروژه صادرات</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>

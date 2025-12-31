@@ -92,7 +92,6 @@
     <string formatted="false" name="main_menu_programs">ডিভাইসে প্রজেক্টগুলি</string>
     <string formatted="false" name="main_menu_help">সাহায্য</string>
     <string formatted="false" name="main_menu_web">ক্যাট্রোব্যাট সম্প্রদায়</string>
-    <string formatted="false" name="main_menu_upload">আপলোডকৃত প্রজেক্ট</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">আমাদের মতামত দিন</string>
     <string formatted="false" name="main_menu_terms_of_use">ব্যবহার এবং সেবার শর্তাদি</string>
@@ -663,12 +662,6 @@
     <!-- NetworkAlertDialog -->
     <string formatted="false" name="error_no_network_title">নেটওয়ার্ক নেই</string>
     <!-- UploadProjectDialog -->
-    <string formatted="false" name="upload_project_dialog_title">আপলোডকৃত প্রজেক্ট</string>
-    <string formatted="false" name="upload_description">বর্ণনা:</string>
-    <string formatted="false" name="upload_notes_and_credits">নোট এবং ক্রেডিট:</string>
-    <string formatted="false" name="upload_notes_and_credits_explanation">আপনি এই প্রকল্পটি কীভাবে তৈরি করলেন? আপনি অন্যান্য ব্যক্তিদের কাছ থেকে ধারণা, স্ক্রিপ্ট বা শিল্পকর্ম ব্যবহার করেছেন? তাদের এখানে ধন্যবাদ।</string>
-    <string formatted="false" name="upload_tag_dialog_title">তিনটি বিভাগ পর্যন্ত নির্বাচন করুন</string>
-    <string formatted="false" name="upload_tags_maximum_error">3 টিরও বেশি ট্যাগ নির্বাচন করা সম্ভব নয়।</string>
     <!-- Save Project to External Storage -->
     <string formatted="false" name="save_to_external_storage_button">বাহ্যিক স্টোরেজে প্রজেক্টটি সংরক্ষণ করুন</string>
     <string formatted="false" name="notification_save_project_to_external_storage_title_pending">" "</string>
