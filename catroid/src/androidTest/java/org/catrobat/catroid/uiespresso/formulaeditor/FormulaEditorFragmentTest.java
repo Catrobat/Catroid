@@ -48,10 +48,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeDown;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -163,6 +166,21 @@ public class FormulaEditorFragmentTest {
 		pressBack();
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testScrolling() {
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
+				.perform(click());
+		onView(withId(R.id.formula_editor_brick_space)).check(matches(isDisplayed()));
+
+		onFormulaEditor().performEnterFormula("111".repeat(150));
+		onView(withId(R.id.formula_editor_brick_and_formula)).perform(swipeUp());
+		onView(withId(R.id.formula_editor_brick_space)).check(matches(not(isDisplayed())));
+
+		onView(withId(R.id.formula_editor_brick_and_formula)).perform(swipeDown());
+		onView(withId(R.id.formula_editor_brick_space)).check(matches(isDisplayed()));
 	}
 
 	@After

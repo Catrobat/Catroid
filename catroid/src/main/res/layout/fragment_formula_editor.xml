@@ -26,55 +26,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
-
-    <LinearLayout
+    
+    <ScrollView
         android:id="@+id/formula_editor_brick_and_formula"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical">
 
         <LinearLayout
-            android:id="@+id/formula_editor_brick_space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/brick_space_padding_formular_editor"
-            android:paddingBottom="@dimen/brick_space_padding_formular_editor"
-            android:background="@color/toolbar_background"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/solid_white" >
+                <LinearLayout
+                    android:id="@+id/formula_editor_brick_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/brick_space_padding_formular_editor"
+                    android:paddingBottom="@dimen/brick_space_padding_formular_editor"
+                    android:background="@color/toolbar_background"
+                    android:orientation="vertical" />
 
-            <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
-                android:id="@+id/formula_editor_edit_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/solid_white"
-                android:hint="@string/formula_nothing_selected"
-                android:inputType="textMultiLine"
-                android:lineSpacingExtra="5dp"
-                android:maxLines="20"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:textColor="@color/solid_black"
-                android:textSize="?attr/x_large" />
-        </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/solid_white">
 
-    </LinearLayout>
+                    <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
+                        android:id="@+id/formula_editor_edit_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/solid_white"
+                        android:hint="@string/formula_nothing_selected"
+                        android:inputType="textMultiLine"
+                        android:lineSpacingExtra="5dp"
+                        android:maxLines="20"
+                        android:textColor="@color/solid_black"
+                        android:textSize="?attr/x_large" />
+                </FrameLayout>
+            </LinearLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/formula_editor_keyboardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        layout="@layout/formula_editor_keyboard"
         android:layout_gravity="bottom"
-        layout="@layout/formula_editor_keyboard" />
+        android:layout_weight="1" />
 
 </LinearLayout>
