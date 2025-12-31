@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -37,8 +38,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.Utils;
-
-import static org.catrobat.catroid.transfers.GoogleLoginHandler.REQUEST_CODE_GOOGLE_SIGNIN;
 
 public class SignInActivity extends BaseActivity implements SignInCompleteListener {
 	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
@@ -83,18 +82,11 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
 			case R.id.sign_in_google_login_button:
-				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
+				googleLoginHandler.signInWithGoogle();
 				break;
 			default:
 				break;
 		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		googleLoginHandler.onActivityResult(requestCode, resultCode, data);
-
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

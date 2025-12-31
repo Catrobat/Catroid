@@ -23,82 +23,132 @@
 
 package org.catrobat.catroid.transfers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.auth.api.identity.AuthorizationClient;
+import com.google.android.gms.auth.api.identity.AuthorizationRequest;
+import com.google.android.gms.auth.api.identity.AuthorizationResult;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption;
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Executor;
 
-import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
-import static com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.credentials.Credential;
+import androidx.credentials.CredentialManager;
+import androidx.credentials.CredentialManagerCallback;
+import androidx.credentials.GetCredentialRequest;
+import androidx.credentials.GetCredentialResponse;
+import androidx.credentials.exceptions.GetCredentialException;
 
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID;
 
-public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
-		GoogleLogInTask.OnGoogleServerLogInCompleteListener,
+public class GoogleLoginHandler extends BaseActivity implements GoogleLogInTask.OnGoogleServerLogInCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
+		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
+		GoogleVerifyUserTask.OnGoogleVerifyUserCompleteListener,
 		GoogleExchangeCodeTask.OnGoogleExchangeCodeCompleteListener {
 
+	public static final int REQUEST_CODE_GOOGLE_AUTHORIZATION = 111;
+
 	private AppCompatActivity activity;
-	public static final int REQUEST_CODE_GOOGLE_SIGNIN = 100;
-	private GoogleSignInClient googleSignInClient;
 
 	@SuppressWarnings("RestrictedApi")
 	public GoogleLoginHandler(AppCompatActivity activity) {
 		this.activity = activity;
-
-		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.requestIdToken(GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID)
-				.build();
-		googleSignInClient = getClient(this.activity, googleSignInOptions);
 	}
 
-	public GoogleSignInClient getGoogleSignInClient() {
-		return googleSignInClient;
-	}
+	public void signInWithGoogle() {
+		CredentialManager credentialManager = CredentialManager.create(activity);
 
-	@SuppressWarnings("RestrictedApi")
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE_GOOGLE_SIGNIN) {
-			Task<GoogleSignInAccount> task = getSignedInAccountFromIntent(data);
-			if (task.isSuccessful()) {
-				onGoogleLogInComplete(task.getResult());
-			} else {
-				ToastUtil.showError(activity,
-						String.format(activity.getString(R.string.error_google_plus_sign_in), task.getException().getLocalizedMessage().replace(":", "")));
+		StringBuilder hashedNonce = new StringBuilder();
+		try {
+			String rawNonce = UUID.randomUUID().toString();
+			byte[] bytes = rawNonce.getBytes();
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			byte[] digest = md.digest(bytes);
+
+			for (byte b : digest) {
+				hashedNonce.append(String.format("%02x", b));
 			}
+		} catch (Exception e) {
+			Log.i("Google", "Creating nonce has failed.");
+			e.printStackTrace();
 		}
+
+		GetSignInWithGoogleOption googleSignInOption =
+				new GetSignInWithGoogleOption.Builder(GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID)
+						.setNonce(hashedNonce.toString())
+						.build();
+		GetCredentialRequest credentialRequest = new GetCredentialRequest.Builder()
+				.addCredentialOption(googleSignInOption)
+				.build();
+		Executor executor = ContextCompat.getMainExecutor(activity);
+		CancellationSignal cancellationSignal = new CancellationSignal();
+		GoogleLoginHandler googleLoginHandler = this;
+		credentialManager.getCredentialAsync(
+				activity,
+				credentialRequest,
+				cancellationSignal,
+				executor,
+				new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+					@Override
+					public void onResult(GetCredentialResponse getCredentialResponse) {
+						Credential credential = getCredentialResponse.getCredential();
+						GoogleIdTokenCredential tokenCredential =
+								GoogleIdTokenCredential.createFrom(credential.getData());
+
+						GoogleVerifyUserTask googleVerifyUserTask = new GoogleVerifyUserTask(tokenCredential);
+						googleVerifyUserTask.setOnGoogleVerifyUserCompleteListener(googleLoginHandler);
+						googleVerifyUserTask.execute();
+					}
+
+					@Override
+					public void onError(@NonNull GetCredentialException e) {
+						ToastUtil.showError(activity,
+								String.format(activity.getString(R.string.error_google_plus_sign_in), e.getLocalizedMessage().replace(":", "")));
+						e.printStackTrace();
+					}
+				}
+		);
 	}
 
-	public void onGoogleLogInComplete(GoogleSignInAccount account) {
+	@Override
+	public void onGoogleVerifyUserComplete(GoogleIdTokenCredential account, String googleEmail) {
 		String id = account.getId();
 		String personName = account.getDisplayName();
-		String email = account.getEmail();
 		String locale = DeviceSettingsProvider.getUserCountryCode();
 		String idToken = account.getIdToken();
-		String code = account.getServerAuthCode();
 
 		PreferenceManager.getDefaultSharedPreferences(activity).edit()
 				.putString(Constants.GOOGLE_ID, id)
 				.putString(Constants.GOOGLE_USERNAME, personName)
-				.putString(Constants.GOOGLE_EMAIL, email)
+				.putString(Constants.GOOGLE_EMAIL, googleEmail)
 				.putString(Constants.GOOGLE_LOCALE, locale)
 				.putString(Constants.GOOGLE_ID_TOKEN, idToken)
-				.putString(Constants.GOOGLE_EXCHANGE_CODE, code)
 				.apply();
 
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(activity, id, Constants.GOOGLE_PLUS);
@@ -126,22 +176,61 @@ public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthToken
 	}
 
 	@Override
-	public void onGoogleServerLogInComplete() {
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		((SignInCompleteListener) activity).onLoginSuccessful(bundle);
-	}
-
-	@Override
 	public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
 		if (emailAvailable) {
-			exchangeGoogleAuthorizationCode();
+			authorizeGoogleUser();
 		} else {
 			showOauthUserNameDialog(Constants.GOOGLE_PLUS);
 		}
 	}
 
-	public void exchangeGoogleAuthorizationCode() {
+	public void authorizeGoogleUser() {
+		AuthorizationRequest authorizationRequest = new AuthorizationRequest.Builder()
+				.requestOfflineAccess(GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID)
+				.setRequestedScopes(List.of(
+						new Scope("https://www.googleapis.com/auth/userinfo.email")  // Request email scope
+				))
+				.build();
+
+		AuthorizationClient authorizationClient = Identity.getAuthorizationClient(activity);
+		authorizationClient.authorize(authorizationRequest).addOnSuccessListener(authorizationResult -> {
+			if (authorizationResult.hasResolution()) {
+				try {
+					authorizationResult.getPendingIntent().send(REQUEST_CODE_GOOGLE_AUTHORIZATION);
+				} catch (Exception e) {
+					Log.e("Google", "Failed to start authorization UI: " + e.getLocalizedMessage());
+				}
+			} else {
+				PreferenceManager.getDefaultSharedPreferences(activity).edit()
+						.putString(Constants.GOOGLE_EXCHANGE_CODE, authorizationResult.getServerAuthCode())
+						.apply();
+				exchangeGoogleServerAuthCode();
+			}
+		}).addOnFailureListener(e -> Log.e("Google", "Authorization failed", e));
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_GOOGLE_AUTHORIZATION && resultCode == Activity.RESULT_OK) {
+			AuthorizationClient authorizationClient = Identity.getAuthorizationClient(this);
+			AuthorizationResult authorizationResult;
+
+			try {
+				authorizationResult = authorizationClient.getAuthorizationResultFromIntent(data);
+			} catch (ApiException e) {
+				throw new RuntimeException(e);
+			}
+
+			PreferenceManager.getDefaultSharedPreferences(activity).edit()
+					.putString(Constants.GOOGLE_EXCHANGE_CODE, authorizationResult.getServerAuthCode())
+					.apply();
+			exchangeGoogleServerAuthCode();
+		}
+	}
+
+	private void exchangeGoogleServerAuthCode() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(activity,
 				sharedPreferences.getString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE),
@@ -154,15 +243,6 @@ public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthToken
 		googleExchangeCodeTask.execute();
 	}
 
-	private void showOauthUserNameDialog(String provider) {
-		OAuthUsernameDialogFragment dialog = new OAuthUsernameDialogFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
-		dialog.setArguments(bundle);
-		dialog.setSignInCompleteListener((SignInCompleteListener) activity);
-		dialog.show(activity.getSupportFragmentManager(), OAuthUsernameDialogFragment.TAG);
-	}
-
 	@Override
 	public void onGoogleExchangeCodeComplete() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -173,5 +253,21 @@ public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthToken
 				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
 		googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
 		googleLogInTask.execute();
+	}
+
+	@Override
+	public void onGoogleServerLogInComplete() {
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
+		((SignInCompleteListener) activity).onLoginSuccessful(bundle);
+	}
+
+	private void showOauthUserNameDialog(String provider) {
+		OAuthUsernameDialogFragment dialog = new OAuthUsernameDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
+		dialog.setArguments(bundle);
+		dialog.setSignInCompleteListener((SignInCompleteListener) activity);
+		dialog.show(activity.getSupportFragmentManager(), OAuthUsernameDialogFragment.TAG);
 	}
 }

@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.common.base.Splitter;
 import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
@@ -53,7 +54,6 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebConnectionException;
 import org.json.JSONException;
@@ -74,7 +74,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.exifinterface.media.ExifInterface;
 import okhttp3.Response;
 
@@ -479,8 +478,14 @@ public final class Utils {
 
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
-		googleLoginHandler.getGoogleSignInClient().signOut();
+
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		try {
+			GoogleAuthUtil.clearToken(context, token);
+		} catch (Exception e) {
+			Log.i("Google", "Logging out failed.");
+		}
+
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)

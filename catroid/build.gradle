@@ -29,7 +29,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.gms:google-services:4.4.2'
     }
 }
 
@@ -200,7 +200,9 @@ android {
             excludes += ['lib/mips/*', 'lib/armeabi/*']
         }
         resources {
-            excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
+            excludes += ['LICENSE.txt', 'META-INF/DEPENDENCIES', 'META-INF/LICENSE.md',
+                         'META-INF/INDEX.LIST',
+                         'lib/mips/*', 'lib/armeabi/*']
         }
     }
 
@@ -381,6 +383,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.credentials:credentials:1.3.0'
+    implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -410,7 +415,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
@@ -439,6 +443,11 @@ dependencies {
     implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
         exclude group: 'xmlpull'
     }
+
+    // Client
+    implementation 'com.google.api-client:google-api-client:2.7.0'
+    implementation 'com.google.oauth-client:google-oauth-client:1.37.0'
+    implementation 'com.google.http-client:google-http-client-jackson2:1.42.0'
 
     // Catblocks
     implementation "androidx.webkit:webkit:1.2.0"
@@ -482,7 +491,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.android.gms:play-services-auth:20.6.0"
 
     androidTestImplementation('tools.fastlane:screengrab:2.1.1') {
         // https://issuetracker.google.com/issues/123060356
