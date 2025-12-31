@@ -37,6 +37,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -64,6 +65,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE;
@@ -89,6 +91,7 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -127,15 +130,22 @@ public class SettingsFragmentTest {
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
+	private SharedPreferences sharedPreferences;
+
 	@Before
 	public void setUp() throws Exception {
-		SharedPreferences sharedPreferences = PreferenceManager
+		sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		for (String setting : allSettings) {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
 		}
 		setAllSettingsTo(true);
+
+		SettingsFragment.setCatBlocksAdvancedMode(ApplicationProvider.getApplicationContext(),
+				false);
+		SettingsFragment.setSetToEnglish(ApplicationProvider.getApplicationContext(), false);
+
 		baseActivityTestRule.launchActivity(null);
 
 		Intents.init();
@@ -207,6 +217,32 @@ public class SettingsFragmentTest {
 
 		onView(allOf(withId(R.id.radio_button), withParent(withId(R.id.argus))))
 				.perform(click());
+	}
+
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
+	@Test
+	public void advancedModeChangeLanguageTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_catblocks_advanced_mode))
+				.perform(click());
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_catblocks_advanced_mode))
+				.perform(click());
+
+		onData(PreferenceMatchers.withTitle(R.string.advanced_mode_title_set_to_english))
+				.perform(click());
+
+		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
+		assertEquals("en", languageTag);
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_catblocks_advanced_mode))
+				.perform(click());
+		onData(PreferenceMatchers.withTitle(R.string.advanced_mode_title_set_to_english))
+				.perform(click());
+
+		languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
+		String previousLanguage =
+				sharedPreferences.getString(SettingsFragment.SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE, "");
+		assertEquals(previousLanguage, languageTag);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

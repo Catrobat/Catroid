@@ -105,6 +105,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String AI_SENSORS_SCREEN_KEY = "setting_ai_screen";
 	public static final String ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen";
+	public static final String ADVANCED_MODE_SCREEN_KEY = "setting_advanced_mode_screen";
 	public static final String NXT_SCREEN_KEY = "setting_nxt_screen";
 	public static final String EV3_SCREEN_KEY = "setting_ev3_screen";
 	public static final String DRONE_SCREEN_KEY = "settings_drone_screen";
@@ -135,6 +136,14 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String TAG = SettingsFragment.class.getSimpleName();
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
+
+	public static final String SETTINGS_CATBLOCKS_ADVANCED_MODE = "advanced_mode_enable_catblocks_advanced_mode";
+
+	public static final String SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE = "advanced_mode_set_to_english";
+
+	public static final String SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE =
+			"advanced_mode_previous_language";
+	public static final String SETTINGS_CATBLOCKS_SWITCHED = "setting_catblocks_switched";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -237,6 +246,13 @@ public class SettingsFragment extends PreferenceFragment {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
 						.addToBackStack(AccessibilitySettingsFragment.TAG)
+						.commit();
+				break;
+			case ADVANCED_MODE_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AdvancedModeSettingsFragment(),
+								AdvancedModeSettingsFragment.Companion.getTAG())
+						.addToBackStack(AdvancedModeSettingsFragment.Companion.getTAG())
 						.commit();
 				break;
 			case NXT_SCREEN_KEY:
@@ -550,6 +566,9 @@ public class SettingsFragment extends PreferenceFragment {
 		listPreference.setEntries(languages);
 		listPreference.setEntryValues(LANGUAGE_TAGS);
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
+			if (!languageTag.equals("en")) {
+				setSetToEnglish(getActivity().getBaseContext(), false);
+			}
 			String selectedLanguageTag = languageTag.toString();
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
@@ -641,5 +660,37 @@ public class SettingsFragment extends PreferenceFragment {
 		} else {
 			getPreferenceScreen().removePreference(simplePreferenceField);
 		}
+	}
+
+	public static boolean getCatBlocksAdvancedMode(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_ADVANCED_MODE, context);
+	}
+
+	public static void setSetToEnglish(Context context, boolean setToEnglish) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SET_TO_ENGLISH_ADVANCED_MODE, setToEnglish)
+				.apply();
+	}
+
+	public static void setCatBlocksAdvancedMode(Context context, boolean advancedMode) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_CATBLOCKS_ADVANCED_MODE, advancedMode)
+				.apply();
+	}
+
+	public static void setAdvancedModePreviousLanguage(Context context, String value) {
+		getSharedPreferences(context).edit()
+				.putString(SETTINGS_ADVANCED_MODE_PREVIOUS_LANGUAGE, value)
+				.apply();
+	}
+
+	public static boolean getCatBlocksSwitched(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_SWITCHED, context);
+	}
+
+	public static void setCatBlocksSwitched(Context context, boolean catBlocksSwitched) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_CATBLOCKS_SWITCHED, catBlocksSwitched)
+				.apply();
 	}
 }

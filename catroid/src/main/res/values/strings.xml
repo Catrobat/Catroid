@@ -205,6 +205,14 @@
     <string formatted="false" name="accessibility_font_dyslexic">Dyslexic</string>
     <string formatted="false" name="accessibility_settings_applied">Changes applied</string>
 
+    <!-- Advanced Mode -->
+    <string name="preference_title_catblocks_advanced_mode">Advanced mode</string>
+    <string name="preference_description_catblocks_advanced_mode">Change to text-oriented interface</string>
+    <string name="setting_advanced_mode_screen">Settings for app\'s advanced mode</string>
+    <string name="advanced_mode_description_set_to_english">Change the app\'s language to
+        English</string>
+    <string name="advanced_mode_title_set_to_english">Set to English</string>
+
     <string formatted="false" name="preference_access_title_profile_default">Default</string>
     <string formatted="false" name="preference_access_summary_profile_default">Default settings</string>
     <string formatted="false" name="preference_access_title_profile_custom">My custom profile</string>
