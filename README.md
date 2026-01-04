@@ -14,8 +14,8 @@ For reporting issues use our [JIRA Bugtracking System](https://catrobat.atlassia
 
 # Contributing #
 
-If you want to contribute we suggest that you start with [forking](https://help.github.com/articles/fork-a-repo/) our repository and browse the code. Then you can look at our [Issue-Tracker](https://catrobat.atlassian.net/jira/software/c/projects/IDE/issues?filter=allissues&jql=project%20in%20(%22Catroid%20IDE%22%2C%20%22Catroid%20Stage%22)%20ORDER%20BY%20created%20DESC) and start with fixing one ticket. We strictly use [Test-Driven Development](http://c2.com/cgi/wiki?TestDrivenDevelopment) and [Clean Code](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf), so first read everything you can about these development methods. Code developed in a different style will not be accepted. 
-After you've created a pull request we will review your code and do a full testrun on your branch.
+If you want to contribute, we recommend starting by [forking](https://help.github.com/articles/fork-a-repo/) the repository and exploring the codebase.  Then you can look at our [Issue-Tracker](https://catrobat.atlassian.net/jira/software/c/projects/IDE/issues?filter=allissues&jql=project%20in%20(%22Catroid%20IDE%22%2C%20%22Catroid%20Stage%22)%20ORDER%20BY%20created%20DESC) and start with fixing one ticket. We strictly use [Test-Driven Development](http://c2.com/cgi/wiki?TestDrivenDevelopment) and [Clean Code](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf), so first read everything you can about these development methods. Code developed in a different style will not be accepted. 
+After you create a pull request, we will review your code and run the required tests on your branch.
 
 If you want to implement a new feature, please ask about the details on https://catrob.at/mailinglist
 
