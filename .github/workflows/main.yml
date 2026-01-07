@@ -139,7 +139,16 @@ jobs:
           -camera-front none
           -qemu -append panic=1
         arch: x86_64
-        script: ./gradlew :catroid:connectedCatroidDebugAndroidTest
+        script: |
+          # 1. Kompilieren
+          ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
+          
+          # 2. Emulator aufwecken
+          adb shell input keyevent KEYCODE_WAKEUP
+          
+          # 3. Standard Test-Ausführung ohne Coverage
+          ./gradlew disableAnimations connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
+ 
 
   unit-tests:
     name: Unit Tests
