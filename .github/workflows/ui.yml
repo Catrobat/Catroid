@@ -107,8 +107,15 @@ jobs:
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
             
             # 2. Standard Test-Run without Coverage
-            ./gradlew disableAnimations connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-  
+            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always() # Lädt den Report auch hoch, wenn Tests fehlschlagen
+        with:
+          name: coverage-report
+          path: catroid/build/reports/coverage/androidTest/catroid/debug/connected/
+            
   
 
   ui-tests:
