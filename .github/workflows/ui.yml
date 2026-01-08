@@ -108,8 +108,7 @@ jobs:
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
             
             # 2. Standard Test-Run without Coverage
-            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-            | grep "There were failing tests."
+            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite | grep "There were failing tests."
       - name: Upload Test Reports Folder
         uses: actions/upload-artifact@v4
         if: always() # IMPORTANT: Upload reports regardless of status
