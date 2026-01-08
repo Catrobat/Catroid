@@ -109,7 +109,6 @@ jobs:
             
             # 2. Standard Test-Run without Coverage
             ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-          continue-on-error: true
 
       - name: Upload Test Reports Folder
         uses: actions/upload-artifact@v4
