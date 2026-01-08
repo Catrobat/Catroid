@@ -379,6 +379,7 @@ dependencies {
 
 
 
+    implementation "org.mockito:mockito-core:$mockitoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     implementation ('com.opencsv:opencsv:5.0') {
@@ -436,7 +437,6 @@ dependencies {
     implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
-    implementation 'com.github.pdrogfer:MidiDroid:1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.16'
 
     // CameraX

@@ -33,8 +33,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.ui.ConnectBluetoothDeviceTestActivity
 import org.catrobat.catroid.R
-import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity
 import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity.DEVICE_TO_CONNECT
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice.MULTIPLAYER
 import org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY
@@ -118,10 +118,5 @@ class ConnectBluetoothDeviceActivityTest {
             .check(matches(withDrawable(R.drawable.ic_search)))
             .perform(click())
             .check(matches(withDrawable(R.drawable.ic_close)))
-    }
-
-    class ConnectBluetoothDeviceTestActivity : ConnectBluetoothDeviceActivity() {
-        override fun initBluetooth() = Unit
-        override fun doDiscovery() = Unit
     }
 }

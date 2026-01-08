@@ -53,12 +53,12 @@ public final class FlavoredConstants {
 
 	// Media Library:
 	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
-	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
-	public static final String LIBRARY_OBJECT_URL = BASE_URL_HTTPS + "media-library/objects";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
-	public static final String PRIVACY_POLICY_URL = "https://catrob.at/createatschoolprivacy";
+	public static final String CATROBAT_BASE_URL = "https://catrobat.org/";
+	public static final String CATROBAT_CONTENT_DOWNLOAD_URL = CATROBAT_BASE_URL + "wp-content/";
+	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
+	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
+	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
+	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");
