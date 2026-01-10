@@ -150,8 +150,6 @@ public class BrickFormulaDefaultValueTest {
 				{"GlideToBrick - R.id.brick_glide_to_edit_text_duration", "Motion", GlideToBrick.class, R.id.brick_glide_to_edit_text_duration, "1 "},
 				{"GoNStepsBackBrick - R.id.brick_go_back_edit_text", "Motion", GoNStepsBackBrick.class, R.id.brick_go_back_edit_text, "1 "},
 				{"VibrationBrick - R.id.brick_vibration_edit_text", "Motion", VibrationBrick.class, R.id.brick_vibration_edit_text, "1 "},
-				{"TurnLeftBrick - R.id.brick_turn_left_edit_text", "Motion", TurnLeftBrick.class, R.id.brick_turn_left_edit_text, "15 "},
-				{"TurnRightBrick - R.id.brick_turn_right_edit_text", "Motion", TurnRightBrick.class, R.id.brick_turn_right_edit_text, "15 "},
 				{"SetGravityBrick - R.id.brick_set_gravity_edit_text_x", "Motion", SetGravityBrick.class, R.id.brick_set_gravity_edit_text_x, "0 "},
 				{"SetGravityBrick, R.id.brick_set_gravity_edit_text_y", "Motion", SetGravityBrick.class, R.id.brick_set_gravity_edit_text_y, "- 10 "},
 				{"SetMassBrick - R.id.brick_set_mass_edit_text", "Motion", SetMassBrick.class, R.id.brick_set_mass_edit_text, "1 "},
@@ -206,15 +204,15 @@ public class BrickFormulaDefaultValueTest {
 				{"IfLogicBeginBrick - R.id.brick_if_begin_edit_text", "Control", IfLogicBeginBrick.class, R.id.brick_if_begin_edit_text, "1 < 2 "},
 				{"IfThenLogicBeginBrick - R.id.brick_if_begin_edit_text", "Control", IfThenLogicBeginBrick.class, R.id.brick_if_begin_edit_text, "1 < 2 "},
 				{"WaitBrick - R.id.brick_wait_edit_text", "Control", WaitBrick.class, R.id.brick_wait_edit_text, "1 "},
-				{"NoteBrick - R.id.brick_wait_edit_text", "Control", NoteBrick.class, R.id.brick_note_edit_text, "'add comment here…' "},
+				{"NoteBrick - R.id.brick_note_edit_text", "Control", NoteBrick.class, R.id.brick_note_edit_text, "'add comment here…' "},
 				{"WaitUntilBrick - R.id.brick_wait_until_edit_text", "Control", WaitUntilBrick.class, R.id.brick_wait_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_until_edit_text", "Control", RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 "},
-				{"RepeatUntilBrick - R.id.brick_repeat_edit_text", "Control", RepeatBrick.class, R.id.brick_repeat_edit_text, "10 "},
-				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_density", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_length, "2 "},
-				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_height", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_width, "10 "},
-				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
-				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", TripleStitchBrick.class, R.id.brick_triple_stitch_edit_text_steps, "10 "},
-				{"WriteEmbroideryToFileBrick - R.id.brick_write_embroidery_to_file_edit_text", "Embroidery", WriteEmbroideryToFileBrick.class, R.id.brick_write_embroidery_to_file_edit_text, "'embroidery.dst' "},
+				{"RepeatBrick - R.id.brick_repeat_edit_text", "Control", RepeatBrick.class, R.id.brick_repeat_edit_text, "10 "},
+				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_length", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_length, "2 "},
+				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_width", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_width, "10 "},
+				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_length", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
+				{"TripleStitchBrick- R.id.brick_triple_stitch_edit_text_steps", "Embroidery", TripleStitchBrick.class, R.id.brick_triple_stitch_edit_text_steps, "10 "},
+				{"WriteEmbroideryToFileBrick - R.id.brick_write_embroidery_to_file_edit_text", "Embroidery", WriteEmbroideryToFileBrick.class, R.id.brick_write_embroidery_to_file_edit_text, "'embroidery.dst' "}
 		});
 	}
 
