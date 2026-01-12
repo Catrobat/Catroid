@@ -138,3 +138,27 @@ jobs:
           name: ${{ matrix.tool.name }}-report
           path: |
             catroid/build/reports/html/${{ matrix.tool.name }}.html
+
+  instrumented-unit-tests:
+    name: Instrumented Unit Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
+
+  testrunner-tests:
+    name: Testrunner Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
+
+  quarantined-tests:
+    name: Quarantined Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
+
+  rtl-tests:
+    name: RTL Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
