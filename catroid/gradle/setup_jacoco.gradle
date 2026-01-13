@@ -58,9 +58,9 @@ project.afterEvaluate {
                     '**/*Test*.*',
                     'android/**/*.*'
             ]
-            def javaClasses = fileTree(dir: variant.javaCompileProvider.get().
-                    destinationDirectory.get().asFile, excludes:
-                    excludes)
+            def javaClasses = fileTree(
+                    dir: variant.javaCompileProvider.get().destinationDirectory.get().asFile,
+                    excludes: excludes)
             def kotlinClasses = fileTree(
                     dir: "${buildDir}/tmp/kotlin-classes/${kotlinClassSubdirectory}",
                     excludes: excludes)
