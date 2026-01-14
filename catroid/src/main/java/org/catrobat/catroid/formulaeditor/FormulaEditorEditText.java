@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -42,6 +43,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType.USER_SELECTION;
 
 @SuppressLint("AppCompatCustomView")
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
@@ -365,6 +368,26 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View view, MotionEvent motion) {
+		if (motion.getAction() == MotionEvent.ACTION_UP) {
+			Spannable spannable = getText();
+			int x = (int) (motion.getX() - getTotalPaddingLeft() + getScrollX());
+			int y = (int) (motion.getY() - getTotalPaddingTop() + getScrollY());
+
+			VisualizeColorImageSpan[] spans = spannable.getSpans(0, spannable.length(),
+					VisualizeColorImageSpan.class);
+			for (int i = 0; i < spans.length; i++) {
+				Rect rect = spans[i].getDrawRect();
+
+				if (rect != null && rect.contains(x, y)) {
+					internFormula.setInternFormulaTokenSelection(new InternFormulaTokenSelection(
+							USER_SELECTION, i, i));
+
+					formulaEditorFragment.showColorPickerDialog(view);
+					return true;
+				}
+			}
+		}
+
 		return gestureDetector.onTouchEvent(motion);
 	}
 

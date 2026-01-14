@@ -443,7 +443,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		dialog.show(fragmentManager, null);
 	}
 
-	private void showColorPickerDialog(View view) {
+	public void showColorPickerDialog(View view) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
