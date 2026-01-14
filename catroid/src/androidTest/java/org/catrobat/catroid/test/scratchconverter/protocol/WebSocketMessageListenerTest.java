@@ -78,12 +78,12 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
@@ -553,7 +553,7 @@ public class WebSocketMessageListenerTest {
 	@Test
 	public void testIsJobInProgressOfUnscheduledJobShouldReturnFalse() {
 		assertFalse(webSocketMessageListener.isJobInProgress(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER));
-		verifyZeroInteractions(jobHandlerMock);
+		verifyNoInteractions(jobHandlerMock);
 	}
 
 	@Test
@@ -566,7 +566,7 @@ public class WebSocketMessageListenerTest {
 	@Test
 	public void testOnUserCanceledConversionEventOfUnscheduledJobShouldNotForwardCallToCorrespondingJobHandler() {
 		webSocketMessageListener.onUserCanceledConversion(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER);
-		verifyZeroInteractions(jobHandlerMock);
+		verifyNoInteractions(jobHandlerMock);
 	}
 
 	@Test

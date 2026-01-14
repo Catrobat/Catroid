@@ -55,7 +55,6 @@ public class ProjectRenamerSpecialCharactersTest {
 				{"greaterThanTest", "test>Project", "test%3EProject"},
 				{"percentTest", "test%Project", "test%25Project"},
 				{"slashTest", "test/Project", "test%2FProject"},
-				{"slashTest", "test/Project", "test%2FProject"},
 				{"quoteTest", "test\"Project", "test%22Project"},
 				{"colonTest", "test:Project", "test%3AProject"},
 				{"questionmarkTest", "test?Project", "test%3FProject"},

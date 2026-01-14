@@ -68,17 +68,17 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 @RunWith(AndroidJUnit4.class)
 public class WebSocketClientTest {
@@ -310,7 +310,7 @@ public class WebSocketClientTest {
 				connectCallback.onCompleted(new Exception(expectedCancelExceptionMessage), webSocketMock);
 				verify(connectAuthCallbackMock, times(1)).onConnectionFailure(any(ClientException.class));
 				verifyNoMoreInteractions(connectAuthCallbackMock);
-				verifyZeroInteractions(webSocketMock);
+				verifyNoInteractions(webSocketMock);
 				return null;
 			}
 		}).when(asyncHttpClientMock).websocket(anyString(), anyString(), any(WebSocketConnectCallback.class));
@@ -529,7 +529,7 @@ public class WebSocketClientTest {
 		webSocketClient.convertProgram(expectedJobID, expectedProgramTitle, expectedProgramImage,
 				expectedVerboseValue, expectedForceValue);
 
-		verifyZeroInteractions(convertCallbackMock);
+		verifyNoInteractions(convertCallbackMock);
 		verify(webSocketMock, times(1)).send(anyString());
 		verifyNoMoreInteractions(webSocketMock);
 	}
@@ -700,7 +700,7 @@ public class WebSocketClientTest {
 
 		verify(connectAuthCallbackMock, times(1)).onAuthenticationFailure(any(ClientException.class));
 		verifyNoMoreInteractions(convertCallbackMock);
-		verifyZeroInteractions(convertCallbackMock);
+		verifyNoInteractions(convertCallbackMock);
 	}
 
 	@Test

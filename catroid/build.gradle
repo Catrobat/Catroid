@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2025  The Catrobat Team
@@ -23,10 +21,12 @@ import com.android.build.api.dsl.ManagedVirtualDevice
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
@@ -34,7 +34,8 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.23.0"
+    id "io.gitlab.arturbosch.detekt" version "1.23.7"
+    id 'com.google.devtools.ksp' version '2.0.21-1.0.25' apply true
     id 'checkstyle'
 }
 
@@ -50,23 +51,21 @@ ext {
     manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"
-    gdxVersion = "1.9.10"
-    mockitoVersion = "3.12.4"
-    espressoVersion = "3.1.0"
-    playServicesVersion = '17.0.1'
-    cameraXVersion = "1.0.0-beta07"
-    room_version = "2.3.0"
-    coroutines_version = "1.3.2"
-    work_manager_version = '2.7.1'
+    gdxVersion = "1.13.0"
+    mockitoVersion = '5.14.2'
+    espressoVersion = '3.6.1'
+    playServicesVersion = '18.1.1'
+    cameraXVersion = '1.4.0'
+    room_version = "2.6.1"
+    coroutines_version = '1.9.0'
+    work_manager_version = '2.9.1'
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
-apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/setup_jacoco.gradle'
 apply from: 'gradle/emulator.gradle'
@@ -77,10 +76,6 @@ if (rootProject.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
-}
-
-if (!rootProject.hasProperty("signingKeystore")) {
-    ext.signingKeystore = "dummyKeystore"
 }
 
 ext.getProperty = { property, defaultValue ->
@@ -102,12 +97,11 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 97
-def defaultVersionName = "1.3.0"
+def defaultVersionCode = 98
+def defaultVersionName = "1.3.1"
 
 android {
     compileSdk 34
-    buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
 
@@ -207,11 +201,10 @@ android {
 
     signingConfigs {
         signedRelease {
-            // credentials loaded in release_task.gradle
-            storeFile file(project.getProperty("signingKeystore"))
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storeFile file(System.getenv("SIGNING_KEYSTORE") ?: "dummyKeystore")
+            storePassword System.getenv("SIGNING_KEYSTORE_PASSWORD") ?: ""
+            keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: ""
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: ""
         }
 
         debug {
@@ -222,15 +215,6 @@ android {
         }
     }
 
-    if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
-            rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
-        android.signingConfigs.signedRelease {
-            storePassword = rootProject.property("signingKeystorePassword")
-            keyAlias = rootProject.property("signingKeyAlias")
-            keyPassword = rootProject.property("signingKeyPassword")
-        }
-    }
-
     buildTypes {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
@@ -238,8 +222,8 @@ android {
             buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
             buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
-            testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
+            enableAndroidTestCoverage = true
         }
 
         release {
@@ -258,24 +242,32 @@ android {
 
     flavorDimensions = ["default"]
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
+
     androidResources {
         noCompress 'lite'
     }
+
     lint {
         abortOnError false
         baseline file('config/lint-baseline.xml')
-        htmlOutput file('build/reports/lint-report.html')
-        htmlReport true
+
         ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
         lintConfig file('config/lint.xml')
-        textReport true
-        xmlOutput file('build/reports/lint-report.xml')
-        xmlReport true
-    }
 
+        htmlReport true
+        htmlOutput file('build/reports/html/lint.html')
+
+        xmlReport true
+        xmlOutput file('build/reports/lint.xml')
+
+        textReport true
+
+        sarifReport true
+        sarifOutput file('build/reports/lint.sarif')
+    }
 
     productFlavors {
         catroid {
@@ -318,8 +310,8 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
 
             if(variant.buildType.name == "signedRelease")
             {
@@ -340,7 +332,7 @@ android {
             }
         }
     }
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
 }
@@ -369,7 +361,7 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_manager_version"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
@@ -384,8 +376,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.2'
-
-
 
     implementation "org.mockito:mockito-core:$mockitoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
@@ -416,7 +406,8 @@ dependencies {
 
     // Room
     implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
@@ -491,12 +482,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
-    testImplementation 'org.powermock:powermock:1.6.6'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
     testImplementation 'org.robolectric:robolectric:4.7.3'
 
@@ -536,7 +525,7 @@ project.gradle.taskGraph.whenReady {
     connectedCatroidDebugAndroidTest.ignoreFailures = true
 }
 
-task copyAndroidNatives {
+tasks.register('copyAndroidNatives') {
     doFirst {
         file("src/main/jniLibs/armeabi-v7a/").mkdirs()
         file("src/main/jniLibs/arm64-v8a/").mkdirs()
@@ -560,15 +549,15 @@ task copyAndroidNatives {
     }
 }
 
-tasks.whenTaskAdded { packageTask ->
+tasks.configureEach { packageTask ->
     if (packageTask.name.contains("package")) {
         packageTask.dependsOn 'copyAndroidNatives'
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+tasks.withType(KotlinCompile).configureEach {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = JavaVersion.VERSION_21
   }
 }
 

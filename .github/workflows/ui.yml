@@ -1,0 +1,21 @@
+name: Catroid UI Test Workflow
+
+on:
+  push:
+    branches:
+      - "develop"
+  schedule:
+    - cron: "0 0 * * *" # Daily at midnight
+  workflow_dispatch:
+
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
+jobs:
+
+  ui-tests:
+    name: UI Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite

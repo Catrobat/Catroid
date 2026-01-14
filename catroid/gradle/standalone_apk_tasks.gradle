@@ -42,7 +42,7 @@ ext {
     iconBakPath = "icon_bak.png"
 }
 
-task standalonePreparation() {
+tasks.register('standalonePreparation') {
     /*
      * Configuration
      *
@@ -95,7 +95,8 @@ task standalonePreparation() {
     }
 }
 
-task standaloneCleanup(dependsOn: 'assembleStandaloneDebug') {
+tasks.register('standaloneCleanup') {
+    dependsOn 'assembleStandaloneDebug'
     doLast {
         if (!project.ext.appZipFile) {
             /*
@@ -112,21 +113,11 @@ task standaloneCleanup(dependsOn: 'assembleStandaloneDebug') {
     }
 }
 
-task buildStandalone() {
-    doLast {
-        /*
-         * Present for backwards compatibility with Jenkins jobs.
-         * That way Jenkins jobs can support the older way to generated standalone APKs
-         * and the newer way at the same time.
-         */
-    }
-}
+tasks.register('assembleDebugTest') { dependsOn ':assembleCatroidDebugTest' doLast {} }
+tasks.register('commandlineAdbInstallDebug') { dependsOn ':commandlineAdbInstallCatroidDebug' doLast {} }
+tasks.register('commandlineAdbInstallDebugTest') { dependsOn 'commandlineAdbInstallCatroidDebugTest' doLast {} }
 
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') {doLast {}}
-task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') {doLast {}}
-task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') {doLast {}}
-
-task testremoveIntentFilters() {
+tasks.register('testremoveIntentFilters') {
     doLast {
         messUpIntentFilters()
     }
@@ -223,7 +214,7 @@ def messUpIntentFilters() {
  * and clean-up steps necessary for standalone APK creation.
 */
 
-tasks.whenTaskAdded { task ->
+tasks.configureEach { task ->
     if (task.name == 'preStandaloneDebugBuild' || task.name == 'preStandaloneSignedReleaseBuild') {
         task.dependsOn 'standalonePreparation'
     } else if (task.name == 'assembleStandaloneDebug') {
