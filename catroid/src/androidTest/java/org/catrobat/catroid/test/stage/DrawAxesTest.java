@@ -47,7 +47,7 @@ public class DrawAxesTest {
 	private StageListener stageListener;
 	private static Project project;
 
-	@Parameterized.Parameters(name = "{0}")
+	@Parameterized.Parameters(name = "{0}x{1}, landscape={2}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{1440, 2560, false, 8, 8f},

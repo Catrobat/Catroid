@@ -156,7 +156,7 @@ class CatrobatTestRunner {
         val intervalMillis = 10
         var waitedFor = 0
         while (waitedFor < TIMEOUT) {
-            if (baseActivityTestRule.activity.isFinishing) {
+            if (baseActivityTestRule.activity.isDestroyed) {
                 return
             }
             Thread.sleep(intervalMillis.toLong())

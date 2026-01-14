@@ -45,8 +45,8 @@ import java.util.Date;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeast;
 
 @RunWith(Parameterized.class)
@@ -99,7 +99,7 @@ public class JobHandlerIgnoreMessageInSpecificStateTest {
 	@Test
 	public void testIgnoreMessage() {
 		jobHandler.onJobMessage(message);
-		verifyZeroInteractions(convertCallbackMock);
+		verifyNoInteractions(convertCallbackMock);
 	}
 
 	@Test
