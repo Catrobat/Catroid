@@ -80,7 +80,10 @@ object VisualDetectionHandler {
     fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>): List<VisualDetectionHandlerFace> {
         val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
         for (face in faceList) {
-            newFacesList.add(VisualDetectionHandlerFace(face.trackingId, face.boundingBox))
+            face.trackingId?.let {
+                newFacesList.add(VisualDetectionHandlerFace(it, face.boundingBox))
+            }
+
         }
         return newFacesList
     }

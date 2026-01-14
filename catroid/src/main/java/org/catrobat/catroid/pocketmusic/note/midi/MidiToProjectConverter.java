@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.pocketmusic.note.midi;
 
-import com.pdrogfer.mididroid.MidiFile;
-import com.pdrogfer.mididroid.MidiTrack;
-import com.pdrogfer.mididroid.event.MidiEvent;
-import com.pdrogfer.mididroid.event.NoteOff;
-import com.pdrogfer.mididroid.event.NoteOn;
-import com.pdrogfer.mididroid.event.ProgramChange;
-import com.pdrogfer.mididroid.event.meta.Tempo;
-import com.pdrogfer.mididroid.event.meta.Text;
-import com.pdrogfer.mididroid.event.meta.TimeSignature;
-import com.pdrogfer.mididroid.event.meta.TrackName;
+import com.pgf.mididroid.MidiFile;
+import com.pgf.mididroid.MidiTrack;
+import com.pgf.mididroid.event.MidiEvent;
+import com.pgf.mididroid.event.NoteOff;
+import com.pgf.mididroid.event.NoteOn;
+import com.pgf.mididroid.event.ProgramChange;
+import com.pgf.mididroid.event.meta.Tempo;
+import com.pgf.mididroid.event.meta.Text;
+import com.pgf.mididroid.event.meta.TimeSignature;
+import com.pgf.mididroid.event.meta.TrackName;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
