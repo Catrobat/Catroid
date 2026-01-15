@@ -83,7 +83,6 @@ object VisualDetectionHandler {
             face.trackingId?.let {
                 newFacesList.add(VisualDetectionHandlerFace(it, face.boundingBox))
             }
-
         }
         return newFacesList
     }
