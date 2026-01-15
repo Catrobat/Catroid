@@ -2,7 +2,9 @@ name: Catroid Main Workflow
 
 on:
   push:
-  fork:
+    branches:
+      - "main"
+      - "develop"
   pull_request:
   schedule:
     - cron: "0 0 * * *" # Run daily at midnight
@@ -24,7 +26,18 @@ env:
   JAVA_VERSION: 21
 
 jobs:
+
+  repo-check:
+    if: ${{ github.repository == 'Catrobat/Catroid' }}
+    # set --env GITHUB_REPOSITORY=Catrobat/Catroid for local runs in act since env.ACT is not accessible here
+    name: Repo Check
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This workflow was triggered in the ${{ github.repository }} repo!"
+
+
   build:
+    needs: repo-check
     name: Build APK
     runs-on: ubuntu-latest
     env:
@@ -53,6 +66,7 @@ jobs:
 
 
   unit-tests:
+    needs: repo-check
     name: Unit Tests
     runs-on: ubuntu-latest
     env:
@@ -92,6 +106,7 @@ jobs:
             catroid/build/reports/tests/testCatroidDebugUnitTest
 
   code-analysis:
+    needs: repo-check
     name: Code Analysis
     runs-on: ubuntu-latest
     strategy:
@@ -140,25 +155,33 @@ jobs:
             catroid/build/reports/html/${{ matrix.tool.name }}.html
 
   instrumented-unit-tests:
+    needs: repo-check
     name: Instrumented Unit Tests
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
+      calling-job: ${{github.job}}
 
   testrunner-tests:
+    needs: repo-check
     name: Testrunner Tests
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
+      calling-job: ${{github.job}}
 
   quarantined-tests:
+    needs: repo-check
     name: Quarantined Tests
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
+      calling-job: ${{github.job}}
 
   rtl-tests:
+    needs: repo-check
     name: RTL Tests
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
+      calling-job: ${{github.job}}
