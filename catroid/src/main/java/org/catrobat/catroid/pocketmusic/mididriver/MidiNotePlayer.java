@@ -33,7 +33,7 @@ public final class MidiNotePlayer implements MidiDriver.OnMidiStartListener {
 	private static boolean initialized = false;
 
 	public MidiNotePlayer() {
-		midiDriver = new MidiDriver();
+		midiDriver = MidiDriver.getInstance();
 		midiDriver.setOnMidiStartListener(this);
 	}
 
