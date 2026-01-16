@@ -799,9 +799,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Отключить скрипт</string>
     <string formatted="false" name="brick_context_dialog_help">Помощь</string>
     <string formatted="false" name="comment_in_out">Отключить/включить</string>
-    <string formatted="false" name="catblocks">переключить 2D режим</string>
-    <string formatted="false" name="catblocks_reorder">Перегрупировать скрипты</string>
-    <string formatted="false" name="switch_to_1d">Переключить в 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Запустить сцену:</string>

@@ -868,9 +868,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">تعطيل النص البرمجي</string>
     <string formatted="false" name="brick_context_dialog_help">المساعدة</string>
     <string formatted="false" name="comment_in_out">تعطيل/تفعيل</string>
-    <string formatted="false" name="catblocks">تبديل 2D</string>
-    <string formatted="false" name="catblocks_reorder">تنظيف البرامج النصية</string>
-    <string formatted="false" name="switch_to_1d">عرض 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">تشغيل المشهد:</string>

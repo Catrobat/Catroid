@@ -671,9 +671,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">غیر فعال کردن اسکریپت</string>
     <string formatted="false" name="brick_context_dialog_help">کمک</string>
     <string formatted="false" name="comment_in_out">غیر فعال فعال</string>
-    <string formatted="false" name="catblocks">2D را تغییر دهید</string>
-    <string formatted="false" name="catblocks_reorder">اسکریپت ها را پاک کنید</string>
-    <string formatted="false" name="switch_to_1d">نمای ۱ بعدی</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">صحنه بازی:</string>

@@ -157,8 +157,6 @@ android {
         buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
@@ -220,8 +218,6 @@ android {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "DEBUG_MODE", "true"
-            buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
             buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
             signingConfig signingConfigs.debug
             enableAndroidTestCoverage = true
@@ -431,7 +427,7 @@ dependencies {
         exclude group: 'xmlpull'
     }
 
-    // Catblocks
+    // WebView
     implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music

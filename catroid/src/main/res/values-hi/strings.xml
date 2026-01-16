@@ -721,9 +721,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">स्क्रिप्ट को अक्षम करें</string>
     <string formatted="false" name="brick_context_dialog_help">मदद</string>
     <string formatted="false" name="comment_in_out">सक्षम अक्षम</string>
-    <string formatted="false" name="catblocks">2 डी टॉगल करें</string>
-    <string formatted="false" name="catblocks_reorder">लिपियों को साफ करें</string>
-    <string formatted="false" name="switch_to_1d">1D दृश्य</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">प्ले दृश्य:</string>

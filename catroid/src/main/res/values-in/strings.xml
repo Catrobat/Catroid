@@ -684,9 +684,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Nonaktifkan skrip</string>
     <string formatted="false" name="brick_context_dialog_help">Membantu</string>
     <string formatted="false" name="comment_in_out">Menonaktifkan/Mengaktifkan</string>
-    <string formatted="false" name="catblocks">Alihkan 2D</string>
-    <string formatted="false" name="catblocks_reorder">Bersihkan skrip</string>
-    <string formatted="false" name="switch_to_1d">Tampilan 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Bermain adegan:</string>

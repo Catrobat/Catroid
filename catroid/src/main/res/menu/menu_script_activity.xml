@@ -70,16 +70,6 @@
         android:icon="@drawable/ic_search_menu"
         app:showAsAction="never" />
     <item
-         android:id="@+id/catblocks"
-         android:title="@string/catblocks"
-         android:icon="@drawable/ic_placeholder"
-         app:showAsAction="never"
-         />
-    <item android:id="@+id/catblocks_reorder_scripts"
-        android:title="@string/catblocks_reorder"
-        android:icon="@drawable/ic_placeholder"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom"

@@ -672,9 +672,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">ปิดการใช้งานสคริปต์</string>
     <string formatted="false" name="brick_context_dialog_help">ช่วยเหลือ</string>
     <string formatted="false" name="comment_in_out">ปิด / เปิด</string>
-    <string formatted="false" name="catblocks">สลับ 2D</string>
-    <string formatted="false" name="catblocks_reorder">ล้างสคริปต์</string>
-    <string formatted="false" name="switch_to_1d">มุมมอง 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">เล่นฉาก:</string>
