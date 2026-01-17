@@ -1,6 +1,6 @@
 # Catroid #
 
-**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.
+**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.This Project is actively developed and welcomes contributions from new open-source contributors.
 
 **Catrobat** is a visual programming language and a set of creativity tools for smartphones. 
 Catrobat projects can be created using Catrobat's Android apps available on [Google Play](https://play.google.com/store/apps/developer?id=Catrobat) and iPhone apps available on [Apple's app store](https://apps.apple.com/us/developer/international-catrobat-association-verein-zur-foerderung/id1117935891).
