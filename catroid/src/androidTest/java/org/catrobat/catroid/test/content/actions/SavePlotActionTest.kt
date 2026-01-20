@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import android.os.Looper
+import android.os.Handler
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -34,6 +36,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.SavePlotAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
 import org.junit.Before
@@ -63,6 +66,7 @@ class SavePlotActionTest {
             Constants.CACHE_DIRECTORY.mkdirs()
         }
         plotFile.createNewFile()
+        StageActivity.messageHandler = Handler(Looper.getMainLooper())
     }
 
     @After
