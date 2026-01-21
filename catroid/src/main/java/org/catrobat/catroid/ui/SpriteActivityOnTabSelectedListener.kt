@@ -96,6 +96,11 @@ fun SpriteActivity.loadFragment(fragmentPosition: Int) {
     }
 
     fragmentTransaction.commit()
+
+    if (fragmentPosition == FRAGMENT_LOOKS && !SpriteActivity.wasBackgroundClickedOnce) {
+        this.handleAddLookButton()
+        SpriteActivity.wasBackgroundClickedOnce = true
+    }
 }
 
 private fun showScripts(fragmentTransaction: FragmentTransaction) {

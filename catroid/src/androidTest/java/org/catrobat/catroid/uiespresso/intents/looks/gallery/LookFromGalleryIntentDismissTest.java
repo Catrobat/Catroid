@@ -100,8 +100,6 @@ public class LookFromGalleryIntentDismissTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testLookFromGalleryIntentDismissTest() {
-		onView(withId(R.id.button_add))
-				.perform(click());
 
 		onView(withId(R.id.dialog_new_look_gallery))
 				.perform(click());
