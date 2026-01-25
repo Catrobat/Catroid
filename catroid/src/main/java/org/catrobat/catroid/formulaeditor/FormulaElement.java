@@ -501,12 +501,6 @@ public class FormulaElement implements Serializable {
 		if (element == null) {
 			return null;
 		}
-		if(element.type == ElementType.FUNCTION && (element.value.equals("TRUE") || element.value.equals("FALSE"))){
-			if(element.value.equals("TRUE")){
-				return true;
-			}
-			return false;
-		}
 		return element.interpretRecursive(scope);
 	}
 
@@ -565,7 +559,13 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionIndexOfItem(Object left, Scope scope) {
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			UserList userList = UserDataWrapper.getUserList(rightChild.value, scope);
-			return (double) (userList.getIndexOf(left) + 1);
+			int index = userList.getIndexOf(left);
+			if (leftChild.type == ElementType.FUNCTION
+					&& (leftChild.value.equalsIgnoreCase("true") || leftChild.value.equalsIgnoreCase(
+					"false"))) {
+				index = userList.getIndexOf(Boolean.valueOf(leftChild.value.toLowerCase()));
+			}
+			return (double) (index + 1);
 		}
 
 		return FALSE;
