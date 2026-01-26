@@ -1062,9 +1062,21 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		this.chosenUserDataItem = chosenUserDataItem;
 	}
 
+	private void retryOnHiddenChanged() {
+		new Handler(android.os.Looper.getMainLooper()).post(() -> {
+			if (isAdded()) {
+				onHiddenChanged(false);
+			}
+		});
+	}
+
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
+			if (getActivity() == null) {
+				retryOnHiddenChanged();
+				return;
+			}
 			ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 			boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
 			if (!isRestoringPreviouslyDestroyedActivity) {
