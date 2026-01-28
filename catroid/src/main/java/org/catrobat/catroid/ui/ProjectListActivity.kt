@@ -76,6 +76,11 @@ class ProjectListActivity : BaseCastActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onResume() {
+        super.onResume()
+        supportActionBar?.setTitle(R.string.project_list_title)
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
