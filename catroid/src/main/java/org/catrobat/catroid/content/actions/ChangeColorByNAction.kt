@@ -29,13 +29,13 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
 class ChangeColorByNAction : TemporalAction() {
-    private var scope: Scope? = null
+    private lateinit var scope: Scope
     private var color: Formula? = null
 
     override fun update(delta: Float) {
         try {
-            val eightBitColor = if (color == null) 25f else color!!.interpretFloat(scope)
-            scope!!.sprite.look.changeColorInUserInterfaceDimensionUnit(eightBitColor)
+            val eightBitColor = color?.interpretFloat(scope) ?: 25f
+            scope.sprite.look.changeColorInUserInterfaceDimensionUnit(eightBitColor)
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 TAG,
