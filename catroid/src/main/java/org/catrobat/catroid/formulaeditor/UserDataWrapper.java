@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import androidx.annotation.Nullable;
+
 public final class UserDataWrapper {
 
 	public static UserVariable getUserVariable(String name, Scope scope) {
@@ -49,6 +51,7 @@ public final class UserDataWrapper {
 		return userVariable;
 	}
 
+	@Nullable
 	public static UserList getUserList(String name, Scope scope) {
 		UserList userList = null;
 		if (scope != null) {
