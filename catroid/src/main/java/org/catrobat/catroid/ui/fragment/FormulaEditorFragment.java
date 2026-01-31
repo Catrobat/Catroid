@@ -78,6 +78,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.EdgeToEdge;
 import org.catrobat.catroid.ui.FormulaEditorClipboard;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
@@ -296,6 +297,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		formulaEditorClipboard =
 				new FormulaEditorClipboard(formulaEditorEditText);
 
+		EdgeToEdge.applyBottomPadding(formulaEditorKeyboard);
 		updateBrickView();
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);

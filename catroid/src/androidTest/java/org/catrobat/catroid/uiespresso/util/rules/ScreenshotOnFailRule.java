@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 public class ScreenshotOnFailRule extends TestWatcher {
 	private static final String TAG = ScreenshotOnFailRule.class.getSimpleName();
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+			"yyyy-MM-dd-HH-mm-ss", Locale.US);
 
 	@Override
 	protected void failed(Throwable e, Description description) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -247,8 +247,10 @@ public class RtlBrickTest {
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private Locale arLocale = new Locale("ar");
-	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE,
+	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(
+			SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
+			SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
 			SETTINGS_SHOW_JUMPING_SUMO_BRICKS, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,

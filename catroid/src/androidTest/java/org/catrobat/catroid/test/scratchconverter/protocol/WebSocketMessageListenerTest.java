@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -310,7 +310,8 @@ public class WebSocketMessageListenerTest {
 				assertEquals(JOB_ID_OF_JOB_HANDLER, finishedMessage.getJobID());
 				assertEquals(expectedDownloadURL, finishedMessage.getDownloadURL());
 				final Date cachedUTCDate = finishedMessage.getCachedDate();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+				SimpleDateFormat dateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd HH:mm:ss", Locale.US);
 				dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				assertEquals(expectedCachedUTCDateString, dateFormat.format(cachedUTCDate));
 				return null;

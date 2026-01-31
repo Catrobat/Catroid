@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.databinding.DialogNewProjectBinding
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment.projectExistsInDirectory
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
@@ -57,6 +58,7 @@ class NewProjectDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = DialogNewProjectBinding.inflate(inflater, container, false)
+        EdgeToEdge.applyTopPadding(binding.toolbar.toolbar)
         return binding.root
     }
 

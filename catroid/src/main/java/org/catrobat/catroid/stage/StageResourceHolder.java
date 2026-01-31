@@ -348,16 +348,17 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 		stageActivity.setupAskHandler();
 		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
-		Intent intent = new Intent(stageActivity, getClass());
+
+		Intent intent = new Intent(stageActivity, stageActivity.getClass());
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		int flags;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0, intent,
-					PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
+			flags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE;
 		} else {
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
-					new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+			flags = PendingIntent.FLAG_UPDATE_CURRENT;
 		}
+		stageActivity.pendingIntent = PendingIntent.getActivity(
+				stageActivity, 0, intent, flags);
 
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
 		StageActivity.stageListener.setPaused(false);

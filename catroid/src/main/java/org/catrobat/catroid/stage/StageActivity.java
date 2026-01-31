@@ -288,6 +288,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		return null;
 	}
 
+	public boolean hasAudioFocus() {
+		return stageAudioFocus.isAudioFocusGranted();
+	}
+
 	public boolean isResizePossible() {
 		return resizePossible;
 	}
