@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,9 @@ import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
@@ -44,7 +47,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 
 class SensorHandlerTest {
     @get:Rule
@@ -118,18 +120,19 @@ class SensorHandlerTest {
     @UiThreadTest
     fun testMicRelease() {
         val loudnessSensor = SensorLoudness()
-        val soundRecorder = Mockito.mock(SoundRecorder::class.java)
+        val soundRecorder = mockk<SoundRecorder>(relaxed = true)
         loudnessSensor.soundRecorder = soundRecorder
 
-        Mockito.`when`(soundRecorder.isRecording).thenReturn(false)
-        SensorHandler.getInstance(ApplicationProvider.getApplicationContext()).setSensorLoudness(loudnessSensor)
+        every { soundRecorder.isRecording } returns false
+        SensorHandler.getInstance(ApplicationProvider.getApplicationContext())
+            .setSensorLoudness(loudnessSensor)
 
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
-        Mockito.`when`(soundRecorder.isRecording).thenReturn(true)
-        Mockito.verify(soundRecorder).start()
+        every { soundRecorder.isRecording } returns true
+        verify { soundRecorder.start() }
 
         SensorHandler.stopSensorListeners()
-        Mockito.verify(soundRecorder).stop()
+        verify { soundRecorder.stop() }
     }
 
     @After
