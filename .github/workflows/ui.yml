@@ -1,0 +1,30 @@
+name: Catroid UI Test Workflow
+
+on:
+  push:
+    branches:
+      - "develop"
+  schedule:
+    - cron: "0 0 * * *" # Daily at midnight
+  workflow_dispatch:
+
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
+jobs:
+  repo-check:
+    if: ${{ github.repository == 'Catrobat/Catroid' }}
+    # set --env GITHUB_REPOSITORY=Catrobat/Catroid for local runs in act since env.ACT is not accessible here
+    name: Repo Check
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This workflow was triggered in the ${{ github.repository }} repo!"
+
+  ui-tests:
+    needs: repo-check
+    name: UI Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
+      calling-job: ${{github.job}}

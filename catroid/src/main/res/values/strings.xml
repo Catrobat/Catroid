@@ -562,6 +562,23 @@
         <item quantity="other">Copied %d NFC tags.</item>
     </plurals>
     <!-- Delete -->
+    <string name="delete_btn_cancel">Cancel</string>
+    <string name="delete_btn_delete">Delete</string>
+    <string name="delete_actor_title">Delete actor</string>
+    <plurals name="delete_actor_message">
+        <item quantity="one">Are you sure that you want to delete this actor? These changes can not be undone.</item>
+        <item quantity="other">Are you sure that you want to delete these %d actors? These changes can not be undone.</item>
+    </plurals>
+    <string name="delete_look_title">Delete look</string>
+    <plurals name="delete_look_message">
+        <item quantity="one">Are you sure that you want to delete this look? These changes can not be undone.</item>
+        <item quantity="other">Are you sure that you want to delete these %d looks? These changes can not be undone.</item>
+    </plurals>
+    <string name="delete_sound_title">Delete sound</string>
+    <plurals name="delete_sound_message">
+        <item quantity="one">Are you sure that you want to delete this sound? These changes can not be undone.</item>
+        <item quantity="other">Are you sure that you want to delete these %d sounds? These changes can not be undone.</item>
+    </plurals>
     <plurals name="deleted_projects">
         <item quantity="one">Deleted %d project.</item>
         <item quantity="other">Deleted %d projects.</item>
@@ -809,9 +826,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Disable script</string>
     <string formatted="false" name="brick_context_dialog_help">Help</string>
     <string formatted="false" name="comment_in_out">Disable/enable</string>
-    <string formatted="false" name="catblocks">Toggle 2D</string>
-    <string formatted="false" name="catblocks_reorder">Clean up scripts</string>
-    <string formatted="false" name="switch_to_1d">1D view</string>
     <!--  -->
 
 

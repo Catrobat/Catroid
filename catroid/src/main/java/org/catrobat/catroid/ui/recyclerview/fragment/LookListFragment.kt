@@ -39,6 +39,8 @@ import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.ui.dialogs.DeleteTarget
+import org.catrobat.catroid.ui.dialogs.showDeleteConfirmationDialog
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
@@ -70,8 +72,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
-        menu.findItem(R.id.catblocks).isVisible = false
         menu.findItem(R.id.find).isVisible = false
     }
 
@@ -262,7 +262,15 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
                 R.id.rename -> showRenameDialog(item)
-                R.id.delete -> deleteItems(itemList)
+                R.id.delete -> {
+                    val itemsToDelete = itemList.toList()
+                    showDeleteConfirmationDialog(
+                        target = DeleteTarget.LOOK,
+                        itemCount = itemsToDelete.size
+                    ) {
+                        deleteItems(itemsToDelete)
+                    }
+                }
                 else -> {
                 }
             }

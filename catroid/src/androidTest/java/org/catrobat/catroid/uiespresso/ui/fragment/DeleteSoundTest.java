@@ -156,12 +156,32 @@ public class DeleteSoundTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToDeleteTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+	public void selectFragmentToDeleteTest() throws IOException {
+		ActionUtils.addSound(projectManager, "testSound1");
+		baseActivityTestRule.launchActivity();
+
+		// Open per-item settings menu (three dots)
+		onRecyclerView().clickChildAtPosition(0, R.id.settings_button);
+
+		// Tap Delete in the popup menu
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(0).perform(click());
-		onRecyclerView().atPosition(0).performCheckItemCheck();
+		// Assert custom dialog is shown (sound)
+		onView(withId(R.id.deleteDialogTitle))
+				.inRoot(isDialog())
+				.check(matches(allOf(isDisplayed(), withText(R.string.delete_sound_title))));
+
+		onView(withId(R.id.deleteDialogMessage))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		onView(withId(R.id.deleteDialogCancel))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		onView(withId(R.id.deleteDialogConfirm))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()));
 	}
 
 	private void createProject() {

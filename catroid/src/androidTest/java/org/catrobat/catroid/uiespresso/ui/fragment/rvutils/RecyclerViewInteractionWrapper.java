@@ -36,6 +36,9 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnHolderItem;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static org.catrobat.catroid.uiespresso.util.actions.ClickChildViewWithId.clickChildViewWithId;
+
 
 public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
 	private static int recyclerViewId = R.id.recycler_view;
@@ -47,6 +50,11 @@ public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
 
 	public static RecyclerViewInteractionWrapper onRecyclerView() {
 		return new RecyclerViewInteractionWrapper(onView(RV_MATCHER));
+	}
+
+	public RecyclerViewInteractionWrapper clickChildAtPosition(int position, int childViewId) {
+		viewInteraction.perform(actionOnItemAtPosition(position, clickChildViewWithId(childViewId)));
+		return this;
 	}
 
 	public RecyclerViewItemInteractionWrapper atPosition(int position) {

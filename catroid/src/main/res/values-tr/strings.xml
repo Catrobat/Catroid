@@ -700,9 +700,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="brick_context_dialog_comment_out_script">Komut dosyasını devre dışı bırak</string>
     <string formatted="false" name="brick_context_dialog_help">Yardım</string>
     <string formatted="false" name="comment_in_out">Devre dışı bırak/Etkinleştir</string>
-    <string formatted="false" name="catblocks">2D\'yi aç/kapat</string>
-    <string formatted="false" name="catblocks_reorder">Komut dosyalarını temizleyin</string>
-    <string formatted="false" name="switch_to_1d">1D görünüm</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Sahneyi Oynat:</string>

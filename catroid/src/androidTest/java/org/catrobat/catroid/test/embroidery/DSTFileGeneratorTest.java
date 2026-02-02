@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import com.android.dex.util.FileUtils;
 import com.badlogic.gdx.graphics.Color;
 
 import org.catrobat.catroid.ProjectManager;
@@ -41,6 +40,8 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -91,8 +92,8 @@ public class DSTFileGeneratorTest {
 
 		assertEquals(compareFile.length(), dstFile.length());
 
-		byte[] compareFileBytes = FileUtils.readFile(compareFile);
-		byte[] dstFileBytes = FileUtils.readFile(dstFile);
+		byte[] compareFileBytes = Files.readAllBytes(Paths.get(compareFile.getPath()));
+		byte[] dstFileBytes = Files.readAllBytes(Paths.get(dstFile.getPath()));
 
 		assertArrayEquals(compareFileBytes, dstFileBytes);
 	}
@@ -130,8 +131,8 @@ public class DSTFileGeneratorTest {
 
 		assertEquals(compareFile.length(), dstFile.length());
 
-		byte[] compareFileBytes = FileUtils.readFile(compareFile);
-		byte[] dstFileBytes = FileUtils.readFile(dstFile);
+		byte[] compareFileBytes = Files.readAllBytes(Paths.get(compareFile.getPath()));
+		byte[] dstFileBytes = Files.readAllBytes(Paths.get(dstFile.getPath()));
 
 		assertArrayEquals(compareFileBytes, dstFileBytes);
 	}

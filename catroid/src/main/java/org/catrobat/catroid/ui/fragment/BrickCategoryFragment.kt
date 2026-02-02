@@ -119,8 +119,6 @@ class BrickCategoryFragment : ListFragment() {
         menu.findItem(R.id.copy).isVisible = false
         menu.findItem(R.id.backpack).isVisible = false
         menu.findItem(R.id.comment_in_out).isVisible = false
-        menu.findItem(R.id.catblocks).isVisible = false
-        menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
         menu.findItem(R.id.find).isVisible = false
         menu.findItem(R.id.search).isVisible = true
     }

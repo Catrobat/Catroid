@@ -716,9 +716,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Desactivar secuencia de comandos</string>
     <string formatted="false" name="brick_context_dialog_help">Ayuda</string>
     <string formatted="false" name="comment_in_out">Activar/Desactivar</string>
-    <string formatted="false" name="catblocks">Cambiar 2D</string>
-    <string formatted="false" name="catblocks_reorder">Limpiar scripts</string>
-    <string formatted="false" name="switch_to_1d">Vista 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Reproducir escena:</string>

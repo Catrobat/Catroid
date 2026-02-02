@@ -724,9 +724,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="brick_context_dialog_comment_out_script">I-disable ang script</string>
     <string formatted="false" name="brick_context_dialog_help">Tulong</string>
     <string formatted="false" name="comment_in_out">Disable/enable</string>
-    <string formatted="false" name="catblocks">I-toggle ang 2D</string>
-    <string formatted="false" name="catblocks_reorder">Linisin ang scripts</string>
-    <string formatted="false" name="switch_to_1d">view na 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Laruin ang scene:</string>

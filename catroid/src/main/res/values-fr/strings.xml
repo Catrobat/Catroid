@@ -718,9 +718,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Désactiver le script</string>
     <string formatted="false" name="brick_context_dialog_help">Aide</string>
     <string formatted="false" name="comment_in_out">Activer/Désactiver</string>
-    <string formatted="false" name="catblocks">Toggle 2D</string>
-    <string formatted="false" name="catblocks_reorder">Nettoyer les scripts</string>
-    <string formatted="false" name="switch_to_1d">Vue 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Jouer la scène :</string>

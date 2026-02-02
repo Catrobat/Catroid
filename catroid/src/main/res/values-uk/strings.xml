@@ -800,9 +800,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Вимкнути скрипт</string>
     <string formatted="false" name="brick_context_dialog_help">Довідка</string>
     <string formatted="false" name="comment_in_out">Вимкнути/Увімкнути</string>
-    <string formatted="false" name="catblocks">Перемикнути 2D режим</string>
-    <string formatted="false" name="catblocks_reorder">Перегрупувати скрипти</string>
-    <string formatted="false" name="switch_to_1d">Перемикнути 1D режим</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Відтворити сцену:</string>

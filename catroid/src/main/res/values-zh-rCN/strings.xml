@@ -669,9 +669,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">禁用脚本</string>
     <string formatted="false" name="brick_context_dialog_help">帮助</string>
     <string formatted="false" name="comment_in_out">禁用/启用</string>
-    <string formatted="false" name="catblocks">切换 2D</string>
-    <string formatted="false" name="catblocks_reorder">清理脚本</string>
-    <string formatted="false" name="switch_to_1d">1D 视图</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">游戏场景：</string>

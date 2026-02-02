@@ -699,9 +699,6 @@
     <string formatted="false" name="brick_context_dialog_comment_out_script">Скриптті өшіру</string>
     <string formatted="false" name="brick_context_dialog_help">Қөмек</string>
     <string formatted="false" name="comment_in_out">Өшіру/Қосу</string>
-    <string formatted="false" name="catblocks">2D өшіру</string>
-    <string formatted="false" name="catblocks_reorder">Скрипттерді тазалау</string>
-    <string formatted="false" name="switch_to_1d">1D көру</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string formatted="false" name="play_scene_dialog_title">Сахна ойнау</string>

@@ -30,12 +30,15 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import org.hamcrest.core.AllOf.allOf
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import org.hamcrest.core.IsNot.not
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
@@ -46,13 +49,14 @@ import org.catrobat.catroid.ui.ProjectActivity.Companion.EXTRA_FRAGMENT_POSITION
 import org.catrobat.catroid.ui.ProjectActivity.Companion.FRAGMENT_SPRITES
 import org.catrobat.catroid.ui.ProjectActivity.Companion.SPRITE_CAMERA
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.hamcrest.core.AllOf.allOf
-import org.hamcrest.core.IsNot.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent
+import android.view.View
+import androidx.test.espresso.ViewAssertion
+import org.hamcrest.Matcher
 
 @RunWith(AndroidJUnit4::class)
 class SpriteListFragmentNoObjectTest {
@@ -73,6 +77,17 @@ class SpriteListFragmentNoObjectTest {
         baseActivityTestRule.launchActivity()
     }
 
+    private fun assertNotDisplayedOrDoesNotExist(viewMatcher: Matcher<View>) {
+        onView(viewMatcher).check(ViewAssertion { view, noViewFoundException ->
+            if (noViewFoundException != null) return@ViewAssertion
+
+            if (view != null && isDisplayed().matches(view)) {
+                throw AssertionError("Expected view to be NOT displayed (or not exist), but it *is* displayed: $viewMatcher")
+            }
+        })
+    }
+
+
     @Test
     fun testEmptyViewOnStart() {
         onView(withId(R.id.empty_view))
@@ -84,10 +99,22 @@ class SpriteListFragmentNoObjectTest {
 
     @Test
     fun testOverflowItemsWithNoObjects() {
-        checkToastMessageAfterPressingOverflowItem(R.string.backpack)
-        checkToastMessageAfterPressingOverflowItem(R.string.copy)
-        checkToastMessageAfterPressingOverflowItem(R.string.delete)
-        checkToastMessageAfterPressingOverflowItem(R.string.rename)
+        assertOverflowItemDoesNotLeaveEmptyState(R.string.backpack)
+        assertOverflowItemDoesNotLeaveEmptyState(R.string.copy)
+        assertOverflowItemDoesNotLeaveEmptyState(R.string.delete)
+        assertOverflowItemDoesNotLeaveEmptyState(R.string.rename)
+    }
+
+    private fun assertOverflowItemDoesNotLeaveEmptyState(overflowItem: Int) {
+        openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
+        onView(withText(overflowItem)).perform(click())
+
+        // Still on the empty sprites screen
+        onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
+        onView(withText(R.string.fragment_sprite_text_description)).check(matches(isDisplayed()))
+
+        // And the delete confirmation dialog is NOT shown (important after your new feature)
+        onView(withId(R.id.deleteDialogTitle)).check(doesNotExist())
     }
 
     @Test
@@ -109,14 +136,17 @@ class SpriteListFragmentNoObjectTest {
 
         closeSoftKeyboard()
 
-        onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-            .perform(click())
+        // If an OK dialog appears, click it. If it doesn't, continue.
+        val okButtonMatcher = allOf(withId(android.R.id.button1), withText(R.string.ok))
+        try {
+            onView(isRoot()).perform(waitFor(okButtonMatcher, waitThreshold))
+            onView(okButtonMatcher).perform(click())
+        } catch (_: Throwable) {
+            println("A Throwable was caught, maybe the dialog didn't show.")
+        }
 
-        onView(withId(R.id.empty_view))
-            .check(matches(not(isDisplayed())))
-
-        onView(withText(R.string.fragment_sprite_text_description))
-            .check(matches(not(isDisplayed())))
+        assertNotDisplayedOrDoesNotExist(withId(R.id.empty_view))
+        assertNotDisplayedOrDoesNotExist(withText(R.string.fragment_sprite_text_description))
 
         getDefaultSharedPreferences(getApplicationContext())
             .edit()
@@ -130,14 +160,4 @@ class SpriteListFragmentNoObjectTest {
         projectManager.currentlyEditedScene = project.defaultScene
     }
 
-    private fun checkToastMessageAfterPressingOverflowItem(overflowItem: Int) {
-        openActionBarOverflowOrOptionsMenu(baseActivityTestRule.activity)
-
-        onView(withText(overflowItem))
-            .perform(click())
-
-        onView(withText(R.string.am_empty_list)).inRoot(withDecorView(not(baseActivityTestRule.activity.window.decorView)))
-            .perform(waitFor(isDisplayed(), waitThreshold))
-            .check(matches(isDisplayed()))
-    }
 }

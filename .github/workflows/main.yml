@@ -1,0 +1,187 @@
+name: Catroid Main Workflow
+
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *" # Run daily at midnight
+  workflow_dispatch:
+    inputs:
+      WEB_TEST_URL:
+        description: "When set, all the archived APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at"
+        required: false
+        type: string
+        default: ""
+      BUILD_ALL_FLAVOURS:
+        description: "When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APKs"
+        required: false
+        type: boolean
+        default: false
+
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
+jobs:
+
+  repo-check:
+    if: ${{ github.repository == 'Catrobat/Catroid' }}
+    # set --env GITHUB_REPOSITORY=Catrobat/Catroid for local runs in act since env.ACT is not accessible here
+    name: Repo Check
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This workflow was triggered in the ${{ github.repository }} repo!"
+
+
+  build:
+    needs: repo-check
+    name: Build APK
+    runs-on: ubuntu-latest
+    env:
+      WEB_TEST_URL: ${{ inputs.WEB_TEST_URL != '' && format('-PwebTestUrl=''{0}''', inputs.WEB_TEST_URL) || '' }}
+      ALL_FLAVOURS_PARAMETERS: ${{ inputs.BUILD_ALL_FLAVOURS && 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug assemblePocketCodeBetaDebug assembleMindstormsDebug' || '' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK
+        if: ${{ env.ACT }} # Only run on local act setups, as GitHub Actions provides the Android SDK on Ubuntu
+        uses: android-actions/setup-android@v2
+
+      - name: Build APK
+        run: ./gradlew ${{ env.WEB_TEST_URL }} -Pindependent='#${{ github.run_number }} ${{ github.ref_name }}' assembleCatroidDebug ${{ env.ALL_FLAVOURS_PARAMETERS }}
+
+
+  unit-tests:
+    needs: repo-check
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    env:
+      WEB_TEST_URL: ${{ inputs.WEB_TEST_URL != '' && format('-PwebTestUrl=''{0}''', inputs.WEB_TEST_URL) || '' }}
+      ALL_FLAVOURS_PARAMETERS: ${{ inputs.BUILD_ALL_FLAVOURS && 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug assemblePocketCodeBetaDebug assembleMindstormsDebug' || '' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Unit Tests
+        run: ./gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Unit Tests
+          path: catroid/build/test-results/**/*TEST*.xml
+          reporter: java-junit
+
+      - name: Upload Unit Test Reports
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: unit-test-report
+          path: |
+            catroid/build/reports/tests/testCatroidDebugUnitTest
+
+  code-analysis:
+    needs: repo-check
+    name: Code Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - { name: "pmd", sarif: false }
+          - { name: "checkstyle", sarif: true }
+          - { name: "detekt", sarif: true }
+          - { name: "lint", sarif: true }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run ${{ matrix.tool.name }} Analysis
+        run: |
+          case ${{ matrix.tool.name }} in
+            "pmd") ./gradlew pmd ;;
+            "checkstyle") ./gradlew checkstyle ;;
+            "detekt") ./gradlew detekt ;;
+            "lint") ./gradlew lintCatroidDebug ;;
+          esac
+
+      - name: Upload ${{ matrix.tool.name }} SARIF Report
+        uses: github/codeql-action/upload-sarif@v3
+        if: ${{ matrix.tool.sarif && (success() || failure()) }}
+        with:
+          sarif_file: catroid/build/reports/${{ matrix.tool.name }}.sarif
+          category: ${{ matrix.tool.name }}
+
+      - name: Upload ${{ matrix.tool.name }} HTML Report
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: ${{ matrix.tool.name }}-report
+          path: |
+            catroid/build/reports/html/${{ matrix.tool.name }}.html
+
+  instrumented-unit-tests:
+    needs: repo-check
+    name: Instrumented Unit Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
+      calling-job: ${{github.job}}
+
+  testrunner-tests:
+    needs: repo-check
+    name: Testrunner Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
+      calling-job: ${{github.job}}
+
+  quarantined-tests:
+    needs: repo-check
+    name: Quarantined Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
+      calling-job: ${{github.job}}
+
+  rtl-tests:
+    needs: repo-check
+    name: RTL Tests
+    uses: ./.github/workflows/emulated_tests.yml
+    with:
+      gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
+      calling-job: ${{github.job}}

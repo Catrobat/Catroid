@@ -120,7 +120,7 @@ public class ScriptFragment extends ListFragment implements
 	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT})
 	@interface ActionModeType {
 	}
 
@@ -129,7 +129,6 @@ public class ScriptFragment extends ListFragment implements
 	private static final int COPY = 2;
 	private static final int DELETE = 3;
 	private static final int COMMENT = 4;
-	private static final int CATBLOCKS = 5;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -214,8 +213,6 @@ public class ScriptFragment extends ListFragment implements
 				adapter.setCheckBoxMode(NONE);
 				actionMode.finish();
 				return false;
-			case CATBLOCKS:
-				break;
 		}
 		return true;
 	}
@@ -264,8 +261,6 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
-			case CATBLOCKS:
-				break;
 		}
 	}
 
@@ -440,11 +435,7 @@ public class ScriptFragment extends ListFragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 		menu.findItem(R.id.find).setVisible(true);
-		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
-			menu.findItem(R.id.catblocks).setVisible(false);
-		}
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -472,9 +463,6 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.id.comment_in_out:
 				startActionMode(COMMENT);
-				break;
-			case R.id.catblocks:
-				switchToCatblocks();
 				break;
 			case R.id.find:
 				scriptFinder.open();
@@ -606,8 +594,6 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
-			case CATBLOCKS:
-				break;
 		}
 	}
 
@@ -893,35 +879,6 @@ public class ScriptFragment extends ListFragment implements
 		Intent intent = new Intent(getActivity(), BackpackActivity.class);
 		intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, BackpackActivity.FRAGMENT_SCRIPTS);
 		startActivity(intent);
-	}
-
-	private void switchToCatblocks() {
-		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
-			return;
-		}
-
-		int firstVisible = listView.getFirstVisiblePosition();
-		UUID firstVisibleBrickID = null;
-		if (listView.getCount() > 0 && firstVisible >= 0) {
-			Object firstVisibleObject = listView.getItemAtPosition(firstVisible);
-			if (firstVisibleObject instanceof Brick) {
-				Brick firstVisibleBrick = (Brick) firstVisibleObject;
-				if (firstVisibleBrick instanceof ScriptBrick) {
-					firstVisibleBrickID = firstVisibleBrick.getScript().getScriptId();
-				} else {
-					firstVisibleBrickID = firstVisibleBrick.getBrickID();
-				}
-			}
-		}
-
-		SettingsFragment.setUseCatBlocks(getContext(), true);
-
-		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
-
-		FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
-				CatblocksScriptFragment.Companion.getTAG());
-		fragmentTransaction.commit();
 	}
 
 	private void copy(List<Brick> selectedBricks) {

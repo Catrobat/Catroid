@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.ui.fragment.actionutils.ActionUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,9 +43,13 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
+import android.view.View;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
@@ -59,6 +64,8 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.util.TreeIterables.breadthFirstViewTraversal;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteLookTest {
@@ -76,6 +83,30 @@ public class DeleteLookTest {
 	public void setUp() throws IOException {
 		createProject();
 		baseActivityTestRule.launchActivity();
+	}
+
+	public static ViewAction waitForView(final Matcher<View> viewMatcher, final long timeoutMs) {
+		return new ViewAction() {
+			@Override public Matcher<View> getConstraints() { return isRoot(); }
+
+			@Override public String getDescription() {
+				return "wait up to " + timeoutMs + "ms for view matching: " + viewMatcher;
+			}
+
+			@Override public void perform(UiController uiController, View rootView) {
+				long start = System.currentTimeMillis();
+				do {
+					for (View child : breadthFirstViewTraversal(rootView)) {
+						if (viewMatcher.matches(child) && child.isShown()) {
+							return;
+						}
+					}
+					uiController.loopMainThreadForAtLeast(50);
+				} while (System.currentTimeMillis() - start < timeoutMs);
+
+				throw new AssertionError("Timed out after " + timeoutMs + "ms waiting for: " + viewMatcher);
+			}
+		};
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -120,15 +151,36 @@ public class DeleteLookTest {
 				.check(doesNotExist());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void selectFragmentToDeleteTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		onView(withText(R.string.delete)).perform(click());
+@Category({Cat.AppUi.class, Level.Smoke.class})
+@Test
+public void selectFragmentToDeleteTest() throws IOException {
+	ActionUtils.addLook(projectManager, "testLook1");
 
-		onRecyclerView().atPosition(0).perform(click());
-		onRecyclerView().atPosition(0).performCheckItemCheck();
-	}
+	// Act: open the settings menu for the first recycler view item
+	onRecyclerView().clickChildAtPosition(0, R.id.settings_button);
+
+	onView(withText(R.string.delete)).perform(click());
+
+	// Assert: wait until the custom dialog view exists, then verify it
+	onView(isRoot()).perform(waitForView(withId(R.id.deleteDialogTitle), 2000));
+
+	onView(withId(R.id.deleteDialogTitle))
+			.inRoot(isDialog())
+			.check(matches(allOf(isDisplayed(), withText(R.string.delete_look_title))));
+
+	onView(withId(R.id.deleteDialogMessage))
+			.inRoot(isDialog())
+			.check(matches(isDisplayed()));
+
+	onView(withId(R.id.deleteDialogCancel))
+			.inRoot(isDialog())
+			.check(matches(isDisplayed()));
+
+	onView(withId(R.id.deleteDialogConfirm))
+			.inRoot(isDialog())
+			.check(matches(isDisplayed()));
+}
+
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
