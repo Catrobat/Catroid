@@ -40,7 +40,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -59,7 +59,7 @@ import static junit.framework.TestCase.assertNotNull;
 @PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
 public class ThinkSayBubbleActionTest {
 
-	Context contextMock = MockUtil.mockContextForProject();
+	Context contextMock = MockUtil.getApplicationContextMock();
 	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
 
 	@Before

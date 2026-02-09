@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -88,7 +88,7 @@ public class CompositeBrickVariableUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		initializeStaticSingletonMethods();
+		MockUtil.initializeStaticsAndSingletons();
 		Project project = new Project();
 		userVariable = new UserVariable();
 		userList = new UserList();

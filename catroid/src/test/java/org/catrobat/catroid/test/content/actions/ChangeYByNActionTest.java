@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,8 +36,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class ChangeYByNActionTest {
@@ -48,8 +47,8 @@ public class ChangeYByNActionTest {
 	private Sprite sprite;
 
 	@Before
-	public void setUp() throws Exception {
-		initializeStaticSingletonMethods();
+	public void setUp() {
+		MockUtil.initializeStaticsAndSingletons();
 		sprite = new Sprite("testSprite");
 	}
 

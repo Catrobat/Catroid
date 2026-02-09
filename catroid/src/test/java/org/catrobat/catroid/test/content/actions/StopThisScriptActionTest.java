@@ -39,7 +39,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,7 +66,7 @@ public class StopThisScriptActionTest {
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;

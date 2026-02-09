@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -83,7 +83,7 @@ class WriteVariableToFileActionTest(
 
     @Before
     fun setUp() {
-        initializeStaticSingletonMethods()
+        MockUtil.initializeStaticsAndSingletons()
         sprite = Sprite("testSprite")
         sequence = SequenceAction()
         file = Mockito.mock(File::class.java)

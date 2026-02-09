@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +51,7 @@ public class StartScriptTest {
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

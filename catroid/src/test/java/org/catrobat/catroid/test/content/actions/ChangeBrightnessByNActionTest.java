@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,8 +52,8 @@ public class ChangeBrightnessByNActionTest {
 	private Sprite sprite;
 
 	@Before
-	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+	public void setUp() {
+		Project project = new Project(MockUtil.getApplicationContextMock(), "Project");
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);

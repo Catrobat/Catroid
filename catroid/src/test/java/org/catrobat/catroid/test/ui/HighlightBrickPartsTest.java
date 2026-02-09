@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.junit.Before;
@@ -98,7 +98,7 @@ public class HighlightBrickPartsTest {
 
 	private void createProject() {
 		String projectName = "highlightBrickPartsTest";
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.getApplicationContextMock(), projectName);
 
 		Sprite sprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(sprite);

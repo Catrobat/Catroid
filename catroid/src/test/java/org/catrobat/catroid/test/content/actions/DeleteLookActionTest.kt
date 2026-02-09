@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.DeleteLookAction
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -64,7 +64,7 @@ class DeleteLookActionTest {
             lookList.add(lookData2)
             lookList.add(lookData3)
         }
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.getApplicationContextMock(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
     }

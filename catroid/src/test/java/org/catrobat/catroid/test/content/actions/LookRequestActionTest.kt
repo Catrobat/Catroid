@@ -20,11 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
 package org.catrobat.catroid.test.content.actions
 
+import android.os.Handler
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit4.MockKRule
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.spyk
+import io.mockk.unmockkConstructor
+import io.mockk.unmockkStatic
+import io.mockk.verify
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.ProjectManager
@@ -38,7 +49,7 @@ import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnectionHolder
 import org.junit.After
@@ -46,62 +57,59 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
-import org.mockito.Mockito.doAnswer
-import org.mockito.Mockito.doReturn
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.api.mockito.PowerMockito.whenNew
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.junit.runners.JUnit4
 import java.io.InputStream
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class, WebAction::class)
+@RunWith(JUnit4::class)
 class LookRequestActionTest {
-    private lateinit var testSprite: Sprite
-    private lateinit var testSequence: SequenceAction
-    private lateinit var lookData1: LookData
-    private lateinit var lookData2: LookData
-    private lateinit var webConnection: WebConnection
-    private lateinit var response: Response
-    private lateinit var responseStream: InputStream
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
     }
 
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @RelaxedMockK
+    lateinit var responseMock: Response
+
+    @RelaxedMockK
+    lateinit var responseBodyMock: ResponseBody
+
+    @RelaxedMockK
+    lateinit var lookData1Mock: LookData
+
+    @RelaxedMockK
+    lateinit var lookData2Mock: LookData
+
+    @RelaxedMockK
+    lateinit var responseStreamMock: InputStream
+
+    private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
+
     @Before
     fun setUp() {
-        PowerMockito.mockStatic(GdxNativesLoader::class.java)
+        mockkStatic(GdxNativesLoader::class)
+        mockkConstructor(WebConnection::class)
+
+        val context = MockUtil.getApplicationContextMock()
+        val project = Project(context, "Project")
+        ProjectManager.getInstance().currentProject = project
+
+        StageActivity.stageListener = mockk<StageListener>()
+        StageActivity.stageListener.webConnectionHolder = mockk<WebConnectionHolder>(relaxed = true)
+        StageActivity.messageHandler = mockk<Handler>(relaxed = true)
+
+        every { responseMock.body() } returns responseBodyMock
+        every { responseBodyMock.byteStream() } returns responseStreamMock
 
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
-        lookData1 = mock(LookData::class.java)
-        testSprite.look.lookData = lookData1
-        lookData2 = mock(LookData::class.java)
-        webConnection = mock(WebConnection::class.java)
-        response = mock(Response::class.java)
-        responseStream = mock(InputStream::class.java)
-
-        StageActivity.stageListener = mock(StageListener::class.java)
-        StageActivity.stageListener.webConnectionHolder = mock(WebConnectionHolder::class.java)
-
-        whenNew(WebConnection::class.java).withAnyArguments().thenReturn(webConnection)
-        val responseBody = mock(ResponseBody::class.java)
-        doReturn(responseBody).`when`(response).body()
-        doReturn(responseStream).`when`(responseBody).byteStream()
-
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
-        ProjectManager.getInstance().currentProject = project
+        testSprite.look.lookData = lookData1Mock
     }
 
     @Test(expected = NullPointerException::class)
@@ -112,7 +120,7 @@ class LookRequestActionTest {
         ) as LookRequestAction
 
         assertTrue(action.act(0f))
-        assertEquals(lookData1, testSprite.look.lookData)
+        assertEquals(lookData1Mock, testSprite.look.lookData)
     }
 
     @Test
@@ -123,12 +131,14 @@ class LookRequestActionTest {
         ) as LookRequestAction
         action.grantPermission()
 
-        doReturn(false).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns false
 
         assertTrue(action.act(0f))
         assertEquals(Constants.ERROR_TOO_MANY_REQUESTS.toString(), action.errorCode)
-        assertEquals(lookData1, testSprite.look.lookData)
+        assertEquals(lookData1Mock, testSprite.look.lookData)
     }
 
     @Test
@@ -139,39 +149,41 @@ class LookRequestActionTest {
         ) as LookRequestAction
         action.grantPermission()
 
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
-
-        doAnswer {
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
             action.onRequestError(Constants.ERROR_BAD_REQUEST.toString())
-        }.`when`(webConnection).sendWebRequest()
+        }
 
         assertTrue(action.act(0f))
         assertEquals(Constants.ERROR_BAD_REQUEST.toString(), action.errorCode)
-        assertEquals(lookData1, testSprite.look.lookData)
+        assertEquals(lookData1Mock, testSprite.look.lookData)
     }
 
     @Test
     fun testSuccessfulResponse() {
-        val action = mock(LookRequestAction::class.java, Mockito.CALLS_REAL_METHODS)
-        action.apply {
+        val actionSpy = spyk<LookRequestAction>()
+        actionSpy.apply {
             scope = Scope(Project(), testSprite, testSequence)
             formula = Formula(TEST_URL)
             requestStatus = WebAction.RequestStatus.NOT_SENT
             grantPermission()
         }
 
-        doReturn(lookData2).`when`(action).getLookFromResponse()
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { actionSpy.getLookFromResponse() } returns lookData2Mock
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
+            actionSpy.onRequestSuccess(responseMock)
+        }
 
-        doAnswer {
-            action.onRequestSuccess(response)
-        }.`when`(webConnection).sendWebRequest()
-
-        assertTrue(action.act(0f))
-        assertEquals(responseStream, action.response)
-        assertEquals(lookData2, testSprite.look.lookData)
+        assertTrue(actionSpy.act(0f))
+        assertEquals(responseStreamMock, actionSpy.response)
+        assertEquals(lookData2Mock, testSprite.look.lookData)
     }
 
     @Test
@@ -184,47 +196,51 @@ class LookRequestActionTest {
 
         assertTrue(action.act(0f))
         assertEquals(Constants.ERROR_AUTHENTICATION_REQUIRED.toString(), action.errorCode)
-        assertEquals(lookData1, testSprite.look.lookData)
+        assertEquals(lookData1Mock, testSprite.look.lookData)
     }
 
     @Test
     fun testCancelledCallAndResendRequest() {
-        val action = mock(LookRequestAction::class.java, Mockito.CALLS_REAL_METHODS)
-        action.apply {
+        val actionSpy = spyk<LookRequestAction>()
+        actionSpy.apply {
             scope = Scope(Project(), testSprite, testSequence)
             formula = Formula(TEST_URL)
             requestStatus = WebAction.RequestStatus.NOT_SENT
             grantPermission()
         }
 
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
-        doReturn(lookData2).`when`(action).getLookFromResponse()
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { actionSpy.getLookFromResponse() } returns lookData2Mock
+        justRun { anyConstructed<WebConnection>().sendWebRequest() }
 
-        assertFalse(action.act(0f))
-        action.onCancelledCall()
-        assertEquals(WebAction.RequestStatus.NOT_SENT, action.requestStatus)
+        assertFalse(actionSpy.act(0f))
 
-        doAnswer {
-            action.onRequestSuccess(response)
-        }.`when`(webConnection).sendWebRequest()
+        actionSpy.onCancelledCall()
 
-        assertTrue(action.act(0f))
+        assertEquals(WebAction.RequestStatus.NOT_SENT, actionSpy.requestStatus)
 
-        PowerMockito.verifyNew(WebConnection::class.java, times(2))
-            .withArguments(any(), anyString())
-        Mockito.verify(StageActivity.stageListener.webConnectionHolder, times(2))
-            .addConnection(webConnection)
-        Mockito.verify(webConnection, times(2)).sendWebRequest()
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
+            actionSpy.onRequestSuccess(responseMock)
+        }
 
-        assertEquals(responseStream, action.response)
-        assertEquals(lookData2, testSprite.look.lookData)
+        assertTrue(actionSpy.act(0f))
+        assertEquals(responseStreamMock, actionSpy.response)
+        assertEquals(lookData2Mock, testSprite.look.lookData)
+        verify(exactly = 2) { anyConstructed<WebConnection>().sendWebRequest() }
+        verify(exactly = 2) {
+            StageActivity.stageListener.webConnectionHolder.addConnection(any<WebConnection>())
+        }
     }
 
     @After
     fun tearDown() {
         StageActivity.stageListener.webConnectionHolder = null
         StageActivity.stageListener = null
+
+        unmockkConstructor(WebConnection::class)
+        unmockkStatic(GdxNativesLoader::class)
     }
 }
-*/

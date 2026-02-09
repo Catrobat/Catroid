@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
 import org.junit.Before;
@@ -74,8 +74,8 @@ public class PhysicsSpriteCloneTest {
 	private static final float TURN_RIGHT_SPEED_TEST_VALUE = 3.0f;
 
 	@Before
-	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
+	public void setUp() {
+		project = new Project(MockUtil.getApplicationContextMock(), getClass().getSimpleName());
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		sprite = new Sprite("TestSprite");

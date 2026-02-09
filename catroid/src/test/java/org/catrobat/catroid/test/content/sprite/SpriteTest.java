@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,9 +65,9 @@ public class SpriteTest {
 	private Sprite sprite;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		sprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
 		sprite.getUserVariable(LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);

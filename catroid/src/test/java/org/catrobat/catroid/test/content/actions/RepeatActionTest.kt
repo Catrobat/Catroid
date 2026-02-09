@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.test.utils.Reflection
 import org.junit.Assert
 import org.junit.Before
@@ -69,7 +69,7 @@ class RepeatActionTest(
 
     @Before
     fun setUp() {
-        initializeStaticSingletonMethods()
+        MockUtil.initializeStaticsAndSingletons()
         sprite = Sprite("testSprite")
         project = Mockito.mock(Project::class.java)
         ProjectManager.getInstance().currentProject = project

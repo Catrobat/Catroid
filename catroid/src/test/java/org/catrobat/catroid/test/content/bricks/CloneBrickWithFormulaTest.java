@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +79,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -155,7 +155,7 @@ public class CloneBrickWithFormulaTest {
 
 	@Before
 	public void setUp() throws CloneNotSupportedException {
-		initializeStaticSingletonMethods();
+		MockUtil.initializeStaticsAndSingletons();
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);

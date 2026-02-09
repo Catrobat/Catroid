@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 import org.junit.Before
 import org.junit.Test
@@ -48,7 +48,7 @@ class ShowTextActionTest {
     private lateinit var var0: UserVariable
     private lateinit var var1: UserVariable
     private lateinit var secondSprite: Sprite
-    var contextMock: Context = MockUtil.mockContextForProject()
+    var contextMock: Context = MockUtil.getApplicationContextMock()
     var androidStringProviderMock = AndroidStringProvider(contextMock)
 
     @Before

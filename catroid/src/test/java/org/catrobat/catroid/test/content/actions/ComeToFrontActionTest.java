@@ -31,7 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testComeToFront() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.getApplicationContextMock(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new Sprite("catroid");
@@ -134,7 +134,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testBoundaries() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.getApplicationContextMock(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new Sprite("firstSprite");

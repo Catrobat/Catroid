@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +64,7 @@ public class WhenConditionScriptTest {
 	}
 
 	private void createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "TestProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 	}

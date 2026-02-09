@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -51,7 +51,7 @@ public class ProjectTest {
 
 	@Test
 	public void testVersionName() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
 		assertEquals("testStub", projectXmlHeader.getApplicationVersion());
@@ -59,7 +59,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveSprite() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		Scene scene = project.getDefaultScene();
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
@@ -80,7 +80,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveScene() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		Scene sceneOne = new Scene("test1", project);
 		Scene sceneTwo = new Scene("test2", project);
 
@@ -110,7 +110,7 @@ public class ProjectTest {
 		header.setPlatform(OLD_PLATFORM);
 		header.setPlatformVersion(OLD_PLATFORM_VERSION);
 
-		project.setDeviceData(MockUtil.mockContextForProject());
+		project.setDeviceData(MockUtil.getApplicationContextMock());
 
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, header.getCatrobatLanguageVersion());
 		assertEquals(Mockito.mock(Context.class).getString(R.string.app_name), header.getApplicationName());

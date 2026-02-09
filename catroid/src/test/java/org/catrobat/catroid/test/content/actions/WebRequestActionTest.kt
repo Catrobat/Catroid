@@ -20,11 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit4.MockKRule
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.spyk
+import io.mockk.unmockkConstructor
+import io.mockk.unmockkStatic
+import io.mockk.verify
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.ProjectManager
@@ -39,7 +49,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnectionHolder
 import org.junit.After
@@ -47,30 +57,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
-import org.mockito.Mockito.doReturn
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.invocation.InvocationOnMock
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.api.mockito.PowerMockito.verifyNew
-import org.powermock.api.mockito.PowerMockito.whenNew
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.junit.runners.JUnit4
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class, WebAction::class)
+@RunWith(JUnit4::class)
 class WebRequestActionTest {
-    private lateinit var testSprite: Sprite
-    private lateinit var testSequence: SequenceAction
-    private lateinit var userVariable: UserVariable
-    private lateinit var webConnection: WebConnection
-    private lateinit var response: Response
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
@@ -79,26 +72,37 @@ class WebRequestActionTest {
         private const val RESPONSE_STRING = "Response"
     }
 
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @RelaxedMockK
+    lateinit var responseMock: Response
+
+    @RelaxedMockK
+    lateinit var responseBodyMock: ResponseBody
+
+    private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
+    private lateinit var userVariable: UserVariable
+
     @Before
     fun setUp() {
-        PowerMockito.mockStatic(GdxNativesLoader::class.java)
+        mockkStatic(GdxNativesLoader::class)
+        mockkConstructor(WebConnection::class)
+
+        val context = MockUtil.getApplicationContextMock()
+        val project = Project(context, "Project")
+        ProjectManager.getInstance().currentProject = project
+
+        StageActivity.stageListener = mockk<StageListener>()
+        StageActivity.stageListener.webConnectionHolder = mockk<WebConnectionHolder>(relaxed = true)
+
+        every { responseMock.body() } returns responseBodyMock
+        every { responseBodyMock.string() } returns RESPONSE_STRING
 
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
         userVariable = UserVariable(TEST_USER_VARIABLE)
-        webConnection = mock(WebConnection::class.java)
-        response = mock(Response::class.java)
-
-        StageActivity.stageListener = mock(StageListener::class.java)
-        StageActivity.stageListener.webConnectionHolder = mock(WebConnectionHolder::class.java)
-
-        whenNew(WebConnection::class.java).withAnyArguments().thenReturn(webConnection)
-        val responseBody = mock(ResponseBody::class.java)
-        doReturn(responseBody).`when`(response).body()
-        doReturn(RESPONSE_STRING).`when`(responseBody).string()
-
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
     }
 
     @Test
@@ -120,8 +124,11 @@ class WebRequestActionTest {
             userVariable
         ) as WebRequestAction
         action.grantPermission()
-        doReturn(false).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
+
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns false
 
         assertTrue(action.act(0f))
         assertEquals(Constants.ERROR_TOO_MANY_REQUESTS.toString(), userVariable.value)
@@ -135,12 +142,14 @@ class WebRequestActionTest {
             userVariable
         ) as WebRequestAction
         action.grantPermission()
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
 
-        Mockito.doAnswer {
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
             action.onRequestError(Constants.ERROR_BAD_REQUEST.toString())
-        }.`when`(webConnection).sendWebRequest()
+        }
 
         assertTrue(action.act(0f))
         assertEquals(Constants.ERROR_BAD_REQUEST.toString(), userVariable.value)
@@ -154,12 +163,14 @@ class WebRequestActionTest {
             userVariable
         ) as WebRequestAction
         action.grantPermission()
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
 
-        Mockito.doAnswer {
-            action.onRequestSuccess(response)
-        }.`when`(webConnection).sendWebRequest()
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
+            action.onRequestSuccess(responseMock)
+        }
 
         assertTrue(action.act(0f))
         assertEquals(RESPONSE_STRING, userVariable.value)
@@ -186,72 +197,42 @@ class WebRequestActionTest {
             userVariable
         ) as WebRequestAction
         action.grantPermission()
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
+
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        justRun { anyConstructed<WebConnection>().sendWebRequest() }
 
         assertFalse(action.act(0f))
+
         action.onCancelledCall()
+
         assertEquals(WebAction.RequestStatus.NOT_SENT, action.requestStatus)
 
-        Mockito.doAnswer {
-            action.onRequestSuccess(response)
-        }.`when`(webConnection).sendWebRequest()
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
+            action.onRequestSuccess(responseMock)
+        }
 
         assertTrue(action.act(0f))
         assertEquals(RESPONSE_STRING, userVariable.value)
-
-        verifyNew(WebConnection::class.java, times(2))
-            .withArguments(any(), anyString())
-        verify(StageActivity.stageListener.webConnectionHolder, times(2))
-            .addConnection(webConnection)
-        verify(webConnection, times(2)).sendWebRequest()
-    }
-
-    private fun setupTestSuccessfulResponseWithInputVariable(): WebRequestAction {
-        val formula = Mockito.spy(
-            Formula(
-                FormulaElement(
-                    FormulaElement.ElementType.USER_VARIABLE,
-                    TEST_INPUT_VARIABLE,
-                    null
-                )
-            )
-        )
-        testSprite.addUserVariable(userVariable)
-        testSprite.addUserVariable(UserVariable(TEST_INPUT_VARIABLE, TEST_URL))
-
-        val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
-            testSequence,
-            formula,
-            userVariable
-        ) as WebRequestAction
-        action.grantPermission()
-        doReturn(true).`when`(StageActivity.stageListener.webConnectionHolder)
-            .addConnection(webConnection)
-
-        Mockito.doAnswer { invocation: InvocationOnMock ->
-            val scope = invocation.getArgument<Scope>(0)
-//            val sprite = invocation.getArgument<Sprite>(0)
-            scope.sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
-        }.`when`(formula).interpretString(any(Scope::class.java))
-
-        Mockito.doAnswer {
-            action.onRequestSuccess(response)
-        }.`when`(webConnection).sendWebRequest()
-
-        return action
+        verify(exactly = 2) { anyConstructed<WebConnection>().sendWebRequest() }
+        verify(exactly = 2) {
+            StageActivity.stageListener.webConnectionHolder.addConnection(any<WebConnection>())
+        }
     }
 
     @Test
     fun testSuccessfulResponseWithInputVariable() {
         val action = setupTestSuccessfulResponseWithInputVariable()
+
         assertTrue(action.act(0f))
     }
 
     @Test
     fun testInputVariableIsSetCorrectly() {
         val action = setupTestSuccessfulResponseWithInputVariable()
+
         assertTrue(action.act(0f))
         assertEquals(RESPONSE_STRING, userVariable.value)
     }
@@ -260,6 +241,45 @@ class WebRequestActionTest {
     fun tearDown() {
         StageActivity.stageListener.webConnectionHolder = null
         StageActivity.stageListener = null
+
+        unmockkConstructor(WebConnection::class)
+        unmockkStatic(GdxNativesLoader::class)
+    }
+
+    private fun setupTestSuccessfulResponseWithInputVariable(): WebRequestAction {
+        val formulaSpy = spyk<Formula>(
+            Formula(
+                FormulaElement(
+                    FormulaElement.ElementType.USER_VARIABLE,
+                    TEST_INPUT_VARIABLE,
+                    null
+                )
+            )
+        )
+
+        testSprite.addUserVariable(userVariable)
+        testSprite.addUserVariable(UserVariable(TEST_INPUT_VARIABLE, TEST_URL))
+
+        val action = testSprite.actionFactory.createWebRequestAction(
+            testSprite,
+            testSequence,
+            formulaSpy,
+            userVariable
+        ) as WebRequestAction
+        action.grantPermission()
+
+        every {
+            StageActivity.stageListener.webConnectionHolder
+                .addConnection(any<WebConnection>())
+        } returns true
+        every { formulaSpy.interpretString(any<Scope>()) } answers {
+            val scope = args[0] as Scope
+            scope.sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
+        }
+        every { anyConstructed<WebConnection>().sendWebRequest() } answers {
+            action.onRequestSuccess(responseMock)
+        }
+
+        return action
     }
 }
-*/

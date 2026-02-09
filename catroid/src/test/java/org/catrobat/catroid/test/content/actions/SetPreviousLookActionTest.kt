@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -62,7 +62,7 @@ class SetPreviousLookActionTest {
             lookList.add(lookData3)
         }
         sequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.getApplicationContextMock(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
     }

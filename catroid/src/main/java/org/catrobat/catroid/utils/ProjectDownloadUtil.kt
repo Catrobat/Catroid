@@ -1,6 +1,6 @@
  /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.utils
 
+import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
 import java.lang.ref.WeakReference
@@ -41,4 +42,9 @@ object ProjectDownloadUtil : ProjectDownloadCallback {
     override fun onDownloadProgress(progress: Int, url: String) = Unit
 
     override fun onUserCanceledDownload(url: String) = Unit
+
+    @VisibleForTesting
+    fun resetForTesting() {
+        fragment = null
+    }
 }

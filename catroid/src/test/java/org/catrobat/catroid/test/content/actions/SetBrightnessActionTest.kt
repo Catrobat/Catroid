@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.catrobat.catroid.ProjectManager
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +49,7 @@ class SetBrightnessActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.getApplicationContextMock(), "Project")
         sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
         ProjectManager.getInstance().currentProject = project

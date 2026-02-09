@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,7 +65,7 @@ public class WhenBackgroundChangesScriptTest {
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "TestProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import org.junit.Assert
 import org.junit.Before
@@ -48,7 +48,7 @@ class ParameterizedBrickTest {
     @Throws(IllegalAccessException::class, InstantiationException::class)
     fun setUp() {
         val project = Project(
-            MockUtil.mockContextForProject(),
+            MockUtil.getApplicationContextMock(),
             "testProject"
         )
         userVariable = UserVariable()
