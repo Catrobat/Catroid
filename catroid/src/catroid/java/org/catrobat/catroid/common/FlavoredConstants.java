@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,17 +34,17 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
+	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/pocketcode/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
-	public static final String FLAVOR_NAME = "pocketcode";
-
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
+
+	public static final String FLAVOR_NAME = "pocketcode";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 
@@ -54,7 +54,6 @@ public final class FlavoredConstants {
 	// TODO: Delete these and every usage, when the Catrobat share server completely closes
 	// Deprecated Media Library:
 	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
-	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
 
 	// Media Library:
 	public static final String CATROBAT_BASE_URL = "https://catrobat.org/";
@@ -62,6 +61,7 @@ public final class FlavoredConstants {
 	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
 	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
 	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
+	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -76,6 +76,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -91,6 +92,7 @@ public class LookDataTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
 	private LookData lookData;
 	private File imageFolder;
+	private final Context context = ApplicationProvider.getApplicationContext();
 
 	private Uri getImageContentUri(Context context, File imageFile) {
 		String filePath = imageFile.getAbsolutePath();
@@ -117,8 +119,8 @@ public class LookDataTest {
 
 	@Before
 	public void setUp() throws Exception {
-		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
-		imageFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), IMAGE_DIRECTORY_NAME);
+		StorageOperations.deleteDir(context.getCacheDir());
+		imageFolder = new File(context.getCacheDir(), IMAGE_DIRECTORY_NAME);
 		if (!imageFolder.exists()) {
 			imageFolder.mkdirs();
 		}
@@ -133,7 +135,7 @@ public class LookDataTest {
 
 	@After
 	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
+		StorageOperations.deleteDir(context.getCacheDir());
 	}
 
 	@Test
@@ -163,11 +165,10 @@ public class LookDataTest {
 		baseActivityTestRule.launchActivity();
 
 		final InputStream inputStream = baseActivityTestRule.getActivity().getResources().getAssets().open("penguin.webp");
-		File outFile = new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "penguin.webp");
+		File outFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "penguin.webp");
 		FileOutputStream outputStream = new FileOutputStream(outFile);
 		BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
-		onView(withId(R.id.button_add))
-				.perform(click());
+		onView(withId(R.id.button_add)).perform(click());
 
 		Intent chooserResultData = new Intent();
 		Uri uri = getImageContentUri(baseActivityTestRule.getActivity(), outFile);
@@ -177,10 +178,8 @@ public class LookDataTest {
 				new Instrumentation.ActivityResult(Activity.RESULT_OK, chooserResultData);
 		intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(chooserResult);
 
-		onView(withId(R.id.dialog_new_look_gallery))
-				.perform(click());
-		onView(withId(R.id.button_play))
-				.perform(click());
+		onView(withId(R.id.dialog_new_look_gallery)).perform(click());
+		onView(withId(R.id.button_play)).perform(click());
 		assertNotSame("#ffffff", project.getUserVariable("color").getValue());
 		Intents.release();
 		baseActivityTestRule.finishActivity();
@@ -196,8 +195,10 @@ public class LookDataTest {
 	}
 
 	private Project createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "LookDataTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Project project = new Project(context, "LookDataTest");
+
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 		Script script = new StartScript();
 		Sprite sprite = new Sprite("testSprite");
 		Formula colorAtXYFormula = getColorAtXYFormula();
@@ -209,9 +210,9 @@ public class LookDataTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 		return project;
 	}

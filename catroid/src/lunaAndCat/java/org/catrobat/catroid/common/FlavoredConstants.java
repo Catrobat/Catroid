@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,11 +34,11 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/luna/";
+	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/luna/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
@@ -58,7 +58,7 @@ public final class FlavoredConstants {
 	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
 	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
 	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
-	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
+	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");

@@ -32,7 +32,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,10 +47,8 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
-import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.dialogs.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.CategoryTitleCallback
@@ -116,7 +113,6 @@ class MainMenuFragment : Fragment(),
         setupViewVisibility()
 
         binding.editProject.setOnClickListener(this)
-        binding.uploadProject.setOnClickListener(this)
         binding.newProjectFloatingActionButton.setOnClickListener(this)
         binding.myProjectsTextView.setOnClickListener(this)
         binding.projectImageView.setOnClickListener(this)
@@ -307,28 +303,6 @@ class MainMenuFragment : Fragment(),
             R.id.newProjectFloatingActionButton -> {
                 val dialog = NewProjectDialogFragment()
                 dialog.show(parentFragmentManager, NewProjectDialogFragment.TAG)
-            }
-
-            R.id.uploadProject -> {
-                if (Utils.isDefaultProject(projectManager.currentProject, activity)) {
-                    binding.root.apply {
-                        Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
-                    }
-                    return
-                }
-
-                viewModel.setIsLoading(true)
-                val intent = Intent(activity, ProjectUploadActivity::class.java)
-                    .putExtra(
-                        PROJECT_DIR,
-                        File(
-                            DEFAULT_ROOT_DIRECTORY,
-                            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(
-                                Utils.getCurrentProjectName(activity)
-                            )
-                        )
-                    )
-                startActivity(intent)
             }
 
             R.id.playProject -> {
