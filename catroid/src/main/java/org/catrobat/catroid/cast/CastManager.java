@@ -281,12 +281,20 @@ public final class CastManager {
 
 	public synchronized void addStageViewToLayout(GLSurfaceView20 stageView) {
 		stageViewDisplayedOnCast = stageView;
-		remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
-		remoteLayout.removeAllViews();
-		remoteLayout.addView(stageViewDisplayedOnCast);
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
-				project.getXmlHeader().getVirtualScreenHeight());
+		//if (stageView == null || remoteLayout == null)  return;
+
+		// without this synchronisation cast project can not be startet
+		stageView.post(() -> {
+			if (remoteLayout == null)
+				return;
+
+			remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
+			remoteLayout.removeAllViews();
+			remoteLayout.addView(stageViewDisplayedOnCast);
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
+					project.getXmlHeader().getVirtualScreenHeight());
+		});
 	}
 
 	public synchronized boolean currentlyConnecting() {
@@ -476,6 +484,11 @@ public final class CastManager {
 
 				@Override
 				public void onRemoteDisplaySessionEnded(CastRemoteDisplayLocalService castRemoteDisplayLocalService) {
+				}
+
+				// needed for new version of play-services-cast
+				@Override
+				public void onRemoteDisplayMuteStateChanged(boolean isMuted) {
 				}
 			};
 

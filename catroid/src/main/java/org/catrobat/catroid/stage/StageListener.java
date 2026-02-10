@@ -832,9 +832,15 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void gamepadPressed(String buttonType) {
+		/*Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			return;
+		}*/
+
 		EventId eventId = new GamepadEventId(buttonType);
 		EventWrapper gamepadEvent = new EventWrapper(eventId, false);
-		project.fireToAllSprites(gamepadEvent);
+		project.fireToAllSprites(gamepadEvent); // project is null
+		//currentProject.fireToAllSprites(gamepadEvent);// sprites is null
 	}
 
 	public void addActor(Actor actor) {
