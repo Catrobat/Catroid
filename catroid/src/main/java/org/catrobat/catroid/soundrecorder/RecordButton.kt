@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,38 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.soundrecorder;
+package org.catrobat.catroid.soundrecorder
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.ImageButton;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.ImageButton
 
 @SuppressLint("AppCompatCustomView")
-public class RecordButton extends ImageButton {
-	private RecordState state = RecordState.STOP;
+class RecordButton @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ImageButton(context, attrs, defStyle) {
 
-	public RecordButton(Context context) {
-		super(context);
-	}
+    var state: RecordState = RecordState.STOP
 
-	public RecordButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public RecordButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-
-	public RecordState getState() {
-		return state;
-	}
-
-	public void setState(RecordState state) {
-		this.state = state;
-	}
-
-	public enum RecordState {
-		RECORD, STOP;
-	}
+    enum class RecordState {
+        RECORD, STOP
+    }
 }

@@ -99,8 +99,10 @@ open class SavePlotAction : TemporalAction(), IntentListener {
             Log.e(javaClass.simpleName, "Writing plot data to file failed")
         } finally {
             val params = ArrayList<Any>(listOf(message))
-            StageActivity.messageHandler
-                .obtainMessage(StageActivity.SHOW_TOAST, params).sendToTarget()
+            StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params)
+                .sendToTarget()
+            // if a Null Exception happens here it's likely that in your test you don't have a
+            // messageHandler thus it is null here
         }
     }
 
@@ -121,9 +123,9 @@ open class SavePlotAction : TemporalAction(), IntentListener {
         } finally {
             val params = ArrayList<String>()
             params.add(message)
-            StageActivity.messageHandler.obtainMessage(
+            StageActivity.messageHandler?.obtainMessage(
                 StageActivity.SHOW_TOAST, params
-            ).sendToTarget()
+            )?.sendToTarget()
         }
     }
 
