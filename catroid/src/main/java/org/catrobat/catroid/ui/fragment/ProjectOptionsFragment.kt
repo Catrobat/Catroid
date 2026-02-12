@@ -52,7 +52,8 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectExportTask
+import org.catrobat.catroid.io.asynctask.ProjectExporter
+import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
@@ -330,8 +331,9 @@ class ProjectOptionsFragment : Fragment() {
                     projectDestination,
                     it.name
                 )
-            ProjectExportTask(it.directory, projectDestination, notificationData, requireContext())
-                .execute()
+            ProjectExporter(
+                it.directory, projectDestination, notificationData, requireContext()
+            ).exportProjectToExternalStorageAsync()
         }
     }
 
