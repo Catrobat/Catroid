@@ -1117,104 +1117,118 @@ open class CategoryBricksFactory {
     }
 
     private fun searchList(searchBrick: Brick, list: List<Brick>): Boolean =
-        list.any { it == searchBrick.javaClass }
+        list.any { it.javaClass == searchBrick.javaClass }
 
-    fun getBrickCategory(brick: Brick, isBackgroundSprite: Boolean, context: Context): String {
+    fun getBrickCategory(brick: Brick, isBackgroundSprite: Boolean, context: Context): Int {
         val res = context.resources
         val config = res.configuration
         val savedLocale = config.locale
         config.locale = Locale.ENGLISH
         res.updateConfiguration(config, null)
-        var category: String
+        var category: Int
         category = when {
             searchList(
                 brick,
                 setupControlCategoryList(context)
-            ) -> res.getString(R.string.category_control)
+            ) -> R.string.category_control
 
-            searchList(brick, setupEventCategoryList(context, isBackgroundSprite)) -> res.getString(
-                R.string.category_event
-            )
+            searchList(
+                brick,
+                setupEventCategoryList(context, isBackgroundSprite)
+            ) -> R.string.category_event
 
             searchList(
                 brick,
                 setupMotionCategoryList(context, isBackgroundSprite)
-            ) -> res.getString(R.string.category_motion)
+            ) -> R.string.category_motion
 
             searchList(
                 brick,
                 setupSoundCategoryList(context)
-            ) -> res.getString(R.string.category_sound)
+            ) -> R.string.category_sound
 
-            searchList(brick, setupLooksCategoryList(context, isBackgroundSprite)) -> res.getString(
-                R.string.category_looks
-            )
+            searchList(
+                brick,
+                setupLooksCategoryList(context, isBackgroundSprite)
+            ) -> R.string.category_looks
 
             searchList(
                 brick,
                 setupPenCategoryList(isBackgroundSprite)
-            ) -> res.getString(R.string.category_pen)
+            ) -> R.string.category_pen
 
             searchList(
                 brick,
                 setupDataCategoryList(context, isBackgroundSprite)
-            ) -> res.getString(R.string.category_data)
+            ) -> R.string.category_data
 
             searchList(
                 brick,
                 setupLegoNxtCategoryList()
-            ) -> res.getString(R.string.category_lego_nxt)
+            ) -> R.string.category_lego_nxt
 
             searchList(
                 brick,
                 setupLegoEv3CategoryList()
-            ) -> res.getString(R.string.category_lego_ev3)
+            ) -> R.string.category_lego_ev3
 
             searchList(
                 brick,
                 setupArduinoCategoryList()
-            ) -> res.getString(R.string.category_arduino)
+            ) -> R.string.category_arduino
 
-            searchList(brick, setupDroneCategoryList()) -> res.getString(R.string.category_drone)
+            searchList(
+                brick,
+                setupDroneCategoryList()
+            ) -> R.string.category_drone
+
             searchList(
                 brick,
                 setupJumpingSumoCategoryList()
-            ) -> res.getString(R.string.category_jumping_sumo)
+            ) -> R.string.category_jumping_sumo
 
-            searchList(brick, setupPhiroProCategoryList()) -> res.getString(R.string.category_phiro)
-            searchList(brick, setupRaspiCategoryList()) -> res.getString(R.string.category_raspi)
+            searchList(
+                brick,
+                setupPhiroProCategoryList()
+            ) -> R.string.category_phiro
+
+            searchList(
+                brick,
+                setupRaspiCategoryList()
+            ) -> R.string.category_raspi
+
             searchList(
                 brick,
                 setupChromecastCategoryList(context)
-            ) -> res.getString(R.string.category_cast)
+            ) -> R.string.category_cast
 
             searchList(
                 brick,
                 setupEmbroideryCategoryList(context)
-            ) -> res.getString(R.string.category_embroidery)
+            ) -> R.string.category_embroidery
 
             searchList(
                 brick,
                 setupAssertionsCategoryList(context)
-            ) -> res.getString(R.string.category_assertions)
+            ) -> R.string.category_assertions
 
-            else -> "No Match"
+            else -> -1
         }
 
         when (brick) {
-            is AskBrick -> category = res.getString(R.string.category_looks)
-            is AskSpeechBrick -> category = res.getString(R.string.category_sound)
-            is LookRequestBrick -> category = res.getString(R.string.category_looks)
-            is BackgroundRequestBrick -> category = res.getString(R.string.category_looks)
-            is WhenClonedBrick -> category = res.getString(R.string.category_control)
-            is WhenBackgroundChangesBrick -> category = res.getString(R.string.category_event)
-            is SetVariableBrick -> category = res.getString(R.string.category_data)
-            is WebRequestBrick -> category = res.getString(R.string.category_data)
-            is StoreCSVIntoUserListBrick -> category = res.getString(R.string.category_data)
-            is UserDefinedBrick -> category = res.getString(R.string.category_user_bricks)
-            is UserDefinedReceiverBrick -> category = res.getString(R.string.category_user_bricks)
-            is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
-            is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
+            is AskBrick -> category = R.string.category_looks
+            is AskSpeechBrick -> category = R.string.category_sound
+            is LookRequestBrick -> category = R.string.category_looks
+            is BackgroundRequestBrick -> category = R.string.category_looks
+            is WhenClonedBrick -> category = R.string.category_control
+            is WhenBackgroundChangesBrick -> category = R.string.category_event
+            is SetVariableBrick -> category = R.string.category_data
+            is WebRequestBrick -> category = R.string.category_data
+            is StoreCSVIntoUserListBrick -> category = R.string.category_data
+            is UserDefinedBrick -> category = R.string.category_user_bricks
+            is UserDefinedReceiverBrick -> category = R.string.category_user_bricks
+            is ParameterizedEndBrick -> category = R.string.category_assertions
+            is WriteEmbroideryToFileBrick -> category = R.string.category_embroidery
         }
 
         config.locale = savedLocale

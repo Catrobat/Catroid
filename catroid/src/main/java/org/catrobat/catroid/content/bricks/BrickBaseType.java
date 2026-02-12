@@ -193,33 +193,37 @@ public abstract class BrickBaseType implements Brick {
 		}
 	}
 
-	private static final Map<String, String> HELP_URL_DE = new HashMap<>();
-	private static final Map<String, String> HELP_URL_EN = new HashMap<>();
+	private static final Map<Integer, String> CATEGORY_DE = new HashMap<>();
+	private static final Map<Integer, String> CATEGORY_EN = new HashMap<>();
+
+	private static final Map<String, String> BRICK_DE = new HashMap<>();
+	private static final Map<String, String> BRICK_EN = new HashMap<>();
 
 	static {
+		CATEGORY_DE.put(R.string.category_event, "ereignisse/");
+		CATEGORY_EN.put(R.string.category_event, "event/");
 
-		HELP_URL_DE.put("ChangeSizeByNBrick",
-				"https://catrobat.org/docs/brick-dokumentation-de/aussehen/andere-grose-um/");
-		HELP_URL_EN.put("ChangeSizeByNBrick",
-				"https://catrobat.org/docs/brickdocumentation/looks/change-size-by/");
+		BRICK_DE.put("WhenStartedBrick", "wenn-szene-startet");
+		BRICK_EN.put("WhenStartedBrick", "when-scene-starts");
 	}
 
-	public String getHelpUrl(String category) {
-
+	public String getHelpUrl(int category, String language) {
 		String brickName = this.getClass().getSimpleName();
 
-		// Sprache bestimmen
-		String language = Locale.getDefault().getLanguage();
-
-		if (language.equals("de")) {
-			return HELP_URL_DE.getOrDefault(
-					brickName,
-					"https://catrobat.org/docs/brick-dokumentation-de/");
+		String baseUrl;
+		String categoryUrl;
+		String brickUrl;
+		if (language.equalsIgnoreCase("de")) {
+			baseUrl = "https://catrobat.org/docs/brick-dokumentation-de/";
+			categoryUrl = CATEGORY_DE.getOrDefault(category, "");
+			brickUrl = BRICK_DE.getOrDefault(brickName, "");
 		} else {
-			return HELP_URL_EN.getOrDefault(
-					brickName,
-					"https://catrobat.org/docs/brickdocumentation/");
+			baseUrl = "https://catrobat.org/docs/brickdocumentation/";
+			categoryUrl = CATEGORY_EN.getOrDefault(category, "");
+			brickUrl = BRICK_EN.getOrDefault(brickName, "");
 		}
+
+		return baseUrl + categoryUrl + brickUrl;
 	}
 
 	protected String getPositionInformation() {
