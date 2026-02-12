@@ -38,6 +38,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Locale;
+
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -188,8 +193,33 @@ public abstract class BrickBaseType implements Brick {
 		}
 	}
 
+	private static final Map<String, String> HELP_URL_DE = new HashMap<>();
+	private static final Map<String, String> HELP_URL_EN = new HashMap<>();
+
+	static {
+
+		HELP_URL_DE.put("ChangeSizeByNBrick",
+				"https://catrobat.org/docs/brick-dokumentation-de/aussehen/andere-grose-um/");
+		HELP_URL_EN.put("ChangeSizeByNBrick",
+				"https://catrobat.org/docs/brickdocumentation/looks/change-size-by/");
+	}
+
 	public String getHelpUrl(String category) {
-		return "https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/" + this.getClass().getSimpleName();
+
+		String brickName = this.getClass().getSimpleName();
+
+		// Sprache bestimmen
+		String language = Locale.getDefault().getLanguage();
+
+		if (language.equals("de")) {
+			return HELP_URL_DE.getOrDefault(
+					brickName,
+					"https://catrobat.org/docs/brick-dokumentation-de/");
+		} else {
+			return HELP_URL_EN.getOrDefault(
+					brickName,
+					"https://catrobat.org/docs/brickdocumentation/");
+		}
 	}
 
 	protected String getPositionInformation() {
