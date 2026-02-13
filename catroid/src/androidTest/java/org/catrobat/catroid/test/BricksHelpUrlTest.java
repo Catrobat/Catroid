@@ -54,18 +54,24 @@ public class BricksHelpUrlTest {
 
 	static {
 		brickToHelpUrlMapping = new HashMap<>();
+		// Motion
+
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoMoveBackwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeSizeByNBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeSizeByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoTakingPictureBrick");
+
+		// Ereignisse
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.NoteBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/NoteBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/InsertItemIntoUserListBrick");
+
+		// keine Doku
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneFlipBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneFlipBrick");
+				"https://catrobat.org/docs/brick-dokumentation-de/geraet/");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroMotorMoveBackwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SayForBubbleBrick",
@@ -557,9 +563,9 @@ public class BricksHelpUrlTest {
 	public void testBrickHelpUrl() throws IllegalAccessException,
 			InstantiationException {
 		Brick brick = (Brick) brickClass.newInstance();
-		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
+		int category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
-		String brickHelpUrl = brick.getHelpUrl(category);
+		String brickHelpUrl = brick.getHelpUrl(category, "en");
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}
 

@@ -38,6 +38,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Locale;
+
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -188,8 +193,37 @@ public abstract class BrickBaseType implements Brick {
 		}
 	}
 
-	public String getHelpUrl(String category) {
-		return "https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/" + this.getClass().getSimpleName();
+	private static final Map<Integer, String> CATEGORY_DE = new HashMap<>();
+	private static final Map<Integer, String> CATEGORY_EN = new HashMap<>();
+
+	private static final Map<String, String> BRICK_DE = new HashMap<>();
+	private static final Map<String, String> BRICK_EN = new HashMap<>();
+
+	static {
+		CATEGORY_DE.put(R.string.category_event, "ereignisse/");
+		CATEGORY_EN.put(R.string.category_event, "event/");
+
+		BRICK_DE.put("WhenStartedBrick", "wenn-szene-startet");
+		BRICK_EN.put("WhenStartedBrick", "when-scene-starts");
+	}
+
+	public String getHelpUrl(int category, String language) {
+		String brickName = this.getClass().getSimpleName();
+
+		String baseUrl;
+		String categoryUrl;
+		String brickUrl;
+		if (language.equalsIgnoreCase("de")) {
+			baseUrl = "https://catrobat.org/docs/brick-dokumentation-de/";
+			categoryUrl = CATEGORY_DE.getOrDefault(category, "");
+			brickUrl = BRICK_DE.getOrDefault(brickName, "");
+		} else {
+			baseUrl = "https://catrobat.org/docs/brickdocumentation/";
+			categoryUrl = CATEGORY_EN.getOrDefault(category, "");
+			brickUrl = BRICK_EN.getOrDefault(brickName, "");
+		}
+
+		return baseUrl + categoryUrl + brickUrl;
 	}
 
 	protected String getPositionInformation() {
