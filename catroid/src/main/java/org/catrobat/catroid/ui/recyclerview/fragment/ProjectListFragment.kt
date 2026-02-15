@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectio
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
+import org.catrobat.catroid.utils.idlingresources.EspressoIdlingResource
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
@@ -119,7 +120,7 @@ class ProjectListFragment(
             )
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 setAdapterItems(adapter.projectsSorted)
                 filesForUnzipAndImportTask?.clear()
@@ -138,7 +139,7 @@ class ProjectListFragment(
                 filesForUnzipAndImportTask?.clear()
             }
 
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -153,19 +154,21 @@ class ProjectListFragment(
         if (actionModeType != IMPORT_LOCAL) {
             projectManager.currentProject = null
         }
+        EspressoIdlingResource.increment()
 
         if (adapter != null) {
             setAdapterItems(adapter.projectsSorted)
             checkForEmptyList()
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 if (adapter != null) {
                     setAdapterItems(adapter.projectsSorted)
                     checkForEmptyList()
                     setShowProgressBar(false)
                 }
+                EspressoIdlingResource.decrement()
             }
         })
 
@@ -174,11 +177,19 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        EspressoIdlingResource.increment()
+
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
-                sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
+                sharedPreferenceDetailsKey =
+                    SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
                 adapter = ProjectAdapter(items)
+                if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
+                    adapter.showSettings = false
+                }
+
                 onAdapterReady()
+                EspressoIdlingResource.decrement()
             }
         })
     }
@@ -400,7 +411,7 @@ class ProjectListFragment(
     }
 
     fun checkForEmptyList() {
-        if (adapter.items.isEmpty()) {
+        if (adapter != null && adapter.items.isEmpty()) {
             setShowProgressBar(true)
             if (projectManager.initializeDefaultProject()) {
                 setAdapterItems(adapter.projectsSorted)
@@ -439,11 +450,12 @@ class ProjectListFragment(
             setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_load_project)
         }
+        EspressoIdlingResource.decrement()
     }
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -462,6 +474,7 @@ class ProjectListFragment(
             }
             NONE -> {
                 setShowProgressBar(true)
+                EspressoIdlingResource.increment()
                 val directoryFile = item?.directory ?: return
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
@@ -546,6 +559,8 @@ class ProjectListFragment(
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
+        if (adapter == null) return
+
         if (sortProjects) {
             adapter.setItems(getSortedItemList().toList())
         } else {
