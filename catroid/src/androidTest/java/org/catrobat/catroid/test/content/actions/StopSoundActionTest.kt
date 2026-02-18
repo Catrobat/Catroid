@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.test.R
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.test.utils.TestUtils.createSoundFile
@@ -42,6 +43,7 @@ import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class StopSoundActionTest {
+    private val name: String = TestUtils.DEFAULT_TEST_PROJECT_NAME
     private val soundManager = SoundManager.getInstance()
     lateinit var soundFile: File
     lateinit var project: Project
@@ -49,12 +51,16 @@ class StopSoundActionTest {
 
     @Before
     fun setUp() {
-        project = Project(
-            ApplicationProvider.getApplicationContext(),
-            TestUtils.DEFAULT_TEST_PROJECT_NAME
-        )
+        project = Project(ApplicationProvider.getApplicationContext(), name)
+        XstreamSerializer.getInstance().saveProject(project)
         soundFile = createSoundFile(project, R.raw.testsound, "soundTest.mp3")
         sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+    }
+
+    @After
+    fun tearDown() {
+        TestUtils.deleteProjects(name)
+        soundManager.clear()
     }
 
     @Test
@@ -86,11 +92,6 @@ class StopSoundActionTest {
         assertTrue(sprite.actionFactory.createStopSoundAction(sprite, soundInfo1).act(1.0f))
         assertFalse(soundManager.mediaPlayers[0].isPlaying)
         assertTrue(soundManager.mediaPlayers[1].isPlaying)
-    }
-
-    @After
-    fun tearDown() {
-        soundManager.clear()
     }
 
     private fun createSoundInfo(soundFile: File) = SoundInfo().also { it.file = soundFile }
