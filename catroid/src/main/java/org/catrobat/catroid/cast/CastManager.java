@@ -281,20 +281,12 @@ public final class CastManager {
 
 	public synchronized void addStageViewToLayout(GLSurfaceView20 stageView) {
 		stageViewDisplayedOnCast = stageView;
-		//if (stageView == null || remoteLayout == null)  return;
-
-		// without this synchronisation cast project can not be startet
-		stageView.post(() -> {
-			if (remoteLayout == null)
-				return;
-
-			remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
-			remoteLayout.removeAllViews();
-			remoteLayout.addView(stageViewDisplayedOnCast);
-			Project project = ProjectManager.getInstance().getCurrentProject();
-			stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
-					project.getXmlHeader().getVirtualScreenHeight());
-		});
+		remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
+		remoteLayout.removeAllViews();
+		remoteLayout.addView(stageViewDisplayedOnCast);
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
+				project.getXmlHeader().getVirtualScreenHeight());
 	}
 
 	public synchronized boolean currentlyConnecting() {

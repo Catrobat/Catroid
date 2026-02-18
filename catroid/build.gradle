@@ -411,7 +411,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.0.0")
 
     // CAST
-    implementation "com.google.android.gms:play-services-cast:22.2.0"
+    implementation "com.google.android.gms:play-services-cast-framework:22.2.0"
 
     // Analytics
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
