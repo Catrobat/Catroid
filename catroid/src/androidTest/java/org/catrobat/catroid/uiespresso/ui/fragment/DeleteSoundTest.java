@@ -156,7 +156,12 @@ public class DeleteSoundTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToDeleteTest() {
+	public void selectFragmentToDeleteTest() throws IOException {
+		// Two sounds are required -> otherwise, the selection checkbox does not appear
+		ActionUtils.addSound(projectManager, "testSound1");
+		ActionUtils.addSound(projectManager, toBeDeletedSoundName);
+		baseActivityTestRule.launchActivity();
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
