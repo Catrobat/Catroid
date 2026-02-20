@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -43,7 +44,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	public static final String TAG = BackpackScriptFragment.class.getSimpleName();
 
-	private ScriptController scriptController = new ScriptController();
+	private final ScriptController scriptController = new ScriptController();
 
 	@Override
 	protected void initializeAdapter() {
@@ -76,9 +77,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts,
-					unpackedItemCnt,
-					unpackedItemCnt));
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts, unpackedItemCnt, unpackedItemCnt));
 			getActivity().finish();
 		}
 
@@ -94,23 +93,46 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected void deleteItems(List<String> selectedItems) {
 		setShowProgressBar(true);
+		removeLastDeletedItems();
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedScripts());
+		setLastDeletedItems(selectedItems);
+
 		for (String item : selectedItems) {
-			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
 			adapter.remove(item);
+			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts,
-				selectedItems.size(),
-				selectedItems.size()));
+		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts, selectedItems.size(), selectedItems.size()));
 
 		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
-		if (adapter.getItems().isEmpty()) {
-			getActivity().finish();
-		}
 	}
 
 	@Override
 	protected String getItemName(String item) {
 		return item;
+	}
+
+	@Override
+	public void undo() {
+		BackpackListManager.getInstance().replaceBackpackedScripts(savedScripts);
+		resetBackpackState();
+	}
+
+	@Override
+	public void removeLastDeletedItems() {
+		for (String item : getLastDeletedItems()) {
+			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
+		}
+		getLastDeletedItems().clear();
+	}
+
+	@Override
+	public void saveStatus() {
+		setCopiedStatus(BackpackListManager.getInstance().getBackpackedScripts());
+	}
+
+	public void setCopiedStatus(HashMap<String, List<Script>> map) {
+		savedScripts.clear();
+		savedScripts.putAll(map);
 	}
 }

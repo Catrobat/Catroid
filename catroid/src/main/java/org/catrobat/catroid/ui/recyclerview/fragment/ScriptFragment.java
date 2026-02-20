@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -108,12 +107,7 @@ import androidx.fragment.app.ListFragment;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
-public class ScriptFragment extends ListFragment implements
-		ActionMode.Callback,
-		BrickAdapter.OnBrickClickListener,
-		BrickAdapter.SelectionListener, OnCategorySelectedListener,
-		AddBrickFragment.OnAddBrickListener,
-		ProjectLoader.ProjectLoadListener {
+public class ScriptFragment extends ListFragment implements ActionMode.Callback, BrickAdapter.OnBrickClickListener, BrickAdapter.SelectionListener, OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener, ProjectLoader.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -287,19 +281,14 @@ public class ScriptFragment extends ListFragment implements
 		SettingsFragment.setToChosenLanguage(activity);
 
 		scriptFinder = view.findViewById(R.id.findview);
-		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
-				textView
-				) -> {
+		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults, textView) -> {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
 			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
 
-			textView.setText(createActionBarTitle(currentProject,
-					currentScene,
-					currentSprite));
+			textView.setText(createActionBarTitle(currentProject, currentScene, currentSprite));
 
-			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(),
-					currentSprite.getName());
+			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(), currentSprite.getName());
 
 			adapter.updateItems(currentSprite);
 			adapter.notifyDataSetChanged();
@@ -312,8 +301,7 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 			finishActionMode();
 			if (activity != null && !activity.isFinishing()) {
-				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
-						ProjectManager.getInstance().getCurrentSprite());
+				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
 				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
 				activity.addTabs();
 			}
@@ -343,8 +331,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void hideKeyboard() {
-		InputMethodManager imm =
-				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 	}
 
@@ -374,11 +361,9 @@ public class ScriptFragment extends ListFragment implements
 		listView.setOnItemLongClickListener(adapter);
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
-					R.string.formula_editor_object_number_of_backgrounds);
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS, R.string.formula_editor_object_number_of_backgrounds);
 		} else {
-			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
-					R.string.formula_editor_object_number_of_looks);
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS, R.string.formula_editor_object_number_of_looks);
 		}
 	}
 
@@ -506,10 +491,7 @@ public class ScriptFragment extends ListFragment implements
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 
-		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-				.commit();
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG).addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG).commit();
 	}
 
 	@Override
@@ -528,10 +510,7 @@ public class ScriptFragment extends ListFragment implements
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
 		}
 
-		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, fragment, tag)
-				.addToBackStack(null)
-				.commit();
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(null).commit();
 	}
 
 	protected void prepareActionMode(int type) {
@@ -553,10 +532,6 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void prepareBackpackActionMode() {
-		if (adapter.getItems().size() == 1) {
-			showNewScriptGroupAlert(adapter.getItems());
-			return;
-		}
 
 		if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
 			startActionMode(BACKPACK);
@@ -665,24 +640,21 @@ public class ScriptFragment extends ListFragment implements
 
 		List<Integer> options = getContextMenuItems(brick);
 		List<String> names = new ArrayList<>();
-		for (Integer option: options) {
+		for (Integer option : options) {
 			names.add(getString(option));
 		}
 
-		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names,
-				requireContext(), requireActivity());
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names, requireContext(), requireActivity());
 
 		View brickView = brick.getView(getContext());
 		brick.disableSpinners();
 
-		new AlertDialog.Builder(getContext())
-			.setCustomTitle(brickView)
-			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleContextMenuItemClick(options.get(which), brick, position);
-				}
-			}).show();
+		new AlertDialog.Builder(getContext()).setCustomTitle(brickView).setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				handleContextMenuItemClick(options.get(which), brick, position);
+			}
+		}).show();
 	}
 
 	@VisibleForTesting
@@ -701,9 +673,7 @@ public class ScriptFragment extends ListFragment implements
 			items.add(R.string.backpack_add);
 
 			if (!(brick instanceof EmptyEventBrick)) {
-				items.add(brick.isCommentedOut()
-						? R.string.brick_context_dialog_comment_in_script
-						: R.string.brick_context_dialog_comment_out_script);
+				items.add(brick.isCommentedOut() ? R.string.brick_context_dialog_comment_in_script : R.string.brick_context_dialog_comment_out_script);
 			}
 
 			items.add(R.string.brick_context_dialog_copy_script);
@@ -723,9 +693,7 @@ public class ScriptFragment extends ListFragment implements
 			}
 			items.add(R.string.brick_context_dialog_delete_brick);
 
-			items.add(brick.isCommentedOut()
-					? R.string.brick_context_dialog_comment_in
-					: R.string.brick_context_dialog_comment_out);
+			items.add(brick.isCommentedOut() ? R.string.brick_context_dialog_comment_in : R.string.brick_context_dialog_comment_out);
 			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).areAllBrickFieldsNumbers()) {
 				items.add(R.string.brick_option_place_visually);
 			}
@@ -785,8 +753,7 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_option_place_visually:
 				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
-				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(),
-						visualPlacementBrick.getYBrickField());
+				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(), visualPlacementBrick.getYBrickField());
 				break;
 			case R.string.brick_context_dialog_formula_edit_brick:
 				((FormulaBrick) brick).onClick(listView);
@@ -816,8 +783,7 @@ public class ScriptFragment extends ListFragment implements
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 
 		String brickHelpUrl = brick.getHelpUrl(category);
-		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(brickHelpUrl));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(brickHelpUrl));
 		startActivity(intent);
 	}
 
@@ -834,18 +800,19 @@ public class ScriptFragment extends ListFragment implements
 
 	private void showBackpackModeChooser() {
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(getContext())
-				.setTitle(R.string.backpack_title)
-				.setItems(items, (dialog, which) -> {
-					switch (which) {
-						case 0:
-							startActionMode(BACKPACK);
-							break;
-						case 1:
-							switchToBackpack();
+		new AlertDialog.Builder(getContext()).setTitle(R.string.backpack_title).setItems(items, (dialog, which) -> {
+			switch (which) {
+				case 0:
+					if (adapter.getItems().size() == 1) {
+						showNewScriptGroupAlert(adapter.getItems());
+					} else {
+						startActionMode(BACKPACK);
 					}
-				})
-				.show();
+					break;
+				case 1:
+					switchToBackpack();
+			}
+		}).show();
 	}
 
 	public void showNewScriptGroupAlert(List<Brick> selectedBricks) {
@@ -854,13 +821,9 @@ public class ScriptFragment extends ListFragment implements
 		duplicateInputTextwatcher.setScope(BackpackListManager.getInstance().getBackpackedScriptGroups());
 		builder.setText(new UniqueNameProvider().getUniqueName(getString(R.string.default_script_group_name), BackpackListManager.getInstance().getBackpackedScriptGroups()));
 
-		builder.setHint(getString(R.string.script_group_label))
-				.setTextWatcher(duplicateInputTextwatcher)
-				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> pack(textInput, selectedBricks));
+		builder.setHint(getString(R.string.script_group_label)).setTextWatcher(duplicateInputTextwatcher).setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> pack(textInput, selectedBricks));
 
-		builder.setTitle(R.string.new_group)
-				.setNegativeButton(R.string.cancel, null)
-				.show();
+		builder.setTitle(R.string.new_group).setNegativeButton(R.string.cancel, null).show();
 	}
 
 	public void pack(String name, List<Brick> selectedBricks) {
@@ -977,11 +940,7 @@ public class ScriptFragment extends ListFragment implements
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		return (project.hasUserDataChanged(project.getUserVariables(), savedUserVariables)
-				|| project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables)
-				|| project.hasUserDataChanged(project.getUserLists(), savedUserLists)
-				|| currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables)
-				|| currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists));
+		return (project.hasUserDataChanged(project.getUserVariables(), savedUserVariables) || project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables) || project.hasUserDataChanged(project.getUserLists(), savedUserLists) || currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables) || currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists));
 	}
 
 	private void loadVariables() {
@@ -1026,8 +985,7 @@ public class ScriptFragment extends ListFragment implements
 				continue;
 			}
 			Brick brick = (Brick) item;
-			if ((brickToFocus != null && brick == brickToFocus)
-					|| (scriptToFocus != null && brick.getScript() == scriptToFocus)) {
+			if ((brickToFocus != null && brick == brickToFocus) || (scriptToFocus != null && brick.getScript() == scriptToFocus)) {
 				scrollToIndex = i;
 				break;
 			}
