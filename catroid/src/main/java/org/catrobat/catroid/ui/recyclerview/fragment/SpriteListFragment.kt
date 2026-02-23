@@ -362,7 +362,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
         if (item !is GroupSprite) {
             popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-            popupMenu.menu.removeItem(R.id.from_local)
         }
         popupMenu.show()
     }
