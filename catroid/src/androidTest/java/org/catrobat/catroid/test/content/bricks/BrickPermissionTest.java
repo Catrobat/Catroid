@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import android.os.Build;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -44,7 +46,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.stage.StageResourceHolder;
+import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +60,9 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
 import static android.Manifest.permission.BLUETOOTH;
 import static android.Manifest.permission.BLUETOOTH_ADMIN;
+import static android.Manifest.permission.BLUETOOTH_ADVERTISE;
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
@@ -70,19 +75,74 @@ import static org.junit.Assert.assertTrue;
 public class BrickPermissionTest {
 
 	private static Brick brickWithGPS =
-			new SetVariableBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, "LONGITUDE", null)), new UserVariable("x"));
+			new SetVariableBrick(
+					new Formula(new FormulaElement(
+							FormulaElement.ElementType.SENSOR, "LONGITUDE", null)),
+					new UserVariable("x"));
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"CameraBrick", new Brick[]{new CameraBrick()}, new String[]{CAMERA}},
-				{"LegoNxtMotorMoveBrick", new Brick[]{new LegoNxtMotorMoveBrick()}, new String[]{BLUETOOTH_ADMIN, BLUETOOTH}},
-				{"CameraBrick + LegoNxtMotorTurnAngleBrick", new Brick[]{new CameraBrick(), new LegoNxtMotorTurnAngleBrick()}, new String[]{CAMERA, BLUETOOTH_ADMIN, BLUETOOTH}},
-				{"AskSpeechBrick", new Brick[]{new AskSpeechBrick()}, new String[]{RECORD_AUDIO}},
-				{"WhenGamepadButtonBrick", new Brick[]{new WhenGamepadButtonBrick(new WhenGamepadButtonScript())}, new String[]{CHANGE_WIFI_MULTICAST_STATE, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE}},
-				{"WhenNfcBrick", new Brick[]{new WhenNfcBrick()}, new String[]{NFC}},
-				{"WhenNfcBrick + GPS", new Brick[]{new WhenNfcBrick(), brickWithGPS}, new String[]{NFC, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}},
-				{"Brick With GPS Formula", new Brick[]{brickWithGPS}, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}}
+				{
+						"CameraBrick",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{new CameraBrick()},
+						new String[]{CAMERA}
+				},
+				{
+						"LegoNxtMotorMoveBrick",
+						Build.VERSION_CODES.R,
+						new Brick[]{new LegoNxtMotorMoveBrick()},
+						new String[]{BLUETOOTH_ADMIN, BLUETOOTH}
+				},
+				{
+						"LegoNxtMotorMoveBrick",
+						Build.VERSION_CODES.S,
+						new Brick[]{new LegoNxtMotorMoveBrick()},
+						new String[]{BLUETOOTH_ADVERTISE, BLUETOOTH_SCAN, BLUETOOTH_CONNECT}
+				},
+				{
+						"CameraBrick + LegoNxtMotorTurnAngleBrick",
+						Build.VERSION_CODES.R,
+						new Brick[]{new CameraBrick(), new LegoNxtMotorTurnAngleBrick()},
+						new String[]{CAMERA, BLUETOOTH_ADMIN, BLUETOOTH}
+				},
+				{
+						"CameraBrick + LegoNxtMotorTurnAngleBrick",
+						Build.VERSION_CODES.S,
+						new Brick[]{new CameraBrick(), new LegoNxtMotorTurnAngleBrick()},
+						new String[]{CAMERA, BLUETOOTH_ADVERTISE, BLUETOOTH_SCAN, BLUETOOTH_CONNECT}
+				},
+				{
+						"AskSpeechBrick",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{new AskSpeechBrick()},
+						new String[]{RECORD_AUDIO}
+				},
+				{
+						"WhenGamepadButtonBrick",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{new WhenGamepadButtonBrick(new WhenGamepadButtonScript())},
+						new String[]{CHANGE_WIFI_MULTICAST_STATE, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE}
+				},
+				{
+						"WhenNfcBrick",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{new WhenNfcBrick()},
+						new String[]{NFC}
+				},
+				{
+						"WhenNfcBrick + GPS",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{new WhenNfcBrick(), brickWithGPS},
+						new String[]{NFC, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}
+				},
+				{
+						"Brick With GPS Formula",
+						Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+						new Brick[]{brickWithGPS},
+						new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}
+				}
 		});
 	}
 
@@ -90,9 +150,12 @@ public class BrickPermissionTest {
 	public String name;
 
 	@Parameterized.Parameter(1)
-	public Brick[] bricks;
+	public int apiLevel;
 
 	@Parameterized.Parameter(2)
+	public Brick[] bricks;
+
+	@Parameterized.Parameter(3)
 	public String[] expectedPermission;
 
 	Script script;
@@ -168,7 +231,9 @@ public class BrickPermissionTest {
 	}
 
 	private void checkProjectRuntimePermissions() {
-		List<String> requestedString = StageResourceHolder.getProjectsRuntimePermissionList();
+		List<String> requestedString = BrickResourcesToRuntimePermissions.translate(
+				ProjectManager.getInstance().getCurrentProject().getRequiredResources(),
+				apiLevel);
 		assertTrue(requestedString.containsAll(Arrays.asList(expectedPermission)));
 		assertTrue(Arrays.asList(expectedPermission).containsAll(requestedString));
 	}
