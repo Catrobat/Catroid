@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.web
 
 import android.content.Context
@@ -29,23 +29,21 @@ import android.preference.PreferenceManager
 import android.text.format.DateUtils
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
-import org.catrobat.catroid.transfers.GetSurveyTask
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONException
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
+import org.mockito.MockedStatic
 import org.mockito.Mockito
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.junit.MockitoJUnitRunner
 import java.util.Date
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(Utils::class, PreferenceManager::class, DateUtils::class)
+@RunWith(MockitoJUnitRunner::class)
 class EmbeddedSurveyTest {
     private var currentTimeInMilliseconds: Long = 0
     private var surveySpy: Survey? = null
@@ -56,8 +54,10 @@ class EmbeddedSurveyTest {
     var sharedPreferencesMock: SharedPreferences? = null
     var sharedPreferenceEditorMock: SharedPreferences.Editor? = null
     var contextMock: Context? = null
-    var surveyMock: Survey? = null
-    var getSurveyTaskMock: GetSurveyTask? = null
+
+    private lateinit var utilsMock : MockedStatic<Utils>
+    private lateinit var dateUtilsMock : MockedStatic<DateUtils>
+    private lateinit var preferenceManagerMock : MockedStatic<PreferenceManager>
 
     @Before
     @Throws(Exception::class)
@@ -67,12 +67,14 @@ class EmbeddedSurveyTest {
             SharedPreferences.Editor::class.java
         )
         contextMock = Mockito.mock(Context::class.java)
-        PowerMockito.mockStatic(PreferenceManager::class.java)
-        PowerMockito.mockStatic(Utils::class.java)
-        PowerMockito.mockStatic(DateUtils::class.java)
         currentTimeInMilliseconds = System.currentTimeMillis()
-        surveyMock = Mockito.mock(Survey::class.java)
-        getSurveyTaskMock = Mockito.mock(GetSurveyTask::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        utilsMock.close()
+        dateUtilsMock.close()
+        preferenceManagerMock.close()
     }
 
     @Test
@@ -179,10 +181,6 @@ class EmbeddedSurveyTest {
             uploadFlag = false
         )
 
-        PowerMockito.`when`(
-            getSurveyTaskMock?.parseSurvey(ArgumentMatchers.anyString())
-        ).thenReturn("")
-
         val exception = ExpectedException.none()
         exception.expect(JSONException::class.java)
     }
@@ -213,13 +211,27 @@ class EmbeddedSurveyTest {
             .getSurvey(contextMock)
     }
 
-    private fun initMocks(date: Date, timeSpentInApp: Long, showSurveyKey: Boolean, networkConnected: Boolean, uploadFlag: Boolean) {
-        PowerMockito.`when`(Utils.isNetworkAvailable(contextMock)).thenReturn(networkConnected)
-        PowerMockito.`when`(DateUtils.isToday(ArgumentMatchers.anyLong())).thenReturn(
-            currentTimeInMilliseconds - date.time < dayInMilliseconds
-        )
-        PowerMockito.`when`(PreferenceManager.getDefaultSharedPreferences(contextMock))
-            .thenReturn(sharedPreferencesMock)
+    private fun initMocks(
+        date: Date,
+        timeSpentInApp: Long,
+        showSurveyKey: Boolean,
+        networkConnected: Boolean,
+        uploadFlag: Boolean
+    ) {
+        utilsMock = Mockito.mockStatic(Utils::class.java)
+        dateUtilsMock = Mockito.mockStatic(DateUtils::class.java)
+        preferenceManagerMock = Mockito.mockStatic(PreferenceManager::class.java)
+
+        utilsMock.`when`<Boolean> { Utils.isNetworkAvailable(contextMock) }
+            .thenReturn(networkConnected)
+        dateUtilsMock.`when`<Boolean> { DateUtils.isToday(ArgumentMatchers.anyLong()) }
+            .thenReturn(currentTimeInMilliseconds - date.time < dayInMilliseconds)
+        preferenceManagerMock.`when`<SharedPreferences> {
+            PreferenceManager.getDefaultSharedPreferences(
+                contextMock
+            )
+        }.thenReturn(sharedPreferencesMock)
+
         Mockito.`when`(
             sharedPreferencesMock!!.getLong(
                 ArgumentMatchers.eq(SharedPreferenceKeys.TIME_SPENT_IN_APP_IN_SECONDS_KEY),
@@ -238,7 +250,8 @@ class EmbeddedSurveyTest {
                 ArgumentMatchers.anyBoolean()
             )
         ).thenReturn(showSurveyKey)
-        PowerMockito.`when`(sharedPreferencesMock!!.edit()).thenReturn(sharedPreferenceEditorMock)
+        preferenceManagerMock.`when`<SharedPreferences.Editor> { sharedPreferencesMock!!.edit() }
+            .thenReturn(sharedPreferenceEditorMock)
         Mockito.`when`(
             sharedPreferenceEditorMock!!.putBoolean(
                 ArgumentMatchers.eq(
@@ -257,4 +270,3 @@ class EmbeddedSurveyTest {
         private const val dayInMilliseconds = (24 * 60 * 60 * 1000).toLong()
     }
 }
-*/
