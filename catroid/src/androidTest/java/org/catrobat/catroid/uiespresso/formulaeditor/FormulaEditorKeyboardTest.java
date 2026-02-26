@@ -57,6 +57,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -188,9 +189,10 @@ public class FormulaEditorKeyboardTest {
 	}
 
 	@Test
-	public void testConfirmButtonString() {
+	public void testConfirmButtonContentDescription() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_compute)).check(matches(withText(R.string.formula_editor_confirm)));
+		onView(withId(R.id.formula_editor_keyboard_confirm))
+				.check(matches(withContentDescription(R.string.formula_editor_image_button_description_confirm)));
 	}
 
 	@After
