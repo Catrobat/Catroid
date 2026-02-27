@@ -81,7 +81,6 @@ public class CatrobatWebClientTest {
 	@Test
 	public void testThrowsExceptionWhenResponseBodyIsInvalid() throws WebConnectionException, IOException {
 		Response response = Mockito.mock(Response.class);
-//		Mockito.when(response.message()).thenReturn("");
 		Mockito.when(call.execute()).thenReturn(response);
 
 		ResponseBody body = Mockito.mock(ResponseBody.class);
@@ -97,7 +96,6 @@ public class CatrobatWebClientTest {
 	@Test
 	public void testValidRun() throws WebConnectionException, IOException {
 		Response response = Mockito.mock(Response.class);
-//		Mockito.when(response.isSuccessful()).thenReturn(true);
 		Mockito.when(call.execute()).thenReturn(response);
 
 		ResponseBody body = Mockito.mock(ResponseBody.class);
