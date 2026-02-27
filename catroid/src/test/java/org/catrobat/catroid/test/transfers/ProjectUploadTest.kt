@@ -93,8 +93,6 @@ class ProjectUploadTest {
 
     @Test
     fun testProjectUploadDataPassedToServerCalls() {
-//        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
-
         `when`(
             serverCalls.uploadProject(
                 any(ProjectUploadData::class.java),
@@ -128,7 +126,6 @@ class ProjectUploadTest {
     @Test
     fun testProjectUploadSuccess() {
         val projectId = "1234"
-//        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.TOKEN), any()))
             .thenReturn(sharedPrefsEditor)
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.USERNAME), any()))
@@ -201,8 +198,6 @@ class ProjectUploadTest {
         val errorMessage = "An error occured during the project Upload"
         var receivedErrorMessage = ""
         var receivedErrorCode = -1
-
-//        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
 
         `when`(
             serverCalls.uploadProject(
