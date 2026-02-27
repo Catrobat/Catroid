@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.script;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -34,25 +34,32 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GdxNativesLoader.class)
+@RunWith(MockitoJUnitRunner.class)
 public class StartScriptTest {
+
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
 
 	@Before
 	public void setUp() {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
+		gdxNativesLoaderMock = Mockito.mockStatic(GdxNativesLoader.class);
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() {
+		gdxNativesLoaderMock.close();
 	}
 
 	@Test
@@ -78,4 +85,3 @@ public class StartScriptTest {
 		assertEquals((float) size / 100, testSprite.look.getScaleY());
 	}
 }
-*/
