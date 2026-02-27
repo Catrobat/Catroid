@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.web;
 
 import org.catrobat.catroid.web.WebConnectionException;
@@ -30,9 +30,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 
@@ -44,8 +42,7 @@ import okhttp3.ResponseBody;
 
 import static org.catrobat.catroid.web.CatrobatWebClientKt.performCallWith;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Request.class, Response.class, ResponseBody.class})
+@RunWith(MockitoJUnitRunner.class)
 public class CatrobatWebClientTest {
 
 	@Rule
@@ -57,7 +54,7 @@ public class CatrobatWebClientTest {
 
 	@Before
 	public void setUp() {
-		requestMock = PowerMockito.mock(Request.class);
+		requestMock = Mockito.mock(Request.class);
 		clientMock = Mockito.mock(OkHttpClient.class);
 		call = Mockito.mock(Call.class);
 		Mockito.when(clientMock.newCall(requestMock)).thenReturn(call);
@@ -73,7 +70,7 @@ public class CatrobatWebClientTest {
 
 	@Test
 	public void testThrowsExceptionWhenResponseBodyIsNull() throws WebConnectionException, IOException {
-		Response response = PowerMockito.mock(Response.class);
+		Response response = Mockito.mock(Response.class);
 		Mockito.when(response.message()).thenReturn("");
 		Mockito.when(call.execute()).thenReturn(response);
 
@@ -83,14 +80,14 @@ public class CatrobatWebClientTest {
 
 	@Test
 	public void testThrowsExceptionWhenResponseBodyIsInvalid() throws WebConnectionException, IOException {
-		Response response = PowerMockito.mock(Response.class);
-		Mockito.when(response.message()).thenReturn("");
+		Response response = Mockito.mock(Response.class);
+//		Mockito.when(response.message()).thenReturn("");
 		Mockito.when(call.execute()).thenReturn(response);
 
-		ResponseBody body = PowerMockito.mock(ResponseBody.class);
+		ResponseBody body = Mockito.mock(ResponseBody.class);
 		Mockito.when(response.body()).thenReturn(body);
 
-		PowerMockito.when(body.string()).thenThrow(new IOException());
+		Mockito.when(body.string()).thenThrow(new IOException());
 
 		exception.expect(WebConnectionException.class);
 
@@ -99,17 +96,16 @@ public class CatrobatWebClientTest {
 
 	@Test
 	public void testValidRun() throws WebConnectionException, IOException {
-		Response response = PowerMockito.mock(Response.class);
-		Mockito.when(response.isSuccessful()).thenReturn(true);
+		Response response = Mockito.mock(Response.class);
+//		Mockito.when(response.isSuccessful()).thenReturn(true);
 		Mockito.when(call.execute()).thenReturn(response);
 
-		ResponseBody body = PowerMockito.mock(ResponseBody.class);
+		ResponseBody body = Mockito.mock(ResponseBody.class);
 		Mockito.when(response.body()).thenReturn(body);
 
-		PowerMockito.when(body.string()).thenReturn("valid");
+		Mockito.when(body.string()).thenReturn("valid");
 
 		performCallWith(clientMock, requestMock);
 		Mockito.verify(clientMock, Mockito.times(1)).newCall(requestMock);
 	}
 }
-*/
