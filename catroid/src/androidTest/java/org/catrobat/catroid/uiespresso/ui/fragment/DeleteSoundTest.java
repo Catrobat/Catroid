@@ -156,34 +156,12 @@ public class DeleteSoundTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToDeleteTest() throws IOException {
-		ActionUtils.addSound(projectManager, "testSound1");
-    // Two sounds are required -> otherwise, the selection checkbox does not appear (really?)
-    ActionUtils.addSound(projectManager, toBeDeletedSoundName);
-		baseActivityTestRule.launchActivity();
-
-		// Open per-item settings menu (three dots)
-		onRecyclerView().clickChildAtPosition(0, R.id.settings_button);
-
-		// Tap Delete in the popup menu
+	public void selectFragmentToDeleteTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		// Assert custom dialog is shown (sound)
-		onView(withId(R.id.deleteDialogTitle))
-				.inRoot(isDialog())
-				.check(matches(allOf(isDisplayed(), withText(R.string.delete_sound_title))));
-
-		onView(withId(R.id.deleteDialogMessage))
-				.inRoot(isDialog())
-				.check(matches(isDisplayed()));
-
-		onView(withId(R.id.deleteDialogCancel))
-				.inRoot(isDialog())
-				.check(matches(isDisplayed()));
-
-		onView(withId(R.id.deleteDialogConfirm))
-				.inRoot(isDialog())
-				.check(matches(isDisplayed()));
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
 	}
 
 	private void createProject() {
