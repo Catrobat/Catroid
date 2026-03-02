@@ -58,7 +58,7 @@ public final class FlavoredConstants {
 	// Media Library:
 	public static final String CATROBAT_BASE_URL = "https://catrobat.org/";
 	public static final String CATROBAT_CONTENT_DOWNLOAD_URL = CATROBAT_BASE_URL + "wp-content/";
-	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
+	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL + "figures-download/";
 	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
 	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
 	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
