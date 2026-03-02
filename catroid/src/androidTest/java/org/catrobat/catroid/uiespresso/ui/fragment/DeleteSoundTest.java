@@ -158,6 +158,8 @@ public class DeleteSoundTest {
 	@Test
 	public void selectFragmentToDeleteTest() throws IOException {
 		ActionUtils.addSound(projectManager, "testSound1");
+    // Two sounds are required -> otherwise, the selection checkbox does not appear (really?)
+    ActionUtils.addSound(projectManager, toBeDeletedSoundName);
 		baseActivityTestRule.launchActivity();
 
 		// Open per-item settings menu (three dots)

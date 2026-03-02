@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ public class Backpack implements Serializable {
 
 	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
 	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
-
 	public List<SoundInfo> backpackedSounds = new CopyOnWriteArrayList<>();
 	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
 

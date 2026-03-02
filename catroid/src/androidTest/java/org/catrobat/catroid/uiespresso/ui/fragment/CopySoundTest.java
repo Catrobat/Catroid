@@ -118,7 +118,11 @@ public class CopySoundTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToCopyTest() {
+	public void selectFragmentToCopyTest() throws IOException {
+		ActionUtils.addSound(projectManager, testSoundName1);
+		ActionUtils.addSound(projectManager, testSoundName2);
+		baseActivityTestRule.launchActivity();
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 
