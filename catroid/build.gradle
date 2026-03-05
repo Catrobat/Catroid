@@ -221,7 +221,7 @@ android {
             resValue "string", "DEBUG_MODE", "true"
             buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
             signingConfig signingConfigs.debug
-            enableAndroidTestCoverage = true
+            enableAndroidTestCoverage = project.hasProperty('coverage')
         }
 
         release {
