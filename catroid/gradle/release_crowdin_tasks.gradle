@@ -170,7 +170,7 @@ android.productFlavors.all { flavor ->
                 logger.info("Language code mapping: " + crowdinCode + " --> " + androidCode)
 
                 if (androidCode != null) {
-                    def xml = new XmlParser().parse(file)
+                    def xml = new groovy.xml.XmlParser().parse(file)
 
                     File dirFile = new File(project.ext.fastlaneAndroidPath + "/" + androidCode)
                     dirFile.mkdirs()

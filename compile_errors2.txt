@@ -1,0 +1,28 @@
+﻿
+> Configure project :catroid
+VersionCode is 99
+VersionName is 1.3.2
+
+> Task :catroid:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :catroid:preBuild UP-TO-DATE
+> Task :catroid:preCatroidDebugBuild UP-TO-DATE
+> Task :catroid:dataBindingMergeDependencyArtifactsCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugResValues UP-TO-DATE
+> Task :catroid:generateCatroidDebugResources UP-TO-DATE
+> Task :catroid:processCatroidDebugGoogleServices UP-TO-DATE
+> Task :catroid:mergeCatroidDebugResources UP-TO-DATE
+> Task :catroid:dataBindingGenBaseClassesCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugBuildConfig UP-TO-DATE
+> Task :catroid:checkCatroidDebugAarMetadata UP-TO-DATE
+> Task :catroid:mapCatroidDebugSourceSetPaths UP-TO-DATE
+> Task :catroid:createCatroidDebugCompatibleScreenManifests UP-TO-DATE
+> Task :catroid:extractDeepLinksCatroidDebug UP-TO-DATE
+> Task :catroid:processCatroidDebugMainManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifestForPackage UP-TO-DATE
+> Task :catroid:processCatroidDebugResources UP-TO-DATE
+> Task :catroid:kspCatroidDebugKotlin UP-TO-DATE
+> Task :catroid:compileCatroidDebugKotlin UP-TO-DATE
+
+BUILD SUCCESSFUL in 2s
+17 actionable tasks: 17 up-to-date

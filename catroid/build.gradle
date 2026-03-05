@@ -445,6 +445,14 @@ dependencies {
     implementation 'com.google.mlkit:language-id:17.0.6'
     implementation 'com.google.mlkit:pose-detection:18.0.0-beta5'
 
+
+    //kotlinx-coroutines-android
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    testImplementation 'androidx.fragment:fragment-testing:1.6.2'
+
     // Huawei ML Kit
     implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.7.0.301'
     implementation 'com.huawei.hms:ml-computer-voice-asr:3.7.0.301'

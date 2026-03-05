@@ -66,6 +66,7 @@ import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.dialog.LauncherIconPreviewDialog
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
@@ -499,6 +500,7 @@ class ProjectListFragment(
                 R.id.rename -> showRenameDialog(item)
                 R.id.delete -> deleteItems(itemList)
                 R.id.project_options -> showProjectOptionsFragment(item)
+                R.id.launcher_icon_preview -> showLauncherIconPreview(item)
             }
             true
         }
@@ -526,6 +528,14 @@ class ProjectListFragment(
             ToastUtil.showError(requireContext(), R.string.error_load_project)
             Log.e(TAG, Log.getStackTraceString(exception))
         }
+    }
+
+    private fun showLauncherIconPreview(item: ProjectData?) {
+        item ?: return
+        LauncherIconPreviewDialog.newInstance(
+            item.name,
+            item.directory
+        ).show(parentFragmentManager, LauncherIconPreviewDialog.TAG)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

@@ -1,0 +1,101 @@
+﻿
+> Configure project :catroid
+VersionCode is 99
+VersionName is 1.3.2
+
+> Task :catroid:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :catroid:preBuild UP-TO-DATE
+> Task :catroid:preCatroidDebugBuild UP-TO-DATE
+> Task :catroid:dataBindingMergeDependencyArtifactsCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugResValues UP-TO-DATE
+> Task :catroid:generateCatroidDebugResources UP-TO-DATE
+> Task :catroid:processCatroidDebugGoogleServices UP-TO-DATE
+> Task :catroid:mergeCatroidDebugResources UP-TO-DATE
+> Task :catroid:dataBindingGenBaseClassesCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugBuildConfig UP-TO-DATE
+> Task :catroid:checkCatroidDebugAarMetadata UP-TO-DATE
+> Task :catroid:mapCatroidDebugSourceSetPaths UP-TO-DATE
+> Task :catroid:createCatroidDebugCompatibleScreenManifests UP-TO-DATE
+> Task :catroid:extractDeepLinksCatroidDebug UP-TO-DATE
+> Task :catroid:processCatroidDebugMainManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifestForPackage UP-TO-DATE
+> Task :catroid:processCatroidDebugResources UP-TO-DATE
+> Task :catroid:kspCatroidDebugKotlin UP-TO-DATE
+
+> Task :catroid:compileCatroidDebugKotlin FAILED
+.\gradlew.bat : e: file:///
+C:/Open-source/catrobat/Cat
+roid/catroid/src/main/java/
+org/catrobat/catroid/camera
+/CameraManager.kt:50:17 
+'lifecycle' hides member 
+of supertype 
+'LifecycleOwner' and needs 
+an 'override' modifier.
+At line:1 char:1
++ .\gradlew.bat :catroid:co
+mpileCatroidDebugKotlin 
+2>&1 | Out-File -Enc ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~
+    + CategoryInfo         
+     : NotSpecified: (e:   
+  file:///C:/O...ride' m   
+ odifier.:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+e: file:///C:/Open-source/c
+atrobat/Catroid/catroid/src
+/main/java/org/catrobat/cat
+roid/camera/CameraManager.k
+t:285:5 'getLifecycle' 
+overrides nothing.
+e: file:///C:/Open-source/c
+atrobat/Catroid/catroid/src
+/main/java/org/catrobat/cat
+roid/utils/LiveDataExtensio
+ns.kt:70:20 Class 
+'<anonymous>' is not 
+abstract and does not 
+implement abstract member 
+'onChanged'.
+e: file:///C:/Open-source/c
+atrobat/Catroid/catroid/src
+/main/java/org/catrobat/cat
+roid/utils/LiveDataExtensio
+ns.kt:71:9 'onChanged' 
+overrides nothing.
+
+FAILURE: Build failed with 
+an exception.
+
+* What went wrong:
+Execution failed for task '
+:catroid:compileCatroidDebu
+gKotlin'.
+> A failure occurred while 
+executing org.jetbrains.kot
+lin.compilerRunner.GradleCo
+mpilerRunnerWithWorkers$Gra
+dleKotlinCompilerWorkAction
+   > Compilation error. 
+See log for more details
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+17 actionable tasks: 1 executed, 16 up-to-date
+> Run with --info or 
+--debug option to get more 
+log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 12s

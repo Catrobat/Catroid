@@ -1,0 +1,69 @@
+﻿
+> Configure project :catroid
+VersionCode is 99
+VersionName is 1.3.2
+
+> Task :catroid:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :catroid:preBuild UP-TO-DATE
+> Task :catroid:preCatroidDebugBuild UP-TO-DATE
+> Task :catroid:dataBindingMergeDependencyArtifactsCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugResValues UP-TO-DATE
+> Task :catroid:generateCatroidDebugResources UP-TO-DATE
+> Task :catroid:processCatroidDebugGoogleServices UP-TO-DATE
+> Task :catroid:mergeCatroidDebugResources UP-TO-DATE
+> Task :catroid:dataBindingGenBaseClassesCatroidDebug UP-TO-DATE
+> Task :catroid:generateCatroidDebugBuildConfig UP-TO-DATE
+> Task :catroid:checkCatroidDebugAarMetadata UP-TO-DATE
+> Task :catroid:mapCatroidDebugSourceSetPaths UP-TO-DATE
+> Task :catroid:createCatroidDebugCompatibleScreenManifests UP-TO-DATE
+> Task :catroid:extractDeepLinksCatroidDebug UP-TO-DATE
+> Task :catroid:processCatroidDebugMainManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifest UP-TO-DATE
+> Task :catroid:processCatroidDebugManifestForPackage UP-TO-DATE
+> Task :catroid:processCatroidDebugResources UP-TO-DATE
+> Task :catroid:kspCatroidDebugKotlin UP-TO-DATE
+> Task :catroid:compileCatroidDebugKotlin UP-TO-DATE
+> Task :catroid:javaPreCompileCatroidDebug UP-TO-DATE
+> Task :catroid:compileCatroidDebugJavaWithJavac UP-TO-DATE
+> Task :catroid:bundleCatroidDebugClassesToRuntimeJar UP-TO-DATE
+> Task :catroid:bundleCatroidDebugClassesToCompileJar UP-TO-DATE
+> Task :catroid:kspCatroidDebugUnitTestKotlin UP-TO-DATE
+> Task :catroid:compileCatroidDebugUnitTestKotlin UP-TO-DATE
+> Task :catroid:preCatroidDebugUnitTestBuild UP-TO-DATE
+> Task :catroid:javaPreCompileCatroidDebugUnitTest UP-TO-DATE
+> Task :catroid:compileCatroidDebugUnitTestJavaWithJavac UP-TO-DATE
+> Task :catroid:mergeCatroidDebugShaders UP-TO-DATE
+> Task :catroid:compileCatroidDebugShaders NO-SOURCE
+> Task :catroid:generateCatroidDebugAssets UP-TO-DATE
+> Task :catroid:mergeCatroidDebugAssets UP-TO-DATE
+> Task :catroid:copyAndroidNatives
+> Task :catroid:packageCatroidDebugUnitTestForUnitTest UP-TO-DATE
+> Task :catroid:generateCatroidDebugUnitTestConfig UP-TO-DATE
+> Task :catroid:generateCatroidDebugJacocoPropertiesFile UP-TO-DATE
+> Task :catroid:processCatroidDebugJavaRes UP-TO-DATE
+> Task :catroid:processCatroidDebugUnitTestJavaRes UP-TO-DATE
+
+> Task :catroid:testCatroidDebugUnitTest
+
+LauncherIconPreviewDialogTest > dialog shows with empty project name FAILED
+    java.lang.NoClassDefFoundError at LauncherIconPreviewDialogTest.kt:215
+        Caused by: java.lang.ClassNotFoundException at LauncherIconPreviewDialogTest.kt:215
+
+LauncherIconPreviewDialogTest > dialog shows correct project name FAILED
+    java.lang.NoClassDefFoundError at LauncherIconPreviewDialogTest.kt:164
+        Caused by: java.lang.ClassNotFoundException at LauncherIconPreviewDialogTest.kt:164
+
+LauncherIconPreviewDialogTest > dialog shows with long project name FAILED
+    java.lang.NoClassDefFoundError at LauncherIconPreviewDialogTest.kt:232
+        Caused by: java.lang.ClassNotFoundException at LauncherIconPreviewDialogTest.kt:232
+
+LauncherIconPreviewDialogTest > OK button dismisses dialog FAILED
+    java.lang.NoClassDefFoundError at LauncherIconPreviewDialogTest.kt:198
+        Caused by: java.lang.ClassNotFoundException at LauncherIconPreviewDialogTest.kt:198
+
+LauncherIconPreviewDialogTest > dialog is showing after creation FAILED
+    java.lang.NoClassDefFoundError at LauncherIconPreviewDialogTest.kt:181
+        Caused by: java.lang.ClassNotFoundException at LauncherIconPreviewDialogTest.kt:181
+
+> Task :catroid:testCatroidDebugUnitTest FAILED
+34 actionable tasks: 2 executed, 32 up-to-date

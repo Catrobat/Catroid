@@ -82,4 +82,9 @@
       android:title="@string/from_local"
       app:showAsAction="never"
       android:icon="@drawable/ic_library_add_small"/>
+    <item
+      android:id="@+id/launcher_icon_preview"
+      android:title="@string/launcher_icon_preview"
+      app:showAsAction="never"
+      android:icon="@drawable/ic_placeholder"/>
 </menu>
