@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.xmlformat;
 
+import org.catrobat.catroid.test.utiltests.reflection.ReflectionExceptionsTest;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
