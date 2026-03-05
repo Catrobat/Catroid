@@ -29,7 +29,7 @@ jacoco {
 
 tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
-    jacoco.excludes = ['jdk.internal.*']
+    jacoco.excludes = ['jdk.internal.*', 'org.robolectric.*', 'android.*']
 }
 
 project.afterEvaluate {

@@ -39,7 +39,7 @@ import org.robolectric.annotation.Config
 import java.io.File
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@Config(sdk = [33])
 class LauncherIconCacheTest {
 
     private lateinit var cache: LauncherIconCache
