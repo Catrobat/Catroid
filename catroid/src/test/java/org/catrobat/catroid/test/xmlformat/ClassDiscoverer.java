@@ -23,7 +23,11 @@
 
 package org.catrobat.catroid.test.xmlformat;
 
+import org.catrobat.catroid.test.utiltests.reflection.ReflectionExceptionsTest;
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
@@ -36,7 +40,13 @@ public final class ClassDiscoverer {
 	}
 
 	public static <T> Set<Class<? extends T>> getAllSubClassesOf(Class<T> clazz) {
-		Reflections reflections = new Reflections("org.catrobat.catroid");
+//		Reflections reflections = new Reflections("org.catrobat.catroid");
+		Reflections reflections = new Reflections(
+				new ConfigurationBuilder()
+						.addUrls(ClasspathHelper.forClass(clazz))
+						.addClassLoaders(clazz.getClassLoader())
+						.addScanners(new SubTypesScanner(false))
+		);
 		return reflections.getSubTypesOf(clazz);
 	}
 
