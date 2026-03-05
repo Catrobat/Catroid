@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions;
 
 import android.content.Context;
@@ -47,26 +47,30 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
+import org.mockito.MockedConstruction;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertNotNull;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.mockStatic;
+
+@RunWith(MockitoJUnitRunner.class)
 public class ThinkSayBubbleActionTest {
 
 	Context contextMock = MockUtil.mockContextForProject();
 	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
 
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
+	private MockedConstruction<ShowBubbleActor> showBubbleActorMock;
+
 	@Before
 	public void setUp() throws Exception {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
-		PowerMockito.whenNew(ShowBubbleActor.class).withAnyArguments()
-				.thenReturn(Mockito.mock(ShowBubbleActor.class));
+		gdxNativesLoaderMock = mockStatic(GdxNativesLoader.class);
+		showBubbleActorMock = mockConstruction(ShowBubbleActor.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 
 		Project project = new Project(contextMock, "Project");
@@ -76,6 +80,8 @@ public class ThinkSayBubbleActionTest {
 	@After
 	public void tearDown() throws Exception {
 		StageActivity.stageListener = null;
+		gdxNativesLoaderMock.close();
+		showBubbleActorMock.close();
 	}
 
 	@Test
@@ -156,4 +162,3 @@ public class ThinkSayBubbleActionTest {
 				.removeBubbleActorForSprite(sprite);
 	}
 }
-*/
