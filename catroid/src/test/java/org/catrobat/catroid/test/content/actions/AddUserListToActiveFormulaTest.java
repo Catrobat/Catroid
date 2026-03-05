@@ -29,7 +29,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.AddUserListDialog;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
