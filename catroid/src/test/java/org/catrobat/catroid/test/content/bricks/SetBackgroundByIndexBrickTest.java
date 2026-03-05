@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.bricks;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -39,25 +39,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GdxNativesLoader.class)
+import static org.mockito.Mockito.mockStatic;
+
+@RunWith(MockitoJUnitRunner.class)
 public class SetBackgroundByIndexBrickTest {
 	private Sprite sprite;
 	private final double backgroundIndex = 2.0;
-	private String localUserVariableBackgroundIndex = "BGI";
+	private final String localUserVariableBackgroundIndex = "BGI";
 
 	@Before
 	public void setUp() throws Exception {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
+		mockStatic(GdxNativesLoader.class);
 
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		sprite = new Sprite("Sprite");
@@ -102,4 +101,3 @@ public class SetBackgroundByIndexBrickTest {
 		return new Formula(formulaElement);
 	}
 }
-*/
