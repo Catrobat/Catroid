@@ -122,7 +122,10 @@ public class DeleteLookTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToDeleteTest() {
+	public void selectFragmentToDeleteTest() throws IOException {
+		ActionUtils.addLook(projectManager, "testLook1");
+		ActionUtils.addLook(projectManager, toBeDeletedLookName);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 

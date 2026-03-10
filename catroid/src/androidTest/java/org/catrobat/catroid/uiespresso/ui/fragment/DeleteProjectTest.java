@@ -123,6 +123,9 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void selectFragmentToDeleteTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 

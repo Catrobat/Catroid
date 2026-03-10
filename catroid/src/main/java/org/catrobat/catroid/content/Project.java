@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content;
 
 import android.content.Context;
@@ -165,7 +166,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean hasScene() {
-		return (sceneList.size() > 0);
+		return !sceneList.isEmpty();
 	}
 
 	public Scene getDefaultScene() {
@@ -337,7 +338,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean hasMultiplayerVariables() {
-		return multiplayerVariables.size() > 0;
+		return !multiplayerVariables.isEmpty();
 	}
 
 	public boolean addMultiplayerVariable(UserVariable multiplayerVariable) {
@@ -422,6 +423,11 @@ public class Project implements Serializable {
 		if (isCastProject()) {
 			resourcesSet.add(Brick.CAST_REQUIRED);
 		}
+
+		if (hasMultiplayerVariables()) {
+			resourcesSet.add(Brick.BLUETOOTH_MULTIPLAYER);
+		}
+
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 
