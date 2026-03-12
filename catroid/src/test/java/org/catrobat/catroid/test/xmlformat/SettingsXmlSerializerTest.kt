@@ -20,17 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.xmlformat
 
 import org.catrobat.catroid.content.Setting
 import org.catrobat.catroid.io.XstreamSerializer
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
-import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.powermock.api.mockito.PowerMockito
+import org.mockito.Mockito.mock
 import java.io.Serializable
 import java.util.ArrayList
 
@@ -46,7 +46,7 @@ class SettingsXmlSerializerTest(
             return
         }
         val xml = mockAndSerialize(componentClass)
-        Assert.assertThat(
+        assertThat(
             xml,
             Matchers.startsWith("<setting type=\"${componentClass.simpleName}\"/>")
         )
@@ -56,11 +56,11 @@ class SettingsXmlSerializerTest(
     @kotlin.jvm.Throws(InstantiationException::class, IllegalAccessException::class)
     fun testMissingAliasInComponent() {
         val xml = mockAndSerialize(componentClass)
-        Assert.assertThat(xml, Matchers.not(Matchers.containsString("org.catrobat.catroid")))
+        assertThat(xml, Matchers.not(Matchers.containsString("org.catrobat.catroid")))
     }
 
     private fun mockAndSerialize(componentClass: Class<Serializable>): String {
-        val component = PowerMockito.mock<Serializable>(componentClass)
+        val component = mock(componentClass)
         return XstreamSerializer.getInstance().xstream.toXML(component)
     }
 
@@ -86,4 +86,3 @@ class SettingsXmlSerializerTest(
         }
     }
 }
-*/
