@@ -200,11 +200,160 @@ public abstract class BrickBaseType implements Brick {
 	private static final Map<String, String> BRICK_EN = new HashMap<>();
 
 	static {
+
+		// -------------------- Ereignisse || Event -------------------
+
 		CATEGORY_DE.put(R.string.category_event, "ereignisse/");
 		CATEGORY_EN.put(R.string.category_event, "event/");
 
+		// When scene starts
 		BRICK_DE.put("WhenStartedBrick", "wenn-szene-startet");
 		BRICK_EN.put("WhenStartedBrick", "when-scene-starts");
+		// When tapped
+		BRICK_DE.put("WhenBrick", "wenn-angetippt");
+		BRICK_EN.put("WhenBrick", "when-tapped");
+		// When background changes to
+		BRICK_DE.put("WhenBackgroundChangesBrick", "wenn-der-hintergrund-wechselt-zu");
+		BRICK_EN.put("WhenBackgroundChangesBrick", "when-background-changes-to");
+		// When stage is tapped
+		BRICK_DE.put("WhenTouchDownBrick", "wenn-der-bildschirm-beruhrt-wird");
+		BRICK_EN.put("WhenTouchDownBrick", "event/when-stage-is-tapped");
+		// When(...) becomes true
+		BRICK_DE.put("WhenConditionBrick", "wenn-wahr-wird");
+		BRICK_EN.put("WhenConditionBrick", "when-1");
+		// When you start as a clone
+		BRICK_DE.put("WhenClonedBrick", "als-klon-starte");
+		BRICK_EN.put("WhenClonedBrick", "when-you-start-as-a-clone");
+		// When you receive
+		BRICK_DE.put("BroadcastReceiverBrick", "wenn-du-empfangst");
+		BRICK_EN.put("BroadcastReceiverBrick", "when-you-receive");
+
+		// -------------------- Steuerung || Control -------------------
+
+		CATEGORY_DE.put(R.string.category_control, "steuerung/");
+		CATEGORY_EN.put(R.string.category_control, "control/");
+
+		// Broadcast
+		BRICK_DE.put("BroadcastBrick", "verschicke-an-alle");
+		BRICK_EN.put("BroadcastBrick", "broadcast");
+		// Broadcast and wait
+		BRICK_DE.put("BroadCastWaitBrick", "verschicke-und-warte"); // TODO - error
+		BRICK_EN.put("BroadCastWaitBrick", "broadcast-and-wait"); // TODO - error
+		// Continue scene
+		BRICK_DE.put("SceneTransitionBrick", "szene-fortsetzen");
+		BRICK_EN.put("SceneTransitionBrick", "continue-scene");
+		// Create clone of
+		BRICK_DE.put("CloneBrick", "erzeuge-klon-von");
+		BRICK_EN.put("CloneBrick", "create-clone-of");
+		// Delete this clone
+		BRICK_DE.put("DeleteThisCloneBrick", "losche-diesen-klon");
+		BRICK_EN.put("DeleteThisCloneBrick", "delete-this-clone");
+		// Finish stage
+		BRICK_DE.put("ExitStageBrick", "stufe-beenden");
+		BRICK_EN.put("ExitStageBrick", "finish-stage");
+		// For each value from .. in ..
+		BRICK_DE.put("FromItemInUserListBrick", "fur-jeden-wert-von-im"); // TODO - error
+		BRICK_EN.put("FromItemInUserListBrick", "for-each-value-from-in"); // TODO - error
+		// For values from 1 to 10 in
+		BRICK_DE.put("ForVariableFromToBrick", "fur-werte-von-auf-im");
+		BRICK_EN.put("ForVariableFromToBrick", "for-values-from-1-to-10-in");
+		// Forever
+		BRICK_DE.put("ForeverBrick", "wiederhole-fortlaufend");
+		BRICK_EN.put("ForeverBrick", "forever");
+		// If … Then … Else …
+		BRICK_DE.put("IfLogicBeginBrick", "wenn-wahr-ist-dann-sonst");
+		BRICK_EN.put("IfLogicBeginBrick", "if-1");
+		// If(…) is true then
+		BRICK_DE.put("IfThenLogicBeginBrick", "wenn-wahr-ist-dann");
+		BRICK_EN.put("IfThenLogicBeginBrick", "if-1-2");
+		// Note
+		BRICK_DE.put("NoteBrick", "notiz");
+		BRICK_EN.put("NoteBrick", "note-add-comment-here");
+		// Repeat … times
+		BRICK_DE.put("RepeatBrick", "wiederhole-mal");
+		BRICK_EN.put("RepeatBrick", "repeat-10-times");
+		// Repeat … times
+		BRICK_DE.put("RepeatUntilBrick", "wiederhole-bis-wahr-ist");
+		BRICK_EN.put("RepeatUntilBrick", "repeat-until-1");
+		// Start scene
+		BRICK_DE.put("SceneStartBrick", "beginne-szene");
+		BRICK_EN.put("SceneStartBrick", "start-scene");
+		// Stop
+		BRICK_DE.put("StopScriptBrick", "stoppe");
+		BRICK_EN.put("StopScriptBrick", "stop-this-script");
+		// Wait
+		BRICK_DE.put("WaitBrick", "warte-sekunde");
+		BRICK_EN.put("WaitBrick", "wait-1-second");
+		// Wait until … is true
+		BRICK_DE.put("WaitUntilBrick", "warte-bis-wahr-ist");
+		BRICK_EN.put("WaitUntilBrick", "wait-until-1");
+		// Wait until all other scripts have stopped
+		BRICK_DE.put("WaitUntilIdleBrick", "warte-bis-alle-anderen-skripte-gestoppt"); // TODO - error
+		BRICK_EN.put("WaitUntilIdleBrick", "wait-until-all-other-scripts-have-stopped"); // TODO - error
+
+		// -------------------- Bewegung || Motion -------------------
+
+		CATEGORY_DE.put(R.string.category_motion, "bewegung/");
+		CATEGORY_EN.put(R.string.category_motion, "motion/");
+
+		// Change X by
+		BRICK_DE.put("ChangeXByNBrick", "andere-x-um");
+		BRICK_EN.put("ChangeXByNBrick", "change-x-by");
+		// Change Y by
+		BRICK_DE.put("ChangeYByNBrick", "andere-y-um");
+		BRICK_EN.put("ChangeYByNBrick", "change-y-by");
+		// Glide … second to
+		BRICK_DE.put("GlideToBrick", "gleite-sekunde-zu-x-y");
+		BRICK_EN.put("GlideToBrick", "glide-second-to");
+		// Go back … layer
+		BRICK_DE.put("GlideToBrick", "gehe-nach-hinten-ebene");
+		BRICK_EN.put("GlideToBrick", "go-back-layer");
+		// Go back … layer
+		BRICK_DE.put("GoToBrick", "gehe-zu");
+		BRICK_EN.put("GoToBrick", "go-to");
+
+
+
+		// -------------------- Klang || Sound  -------------------
+		CATEGORY_DE.put(R.string.category_sound, "klang/");
+		CATEGORY_EN.put(R.string.category_sound, "sound/");
+
+		// -------------------- Aussehen || Looks -------------------
+		CATEGORY_DE.put(R.string.category_looks, "aussehen/");
+		CATEGORY_EN.put(R.string.category_looks, "looks/");
+
+		// -------------------- Malsstifte || Pen -------------------
+		CATEGORY_DE.put(R.string.category_pen, "malstift/");
+		CATEGORY_EN.put(R.string.category_pen, "pen/");
+
+		// -------------------- Daten || Data -------------------
+		CATEGORY_DE.put(R.string.category_data, "daten/");
+		CATEGORY_EN.put(R.string.category_data, "data/");
+
+		// -------------------- Gerät || Device -------------------
+		CATEGORY_DE.put(R.string.category_device, "gerat/");
+		CATEGORY_EN.put(R.string.category_device, "device/");
+
+		// -------------------- Deine Bausteine || YourBricks -------------------
+		CATEGORY_DE.put(R.string.category_user_bricks, "deine-bausteine/");
+		CATEGORY_EN.put(R.string.category_user_bricks, "yourbricks/");
+
+		// -------------------- Sticken || Embroidery -------------------
+		CATEGORY_DE.put(R.string.category_embroidery, "sticken/");
+		CATEGORY_EN.put(R.string.category_embroidery, "embroidery/");
+
+		// -------------------- Plotten || Plot -------------------
+		CATEGORY_DE.put(R.string.category_plot, "plotten/");
+		CATEGORY_EN.put(R.string.category_plot, "plot/");
+
+		//  Missing Brick Documentation
+
+		// TODO WhenClonedBrick
+		// TODO WhenNfcBrick
+		// TODO PhiroIfLogicBeginBrick
+		// TODO SetNfcTagBrick
+		// TODO TapATBrick
+		// TODO TapForBrick
 	}
 
 	public String getHelpUrl(int category, String language) {
@@ -234,7 +383,7 @@ public abstract class BrickBaseType implements Brick {
 			scriptName = getScript().getClass().getSimpleName();
 		}
 		position += 2;
-		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
+		return "Brick at position " + position + "\nin \"" + scriptName + "/";
 	}
 
 	@Override
