@@ -20,41 +20,52 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.io;
 
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({DeviceVariableAccessor.class})
 public class DeviceVariableAccessorExceptionTest {
 
 	private File variableFile;
 	private DeviceVariableAccessor deviceVariableAccessor;
 
+	private MockedConstruction<Gson> gsonMock;
+
 	@Before
 	public void setUp() throws Exception {
 		deviceVariableAccessor = new DeviceVariableAccessor(new File("a"));
 		variableFile = Mockito.mock(File.class);
-		Mockito.when(variableFile.exists()).thenReturn(true);
+		when(variableFile.exists()).thenReturn(true);
+		when(variableFile.getPath()).thenReturn("dummy.json");
 		deviceVariableAccessor.setDeviceFile(variableFile);
-		PowerMockito.whenNew(Gson.class).withAnyArguments().thenThrow(new FileNotFoundException());
+
+		gsonMock = Mockito.mockConstruction(Gson.class, (mock, context) ->
+			when(mock.fromJson(anyString(), any()))
+					.thenThrow(new RuntimeException(new FileNotFoundException()))
+		);
+	}
+
+	@After
+	public void tearDown() {
+		gsonMock.close();
 	}
 
 	@Test
@@ -70,4 +81,3 @@ public class DeviceVariableAccessorExceptionTest {
 		assertEquals(0.0, userVariable.getValue());
 	}
 }
-*/
