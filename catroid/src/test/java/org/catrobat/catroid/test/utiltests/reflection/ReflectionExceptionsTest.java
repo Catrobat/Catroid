@@ -53,7 +53,7 @@ public class ReflectionExceptionsTest {
 	@Test
 	public void testInvokeMethodWithNullObject3() throws Exception {
 		Object nullObject = null;
-		exception.expect(NullPointerException.class);
+		exception.expect(IllegalArgumentException.class);
 		Reflection.invokeMethod(InvokeMethodClass.class, nullObject, "voidMethod");
 	}
 
