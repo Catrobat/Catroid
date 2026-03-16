@@ -128,10 +128,10 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				REPLACED_VARIABLE));
-		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				REPLACED_VARIABLE));
+		primaryMap.forEach((k, v) -> assertEquals(REPLACED_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
+		secondaryMap.forEach((k, v) -> assertEquals(REPLACED_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
 	}
 
 	@Test
@@ -147,9 +147,9 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				NO_CHANGE_VARIABLE));
-		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				NO_CHANGE_VARIABLE));
+		primaryMap.forEach((k, v) -> assertEquals(NO_CHANGE_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
+		secondaryMap.forEach((k, v) -> assertEquals(NO_CHANGE_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
 	}
 }

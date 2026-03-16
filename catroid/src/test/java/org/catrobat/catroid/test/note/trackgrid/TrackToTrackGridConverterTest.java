@@ -45,7 +45,7 @@ public class TrackToTrackGridConverterTest {
 	MockedConstruction<MidiNotePlayer> midiNotePlayerMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		midiNotePlayerMock = Mockito.mockConstruction(MidiNotePlayer.class);
 	}
 

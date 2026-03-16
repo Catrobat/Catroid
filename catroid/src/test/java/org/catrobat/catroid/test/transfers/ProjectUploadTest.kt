@@ -55,9 +55,6 @@ private const val userEmail = "user@catrobat.com"
 private const val projectName = "testproject"
 private const val projectDescription = "testproject description"
 
-//@PowerMockIgnore("javax.net.ssl.*")
-//@RunWith(PowerMockRunner::class)
-//@PrepareForTest(ServerCalls::class)
 @RunWith(MockitoJUnitRunner::class)
 class ProjectUploadTest {
     private lateinit var sharedPreferences: SharedPreferences

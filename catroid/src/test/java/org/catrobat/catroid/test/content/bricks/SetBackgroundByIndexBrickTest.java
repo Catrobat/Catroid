@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import android.annotation.SuppressLint;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
@@ -35,9 +37,11 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -54,9 +58,12 @@ public class SetBackgroundByIndexBrickTest {
 	private final double backgroundIndex = 2.0;
 	private final String localUserVariableBackgroundIndex = "BGI";
 
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
+
+	@SuppressLint("CheckResult")
 	@Before
 	public void setUp() throws Exception {
-		mockStatic(GdxNativesLoader.class);
+		gdxNativesLoaderMock = mockStatic(GdxNativesLoader.class);
 
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		sprite = new Sprite("Sprite");
@@ -78,6 +85,11 @@ public class SetBackgroundByIndexBrickTest {
 		lookDataList.add(lookData2);
 
 		project.getDefaultScene().getBackgroundSprite().look.setLookData(lookData);
+	}
+
+	@After
+	public void tearDown() {
+		gdxNativesLoaderMock.close();
 	}
 
 	@Test

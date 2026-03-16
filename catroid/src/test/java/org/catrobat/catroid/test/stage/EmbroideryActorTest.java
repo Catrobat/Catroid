@@ -54,7 +54,7 @@ public class EmbroideryActorTest {
 	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gdxNativesLoaderMock = Mockito.mockStatic(GdxNativesLoader.class);
 
 		sprite = new Sprite();
@@ -68,7 +68,9 @@ public class EmbroideryActorTest {
 	@After
 	public void tearDown() {
 		StageActivity.stageListener = null;
-		gdxNativesLoaderMock.close();
+		if (gdxNativesLoaderMock != null) {
+			gdxNativesLoaderMock.close();
+		}
 	}
 
 	@Test

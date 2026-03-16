@@ -55,9 +55,9 @@ class EmbeddedSurveyTest {
     var sharedPreferenceEditorMock: SharedPreferences.Editor? = null
     var contextMock: Context? = null
 
-    private lateinit var utilsMock : MockedStatic<Utils>
-    private lateinit var dateUtilsMock : MockedStatic<DateUtils>
-    private lateinit var preferenceManagerMock : MockedStatic<PreferenceManager>
+    private lateinit var utilsMock: MockedStatic<Utils>
+    private lateinit var dateUtilsMock: MockedStatic<DateUtils>
+    private lateinit var preferenceManagerMock: MockedStatic<PreferenceManager>
 
     @Before
     @Throws(Exception::class)
