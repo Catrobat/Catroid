@@ -45,6 +45,7 @@ import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
@@ -90,28 +91,26 @@ public class LoadProjectsTest {
 		projectManagerMock.close();
 	}
 
-	@Test(expected = CompatibilityProjectException.class)
-	public void testInvalidLanguageVersion() throws Exception {
+	@Test
+	public void testInvalidLanguageVersion() {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(INVALID_LANGUAGE_VERSION);
 
 		Project previousProject = projectManagerSpy.getCurrentProject();
-		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
-		} finally {
-			assertEquals(previousProject, projectManagerSpy.getCurrentProject());
-		}
+
+		assertThrows(CompatibilityProjectException.class, () -> projectManagerSpy.loadProject(fileMock, contextMock));
+
+		assertEquals(previousProject, projectManagerSpy.getCurrentProject());
 	}
 
-	@Test(expected = OutdatedVersionProjectException.class)
-	public void testTooBigLanguageVersion() throws Exception {
+	@Test
+	public void testTooBigLanguageVersion() {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(TOO_BIG_LANGUAGE_VERSION);
 
 		Project previousProject = projectManagerSpy.getCurrentProject();
-		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
-		} finally {
-			assertEquals(previousProject, projectManagerSpy.getCurrentProject());
-		}
+
+		assertThrows(OutdatedVersionProjectException.class, () -> projectManagerSpy.loadProject(fileMock, contextMock));
+
+		assertEquals(previousProject, projectManagerSpy.getCurrentProject());
 	}
 
 	@Test

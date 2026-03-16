@@ -59,7 +59,9 @@ public class StartScriptTest {
 
 	@After
 	public void tearDown() {
-		gdxNativesLoaderMock.close();
+		if (gdxNativesLoaderMock != null) {
+			gdxNativesLoaderMock.close();
+		}
 	}
 
 	@Test

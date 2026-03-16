@@ -76,7 +76,9 @@ public class WhenBackgroundChangesScriptTest {
 
 	@After
 	public void tearDown() {
-		gdxNativesLoaderMock.close();
+		if (gdxNativesLoaderMock != null) {
+			gdxNativesLoaderMock.close();
+		}
 	}
 
 	private void initBackground(Scene scene) {

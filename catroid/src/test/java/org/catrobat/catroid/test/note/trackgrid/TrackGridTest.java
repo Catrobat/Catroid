@@ -40,7 +40,7 @@ public class TrackGridTest {
 	MockedConstruction<MidiNotePlayer> midiNotePlayerMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		midiNotePlayerMock = mockConstruction(MidiNotePlayer.class);
 	}
 

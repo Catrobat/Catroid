@@ -68,7 +68,7 @@ public class ThinkSayBubbleActionTest {
 	private MockedConstruction<ShowBubbleActor> showBubbleActorMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gdxNativesLoaderMock = mockStatic(GdxNativesLoader.class);
 		showBubbleActorMock = mockConstruction(ShowBubbleActor.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
@@ -78,7 +78,7 @@ public class ThinkSayBubbleActionTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		StageActivity.stageListener = null;
 		gdxNativesLoaderMock.close();
 		showBubbleActorMock.close();

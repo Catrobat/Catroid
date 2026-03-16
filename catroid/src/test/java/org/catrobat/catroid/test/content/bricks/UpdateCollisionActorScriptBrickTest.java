@@ -120,8 +120,8 @@ public class UpdateCollisionActorScriptBrickTest {
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				REPLACED_VARIABLE));
+		map.forEach((k, v) -> assertEquals(REPLACED_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class UpdateCollisionActorScriptBrickTest {
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-				NO_CHANGE_VARIABLE));
+		map.forEach((k, v) -> assertEquals(NO_CHANGE_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
 	}
 }

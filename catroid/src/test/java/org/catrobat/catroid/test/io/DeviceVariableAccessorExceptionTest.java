@@ -50,7 +50,7 @@ public class DeviceVariableAccessorExceptionTest {
 	private MockedConstruction<Gson> gsonMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		deviceVariableAccessor = new DeviceVariableAccessor(new File("a"));
 		variableFile = Mockito.mock(File.class);
 		when(variableFile.exists()).thenReturn(true);

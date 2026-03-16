@@ -117,7 +117,7 @@ public class ServerAuthenticatorTest {
 	public void testPerformCatrobatRegisterInit() {
 		Mockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
 		authenticatorSpy.performCatrobatRegister(EMAIL, LANGUAGE, COUNTRY);
-		verify(authenticatorSpy, times(1)).performTask(eq(BASE_URL_TEST_HTTPS + REGISTRATION_URL_APPENDING), eq(SERVER_RESPONSE_REGISTER_OK));
+		verify(authenticatorSpy, times(1)).performTask(BASE_URL_TEST_HTTPS + REGISTRATION_URL_APPENDING, SERVER_RESPONSE_REGISTER_OK);
 
 		verify(taskListenerMock, never()).onError(anyInt(), anyString());
 		HashMap<String, String> expectedMap = new HashMap<>();
@@ -134,7 +134,7 @@ public class ServerAuthenticatorTest {
 	public void testPerformCatrobatLoginInit() {
 		Mockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
 		authenticatorSpy.performCatrobatLogin();
-		verify(authenticatorSpy, times(1)).performTask(eq(BASE_URL_TEST_HTTPS + LOGIN_URL_APPENDING), eq(SERVER_RESPONSE_TOKEN_OK));
+		verify(authenticatorSpy, times(1)).performTask(BASE_URL_TEST_HTTPS + LOGIN_URL_APPENDING, SERVER_RESPONSE_TOKEN_OK);
 
 		verify(taskListenerMock, never()).onError(anyInt(), anyString());
 		HashMap<String, String> expectedMap = new HashMap<>();
@@ -150,10 +150,10 @@ public class ServerAuthenticatorTest {
 		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
 
 		int expectedStatusCode = 0;
-		catrobatWebClientMock.when(() -> CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), any(Request.class))).thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
+		catrobatWebClientMock.when(() -> CatrobatWebClientKt.performCallWith(okHttpClientMock, any(Request.class))).thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
 
 		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
-		verify(taskListenerMock, times(1)).onError(eq(expectedStatusCode), eq(null));
+		verify(taskListenerMock, times(1)).onError(expectedStatusCode, null);
 		verifyNoMoreInteractions(taskListenerMock);
 	}
 
@@ -163,17 +163,17 @@ public class ServerAuthenticatorTest {
 
 		Request requestMock = Mockito.mock(Request.class);
 		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
-		Mockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn(responseString);
+		Mockito.when(CatrobatWebClientKt.performCallWith(okHttpClientMock, requestMock)).thenReturn(responseString);
 		try (MockedConstruction<JSONObject> jsonObjectMock =
 				Mockito.mockConstruction(JSONObject.class, (mock, object) ->
 						when(mock.optString(anyString())).thenReturn("message"))) {
 			doReturn(true).when(authenticatorSpy).isInvalidResponse(eq(0), any(JSONObject.class));
 			authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
-			verify(taskListenerMock, times(1)).onError(eq(0), eq("message"));
+			verify(taskListenerMock, times(1)).onError(0, "message");
 			verifyNoMoreInteractions(taskListenerMock);
 			JSONObject constructed = jsonObjectMock.constructed().get(0);
 			verify(constructed, times(1)).optString(JSON_ANSWER);
-			verify(constructed, times(1)).optInt(eq(JSON_STATUS_CODE));
+			verify(constructed, times(1)).optInt(JSON_STATUS_CODE);
 			verifyNoMoreInteractions(constructed);
 		}
 	}
@@ -182,13 +182,12 @@ public class ServerAuthenticatorTest {
 	public void testValidResponseUpdateSharedPreferences() throws Exception {
 		Request requestMock = Mockito.mock(Request.class);
 		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
-		Mockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn("");
+		Mockito.when(CatrobatWebClientKt.performCallWith(okHttpClientMock, requestMock)).thenReturn("");
 
 		String expectedToken = "any TOKEN";
 		String expectedEmail = "random EMAIL";
 
-		try (MockedConstruction<JSONObject> jsonObjectMock =
-				Mockito.mockConstruction(JSONObject.class, (mock, object) -> {
+		try (MockedConstruction<JSONObject> jsonObjectMock = Mockito.mockConstruction(JSONObject.class, (mock, object) -> {
 			when(mock.optString(Constants.TOKEN)).thenReturn(expectedToken);
 			when(mock.optString(Constants.EMAIL)).thenReturn(expectedEmail);
 		})) {
@@ -198,9 +197,9 @@ public class ServerAuthenticatorTest {
 			verify(taskListenerMock, atLeastOnce()).onSuccess();
 			verifyNoMoreInteractions(taskListenerMock);
 
-			verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.TOKEN), eq(expectedToken));
+			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.TOKEN, expectedToken);
 			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.USERNAME, USERNAME);
-			verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.EMAIL), eq(expectedEmail));
+			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.EMAIL, expectedEmail);
 			verify(sharedPreferencesEditorMock, times(1)).apply();
 			verifyNoMoreInteractions(sharedPreferencesEditorMock);
 		}

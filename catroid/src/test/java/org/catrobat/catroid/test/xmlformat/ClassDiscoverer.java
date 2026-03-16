@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.xmlformat;
 
-import org.catrobat.catroid.test.utiltests.reflection.ReflectionExceptionsTest;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -40,7 +39,6 @@ public final class ClassDiscoverer {
 	}
 
 	public static <T> Set<Class<? extends T>> getAllSubClassesOf(Class<T> clazz) {
-//		Reflections reflections = new Reflections("org.catrobat.catroid");
 		Reflections reflections = new Reflections(
 				new ConfigurationBuilder()
 						.addUrls(ClasspathHelper.forClass(clazz))

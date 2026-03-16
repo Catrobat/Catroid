@@ -127,8 +127,8 @@ public class UpdateCollisionActorTest {
 		sprite.rename(NEW_VARIABLE_NAME);
 
 		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
+			assertEquals(REPLACED_VARIABLE,
+					v.getTrimmedFormulaString(CatroidApplication.getAppContext()));
 		});
 	}
 
@@ -144,8 +144,8 @@ public class UpdateCollisionActorTest {
 		sprite.rename(NEW_VARIABLE_NAME);
 
 		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
+			assertEquals(NO_CHANGE_VARIABLE,
+					v.getTrimmedFormulaString(CatroidApplication.getAppContext()));
 		});
 	}
 }
