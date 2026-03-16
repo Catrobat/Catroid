@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.graphics.Color;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -30,11 +31,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
+import org.catrobat.catroid.ui.FinderDataManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
+
+import static android.view.View.GONE;
 
 public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 
@@ -53,6 +57,12 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		holder.title.setText(item.getName());
 
 		loader.loadAndShowScreenshot(projectDir.getName(), item.getDirectory().getName(), false, holder.image);
+
+		if (position == FinderDataManager.Companion.getInstance().getCurrentMatchIndex()) {
+			holder.itemView.setBackgroundResource(R.drawable.button_background_pressed);
+		} else {
+			holder.itemView.setBackgroundResource(R.drawable.button_background_selector);
+		}
 
 		if (showDetails) {
 			holder.details.setText(String.format(Locale.getDefault(),

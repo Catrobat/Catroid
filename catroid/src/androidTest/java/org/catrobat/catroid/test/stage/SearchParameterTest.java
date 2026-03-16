@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.ui.FinderDataManager;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
@@ -62,7 +63,12 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
 import static org.junit.Assert.assertFalse;
@@ -79,6 +85,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.catrobat.catroid.ui.FinderDataManager.Companion;
 
 public class SearchParameterTest {
 	@Rule
@@ -94,7 +101,16 @@ public class SearchParameterTest {
 
 	@Before
 	public void setUp() {
+		Companion.getInstance().clearSearchResults();
+		Companion.getInstance().clearSearchResultsNames();
+		Companion.getInstance().setSearchQuery(null);
+		Companion.getInstance().setStartingIndexSet(false);
+		Companion.getInstance().setCurrentMatchIndex(-1);
+		Companion.getInstance().setType(FinderDataManager.FragmentType.NONE);
+		Companion.getInstance().setInitiatingFragment(FinderDataManager.FragmentType.NONE);
+
 		createProject(projectName);
+		IdlingRegistry.getInstance().register(Companion.getInstance().getIdlingResource());
 
 		for (int i = 0; i <= 5; i++) {
 			script1.addBrick(new SetXBrick(i));
@@ -110,7 +126,7 @@ public class SearchParameterTest {
 		script2.addBrick(new SetFrictionBrick());
 		script2.addBrick(new PlaySoundBrick());
 
-		script3.addBrick(new LookRequestBrick("look 2"));
+		script3.addBrick(new LookRequestBrick("look 1"));
 
 		baseActivityTestRule.launchActivity(new Intent());
 	}
@@ -128,14 +144,23 @@ public class SearchParameterTest {
 	}
 
 	@Test
-	public void testSearchBrickText() {
-		String searchParam =
-				baseActivityTestRule.getActivity().getString(R.string.brick_glide) + baseActivityTestRule.getActivity().getString(R.string.brick_glide_to_x);
-		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.search)).perform(click());
-		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
-		onView(withId(R.id.find)).perform(click());
-		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	public void testSearchBrickText() throws InterruptedException {
+		String searchParam = "glide to x";
+
+		Espresso.openActionBarOverflowOrOptionsMenu(
+				InstrumentationRegistry.getInstrumentation().getTargetContext()
+		);
+		Espresso.onView(ViewMatchers.withText(org.catrobat.catroid.R.string.search))
+				.perform(ViewActions.click());
+
+		Espresso.onView(ViewMatchers.withId(org.catrobat.catroid.R.id.search_bar))
+				.perform(ViewActions.replaceText(searchParam));
+
+		Espresso.onView(ViewMatchers.withId(org.catrobat.catroid.R.id.find))
+				.perform(ViewActions.click());
+
+		Espresso.onView(ViewMatchers.withText(searchParam))
+				.check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Test
@@ -168,7 +193,7 @@ public class SearchParameterTest {
 		onView(withText(R.string.search)).perform(click());
 		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
-		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withText(searchParam.trim())).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Test
@@ -179,7 +204,7 @@ public class SearchParameterTest {
 		onView(withText(R.string.search)).perform(click());
 		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
-		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withText(searchParam.trim())).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Test
@@ -256,6 +281,8 @@ public class SearchParameterTest {
 	@After
 	public void tearDown() {
 		baseActivityTestRule.finishActivity();
+		IdlingRegistry.getInstance().unregister(Companion.getInstance().getIdlingResource());
+
 		try {
 			deleteProjects(projectName);
 		} catch (IOException e) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,8 +36,8 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressKey
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -53,6 +53,8 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.FinderDataManager
+import org.catrobat.catroid.ui.FinderDataManager.Companion.instance
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers
@@ -74,23 +76,51 @@ class BrickSearchTest {
     @Rule
     @JvmField
     var baseActivityTestRule = FragmentActivityTestRule(
-        SpriteActivity::class.java, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+        SpriteActivity::class.java,
+        SpriteActivity.EXTRA_FRAGMENT_POSITION,
         SpriteActivity.FRAGMENT_SCRIPTS
     )
 
     @Before
     fun setUp() {
+        instance.clearSearchResults()
+        instance.clearSearchResultsNames()
+        instance.setSearchQuery(null)
+        instance.startingIndexSet = false
+        instance.currentMatchIndex = -1
+        instance.type = FinderDataManager.FragmentType.NONE
+        instance.setInitiatingFragment(FinderDataManager.FragmentType.NONE)
+
         createProject(projectName)
         baseActivityTestRule.launchActivity(Intent())
+    }
+
+    @Test
+    fun testSearchIfBrick() {
+        ensureKeyboardIsClosed()
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onView(withId(R.id.search_src_text))
+            .perform(replaceText("if"))
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(withId(R.id.fragment_brick_search), 2)
+                )
+            )
+            .atPosition(0)
+            .check(matches(isDisplayed()))
+            .perform(click())
+        Assert.assertFalse(isKeyboardVisible())
     }
 
     @Test
     fun testSearchBrickParams() {
         val arguments = arrayOf("When scene starts", "move", "BROADCAST")
         val bricks = arrayOf(
-            WhenStartedBrick::class.java,
-            MoveNStepsBrick::class.java,
-            BroadcastBrick::class.java
+            WhenStartedBrick::class.java, MoveNStepsBrick::class.java, BroadcastBrick::class.java
         )
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -103,63 +133,44 @@ class BrickSearchTest {
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
             viewMatcher.perform(pressKey(KeyEvent.KEYCODE_ENTER))
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-            Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf
-            (bricks[index] as Class<*>?))))
-                .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-                .atPosition(0)
-                .check(matches(isDisplayed()))
-        }
-    }
-
-    @Test
-    fun testSearchIfBrick() {
-        ensureKeyboardIsClosed()
-        Espresso.onView(withId(R.id.button_add)).perform(click())
-        Espresso.onView(withId(R.id.search)).perform(click())
-        Espresso.onView(withId(R.id.search_src_text)).perform(
-            replaceText("if")
-        ).perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        Espresso.onData(Matchers.anything())
-            .inAdapterView(
+            Espresso.onData(
                 Matchers.allOf(
-                    withId(android.R.id.list),
-                    childAtPosition(
-                        withId(R.id.fragment_brick_search),
-                        2
+                    Matchers.`is`(
+                        Matchers.instanceOf(bricks[index] as Class<*>?)
                     )
                 )
-            ).atPosition(0).check(matches(isDisplayed())).perform(click())
-        Assert.assertFalse(isKeyboardVisible())
+            ).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView()).atPosition(0)
+                .check(matches(isDisplayed()))
+        }
     }
 
     @Test
     fun testSearchHistory() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
-        Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText
-            ("test")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onView(withId(R.id.search_src_text))
+            .perform(clearText(), ViewActions.typeText("test"))
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         Espresso.onData(Matchers.anything())
             .inAdapterView(
                 Matchers.allOf(
                     withId(android.R.id.list),
-                    childAtPosition(
-                        withId(R.id.fragment_brick_search),
-                        2
-                    )
+                    childAtPosition(withId(R.id.fragment_brick_search), 2)
                 )
-            ).atPosition(0).perform(click())
+            )
+            .atPosition(0)
+            .perform(click())
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onData(Matchers.anything())
             .inAdapterView(
                 Matchers.allOf(
                     withId(android.R.id.list),
-                    childAtPosition(
-                        withId(R.id.fragment_brick_search),
-                        2
-                    )
+                    childAtPosition(withId(R.id.fragment_brick_search), 2)
                 )
-            ).atPosition(0).check(matches(isDisplayed()))
+            )
+            .atPosition(0)
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -189,14 +200,12 @@ class BrickSearchTest {
         // long to execute
         Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withText("When scene starts"),
-                isDisplayed()
+                ViewMatchers.withText("When scene starts"), isDisplayed()
             )
         ).check(matches(isDisplayed()))
         Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withText("When background changes to"),
-                isDisplayed()
+                ViewMatchers.withText("When background changes to"), isDisplayed()
             )
         ).check(matches(isDisplayed()))
         Espresso.onView(
@@ -204,24 +213,21 @@ class BrickSearchTest {
                 ViewMatchers.withContentDescription(Matchers.containsString("Navigate up")),
                 childAtPosition(
                     Matchers.allOf(
-                        withId(R.id.toolbar),
-                        childAtPosition(withId(R.id.activity_sprite), 0)
+                        withId(R.id.toolbar), childAtPosition(withId(R.id.activity_sprite), 0)
                     ), 1
                 ),
                 isDisplayed()
             )
         ).perform(click())
-        Espresso.onData(Matchers.anything())
-            .inAdapterView(
-                Matchers.allOf(
-                    withId(R.id.brick_category_list),
-                    childAtPosition(withId(R.id.fragment_container), 1)
-                )
-            ).atPosition(5).perform(click())
+        Espresso.onData(Matchers.anything()).inAdapterView(
+            Matchers.allOf(
+                withId(R.id.brick_category_list),
+                childAtPosition(withId(R.id.fragment_container), 1)
+            )
+        ).atPosition(5).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(withId(R.id.search_src_text))
-            .perform(replaceText("When"))
+        Espresso.onView(withId(R.id.search_src_text)).perform(replaceText("When"))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(
@@ -231,8 +237,7 @@ class BrickSearchTest {
         ).check(doesNotExist())
         Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withText("When background changes to"),
-                isDisplayed()
+                ViewMatchers.withText("When background changes to"), isDisplayed()
             )
         )
     }
@@ -246,6 +251,7 @@ class BrickSearchTest {
     fun hideKeyboard() {
         Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
     }
+
     @Test
     @Flaky
     fun testProgressiveSearch() {
@@ -254,11 +260,11 @@ class BrickSearchTest {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         for (index in arguments.indices) {
-            Espresso.onView(withId(R.id.search_src_text)).perform(ViewActions.typeText(arguments[index]))
+            Espresso.onView(withId(R.id.search_src_text))
+                .perform(ViewActions.typeText(arguments[index]))
             Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
             Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf(brick))))
-                .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-                .atPosition(0)
+                .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView()).atPosition(0)
                 .check(matches(isDisplayed()))
         }
     }
@@ -309,8 +315,9 @@ class BrickSearchTest {
 
             public override fun matchesSafely(view: View): Boolean {
                 val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent) &&
-                    view == parent.getChildAt(position)
+                return parent is ViewGroup && parentMatcher.matches(parent) && view == parent.getChildAt(
+                    position
+                )
             }
         }
     }

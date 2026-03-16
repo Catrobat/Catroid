@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.annotation.PluralsRes
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.ui.BaseFinderFragment
+import org.catrobat.catroid.ui.FinderDataManager
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
@@ -45,19 +46,20 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
 import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
-import org.koin.android.ext.android.inject
 import java.io.IOException
 import java.util.ArrayList
 
-class LookListFragment : RecyclerViewFragment<LookData?>() {
+class LookListFragment : BaseFinderFragment<LookData?>() {
     private val lookController = LookController()
     private var currentItem: LookData? = null
-
-    private val projectManager: ProjectManager by inject()
 
     companion object {
         @JvmField
         val TAG = LookListFragment::class.java.simpleName
+    }
+
+    override fun getFragmentType(): FinderDataManager.FragmentType {
+        return FinderDataManager.FragmentType.LOOK
     }
 
     override fun initializeAdapter() {
@@ -70,7 +72,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.find).isVisible = false
+        menu.findItem(R.id.find).isVisible = true
     }
 
     override fun onResume() {
@@ -233,7 +235,8 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
             Log.e(TAG, Log.getStackTraceString(e))
         }
         val intent = Intent("android.intent.action.MAIN")
-        intent.component = ComponentName(requireActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME)
+        intent.component =
+            ComponentName(requireActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME)
         val bundle = Bundle()
         bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item?.file?.absolutePath)
         intent.putExtras(bundle)
@@ -251,9 +254,12 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
             R.id.project_options,
             R.id.edit,
             R.id.from_local,
+            R.id.find
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

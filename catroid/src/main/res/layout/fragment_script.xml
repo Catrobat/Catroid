@@ -28,7 +28,7 @@
     android:layout_weight="1"
     android:orientation="vertical" >
 
-    <org.catrobat.catroid.ui.ScriptFinder
+    <org.catrobat.catroid.ui.Finder
         android:id="@+id/findview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

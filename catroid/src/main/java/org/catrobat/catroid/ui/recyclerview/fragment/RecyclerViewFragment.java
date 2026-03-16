@@ -39,6 +39,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.Finder;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
@@ -50,6 +52,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.ui.FinderDataManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
@@ -86,6 +89,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
+	protected Finder finder;
+	protected SpriteActivity activity;
+
 	protected TextView emptyView;
 
 	protected ExtendedRVAdapter<T> adapter;
@@ -237,6 +243,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
+		finder = parentView.findViewById(R.id.findview);
 		recyclerView = parentView.findViewById(R.id.recycler_view);
 		emptyView = parentView.findViewById(R.id.empty_view);
 		setShowProgressBar(true);
@@ -341,6 +348,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				break;
 			case R.id.merge:
 				startActionMode(MERGE);
+				break;
+			case R.id.find:
+				finder.open();
 				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
@@ -550,5 +560,18 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) {
 		ToastUtil.showSuccess(getContext(), R.string.merging_project_text);
 		finishActionMode();
+	}
+
+	protected void scrollToSearchResult() {
+		int indexSearch = FinderDataManager.Companion.getInstance().getSearchResultIndex();
+		List<FinderDataManager.FinderObject> searchResults = FinderDataManager.Companion.getInstance().getSearchResults();
+
+		if (indexSearch < searchResults.size()) {
+			FinderDataManager.FinderObject result = searchResults.get(indexSearch);
+			if (result != null) {
+				int value = result.getElementIndex();
+				recyclerView.scrollToPosition(value);
+			}
+		}
 	}
 }

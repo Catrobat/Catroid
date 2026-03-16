@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.FinderDataManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
@@ -102,21 +103,51 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 					context.getTheme());
 			holder.image.setImageDrawable(drawable);
 			holder.checkBox.setVisibility(GONE);
+			if(isThisFoundObject(position)){
+				highlightTheFoundObject(holder);
+			}
+			else{
+				cancelHighlightTheFoundObject(holder);
+			}
 			return;
 		}
 
-		if (holder.getItemViewType() == BACKGROUND) {
+		else if (holder.getItemViewType() == BACKGROUND) {
 			holder.itemView.setOnLongClickListener(null);
 			holder.checkBox.setVisibility(GONE);
+			if (isThisFoundObject(position)) {
+				View viewBackgroundButton =
+						holder.itemView.findViewById(R.id.view_holder_background);
+				viewBackgroundButton.setBackgroundResource(R.drawable.button_background_pressed);
+			}
+			else{
+				View viewBackgroundButton = holder.itemView.findViewById(R.id.view_holder_background);
+				viewBackgroundButton.setBackgroundResource(R.drawable.button_background_selector);
+			}
 		}
 
-		if (holder.getItemViewType() == SPRITE_GROUP_ITEM) {
+		else if (holder.getItemViewType() == SPRITE_GROUP_ITEM) {
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
 					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 			holder.itemView.setLayoutParams(params);
 			if (((GroupItemSprite) item).isCollapsed()) {
 				params.height = 0;
 				holder.itemView.setLayoutParams(params);
+			}
+			if(isThisFoundObject(position)){
+				highlightTheFoundObject(holder);
+			}
+			else{
+				cancelHighlightTheFoundObject(holder);
+			}
+		}
+
+		else{
+			if(isThisFoundObject(position)){
+				highlightTheFoundObject(holder);
+			}
+			else{
+				cancelHighlightTheFoundObject(holder);
 			}
 		}
 
@@ -125,6 +156,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 			lookData = item.getLookList().get(0).getThumbnailBitmap();
 		}
 		holder.image.setImageBitmap(lookData);
+
 
 		if (showDetails) {
 			holder.details.setText(String.format(Locale.getDefault(),
@@ -137,7 +169,15 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 			holder.details.setVisibility(GONE);
 		}
 	}
-
+	private boolean isThisFoundObject(int position){
+		return position == FinderDataManager.Companion.getInstance().getCurrentMatchIndex();
+	}
+	private void cancelHighlightTheFoundObject(ExtendedViewHolder holder){
+		holder.itemView.setBackgroundResource(R.drawable.button_background_selector);
+	}
+	private void highlightTheFoundObject(ExtendedViewHolder holder){
+		holder.itemView.setBackgroundResource(R.drawable.button_background_pressed);
+	}
 	@Override
 	public @ViewType int getItemViewType(int position) {
 		if (position == 0) {
