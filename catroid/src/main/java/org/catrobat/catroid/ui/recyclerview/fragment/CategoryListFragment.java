@@ -428,7 +428,13 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_text_block_parameter);
 	private static final List<Integer> SENSORS_OBJECT_DETECTION = asList(
 			R.string.formula_editor_function_get_id_of_detected_object,
-			R.string.formula_editor_function_object_with_id_visible
+			R.string.formula_editor_function_object_with_id_visible,
+			R.string.formula_editor_function_height_of_object_with_id
+	);
+	private static final List<Integer> SENSORS_OBJECT_DETECTION_PARAMS = asList(
+			R.string.formula_editor_function_object_detection_id_parameter,
+			R.string.formula_editor_function_object_detection_id_parameter,
+			R.string.formula_editor_function_object_detection_id_parameter
 	);
 	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
 			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
@@ -1045,7 +1051,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getObjectDetectionSensorItems() {
 		return SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
-				? addHeader(toCategoryListItems(SENSORS_OBJECT_DETECTION),
+				? addHeader(toCategoryListItems(SENSORS_OBJECT_DETECTION, SENSORS_OBJECT_DETECTION_PARAMS),
 				getString(R.string.formula_editor_device_object_recognition))
 				: Collections.emptyList();
 	}
