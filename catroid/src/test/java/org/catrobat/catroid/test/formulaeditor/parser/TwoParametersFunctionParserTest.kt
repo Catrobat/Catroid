@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import org.catrobat.catroid.formulaeditor.Functions.RAND
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
 import org.catrobat.catroid.formulaeditor.Operators
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testDoubleParameterFunction
 import org.junit.Before
@@ -79,7 +79,7 @@ class TwoParametersFunctionParserTest(
     @Before
     fun setUp() {
         val project = Project(
-            MockUtil.mockContextForProject(),
+            MockUtil.getApplicationContextMock(),
             "Project"
         )
         sprite = Sprite("sprite")

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,34 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.web
 
-package org.catrobat.catroid.test
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit4.MockKRule
+import io.mockk.verify
+import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
+import org.catrobat.catroid.utils.ProjectDownloadUtil
+import org.junit.After
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-import android.content.Context
-import org.catrobat.catroid.ProjectManager
+@RunWith(JUnit4::class)
+class DownloadCallBackTest {
 
-/**
- * Static singleton methods need to be initialized until they are removed entirely.
- *
- * Necessary steps
- * 1. Migrate entirely to dependency injection
- * 2. Remove {@link RuntimeException} from constructor
- * 3. Create instances of e.g. {@link ProjectManager} in each test
- *
- */
-@Deprecated("should be removed with all static singleton e.g. {@link ProjectManager#getInstance()}")
-class StaticSingletonInitializer private constructor() {
-    companion object {
-        @JvmStatic
-        fun initializeStaticSingletonMethods() {
-            MockUtil.mockContextForProject()
-        }
+    @get:Rule
+    val mockkRule = MockKRule(this)
 
-        @JvmStatic
-        fun initializeStaticSingletonMethodsWith(contextMock: Context) {
-            if (ProjectManager.getInstance() == null) {
-                ProjectManager(contextMock)
-            }
-        }
+    @RelaxedMockK
+    lateinit var fragment: MainMenuFragment
+
+    @Test
+    fun testLandingPageUpdate() {
+        val callback = ProjectDownloadUtil
+        callback.setFragment(fragment)
+        callback.onDownloadFinished("name", "url")
+        verify(exactly = 1) { fragment.refreshData() }
+    }
+
+    @After
+    fun tearDown() {
+        ProjectDownloadUtil.resetForTesting()
     }
 }

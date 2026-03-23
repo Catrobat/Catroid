@@ -20,48 +20,57 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
 package org.catrobat.catroid.test.stage
 
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Array
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.impl.annotations.SpyK
+import io.mockk.junit4.MockKRule
 import org.catrobat.catroid.content.Look
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.stage.StageListener
-import org.catrobat.catroid.web.WebConnectionHolder
-import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.junit.runners.JUnit4
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(WebConnectionHolder::class, StageListener::class)
+@RunWith(JUnit4::class)
 class AddCloneActorStageTest {
-    var stageListenerSpy: StageListener? = null
-    var stageMock: Stage? = null
-    var arrayMock: Array<Actor?>? = null
-    var cloneMeLook: Look? = Look(Sprite())
-    var copiedSpriteLook: Look? = Look(Sprite())
-    var actorGroup: Group? = Group()
 
-    @Before
-    @Throws(Exception::class)
-    fun setUp() {
-        PowerMockito.whenNew(WebConnectionHolder::class.java).withNoArguments().thenReturn(null)
-        stageListenerSpy = PowerMockito.spy(StageListener())
-        stageMock = PowerMockito.mock(Stage::class.java)
-        arrayMock = PowerMockito.mock(Array::class.java) as Array<Actor?>
-    }
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @SpyK
+    var stageListenerSpy = StageListener()
+
+    @RelaxedMockK
+    lateinit var stageMock: Stage
+
+    @RelaxedMockK
+    lateinit var arrayMock: Array<Actor>
+
+    @RelaxedMockK
+    lateinit var rootGroupMock: Group
+
+    @RelaxedMockK
+    lateinit var cloneMeLookMock: Look
+
+    @RelaxedMockK
+    lateinit var copyLookMock: Look
 
     @Test
     fun testNoIndexOutOfBoundsExceptionOnAddingCloneActor() {
-        PowerMockito.`when`(stageMock?.actors).thenReturn(arrayMock)
-        PowerMockito.`when`(arrayMock?.contains(cloneMeLook, true)).thenReturn(false)
-        stageListenerSpy?.addCloneActorToStage(stageMock, actorGroup, cloneMeLook, copiedSpriteLook)
+        every { stageMock.actors } returns arrayMock
+        every { arrayMock.contains(cloneMeLookMock, true) } returns false
+
+        stageListenerSpy.addCloneActorToStage(
+            stageMock,
+            rootGroupMock,
+            cloneMeLookMock,
+            copyLookMock
+        )
     }
 }
-*/

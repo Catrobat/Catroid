@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.content.actions
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -108,7 +108,7 @@ class IfOnEdgeBounceActionTest(
             setPositionInUserInterfaceDimensionUnit(initialPosX, initialPosY)
             motionDirectionInUserInterfaceDimensionUnit = initialDirection.toFloat()
         }
-        Project(MockUtil.mockContextForProject(), "Test", false).apply {
+        Project(MockUtil.getApplicationContextMock(), "Test", false).apply {
             xmlHeader.virtualScreenWidth = SCREEN_WIDTH
             xmlHeader.virtualScreenHeight = SCREEN_HEIGHT
             ProjectManager.getInstance().currentProject = this

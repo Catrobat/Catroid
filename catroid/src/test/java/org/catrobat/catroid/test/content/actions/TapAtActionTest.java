@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +76,7 @@ public class TapAtActionTest {
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		Mockito.when(StageActivity.stageListener.getStage()).thenReturn(stageMock);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

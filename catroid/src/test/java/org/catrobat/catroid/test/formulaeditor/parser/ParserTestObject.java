@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class ParserTestObject {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		Sprite testSprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(testSprite);

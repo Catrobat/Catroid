@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
@@ -67,7 +67,7 @@ class BroadcastActionTest {
             addScript(broadcastScript)
         }
 
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.getApplicationContextMock(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
             project.defaultScene.addSprite(sprite)
         }

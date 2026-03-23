@@ -31,7 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class GoNStepsBackActionPMTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");

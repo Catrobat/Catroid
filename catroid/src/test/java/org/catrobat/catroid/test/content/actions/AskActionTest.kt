@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.AskAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,7 +55,7 @@ class AskActionTest {
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.getApplicationContextMock(), "Project")
         ProjectManager.getInstance().currentProject = project
     }
 

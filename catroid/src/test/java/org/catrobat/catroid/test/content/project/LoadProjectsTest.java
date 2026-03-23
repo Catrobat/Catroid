@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.test.StaticSingletonInitializer;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +68,7 @@ public class LoadProjectsTest {
 		fileMock = Mockito.mock(File.class);
 		contextMock = Mockito.mock(Context.class);
 		projectMock = Mockito.mock(Project.class);
-		StaticSingletonInitializer.initializeStaticSingletonMethods();
+		MockUtil.initializeStaticsAndSingletons();
 		projectManagerSpy = PowerMockito.spy(ProjectManager.getInstance());
 		XstreamSerializer xstreamSerializerMock = PowerMockito.mock(XstreamSerializer.class);
 

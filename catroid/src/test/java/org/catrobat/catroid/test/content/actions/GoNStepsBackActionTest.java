@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -65,8 +65,8 @@ public class GoNStepsBackActionTest {
 	private Sprite realSprite;
 
 	@Before
-	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+	public void setUp() {
+		project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");
@@ -88,7 +88,7 @@ public class GoNStepsBackActionTest {
 
 	@Test
 	public void testSteps() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.getApplicationContextMock(), "testProject");
 		Group parentGroup = new Group();
 
 		for (int i = 0; i < 20; i++) {

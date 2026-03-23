@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.actions.EditLookAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -57,7 +57,7 @@ class EditLookActionTest {
 
     @Before
     fun setUp() {
-        projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        projectMock = Project(MockUtil.getApplicationContextMock(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
         testSequence = SequenceAction()

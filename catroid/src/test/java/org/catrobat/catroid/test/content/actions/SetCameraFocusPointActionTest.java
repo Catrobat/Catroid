@@ -37,7 +37,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.CameraPositioner;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.test.mockutils.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class SetCameraFocusPointActionTest {
 
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(), projectName);
+		project = new Project(MockUtil.getApplicationContextMock(), projectName);
 		sprite = new Sprite("sprite");
 		sprite.addScript(new WhenScript());
 		project.getDefaultScene().addSprite(sprite);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.SpeechSynthesizer
-import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -56,7 +56,7 @@ class SpeakAndWaitActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        contextMock = MockUtil.mockContextForProject()
+        contextMock = MockUtil.getApplicationContextMock()
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir).thenAnswer { temporaryCacheFolder }
@@ -64,7 +64,7 @@ class SpeakAndWaitActionTest {
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
         scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.getApplicationContextMock(), "Project")
         ProjectManager.getInstance().currentProject = project
     }
 

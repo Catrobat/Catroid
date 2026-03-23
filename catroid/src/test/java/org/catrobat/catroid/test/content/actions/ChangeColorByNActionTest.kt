@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.content.actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.catrobat.catroid.test.mockutils.MockUtil
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +45,7 @@ class ChangeColorByNActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        initializeStaticSingletonMethods()
+        MockUtil.initializeStaticsAndSingletons()
         sprite = Sprite("testSprite")
 
         sprite.actionFactory.createSetColorAction(
