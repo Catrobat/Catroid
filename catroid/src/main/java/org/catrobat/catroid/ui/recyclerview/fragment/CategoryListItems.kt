@@ -351,8 +351,11 @@ class CategoryListItems {
         ) {
             addHeader(
                 toCategoryListItems(
-                    activity, SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS
-                ), activity.getString(R.string.formula_editor_device_text_recognition)
+                    activity,
+                    SENSORS_TEXT_RECOGNITION,
+                    SENSORS_TEXT_RECOGNITION_PARAMS
+                ),
+                activity.getString(R.string.formula_editor_device_text_recognition)
             )
         } else {
             emptyList()

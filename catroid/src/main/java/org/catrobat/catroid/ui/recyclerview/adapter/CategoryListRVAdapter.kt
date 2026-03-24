@@ -42,7 +42,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
     data class CategoryListItem(
         var nameResId: Int,
         var text: String,
-        @CategoryListItemType var type: Int,
+        @param:CategoryListItemType var type: Int,
         var header: String? = null
     ) {
         init {
@@ -67,7 +67,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
         }
         holder.title.text = item.text
         holder.itemView.setOnClickListener {
-            onItemClickListener!!.onItemClick(
+            onItemClickListener?.onItemClick(
                 item
             )
         }

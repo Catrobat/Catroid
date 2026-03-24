@@ -90,7 +90,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     override fun onResume() {
         super.onResume()
         val arguments = arguments ?: return
-        val appCompatActivity = activity as AppCompatActivity? ?: return
+        val appCompatActivity = activity as? AppCompatActivity? ?: return
         val supportActionBar = appCompatActivity.supportActionBar
         if (supportActionBar != null) {
             supportActionBar.title = arguments.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT)
@@ -102,7 +102,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         for (index in 0 until menu.size) {
             menu[index].isVisible = false
         }
-        val appCompatActivity = activity as AppCompatActivity? ?: return
+        val appCompatActivity = activity as? AppCompatActivity? ?: return
         appCompatActivity.menuInflater.inflate(R.menu.menu_formulareditor_category, menu)
         appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -192,8 +192,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             } else {
                 Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
             }
-        }!!
-        language += mLocale.language
+        }
+        language += mLocale?.language
         return language
     }
 
@@ -375,15 +375,14 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun initializeAdapter() {
         val argument = requireArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT)
-        val items: List<CategoryListItem>
-        when (argument) {
-            OBJECT_TAG -> items = categoryListItems.getObjectItems(requireActivity())
+        val items: List<CategoryListItem> = when (argument) {
+            OBJECT_TAG -> categoryListItems.getObjectItems(requireActivity())
 
-            FUNCTION_TAG -> items = categoryListItems.getFunctionItems(requireActivity())
+            FUNCTION_TAG -> categoryListItems.getFunctionItems(requireActivity())
 
-            LOGIC_TAG -> items = categoryListItems.getLogicItems(requireActivity())
+            LOGIC_TAG -> categoryListItems.getLogicItems(requireActivity())
 
-            SENSOR_TAG -> items = categoryListItems.getSensorItems(requireActivity())
+            SENSOR_TAG -> categoryListItems.getSensorItems(requireActivity())
 
             else -> throw IllegalArgumentException(
                 "Argument for CategoryListFragment null or unknown: $argument"
