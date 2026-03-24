@@ -34,14 +34,13 @@ import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.koin.java.KoinJavaComponent
 
 class CategoryListItems {
-
     private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
-    
+
     fun getObjectItems(activity: Activity) = buildList {
         addAll(getObjectGeneralPropertiesItems(activity))
         addAll(getObjectPhysicalPropertiesItems(activity))
     }
-    
+
     fun getFunctionItems(activity: Activity) = buildList {
         addAll(
             addHeader(
@@ -144,7 +143,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_EV3, null, CategoryListRVAdapter.EV3),
                 activity.getString(R.string.formula_editor_device_lego_ev3)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getPhiroSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -156,7 +157,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_PHIRO),
                 activity.getString(R.string.formula_editor_device_phiro)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getArduinoSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -168,7 +171,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_ARDUINO, SENSORS_ARDUINO_PARAMS),
                 activity.getString(R.string.formula_editor_device_arduino)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getDroneSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -180,7 +185,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_DRONE),
                 activity.getString(R.string.formula_editor_device_drone)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getRaspberrySensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -192,7 +199,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS),
                 activity.getString(R.string.formula_editor_device_raspberry)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getNfcItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -204,7 +213,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_NFC),
                 activity.getString(R.string.formula_editor_device_nfc)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getCastGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -213,7 +224,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_CAST_GAMEPAD),
                 activity.getString(R.string.formula_editor_device_cast)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getDeviceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -232,19 +245,31 @@ class CategoryListItems {
             )
         )
         deviceSensorItems.addAll(
-            if (sensorHandler.accelerationAvailable()) toCategoryListItems(
-                activity, SENSORS_ACCELERATION
-            ) else emptyList()
+            if (sensorHandler.accelerationAvailable()) {
+                toCategoryListItems(
+                    activity, SENSORS_ACCELERATION
+                )
+            } else {
+                emptyList()
+            }
         )
         deviceSensorItems.addAll(
-            if (sensorHandler.inclinationAvailable()) toCategoryListItems(
-                activity, SENSORS_INCLINATION
-            ) else emptyList()
+            if (sensorHandler.inclinationAvailable()) {
+                toCategoryListItems(
+                    activity, SENSORS_INCLINATION
+                )
+            } else {
+                emptyList()
+            }
         )
         deviceSensorItems.addAll(
-            if (sensorHandler.compassAvailable()) toCategoryListItems(
-                activity, SENSORS_COMPASS
-            ) else emptyList()
+            if (sensorHandler.compassAvailable()) {
+                toCategoryListItems(
+                    activity, SENSORS_COMPASS
+                )
+            } else {
+                emptyList()
+            }
         )
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSORS_GPS))
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSOR_USER_LANGUAGE))
@@ -276,7 +301,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_SPEECH_RECOGNITION),
                 activity.getString(R.string.formula_editor_speech_recognition)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getFaceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -289,7 +316,9 @@ class CategoryListItems {
                     activity, SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS
                 ), activity.getString(R.string.formula_editor_device_face_detection)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getPoseSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -325,7 +354,9 @@ class CategoryListItems {
                     activity, SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS
                 ), activity.getString(R.string.formula_editor_device_text_recognition)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     private fun getObjectDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -337,7 +368,9 @@ class CategoryListItems {
                 toCategoryListItems(activity, SENSORS_OBJECT_DETECTION),
                 activity.getString(R.string.formula_editor_device_object_recognition)
             )
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     fun getListFunctions() = LIST_FUNCTIONS

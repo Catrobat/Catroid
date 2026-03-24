@@ -72,7 +72,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val parent = inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
@@ -80,9 +82,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return parent
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initializeAdapter()
     }
 
@@ -188,14 +189,17 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         } else {
             if (SharedPreferenceKeys.LANGUAGE_TAGS.contains(languageTag)) {
                 languageTag?.let { Locale.forLanguageTag(it) }
-            } else Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
+            } else {
+                Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
+            }
         }!!
         language += mLocale.language
         return language
     }
 
     private fun addResourceToActiveFormulaInFormulaEditor(
-        categoryListItem: CategoryListItem, lastUserList: UserList? = null
+        categoryListItem: CategoryListItem,
+        lastUserList: UserList? = null
     ) {
         val formulaEditorFragment = getFormulaEditorFragment() ?: return
         formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId)
@@ -267,9 +271,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         openRegularExpressionAssistant()
     }
 
-    private fun getFormulaEditorFragment(): FormulaEditorFragment? {
-        return parentFragmentManager.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
-    }
+    private fun getFormulaEditorFragment(): FormulaEditorFragment? =
+        parentFragmentManager.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
 
     private fun openRegularExpressionAssistant() {
         RegularExpressionAssistantDialog(context, parentFragmentManager).createAssistant()
@@ -288,7 +291,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             activity.getString(R.string.ok),
             object : AddUserListDialog.Callback {
                 override fun onPositiveButton(
-                    dialog: DialogInterface, textInput: String
+                    dialog: DialogInterface,
+                    textInput: String
                 ) {
                     val userList = UserList(textInput)
                     userListDialog.addUserList(
@@ -326,7 +330,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             val formulaEditor = getFormulaEditorFragment()
             val sensorPortsId = if (type == Constants.NXT) {
                 R.array.formula_editor_nxt_ports
-            } else R.array.formula_editor_ev3_ports
+            } else {
+                R.array.formula_editor_ev3_ports
+            }
             val sensorPorts = resources.obtainTypedArray(sensorPortsId)
 
             try {
@@ -369,19 +375,21 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun initializeAdapter() {
         val argument = requireArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT)
-        val items: List<CategoryListItem> = if (OBJECT_TAG == argument) {
-            categoryListItems.getObjectItems(requireActivity())
-        } else if (FUNCTION_TAG == argument) {
-            categoryListItems.getFunctionItems(requireActivity())
-        } else if (LOGIC_TAG == argument) {
-            categoryListItems.getLogicItems(requireActivity())
-        } else if (SENSOR_TAG == argument) {
-            categoryListItems.getSensorItems(requireActivity())
-        } else {
-            throw IllegalArgumentException(
+        val items: List<CategoryListItem>
+        when (argument) {
+            OBJECT_TAG -> items = categoryListItems.getObjectItems(requireActivity())
+
+            FUNCTION_TAG -> items = categoryListItems.getFunctionItems(requireActivity())
+
+            LOGIC_TAG -> items = categoryListItems.getLogicItems(requireActivity())
+
+            SENSOR_TAG -> items = categoryListItems.getSensorItems(requireActivity())
+
+            else -> throw IllegalArgumentException(
                 "Argument for CategoryListFragment null or unknown: $argument"
             )
         }
+
         val adapter = CategoryListRVAdapter(items)
         adapter.setOnItemClickListener(this)
         recyclerView.adapter = adapter

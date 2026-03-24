@@ -77,7 +77,9 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
     override fun getItemViewType(position: Int): Int {
         return if (items[position].header != null) {
             R.layout.view_holder_category_list_item_with_headline
-        } else R.layout.view_holder_category_list_item
+        } else {
+            R.layout.view_holder_category_list_item
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -86,7 +88,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
         onItemClickListener = listener
     }
 
-    interface OnItemClickListener {
+    fun interface OnItemClickListener {
         fun onItemClick(item: CategoryListItem)
     }
 
