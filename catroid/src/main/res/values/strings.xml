@@ -268,6 +268,16 @@
     <string formatted="false" name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
 
+    <!-- MQTT -->
+    <string formatted="false" name="preference_title_mqtt_settings">MQTT Settings</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable or disable MQTT connection</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">MQTT Broker Host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">MQTT broker hostname or IP address</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">MQTT Broker Port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">MQTT broker port number</string>
+    <!--  -->
+
     <string formatted="false" name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string formatted="false" name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
