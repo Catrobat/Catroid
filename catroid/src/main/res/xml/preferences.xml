@@ -104,6 +104,31 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks" />
 
+    <PreferenceCategory
+        android:title="MQTT Settings">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_mqtt_enabled"
+            android:summary="Enable or disable MQTT connection"
+            android:title="Enable MQTT" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="setting_mqtt_broker_host"
+            android:summary="MQTT broker hostname or IP address"
+            android:title="MQTT Broker Host" />
+
+        <EditTextPreference
+            android:defaultValue="1883"
+            android:inputType="number"
+            android:key="setting_mqtt_broker_port"
+            android:summary="MQTT broker port number"
+            android:title="MQTT Broker Port" />
+
+    </PreferenceCategory>
+
+
     <Preference
         android:key="setting_enable_phiro_bricks_preference"
         android:summary="@string/preference_description_phiro_bricks"

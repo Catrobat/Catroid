@@ -67,4 +67,8 @@ public final class SharedPreferenceKeys {
 	public static final String SURVEY_URL2_HASH_KEY = "surveyUrl2Hash";
 	public static final String NEW_SPRITE_VISUAL_PLACEMENT_KEY = "newSpriteVisualPlacement";
 	public static final String SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY = "showMultiplayerBluetoothDialog";
+
+	public static final String MQTT_ENABLED_KEY = "setting_mqtt_enabled";
+	public static final String MQTT_BROKER_HOST_KEY = "setting_mqtt_broker_host";
+	public static final String MQTT_BROKER_PORT_KEY = "setting_mqtt_broker_port";
 }

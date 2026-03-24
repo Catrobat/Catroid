@@ -64,6 +64,9 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.MQTT_BROKER_HOST_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.MQTT_BROKER_PORT_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.MQTT_ENABLED_KEY;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
@@ -454,6 +457,18 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static String getRaspiRevision(Context context) {
 		return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
+	}
+
+	public static boolean getMqttEnabled(Context context) {
+		return getBooleanSharedPreference(false, MQTT_ENABLED_KEY, context);
+	}
+
+	public static String getMqttBrokerHost(Context context) {
+		return getSharedPreferences(context).getString(MQTT_BROKER_HOST_KEY, "");
+	}
+
+	public static int getMqttBrokerPort(Context context) {
+		return Integer.parseInt(getSharedPreferences(context).getString(MQTT_BROKER_PORT_KEY, "1883"));
 	}
 
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
