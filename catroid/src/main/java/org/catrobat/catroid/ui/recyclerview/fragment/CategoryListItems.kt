@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,103 +36,92 @@ import org.koin.java.KoinJavaComponent
 class CategoryListItems {
 
     private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
-
-    fun getObjectItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        val result: MutableList<CategoryListRVAdapter.CategoryListItem> = ArrayList()
-        result.addAll(getObjectGeneralPropertiesItems(activity))
-        result.addAll(getObjectPhysicalPropertiesItems(activity))
-        return result
+    
+    fun getObjectItems(activity: Activity) = buildList {
+        addAll(getObjectGeneralPropertiesItems(activity))
+        addAll(getObjectPhysicalPropertiesItems(activity))
     }
-
-    fun getFunctionItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        val result: MutableList<CategoryListRVAdapter.CategoryListItem> = ArrayList()
-        result.addAll(
+    
+    fun getFunctionItems(activity: Activity) = buildList {
+        addAll(
             addHeader(
                 toCategoryListItems(activity, MATH_FUNCTIONS, MATH_PARAMS),
                 activity.getString(R.string.formula_editor_functions_maths)
             )
         )
-        result.addAll(
+        addAll(
             addHeader(
                 toCategoryListItems(activity, STRING_FUNCTIONS, STRING_PARAMS),
                 activity.getString(R.string.formula_editor_functions_strings)
             )
         )
-        result.addAll(
+        addAll(
             addHeader(
                 toCategoryListItems(activity, LIST_FUNCTIONS, LIST_PARAMS),
                 activity.getString(R.string.formula_editor_functions_lists)
             )
         )
-        return result
     }
 
-    fun getLogicItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        val result: MutableList<CategoryListRVAdapter.CategoryListItem> = ArrayList()
-        result.addAll(
+    fun getLogicItems(activity: Activity) = buildList {
+        addAll(
             addHeader(
                 toCategoryListItems(activity, LOGIC_BOOL),
                 activity.getString(R.string.formula_editor_logic_boolean)
             )
         )
-        result.addAll(
+        addAll(
             addHeader(
                 toCategoryListItems(activity, LOGIC_COMPARISON),
                 activity.getString(R.string.formula_editor_logic_comparison)
             )
         )
-        return result
     }
 
-    fun getSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        val result: MutableList<CategoryListRVAdapter.CategoryListItem> = ArrayList()
-        result.addAll(getNxtSensorItems(activity))
-        result.addAll(getEv3SensorItems(activity))
-        result.addAll(getPhiroSensorItems(activity))
-        result.addAll(getArduinoSensorItems(activity))
-        result.addAll(getDroneSensorItems(activity))
-        result.addAll(getRaspberrySensorItems(activity))
-        result.addAll(getNfcItems(activity))
-        result.addAll(getCastGamepadSensorItems(activity))
-        result.addAll(getSpeechRecognitionItems(activity))
-        result.addAll(getFaceSensorItems(activity))
-        result.addAll(getPoseSensorItems(activity))
-        result.addAll(getTextSensorItems(activity))
-        result.addAll(getObjectDetectionSensorItems(activity))
-        result.addAll(getDeviceSensorItems(activity))
-        result.addAll(getTouchDetectionSensorItems(activity))
-        result.addAll(getDateTimeSensorItems(activity))
-        return result
+    fun getSensorItems(activity: Activity) = buildList {
+        addAll(getNxtSensorItems(activity))
+        addAll(getEv3SensorItems(activity))
+        addAll(getPhiroSensorItems(activity))
+        addAll(getArduinoSensorItems(activity))
+        addAll(getDroneSensorItems(activity))
+        addAll(getRaspberrySensorItems(activity))
+        addAll(getNfcItems(activity))
+        addAll(getCastGamepadSensorItems(activity))
+        addAll(getSpeechRecognitionItems(activity))
+        addAll(getFaceSensorItems(activity))
+        addAll(getPoseSensorItems(activity))
+        addAll(getTextSensorItems(activity))
+        addAll(getObjectDetectionSensorItems(activity))
+        addAll(getDeviceSensorItems(activity))
+        addAll(getTouchDetectionSensorItems(activity))
+        addAll(getDateTimeSensorItems(activity))
     }
 
-    private fun getObjectGeneralPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getObjectGeneralPropertiesItems(activity: Activity) = buildList {
         val resIds: MutableList<Int> = ArrayList(OBJECT_GENERAL_PROPERTIES)
-        val currentScene = projectManager.currentlyEditedScene
-        if (projectManager.currentSprite == currentScene.backgroundSprite) {
+        if (projectManager.currentSprite == projectManager.currentlyEditedScene.backgroundSprite) {
             resIds.addAll(OBJECT_BACKGROUND)
         } else {
             resIds.addAll(OBJECT_LOOK)
         }
-        val result = toCategoryListItems(activity, resIds)
-        result.addAll(
+        addAll(toCategoryListItems(activity, resIds))
+        addAll(
             toCategoryListItems(
                 activity, OBJECT_COLOR_COLLISION.subList(1, 2), OBJECT_COLOR_PARAMS.subList(1, 2)
             )
         )
-        return addHeader(result, activity.getString(R.string.formula_editor_object_look))
-    }
+    }.let { addHeader(it, activity.getString(R.string.formula_editor_object_look)) }
 
-    private fun getObjectPhysicalPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        val result = toCategoryListItems(activity, OBJECT_PHYSICAL_1)
-        result.addAll(
+    private fun getObjectPhysicalPropertiesItems(activity: Activity) = buildList {
+        addAll(toCategoryListItems(activity, OBJECT_PHYSICAL_1))
+        addAll(
             toCategoryListItems(
                 activity, OBJECT_PHYSICAL_COLLISION, null, CategoryListRVAdapter.COLLISION
             )
         )
-        result.addAll(toCategoryListItems(activity, OBJECT_PHYSICAL_2))
-        result.addAll(toCategoryListItems(activity, OBJECT_COLOR_COLLISION, OBJECT_COLOR_PARAMS))
-        return addHeader(result, activity.getString(R.string.formula_editor_object_movement))
-    }
+        addAll(toCategoryListItems(activity, OBJECT_PHYSICAL_2))
+        addAll(toCategoryListItems(activity, OBJECT_COLOR_COLLISION, OBJECT_COLOR_PARAMS))
+    }.let { addHeader(it, activity.getString(R.string.formula_editor_object_movement)) }
 
     private fun getNxtSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(
