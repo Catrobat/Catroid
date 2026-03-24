@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.Intent
@@ -47,6 +48,7 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.WebViewActivity
@@ -92,6 +94,7 @@ class MainMenuFragment : Fragment(),
     ): View {
         viewModel.setIsLoading(true)
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        EdgeToEdge.applyFloatingActionButtonMargin(binding.newProjectFloatingActionButton)
         return binding.root
     }
 

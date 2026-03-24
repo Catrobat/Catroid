@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -143,7 +143,7 @@ public class WhenNfcBrickStageFromScriptTest {
 	private void gotoNfcFragment(int nfcBrickPosition) {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
-		onView(withText(R.string.new_option))
+		onView(withText(R.string.brick_when_nfc_edit_list_of_nfc_tags))
 				.perform(click());
 	}
 

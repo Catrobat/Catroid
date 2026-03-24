@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.test.io;
 
 import android.media.AudioManager;
@@ -32,12 +33,13 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SdkSuppress;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class StageAudioFocusTest {
+public class StageAudioFocusIntegrationTest {
 
 	private StageAudioFocus audioFocus = null;
 
@@ -52,6 +54,7 @@ public class StageAudioFocusTest {
 	}
 
 	@Test
+	@SdkSuppress(maxSdkVersion = 34)
 	public void testRequestAndReleaseAudioFocus() {
 		assertFalse(audioFocus.isAudioFocusGranted());
 		audioFocus.requestAudioFocus();
@@ -61,10 +64,18 @@ public class StageAudioFocusTest {
 	}
 
 	@Test
+	@SdkSuppress(maxSdkVersion = 34)
 	public void testIfAudioFocusGetsAbandonedOnAudioFocusLossEvent() {
 		audioFocus.requestAudioFocus();
 		assertTrue(audioFocus.isAudioFocusGranted());
 		audioFocus.onAudioFocusChange(AudioManager.AUDIOFOCUS_LOSS);
+		assertFalse(audioFocus.isAudioFocusGranted());
+	}
+
+	@Test
+	@SdkSuppress(minSdkVersion = 35)
+	public void testIfAudioFocusIsNotGrantedWithoutActivityInForeground() {
+		audioFocus.requestAudioFocus();
 		assertFalse(audioFocus.isAudioFocusGranted());
 	}
 }

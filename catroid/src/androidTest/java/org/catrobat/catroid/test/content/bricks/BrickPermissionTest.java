@@ -80,7 +80,7 @@ public class BrickPermissionTest {
 							FormulaElement.ElementType.SENSOR, "LONGITUDE", null)),
 					new UserVariable("x"));
 
-	@Parameterized.Parameters(name = "{0}")
+	@Parameterized.Parameters(name = "{0} on API {1}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{
