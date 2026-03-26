@@ -99,11 +99,13 @@ public class SensorLoudness {
 			} catch (IOException ioException) {
 				Log.d(TAG, "Could not start recorder", ioException);
 				listenerList.remove(listener);
+				cleanupRecorderFile();
 				recorder = createSoundRecorder();
 				return false;
 			} catch (RuntimeException runtimeException) {
 				Log.d(TAG, "Could not start recorder", runtimeException);
 				listenerList.remove(listener);
+				cleanupRecorderFile();
 				recorder = createSoundRecorder();
 				return false;
 			}
@@ -123,10 +125,18 @@ public class SensorLoudness {
 						// ignored, nothing we can do
 						Log.d(TAG, "Could not stop recorder", ioException);
 					}
+					cleanupRecorderFile();
 					recorder = createSoundRecorder();
 				}
 				lastValue = 0.0;
 			}
+		}
+	}
+
+	private void cleanupRecorderFile() {
+		File recorderFile = new File(recorderPath);
+		if (recorderFile.exists() && !recorderFile.delete()) {
+			Log.d(TAG, "Could not delete recorder file " + recorderPath);
 		}
 	}
 
