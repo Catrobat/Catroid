@@ -33,12 +33,17 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -60,5 +65,38 @@ public class SensorLoudnessTest {
 		assertTrue("Recorder path should live in the sound recorder cache directory",
 				createdPath.get().startsWith(Constants.SOUND_RECORDER_CACHE_DIRECTORY.getAbsolutePath()
 						+ File.separator));
+	}
+
+	@Test
+	public void registerListenerDeletesRecorderFileAfterStartFailure() throws IOException {
+		File recorderFile = File.createTempFile("loudness-start-failure", ".m4a");
+		SoundRecorder soundRecorder = mock(SoundRecorder.class);
+		when(soundRecorder.isRecording()).thenReturn(false);
+		doThrow(new IOException("Could not start recorder")).when(soundRecorder).start();
+
+		SensorLoudness sensorLoudness = new SensorLoudness(path -> soundRecorder, recorderFile.getAbsolutePath());
+
+		boolean registered = sensorLoudness.registerListener(event -> {
+		});
+
+		assertFalse("Listener registration should fail when recorder start throws", registered);
+		assertFalse("Recorder file should be deleted after a failed start", recorderFile.exists());
+	}
+
+	@Test
+	public void unregisterListenerDeletesRecorderFileAfterStop() throws IOException {
+		File recorderFile = File.createTempFile("loudness-stop", ".m4a");
+		SoundRecorder soundRecorder = mock(SoundRecorder.class);
+		when(soundRecorder.isRecording()).thenReturn(true);
+
+		SensorLoudness sensorLoudness = new SensorLoudness(path -> soundRecorder, recorderFile.getAbsolutePath());
+		SensorCustomEventListener listener = event -> {
+		};
+
+		sensorLoudness.registerListener(listener);
+		sensorLoudness.unregisterListener(listener);
+
+		verify(soundRecorder).stop();
+		assertFalse("Recorder file should be deleted after unregistering the last listener", recorderFile.exists());
 	}
 }
