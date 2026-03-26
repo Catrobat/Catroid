@@ -38,15 +38,35 @@ public class SensorLoudness {
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
+	private static final String DEFAULT_RECORDER_PATH = "/dev/null";
 	private List<SensorCustomEventListener> listenerList = new ArrayList<>();
+
+	@VisibleForTesting
+	interface SoundRecorderFactory {
+		SoundRecorder create(String path);
+	}
 
 	private SoundRecorder recorder;
 	private final Handler handler;
+	private final SoundRecorderFactory soundRecorderFactory;
+	private final String recorderPath;
 	private Double lastValue = 0.0;
 
 	public SensorLoudness() {
+		this(SensorLoudness::defaultSoundRecorderFactory, DEFAULT_RECORDER_PATH);
+	}
+
+	@VisibleForTesting
+	SensorLoudness(SoundRecorderFactory soundRecorderFactory) {
+		this(soundRecorderFactory, DEFAULT_RECORDER_PATH);
+	}
+
+	@VisibleForTesting
+	SensorLoudness(SoundRecorderFactory soundRecorderFactory, String recorderPath) {
 		handler = new Handler();
-		recorder = new SoundRecorder("/dev/null");
+		this.soundRecorderFactory = soundRecorderFactory;
+		this.recorderPath = recorderPath;
+		recorder = createSoundRecorder();
 	}
 
 	Runnable statusChecker = new Runnable() {
@@ -77,12 +97,12 @@ public class SensorLoudness {
 			} catch (IOException ioException) {
 				Log.d(TAG, "Could not start recorder", ioException);
 				listenerList.remove(listener);
-				recorder = new SoundRecorder("/dev/null");
+				recorder = createSoundRecorder();
 				return false;
 			} catch (RuntimeException runtimeException) {
 				Log.d(TAG, "Could not start recorder", runtimeException);
 				listenerList.remove(listener);
-				recorder = new SoundRecorder("/dev/null");
+				recorder = createSoundRecorder();
 				return false;
 			}
 		}
@@ -101,11 +121,19 @@ public class SensorLoudness {
 						// ignored, nothing we can do
 						Log.d(TAG, "Could not stop recorder", ioException);
 					}
-					recorder = new SoundRecorder("/dev/null");
+					recorder = createSoundRecorder();
 				}
 				lastValue = 0.0;
 			}
 		}
+	}
+
+	private SoundRecorder createSoundRecorder() {
+		return soundRecorderFactory.create(recorderPath);
+	}
+
+	private static SoundRecorder defaultSoundRecorderFactory(String path) {
+		return new SoundRecorder(path);
 	}
 
 	@VisibleForTesting
