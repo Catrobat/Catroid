@@ -80,6 +80,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN3.name(), R.string.formula_editor_function_join3);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.REGEX.name(), R.string.formula_editor_function_regex);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FLATTEN.name(), R.string.formula_editor_function_flatten);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.APPEND.name(), R.string.formula_editor_function_append);
 
 		//DRONE SENSORS
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DRONE_BATTERY_STATUS.name(), R.string.formula_editor_sensor_drone_battery_status);
@@ -417,7 +418,8 @@ public class InternToExternGenerator {
 				String collisionTag = CatroidApplication.getAppContext().getString(R.string
 						.formula_editor_function_collision);
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
-
+			case LIST:
+				return internToken.getTokenStringValue();
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 		}
