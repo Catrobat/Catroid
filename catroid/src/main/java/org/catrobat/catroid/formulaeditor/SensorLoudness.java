@@ -25,8 +25,10 @@ package org.catrobat.catroid.formulaeditor;
 import android.os.Handler;
 import android.util.Log;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ public class SensorLoudness {
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
-	private static final String DEFAULT_RECORDER_PATH = "/dev/null";
+	private static final String LOUDNESS_SENSOR_RECORDING_FILE_NAME = "loudness_sensor.m4a";
 	private List<SensorCustomEventListener> listenerList = new ArrayList<>();
 
 	@VisibleForTesting
@@ -53,12 +55,12 @@ public class SensorLoudness {
 	private Double lastValue = 0.0;
 
 	public SensorLoudness() {
-		this(SensorLoudness::defaultSoundRecorderFactory, DEFAULT_RECORDER_PATH);
+		this(SensorLoudness::defaultSoundRecorderFactory, defaultRecorderPath());
 	}
 
 	@VisibleForTesting
 	SensorLoudness(SoundRecorderFactory soundRecorderFactory) {
-		this(soundRecorderFactory, DEFAULT_RECORDER_PATH);
+		this(soundRecorderFactory, defaultRecorderPath());
 	}
 
 	@VisibleForTesting
@@ -134,6 +136,12 @@ public class SensorLoudness {
 
 	private static SoundRecorder defaultSoundRecorderFactory(String path) {
 		return new SoundRecorder(path);
+	}
+
+	@VisibleForTesting
+	static String defaultRecorderPath() {
+		return new File(Constants.SOUND_RECORDER_CACHE_DIRECTORY, LOUDNESS_SENSOR_RECORDING_FILE_NAME)
+				.getAbsolutePath();
 	}
 
 	@VisibleForTesting
