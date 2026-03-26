@@ -26,6 +26,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.os.Build;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -34,8 +35,10 @@ import org.robolectric.annotation.Config;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -44,14 +47,16 @@ public class SensorLoudnessTest {
 	@Test
 	public void defaultRecorderPathUsesAppCacheFileInsteadOfDevNull() {
 		AtomicReference<String> createdPath = new AtomicReference<>();
+		SoundRecorder soundRecorder = mock(SoundRecorder.class);
 
 		new SensorLoudness(path -> {
 			createdPath.set(path);
-			return null;
+			return soundRecorder;
 		});
 
-		assertFalse("/dev/null should no longer be used for loudness recording",
-				"/dev/null".equals(createdPath.get()));
+		assertNotNull("Recorder path should be captured when SensorLoudness creates its recorder", createdPath.get());
+		assertNotEquals("/dev/null should no longer be used for loudness recording",
+				"/dev/null", createdPath.get());
 		assertTrue("Recorder path should live in the sound recorder cache directory",
 				createdPath.get().startsWith(Constants.SOUND_RECORDER_CACHE_DIRECTORY.getAbsolutePath()
 						+ File.separator));
