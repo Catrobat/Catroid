@@ -49,6 +49,7 @@ public class InternFormulaKeyboardAdapter {
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 3;
+	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_FUNCTION_RESOURCE_ID = 4;
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
@@ -66,6 +67,10 @@ public class InternFormulaKeyboardAdapter {
 
 		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildCollideWithFormula(name);
+		}
+
+		if (resource == FORMULA_EDITOR_USER_DEFINED_BRICK_FUNCTION_RESOURCE_ID && !name.isEmpty()) {
+			return buildUserDefinedBrickFunction(name);
 		}
 
 		if ((resource == R.id.formula_editor_keyboard_string)) {
@@ -733,6 +738,26 @@ public class InternFormulaKeyboardAdapter {
 			returnList.add(new InternToken(OPERATOR, Operators.MINUS.name()));
 		}
 		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		return returnList;
+	}
+
+	private List<InternToken> buildUserDefinedBrickFunction(String encodedParams) {
+		String[] parts = encodedParams.split(";", 2);
+		String udbId = parts[0];
+		int inputCount = 0;
+		if (parts.length > 1 && !parts[1].isEmpty()) {
+			inputCount = Integer.parseInt(parts[1]);
+		}
+
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(FUNCTION_NAME, Functions.USER_DEFINED_BRICK_FUNCTION.name()));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
+		returnList.add(new InternToken(STRING, udbId));
+		for (int i = 0; i < inputCount; i++) {
+			returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
+			returnList.add(new InternToken(NUMBER, "0"));
+		}
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}
