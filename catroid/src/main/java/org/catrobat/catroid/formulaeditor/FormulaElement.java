@@ -241,40 +241,29 @@ public class FormulaElement implements Serializable {
 	private void addUserDefinedFunctionTokens(List<InternToken> tokens, String brickId, FormulaElement leftChild,
 			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
 		tokens.add(new InternToken(InternTokenType.USER_DEFINED_FUNCTION, brickId));
-		if (leftChild != null) {
-			tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-			tokens.addAll(leftChild.getInternTokenList());
-			if (rightChild != null) {
-				tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
-				tokens.addAll(rightChild.getInternTokenList());
-				for (FormulaElement child : additionalChildren) {
-					tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
-					tokens.addAll(child.getInternTokenList());
-				}
-			}
-			tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-		}
+		addParameterTokens(tokens, leftChild, rightChild, additionalChildren);
 	}
 
 	private void addFunctionTokens(List<InternToken> tokens, String value, FormulaElement leftChild, FormulaElement rightChild) {
 		addToken(tokens, FUNCTION_NAME, value);
-		boolean functionHasParameters = false;
+		addParameterTokens(tokens, leftChild, rightChild, additionalChildren);
+	}
+
+	private void addParameterTokens(List<InternToken> tokens, FormulaElement leftChild,
+			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
 		if (leftChild != null) {
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_OPEN);
-			functionHasParameters = true;
 			tokens.addAll(leftChild.getInternTokenList());
-		}
-		if (rightChild != null) {
-			addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
-			tokens.addAll(rightChild.getInternTokenList());
-		}
-		for (FormulaElement child : additionalChildren) {
-			if (child != null) {
+			if (rightChild != null) {
 				addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
-				tokens.addAll(child.getInternTokenList());
+				tokens.addAll(rightChild.getInternTokenList());
 			}
-		}
-		if (functionHasParameters) {
+			for (FormulaElement child : additionalChildren) {
+				if (child != null) {
+					addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
+					tokens.addAll(child.getInternTokenList());
+				}
+			}
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_CLOSE);
 		}
 	}

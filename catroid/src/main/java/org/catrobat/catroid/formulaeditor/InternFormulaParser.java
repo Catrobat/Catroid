@@ -335,22 +335,7 @@ public class InternFormulaParser {
 		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
 		getNextToken();
 
-		if (currentToken.isFunctionParameterBracketOpen()) {
-			getNextToken();
-			functionTree.setLeftChild(termList(scope));
-			if (currentToken.isFunctionParameterDelimiter()) {
-				getNextToken();
-				functionTree.setRightChild(termList(scope));
-				while (currentToken.isFunctionParameterDelimiter()) {
-					getNextToken();
-					functionTree.addAdditionalChild(termList(scope));
-				}
-			}
-			if (!currentToken.isFunctionParameterBracketClose()) {
-				throw new InternFormulaParserException("Parse Error");
-			}
-			getNextToken();
-		}
+		parseParameters(functionTree, scope);
 		return functionTree;
 	}
 
@@ -359,6 +344,11 @@ public class InternFormulaParser {
 				currentToken.getTokenStringValue(), null);
 		getNextToken();
 
+		parseParameters(functionTree, scope);
+		return functionTree;
+	}
+
+	private void parseParameters(FormulaElement functionTree, Scope scope) throws InternFormulaParserException {
 		if (currentToken.isFunctionParameterBracketOpen()) {
 			getNextToken();
 			functionTree.setLeftChild(termList(scope));
@@ -375,7 +365,6 @@ public class InternFormulaParser {
 			}
 			getNextToken();
 		}
-		return functionTree;
 	}
 
 	private String number() throws InternFormulaParserException {
