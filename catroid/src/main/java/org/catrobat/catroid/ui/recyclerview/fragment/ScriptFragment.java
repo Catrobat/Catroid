@@ -936,6 +936,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public boolean checkVariables() {
+		if (savedUserVariables == null || savedMultiplayerVariables == null
+				|| savedUserLists == null || savedLocalUserVariables == null
+				|| savedLocalLists == null) {
+			return false;
+		}
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
