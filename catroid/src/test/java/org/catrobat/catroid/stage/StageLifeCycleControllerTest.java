@@ -55,8 +55,8 @@ public class StageLifeCycleControllerTest {
 		Project mockProject = mock(Project.class);
 
 		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
-			 MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-			 MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
+				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
+				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
 
 			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
 			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
@@ -84,8 +84,8 @@ public class StageLifeCycleControllerTest {
 		StageListener mockStageListener = mock(StageListener.class);
 
 		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
-			 MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-			 MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
+				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
+				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
 
 			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
 			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
@@ -114,8 +114,8 @@ public class StageLifeCycleControllerTest {
 		StageListener dummyListener = mock(StageListener.class);
 
 		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
-			 MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-			 MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
+				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
+				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
 
 			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
 			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
