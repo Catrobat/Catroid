@@ -325,6 +325,10 @@ public class Look extends Image {
 			if (sprite.plot.isEngraving())
 				sprite.plot.addEngravePoint(new PointF(x, y));
 		}
+		if (sprite != null && sprite.runningStitch != null
+				&& !simultaneousMovementXY) {
+			sprite.runningStitch.update();
+		}
 	}
 
 	public void startThread(ScriptSequenceAction sequenceAction) {
