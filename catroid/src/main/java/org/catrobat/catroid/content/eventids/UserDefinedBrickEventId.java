@@ -29,16 +29,22 @@ import java.util.UUID;
 public class UserDefinedBrickEventId extends EventId {
 	public final UUID userDefinedBrickID;
 	public List<Object> userBrickParameters;
+	public long callId = -1;
+
+	public UserDefinedBrickEventId(UUID userDefinedBrickID,
+			List<Object> userBrickParameters, long callId) {
+		this.userDefinedBrickID = userDefinedBrickID;
+		this.userBrickParameters = userBrickParameters;
+		this.callId = callId;
+	}
 
 	public UserDefinedBrickEventId(UUID userDefinedBrickID,
 			List<Object> userBrickParameters) {
-		this.userDefinedBrickID = userDefinedBrickID;
-		this.userBrickParameters = userBrickParameters;
+		this(userDefinedBrickID, userBrickParameters, -1);
 	}
 
 	public UserDefinedBrickEventId(UUID userDefinedBrickID) {
-		this.userDefinedBrickID = userDefinedBrickID;
-		this.userBrickParameters = null;
+		this(userDefinedBrickID, null, -1);
 	}
 
 	@Override
