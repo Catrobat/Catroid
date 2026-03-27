@@ -146,8 +146,8 @@ public class EmbroideryArcActionTest {
 		plotArcAction.setDirection(PlotArcBrick.Directions.RIGHT);
 		plotArcAction.setRadius(new Formula(RADIUS));
 		plotArcAction.setDegrees(new Formula(degrees));
-		plotArcAction.begin();
-		plotArcAction.update(1f);
+		plotArcAction.setDuration(0f);
+		plotArcAction.act(1f);
 	}
 
 	private boolean containsPointOffHorizontalAxis(ArrayList<StitchPoint> stitchPoints) {
