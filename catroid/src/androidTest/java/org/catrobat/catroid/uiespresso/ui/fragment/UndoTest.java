@@ -136,6 +136,19 @@ public class UndoTest {
 		onBrickAtPosition(brickPosition).checkShowsText(brickText);
 	}
 
+	@Test
+	public void testImmediateUndoRefresh() {
+		onBrickAtPosition(brickPosition).performDeleteBrick();
+
+		onView(withId(R.id.menu_undo))
+				.perform(click());
+
+		onView(withId(R.id.menu_undo))
+				.check(doesNotExist());
+
+		onBrickAtPosition(brickPosition).checkShowsText(brickText);
+	}
+
 	public String getProjectAsXmlString() {
 		return XstreamSerializer.getInstance().getXmlAsStringFromProject(ProjectManager.getInstance().getCurrentProject());
 	}

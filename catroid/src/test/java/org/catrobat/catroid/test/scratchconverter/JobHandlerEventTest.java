@@ -107,6 +107,6 @@ public class JobHandlerEventTest {
 
 		verify(jobMock, times(1)).getJobID();
 		verifyNoMoreInteractions(jobMock);
-		verifyNoInteractions(convertCallbackMock);
+		verifyNoMoreInteractions(convertCallbackMock);
 	}
 }

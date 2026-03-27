@@ -914,9 +914,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 	}
 
+
 	@Override
 	public void onLoadFinished(boolean success) {
 		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		if (adapter != null) {
+			adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
+		}
 		if (checkVariables()) {
 			loadVariables();
 		}
@@ -940,16 +944,27 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		return (savedUserVariables != null
-					&& project.hasUserDataChanged(project.getUserVariables(), savedUserVariables))
-				|| (savedMultiplayerVariables != null
-					&& project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables))
-				|| (savedUserLists != null
-					&& project.hasUserDataChanged(project.getUserLists(), savedUserLists))
-				|| (savedLocalUserVariables != null
-					&& currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables))
-				|| (savedLocalLists != null
-					&& currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists));
+		boolean changed = false;
+		if (project != null) {
+			if (savedUserVariables != null) {
+				changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
+			}
+		}
+		if (currentSprite != null) {
+			if (savedLocalUserVariables != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+			}
+		}
+		return changed;
 	}
 
 	private void loadVariables() {
@@ -957,29 +972,37 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		if (savedUserVariables != null) {
-			project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+		if (project != null) {
+			if (savedUserVariables != null) {
+				project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+			}
 		}
-		if (savedMultiplayerVariables != null) {
-			project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
-		}
-		if (savedUserLists != null) {
-			project.restoreUserDataValues(project.getUserLists(), savedUserLists);
-		}
-		if (savedLocalUserVariables != null) {
-			currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
-		}
-		if (savedLocalLists != null) {
-			currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+		if (currentSprite != null) {
+			if (savedLocalUserVariables != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+			}
 		}
 	}
 
 	private void refreshFragmentAfterUndo() {
 		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+		if (scriptFragment == null) {
+			return;
+		}
 		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commit();
+		fragmentTransaction.commitNow();
+
 		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
 		}
