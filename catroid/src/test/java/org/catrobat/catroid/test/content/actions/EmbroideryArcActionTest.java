@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.bricks.PlotArcBrick;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.SimpleRunningStitch;
 import org.catrobat.catroid.embroidery.StitchPoint;
+import org.catrobat.catroid.embroidery.TripleRunningStitch;
+import org.catrobat.catroid.embroidery.ZigZagRunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -46,8 +48,9 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class EmbroideryArcActionTest {
@@ -76,7 +79,7 @@ public class EmbroideryArcActionTest {
 
 	@Test
 	public void testHalfArcProducesStitchesOffHorizontalAxis() {
-		ArrayList<StitchPoint> stitchPoints = executeArc(180f);
+		ArrayList<StitchPoint> stitchPoints = executeArcWithSimpleStitch(180f);
 
 		assertTrue("Expected embroidery output for a 180 degree arc", embroideryPatternManager.validPatternExists());
 		assertTrue("Expected multiple stitches for a 180 degree arc", stitchPoints.size() > 2);
@@ -85,7 +88,7 @@ public class EmbroideryArcActionTest {
 
 	@Test
 	public void testFullArcProducesEmbroideryOutput() {
-		ArrayList<StitchPoint> stitchPoints = executeArc(360f);
+		ArrayList<StitchPoint> stitchPoints = executeArcWithSimpleStitch(360f);
 
 		assertTrue("Expected embroidery output for a 360 degree arc", embroideryPatternManager.validPatternExists());
 		assertFalse("Expected a non-empty stitch list for a 360 degree arc", stitchPoints.isEmpty());
@@ -93,9 +96,51 @@ public class EmbroideryArcActionTest {
 				containsPointOffHorizontalAxis(stitchPoints));
 	}
 
-	private ArrayList<StitchPoint> executeArc(float degrees) {
-		sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, STITCH_LENGTH));
+	@Test
+	public void testTripleStitchArcProducesStitchesOffHorizontalAxis() {
+		ArrayList<StitchPoint> stitchPoints = executeArcWithTripleStitch(180f);
 
+		assertTrue("Expected embroidery output for a triple-stitch arc", embroideryPatternManager.validPatternExists());
+		assertTrue("Expected multiple triple-stitch points for an arc", stitchPoints.size() > 4);
+		assertTrue("Expected triple stitch points away from the horizontal axis", containsPointOffHorizontalAxis(stitchPoints));
+	}
+
+	@Test
+	public void testZigZagStitchArcProducesStitchesOffHorizontalAxis() {
+		ArrayList<StitchPoint> stitchPoints = executeArcWithZigZagStitch(180f);
+
+		assertTrue("Expected embroidery output for a zig-zag arc", embroideryPatternManager.validPatternExists());
+		assertTrue("Expected multiple zig-zag stitch points for an arc", stitchPoints.size() > 2);
+		assertTrue("Expected zig-zag stitch points away from the horizontal axis", containsPointOffHorizontalAxis(stitchPoints));
+	}
+
+	@Test
+	public void testArcUpdatesMotionDirectionForCurvedMovement() {
+		executePlotArc(180f);
+
+		assertEquals("Expected the sprite to end a right 180 degree arc facing upward", 0f,
+				sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 2f);
+	}
+
+	private ArrayList<StitchPoint> executeArcWithSimpleStitch(float degrees) {
+		sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, STITCH_LENGTH));
+		executePlotArc(degrees);
+		return embroideryPatternManager.getEmbroideryPatternList();
+	}
+
+	private ArrayList<StitchPoint> executeArcWithTripleStitch(float degrees) {
+		sprite.runningStitch.activateStitching(sprite, new TripleRunningStitch(sprite, STITCH_LENGTH));
+		executePlotArc(degrees);
+		return embroideryPatternManager.getEmbroideryPatternList();
+	}
+
+	private ArrayList<StitchPoint> executeArcWithZigZagStitch(float degrees) {
+		sprite.runningStitch.activateStitching(sprite, new ZigZagRunningStitch(sprite, STITCH_LENGTH, 20f));
+		executePlotArc(degrees);
+		return embroideryPatternManager.getEmbroideryPatternList();
+	}
+
+	private void executePlotArc(float degrees) {
 		PlotArcAction plotArcAction = new PlotArcAction();
 		plotArcAction.setScope(new Scope(new Project(), sprite, new SequenceAction()));
 		plotArcAction.setDirection(PlotArcBrick.Directions.RIGHT);
@@ -103,8 +148,6 @@ public class EmbroideryArcActionTest {
 		plotArcAction.setDegrees(new Formula(degrees));
 		plotArcAction.begin();
 		plotArcAction.update(1f);
-
-		return embroideryPatternManager.getEmbroideryPatternList();
 	}
 
 	private boolean containsPointOffHorizontalAxis(ArrayList<StitchPoint> stitchPoints) {
