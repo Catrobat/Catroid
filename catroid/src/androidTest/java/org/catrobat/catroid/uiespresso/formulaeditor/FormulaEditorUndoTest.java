@@ -44,6 +44,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
@@ -434,5 +435,54 @@ public class FormulaEditorUndoTest {
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(0);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testUndoAfterActivityRecreationDoesNotCrash() {
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
+
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+
+		onDataList()
+				.performAdd(NEW_VARIABLE_NAME);
+
+		onDataList()
+				.performClose();
+
+		pressBack();
+
+		onView(withId(R.id.menu_undo))
+				.check(matches(isDisplayed()));
+
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(
+				() -> baseActivityTestRule.getActivity().recreate());
+
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
+
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
+
+		onFormulaEditor()
+				.performEnterFormula("999");
+
+		pressBack();
+
+		onView(withId(R.id.menu_undo))
+				.check(matches(isDisplayed()));
+
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
+				.checkShowsNumber(999);
 	}
 }
