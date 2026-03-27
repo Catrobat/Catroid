@@ -38,12 +38,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserDefinedScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ReportBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -92,6 +99,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String FUNCTION_TAG = "functionFragment";
 	public static final String LOGIC_TAG = "logicFragment";
 	public static final String SENSOR_TAG = "sensorFragment";
+	public static final String YOUR_FUNCTIONS_TAG = "yourFunctionsFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
@@ -547,6 +555,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			case CategoryListRVAdapter.COLLISION:
 				showSelectSpriteDialog();
 				break;
+			case CategoryListRVAdapter.USER_DEFINED_FUNCTION:
+				FormulaEditorFragment udfFormulaEditorFragment =
+						((FormulaEditorFragment) getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+				if (udfFormulaEditorFragment != null) {
+					udfFormulaEditorFragment.setChosenCategoryItem(item);
+				}
+				getActivity().onBackPressed();
+				break;
 			case CategoryListRVAdapter.DEFAULT:
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
@@ -813,6 +829,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			items = getLogicItems();
 		} else if (SENSOR_TAG.equals(argument)) {
 			items = getSensorItems();
+		} else if (YOUR_FUNCTIONS_TAG.equals(argument)) {
+			items = getYourFunctionItems();
 		} else {
 			throw new IllegalArgumentException("Argument for CategoryListFragent null or unknown: " + argument);
 		}
@@ -862,6 +880,66 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getObjectGeneralPropertiesItems());
 		result.addAll(getObjectPhysicalPropertiesItems());
 
+		return result;
+	}
+
+	private List<CategoryListItem> getYourFunctionItems() {
+		List<CategoryListItem> result = new ArrayList<>();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return result;
+		}
+
+		for (Script script : sprite.getScriptList()) {
+			if (!(script instanceof UserDefinedScript)) {
+				continue;
+			}
+			UserDefinedScript uds = (UserDefinedScript) script;
+			boolean hasReportBrick = false;
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof ReportBrick) {
+					hasReportBrick = true;
+					break;
+				}
+			}
+			if (!hasReportBrick) {
+				continue;
+			}
+
+			UserDefinedBrick udb = sprite.getUserDefinedBrickByID(uds.getUserDefinedBrickID());
+			if (udb == null) {
+				continue;
+			}
+
+			StringBuilder displayName = new StringBuilder();
+			int inputCount = 0;
+			for (UserDefinedBrickData data : udb.getUserDefinedBrickDataList()) {
+				if (data.isInput()) {
+					displayName.append("input ");
+					inputCount++;
+				} else {
+					displayName.append(data.getName()).append(" ");
+				}
+			}
+
+			StringBuilder params = new StringBuilder("(");
+			for (int i = 0; i < inputCount; i++) {
+				if (i > 0) {
+					params.append(", ");
+				}
+				params.append("0");
+			}
+			params.append(")");
+			displayName.append(params);
+
+			CategoryListItem item = new CategoryListItem(
+					R.string.formula_editor_your_functions,
+					displayName.toString().trim(),
+					CategoryListRVAdapter.USER_DEFINED_FUNCTION);
+			item.userDefinedBrickId = udb.getUserDefinedBrickID().toString();
+			item.userDefinedBrickInputCount = inputCount;
+			result.add(item);
+		}
 		return result;
 	}
 
