@@ -251,6 +251,10 @@ public class InternFormulaParser {
 				currentElement.replaceElement(collision());
 				break;
 
+			case USER_DEFINED_FUNCTION:
+				currentElement.replaceElement(userDefinedFunction(scope));
+				break;
+
 			default:
 				throw new InternFormulaParserException("Parse Error");
 		}
@@ -329,6 +333,30 @@ public class InternFormulaParser {
 		}
 
 		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
+		getNextToken();
+
+		if (currentToken.isFunctionParameterBracketOpen()) {
+			getNextToken();
+			functionTree.setLeftChild(termList(scope));
+			if (currentToken.isFunctionParameterDelimiter()) {
+				getNextToken();
+				functionTree.setRightChild(termList(scope));
+				while (currentToken.isFunctionParameterDelimiter()) {
+					getNextToken();
+					functionTree.addAdditionalChild(termList(scope));
+				}
+			}
+			if (!currentToken.isFunctionParameterBracketClose()) {
+				throw new InternFormulaParserException("Parse Error");
+			}
+			getNextToken();
+		}
+		return functionTree;
+	}
+
+	private FormulaElement userDefinedFunction(Scope scope) throws InternFormulaParserException {
+		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.USER_DEFINED_FUNCTION,
+				currentToken.getTokenStringValue(), null);
 		getNextToken();
 
 		if (currentToken.isFunctionParameterBracketOpen()) {

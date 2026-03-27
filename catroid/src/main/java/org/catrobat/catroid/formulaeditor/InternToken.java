@@ -132,6 +132,10 @@ public class InternToken {
 		return internTokenType == InternTokenType.STRING;
 	}
 
+	public boolean isUserDefinedFunction() {
+		return internTokenType == InternTokenType.USER_DEFINED_FUNCTION;
+	}
+
 	public void appendToTokenStringValue(String stringToAppend) {
 		this.tokenStringValue += stringToAppend;
 	}
