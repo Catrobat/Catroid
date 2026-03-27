@@ -117,4 +117,19 @@ public class ParserFunctionTest {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.NUMBER, "0",
 				InternTokenType.NUMBER, "0", 0.0, 180.0, null);
 	}
+
+	@Test
+	public void testUserDefinedBrickFunction() {
+		List<InternToken> internTokenList = new LinkedList<>();
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.USER_DEFINED_BRICK_FUNCTION.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.STRING, "uuid-123"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "5.0"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
+
+		assertNotNull(parseTree);
+		assertEquals(0.0, parseTree.interpretRecursive(null));
+	}
 }
