@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.bricks.PlotArcBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
+import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -72,16 +73,23 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
+            var previousX = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toDouble()
+            var previousY = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toDouble()
             for (i in 0 until 101) {
                 val radians = Math.toRadians(degreesValue * i / 100)
                 val x1 = centerX - radiusValue * cos(radians + angle)
                 val y1 = centerY - radiusValue * sin(radians + angle)
+                if (x1 != previousX || y1 != previousY) {
+                    val motionDirection = Math.toDegrees(atan2(x1 - previousX, y1 - previousY))
+                    scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
+                }
                 scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
                     x1.toFloat(),
                     y1.toFloat()
                 )
+                previousX = x1
+                previousY = y1
             }
-            scope!!.sprite.look.rotation = Math.toDegrees(angle - degreesValue).toFloat()
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
