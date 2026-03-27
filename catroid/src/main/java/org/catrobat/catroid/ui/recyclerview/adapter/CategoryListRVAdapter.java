@@ -44,12 +44,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({DEFAULT, COLLISION, NXT, EV3})
+	@IntDef({DEFAULT, COLLISION, NXT, EV3, USER_DEFINED_FUNCTION})
 	public @interface CategoryListItemType{}
 	public static final int DEFAULT = 0;
 	public static final int COLLISION = 1;
 	public static final int NXT = 2;
 	public static final int EV3 = 3;
+	public static final int USER_DEFINED_FUNCTION = 4;
 
 	public static class CategoryListItem {
 		@Nullable
@@ -57,6 +58,9 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 		public int nameResId;
 		public String text;
 		public @CategoryListItemType int type;
+		@Nullable
+		public String userDefinedBrickId;
+		public int userDefinedBrickInputCount;
 
 		public CategoryListItem(int nameResId, String text, @CategoryListItemType int type) {
 			if (nameResId == R.string.formula_editor_function_regex_assistant) {
