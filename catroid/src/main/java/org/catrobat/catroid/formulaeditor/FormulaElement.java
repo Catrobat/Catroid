@@ -552,10 +552,6 @@ public class FormulaElement implements Serializable {
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
 	}
 
-	private Object interpretTernaryFunction(TernaryFunction f, Scope scope) {
-		return f.interpret(tryInterpretRecursive(leftChild, scope), tryInterpretRecursive(rightChild, scope),
-				tryInterpretRecursive(additionalChildren.get(0), scope));
-	}
 
 	private Object interpretUserDefinedFunction(Scope scope) {
 		UUID brickId = UUID.fromString(value);
