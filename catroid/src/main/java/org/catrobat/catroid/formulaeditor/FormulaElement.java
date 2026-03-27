@@ -45,6 +45,10 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
 
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
+import java.util.UUID;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -99,7 +103,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA, USER_DEFINED_FUNCTION
 	}
 
 	private ElementType type;
@@ -207,6 +211,9 @@ public class FormulaElement implements Serializable {
 			case COLLISION_FORMULA:
 				addToken(tokens, COLLISION_FORMULA, value);
 				break;
+			case USER_DEFINED_FUNCTION:
+				addUserDefinedFunctionTokens(tokens, value, leftChild, rightChild, additionalChildren);
+				break;
 		}
 		return tokens;
 	}
@@ -229,6 +236,24 @@ public class FormulaElement implements Serializable {
 		tryAddInternTokens(tokens, leftChild);
 		addToken(tokens, OPERATOR, value);
 		tryAddInternTokens(tokens, rightChild);
+	}
+
+	private void addUserDefinedFunctionTokens(List<InternToken> tokens, String brickId, FormulaElement leftChild,
+			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
+		tokens.add(new InternToken(InternTokenType.USER_DEFINED_FUNCTION, brickId));
+		if (leftChild != null) {
+			tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+			tokens.addAll(leftChild.getInternTokenList());
+			if (rightChild != null) {
+				tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+				tokens.addAll(rightChild.getInternTokenList());
+				for (FormulaElement child : additionalChildren) {
+					tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+					tokens.addAll(child.getInternTokenList());
+				}
+			}
+			tokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+		}
 	}
 
 	private void addFunctionTokens(List<InternToken> tokens, String value, FormulaElement leftChild, FormulaElement rightChild) {
@@ -429,6 +454,8 @@ public class FormulaElement implements Serializable {
 				StageListener stageListener = StageActivity.stageListener;
 				return tryInterpretCollision(scope.getSprite().look, value, currentlyPlayingScene,
 						stageListener);
+			case USER_DEFINED_FUNCTION:
+				return interpretUserDefinedFunction(scope);
 		}
 		return FALSE;
 	}
@@ -523,6 +550,35 @@ public class FormulaElement implements Serializable {
 			return interpretFunctionIfThenElseObject(ifCondition, thenPart, elsePart);
 		}
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
+	}
+
+	private Object interpretTernaryFunction(TernaryFunction f, Scope scope) {
+		return f.interpret(tryInterpretRecursive(leftChild, scope), tryInterpretRecursive(rightChild, scope),
+				tryInterpretRecursive(additionalChildren.get(0), scope));
+	}
+
+	private Object interpretUserDefinedFunction(Scope scope) {
+		UUID brickId = UUID.fromString(value);
+
+		List<Object> parameters = new ArrayList<>();
+		if (leftChild != null) {
+			parameters.add(leftChild.interpretRecursive(scope));
+			if (rightChild != null) {
+				parameters.add(rightChild.interpretRecursive(scope));
+				for (FormulaElement child : additionalChildren) {
+					parameters.add(child.interpretRecursive(scope));
+				}
+			}
+		}
+
+		long callId = FunctionCallManager.getInstance().createCall();
+		UserDefinedBrickEventId eventId = new UserDefinedBrickEventId(brickId, parameters, callId);
+
+		if (scope.getSprite() != null) {
+			scope.getSprite().look.fire(new EventWrapper(eventId, false));
+		}
+
+		return FunctionCallManager.getInstance().waitForResult(callId);
 	}
 
 	private Object interpretFunctionNumberOfItems(Object left, Scope scope) {
