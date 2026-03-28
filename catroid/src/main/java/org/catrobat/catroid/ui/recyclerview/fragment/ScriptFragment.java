@@ -926,10 +926,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (adapter != null) {
 			adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 		}
-		if (checkVariables()) {
-			loadVariables();
-		}
+		loadVariables();
 		refreshFragmentAfterUndo();
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(false);
+			spriteActivity.showUndo(false);
+		}
 	}
 
 	private void saveVariables() {
