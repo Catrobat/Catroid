@@ -482,17 +482,27 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_value))
-            .setText(item.value.toString())
+            .setText((item as UserData<*>).value?.toString() ?: "")
             .setPositiveButton(getString(R.string.save)) { _: DialogInterface?, textInput: String? ->
                 editItem(item, textInput)
             }
-        builder.setTitle("Edit " + item.name)
+        builder.setTitle(getString(R.string.edit) + " " + item.name)
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
     private fun editItem(item: T, value: String?) {
-        updateUserVariableValue(value, item)
+        if (item is UserVariable) {
+            val parsedValue: Any? = try {
+                value?.toDouble()
+            } catch (e: NumberFormatException) {
+                value
+            }
+            @Suppress("UNCHECKED_CAST")
+            (item as UserVariable).value = parsedValue
+        } else {
+            updateUserVariableValue(value, item)
+        }
         adapter?.updateDataSet()
         finishActionMode()
     }
