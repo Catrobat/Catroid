@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
+import android.content.Intent;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -42,10 +43,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
@@ -54,7 +53,6 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -463,9 +461,11 @@ public class FormulaEditorUndoTest {
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
 
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(
-				() -> baseActivityTestRule.getActivity().recreate());
-
+				() -> baseActivityTestRule.getActivity().finish());
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(
+				() -> baseActivityTestRule.getActivity().startActivity(intent));
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
