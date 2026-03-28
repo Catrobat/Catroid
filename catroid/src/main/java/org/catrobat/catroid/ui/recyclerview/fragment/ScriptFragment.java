@@ -906,6 +906,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		if (currentCodeFile.exists()) {
 			try {
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null) {
+					spriteActivity.setUndoMenuItemVisibility(false);
+					spriteActivity.showUndo(false);
+				}
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
 				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {

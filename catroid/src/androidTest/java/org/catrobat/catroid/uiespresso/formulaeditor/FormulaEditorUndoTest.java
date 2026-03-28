@@ -46,6 +46,7 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
@@ -73,6 +74,7 @@ public class FormulaEditorUndoTest {
 	private static final String NEW_VARIABLE_NAME = "NewVariable";
 	private static final int VARIABLE_VALUE = 5;
 	private static final String NEW_VARIABLE_VALUE = "10";
+	private final long waitThreshold = 5000;
 	UserVariable userVariable;
 
 	@Rule
@@ -484,5 +486,35 @@ public class FormulaEditorUndoTest {
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
 				.checkShowsNumber(999);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testUndoButtonHiddenAfterFormulaEditorUndo() {
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
+		onFormulaEditor()
+				.performEnterFormula("1234");
+
+		pressBack();
+
+		onView(withId(R.id.menu_undo))
+				.perform(waitFor(isDisplayed(), waitThreshold));
+
+		onView(withId(R.id.menu_undo))
+				.perform(click());
+
+		onView(withId(R.id.menu_undo))
+				.check(doesNotExist());
+
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
+				.checkShowsNumber(0);
+
+		onView(withId(R.id.menu_undo))
+				.check(doesNotExist());
 	}
 }
