@@ -123,8 +123,10 @@ public class LookTest {
 		sprite.runningStitch = runningStitch;
 		look.setWidth(width);
 		look.setHeight(height);
+		float initialX = look.getXInUserInterfaceDimensionUnit();
+		float initialY = look.getYInUserInterfaceDimensionUnit();
 
-		look.setPositionInUserInterfaceDimensionUnit(0f, 0f);
+		look.setPositionInUserInterfaceDimensionUnit(initialX, initialY);
 
 		verify(runningStitch, never()).update();
 	}
