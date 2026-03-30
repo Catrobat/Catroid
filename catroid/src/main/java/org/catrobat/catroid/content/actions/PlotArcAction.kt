@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.bricks.PlotArcBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -50,15 +51,20 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            degreesValue =
-                degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) 1 else -1
+            val interpretedDegrees = degrees.interpretDouble(scope)
+            val effectiveDirection = if (interpretedDegrees < 0) {
+                if (direction == PlotArcBrick.Directions.LEFT) PlotArcBrick.Directions.RIGHT else PlotArcBrick.Directions.LEFT
+            } else {
+                direction
+            }
+            degreesValue = abs(interpretedDegrees) * if (effectiveDirection == PlotArcBrick.Directions.LEFT) 1 else -1
             radiusValue = radius.interpretDouble(scope)
             val sprite = scope!!.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
             val y = sprite.look.yInUserInterfaceDimensionUnit
             val motionDirection = Math.toRadians(sprite.look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
-            val normalX = if (direction == PlotArcBrick.Directions.LEFT) -cos(motionDirection) else cos(motionDirection)
-            val normalY = if (direction == PlotArcBrick.Directions.LEFT) sin(motionDirection) else -sin(motionDirection)
+            val normalX = if (effectiveDirection == PlotArcBrick.Directions.LEFT) -cos(motionDirection) else cos(motionDirection)
+            val normalY = if (effectiveDirection == PlotArcBrick.Directions.LEFT) sin(motionDirection) else -sin(motionDirection)
             centerX = x + radiusValue * normalX
             centerY = y + radiusValue * normalY
             radiusAngle = atan2(y - centerY, x - centerX)

@@ -155,6 +155,28 @@ public class EmbroideryArcActionTest {
 				sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
+	@Test
+	public void testNegativeLeftAngleBehavesLikePositiveRightAngle() {
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
+
+		executePlotArc(PlotArcBrick.Directions.LEFT, 200f, -30f);
+
+		assertEquals(100f, sprite.look.getXInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(-26.8f, sprite.look.getYInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(120f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
+	@Test
+	public void testNegativeRightAngleBehavesLikePositiveLeftAngle() {
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
+
+		executePlotArc(PlotArcBrick.Directions.RIGHT, 200f, -30f);
+
+		assertEquals(100f, sprite.look.getXInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(26.8f, sprite.look.getYInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(60f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
 	private ArrayList<StitchPoint> executeArcWithSimpleStitch(float degrees) {
 		sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, STITCH_LENGTH));
 		executePlotArc(PlotArcBrick.Directions.RIGHT, RADIUS, degrees);
