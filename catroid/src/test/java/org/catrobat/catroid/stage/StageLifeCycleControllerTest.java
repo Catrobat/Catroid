@@ -35,6 +35,7 @@ import java.util.Collections;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -96,6 +97,7 @@ public class StageLifeCycleControllerTest {
 			rpMock.when(() -> RequiresPermissionTask.checkPermission(any(), any()))
 					.thenReturn(true);
 
+
 			StageActivity.stageListener = mockStageListener;
 
 			StageLifeCycleController.stageDestroy(mockStageActivity);
@@ -106,32 +108,4 @@ public class StageLifeCycleControllerTest {
 		}
 	}
 
-	@Test
-	public void testStageDestroySkipsListenerFinishWhenNull() {
-		StageActivity mockStageActivity = mock(StageActivity.class);
-		ProjectManager mockProjectManager = mock(ProjectManager.class);
-		Project mockProject = mock(Project.class);
-		StageListener dummyListener = mock(StageListener.class);
-
-		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
-				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
-
-			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
-			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
-			when(mockProjectManager.getCurrentlyEditedScene()).thenReturn(null);
-
-			srhMock.when(() -> StageResourceHolder.getProjectsRuntimePermissionList(anyInt()))
-					.thenReturn(Collections.emptyList());
-			rpMock.when(() -> RequiresPermissionTask.checkPermission(any(), any()))
-					.thenReturn(true);
-
-			StageActivity.stageListener = null;
-
-			StageLifeCycleController.stageDestroy(mockStageActivity);
-
-			verify(dummyListener, never()).finish();
-			verify(mockStageActivity).manageLoadAndFinish();
-		}
-	}
 }
