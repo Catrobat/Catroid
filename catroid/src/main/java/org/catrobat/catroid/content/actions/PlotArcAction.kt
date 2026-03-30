@@ -42,7 +42,7 @@ class PlotArcAction : TemporalAction() {
     private var radiusValue: Double = 0.0
     private var centerX: Double = 0.0
     private var centerY: Double = 0.0
-    private var angle: Double = Math.toRadians(90.0)
+    private var radiusAngle: Double = 0.0
 
     override fun begin() {
         super.begin()
@@ -51,14 +51,17 @@ class PlotArcAction : TemporalAction() {
         }
         try {
             degreesValue =
-                degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) -1 else 1
+                degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) 1 else -1
             radiusValue = radius.interpretDouble(scope)
             val sprite = scope!!.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
             val y = sprite.look.yInUserInterfaceDimensionUnit
-            angle = Math.toRadians(sprite.look.rotation.toDouble())
-            centerX = x + radiusValue * cos(angle)
-            centerY = y + radiusValue * sin(angle)
+            val motionDirection = Math.toRadians(sprite.look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
+            val normalX = if (direction == PlotArcBrick.Directions.LEFT) -cos(motionDirection) else cos(motionDirection)
+            val normalY = if (direction == PlotArcBrick.Directions.LEFT) sin(motionDirection) else -sin(motionDirection)
+            centerX = x + radiusValue * normalX
+            centerY = y + radiusValue * normalY
+            radiusAngle = atan2(y - centerY, x - centerX)
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -77,8 +80,8 @@ class PlotArcAction : TemporalAction() {
             var previousY = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toDouble()
             for (i in 0 until 101) {
                 val radians = Math.toRadians(degreesValue * i / 100)
-                val x1 = centerX - radiusValue * cos(radians + angle)
-                val y1 = centerY - radiusValue * sin(radians + angle)
+                val x1 = centerX + radiusValue * cos(radiusAngle + radians)
+                val y1 = centerY + radiusValue * sin(radiusAngle + radians)
                 if (x1 != previousX || y1 != previousY) {
                     val motionDirection = Math.toDegrees(atan2(x1 - previousX, y1 - previousY))
                     scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())

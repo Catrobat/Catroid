@@ -57,6 +57,7 @@ public class EmbroideryArcActionTest {
 
 	private static final int STITCH_LENGTH = 10;
 	private static final int RADIUS = 100;
+	private static final float DELTA = 2f;
 
 	private Sprite sprite;
 	private DSTPatternManager embroideryPatternManager;
@@ -116,35 +117,67 @@ public class EmbroideryArcActionTest {
 
 	@Test
 	public void testArcUpdatesMotionDirectionForCurvedMovement() {
-		executePlotArc(180f);
+		executePlotArc(PlotArcBrick.Directions.RIGHT, RADIUS, 180f);
 
-		assertEquals("Expected the sprite to end a right 180 degree arc facing upward", 0f,
-				sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 2f);
+		assertEquals("Expected the sprite to end a right 180 degree arc facing left", -90f,
+				sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
+	@Test
+	public void testLeftArcRespectsInitialMotionDirection() {
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
+
+		executePlotArc(PlotArcBrick.Directions.LEFT, 200f, 30f);
+
+		assertEquals(100f, sprite.look.getXInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(26.8f, sprite.look.getYInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(60f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
+	@Test
+	public void testRightArcRespectsInitialMotionDirection() {
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
+
+		executePlotArc(PlotArcBrick.Directions.RIGHT, 200f, 30f);
+
+		assertEquals(100f, sprite.look.getXInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(-26.8f, sprite.look.getYInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(120f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
+	@Test
+	public void testArcRespectsArbitraryInitialMotionDirection() {
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(10f);
+
+		executePlotArc(PlotArcBrick.Directions.LEFT, 200f, 30f);
+
+		assertEquals("Expected the sprite to keep turning relative to its initial motion direction", -20f,
+				sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	private ArrayList<StitchPoint> executeArcWithSimpleStitch(float degrees) {
 		sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, STITCH_LENGTH));
-		executePlotArc(degrees);
+		executePlotArc(PlotArcBrick.Directions.RIGHT, RADIUS, degrees);
 		return embroideryPatternManager.getEmbroideryPatternList();
 	}
 
 	private ArrayList<StitchPoint> executeArcWithTripleStitch(float degrees) {
 		sprite.runningStitch.activateStitching(sprite, new TripleRunningStitch(sprite, STITCH_LENGTH));
-		executePlotArc(degrees);
+		executePlotArc(PlotArcBrick.Directions.RIGHT, RADIUS, degrees);
 		return embroideryPatternManager.getEmbroideryPatternList();
 	}
 
 	private ArrayList<StitchPoint> executeArcWithZigZagStitch(float degrees) {
 		sprite.runningStitch.activateStitching(sprite, new ZigZagRunningStitch(sprite, STITCH_LENGTH, 20f));
-		executePlotArc(degrees);
+		executePlotArc(PlotArcBrick.Directions.RIGHT, RADIUS, degrees);
 		return embroideryPatternManager.getEmbroideryPatternList();
 	}
 
-	private void executePlotArc(float degrees) {
+	private void executePlotArc(PlotArcBrick.Directions direction, float radius, float degrees) {
 		PlotArcAction plotArcAction = new PlotArcAction();
 		plotArcAction.setScope(new Scope(new Project(), sprite, new SequenceAction()));
-		plotArcAction.setDirection(PlotArcBrick.Directions.RIGHT);
-		plotArcAction.setRadius(new Formula(RADIUS));
+		plotArcAction.setDirection(direction);
+		plotArcAction.setRadius(new Formula(radius));
 		plotArcAction.setDegrees(new Formula(degrees));
 		plotArcAction.setDuration(0f);
 		plotArcAction.act(1f);
