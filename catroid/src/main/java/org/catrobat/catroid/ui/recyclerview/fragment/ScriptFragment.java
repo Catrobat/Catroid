@@ -1001,13 +1001,23 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		boolean changed = false;
 		if (project != null) {
-			changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
-			changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
-			changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
+			if (savedUserVariables != null) {
+				changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
+			}
 		}
 		if (currentSprite != null) {
-			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
-			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+			if (savedLocalUserVariables != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+			}
 		}
 		return changed;
 	}
@@ -1018,13 +1028,23 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = projectManager.getCurrentProject();
 
 		if (project != null) {
-			project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
-			project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
-			project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+			if (savedUserVariables != null) {
+				project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+			}
 		}
 		if (currentSprite != null) {
-			currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
-			currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+			if (savedLocalUserVariables != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+			}
 		}
 	}
 
