@@ -185,4 +185,32 @@ public class UndoTest {
 		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		initialProject = getProjectAsXmlString();
 	}
+
+	@Test
+	public void testMultiStepUndo() {
+		// 1. Delete first brick
+		onBrickAtPosition(0).performDeleteBrick();
+		onView(withId(R.id.menu_undo)).check(isDisplayed());
+
+		// 2. Delete second brick
+		onBrickAtPosition(0).performDeleteBrick();
+
+		// 3. Undo first time
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.menu_undo)).check(isDisplayed());
+		onView(withId(R.id.menu_redo)).check(isDisplayed());
+
+		// 4. Undo second time
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.menu_undo)).check(doesNotExist());
+		onView(withId(R.id.menu_redo)).check(isDisplayed());
+
+		// 5. Redo first time
+		onView(withId(R.id.menu_redo)).perform(click());
+		onView(withId(R.id.menu_undo)).check(isDisplayed());
+
+		// 6. Redo second time
+		onView(withId(R.id.menu_redo)).perform(click());
+		onView(withId(R.id.menu_redo)).check(doesNotExist());
+	}
 }
