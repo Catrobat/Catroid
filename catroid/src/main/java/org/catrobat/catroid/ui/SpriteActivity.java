@@ -106,10 +106,23 @@ import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 public class SpriteActivity extends BaseActivity {
+	private ProjectUndoManager undoManager;
 
 	public static final String TAG = SpriteActivity.class.getSimpleName();
+
+	public ProjectUndoManager getUndoManager() {
+		if (undoManager == null) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			if (project != null) {
+				undoManager = new ProjectUndoManager(project.getDirectory());
+			}
+		}
+		return undoManager;
+	}
 
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
@@ -203,7 +216,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public String createActionBarTitle() {
-		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
+		if (currentProject != null && currentProject.getSceneList() != null
+				&& currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
 			return currentScene.getName() + ": " + currentSprite.getName();
@@ -230,6 +244,12 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
+	public void showRedo(boolean visible) {
+		if (optionsMenu != null) {
+			optionsMenu.findItem(R.id.menu_redo).setVisible(visible);
+		}
+	}
+
 	public void checkForChange() {
 		if (optionsMenu != null) {
 			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
@@ -248,7 +268,10 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
-			showUndo(isUndoMenuItemVisible);
+			boolean canUndo = getUndoManager() != null && getUndoManager().canUndo();
+			boolean canRedo = getUndoManager() != null && getUndoManager().canRedo();
+			showUndo(isUndoMenuItemVisible || canUndo);
+			showRedo(canRedo);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
 			showUndo(isUndoMenuItemVisible);
 		}
@@ -265,15 +288,26 @@ public class SpriteActivity extends BaseActivity {
 			return true;
 		}
 
-		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
-			setUndoMenuItemVisibility(false);
-			showUndo(isUndoMenuItemVisible);
-			Fragment fragment = getCurrentFragment();
-			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
-				((LookListFragment) fragment).deleteItem(currentLookData);
-				currentLookData.dispose();
-				currentLookData = null;
+		if (item.getItemId() == R.id.menu_undo) {
+			if (getCurrentFragment() instanceof ScriptFragment) {
+				((ScriptFragment) getCurrentFragment()).loadProjectAfterUndoOption();
+				return true;
+			} else if (getCurrentFragment() instanceof LookListFragment) {
+				setUndoMenuItemVisibility(false);
+				showUndo(isUndoMenuItemVisible);
+				Fragment fragment = getCurrentFragment();
+				if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo()
+						&& currentLookData != null) {
+					((LookListFragment) fragment).deleteItem(currentLookData);
+					currentLookData.dispose();
+					currentLookData = null;
+				}
+				return true;
 			}
+		}
+
+		if (item.getItemId() == R.id.menu_redo && getCurrentFragment() instanceof ScriptFragment) {
+			((ScriptFragment) getCurrentFragment()).loadProjectAfterRedoOption();
 			return true;
 		}
 
@@ -833,9 +867,11 @@ public class SpriteActivity extends BaseActivity {
 
 		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher(variables);
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-		UniqueNameProvider uniqueVariableNameProvider = builder.createUniqueNameProvider(R.string.default_variable_name);
+		UniqueNameProvider uniqueVariableNameProvider = builder
+				.createUniqueNameProvider(R.string.default_variable_name);
 		UniqueNameProvider uniqueListNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
-		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name), null);
+		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
+				null);
 		builder.setTextWatcher(textWatcher)
 				.setText(generatedVariableName)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
@@ -889,9 +925,9 @@ public class SpriteActivity extends BaseActivity {
 				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
 				textWatcher.setOriginalScope(variables);
 				if (currentName.equals(generatedVariableName)) {
-					generatedVariableName =
-							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-									null);
+					generatedVariableName = uniqueVariableNameProvider.getUniqueName(
+							getString(R.string.default_variable_name),
+							null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -966,7 +1002,8 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+		if (isFragmentWithTablayout(fragment)
+				&& (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
 			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);
