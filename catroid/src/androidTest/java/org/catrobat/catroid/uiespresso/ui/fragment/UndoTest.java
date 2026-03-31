@@ -220,10 +220,10 @@ public class UndoTest {
 	@Test
 	public void testConcurrentUndoRedo() {
 		onBrickAtPosition(0).performDeleteBrick();
-		
+
 		// Attempt double click to simulate rapid interaction
 		onView(withId(R.id.menu_undo)).perform(click(), click());
-		
+
 		// Verify that it still works and didn't crash
 		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));
 	}
