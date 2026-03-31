@@ -107,7 +107,6 @@ import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANG
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 public class SpriteActivity extends BaseActivity {
 	private ProjectUndoManager undoManager;
@@ -235,24 +234,28 @@ public class SpriteActivity extends BaseActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public void showUndo(boolean visible) {
+	public void showUndo(boolean enabled) {
 		if (optionsMenu != null) {
-			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
-			if (visible) {
+			MenuItem undoItem = optionsMenu.findItem(R.id.menu_undo);
+			undoItem.setEnabled(enabled);
+			undoItem.setIcon(enabled ? R.drawable.icon_undo : R.drawable.icon_undo_disabled);
+			if (enabled) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			}
 		}
 	}
 
-	public void showRedo(boolean visible) {
+	public void showRedo(boolean enabled) {
 		if (optionsMenu != null) {
-			optionsMenu.findItem(R.id.menu_redo).setVisible(visible);
+			MenuItem redoItem = optionsMenu.findItem(R.id.menu_redo);
+			redoItem.setEnabled(enabled);
+			redoItem.setIcon(enabled ? R.drawable.icon_redo : R.drawable.icon_redo_disabled);
 		}
 	}
 
 	public void checkForChange() {
 		if (optionsMenu != null) {
-			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
+			if (optionsMenu.findItem(R.id.menu_undo).isEnabled()) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			} else {
 				ProjectManager.getInstance().resetChangedFlag(currentProject);
@@ -268,6 +271,8 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
+			menu.findItem(R.id.menu_undo).setVisible(true);
+			menu.findItem(R.id.menu_redo).setVisible(true);
 			boolean canUndo = getUndoManager() != null && getUndoManager().canUndo();
 			boolean canRedo = getUndoManager() != null && getUndoManager().canRedo();
 			showUndo(isUndoMenuItemVisible || canUndo);
@@ -325,6 +330,12 @@ public class SpriteActivity extends BaseActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		undoManager = null;
 	}
 
 	@Override
