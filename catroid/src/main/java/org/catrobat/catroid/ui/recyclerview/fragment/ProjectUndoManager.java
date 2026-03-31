@@ -15,6 +15,7 @@ import java.util.List;
 public class ProjectUndoManager {
 	private static final String TAG = ProjectUndoManager.class.getSimpleName();
 	private static final int MAX_UNDO_STEPS = 20;
+	private static final long UNDO_HISTORY_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 	private final File projectDir;
 	private final File undoDir;
@@ -51,8 +52,35 @@ public class ProjectUndoManager {
 		this.undoDir = new File(projectDir, Constants.UNDO_DIRECTORY_NAME);
 		if (!undoDir.exists()) {
 			undoDir.mkdirs();
-		} else {
+		} else if (isUndoHistoryExpired()) {
 			clearHistory();
+		}
+	}
+
+	private boolean isUndoHistoryExpired() {
+		File[] files = undoDir.listFiles();
+		if (files == null || files.length == 0) {
+			return true;
+		}
+		long now = System.currentTimeMillis();
+		for (File file : files) {
+			if (now - file.lastModified() < UNDO_HISTORY_TTL_MS) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void clearUndoHistoryForProject(File projectDir) {
+		File undoDir = new File(projectDir, Constants.UNDO_DIRECTORY_NAME);
+		if (undoDir.exists()) {
+			File[] files = undoDir.listFiles();
+			if (files != null) {
+				for (File file : files) {
+					file.delete();
+				}
+			}
+			undoDir.delete();
 		}
 	}
 
@@ -71,7 +99,9 @@ public class ProjectUndoManager {
 		try {
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
 			undoStack.add(new UndoEntry(snapshotName, sceneName, spriteName,
-					userVariables, multiplayerVariables, userLists, localUserVariables, localLists));
+					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
+					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
+					new ArrayList<>(localLists)));
 			redoStack.clear();
 
 			if (undoStack.size() > MAX_UNDO_STEPS) {
@@ -83,35 +113,40 @@ public class ProjectUndoManager {
 		}
 	}
 
-	public UndoEntry popUndo(List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
+	public UndoEntry popUndo(String sceneName, String spriteName,
+						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		if (undoStack.isEmpty()) {
 			return null;
 		}
 
-		pushCurrentToRedo(userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
+		pushCurrentToRedo(sceneName, spriteName,
+				userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
 
 		UndoEntry entry = undoStack.remove(undoStack.size() - 1);
 		restoreSnapshot(entry);
 		return entry;
 	}
 
-	public UndoEntry popRedo(List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
+	public UndoEntry popRedo(String sceneName, String spriteName,
+						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		if (redoStack.isEmpty()) {
 			return null;
 		}
 
-		pushCurrentToUndoInternal(userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
+		pushCurrentToUndoInternal(sceneName, spriteName,
+				userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
 
 		UndoEntry entry = redoStack.remove(redoStack.size() - 1);
 		restoreSnapshot(entry);
 		return entry;
 	}
 
-	private void pushCurrentToRedo(List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
+	private void pushCurrentToRedo(String sceneName, String spriteName,
+						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
@@ -119,14 +154,17 @@ public class ProjectUndoManager {
 		File snapshotFile = new File(undoDir, snapshotName);
 		try {
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
-			redoStack.add(new UndoEntry(snapshotName, null, null,
-					userVariables, multiplayerVariables, userLists, localUserVariables, localLists)); 
+			redoStack.add(new UndoEntry(snapshotName, sceneName, spriteName,
+					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
+					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
+					new ArrayList<>(localLists)));
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to push redo state", e);
 		}
 	}
 
-	private void pushCurrentToUndoInternal(List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
+	private void pushCurrentToUndoInternal(String sceneName, String spriteName,
+						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
@@ -134,8 +172,10 @@ public class ProjectUndoManager {
 		File snapshotFile = new File(undoDir, snapshotName);
 		try {
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
-			undoStack.add(new UndoEntry(snapshotName, null, null,
-					userVariables, multiplayerVariables, userLists, localUserVariables, localLists));
+			undoStack.add(new UndoEntry(snapshotName, sceneName, spriteName,
+					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
+					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
+					new ArrayList<>(localLists)));
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to push undo internal state", e);
 		}
