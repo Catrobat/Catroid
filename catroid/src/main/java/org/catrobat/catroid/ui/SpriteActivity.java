@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -106,7 +107,6 @@ import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
-import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager;
 
 public class SpriteActivity extends BaseActivity {
 	private ProjectUndoManager undoManager;
@@ -285,8 +285,8 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof ScriptFragment
-				&& ((ScriptFragment) getCurrentFragment()).isCurrentlyMoving();
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof ScriptFragment scriptFragment
+				&& scriptFragment.isCurrentlyMoving();
 
 		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
 			((ScriptFragment) getCurrentFragment()).highlightMovingItem();
@@ -294,16 +294,14 @@ public class SpriteActivity extends BaseActivity {
 		}
 
 		if (item.getItemId() == R.id.menu_undo) {
-			if (getCurrentFragment() instanceof ScriptFragment) {
-				((ScriptFragment) getCurrentFragment()).loadProjectAfterUndoOption();
+			if (getCurrentFragment() instanceof ScriptFragment scriptFragment) {
+				scriptFragment.loadProjectAfterUndoOption();
 				return true;
-			} else if (getCurrentFragment() instanceof LookListFragment) {
+			} else if (getCurrentFragment() instanceof LookListFragment lookListFragment) {
 				setUndoMenuItemVisibility(false);
 				showUndo(isUndoMenuItemVisible);
-				Fragment fragment = getCurrentFragment();
-				if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo()
-						&& currentLookData != null) {
-					((LookListFragment) fragment).deleteItem(currentLookData);
+				if (!lookListFragment.undo() && currentLookData != null) {
+					lookListFragment.deleteItem(currentLookData);
 					currentLookData.dispose();
 					currentLookData = null;
 				}
@@ -311,8 +309,8 @@ public class SpriteActivity extends BaseActivity {
 			}
 		}
 
-		if (item.getItemId() == R.id.menu_redo && getCurrentFragment() instanceof ScriptFragment) {
-			((ScriptFragment) getCurrentFragment()).loadProjectAfterRedoOption();
+		if (item.getItemId() == R.id.menu_redo && getCurrentFragment() instanceof ScriptFragment scriptFragment) {
+			scriptFragment.loadProjectAfterRedoOption();
 			return true;
 		}
 
@@ -1014,7 +1012,7 @@ public class SpriteActivity extends BaseActivity {
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
 		if (isFragmentWithTablayout(fragment)
-				&& (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+				&& (!(fragment instanceof ScriptFragment scriptFragment) || !scriptFragment.isFinderOpen())) {
 			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);

@@ -919,7 +919,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);
 				spriteActivity.showRedo(false);
-				restoreFromEntry(spriteActivity, entry);
+				restoreFromEntry(entry);
 			}
 		}
 	}
@@ -941,12 +941,12 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);
 				spriteActivity.showRedo(false);
-				restoreFromEntry(spriteActivity, entry);
+				restoreFromEntry(entry);
 			}
 		}
 	}
 
-	private void restoreFromEntry(SpriteActivity spriteActivity, ProjectUndoManager.UndoEntry entry) {
+	private void restoreFromEntry(ProjectUndoManager.UndoEntry entry) {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		if (entry.sceneName != null) {
@@ -955,15 +955,14 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (entry.spriteName != null) {
 			this.currentSpriteName = entry.spriteName;
 		}
-		this.savedUserVariables = entry.savedUserVariables;
-		this.savedMultiplayerVariables = entry.savedMultiplayerVariables;
-		this.savedUserLists = entry.savedUserLists;
-		this.savedLocalUserVariables = entry.savedLocalUserVariables;
-		this.savedLocalLists = entry.savedLocalLists;
+		this.savedUserVariables = entry.variableSnapshot.savedUserVariables;
+		this.savedMultiplayerVariables = entry.variableSnapshot.savedMultiplayerVariables;
+		this.savedUserLists = entry.variableSnapshot.savedUserLists;
+		this.savedLocalUserVariables = entry.variableSnapshot.savedLocalUserVariables;
+		this.savedLocalLists = entry.variableSnapshot.savedLocalLists;
 
 		new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 	}
-
 
 	@Override
 	public void onLoadFinished(boolean success) {
@@ -976,8 +975,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			loadVariables();
 		}
 		refreshFragmentAfterUndo();
-		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-		if (spriteActivity != null) {
+		if (getActivity() instanceof SpriteActivity spriteActivity) {
 			spriteActivity.invalidateOptionsMenu();
 		}
 	}
@@ -1001,23 +999,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		boolean changed = false;
 		if (project != null) {
-			if (savedUserVariables != null) {
-				changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
-			}
-			if (savedMultiplayerVariables != null) {
-				changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
-			}
-			if (savedUserLists != null) {
-				changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
-			}
+			changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+			changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
 		}
 		if (currentSprite != null) {
-			if (savedLocalUserVariables != null) {
-				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
-			}
-			if (savedLocalLists != null) {
-				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
-			}
+			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
+			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
 		}
 		return changed;
 	}
@@ -1028,23 +1016,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = projectManager.getCurrentProject();
 
 		if (project != null) {
-			if (savedUserVariables != null) {
-				project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
-			}
-			if (savedMultiplayerVariables != null) {
-				project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
-			}
-			if (savedUserLists != null) {
-				project.restoreUserDataValues(project.getUserLists(), savedUserLists);
-			}
+			project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+			project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			project.restoreUserDataValues(project.getUserLists(), savedUserLists);
 		}
 		if (currentSprite != null) {
-			if (savedLocalUserVariables != null) {
-				currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
-			}
-			if (savedLocalLists != null) {
-				currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
-			}
+			currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+			currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
 		}
 	}
 
@@ -1052,13 +1030,14 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (!isAdded() || getActivity() == null || getParentFragmentManager().isStateSaved()) {
 			return;
 		}
-
 		Fragment scriptFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
-		if (scriptFragment == null || !(scriptFragment instanceof ScriptFragment)) {
+		if (!(scriptFragment instanceof ScriptFragment)) {
 			scriptFragment = getParentFragmentManager().findFragmentByTag(TAG);
 		}
 
-		if (scriptFragment == null) {
+		if (!(scriptFragment instanceof ScriptFragment)) {
+			return;
+		}
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (adapter != null && currentSprite != null) {

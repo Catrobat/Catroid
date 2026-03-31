@@ -46,6 +46,7 @@ import java.util.Collection;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -57,7 +58,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 
 @RunWith(Parameterized.class)
 public class UndoTest {
