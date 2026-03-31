@@ -52,9 +52,12 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(Parameterized.class)
 public class UndoTest {
@@ -115,7 +118,7 @@ public class UndoTest {
 				.perform(click());
 
 		onView(withId(R.id.menu_undo))
-				.check(doesNotExist());
+				.check(matches(not(isEnabled())));
 
 		String projectAfterUndo = getProjectAsXmlString();
 		assertEquals(projectAfterUndo, initialProject);
@@ -190,27 +193,27 @@ public class UndoTest {
 	public void testMultiStepUndo() {
 		// 1. Delete first brick
 		onBrickAtPosition(0).performDeleteBrick();
-		onView(withId(R.id.menu_undo)).check(isDisplayed());
+		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
 
 		// 2. Delete second brick
 		onBrickAtPosition(0).performDeleteBrick();
 
 		// 3. Undo first time
 		onView(withId(R.id.menu_undo)).perform(click());
-		onView(withId(R.id.menu_undo)).check(isDisplayed());
-		onView(withId(R.id.menu_redo)).check(isDisplayed());
+		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
+		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));
 
 		// 4. Undo second time
 		onView(withId(R.id.menu_undo)).perform(click());
-		onView(withId(R.id.menu_undo)).check(doesNotExist());
-		onView(withId(R.id.menu_redo)).check(isDisplayed());
+		onView(withId(R.id.menu_undo)).check(matches(not(isEnabled())));
+		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));
 
 		// 5. Redo first time
 		onView(withId(R.id.menu_redo)).perform(click());
-		onView(withId(R.id.menu_undo)).check(isDisplayed());
+		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
 
 		// 6. Redo second time
 		onView(withId(R.id.menu_redo)).perform(click());
-		onView(withId(R.id.menu_redo)).check(doesNotExist());
+		onView(withId(R.id.menu_redo)).check(matches(not(isEnabled())));
 	}
 }
