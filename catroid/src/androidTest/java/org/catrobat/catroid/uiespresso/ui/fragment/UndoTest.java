@@ -141,6 +141,9 @@ public class UndoTest {
 		onBrickAtPosition(brickPosition).performDeleteBrick();
 
 		onView(withId(R.id.menu_undo))
+				.perform(waitFor(isDisplayed(), waitThreshold));
+
+		onView(withId(R.id.menu_undo))
 				.perform(click());
 
 		onView(withId(R.id.menu_undo))

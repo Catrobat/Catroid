@@ -922,7 +922,21 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		if (!success) {
+			Log.e(TAG, "Loading project after undo failed.");
+			if (getContext() != null) {
+				ToastUtil.showError(getContext(), R.string.error_load_project);
+			}
+			SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+			if (spriteActivity != null) {
+				spriteActivity.setUndoMenuItemVisibility(false);
+				spriteActivity.showUndo(false);
+			}
+			return;
+		}
+		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
+			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+		}
 		if (adapter != null) {
 			adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 		}
@@ -1002,14 +1016,17 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void refreshFragmentAfterUndo() {
-		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+		if (!isAdded() || getActivity() == null || getParentFragmentManager().isStateSaved()) {
+			return;
+		}
+		Fragment scriptFragment = getParentFragmentManager().findFragmentByTag(TAG);
 		if (scriptFragment == null) {
 			return;
 		}
-		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commitNow();
+		fragmentTransaction.commit();
 
 		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
