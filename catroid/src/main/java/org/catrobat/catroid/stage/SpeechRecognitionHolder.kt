@@ -162,7 +162,7 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
                 stageActivity.getString(
                     R.string.speech_recognition_offline_mode_missing_data_error_dialog_msg,
                     Locale.getDefault().getDisplayName(Locale.getDefault())
-                        .toUpperCase(Locale.getDefault())
+                        .uppercase(Locale.getDefault())
                 )
             )
             .setCancelable(false)

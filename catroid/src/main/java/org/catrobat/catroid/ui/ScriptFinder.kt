@@ -77,7 +77,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     private fun formatSearchQuery(query: CharSequence): String = query.toString().trim()
-        .toLowerCase(Locale.ROOT)
+        .lowercase(Locale.ROOT)
 
     init {
         orientation = VERTICAL
@@ -121,7 +121,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             try {
                 if (v is Spinner) {
                     val selectedItem = v.selectedItem
-                    if (selectedItem is Nameable && selectedItem.name.toLowerCase(Locale.ROOT)
+                    if (selectedItem is Nameable && selectedItem.name.lowercase(Locale.ROOT)
                             .contains(searchQuery)
                     ) {
                         return true
@@ -134,7 +134,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
                             return true
                         }
                     }
-                } else if (v is TextView && v.text.toString().toLowerCase(Locale.ROOT)
+                } else if (v is TextView && v.text.toString().lowercase(Locale.ROOT)
                         .contains(searchQuery)
                 ) {
                     return true

@@ -23,6 +23,7 @@
 
 import groovy.json.StringEscapeUtils
 import groovy.xml.XmlUtil
+import groovy.xml.XmlSlurper
 
 import java.nio.file.Files
 import java.util.zip.ZipFile
@@ -221,4 +222,3 @@ tasks.configureEach { task ->
         task.finalizedBy 'standaloneCleanup'
     }
 }
-
