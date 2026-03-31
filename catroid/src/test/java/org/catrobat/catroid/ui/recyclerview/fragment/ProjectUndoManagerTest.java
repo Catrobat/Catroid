@@ -60,4 +60,14 @@ public class ProjectUndoManagerTest {
 		
 		// If we had a way to "age" the entries, we'd verify they are gone.
 	}
+
+	@Test
+	public void testClearHistory() {
+		undoManager.pushState("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		assertTrue(undoManager.canUndo());
+		
+		undoManager.clearHistory();
+		assertTrue("Undo stack should be empty after clearHistory", !undoManager.canUndo());
+		assertTrue("Redo stack should be empty after clearHistory", !undoManager.canRedo());
+	}
 }
