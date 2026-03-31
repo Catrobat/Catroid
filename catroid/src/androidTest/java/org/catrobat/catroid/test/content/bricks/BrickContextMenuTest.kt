@@ -27,6 +27,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -57,6 +58,8 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 
 import org.catrobat.catroid.content.bricks.HideBrick
 import org.catrobat.catroid.content.bricks.ShowBrick
+import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnRightBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -108,7 +111,11 @@ class BrickContextMenuTest(
             arrayOf(SetYBrick(), true, false),
             arrayOf(HideBrick(), false, false),
             arrayOf(ShowBrick(), false, false),
-            arrayOf(WaitBrick(), true, false)
+            arrayOf(WaitBrick(), true, false),
+            arrayOf(SetXBrick(), true, false),
+            arrayOf(TurnLeftBrick(), true, false),
+            arrayOf(TurnRightBrick(), true, false),
+
             )
     }
 
