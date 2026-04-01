@@ -920,7 +920,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					spriteActivity.setUndoMenuItemVisibility(false);
 					spriteActivity.showUndo(false);
 				}
-				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
+				if (getContext() != null) {
+					new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
+				}
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				if (getContext() != null) {
@@ -966,8 +968,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
-		if (undoCodeFile.exists()) {
-			undoCodeFile.delete();
+		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
+			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
 		}
 	}
 
