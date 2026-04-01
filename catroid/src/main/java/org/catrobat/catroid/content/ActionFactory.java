@@ -22,10 +22,11 @@
  */
 package org.catrobat.catroid.content;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
@@ -50,6 +51,8 @@ import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
+import org.catrobat.catroid.content.actions.ChatIfLogicAction;
+import org.catrobat.catroid.content.actions.ChatResponseAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
 import org.catrobat.catroid.content.actions.ClearBackgroundAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
@@ -62,6 +65,7 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
@@ -86,6 +90,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.ObjectlevelTrainAction;
 import org.catrobat.catroid.content.actions.OpenUrlAction;
 import org.catrobat.catroid.content.actions.PaintNewLookAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
@@ -107,6 +112,7 @@ import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ReadChatListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction;
@@ -117,7 +123,6 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
-import org.catrobat.catroid.content.actions.SavePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -152,8 +157,6 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
-import org.catrobat.catroid.content.actions.StartPlotAction;
-import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -164,6 +167,7 @@ import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
+import org.catrobat.catroid.content.actions.TrainQuestionAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
@@ -209,12 +213,14 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
+import org.catrobat.catroid.content.actions.FaceObjectSensorDataAction;
 
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 import kotlin.Pair;
+
 
 import static org.koin.java.KoinJavaComponent.get;
 
@@ -575,18 +581,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createStartPlotAction(Sprite sprite) {
-		StartPlotAction action = Actions.action(StartPlotAction.class);
-		action.setSprite(sprite);
-		return action;
-	}
-
-	public Action createStopPlotAction(Sprite sprite) {
-		StopPlotAction action = Actions.action(StopPlotAction.class);
-		action.setSprite(sprite);
-		return action;
-	}
-
 	public Action createSetPenSizeAction(Sprite sprite, SequenceAction sequence, Formula penSize) {
 		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
@@ -807,7 +801,17 @@ public class ActionFactory extends Actions {
 		action.setVisible(true);
 		return action;
 	}
+	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
+		FaceNameTrainAction action = new FaceNameTrainAction();
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		return action;
+	}
 
+	public Action objectLevelTrainAction(Sprite sprite, SequenceAction sequence) {
+		ObjectlevelTrainAction action = new ObjectlevelTrainAction();
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		return action;
+	}
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
@@ -919,6 +923,26 @@ public class ActionFactory extends Actions {
 	public Action createAskAction(Sprite sprite, SequenceAction sequence, Formula questionFormula,
 			UserVariable answerVariable) {
 		AskAction action = Actions.action(AskAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+	public Action createChatResponseAction(Sprite sprite, SequenceAction sequence,
+			Formula questionFormula,
+			UserVariable answerVariable) {
+		ChatResponseAction action = Actions.action(ChatResponseAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+	public Action createSensorDataResponseAction(Sprite sprite, SequenceAction sequence,
+										   Formula questionFormula,
+										   UserVariable answerVariable) {
+		FaceObjectSensorDataAction action = Actions.action(FaceObjectSensorDataAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setQuestionFormula(questionFormula);
@@ -1047,6 +1071,16 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		return action;
 	}
+	public Action createChatIfLogicAction(Sprite sprite, SequenceAction sequence, Formula condition,
+			Action ifAction, Action elseAction) {
+		ChatIfLogicAction action = Actions.action(ChatIfLogicAction.class);
+		action.setIfAction(ifAction);
+		action.setIfCondition(condition);
+		action.setElseAction(elseAction);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		return action;
+	}
 
 	public Action createRepeatAction(Sprite sprite, SequenceAction sequence, Formula count, Action repeatedAction,
 			boolean isLoopDelay) {
@@ -1165,14 +1199,6 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.setFormula(fileName);
 
-		return action;
-	}
-
-	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
-		SavePlotAction action = Actions.action(SavePlotAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		action.setScope(scope);
-		action.setFormula(fileName);
 		return action;
 	}
 
@@ -1298,7 +1324,6 @@ public class ActionFactory extends Actions {
 		action.setActive(turnOn);
 		return action;
 	}
-
 	public Action createFadeParticleEffectsAction(Sprite sprite, boolean turnOn) {
 		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
 		action.setFadeIn(turnOn);
@@ -1496,6 +1521,15 @@ public class ActionFactory extends Actions {
 		action.setStartY(y);
 		return action;
 	}
+	public Action createTrainChatQuestionAction(Sprite sprite, SequenceAction sequence,
+			Formula AskQuestion,Formula ResponseQuestion) {
+		TrainQuestionAction action = new TrainQuestionAction();
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormulaQuestion(AskQuestion);
+		action.setFormulaResponse(ResponseQuestion);
+		return action;
+	}
 
 	public Action createTapForAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y,
 			Formula duration) {
@@ -1578,6 +1612,12 @@ public class ActionFactory extends Actions {
 
 	public Action createReadListFromDeviceAction(UserList userList) {
 		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
+		action.setUserList(userList);
+
+		return action;
+	}
+	public Action createReadChatListFromDeviceAction(UserList userList) {
+		ReadChatListFromDeviceAction action = Actions.action(ReadChatListFromDeviceAction.class);
 		action.setUserList(userList);
 
 		return action;

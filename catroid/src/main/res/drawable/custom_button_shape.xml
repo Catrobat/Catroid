@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="90dp" /> <!-- Set your desired corner radius here -->
+    <solid android:color="#B654CF" /> <!-- Background color of the button -->
+    <stroke
+        android:width="5dp"
+        android:color="#13EB9C" />
+</shape>

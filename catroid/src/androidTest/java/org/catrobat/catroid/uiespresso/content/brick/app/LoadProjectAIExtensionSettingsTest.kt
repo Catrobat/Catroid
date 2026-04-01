@@ -49,6 +49,12 @@ import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_DETECTED
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_SIZE
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_X
+
+import org.catrobat.catroid.formulaeditor.Sensors.On_Device_Object_Recognition
+import org.catrobat.catroid.formulaeditor.Sensors.On_Device_Face_Recognition
+import org.catrobat.catroid.formulaeditor.Sensors.Face_Age
+import org.catrobat.catroid.formulaeditor.Sensors.Face_Gender
+import org.catrobat.catroid.formulaeditor.Sensors.Face_Expression
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_ANKLE_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_ANKLE_Y
@@ -176,7 +182,13 @@ class LoadProjectAIExtensionSettingsTest(
         private var secondFaceSize = FormulaElement(SENSOR, SECOND_FACE_SIZE.name, null)
         private var secondFaceXPosition = FormulaElement(SENSOR, SECOND_FACE_X.name, null)
         private var secondFaceYPosition = FormulaElement(SENSOR, SECOND_FACE_Y.name, null)
-
+//new AI Start
+        private var on_Device_Object_Recognition = FormulaElement(SENSOR, On_Device_Object_Recognition.name, null)
+        private var on_Device_Face_Recognition = FormulaElement(SENSOR, On_Device_Face_Recognition.name, null)
+        private var face_Age = FormulaElement(SENSOR, Face_Age.name, null)
+        private var face_Gender = FormulaElement(SENSOR, Face_Gender.name, null)
+        private var face_Expression = FormulaElement(SENSOR, Face_Expression.name, null)
+        //end
         private var noseX = FormulaElement(SENSOR, NOSE_X.name, null)
         private var noseY = FormulaElement(SENSOR, NOSE_Y.name, null)
         private var leftEyeInnerX = FormulaElement(SENSOR, LEFT_EYE_INNER_X.name, null)

@@ -215,6 +215,12 @@ public final class ProjectManager {
 		if (resourcesSet.contains(Brick.OBJECT_DETECTION)) {
 			SettingsFragment.setAIObjectDetectionPreferenceEnabled(context, true);
 		}
+		if (resourcesSet.contains(Brick.OBJECT_RECOGNITION)) {
+			SettingsFragment.setAIObjectRecognitionPreferenceEnabled(context, true);
+		}
+		if (resourcesSet.contains(Brick.FACE_RECOGNITION)) {
+			SettingsFragment.setAIFaceRecognitionPreferenceEnabled(context, true);
+		}
 
 		currentlyPlayingScene = project.getDefaultScene();
 		currentSprite = null;

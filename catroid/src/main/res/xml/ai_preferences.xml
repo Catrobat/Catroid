@@ -62,5 +62,15 @@
             android:key="setting_ai_object_detection"
             android:summary="@string/preference_description_ai_object_recognition"
             android:title="@string/preference_title_ai_object_recognition" />
+    <CheckBoxPreference
+        android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+        android:key="setting_ai_on_device_object_detection"
+        android:summary="@string/preference_description_ai_ondevice_object_recognition"
+        android:title="@string/preference_title_ai_ondevice_object_recognition" />
+    <CheckBoxPreference
+        android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+        android:key="setting_ai_on_device_face_detection"
+        android:summary="@string/preference_description_ai_ondevice_face_recognition"
+        android:title="@string/preference_title_ai_ondevice_face_recognition" />
 
     </PreferenceScreen>

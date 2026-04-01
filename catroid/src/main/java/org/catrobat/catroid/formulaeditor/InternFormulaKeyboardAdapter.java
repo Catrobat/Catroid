@@ -244,6 +244,18 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.Y_INCLINATION);
 			case R.string.formula_editor_sensor_loudness:
 				return buildSensor(Sensors.LOUDNESS);
+				//ai start
+			case R.string.formula_editor_sensor_on_device_object_detected:
+				return buildSensor(Sensors.On_Device_Object_Recognition);
+			case R.string.formula_editor_sensor_on_device_face_detected:
+				return buildSensor(Sensors.On_Device_Face_Recognition);
+			case R.string.formula_editor_sensor_on_device_face_age:
+				return buildSensor(Sensors.Face_Age);
+			case R.string.formula_editor_sensor_on_device_face_gender:
+				return buildSensor(Sensors.Face_Gender);
+			case R.string.formula_editor_sensor_on_device_face_expression:
+				return buildSensor(Sensors.Face_Expression);
+			//end
 			case R.string.formula_editor_sensor_face_detected:
 				return buildSensor(Sensors.FACE_DETECTED);
 			case R.string.formula_editor_sensor_face_size:

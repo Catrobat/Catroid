@@ -163,7 +163,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
 
     override fun deleteItems(selectedItems: List<LookData?>) {
         setShowProgressBar(true)
-        var deletedItemCount = 0
         for (item in selectedItems) {
             try {
                 lookController.delete(item)
@@ -171,13 +170,12 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
-            deletedItemCount++
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
                 R.plurals.deleted_looks,
-                deletedItemCount,
-                deletedItemCount
+                selectedItems.size,
+                selectedItems.size
             )
         )
         finishActionMode()

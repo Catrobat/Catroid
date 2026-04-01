@@ -199,6 +199,9 @@ public final class BrickValues {
 
 	//Constants Web
 	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
+	public static final String ASK_Question = "What is Your Question";
+	public static final String ASK_CHAT_QUESTION = "Question";
+	public static final String RESPONSE_CHAT_QUESTION = "Response";
 	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
 	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
 	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";

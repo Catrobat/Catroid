@@ -58,6 +58,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -385,6 +386,20 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// 🔁 Handle inline face training results first (FaceNameTrainAction)
+		if (requestCode >= 1000 && requestCode < 1100) {
+			try {
+				FaceNameTrainAction trainer = FaceNameTrainAction.Companion.getCurrentInstance();
+				if (trainer != null) {
+					trainer.handleResult(requestCode - 1000, resultCode, data);
+					return; // Don't fall through
+				}
+			} catch (Exception e) {
+				Log.e("native", "Execution failed: " + e.getLocalizedMessage());
+			}
+		}
+
+		// Original test result handling
 		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
 				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
 			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
@@ -395,6 +410,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			clipboard.setPrimaryClip(testResult);
 		}
 
+		// Intent listener handling
 		if (intentListeners.indexOfKey(requestCode) >= 0) {
 			IntentListener asker = intentListeners.get(requestCode);
 			if (data != null) {

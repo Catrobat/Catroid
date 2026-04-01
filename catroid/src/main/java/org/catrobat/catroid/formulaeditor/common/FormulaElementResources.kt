@@ -47,7 +47,6 @@ object FormulaElementResources {
             Sensors.SECOND_FACE_SIZE,
             Sensors.SECOND_FACE_X,
             Sensors.SECOND_FACE_Y -> Brick.FACE_DETECTION
-
             Sensors.TEXT_FROM_CAMERA,
             Sensors.TEXT_BLOCKS_NUMBER,
             Sensors.TEXT_BLOCK_X,
@@ -58,6 +57,13 @@ object FormulaElementResources {
 
             Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
 
+
+            Sensors.On_Device_Object_Recognition-> Brick.OBJECT_RECOGNITION
+
+            Sensors.On_Device_Face_Recognition,
+            Sensors.Face_Age,
+            Sensors.Face_Gender,
+            Sensors.Face_Expression -> Brick.FACE_RECOGNITION
             else -> return
         }.let { resources.add(it) }
     }

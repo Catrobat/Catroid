@@ -36,6 +36,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -220,6 +221,39 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public void setSensorLoudness(SensorLoudness sensorLoudness) {
 		this.sensorLoudness = sensorLoudness;
 	}
+	public static void setFaceRecognitionResult(String name) {
+		if (instance == null) { // safety in case called very early
+			instance = new SensorHandler(CatroidApplication.getAppContext());
+		}
+		String safe = (name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
+		instance.sensorValueMap.put(Sensors.On_Device_Face_Recognition, safe);
+	}
+	public static void setObjectRecognitionResult(String name) {
+		instance.sensorValueMap.put(Sensors.On_Device_Object_Recognition, name);
+	}
+	public static void setAgeRecognitionResult(String name) {
+		if (instance == null) { // safety in case called very early
+			instance = new SensorHandler(CatroidApplication.getAppContext());
+		}
+		String safe = (name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
+		instance.sensorValueMap.put(Sensors.Face_Age, safe);
+	}
+	public static void setGenderRecognitionResult(String name) {
+		if (instance == null) { // safety in case called very early
+			instance = new SensorHandler(CatroidApplication.getAppContext());
+		}
+		String safe = (name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
+		instance.sensorValueMap.put(Sensors.Face_Gender, safe);
+	}
+	public static void setExpressionRecognitionResult(String name) {
+		if (instance == null) { // safety in case called very early
+			instance = new SensorHandler(CatroidApplication.getAppContext());
+		}
+		String safe = (name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
+		instance.sensorValueMap.put(Sensors.Face_Expression, safe);
+	}
+
+
 
 	public static void registerListener(SensorEventListener listener) {
 		if (instance == null) {

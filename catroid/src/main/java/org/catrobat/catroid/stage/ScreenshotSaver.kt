@@ -49,8 +49,6 @@ class ScreenshotSaver(
     companion object {
         private val TAG = ScreenshotSaver::class.java.simpleName
         private const val IMAGE_QUALITY = 100
-        private const val MAX_SCREEN_SHOT_HEIGHT = 480
-        private const val MAX_SCREEN_SHOT_WIDTH = 480
         private const val NUMBER_OF_COLORS = 4
         private val VALID_FILENAME_REGEX = Regex("^[^<>:;,?\"*|/]+\$")
         private val ONLY_WHITESPACE_REGEX = Regex("\\s*")
@@ -102,19 +100,11 @@ class ScreenshotSaver(
             Bitmap.Config.ARGB_8888
         )
 
-        val aspectRatio = width / height.toDouble()
-        var newWidth = (MAX_SCREEN_SHOT_HEIGHT * aspectRatio).toInt()
-        if (newWidth > MAX_SCREEN_SHOT_WIDTH) {
-            newWidth = MAX_SCREEN_SHOT_WIDTH
-        }
-
-        val resizedBitMap = Bitmap.createScaledBitmap(fullScreenBitmap, newWidth, MAX_SCREEN_SHOT_HEIGHT, false)
-
         val imageScene = gdxFileHandler.absolute(folder + fileName)
         val streamScene = imageScene.write(false)
         try {
             File(folder + Constants.NO_MEDIA_FILE).createNewFile()
-            resizedBitMap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
+            fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
 
             if (ProjectManager.getInstance().currentProject != null) {
@@ -122,7 +112,7 @@ class ScreenshotSaver(
                 val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
                 val streamProject = imageProject.write(false)
                 File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()
-                resizedBitMap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
+                fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
                 streamProject.close()
             }
         } catch (e: IOException) {

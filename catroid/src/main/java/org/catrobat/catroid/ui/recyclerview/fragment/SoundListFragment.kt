@@ -146,7 +146,7 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
 
     override fun deleteItems(selectedItems: List<SoundInfo?>) {
         setShowProgressBar(true)
-        var deletedItemsCount = 0
+
         for (item in selectedItems) {
             try {
                 soundController.delete(item)
@@ -154,14 +154,13 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
-            deletedItemsCount++
         }
 
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
                 R.plurals.deleted_sounds,
-                deletedItemsCount,
-                deletedItemsCount
+                selectedItems.size,
+                selectedItems.size
             )
         )
         finishActionMode()

@@ -462,7 +462,7 @@ public class ScriptFragment extends ListFragment implements
 				loadProjectAfterUndoOption();
 				break;
 			case R.id.backpack:
-				prepareBackpackActionMode();
+				prepareActionMode(BACKPACK);
 				break;
 			case R.id.copy:
 				prepareActionMode(COPY);
@@ -471,7 +471,7 @@ public class ScriptFragment extends ListFragment implements
 				prepareActionMode(DELETE);
 				break;
 			case R.id.comment_in_out:
-				startActionMode(COMMENT);
+				prepareActionMode(COMMENT);
 				break;
 			case R.id.catblocks:
 				switchToCatblocks();
@@ -546,36 +546,17 @@ public class ScriptFragment extends ListFragment implements
 				.commit();
 	}
 
-	protected void prepareActionMode(int type) {
-		if (adapter.getCount() == 1) {
-			switch (type) {
-				case COPY:
-					copy(adapter.getItems());
-					break;
-				case DELETE:
-					delete(adapter.getItems());
-					break;
-				default:
-					startActionMode(type);
-					break;
+	protected void prepareActionMode(@ActionModeType int type) {
+		if (type == BACKPACK) {
+			if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
+				startActionMode(BACKPACK);
+			} else if (adapter.isEmpty()) {
+				switchToBackpack();
+			} else {
+				showBackpackModeChooser();
 			}
 		} else {
 			startActionMode(type);
-		}
-	}
-
-	private void prepareBackpackActionMode() {
-		if (adapter.getItems().size() == 1) {
-			showNewScriptGroupAlert(adapter.getItems());
-			return;
-		}
-
-		if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
-			startActionMode(BACKPACK);
-		} else if (adapter.isEmpty()) {
-			switchToBackpack();
-		} else {
-			showBackpackModeChooser();
 		}
 	}
 

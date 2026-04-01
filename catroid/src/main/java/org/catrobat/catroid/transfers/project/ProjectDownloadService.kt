@@ -86,8 +86,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         val zipFileString = File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
         val destinationFile = File(zipFileString)
 
-        if (((destinationFile.parentFile?.isDirectory ?: false) or
-                (destinationFile.parentFile?.mkdirs() ?: false)).not()) {
+        if ((destinationFile.parentFile.isDirectory or destinationFile.parentFile.mkdirs()).not()) {
             ToastUtil.showError(this, R.string.error_project_download)
             return
         }
