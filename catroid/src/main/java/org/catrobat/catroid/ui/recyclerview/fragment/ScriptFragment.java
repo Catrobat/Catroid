@@ -904,17 +904,28 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
 
+		if (!undoCodeFile.exists()) {
+			Log.e(TAG, "Undo code file " + UNDO_CODE_XML_FILE_NAME + " does not exist.");
+			if (getContext() != null) {
+				ToastUtil.showError(getContext(), R.string.error_load_project);
+			}
+			return;
+		}
+
 		if (currentCodeFile.exists()) {
 			try {
+				StorageOperations.transferData(undoCodeFile, currentCodeFile);
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 				if (spriteActivity != null) {
 					spriteActivity.setUndoMenuItemVisibility(false);
 					spriteActivity.showUndo(false);
 				}
-				StorageOperations.transferData(undoCodeFile, currentCodeFile);
 				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
-				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
+				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
+				if (getContext() != null) {
+					ToastUtil.showError(getContext(), R.string.error_load_project);
+				}
 			}
 		}
 	}
@@ -922,30 +933,41 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public void onLoadFinished(boolean success) {
+		if (!isAdded() || getContext() == null) {
+			return;
+		}
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 		if (!success) {
 			Log.e(TAG, "Loading project after undo failed.");
-			if (getContext() != null) {
-				ToastUtil.showError(getContext(), R.string.error_load_project);
-			}
-			SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+			ToastUtil.showError(getContext(), R.string.error_load_project);
 			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(false);
-				spriteActivity.showUndo(false);
+				spriteActivity.setUndoMenuItemVisibility(true);
+				spriteActivity.showUndo(true);
 			}
 			return;
 		}
 		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
 			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
 		}
-		if (adapter != null) {
-			adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
-		}
+
+		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
+		adapter.setSelectionListener(this);
+		adapter.setOnItemClickListener(this);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(adapter);
+		listView.setOnItemLongClickListener(adapter);
+
 		loadVariables();
 		refreshFragmentAfterUndo();
-		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 		if (spriteActivity != null) {
 			spriteActivity.setUndoMenuItemVisibility(false);
 			spriteActivity.showUndo(false);
+		}
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		if (undoCodeFile.exists()) {
+			undoCodeFile.delete();
 		}
 	}
 
