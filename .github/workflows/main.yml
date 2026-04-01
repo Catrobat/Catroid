@@ -66,6 +66,9 @@ jobs:
 
   unit-tests:
     needs: repo-check
+    permissions:
+      checks: write
+      contents: read
     name: Unit Tests
     runs-on: ubuntu-latest
     permissions:
@@ -112,6 +115,7 @@ jobs:
       - name: Upload JaCoCo Coverage XML
         uses: actions/upload-artifact@v4
         if: success() || failure()
+        continue-on-error: true
         with:
           name: coverage-xml-unit-tests
           path: catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml

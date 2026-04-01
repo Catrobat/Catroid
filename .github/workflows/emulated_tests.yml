@@ -126,6 +126,7 @@ jobs:
       - name: Upload Coverage XML for SonarQube
         uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: coverage-xml-${{inputs.calling-job}}
           path: catroid/build/reports/coverage/androidTest/catroid/debug/connected/report.xml
