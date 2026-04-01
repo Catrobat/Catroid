@@ -241,7 +241,7 @@ public class ProjectAndSceneScreenshotLoader {
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectAndSceneScreenshotData.projectName);
 				manualScreenshotFile = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
 				automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
-				if (!automaticScreenShotFile.exists() && !manualScreenshotFile.exists()) {
+				if (!automaticScreenShotFile.exists()) {
 					int random = new Random().nextInt(placeholderImages.length);
 					try {
 						ResourceImporter.createImageFileFromResourcesInDirectory(ProjectManager.getInstance().getApplicationContext().getResources(),
@@ -258,7 +258,6 @@ public class ProjectAndSceneScreenshotLoader {
 			}
 
 			if (manualScreenshotFile.exists() && manualScreenshotFile.length() > 0) {
-				automaticScreenShotFile.delete();
 				return manualScreenshotFile;
 			} else {
 				manualScreenshotFile.delete();

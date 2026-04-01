@@ -74,6 +74,8 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.NFC_ADAPTER, Arrays.asList(NFC));
 		brickResourcesToPermissions.put(Brick.FACE_DETECTION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.OBJECT_DETECTION, Collections.singletonList(CAMERA));
+		brickResourcesToPermissions.put(Brick.OBJECT_RECOGNITION, Collections.singletonList(CAMERA));
+		brickResourcesToPermissions.put(Brick.FACE_RECOGNITION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.POSE_DETECTION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.TEXT_DETECTION, Collections.singletonList(CAMERA));
 		brickResourcesToPermissions.put(Brick.MICROPHONE, Arrays.asList(RECORD_AUDIO));

@@ -144,7 +144,6 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
 
     override fun deleteItems(selectedItems: List<Scene?>) {
         setShowProgressBar(true)
-        var deletedItemsCount = 0
         for (item in selectedItems) {
             try {
                 sceneController.delete(item)
@@ -152,13 +151,12 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
-            deletedItemsCount++
         }
         ToastUtil.showSuccess(
             activity, resources.getQuantityString(
                 R.plurals.deleted_scenes,
-                deletedItemsCount,
-                deletedItemsCount
+                selectedItems.size,
+                selectedItems.size
             )
         )
         finishActionMode()

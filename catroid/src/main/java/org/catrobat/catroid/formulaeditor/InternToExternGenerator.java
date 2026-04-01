@@ -142,7 +142,18 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_second_face_x_position);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_Y.name(),
 				R.string.formula_editor_sensor_second_face_y_position);
-
+//ai new start
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.On_Device_Object_Recognition.name(),
+				R.string.formula_editor_sensor_on_device_object_detected);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.On_Device_Face_Recognition.name(),
+				R.string.formula_editor_sensor_on_device_face_detected);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Face_Age.name(),
+				R.string.formula_editor_sensor_on_device_face_age);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Face_Gender.name(),
+				R.string.formula_editor_sensor_on_device_face_gender);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Face_Expression.name(),
+				R.string.formula_editor_sensor_on_device_face_expression);
+		//end
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.HEAD_TOP_X.name(), R.string.formula_editor_sensor_head_top_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.HEAD_TOP_Y.name(), R.string.formula_editor_sensor_head_top_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NECK_X.name(), R.string.formula_editor_sensor_neck_x);

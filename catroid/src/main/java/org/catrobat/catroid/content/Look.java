@@ -314,12 +314,6 @@ public class Look extends Image {
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
 		}
-		if (sprite != null && sprite.plot != null && sprite.plot.isPlotting()
-				&& !simultaneousMovementXY) {
-			float x = getXInUserInterfaceDimensionUnit();
-			float y = getYInUserInterfaceDimensionUnit();
-			sprite.plot.addPoint(new PointF(x, y));
-		}
 	}
 
 	public void startThread(ScriptSequenceAction sequenceAction) {
@@ -456,12 +450,7 @@ public class Look extends Image {
 	}
 
 	public void changeYInUserInterfaceDimensionUnit(float changeY) {
-
 		setY(getY() + changeY);
-	}
-
-	public void changePositionInInterfaceDimensionUnit(float changeX, float changeY){
-		setPosition(getX() + changeX, getY() + changeY);
 	}
 
 	public float getWidthInUserInterfaceDimensionUnit() {

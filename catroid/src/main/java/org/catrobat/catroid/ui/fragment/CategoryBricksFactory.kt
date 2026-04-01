@@ -54,6 +54,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
+import org.catrobat.catroid.content.bricks.ChatResponseBrick
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick
@@ -61,6 +62,7 @@ import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick
 import org.catrobat.catroid.content.bricks.CopyLookBrick
+import org.catrobat.catroid.content.bricks.DataTrainAtBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
 import org.catrobat.catroid.content.bricks.DeleteLookBrick
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick
@@ -79,6 +81,8 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.ShowFaceDataBrick
+import org.catrobat.catroid.content.bricks.FaceNameTrain
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -118,6 +122,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.NextLookBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
+import org.catrobat.catroid.content.bricks.ObjectTrainBrick
 import org.catrobat.catroid.content.bricks.OpenUrlBrick
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick
 import org.catrobat.catroid.content.bricks.ParameterizedBrick
@@ -144,6 +149,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick
+import org.catrobat.catroid.content.bricks.ReadChatListFromDeviceBrick
 import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick
 import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick
@@ -153,7 +159,6 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ReportBrick
 import org.catrobat.catroid.content.bricks.ResetTimerBrick
 import org.catrobat.catroid.content.bricks.RunningStitchBrick
-import org.catrobat.catroid.content.bricks.SavePlotBrick
 import org.catrobat.catroid.content.bricks.SayBubbleBrick
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
@@ -196,10 +201,8 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
-import org.catrobat.catroid.content.bricks.StartPlotBrick
 import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick
-import org.catrobat.catroid.content.bricks.StopPlotBrick
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
@@ -268,7 +271,6 @@ open class CategoryBricksFactory {
             context.getString(R.string.category_cast) -> return setupChromecastCategoryList(context)
             context.getString(R.string.category_raspi) -> return setupRaspiCategoryList()
             context.getString(R.string.category_embroidery) -> return setupEmbroideryCategoryList(context)
-            context.getString(R.string.category_plot) -> return setupPlotCategoryList(context)
             context.getString(R.string.category_assertions) -> return setupAssertionsCategoryList(context)
             else -> return emptyList()
         }
@@ -581,7 +583,18 @@ open class CategoryBricksFactory {
         }
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
         deviceBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
+        //Chatbot Code Start
 
+        val ifConditionFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null)
+        val ifConditionFormula = Formula(ifConditionFormulaElement)
+        deviceBrickList.add(ReadChatListFromDeviceBrick())
+        deviceBrickList.add(DataTrainAtBrick(BrickValues.ASK_CHAT_QUESTION, BrickValues.RESPONSE_CHAT_QUESTION))
+        deviceBrickList.add(ChatResponseBrick(context.getString(R.string.brick_response_default_question)))
+        deviceBrickList.add(FaceNameTrain())
+        deviceBrickList.add(ShowFaceDataBrick(context.getString(R.string.brick_face_default_sensor)))
+        deviceBrickList.add(ObjectTrainBrick())
+
+        //Chatbot Code End
         if (SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)) {
             deviceBrickList.add(SpeakBrick(context.getString(R.string.brick_speak_default_value)))
             deviceBrickList.add(SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)))
@@ -715,14 +728,6 @@ open class CategoryBricksFactory {
         embroideryBrickList.add(StopRunningStitchBrick())
         embroideryBrickList.add(WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)))
         return embroideryBrickList
-    }
-
-    private fun setupPlotCategoryList(context: Context): List<Brick> {
-        val plotBrickList: MutableList<Brick> = ArrayList()
-        plotBrickList.add(StartPlotBrick())
-        plotBrickList.add(StopPlotBrick())
-        plotBrickList.add(SavePlotBrick(context.getString(R.string.brick_default_plot_file)))
-        return plotBrickList
     }
 
     private fun setupAssertionsCategoryList(context: Context): List<Brick> {

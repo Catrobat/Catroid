@@ -24,11 +24,13 @@
 package org.catrobat.catroid.stage;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
 import android.location.LocationManager;
 import android.nfc.NfcAdapter;
 import android.os.Build;
@@ -36,7 +38,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-
+import org.catrobat.catroid.AgeGender.AgeGenderEngine;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -60,7 +62,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibrationManager;
-
+import org.catrobat.catroid.FaceRecognizer.MainActivityForRecog;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -78,9 +80,13 @@ import static org.koin.java.KoinJavaComponent.get;
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
 
+
+	// inside class
+	private static final int REQUEST_FACE_RECOG = 4242;
+	private static final int REQUEST_OBJECT_RECOG = 1001;
+	private boolean faceRecogLaunchedThisRun = false;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int REQUEST_GPS = 1;
-
 	private Brick.ResourcesSet requiredResourcesSet;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
@@ -242,12 +248,67 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
-		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {
-			if (getCameraManager().startDetection()) {
-				resourceInitialized();
-			} else {
-				resourceFailed(Brick.OBJECT_DETECTION);
+
+
+		if (requiredResourcesSet.contains(Brick.FACE_RECOGNITION)) {
+			AgeGenderEngine.detectAge(stageActivity, (age, error) -> {
+				if (error == null && age != null) {
+					org.catrobat.catroid.formulaeditor.SensorHandler
+							.setAgeRecognitionResult(String.valueOf(age));
+					resourceInitialized();
+				} else {
+					resourceFailed(Brick.FACE_RECOGNITION);
+				}
+			});
+		}
+		if (requiredResourcesSet.contains(Brick.FACE_RECOGNITION)) {
+			AgeGenderEngine.detectGender(stageActivity, (gender, error) -> {
+				if (error == null && gender != null) {
+					org.catrobat.catroid.formulaeditor.SensorHandler
+							.setGenderRecognitionResult(gender);
+					resourceInitialized();
+				} else {
+					resourceFailed(Brick.FACE_RECOGNITION);
+				}
+			});
+		}
+		if (requiredResourcesSet.contains(Brick.FACE_RECOGNITION)) {
+			AgeGenderEngine.detectExpression(stageActivity, (expr, error) -> {
+				if (error == null && expr != null) {
+					org.catrobat.catroid.formulaeditor.SensorHandler
+							.setExpressionRecognitionResult(expr);
+					resourceInitialized();
+				} else {
+					resourceFailed(Brick.FACE_RECOGNITION);
+				}
+			});
+		}
+
+		if (requiredResourcesSet.contains(Brick.FACE_RECOGNITION)) {
+			if (!faceRecogLaunchedThisRun) {
+				faceRecogLaunchedThisRun = true;
+				try {
+					Intent i = new Intent(stageActivity,
+							org.catrobat.catroid.FaceRecognizer.MainActivityForRecog.class);
+					stageActivity.startActivityForResult(i, REQUEST_FACE_RECOG);
+
+				} catch (Exception e) {
+					Log.e(TAG, "Launching face recognition failed", e);
+					resourceFailed(Brick.FACE_RECOGNITION);
+				}
 			}
+		}
+		if (requiredResourcesSet.contains(Brick.OBJECT_RECOGNITION)) {
+				try {
+					Intent i = new Intent(stageActivity,
+							org.catrobat.catroid.ObjectTrainAndRecognition.ui.ObjectPredictActivityKotlin.class);
+					stageActivity.startActivityForResult(i, REQUEST_OBJECT_RECOG);
+					resourceInitialized();
+
+				} catch (Exception e) {
+					Log.e(TAG, "Launching Object recognition failed", e);
+					resourceFailed(Brick.OBJECT_RECOGNITION);
+				}
 		}
 
 		if (requiredResourcesSet.contains(Brick.POSE_DETECTION)) {
@@ -457,6 +518,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_object_detection_available));
 					break;
+				case Brick.OBJECT_RECOGNITION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_object_recognition_available));
+					break;
+				case Brick.FACE_RECOGNITION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_face_recognition_available));
+					break;
 				case Brick.SPEECH_RECOGNITION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.speech_recognition_not_available));
@@ -503,6 +572,42 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				} else {
 					resourceFailed(Brick.SENSOR_GPS);
 				}
+				break;
+			case REQUEST_FACE_RECOG:
+				if (resultCode == RESULT_OK && data != null) {
+					String name = data.getStringExtra("detected_name");
+					float  conf = data.getFloatExtra("detected_conf", 0f);
+
+					// Make it available as a sensor value (if you wired this earlier)
+					org.catrobat.catroid.formulaeditor.SensorHandler
+							.setFaceRecognitionResult(name);
+
+					Log.d(TAG, "FACE_RECOG OK -> " + name + " (conf=" + conf + ")");
+					resourceInitialized(); // decrement counter for FACE_RECOGNITION
+				} else {
+					Log.d(TAG, "FACE_RECOG cancelled/back pressed; continuing without it.");
+					resourceFailed(Brick.FACE_RECOGNITION); // decrement counter so init can finish
+				}
+				break;
+			case REQUEST_OBJECT_RECOG:
+
+					if (resultCode == Activity.RESULT_OK && data != null) {
+						String label = data.getStringExtra(
+								org.catrobat.catroid.ObjectTrainAndRecognition.ui.ObjectPredictActivityKotlin.EXTRA_LABEL_NAME
+						);
+						SensorHandler.setObjectRecognitionResult(label);
+					} else {
+						String error = (data != null)
+								? data.getStringExtra(
+								org.catrobat.catroid.ObjectTrainAndRecognition.ui.ObjectPredictActivityKotlin.EXTRA_ERROR)
+								: null;
+						// Fallback to Unknown on cancel/error
+						SensorHandler.setObjectRecognitionResult("Unknown");
+						if (error != null) {
+							Log.w(TAG, "Object recognition error: " + error);
+						}
+					}
+
 				break;
 			default:
 				endStageActivity();

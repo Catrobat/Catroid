@@ -42,7 +42,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.13;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.12;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
@@ -72,7 +72,6 @@ public final class Constants {
 	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
-	public static final String SVG_FILE_EXTENSION = ".svg";
 	public static final String TEXT_FILE_EXTENSION = ".txt";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';

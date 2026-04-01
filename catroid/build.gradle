@@ -39,8 +39,9 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    maven { url "https://jitpack.io" }
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -54,7 +55,7 @@ ext {
     mockitoVersion = "3.12.4"
     espressoVersion = "3.1.0"
     playServicesVersion = '17.0.1'
-    cameraXVersion = "1.0.0-beta07"
+    cameraXVersion = "1.1.0"
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
     work_manager_version = '2.7.1'
@@ -102,11 +103,11 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 97
-def defaultVersionName = "1.3.0"
+def defaultVersionCode = 88
+def defaultVersionName = "1.1.2"
 
 android {
-    compileSdk 34
+    compileSdk 33
     buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
@@ -115,10 +116,16 @@ android {
         buildConfig = true
         viewBinding = true
     }
-
+    externalNativeBuild {
+        cmake {
+            path 'src/main/jni/CMakeLists.txt'
+            buildStagingDirectory = "${System.getenv('TEMP')}/android-build/${project.name}"
+        }
+    }
     defaultConfig {
-        minSdkVersion 28
-        targetSdkVersion 34
+
+        minSdkVersion 23
+        targetSdkVersion 33
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -149,7 +156,6 @@ android {
         buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_PLOT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
@@ -172,7 +178,9 @@ android {
         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         resValue "string", "DEBUG_MODE", "false"
-
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -196,6 +204,7 @@ android {
         }
     }
 
+    dexOptions.javaMaxHeapSize "4g"
     packagingOptions {
         jniLibs {
             excludes += ['lib/mips/*', 'lib/armeabi/*']
@@ -259,8 +268,8 @@ android {
 
     flavorDimensions = ["default"]
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     androidResources {
         noCompress 'lite'
@@ -379,7 +388,7 @@ dependencies {
     }
 
     // Support libraries
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+  //  implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
@@ -408,10 +417,11 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-
+    implementation "androidx.activity:activity:1.5.1"      // provides registerForActivityResult(...)
+    implementation "androidx.appcompat:appcompat:1.5.1"    // recommended with 1.6.x Kotlin
     // Room
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
@@ -442,12 +452,18 @@ dependencies {
     implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
-    implementation 'com.github.oliewa92:MidiDroid:v1.1'
+   implementation 'com.github.pdrogfer:MidiDroid:1.1'
+    //implementation files('libs/MidiDroid.jar')
+   // implementation 'com.github.pdrogfer:MidiDroid:1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.16'
-
     // CameraX
     implementation "androidx.camera:camera-camera2:$cameraXVersion"
     implementation "androidx.camera:camera-lifecycle:${cameraXVersion}"
+    implementation 'androidx.camera:camera-core:1.1.0'
+    implementation 'androidx.camera:camera-view:1.1.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.12.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.4.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.2.0'
 
     // ML Kit
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
@@ -467,6 +483,11 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-vision-ocr:3.7.0.302'
     implementation 'com.huawei.hms:ml-computer-language-detection:3.7.0.301'
     implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.7.0.301'
+//ChatBot
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation files('libs/Ab.jar')
+    implementation 'com.github.bumptech.glide:glide:4.9.0' // glide library
+    implementation 'de.hdodenhof:circleimageview:3.0.0' // circular image view library
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -496,7 +517,7 @@ dependencies {
     testImplementation 'org.powermock:powermock:1.6.6'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
-
+    testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'org.robolectric:robolectric:4.7.3'
     testImplementation 'org.robolectric:shadows-multidex:4.7.3'
 
@@ -568,7 +589,7 @@ tasks.whenTaskAdded { packageTask ->
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "17"
   }
 }
 

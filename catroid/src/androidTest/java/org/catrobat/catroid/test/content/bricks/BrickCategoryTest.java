@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskQuestionChat;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
@@ -148,6 +149,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ResetTimerBrick;
+import org.catrobat.catroid.content.bricks.ResponseAnswerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -421,10 +423,12 @@ public class BrickCategoryTest {
 						WebRequestBrick.class,
 						LookRequestBrick.class,
 						OpenUrlBrick.class,
+						AskQuestionChat.class,
 						VibrationBrick.class,
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
 						AskSpeechBrick.class,
+						ResponseAnswerBrick.class,
 						StartListeningBrick.class,
 						CameraBrick.class,
 						ChooseCameraBrick.class,

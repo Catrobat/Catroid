@@ -212,6 +212,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_sensor_second_face_size,
 			R.string.formula_editor_sensor_second_face_x_position,
 			R.string.formula_editor_sensor_second_face_y_position);
+
+	private static final List<Integer> SENSORS_AI_OBJECT_DETECTION = asList(R.string.formula_editor_sensor_on_device_object_detected);
+	private static final List<Integer> SENSORS_AI_FACE_DETECTION = asList(R.string.formula_editor_sensor_on_device_face_detected,
+			R.string.formula_editor_sensor_on_device_face_age, R.string.formula_editor_sensor_on_device_face_gender,
+			R.string.formula_editor_sensor_on_device_face_expression);
 	private static final List<Integer> SENSORS_FACE_DETECTION_PARAMS = asList(R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
@@ -900,6 +905,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getPoseSensorItems());
 		result.addAll(getTextSensorItems());
 		result.addAll(getObjectDetectionSensorItems());
+		result.addAll(getObjectRecognitionSensorItems());
+		result.addAll(getFaceRecognitionSensorItems());
 		result.addAll(getDeviceSensorItems());
 		result.addAll(getTouchDetectionSensorItems());
 		result.addAll(getDateTimeSensorItems());
@@ -1049,4 +1056,23 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				getString(R.string.formula_editor_device_object_recognition))
 				: Collections.emptyList();
 	}
+	private List<CategoryListItem> getObjectRecognitionSensorItems() {
+		return SettingsFragment.isAIObjectRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_AI_OBJECT_DETECTION,SENSORS_object_recognition_PARAMS),
+				getString(R.string.formula_editor_on_device_object_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getFaceRecognitionSensorItems() {
+		return SettingsFragment.isAIFaeRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_AI_FACE_DETECTION,SENSORS_FACE_recognition_PARAMS),
+				getString(R.string.formula_editor_on_device_face_recognition))
+				: Collections.emptyList();
+	}
+	private static final List<Integer> SENSORS_FACE_recognition_PARAMS = asList(R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter);
+
+	private static final List<Integer> SENSORS_object_recognition_PARAMS = asList(R.string.formula_editor_function_no_parameter);
 }

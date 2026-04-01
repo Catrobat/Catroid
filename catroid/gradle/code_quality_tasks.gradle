@@ -67,8 +67,8 @@ task pmd(type: Pmd) {
     ignoreFailures true
 
     reports {
-        xml.required = true
-        html.enabled = false
+      xml.required = true
+        html.required = true
         xml.destination file("build/reports/pmd.xml")
     }
 }

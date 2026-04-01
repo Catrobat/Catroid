@@ -35,7 +35,7 @@
     <color name="view_holder_item_title">#aadbf0</color>
     <color name="view_holder_item_details">@color/solid_white</color>
     <color name="spinner_icon_and_inactive_elements">@color/solid_white</color>
-
+<color name="colorPrimaryDark">#59e2ee</color>
     <!-- Backgrounds -->
     <color name="app_background">#04222C</color>
     <color name="button_background">#00475E</color>
@@ -46,6 +46,7 @@
     <!-- Accent Colors -->
     <color name="accent">#A8DFF4</color>
     <color name="brick_field_highlight">#33B5E5</color>
+    <color name="image_view_border">@color/accent</color>
     <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
     <color name="action_button">#ffab08</color>
@@ -134,6 +135,10 @@
      <color name="brick_color_grey">#AAAAAA</color>
      <color name="brick_color_white">#FFFFFF</color>
      <color name="brick_color_black">#323331</color>
-     <color name="brick_color_winered">#910D06</color>
-
+     <color name="colorBackgroundDark">#C0392B</color>
+    <color name="cream">#FFF6CE</color>
+    <color name="chip_green">#B7E1A1</color>
+    <color name="danger_pink">#FF7FA3</color>
+    <color name="ink">#5B2E91</color>
+    <color name="soft_bg">#EEEEEE</color>
     </resources>

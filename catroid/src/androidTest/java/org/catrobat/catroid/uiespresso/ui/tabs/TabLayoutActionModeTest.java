@@ -62,7 +62,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
-import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
@@ -91,7 +90,6 @@ public class TabLayoutActionModeTest {
 	public Integer fragment;
 
 	private Project project;
-	final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws IOException {
@@ -100,7 +98,7 @@ public class TabLayoutActionModeTest {
 	}
 
 	@Test
-	public void testFragmentAbortDelete() {
+	public void testFragment() {
 		onView(withId(tab_layout)).perform(selectTabAtPosition(fragment));
 		assertTabLayoutIsShown(fragment);
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
@@ -125,18 +123,16 @@ public class TabLayoutActionModeTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "TabLayoutActionModeTest");
 		Sprite sprite = new Sprite("testSprite");
+
 		project.getDefaultScene().addSprite(sprite);
-		projectManager.setCurrentProject(project);
-		projectManager.setCurrentSprite(sprite);
-		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 
 		Script script = new StartScript();
 		sprite.addScript(script);
-		sprite.addScript(new StartScript());
 		sprite.getLookList().add(createLookData());
-		sprite.getLookList().add(createLookData());
-		sprite.getSoundList().add(createSoundInfo());
 		sprite.getSoundList().add(createSoundInfo());
 	}
 
