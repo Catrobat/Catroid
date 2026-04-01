@@ -105,6 +105,13 @@ jobs:
           path: |
             catroid/build/reports/tests/testCatroidDebugUnitTest
 
+      - name: Upload JaCoCo Coverage XML
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: coverage-xml-unit-tests
+          path: catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml
+
   code-analysis:
     needs: repo-check
     name: Code Analysis
@@ -185,3 +192,54 @@ jobs:
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
       calling-job: rtl-tests
+
+  sonarqube:
+    needs: [unit-tests, instrumented-unit-tests, testrunner-tests, quarantined-tests, rtl-tests]
+    if: always()
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Download Unit Test Coverage XML
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-xml-unit-tests
+          path: catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport
+        continue-on-error: true
+
+      - name: Download Instrumented Test Coverage Reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-xml-*
+          path: coverage-reports
+          merge-multiple: false
+        continue-on-error: true
+
+      - name: Compile Sources
+        run: ./gradlew compileCatroidDebugSources
+
+      - name: Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew sonar \
+            -Dsonar.coverage.jacoco.xmlReportPaths="\
+              catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml,\
+              coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,\
+              coverage-reports/coverage-xml-testrunner-tests/report.xml,\
+              coverage-reports/coverage-xml-quarantined-tests/report.xml,\
+              coverage-reports/coverage-xml-rtl-tests/report.xml"
