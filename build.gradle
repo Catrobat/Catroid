@@ -43,6 +43,18 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "7.2.3.7755"
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "Catrobat_Catroid"
+        property "sonar.organization", "catrobat"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
 allprojects {
     repositories {
         mavenLocal()
