@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_undo"
+        android:title="@string/undo"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_undo"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/backpack"
+        android:visible="true"
+        android:title="@string/backpack"
+        android:icon="@drawable/ic_content_paste_small"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/copy"
+        android:title="@string/copy"
+        android:icon="@drawable/ic_content_copy"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/rename"
+        android:title="@string/rename"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/show_details"
+        android:title="@string/show_details"
+        android:icon="@drawable/ic_placeholder"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/comment_in_out"
+        android:title="@string/comment_in_out"
+        android:visible="false"
+        android:icon="@drawable/ic_placeholder"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/find"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_menu"
+        app:showAsAction="never" />
+    <item
+         android:id="@+id/catblocks"
+         android:title="@string/catblocks"
+         android:icon="@drawable/ic_placeholder"
+         app:showAsAction="never"
+         />
+    <item android:id="@+id/catblocks_reorder_scripts"
+        android:title="@string/catblocks_reorder"
+        android:icon="@drawable/ic_placeholder"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
+</menu>

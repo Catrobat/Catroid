@@ -1,0 +1,97 @@
+#!groovy
+
+class DockerParameters {
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+    def args = '--device /dev/kvm:/dev/kvm ' +
+            ' -m=12G '
+    def label = 'LimitedEmulator'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
+def standaloneApk = 'catroid/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk'
+
+pipeline {
+    agent { 
+        docker {
+            image d.image
+            args d.args
+            label d.label
+            alwaysPull true
+        }
+    }
+
+    options {
+        timeout(time: 600, unit: 'SECONDS')
+        timestamps()
+    }
+
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = "${env.DOWNLOAD}"
+                }
+            }
+        }
+
+        stage('Check-for-invalid-program-upload') {
+            steps {
+                script {
+                    def ret = sh script: "./buildScripts/checkUrlExists.sh '$env.DOWNLOAD'", returnStatus: true
+                    if (ret == 200) {
+                        // Handle special error from the script, if the program download was not
+                        // possible because of the HTTP error 528, we set the build to UNSTABLE
+                        currentBuild.result = 'UNSTABLE'
+                    } else if (ret != 0) {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        stage('Build APK') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
+
+            steps {
+                script {
+                    env.SUFFIX = env.SUFFIX.replaceAll("-", "_")
+                }
+                sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
+                archiveArtifacts standaloneApk
+            }
+        }
+
+        stage('Upload to Web') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
+
+            steps {
+                script {
+                    uploadFileToWeb standaloneApk, "${env.UPLOAD}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+        }
+        failure {
+            notifyChat(['#ci-status', '#ci-status-standalone'])
+        }
+    }
+}

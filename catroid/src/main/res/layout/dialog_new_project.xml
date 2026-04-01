@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <include layout="@layout/toolbar"
+            android:id="@+id/toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:divider="@drawable/divider"
+            android:showDividers="middle|end" >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dialog_content_area_padding_top"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                app:errorEnabled="true"
+                app:hintEnabled="true" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:selectAllOnFocus="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dialog_content_area_padding"
+                android:paddingBottom="@dimen/dialog_content_area_padding"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                android:checkedButton="@+id/portrait_radio_button" >
+
+                <RadioButton
+                    android:id="@+id/portrait_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_smartphone_dialog_orientation_portrait"
+                    android:text="@string/new_project_dialog_portrait"
+                    android:gravity="center" />
+
+                <RadioButton
+                    android:id="@+id/landscape_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_smartphone_dialog_orientation_landscape"
+                    android:text="@string/new_project_dialog_landscape"
+                    android:gravity="center" />
+
+                <RadioButton
+                    android:id="@+id/cast_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_dialog_tv"
+                    android:text="@string/new_project_dialog_cast"
+                    android:gravity="center"
+                    android:visibility="gone" />
+            </RadioGroup>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/example_project_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/material_design_spacing_x_large"
+                android:paddingBottom="@dimen/material_design_spacing_x_large"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                android:text="@string/new_project_dialog_example_project" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

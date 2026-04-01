@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include layout="@layout/toolbar" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle"
+                android:focusableInTouchMode="true" >
+
+                <LinearLayout
+                    android:id="@+id/bluetooth_paired_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider"
+                    android:showDividers="middle"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/material_design_spacing_large"
+                        android:paddingEnd="@dimen/material_design_spacing_large"
+                        android:paddingTop="@dimen/material_design_spacing_small"
+                        android:paddingBottom="@dimen/material_design_spacing_small"
+                        android:text="@string/title_paired_devices"
+                        android:textAllCaps="true"
+                        android:textColor="@color/solid_white" />
+
+                    <ListView
+                        android:id="@+id/paired_devices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/divider" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:paddingStart="@dimen/material_design_spacing_large"
+                        android:paddingEnd="@dimen/material_design_spacing_large"
+                        android:paddingTop="@dimen/material_design_spacing_small"
+                        android:paddingBottom="@dimen/material_design_spacing_small"
+                        android:text="@string/title_other_devices"
+                        android:textAllCaps="true"
+                        android:textColor="@color/solid_white" />
+
+                    <ProgressBar
+                        android:id="@+id/device_list_progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:layout_gravity="center"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:paddingTop="@dimen/material_design_spacing_small"
+                        android:paddingBottom="@dimen/material_design_spacing_small"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider"
+                    android:showDividers="end" >
+
+                    <ListView
+                        android:id="@+id/new_devices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/divider" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bluetooth_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/material_design_spacing_large"
+        android:layout_marginBottom="@dimen/material_design_spacing_large"
+        android:src="@drawable/ic_search"
+        android:tint="@color/solid_white"
+        app:backgroundTint="@color/action_button"
+        app:elevation="10dp" />
+</RelativeLayout>

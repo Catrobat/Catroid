@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+
+    <string-array name="raspi_version_spinner_names">
+        <item>RaspberryPi Model A</item>
+        <item>RaspberryPi Model B</item>
+        <item>RaspberryPi Model A+</item>
+        <item>RaspberryPi Model B+</item>
+        <item>RaspberryPi 2</item>
+        <item>RaspberryPi Zero</item>
+    </string-array>
+
+    <string-array name="raspi_version_spinner_revisions">
+        <item>0007</item>
+        <item>0004</item>
+        <item>0012</item>
+        <item>0013</item>
+        <item>a01041</item>
+        <item>TODO</item>
+    </string-array>
+
+    <!-- Mindroid motors spinner -->
+    <string-array name="nxt_motor_chooser" >
+        <item >@string/nxt_motor_a</item >
+        <item >@string/nxt_motor_b</item >
+        <item >@string/nxt_motor_c</item >
+        <item >@string/nxt_motor_b_and_c</item >
+    </string-array >
+    <string-array name="nxt_stop_motor_chooser" >
+        <item >@string/nxt_motor_a</item >
+        <item >@string/nxt_motor_b</item >
+        <item >@string/nxt_motor_c</item >
+        <item >@string/nxt_motor_b_and_c</item >
+        <item >@string/nxt_motor_all</item >
+    </string-array >
+    <string-array name="nxt_sensor_chooser">
+        <item>@string/nxt_no_sensor</item>
+        <item>@string/nxt_sensor_touch</item>
+        <item>@string/nxt_sensor_sound</item>
+        <item>@string/nxt_sensor_light</item>
+        <item>@string/nxt_sensor_light_active</item>
+        <item>@string/nxt_sensor_ultrasonic</item>
+    </string-array>
+    <string-array name="port_chooser">
+        <item>@string/lego_port_1</item>
+        <item>@string/lego_port_2</item>
+        <item>@string/lego_port_3</item>
+        <item>@string/lego_port_4</item>
+    </string-array>
+    <string-array name="formula_editor_nxt_ports">
+        <item>@string/formula_editor_sensor_lego_nxt_1</item>
+        <item>@string/formula_editor_sensor_lego_nxt_2</item>
+        <item>@string/formula_editor_sensor_lego_nxt_3</item>
+        <item>@string/formula_editor_sensor_lego_nxt_4</item>
+    </string-array>
+
+    <string-array name="ev3_sensor_chooser">
+        <item>@string/ev3_no_sensor</item>
+        <item>@string/ev3_sensor_touch</item>
+        <item>@string/ev3_sensor_color</item>
+        <item>@string/ev3_sensor_color_ambient</item>
+        <item>@string/ev3_sensor_color_reflected</item>
+        <item>@string/ev3_sensor_infrared</item>
+        <item>@string/ev3_sensor_hitechnic_color</item>
+        <item>@string/ev3_sensor_nxt_temperature_c</item>
+        <item>@string/ev3_sensor_nxt_temperature_f</item>
+        <item>@string/ev3_sensor_nxt_light</item>
+        <item>@string/ev3_sensor_nxt_light_active</item>
+        <item>@string/ev3_sensor_nxt_sound</item>
+        <item>@string/ev3_sensor_nxt_ultrasonic</item>
+    </string-array>
+    <string-array name="ev3_motor_chooser" >
+        <item >@string/ev3_motor_a</item >
+        <item >@string/ev3_motor_b</item >
+        <item >@string/ev3_motor_c</item >
+        <item >@string/ev3_motor_d</item >
+        <item >@string/ev3_motor_b_and_c</item >
+    </string-array >
+    <string-array name="ev3_stop_motor_chooser" >
+        <item >@string/ev3_motor_a</item >
+        <item >@string/ev3_motor_b</item >
+        <item >@string/ev3_motor_c</item >
+        <item >@string/ev3_motor_d</item >
+        <item >@string/ev3_motor_b_and_c</item >
+        <item >@string/ev3_motor_all</item >
+    </string-array >
+    <string-array name="ev3_led_status_chooser" >
+        <item >@string/ev3_led_status_off</item>
+        <item >@string/ev3_led_status_green</item>
+        <item >@string/ev3_led_status_red</item>
+        <item >@string/ev3_led_status_orange</item>
+        <item >@string/ev3_led_status_green_flashing</item>
+        <item >@string/ev3_led_status_red_flashing</item>
+        <item >@string/ev3_led_status_orange_flashing</item>
+        <item >@string/ev3_led_status_green_pulse</item>
+        <item >@string/ev3_led_status_red_pulse</item>
+        <item >@string/ev3_led_status_orange_pulse</item>
+    </string-array>
+    <string-array name="formula_editor_ev3_ports">
+        <item>@string/formula_editor_sensor_lego_ev3_1</item>
+        <item>@string/formula_editor_sensor_lego_ev3_2</item>
+        <item>@string/formula_editor_sensor_lego_ev3_3</item>
+        <item>@string/formula_editor_sensor_lego_ev3_4</item>
+    </string-array>
+
+    <!-- Drone settings spinner-->
+    <string-array name="drone_setting_default_config" >
+        <item >@string/drone_config_indoor_with_hull</item >
+        <item >@string/drone_config_indoor_without_hull</item >
+        <item >@string/drone_config_outdoor_with_hull</item >
+        <item >@string/drone_config_outdoor_without_hull</item >
+    </string-array >
+
+    <!-- Drone altitude preferences spinner-->
+    <string-array name="drone_altitude_spinner_items" >
+        <item >@string/drone_set_altitude_max_3m</item >
+        <item >@string/drone_set_altitude_max_5m</item >
+        <item >@string/drone_set_altitude_max_10m</item >
+        <item >@string/drone_set_altitude_max_100m</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_vertical_speed_items" >
+        <item >@string/drone_set_vertical_min</item >
+        <item >@string/drone_set_vertical_indoor</item >
+        <item >@string/drone_set_vertical_outdoor</item >
+        <item >@string/drone_set_vertical_max</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_rotation_speed_items" >
+        <item >@string/drone_set_rotation_min</item >
+        <item >@string/drone_set_rotation_indoor</item >
+        <item >@string/drone_set_rotation_outdoor</item >
+        <item >@string/drone_set_rotation_max</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_tilt_angle_items" >
+        <item >@string/drone_set_tilt_min</item >
+        <item >@string/drone_set_tilt_indoor</item >
+        <item >@string/drone_set_tilt_outdoor</item >
+        <item >@string/drone_set_tilt_max</item >
+    </string-array >
+
+    <!-- Drone Play LED animation spinner -->
+    <string-array name="brick_drone_play_led_animation_spinner">
+        <item>@string/drone_animation_blinkgreenred</item>
+        <item>@string/drone_animation_blinkgreen</item>
+        <item>@string/drone_animation_blinkred</item>
+        <item>@string/drone_animation_blinkorange</item>
+        <item>@string/drone_animation_snakegreenred</item>
+        <item>@string/drone_animation_fire</item>
+        <item>@string/drone_animation_standard</item>
+        <item>@string/drone_animation_red</item>
+        <item>@string/drone_animation_green</item>
+        <item>@string/drone_animation_redsnake</item>
+        <item>@string/drone_animation_blank</item>
+        <item>@string/drone_animation_rightmissile</item>
+        <item>@string/drone_animation_leftmissile</item>
+        <item>@string/drone_animation_doublemissile</item>
+        <item>@string/drone_animation_frontleftgreenothersred</item>
+        <item>@string/drone_animation_frontrightgreenothersred</item>
+        <item>@string/drone_animation_rearrightgreenothersred</item>
+        <item>@string/drone_animation_rearleftgreenothersred</item>
+        <item>@string/drone_animation_leftgreenrightred</item>
+        <item>@string/drone_animation_leftredrightgreen</item>
+        <item>@string/drone_animation_blinkstandard</item>
+    </string-array>
+
+    <!-- Jumping Sumo animation spinner -->
+    <string-array name="brick_jumping_sumo_select_animation_spinner">
+        <item>@string/animation_spin</item>
+        <item>@string/animation_tab</item>
+        <item>@string/animation_slowshake</item>
+        <item>@string/animation_metronome</item>
+        <item>@string/animation_ondulation</item>
+        <item>@string/animation_spinjump</item>
+        <item>@string/animation_spiral</item>
+        <item>@string/animation_slalom</item>
+    </string-array>
+
+    <!-- Jumping Sumo sound spinner -->
+    <string-array name="brick_jumping_sumo_select_sound_spinner">
+        <item>@string/sound_default</item>
+        <item>@string/sound_robot</item>
+        <item>@string/sound_insect</item>
+        <item>@string/sound_monster</item>
+    </string-array>
+
+    <!-- Phiro tone spinner -->
+    <string-array name="brick_phiro_select_tone_spinner">
+        <item>@string/phiro_tone_do</item>
+        <item>@string/phiro_tone_re</item>
+        <item>@string/phiro_tone_mi</item>
+        <item>@string/phiro_tone_fa</item>
+        <item>@string/phiro_tone_so</item>
+        <item>@string/phiro_tone_la</item>
+        <item>@string/phiro_tone_ti</item>
+    </string-array>
+
+    <!-- Phiro motor spinner -->
+    <string-array name="brick_phiro_select_motor_spinner">
+        <item>@string/phiro_motor_left</item>
+        <item>@string/phiro_motor_right</item>
+        <item>@string/phiro_motor_both</item>
+    </string-array>
+
+    <!-- Phiro stop motor spinner -->
+    <string-array name="brick_phiro_stop_motor_spinner">
+        <item>@string/phiro_motor_left</item>
+        <item>@string/phiro_motor_right</item>
+        <item>@string/phiro_motor_both</item>
+    </string-array>
+
+    <!-- Phiro light spinner -->
+    <string-array name="brick_phiro_select_light_spinner">
+        <item>@string/phiro_light_left</item>
+        <item>@string/phiro_light_right</item>
+        <item>@string/phiro_light_both</item>
+    </string-array>
+
+    <!-- Phiro sensor spinner -->
+    <string-array name="brick_phiro_select_sensor_spinner">
+        <item>@string/phiro_sensor_front_left</item>
+        <item>@string/phiro_sensor_front_right</item>
+        <item>@string/phiro_sensor_side_left</item>
+        <item>@string/phiro_sensor_side_right</item>
+        <item>@string/phiro_sensor_bottom_left</item>
+        <item>@string/phiro_sensor_bottom_right</item>
+    </string-array>
+
+    <!-- Color picker selection -->
+    <string-array name="brick_select_color_picker">
+        <item>@string/brick_context_dialog_pick_color</item>
+        <item>@string/brick_context_dialog_formula_edit_brick</item>
+    </string-array>
+
+    <!-- Note picker selection -->
+    <string-array name="brick_select_note_picker">
+        <item>@string/brick_context_dialog_pick_note</item>
+        <item>@string/brick_context_dialog_formula_edit_brick</item>
+    </string-array>
+
+    <!-- Physics object type spinner -->
+    <string-array name="physics_object_types">
+        <item>@string/brick_set_physics_object_type_dynamic</item>
+        <item>@string/brick_set_physics_object_type_fixed</item>
+        <item>@string/brick_set_physics_object_type_no</item>
+    </string-array>
+
+    <!-- Accessibility settings font style spinner -->
+    <string-array name="accessibility_font_style">
+        <item>@string/accessibility_font_regular</item>
+        <item>@string/accessibility_font_serif</item>
+        <item>@string/accessibility_font_dyslexic</item>
+    </string-array>
+
+    <string-array name="accessibility_font_style_values">
+        <item>sans_serif</item>
+        <item>serif</item>
+        <item>dyslexic</item>
+    </string-array>
+
+    <!-- Formulas for text recognition -->
+    <string-array name="formulas_with_params">
+        <item>@string/formula_editor_function_abs</item>
+        <item>@string/formula_editor_function_arccos</item>
+        <item>@string/formula_editor_function_arcsin</item>
+        <item>@string/formula_editor_function_arctan</item>
+        <item>@string/formula_editor_function_arctan2</item>
+        <item>@string/formula_editor_function_arctan2</item>
+        <item>@string/formula_editor_function_arduino_read_pin_value_analog</item>
+        <item>@string/formula_editor_function_arduino_read_pin_value_digital</item>
+        <item>@string/formula_editor_function_ceil</item>
+        <item>@string/formula_editor_function_collides_with_color</item>
+        <item>@string/formula_editor_function_color_touches_color</item>
+        <item>@string/formula_editor_function_contains</item>
+        <item>@string/formula_editor_function_cos</item>
+        <item>@string/formula_editor_function_exp</item>
+        <item>@string/formula_editor_function_floor</item>
+        <item>@string/formula_editor_function_if_then_else</item>
+        <item>@string/formula_editor_function_index_of_item</item>
+        <item>@string/formula_editor_function_join</item>
+        <item>@string/formula_editor_function_join3</item>
+        <item>@string/formula_editor_function_length</item>
+        <item>@string/formula_editor_function_letter</item>
+        <item>@string/formula_editor_function_list_item</item>
+        <item>@string/formula_editor_function_ln</item>
+        <item>@string/formula_editor_function_log</item>
+        <item>@string/formula_editor_function_max</item>
+        <item>@string/formula_editor_function_min</item>
+        <item>@string/formula_editor_function_mod</item>
+        <item>@string/formula_editor_function_number_of_items</item>
+        <item>@string/formula_editor_function_power</item>
+        <item>@string/formula_editor_function_rand</item>
+        <item>@string/formula_editor_function_raspi_read_pin_value_digital</item>
+        <item>@string/formula_editor_function_regex</item>
+        <item>@string/formula_editor_function_round</item>
+        <item>@string/formula_editor_function_sin</item>
+        <item>@string/formula_editor_function_sqrt</item>
+        <item>@string/formula_editor_function_tan</item>
+        <item>@string/formula_editor_function_text_block_language_from_camera</item>
+        <item>@string/formula_editor_function_text_block_size</item>
+        <item>@string/formula_editor_function_text_block_x</item>
+        <item>@string/formula_editor_function_text_block_y</item>
+        <item>@string/formula_editor_sensor_color_at_x_y</item>
+    </string-array>
+    <string-array name="formulas_without_params">
+        <item>@string/formula_editor_function_collides_with_edge</item>
+        <item>@string/formula_editor_function_collision</item>
+        <item>@string/formula_editor_function_false</item>
+        <item>@string/formula_editor_function_finger_x</item>
+        <item>@string/formula_editor_function_finger_y</item>
+        <item>@string/formula_editor_function_index_of_current_touch</item>
+        <item>@string/formula_editor_function_index_of_last_finger</item>
+        <item>@string/formula_editor_function_is_finger_touching</item>
+        <item>@string/formula_editor_function_is_multi_finger_touching</item>
+        <item>@string/formula_editor_function_multi_finger_x</item>
+        <item>@string/formula_editor_function_multi_finger_y</item>
+        <item>@string/formula_editor_function_number_of_current_touches</item>
+        <item>@string/formula_editor_function_pi</item>
+        <item>@string/formula_editor_function_text_block_from_camera</item>
+        <item>@string/formula_editor_sensor_altitude</item>
+        <item>@string/formula_editor_sensor_compass_direction</item>
+        <item>@string/formula_editor_sensor_date_day</item>
+        <item>@string/formula_editor_sensor_date_month</item>
+        <item>@string/formula_editor_sensor_date_weekday</item>
+        <item>@string/formula_editor_sensor_date_year</item>
+        <item>@string/formula_editor_sensor_drone_battery_status</item>
+        <item>@string/formula_editor_sensor_drone_camera_ready</item>
+        <item>@string/formula_editor_sensor_drone_emergency_state</item>
+        <item>@string/formula_editor_sensor_drone_flying</item>
+        <item>@string/formula_editor_sensor_drone_initialized</item>
+        <item>@string/formula_editor_sensor_drone_num_frames</item>
+        <item>@string/formula_editor_sensor_drone_record_ready</item>
+        <item>@string/formula_editor_sensor_drone_recording</item>
+        <item>@string/formula_editor_sensor_drone_usb_active</item>
+        <item>@string/formula_editor_sensor_drone_usb_remaining_time</item>
+        <item>@string/formula_editor_sensor_face_detected</item>
+        <item>@string/formula_editor_sensor_face_size</item>
+        <item>@string/formula_editor_sensor_face_x_position</item>
+        <item>@string/formula_editor_sensor_face_y_position</item>
+        <item>@string/formula_editor_sensor_gamepad_a_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_b_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_down_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_left_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_up_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_right_pressed</item>
+        <item>@string/formula_editor_sensor_latitude</item>
+        <item>@string/formula_editor_sensor_lego_ev3_1</item>
+        <item>@string/formula_editor_sensor_lego_ev3_2</item>
+        <item>@string/formula_editor_sensor_lego_ev3_3</item>
+        <item>@string/formula_editor_sensor_lego_ev3_4</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color_ambient</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color_reflected</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_hitechnic_color</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_infrared</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_light</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_light_active</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_sound</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_touch</item>
+        <item>@string/formula_editor_sensor_lego_nxt_1</item>
+        <item>@string/formula_editor_sensor_lego_nxt_2</item>
+        <item>@string/formula_editor_sensor_lego_nxt_3</item>
+        <item>@string/formula_editor_sensor_lego_nxt_4</item>
+        <item>@string/formula_editor_sensor_lego_nxt_light_active</item>
+        <item>@string/formula_editor_sensor_lego_nxt_light</item>
+        <item>@string/formula_editor_sensor_lego_nxt_sound</item>
+        <item>@string/formula_editor_sensor_lego_nxt_touch</item>
+        <item>@string/formula_editor_sensor_lego_nxt_ultrasonic</item>
+        <item>@string/formula_editor_sensor_location_accuracy</item>
+        <item>@string/formula_editor_sensor_longitude</item>
+        <item>@string/formula_editor_sensor_loudness</item>
+        <item>@string/formula_editor_sensor_second_face_detected</item>
+        <item>@string/formula_editor_sensor_second_face_size</item>
+        <item>@string/formula_editor_sensor_second_face_x_position</item>
+        <item>@string/formula_editor_sensor_second_face_y_position</item>
+        <item>@string/formula_editor_sensor_text_blocks_number</item>
+        <item>@string/formula_editor_sensor_text_from_camera</item>
+        <item>@string/formula_editor_sensor_time_hour</item>
+        <item>@string/formula_editor_sensor_time_minute</item>
+        <item>@string/formula_editor_sensor_time_second</item>
+        <item>@string/formula_editor_sensor_timer</item>
+        <item>@string/formula_editor_sensor_user_language</item>
+        <item>@string/formula_editor_sensor_x_acceleration</item>
+        <item>@string/formula_editor_sensor_x_inclination</item>
+        <item>@string/formula_editor_sensor_y_acceleration</item>
+        <item>@string/formula_editor_sensor_y_inclination</item>
+        <item>@string/formula_editor_sensor_z_acceleration</item>
+        <item>@string/formula_editor_phiro_sensor_bottom_left</item>
+        <item>@string/formula_editor_phiro_sensor_bottom_right</item>
+        <item>@string/formula_editor_phiro_sensor_front_left</item>
+        <item>@string/formula_editor_phiro_sensor_front_right</item>
+        <item>@string/formula_editor_phiro_sensor_side_left</item>
+        <item>@string/formula_editor_phiro_sensor_side_right</item>
+        <item>@string/formula_editor_logic_and</item>
+        <item>@string/formula_editor_logic_comparison</item>
+        <item>@string/formula_editor_logic_equal</item>
+        <item>@string/formula_editor_logic_greaterequal</item>
+        <item>@string/formula_editor_logic_greaterthan</item>
+        <item>@string/formula_editor_logic_leserequal</item>
+        <item>@string/formula_editor_logic_lesserthan</item>
+        <item>@string/formula_editor_logic_not</item>
+        <item>@string/formula_editor_logic_notequal</item>
+        <item>@string/formula_editor_logic_or</item>
+        <item>@string/formula_editor_nfc_tag_id</item>
+        <item>@string/formula_editor_nfc_tag_message</item>
+        <item>@string/formula_editor_object_angular_velocity</item>
+        <item>@string/formula_editor_object_background_name</item>
+        <item>@string/formula_editor_object_background_number</item>
+        <item>@string/formula_editor_object_brightness</item>
+        <item>@string/formula_editor_object_color</item>
+        <item>@string/formula_editor_object_distance_to</item>
+        <item>@string/formula_editor_object_layer</item>
+        <item>@string/formula_editor_object_look_name</item>
+        <item>@string/formula_editor_object_look_number</item>
+        <item>@string/formula_editor_object_rotation</item>
+        <item>@string/formula_editor_object_size</item>
+        <item>@string/formula_editor_object_transparency</item>
+        <item>@string/formula_editor_object_x</item>
+        <item>@string/formula_editor_object_x_velocity</item>
+        <item>@string/formula_editor_object_y</item>
+        <item>@string/formula_editor_object_y_velocity</item>
+    </string-array>
+
+</resources>

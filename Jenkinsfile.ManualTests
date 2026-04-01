@@ -1,0 +1,65 @@
+#!groovy
+
+class DockerParameters {
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+    def args = '--device /dev/kvm:/dev/kvm ' +
+            '  -m=12G '
+    def label = 'LimitedEmulator'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
+pipeline {
+    agent {
+        docker {
+            image d.image
+            args d.args
+            label d.label
+            alwaysPull true
+        }
+    }
+
+    environment {
+        ANDROID_VERSION = 33
+    }
+
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+    }
+
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = env.NAME
+                }
+            }
+        }
+
+        stage('Unit and Device tests') {
+            steps {
+                sh """./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} startEmulator \
+                            createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${env.TYPE}=${env.NAME}"""
+            }
+
+            post {
+                always {
+                    junit '**/*TEST*.xml'
+
+                    sh './gradlew stopEmulator clearAvdStore'
+                    archiveArtifacts 'logcat.txt'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+        }
+    }
+}

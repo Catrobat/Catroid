@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Font Sizes -->
+    <style name="FontSizeLarge" tools:ignore="UnusedResources">
+        <item name="android:textSize">24sp</item>
+        <item name="x_small">15sp</item>
+        <item name="small">21sp</item>
+        <item name="medium">24sp</item>
+        <item name="large">27sp</item>
+        <item name="x_large">33sp</item>
+        <item name="xx_large">42sp</item>
+    </style>
+
+    <!-- High Contrast -->
+    <style name="ContrastHigh" tools:ignore="UnusedResources">
+        <item name="android:shadowColor">@color/solid_black</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <!-- Element Spacing -->
+    <style name="SpacingLarge" tools:ignore="UnusedResources">
+        <item name="element_spacing">10dp</item>
+    </style>
+
+    <!-- Fonts -->
+    <style name="FontSansSerif" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@string/sans_serif_font</item>
+        <item name="app_font">@string/sans_serif_font</item>
+    </style>
+
+    <style name="FontSerif" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@string/serif_font</item>
+        <item name="app_font">@string/serif_font</item>
+    </style>
+
+    <style name="FontDyslexic" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/opendyslexic</item>
+        <item name="app_font">@font/opendyslexic</item>
+    </style>
+
+    <style name="FontSaudi" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/saudi</item>
+        <item name="app_font">@font/saudi</item>
+    </style>
+
+    <style name="FontStc" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/stc</item>
+        <item name="app_font">@font/stc</item>
+    </style>
+
+    <!-- Category Icon Visibility -->
+    <style name="CategoryIconVisible" tools:ignore="UnusedResources">
+        <item name="category_icon_visibility">0</item>
+    </style>
+
+    <!-- Category Icon Visibility -->
+    <style name="CategoryIconSizeLarge" tools:ignore="UnusedResources">
+        <item name="category_icon_size">80dp</item>
+    </style>
+
+    <!-- Icon Contrast -->
+    <style name="CategoryIconContrastHigh" tools:ignore="UnusedResources">
+        <item name="icon_ardrone">@drawable/ic_ardrone_neg</item>
+        <item name="icon_data">@drawable/ic_data_neg</item>
+        <item name="icon_motion">@drawable/ic_motion_neg</item>
+        <item name="icon_sound">@drawable/ic_sound_neg</item>
+        <item name="icon_arduino">@drawable/ic_arduino_neg</item>
+        <item name="icon_event">@drawable/ic_event_neg</item>
+        <item name="icon_pen">@drawable/ic_pen_neg</item>
+        <item name="icon_chromecast">@drawable/ic_chromecast_neg</item>
+        <item name="icon_legonxt">@drawable/ic_legonxt_neg</item>
+        <item name="icon_phiro">@drawable/ic_phiro_neg</item>
+        <item name="icon_control">@drawable/ic_control_neg</item>
+        <item name="icon_look">@drawable/ic_look_neg</item>
+        <item name="icon_raspberrypi">@drawable/ic_raspberrypi_neg</item>
+        <item name="icon_embroidery">@drawable/ic_embroidery_neg</item>
+        <item name="icon_userbrick">@drawable/ic_your_brick_neg</item>
+        <item name="icon_device">@drawable/ic_device_neg</item>
+        <item name="icon_recently_used">@drawable/ic_recently_used_neg</item>
+    </style>
+</resources>

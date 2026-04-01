@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<issues format="5" by="lint 4.0.2" client="gradle" variant="catroidDebug" version="4.0.2">
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.createRfcommSocketToServiceRecord: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);"
+        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="76"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {"
+        errorLine2="       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="78"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   } else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {"
+        errorLine2="              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="80"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothSocket.connect: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   this.bluetoothSocket.connect();"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="111"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothSocket.connect: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    this.bluetoothSocket.connect();"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="120"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent BluetoothAdapter.ACTION_REQUEST_ENABLE: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothManager.java"
+            line="53"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="155"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="156"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="                                                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="156"
+            column="53"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      Pair&lt;Pair&lt;String, String>, Integer> listElement = new Pair&lt;>(new Pair&lt;>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);"
+        errorLine2="                                                                              ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="157"
+            column="79"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="162"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="                                               ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="162"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      String deviceInfoBLE = &quot;BLE&quot; + (device.getName() != null ? &quot; - &quot; + device.getName() : &quot;&quot;);"
+        errorLine2="                                      ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="163"
+            column="39"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      String deviceInfoBLE = &quot;BLE&quot; + (device.getName() != null ? &quot; - &quot; + device.getName() : &quot;&quot;);"
+        errorLine2="                                                                         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="163"
+            column="74"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE: android.permission.BLUETOOTH_ADVERTISE"
+        errorLine1="   startActivity(intent);"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="401"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.getBondedDevices: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="  Set&lt;android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();"
+        errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="413"
+            column="58"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    Pair&lt;String, String> listElement = new Pair&lt;>(device.getName(), device.getAddress());"
+        errorLine2="                                                  ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="418"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.startDiscovery: android.permission.BLUETOOTH_SCAN"
+        errorLine1="  btManager.getBluetoothAdapter().startDiscovery();"
+        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="457"
+            column="3"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.isDiscovering: android.permission.BLUETOOTH_SCAN"
+        errorLine1="  if (btManager.getBluetoothAdapter().isDiscovering()) {"
+        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="461"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.cancelDiscovery: android.permission.BLUETOOTH_SCAN"
+        errorLine1="   btManager.getBluetoothAdapter().cancelDiscovery();"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="462"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.listenUsingRfcommWithServiceRecord: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    serverSocket = BluetoothAdapter.getDefaultAdapter()"
+        errorLine2="                   ^">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="523"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent Intent.ACTION_CLOSE_SYSTEM_DIALOGS: android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
+        errorLine1="   sendBroadcast(it);"
+        errorLine2="   ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\utils\notifications\StatusBarNotificationManager.java"
+            line="296"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Must be one of: PixelFormat.RGBA_8888, PixelFormat.RGBX_8888, PixelFormat.RGBA_F16, PixelFormat.RGBA_1010102, PixelFormat.RGB_888, PixelFormat.RGB_565"
+        errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
+        errorLine2="                                                  ~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="287"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `remoteLayout` pointing to `RelativeLayout`); this is a memory leak"
+        errorLine1=" private static final CastManager INSTANCE = new CastManager();"
+        errorLine2="         ~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="72"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields; this is a memory leak"
+        errorLine1=" private static Context context;"
+        errorLine2="         ~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
+            line="49"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This field leaks a context object"
+        errorLine1=" private Activity activity;"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\transfers\CheckOAuthTokenTask.java"
+            line="40"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity.ConnectDeviceTask)"
+        errorLine1=" private class ConnectDeviceTask extends AsyncTask&lt;String, Void, BluetoothConnection.State> {"
+        errorLine2="               ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="192"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This field leaks a context object"
+        errorLine1=" private Context context;"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\transfers\DeleteTestUserTask.java"
+            line="39"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This field leaks a context object"
+        errorLine1=" private Context context;"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\transfers\FetchScratchProgramDetailsTask.java"
+            line="52"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This field leaks a context object"
+        errorLine1=" private Context context;"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\transfers\GoogleExchangeCodeTask.java"
+            line="43"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This field leaks a context object"
+        errorLine1=" private Context context;"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\transfers\GoogleLogInTask.java"
+            line="44"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.ReadListFromDeviceAction.ReadTask)"
+        errorLine1=" private class ReadTask extends AsyncTask&lt;UserList, Void, Void> {"
+        errorLine2="               ~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\content\actions\ReadListFromDeviceAction.java"
+            line="62"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction.ReadTask)"
+        errorLine1=" private class ReadTask extends AsyncTask&lt;UserVariable, Void, Void> {"
+        errorLine2="               ~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\content\actions\ReadVariableFromDeviceAction.java"
+            line="61"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.ui.dialogs.StageDialog.FinishThreadAndDisposeTexturesTask)"
+        errorLine1=" private class FinishThreadAndDisposeTexturesTask extends AsyncTask&lt;Void, Void, Void> {"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\ui\dialogs\StageDialog.java"
+            line="252"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_2h_brown_9` appears to be unused">
+        <location
+            file="src\main\res\drawable-ldpi\brick_2h_brown_9.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_2h_brown_9.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_2h_brown_9.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_control_1h` appears to be unused">
+        <location
+            file="src\main\res\drawable-ldpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_control_1h.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            line="25"
+            column="1"/>
+        <location
+            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-hdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (25 more)">
+        <location
+            file="src\main\res\drawable-hdpi"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-xxhdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (27 more)">
+        <location
+            file="src\main\res\drawable-xxhdpi"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `BrickListView` overrides `onTouchEvent` but not `performClick`"
+        errorLine1=" public boolean onTouchEvent(MotionEvent event) {"
+        errorLine2="                ~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\ui\dragndrop\BrickListView.java"
+            line="168"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` should call `View#performClick` when a click is detected"
+        errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
+        errorLine2="                   ~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
+            line="232"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` should call `View#performClick` when a click is detected"
+        errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="207"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``ImageButton`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="   btn.setOnTouchListener(otl);"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="224"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` should call `View#performClick` when a click is detected"
+        errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\pocketmusic\fastscroller\FastScroller.java"
+            line="152"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``FormulaEditorEditText`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="  this.setOnTouchListener(this);"
+        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\formulaeditor\FormulaEditorEditText.java"
+            line="164"
+            column="3"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` should call `View#performClick` when a click is detected"
+        errorLine1="   public boolean onTouch(View view, MotionEvent event) {"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
+            line="342"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `TactScrollRecyclerView` overrides `onTouchEvent` but not `performClick`"
+        errorLine1=" public boolean onTouchEvent(MotionEvent e) {"
+        errorLine2="                ~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\pocketmusic\ui\TactScrollRecyclerView.java"
+            line="97"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``FrameLayout`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="  frameLayout.setOnTouchListener(this);"
+        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
+            line="247"
+            column="3"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`VisualPlacementActivity#onTouch` should call `View#performClick` when a click is detected"
+        errorLine1=" public boolean onTouch(View view, MotionEvent event) {"
+        errorLine2="                ~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
+            line="385"
+            column="17"/>
+    </issue>
+
+</issues>

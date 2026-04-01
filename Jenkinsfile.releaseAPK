@@ -1,0 +1,120 @@
+#!groovy
+
+class DockerParameters {
+    def dir = 'docker'
+    def args = '--device /dev/kvm:/dev/kvm ' +
+            ' -m=12G '
+    def label = 'LimitedEmulator'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
+pipeline {
+    agent {
+        docker {
+            image d.image
+            args d.args
+            label d.label
+            alwaysPull true
+        }
+    }
+
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+    }
+
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} | ${env.flavor} | ${env.gitBranch}"
+                }
+            }
+        }
+
+        stage('Build signed APK') {
+            steps {
+                // Build, zipalign and sign releasable APK
+                withCredentials([file(credentialsId: 'a925b6e8-b3c6-407e-8cad-65886e330037', variable: 'SIGNING_KEYSTORE')]) {
+                    script {
+                        if (env.flavor == 'All') {
+                            sh '''
+                                set +x
+                                ./gradlew copyAndroidNatives assembleSignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                            '''
+                        } else if (env.flavor == 'PocketCodeBeta') {
+                            sh '''
+                                set +x
+                                ./gradlew copyAndroidNatives assembleCatroidSignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                                -PpocketCodeBeta=true
+                            '''
+                        } else {
+                            sh '''
+                                set +x
+                                ./gradlew copyAndroidNatives assemble${flavor}SignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                            '''
+                        }
+                    }
+                }
+                archiveArtifacts artifacts: 'catroid/build/outputs/apk/**/*signedRelease.apk', fingerprint: true
+            }
+        }
+
+        stage('Approve upload') {
+            options {
+                timeout(time: 60, unit: 'MINUTES')
+            }
+            steps {
+                script {
+                    env.APPROVE_UPLOAD_APK = input message: 'User input required',
+                        parameters: [choice(name: 'Upload', choices: 'no\nyes',
+                        description: 'Do you want to upload this APK to Alpha Channel on Google Play?')]
+                }
+            }
+        }
+
+        stage('Upload APK to Alpha') {
+            when {
+                environment name: 'APPROVE_UPLOAD_APK', value: 'yes'
+            }
+            steps {
+                script {
+                    if (env.flavor == 'All') {
+                        sh '''
+                            fastlane android upload_APK_Catroid 
+                            fastlane android upload_APK_CreateAtSchool
+                            fastlane android upload_APK_EmbroideryDesigner
+                            fastlane android upload_APK_LunaAndCat 
+                            fastlane android upload_APK_Phiro
+                            fastlane android upload_APK_PocketCodeBeta
+                            fastlane android upload_APK_Mindstorms
+                        '''
+                    } else {
+                        sh 'fastlane android upload_APK_${flavor}'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // clean workspace
+            deleteDir()
+        }
+    }
+}

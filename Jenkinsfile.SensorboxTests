@@ -1,0 +1,53 @@
+#!groovy
+
+class DockerParameters {
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+    def args = '--net host -v /dev/bus/usb/:/dev/bus/usb ' +
+            '-v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle'
+    def label = 'HardwareSensorBox'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
+pipeline {
+    agent {
+        docker {
+            image d.image
+            args d.args
+            label d.label
+            alwaysPull true
+        }
+    }
+
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+    }
+
+    stages {
+        stage('Unit and Device tests') {
+            steps {
+                lock(resource: null, label: "HardwareSensorBox-${env.NODE_NAME}", quantity: 1, variable: 'ANDROID_SERIAL') {
+                    sh './gradlew -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoSensorboxTestSuite connectedCatroidDebugAndroidTest'
+                }
+            }
+            post {
+                always {
+                    junit '**/*TEST*.xml'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+        }
+        changed {
+            notifyChat()
+        }
+    }
+}

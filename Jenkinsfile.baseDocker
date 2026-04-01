@@ -1,0 +1,73 @@
+#!groovy
+
+pipeline {
+    agent {
+        label 'LimitedEmulator'
+    }
+
+    environment {
+        DOCKERFILE = 'Dockerfile.jenkins'
+        DOCKER_DIR = 'docker'
+        DOCKER_REPO = "catrobat"
+    }
+    
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+
+    triggers {
+        cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+    }
+
+    stages {
+        stage('Build docker image') {
+            steps {
+                // Build docker image
+                // Use --pull to force pull base docker image
+                // Use --force-rm  and --no-cache to remove intermediate images and not use cache
+                sh '''#!/bin/bash
+                    BUILD_ARGS="--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)"
+                    docker build --pull --force-rm --no-cache -t ${IMAGE_NAME} $BUILD_ARGS -f $DOCKER_DIR/$DOCKERFILE $DOCKER_DIR
+                '''
+            }
+        }
+
+        stage('Tag and push docker image') {
+            steps {
+                script {
+                    // Push image to dockerhub use credentials
+                    withCredentials([usernamePassword(credentialsId: 'catrobat-dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                    }
+
+                    // Tag image with YearMonthDay+BuildNumber
+                    sh 'docker tag ${IMAGE_NAME} $DOCKER_REPO/${IMAGE_NAME}:$(date +%Y%m%d).${BUILD_NUMBER}'
+                    sh 'docker push $DOCKER_REPO/${IMAGE_NAME}:$(date +%Y%m%d).${BUILD_NUMBER}'
+
+                    if (env.TAG_STABLE?.toBoolean()) {
+                        sh 'docker tag ${IMAGE_NAME} $DOCKER_REPO/${IMAGE_NAME}:stable'
+                        sh 'docker push $DOCKER_REPO/${IMAGE_NAME}:stable'
+                    }
+
+                    if (env.TAG_TESTING?.toBoolean()) {
+                        sh 'docker tag ${IMAGE_NAME} $DOCKER_REPO/${IMAGE_NAME}:testing'
+                        sh 'docker push $DOCKER_REPO/${IMAGE_NAME}:testing'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker logout'
+        }
+        changed {
+            node('LimitedEmulator') {
+                notifyChat()
+            }
+        }
+    }
+}

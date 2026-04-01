@@ -1,0 +1,72 @@
+oauth_config.xml
+sed_replace.txt
+
+google-services.json
+
+# built application files
+*.apk
+*.ap_
+
+# cache for standalone apps
+.apps/
+
+# workspace settings
+*.metadata
+
+# Build information
+*.iml
+
+# IntelliJ IDEA
+.idea
+*.ipr
+*.iws
+!.idea/codeStyles/Project.xml
+!.idea/codeStyles/codeStyleConfig.xml
+!.idea/compiler.xml
+!.idea/copyright/Catroid.xml
+!.idea/copyright/profiles_settings.xml
+!.idea/vcs.xml
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+jniLibs/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Gradle
+.gradle/
+build/
+
+# Cache for build scripts
+__pycache__
+
+#api-keys
+catroid/google-services.json
+
+#Crowdin folder
+crowdin/
+
+#Fastlane
+fastlane/*
+!fastlane/Appfile
+!fastlane/Fastfile
+!fastlane/staticContent/
+Gemfile

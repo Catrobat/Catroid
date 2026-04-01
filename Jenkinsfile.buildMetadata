@@ -1,0 +1,147 @@
+#!groovy
+class DockerParameters {
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+    def args = '--device /dev/kvm:/dev/kvm ' +
+            ' -m=12G '
+    def label = 'LimitedEmulator'
+    def image = 'catrobat/catrobat-android:api33'
+}
+
+def d = new DockerParameters()
+
+pipeline {
+    agent {
+        docker {
+            image d.image
+            args d.args
+            label d.label
+            alwaysPull true
+        }
+    }
+
+    environment {
+        ANDROID_VERSION = 33
+        ADB_INSTALL_TIMEOUT = 60
+    }
+
+    options {
+        timeout(time: 6, unit: 'HOURS')
+        timestamps()
+    }
+
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} | ${env.flavor} | ${env.gitBranch}"
+                }
+            }
+        }
+
+        stage('Setup Translations') {
+            steps {
+                script {
+                    if (env.flavor == 'PocketCodeBeta') {
+                        sh '''
+                            set +x
+                            ./gradlew generateCrowdinMetadataCatroid -PcrowdinKey=$crowdinKey
+                        '''
+                    } else {
+                        sh '''
+                            set +x
+                            ./gradlew generateCrowdinMetadata${flavor} -PcrowdinKey=$crowdinKey
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Start emulator') {
+            steps {
+                sh './gradlew -Pemulator=android${ANDROID_VERSION} startEmulator'
+            }
+        }
+
+        stage('Create Screenshots') {
+            steps {
+                script {
+                    if (env.flavor == 'PocketCodeBeta') {
+                        sh './gradlew generateScreenshotsCatroid'
+                    } else {
+                        sh './gradlew generateScreenshots${flavor}'
+                    }
+                }
+                zip zipFile: 'metadata.zip', archive: false, dir: 'fastlane/metadata'
+                archiveArtifacts artifacts: 'metadata.zip', fingerprint: true
+            }
+            post {
+                always {
+                    sh './gradlew stopEmulator'
+                }
+
+                success {
+                    publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'fastlane/metadata/android',
+                    reportFiles: 'screenshots.html',
+                    reportName: 'Screenshots'
+                    ]
+                }
+            }
+        }
+
+        stage('Review') {
+            //agent none
+            options {
+                timeout(time: 6, unit: 'HOURS')
+            }
+            steps {
+                script {
+                    env.APPROVE_DEPLOY = input message: 'User input required',
+                        parameters: [choice(name: 'Deploy', choices: 'no\nyes',
+                        description: 'Please review the Screenshots! Do you want to deploy this to Google Play?')]
+                }
+            }
+        }
+
+        stage('Upload Metadata') {
+            when {
+                environment name: 'APPROVE_DEPLOY', value: 'yes'
+            }
+            steps {
+                sh 'fastlane android upload_Metadata_${flavor}'
+            }
+        }
+
+        stage('Promote APK to production') {
+            when {
+                environment name: 'APPROVE_DEPLOY', value: 'yes'
+            }
+            steps {
+                script {
+                    if (env.flavor == 'PocketCodeBeta') {
+                        echo 'PocketCodeBeta cannot be promoted to production!'
+                    } else {
+                        // deactivated for testing to not publish by accident
+                        //sh 'fastlane android promote_${flavor}'
+                        echo 'The promotion of the APK is currently deactivated!'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // clean workspace
+            deleteDir()
+        }
+        changed {
+            notifyChat()
+        }
+    }
+}

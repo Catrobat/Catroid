@@ -1,0 +1,233 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2022 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import groovy.json.StringEscapeUtils
+import groovy.xml.XmlUtil
+
+import java.nio.file.Files
+import java.util.zip.ZipFile
+
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
+
+ext {
+    projectId = ''
+    appZipFile = null
+    appZipFileInAssets = null
+
+    assetsPath = 'src/main/assets/'
+    manifestPath = 'src/main/AndroidManifest.xml'
+    resPath = 'src/main/res/drawable-nodpi'
+    iconPath = "$resPath/icon.png"
+    iconBakPath = "icon_bak.png"
+}
+
+task standalonePreparation() {
+    /*
+     * Configuration
+     *
+     * Do the downloading of the APP _before_ the configuration.
+     * This is to ensure that the variables like the application name are
+     * already present when the configuration step comes to the android extension.
+     */
+    if (project.hasProperty('download')) {
+        project.ext.projectId = project['suffix']
+        if (project.hasProperty('packageName')) {
+            project.ext.appId = project['packageName']
+        }
+        project.ext.appId += '.' + project['suffix']
+        project.ext.manifestAppIcon = '@drawable/icon'
+        project.ext.appZipFile = new File(makeAppsCache().absolutePath + '/' + project.ext.projectId + '.zip')
+
+        downloadIfNotExisting(new URL(project['download']), project.ext.appZipFile)
+        determineProjectName(new ZipFile(project.ext.appZipFile))
+    }
+
+    /*
+     * Actual task
+     */
+    doLast {
+        if (!project.ext.appZipFile) {
+            /*
+             * This action is executed among others by the check task.
+             * Thus ensure that it does nothing if no app was downloaded.
+             */
+            return
+        }
+
+        backupFile(file(project.ext.iconPath))
+        backupFile(file(project.ext.manifestPath))
+
+        copy {
+            from project.ext.appZipFile
+            into project.ext.assetsPath
+        }
+        println 'Copying zip file to assets from:'
+        println project.ext.appZipFile
+
+        project.ext.appZipFileInAssets = file("$project.ext.assetsPath/${project.ext.projectId}.zip")
+        println 'to:'
+        println project.ext.appZipFileInAssets
+
+        ZipFile app = new ZipFile(project.ext.appZipFileInAssets)
+
+        copyScreenshotAsIcon(app)
+    }
+}
+
+task standaloneCleanup(dependsOn: 'assembleStandaloneDebug') {
+    doLast {
+        if (!project.ext.appZipFile) {
+            /*
+             * This action is executed among others by the check task.
+             * Thus ensure that it does nothing if no app was downloaded.
+             */
+            return
+        }
+
+        restoreFile(file(project.ext.iconPath))
+        restoreFile(file(project.ext.manifestPath))
+        println 'Deleting zip file in assets'
+        delete project.ext.appZipFileInAssets
+    }
+}
+
+task buildStandalone() {
+    doLast {
+        /*
+         * Present for backwards compatibility with Jenkins jobs.
+         * That way Jenkins jobs can support the older way to generated standalone APKs
+         * and the newer way at the same time.
+         */
+    }
+}
+
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') {doLast {}}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') {doLast {}}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') {doLast {}}
+
+task testremoveIntentFilters() {
+    doLast {
+        messUpIntentFilters()
+    }
+}
+
+def makeAppsCache() {
+    File appsCache = new File(project.rootDir.absolutePath + '/.apps')
+    appsCache.mkdirs()
+    appsCache
+}
+
+def downloadIfNotExisting(URL src, File dest) {
+    if (dest.exists()) {
+        println "Using already downloaded app at '$dest.absolutePath'."
+        return
+    }
+    println "Downloading... " + src
+    dest.withOutputStream {
+        it << src.content
+    }
+    println "Downloaded to: " + dest.absolutePath
+}
+
+void determineProjectName(ZipFile appZip) {
+    def codeXmlEntry = appZip.getEntry('code.xml')
+    String codeXmlContents = appZip.getInputStream(codeXmlEntry).text
+    codeXmlContents = codeXmlContents.replaceAll("&#x0;", "") // no \0 characters are allowed in xml
+    def programNode = new XmlSlurper().parseText(codeXmlContents)
+    String programName = programNode.header.programName.text()
+
+    project.ext.manifestAppName = escapeXml(programName)
+    project.ext.appName = escapeJava(programName)
+}
+
+String escapeXml(String text) {
+    XmlUtil.escapeXml(text)
+}
+
+String escapeJava(String text) {
+    StringEscapeUtils.escapeJava(text)
+}
+
+def backupFile(File fileToBackup) {
+    File backup = new File(fileToBackup.parent + '/bak_' + fileToBackup.name)
+    Files.copy(fileToBackup.toPath(), backup.toPath(), COPY_ATTRIBUTES, REPLACE_EXISTING)
+}
+
+def restoreFile(File fileToBackup) {
+    File backup = new File(fileToBackup.parent + '/bak_' + fileToBackup.name)
+    if (backup.exists()) {
+        Files.copy(backup.toPath(), fileToBackup.toPath(), COPY_ATTRIBUTES, REPLACE_EXISTING)
+        delete backup
+    }
+}
+
+def copyScreenshotAsIcon(ZipFile appZipFile) {
+    def screenshotBytes = loadScreenshotBytes(appZipFile)
+    if (!screenshotBytes) {
+        println 'Could not find a screenshot.'
+        return
+    }
+    file(project.ext.iconPath).setBytes(screenshotBytes)
+}
+
+def loadScreenshotBytes(ZipFile zip) {
+    def pngMagicNumber = [-119, 80, 78, 71, 13, 10, 26, 10]
+    def validNames = ['manual_screenshot.png', 'automatic_screenshot.png']
+    def screenshots = zip.entries().grep { !it.directory }
+                                   .grep { entry -> validNames.any { it == entry.name || entry.name.endsWith("/$it") } }
+                                   .toSorted { validNames.indexOf(it.name) }
+
+    for (def entry : screenshots) {
+        def bytes = zip.getInputStream(entry).bytes
+        if (bytes[0..7] == pngMagicNumber) {
+            println "Found screenshot at '$entry.name'."
+            return bytes
+        }
+    }
+
+    return null
+}
+
+def messUpIntentFilters() {
+    File manifestFile = file(project.ext.manifestPath);
+    def manifestText = manifestFile.text
+
+    String regex = "<intent-filter>\\n.+?<action android:name=\"android.intent.action.(VIEW|GET_CONTENT)(.|\\n)+?</intent-filter>"
+    String noIntentManifest = manifestText.replaceAll(regex, "")
+    manifestFile.write(noIntentManifest)
+}
+
+/*
+ * Ensure that the assembleStandaloneDebug task does the correct preparation
+ * and clean-up steps necessary for standalone APK creation.
+*/
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'preStandaloneDebugBuild' || task.name == 'preStandaloneSignedReleaseBuild') {
+        task.dependsOn 'standalonePreparation'
+    } else if (task.name == 'assembleStandaloneDebug') {
+        task.finalizedBy 'standaloneCleanup'
+    }
+}
+

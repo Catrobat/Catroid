@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbar_background"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="?attr/actionButtonStyle"
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="?attr/homeAsUpIndicator"
+            app:tint="@color/solid_white"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:hint="@string/keyword_label"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:imeOptions="actionSearch"
+            android:textColor="@color/solid_white" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/search_position_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/brick_space_padding"
+                    android:layout_marginEnd="@dimen/brick_space_padding"
+                    android:textColor="@color/toolbar_title"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/find"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_search"
+                    style="?attr/actionButtonStyle"
+                    app:tint="@color/solid_white"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/find_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_keyboard_toggle_caret_up"
+                    android:visibility="gone"
+                    app:tint="@color/solid_white"
+                    style="?attr/actionButtonStyle"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/find_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_keyboard_toggle_caret_down"
+                    android:visibility="gone"
+                    app:tint="@color/solid_white"
+                    style="?attr/actionButtonStyle"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="@dimen/brick_space_padding"
+                android:paddingBottom="@dimen/brick_space_padding"
+                android:visibility="gone" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/scene_and_sprite_name"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/brick_space_padding"
+        android:layout_height="wrap_content" />
+</merge>
