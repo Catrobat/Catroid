@@ -24,6 +24,9 @@
 package org.catrobat.catroid.stage;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.junit.After;
@@ -55,7 +58,12 @@ public class StageLifeCycleControllerTest {
 
 		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
 				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
+				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class);
+				MockedStatic<ServiceProvider> spMock = mockStatic(ServiceProvider.class)) {
+
+			BluetoothDeviceService mockBluetoothDeviceService = mock(BluetoothDeviceService.class);
+			spMock.when(() -> ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE))
+					.thenReturn(mockBluetoothDeviceService);
 
 			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
 			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
@@ -71,6 +79,7 @@ public class StageLifeCycleControllerTest {
 			StageLifeCycleController.stageDestroy(mockStageActivity);
 
 			verify(mockStageActivity).manageLoadAndFinish();
+			verify(mockBluetoothDeviceService).destroy();
 			assertNull(StageActivity.stageListener);
 		}
 	}
@@ -84,7 +93,12 @@ public class StageLifeCycleControllerTest {
 
 		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
 				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class)) {
+				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class);
+				MockedStatic<ServiceProvider> spMock = mockStatic(ServiceProvider.class)) {
+
+			BluetoothDeviceService mockBluetoothDeviceService = mock(BluetoothDeviceService.class);
+			spMock.when(() -> ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE))
+					.thenReturn(mockBluetoothDeviceService);
 
 			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
 			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
@@ -101,6 +115,7 @@ public class StageLifeCycleControllerTest {
 
 			verify(mockStageListener).finish();
 			verify(mockStageActivity).manageLoadAndFinish();
+			verify(mockBluetoothDeviceService).destroy();
 			assertNull(StageActivity.stageListener);
 		}
 	}
