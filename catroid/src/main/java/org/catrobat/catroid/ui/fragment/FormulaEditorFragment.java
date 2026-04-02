@@ -53,6 +53,7 @@ import android.widget.TextView;
 
 import com.google.common.io.Files;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -392,6 +393,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_functional_button_toggle:
 							toggleFunctionalButtons();
 							return true;
+						case R.id.formula_editor_keyboard_your_functions:
+							showCategoryListFragment(CategoryListFragment.YOUR_FUNCTIONS_TAG,
+									R.string.formula_editor_your_functions);
+							return true;
 						case R.id.formula_editor_keyboard_string:
 							if (isSelectedTextFirstParamOfRegularExpression()) {
 								showNewRegexAssistantDialog();
@@ -431,6 +436,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+
+		if (BuildConfig.FEATURE_USER_REPORTERS_ENABLED) {
+			View yourFunctionsButton = getActivity().findViewById(R.id.formula_editor_keyboard_your_functions);
+			if (yourFunctionsButton != null) {
+				yourFunctionsButton.setVisibility(View.VISIBLE);
+			}
+		}
+
 		super.onStart();
 	}
 
@@ -1039,6 +1052,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				spriteName);
 	}
 
+	public void addUserDefinedBrickFunctionToActiveFormula(String udbId, int inputCount) {
+		String encodedParams = udbId + ";" + inputCount;
+		formulaEditorEditText.handleKeyEvent(
+				InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_DEFINED_BRICK_FUNCTION_RESOURCE_ID,
+				encodedParams);
+	}
+
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}
@@ -1079,7 +1099,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				updateBrickView();
 			}
 			if (chosenCategoryItem != null) {
-				addResourceToActiveFormula(chosenCategoryItem.nameResId);
+				if (chosenCategoryItem.type == CategoryListRVAdapter.USER_DEFINED_FUNCTION) {
+					addUserDefinedBrickFunctionToActiveFormula(
+							chosenCategoryItem.userDefinedBrickId,
+							chosenCategoryItem.userDefinedBrickInputCount);
+				} else {
+					addResourceToActiveFormula(chosenCategoryItem.nameResId);
+				}
 				chosenCategoryItem = null;
 			}
 			if (chosenUserDataItem != null) {

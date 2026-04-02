@@ -81,6 +81,13 @@
             android:layout_span="2"
             android:text="@string/formula_editor_data" />
 
+        <Button
+            android:id="@+id/formula_editor_keyboard_your_functions"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_span="2"
+            android:text="@string/formula_editor_your_functions"
+            android:visibility="gone" />
+
     </TableRow>
 
     <TableRow

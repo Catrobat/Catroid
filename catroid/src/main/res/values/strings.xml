@@ -1793,6 +1793,7 @@ needs read and write access to it. You can always change permissions through you
 
     <!-- Formula editor strings -->
     <string formatted="false" name="formula_editor_data">Data</string>
+    <string formatted="false" name="formula_editor_your_functions">Your functions</string>
     <string formatted="false" name="formula_editor_true">true</string>
     <string formatted="false" name="formula_editor_false">false</string>
     <string formatted="false" name="formula_editor_decimal_mark">.</string>

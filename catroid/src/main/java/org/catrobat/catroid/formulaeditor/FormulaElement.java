@@ -491,6 +491,8 @@ public class FormulaElement implements Serializable {
 			case COLOR_EQUALS_COLOR:
 				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
 						arguments.get(2)));
+			case USER_DEFINED_BRICK_FUNCTION:
+				return 0.0;
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}
