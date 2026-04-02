@@ -243,11 +243,15 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JACOCO_PATHS: >-
+            catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml,
+            coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,
+            coverage-reports/coverage-xml-testrunner-tests/report.xml,
+            coverage-reports/coverage-xml-quarantined-tests/report.xml,
+            coverage-reports/coverage-xml-rtl-tests/report.xml
         run: |
+          # Strip whitespace/newlines from the paths string (YAML >- folds newlines to spaces)
+          CLEAN_PATHS=$(echo "$JACOCO_PATHS" | tr -d ' \n' | sed 's/,$//')
           ./gradlew sonar \
-            -Dsonar.coverage.jacoco.xmlReportPaths="\
-              catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml,\
-              coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,\
-              coverage-reports/coverage-xml-testrunner-tests/report.xml,\
-              coverage-reports/coverage-xml-quarantined-tests/report.xml,\
-              coverage-reports/coverage-xml-rtl-tests/report.xml"
+            -Dsonar.qualitygate.wait=true \
+            -Dsonar.coverage.jacoco.xmlReportPaths="$CLEAN_PATHS"
