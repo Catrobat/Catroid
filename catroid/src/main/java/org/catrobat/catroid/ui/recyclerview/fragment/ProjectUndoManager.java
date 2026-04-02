@@ -94,13 +94,19 @@ public class ProjectUndoManager {
 		if (files == null || files.length == 0) {
 			return true;
 		}
+		boolean hasRecentFile = false;
 		long now = System.currentTimeMillis();
 		for (File file : files) {
-			if (now - file.lastModified() < UNDO_HISTORY_TTL_MS) {
-				return false;
+			long age = now - file.lastModified();
+			if (age >= UNDO_HISTORY_TTL_MS) {
+				if (file.exists() && !file.delete()) {
+					Log.w(TAG, "Failed to delete expired undo snapshot file: " + file.getAbsolutePath());
+				}
+			} else {
+				hasRecentFile = true;
 			}
 		}
-		return true;
+		return !hasRecentFile;
 	}
 
 	public static void clearUndoHistoryForProject(File projectDir) {
@@ -139,6 +145,12 @@ public class ProjectUndoManager {
 					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
 					new ArrayList<>(localLists));
 			undoStack.add(new UndoEntry(snapshotName, sceneName, spriteName, variables));
+			for (UndoEntry redoEntry : redoStack) {
+				File redoFile = new File(undoDir, redoEntry.snapshotFileName);
+				if (redoFile.exists() && !redoFile.delete()) {
+					Log.w(TAG, "Failed to delete redo snapshot: " + redoFile.getAbsolutePath());
+				}
+			}
 			redoStack.clear();
 
 			if (undoStack.size() > MAX_UNDO_STEPS) {
@@ -166,6 +178,10 @@ public class ProjectUndoManager {
 
 		UndoEntry entry = undoStack.remove(undoStack.size() - 1);
 		restoreSnapshot(entry);
+		File snapshotFile = new File(undoDir, entry.snapshotFileName);
+		if (snapshotFile.exists() && !snapshotFile.delete()) {
+			Log.w(TAG, "Failed to delete undo snapshot file: " + snapshotFile.getAbsolutePath());
+		}
 		return entry;
 	}
 
@@ -182,6 +198,10 @@ public class ProjectUndoManager {
 
 		UndoEntry entry = redoStack.remove(redoStack.size() - 1);
 		restoreSnapshot(entry);
+		File snapshotFile = new File(undoDir, entry.snapshotFileName);
+		if (snapshotFile.exists() && !snapshotFile.delete()) {
+			Log.w(TAG, "Failed to delete redo snapshot file: " + snapshotFile.getAbsolutePath());
+		}
 		return entry;
 	}
 

@@ -62,26 +62,35 @@ public class ProjectUndoManagerTest {
 		assertTrue("Undo stack should be limited", undoManager.canUndo());
 		// We can't access undoStack directly, but we can pop until empty.
 		int count = 0;
-		while (undoManager.popUndo(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()) != null) {
+		while (undoManager.popUndo("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()) != null) {
 			count++;
 		}
 		assertEquals(20, count);
 	}
 
 	@Test
-	public void testCleanupOldEntries() throws InterruptedException {
-		// This test will fail to compile or run because cleanupOldEntries doesn't exist yet,
-		// or it won't have the TTL logic yet.
-		// For now, I'll just write what the maintainer wants to see "red".
+	public void testCleanupOldEntries() throws IOException {
+		// 1. Create a snapshot file manually in the undo directory
+		File undoDir = new File(projectDir, "undo_history");
+		if (!undoDir.exists()) {
+			undoDir.mkdirs();
+		}
+		File oldFile = new File(undoDir, "old_snap.xml");
+		oldFile.createNewFile();
 
-		// In the future implementation, MAX_ITEM_AGE_MS will be 1 hour.
-		// To test it, we'd need to mock the clock or wait, which is hard.
-		// But I'll add a placeholder test that would fail if TTL wasn't there.
+		// 2. Set its last modified time to 2 hours ago (TTL is 1 hour)
+		long twoHoursAgo = System.currentTimeMillis() - (2L * 60 * 60 * 1000);
+		oldFile.setLastModified(twoHoursAgo);
 
-		undoManager.pushState("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		assertTrue(undoManager.canUndo());
+		// 3. Create a recent file
+		File recentFile = new File(undoDir, "recent_snap.xml");
+		recentFile.createNewFile();
 
-		// If we had a way to "age" the entries, we'd verify they are gone.
+		// 4. Initialize UndoManager, it should prune the old file but keep the recent one
+		undoManager = new ProjectUndoManager(projectDir);
+
+		assertTrue("Recent file should still exist", recentFile.exists());
+		assertTrue("Old file should be deleted", !oldFile.exists());
 	}
 
 	@Test

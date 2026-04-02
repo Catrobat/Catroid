@@ -1047,7 +1047,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commitNow();
+		fragmentTransaction.commitNowAllowingStateLoss();
 
 		if (listView != null
 				&& undoBrickPosition >= 0

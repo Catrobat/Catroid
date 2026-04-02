@@ -278,6 +278,8 @@ public class SpriteActivity extends BaseActivity {
 			showUndo(isUndoMenuItemVisible || canUndo);
 			showRedo(canRedo);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
+			menu.findItem(R.id.menu_undo).setVisible(isUndoMenuItemVisible);
+			menu.findItem(R.id.menu_redo).setVisible(false);
 			showUndo(isUndoMenuItemVisible);
 		}
 		return super.onPrepareOptionsMenu(menu);
