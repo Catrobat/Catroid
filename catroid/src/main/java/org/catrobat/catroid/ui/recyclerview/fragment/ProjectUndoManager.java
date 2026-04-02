@@ -135,10 +135,10 @@ public class ProjectUndoManager {
 			return;
 		}
 
-		String snapshotName = "snap_" + System.currentTimeMillis() + ".xml";
-		File snapshotFile = new File(undoDir, snapshotName);
-
 		try {
+			File snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
+			String snapshotName = snapshotFile.getName();
+
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
 			VariableSnapshot variables = new VariableSnapshot(
 					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
@@ -173,16 +173,28 @@ public class ProjectUndoManager {
 			return null;
 		}
 
-		pushCurrentToRedo(sceneName, spriteName,
+		UndoEntry redoEntry = pushCurrentToRedo(sceneName, spriteName,
 				userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
+		if (redoEntry == null) {
+			return null;
+		}
 
 		UndoEntry entry = undoStack.remove(undoStack.size() - 1);
-		restoreSnapshot(entry);
-		File snapshotFile = new File(undoDir, entry.snapshotFileName);
-		if (snapshotFile.exists() && !snapshotFile.delete()) {
-			Log.w(TAG, "Failed to delete undo snapshot file: " + snapshotFile.getAbsolutePath());
+		if (restoreSnapshot(entry)) {
+			File snapshotFile = new File(undoDir, entry.snapshotFileName);
+			if (snapshotFile.exists() && !snapshotFile.delete()) {
+				Log.w(TAG, "Failed to delete undo snapshot file: " + snapshotFile.getAbsolutePath());
+			}
+			return entry;
+		} else {
+			undoStack.add(entry);
+			redoStack.remove(redoStack.size() - 1);
+			File redoFile = new File(undoDir, redoEntry.snapshotFileName);
+			if (redoFile.exists() && !redoFile.delete()) {
+				Log.w(TAG, "Failed to delete redundant redo snapshot: " + redoFile.getAbsolutePath());
+			}
+			return null;
 		}
-		return entry;
 	}
 
 	public UndoEntry popRedo(String sceneName, String spriteName,
@@ -193,26 +205,39 @@ public class ProjectUndoManager {
 			return null;
 		}
 
-		pushCurrentToUndoInternal(sceneName, spriteName,
+		UndoEntry undoEntry = pushCurrentToUndoInternal(sceneName, spriteName,
 				userVariables, multiplayerVariables, userLists, localUserVariables, localLists);
+		if (undoEntry == null) {
+			return null;
+		}
 
 		UndoEntry entry = redoStack.remove(redoStack.size() - 1);
-		restoreSnapshot(entry);
-		File snapshotFile = new File(undoDir, entry.snapshotFileName);
-		if (snapshotFile.exists() && !snapshotFile.delete()) {
-			Log.w(TAG, "Failed to delete redo snapshot file: " + snapshotFile.getAbsolutePath());
+		if (restoreSnapshot(entry)) {
+			File snapshotFile = new File(undoDir, entry.snapshotFileName);
+			if (snapshotFile.exists() && !snapshotFile.delete()) {
+				Log.w(TAG, "Failed to delete redo snapshot file: " + snapshotFile.getAbsolutePath());
+			}
+			return entry;
+		} else {
+			redoStack.add(entry);
+			undoStack.remove(undoStack.size() - 1);
+			File undoFile = new File(undoDir, undoEntry.snapshotFileName);
+			if (undoFile.exists() && !undoFile.delete()) {
+				Log.w(TAG, "Failed to delete redundant undo snapshot: " + undoFile.getAbsolutePath());
+			}
+			return null;
 		}
-		return entry;
 	}
 
-	private void pushCurrentToRedo(String sceneName, String spriteName,
+	private UndoEntry pushCurrentToRedo(String sceneName, String spriteName,
 						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
-		String snapshotName = "redo_" + System.currentTimeMillis() + ".xml";
-		File snapshotFile = new File(undoDir, snapshotName);
 		try {
+			File snapshotFile = File.createTempFile("redo_", ".xml", undoDir);
+			String snapshotName = snapshotFile.getName();
+
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
 			if (redoStack.size() >= MAX_UNDO_STEPS) {
 				UndoEntry oldest = redoStack.remove(0);
@@ -225,20 +250,24 @@ public class ProjectUndoManager {
 					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
 					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
 					new ArrayList<>(localLists));
-			redoStack.add(new UndoEntry(snapshotName, sceneName, spriteName, variables));
+			UndoEntry entry = new UndoEntry(snapshotName, sceneName, spriteName, variables);
+			redoStack.add(entry);
+			return entry;
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to push redo state", e);
+			return null;
 		}
 	}
 
-	private void pushCurrentToUndoInternal(String sceneName, String spriteName,
+	private UndoEntry pushCurrentToUndoInternal(String sceneName, String spriteName,
 						List<UserVariable> userVariables, List<UserVariable> multiplayerVariables,
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
-		String snapshotName = "snap_" + System.currentTimeMillis() + ".xml";
-		File snapshotFile = new File(undoDir, snapshotName);
 		try {
+			File snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
+			String snapshotName = snapshotFile.getName();
+
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
 			if (undoStack.size() >= MAX_UNDO_STEPS) {
 				UndoEntry oldest = undoStack.remove(0);
@@ -251,19 +280,24 @@ public class ProjectUndoManager {
 					new ArrayList<>(userVariables), new ArrayList<>(multiplayerVariables),
 					new ArrayList<>(userLists), new ArrayList<>(localUserVariables),
 					new ArrayList<>(localLists));
-			undoStack.add(new UndoEntry(snapshotName, sceneName, spriteName, variables));
+			UndoEntry entry = new UndoEntry(snapshotName, sceneName, spriteName, variables);
+			undoStack.add(entry);
+			return entry;
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to push undo internal state", e);
+			return null;
 		}
 	}
 
-	private void restoreSnapshot(UndoEntry entry) {
+	private boolean restoreSnapshot(UndoEntry entry) {
 		File snapshotFile = new File(undoDir, entry.snapshotFileName);
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
 		try {
 			StorageOperations.copyFile(snapshotFile, currentCodeFile);
+			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to restore snapshot " + entry.snapshotFileName, e);
+			return false;
 		}
 	}
 

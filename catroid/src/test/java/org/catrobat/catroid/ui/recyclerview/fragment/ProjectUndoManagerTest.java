@@ -102,4 +102,17 @@ public class ProjectUndoManagerTest {
 		assertTrue("Undo stack should be empty after clearHistory", !undoManager.canUndo());
 		assertTrue("Redo stack should be empty after clearHistory", !undoManager.canRedo());
 	}
+
+	@Test
+	public void testUniqueFilenames() {
+		undoManager.pushState("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		undoManager.pushState("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+		// We can't access redoStack or undoStack directly, but if we pop them, we can check.
+		// Wait, pushState clears redoStack. So we have 2 in undoStack.
+		ProjectUndoManager.UndoEntry entry1 = undoManager.popUndo("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		ProjectUndoManager.UndoEntry entry2 = undoManager.popUndo("scene", "sprite", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+		assertTrue("Snapshot names should be unique", !entry1.snapshotFileName.equals(entry2.snapshotFileName));
+	}
 }
