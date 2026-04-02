@@ -95,6 +95,7 @@ jobs:
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
+        continue-on-error: true  # Fork PRs cannot write to GitHub Checks API
         with:
           name: Unit Tests
           path: catroid/build/test-results/**/*TEST*.xml
@@ -199,7 +200,7 @@ jobs:
 
   sonarqube:
     needs: [unit-tests, instrumented-unit-tests, testrunner-tests, quarantined-tests, rtl-tests]
-    if: always()
+    if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     name: SonarQube Analysis
     runs-on: ubuntu-latest
     steps:
