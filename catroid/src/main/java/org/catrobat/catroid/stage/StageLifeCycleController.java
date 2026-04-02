@@ -259,9 +259,6 @@ public final class StageLifeCycleController {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
-			if (StageActivity.stageListener != null) {
-				StageActivity.stageListener.finish();
-			}
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
 		}
