@@ -935,7 +935,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		if (!isAdded() || getContext() == null) {
+		if (!isAdded() || getContext() == null || getView() == null || listView == null) {
 			return;
 		}
 		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
@@ -948,16 +948,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			}
 			return;
 		}
+
 		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
 			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
 		}
-
-		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
-		adapter.setSelectionListener(this);
-		adapter.setOnItemClickListener(this);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(adapter);
-		listView.setOnItemLongClickListener(adapter);
 
 		loadVariables();
 		refreshFragmentAfterUndo();
@@ -992,21 +986,21 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		boolean changed = false;
 		if (project != null) {
-			if (savedUserVariables != null) {
+			if (savedUserVariables != null && project.getUserVariables() != null) {
 				changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
 			}
-			if (savedMultiplayerVariables != null) {
+			if (savedMultiplayerVariables != null && project.getMultiplayerVariables() != null) {
 				changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
 			}
-			if (savedUserLists != null) {
+			if (savedUserLists != null && project.getUserLists() != null) {
 				changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
 			}
 		}
 		if (currentSprite != null) {
-			if (savedLocalUserVariables != null) {
+			if (savedLocalUserVariables != null && currentSprite.getUserVariables() != null) {
 				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
 			}
-			if (savedLocalLists != null) {
+			if (savedLocalLists != null && currentSprite.getUserLists() != null) {
 				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
 			}
 		}
@@ -1050,7 +1044,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commit();
+		fragmentTransaction.commitNow();
 
 		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
