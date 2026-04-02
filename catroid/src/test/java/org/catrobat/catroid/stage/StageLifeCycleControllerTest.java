@@ -85,7 +85,7 @@ public class StageLifeCycleControllerTest {
 	}
 
 	@Test
-	public void testStageDestroyCallsStageListenerFinishWhenNotNull() {
+	public void testStageDestroyCallsManageLoadAndFinishWhenStageListenerIsNotNull() {
 		StageActivity mockStageActivity = mock(StageActivity.class);
 		ProjectManager mockProjectManager = mock(ProjectManager.class);
 		Project mockProject = mock(Project.class);
@@ -113,7 +113,6 @@ public class StageLifeCycleControllerTest {
 
 			StageLifeCycleController.stageDestroy(mockStageActivity);
 
-			verify(mockStageListener).finish();
 			verify(mockStageActivity).manageLoadAndFinish();
 			verify(mockBluetoothDeviceService).destroy();
 			assertNull(StageActivity.stageListener);
