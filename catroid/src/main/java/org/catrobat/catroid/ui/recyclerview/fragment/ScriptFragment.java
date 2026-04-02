@@ -903,12 +903,16 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		Context context = getContext();
+
+		if (!isAdded() || context == null) {
+			Log.w(TAG, "Cannot load project after undo because fragment is not attached.");
+			return;
+		}
 
 		if (!undoCodeFile.exists()) {
 			Log.e(TAG, "Undo code file " + UNDO_CODE_XML_FILE_NAME + " does not exist.");
-			if (getContext() != null) {
-				ToastUtil.showError(getContext(), R.string.error_load_project);
-			}
+			ToastUtil.showError(context, R.string.error_load_project);
 			return;
 		}
 
@@ -920,14 +924,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					spriteActivity.setUndoMenuItemVisibility(false);
 					spriteActivity.showUndo(false);
 				}
-				if (getContext() != null) {
-					new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
-				}
+				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
-				if (getContext() != null) {
-					ToastUtil.showError(getContext(), R.string.error_load_project);
-				}
+				ToastUtil.showError(context, R.string.error_load_project);
 			}
 		}
 	}
