@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public final class Reflection {
 	private Reflection() {
@@ -167,6 +168,9 @@ public final class Reflection {
 	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, ParameterList parameterList) throws Exception {
 		Method method = clazz.getDeclaredMethod(methodName, parameterList.types);
 		method.setAccessible(true);
+		if (object == null && !Modifier.isStatic(method.getModifiers())) {
+			throw new NullPointerException("Object is null");
+		}
 		return method.invoke(object, parameterList.values);
 	}
 }
