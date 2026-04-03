@@ -37,7 +37,6 @@ import java.util.List;
 public class ProjectUndoManager {
 	private static final String TAG = ProjectUndoManager.class.getSimpleName();
 	private static final int MAX_UNDO_STEPS = 20;
-	private static final long UNDO_HISTORY_TTL_MS = 60L * 60 * 1000; // 1 hour
 
 	private final File projectDir;
 	private final File undoDir;
@@ -80,33 +79,12 @@ public class ProjectUndoManager {
 	public ProjectUndoManager(File projectDir) {
 		this.projectDir = projectDir;
 		this.undoDir = new File(projectDir, Constants.UNDO_DIRECTORY_NAME);
-		if (!undoDir.exists()) {
-			if (!undoDir.mkdirs()) {
-				Log.e(TAG, "Failed to create undo history directory: " + undoDir.getAbsolutePath());
-			}
-		} else if (isUndoHistoryExpired()) {
+		if (undoDir.exists()) {
 			clearHistory();
 		}
-	}
-
-	private boolean isUndoHistoryExpired() {
-		File[] files = undoDir.listFiles();
-		if (files == null || files.length == 0) {
-			return true;
+		if (!undoDir.exists() && !undoDir.mkdirs()) {
+			Log.e(TAG, "Failed to create undo history directory: " + undoDir.getAbsolutePath());
 		}
-		boolean hasRecentFile = false;
-		long now = System.currentTimeMillis();
-		for (File file : files) {
-			long age = now - file.lastModified();
-			if (age >= UNDO_HISTORY_TTL_MS) {
-				if (file.exists() && !file.delete()) {
-					Log.w(TAG, "Failed to delete expired undo snapshot file: " + file.getAbsolutePath());
-				}
-			} else {
-				hasRecentFile = true;
-			}
-		}
-		return !hasRecentFile;
 	}
 
 	public static void clearUndoHistoryForProject(File projectDir) {

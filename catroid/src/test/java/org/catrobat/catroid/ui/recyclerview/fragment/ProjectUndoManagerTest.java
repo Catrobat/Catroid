@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ProjectUndoManagerTest {
@@ -69,28 +70,21 @@ public class ProjectUndoManagerTest {
 	}
 
 	@Test
-	public void testCleanupOldEntries() throws IOException {
-		// 1. Create a snapshot file manually in the undo directory
+	public void testInitClearsExistingHistory() throws IOException {
 		File undoDir = new File(projectDir, "undo_history");
 		if (!undoDir.exists()) {
 			undoDir.mkdirs();
 		}
 		File oldFile = new File(undoDir, "old_snap.xml");
 		oldFile.createNewFile();
-
-		// 2. Set its last modified time to 2 hours ago (TTL is 1 hour)
-		long twoHoursAgo = System.currentTimeMillis() - (2L * 60 * 60 * 1000);
-		oldFile.setLastModified(twoHoursAgo);
-
-		// 3. Create a recent file
 		File recentFile = new File(undoDir, "recent_snap.xml");
 		recentFile.createNewFile();
 
-		// 4. Initialize UndoManager, it should prune the old file but keep the recent one
 		undoManager = new ProjectUndoManager(projectDir);
 
-		assertTrue("Recent file should still exist", recentFile.exists());
-		assertTrue("Old file should be deleted", !oldFile.exists());
+		assertFalse("Recent file should be deleted during initialization", recentFile.exists());
+		assertFalse("Old file should be deleted during initialization", oldFile.exists());
+		assertTrue("Undo directory should still exist after initialization", undoDir.exists());
 	}
 
 	@Test
@@ -99,8 +93,8 @@ public class ProjectUndoManagerTest {
 		assertTrue(undoManager.canUndo());
 
 		undoManager.clearHistory();
-		assertTrue("Undo stack should be empty after clearHistory", !undoManager.canUndo());
-		assertTrue("Redo stack should be empty after clearHistory", !undoManager.canRedo());
+		assertFalse("Undo stack should be empty after clearHistory", undoManager.canUndo());
+		assertFalse("Redo stack should be empty after clearHistory", undoManager.canRedo());
 	}
 
 	@Test
