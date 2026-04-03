@@ -70,7 +70,7 @@ class AboutDialogFragment : DialogFragment() {
             Html.fromHtml(aboutCatrobatUrl)
         }
 
-        val aboutVersionNameTextView = binding.dialogAboutTextViewCatrobatVersionName
+        val aboutVersionNameTextView = binding.dialogAboutTextViewVersionName
         val versionCode =
             if (BuildConfig.FLAVOR == "pocketCodeBeta") "-" + BuildConfig.VERSION_CODE else ""
         val versionName =

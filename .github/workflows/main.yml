@@ -160,7 +160,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
-      calling-job: ${{github.job}}
+      calling-job: instrumented-unit-tests
 
   testrunner-tests:
     needs: repo-check
@@ -168,7 +168,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
-      calling-job: ${{github.job}}
+      calling-job: testrunner-tests
 
   quarantined-tests:
     needs: repo-check
@@ -176,7 +176,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
-      calling-job: ${{github.job}}
+      calling-job: quarantined-tests
 
   rtl-tests:
     needs: repo-check
@@ -184,4 +184,4 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
-      calling-job: ${{github.job}}
+      calling-job: rtl-tests

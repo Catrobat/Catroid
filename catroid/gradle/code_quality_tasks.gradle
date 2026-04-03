@@ -47,8 +47,8 @@ tasks.register('checkstyle', Checkstyle) {
     classpath = files()
 
     // needed for console output of warnings/errors
-    showViolations true
-    ignoreFailures true
+    showViolations = true
+    ignoreFailures = true
 }
 
 tasks.withType(Checkstyle) {
@@ -93,7 +93,7 @@ tasks.register('pmd', Pmd) {
     include '**/*.java'
     exclude '**/gen/**', '**/build/**', '**/res/**'
 
-    ignoreFailures true
+    ignoreFailures = true
 
     reports {
         html.required = true
@@ -108,7 +108,7 @@ detekt {
     toolVersion = "1.23.7"
     config = files("config/detekt.yml")
     input = files("src")
-    ignoreFailures true
+    ignoreFailures = true
 }
 
 tasks.named("detekt").configure {
