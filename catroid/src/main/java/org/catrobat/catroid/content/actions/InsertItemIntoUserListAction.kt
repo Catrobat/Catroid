@@ -51,8 +51,7 @@ class InsertItemIntoUserListAction : TemporalAction() {
                 return
             }
 
-            @Suppress("UNCHECKED_CAST")
-            (listValues as ArrayList<Any>).add(indexToInsert, value as Any)
+            listValues.add(indexToInsert, value)
         }
     }
 }
