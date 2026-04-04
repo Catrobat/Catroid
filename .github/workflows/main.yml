@@ -213,6 +213,11 @@ jobs:
     if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     name: SonarQube Analysis
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -236,7 +241,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-xml-unit-tests
-          path: catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport
+          path: coverage-reports/coverage-xml-unit-tests
         continue-on-error: true
 
       - name: Download Instrumented Unit Test Coverage XML
@@ -275,7 +280,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JACOCO_PATHS: >-
-            catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/report.xml,
+            coverage-reports/coverage-xml-unit-tests/report.xml,
             coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,
             coverage-reports/coverage-xml-testrunner-tests/report.xml,
             coverage-reports/coverage-xml-quarantined-tests/report.xml,
@@ -284,5 +289,8 @@ jobs:
           # Strip whitespace/newlines from the paths string (YAML >- folds newlines to spaces)
           CLEAN_PATHS=$(echo "$JACOCO_PATHS" | tr -d ' \n' | sed 's/,$//')
           ./gradlew sonar \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.projectKey=Catrobat_Catroid \
+            -Dsonar.organization=catrobat \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.coverage.jacoco.xmlReportPaths="$CLEAN_PATHS"
