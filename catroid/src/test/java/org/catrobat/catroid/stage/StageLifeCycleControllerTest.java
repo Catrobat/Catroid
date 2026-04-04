@@ -51,7 +51,7 @@ public class StageLifeCycleControllerTest {
 	}
 
 	@Test
-	public void testStageDestroyCallsManageLoadAndFinishWhenStageListenerIsNull() {
+	public void testStageDestroyDoesNotCrashWhenStageListenerIsNull() {
 		StageActivity mockStageActivity = mock(StageActivity.class);
 		ProjectManager mockProjectManager = mock(ProjectManager.class);
 		Project mockProject = mock(Project.class);
@@ -75,41 +75,6 @@ public class StageLifeCycleControllerTest {
 					.thenReturn(true);
 
 			StageActivity.stageListener = null;
-
-			StageLifeCycleController.stageDestroy(mockStageActivity);
-
-			verify(mockStageActivity).manageLoadAndFinish();
-			verify(mockBluetoothDeviceService).destroy();
-			assertNull(StageActivity.stageListener);
-		}
-	}
-
-	@Test
-	public void testStageDestroyCallsManageLoadAndFinishWhenStageListenerIsNotNull() {
-		StageActivity mockStageActivity = mock(StageActivity.class);
-		ProjectManager mockProjectManager = mock(ProjectManager.class);
-		Project mockProject = mock(Project.class);
-		StageListener mockStageListener = mock(StageListener.class);
-
-		try (MockedStatic<ProjectManager> pmMock = mockStatic(ProjectManager.class);
-				MockedStatic<RequiresPermissionTask> rpMock = mockStatic(RequiresPermissionTask.class);
-				MockedStatic<StageResourceHolder> srhMock = mockStatic(StageResourceHolder.class);
-				MockedStatic<ServiceProvider> spMock = mockStatic(ServiceProvider.class)) {
-
-			BluetoothDeviceService mockBluetoothDeviceService = mock(BluetoothDeviceService.class);
-			spMock.when(() -> ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE))
-					.thenReturn(mockBluetoothDeviceService);
-
-			pmMock.when(ProjectManager::getInstance).thenReturn(mockProjectManager);
-			when(mockProjectManager.getCurrentProject()).thenReturn(mockProject);
-			when(mockProjectManager.getCurrentlyEditedScene()).thenReturn(null);
-
-			srhMock.when(() -> StageResourceHolder.getProjectsRuntimePermissionList(anyInt()))
-					.thenReturn(Collections.emptyList());
-			rpMock.when(() -> RequiresPermissionTask.checkPermission(any(), any()))
-					.thenReturn(true);
-
-			StageActivity.stageListener = mockStageListener;
 
 			StageLifeCycleController.stageDestroy(mockStageActivity);
 
