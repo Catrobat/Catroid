@@ -28,6 +28,7 @@ import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.DetectedObject.Label
 import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorOnSuccessListener
 import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.Functions.HEIGHT_OF_OBJECT_WITH_ID
 import org.catrobat.catroid.formulaeditor.Functions.ID_OF_DETECTED_OBJECT
 import org.catrobat.catroid.formulaeditor.Functions.OBJECT_WITH_ID_VISIBLE
 import org.catrobat.catroid.formulaeditor.InternToken
@@ -57,7 +58,10 @@ class ObjectDetectionFunctionTest(
                 arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 0, 0),
                 arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, -1, 0),
                 arrayOf("Object is visible", OBJECT_WITH_ID_VISIBLE, 5, 1),
-                arrayOf("Object is not visible", OBJECT_WITH_ID_VISIBLE, 100, 0)
+                arrayOf("Object is not visible", OBJECT_WITH_ID_VISIBLE, 100, 0),
+                arrayOf("Height of first object", HEIGHT_OF_OBJECT_WITH_ID, 1, 100),
+                arrayOf("Height of second object", HEIGHT_OF_OBJECT_WITH_ID, 5, 200),
+                arrayOf("Height of invalid object", HEIGHT_OF_OBJECT_WITH_ID, 100, 0)
             )
         }
     }
@@ -65,12 +69,12 @@ class ObjectDetectionFunctionTest(
     private var successListener: ObjectDetectorOnSuccessListener? = null
     private var detectedObjects: MutableList<DetectedObject> = mutableListOf(
         DetectedObject(
-            Rect(0, 0, 0, 0),
+            Rect(10, 20, 110, 120),
             1,
             listOf(Label("Book", 0.9F, 1))
         ),
         DetectedObject(
-            Rect(0, 0, 0, 0),
+            Rect(50, 50, 250, 250),
             5,
             listOf(Label("Book", 0.9F, 1))
         )

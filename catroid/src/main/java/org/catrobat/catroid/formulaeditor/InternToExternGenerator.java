@@ -321,6 +321,8 @@ public class InternToExternGenerator {
 				R.string.formula_editor_function_get_id_of_detected_object);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.OBJECT_WITH_ID_VISIBLE.name(),
 				R.string.formula_editor_function_object_with_id_visible);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.HEIGHT_OF_OBJECT_WITH_ID.name(),
+				R.string.formula_editor_function_height_of_object_with_id);
 	}
 	public InternToExternGenerator(Context context) {
 		this.context = context;
