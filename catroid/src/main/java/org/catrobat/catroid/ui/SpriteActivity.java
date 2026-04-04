@@ -281,6 +281,9 @@ public class SpriteActivity extends BaseActivity {
 			menu.findItem(R.id.menu_undo).setVisible(isUndoMenuItemVisible);
 			menu.findItem(R.id.menu_redo).setVisible(false);
 			showUndo(isUndoMenuItemVisible);
+		} else {
+			menu.findItem(R.id.menu_undo).setVisible(false);
+			menu.findItem(R.id.menu_redo).setVisible(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}

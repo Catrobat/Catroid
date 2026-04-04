@@ -79,9 +79,6 @@ public class ProjectUndoManager {
 	public ProjectUndoManager(File projectDir) {
 		this.projectDir = projectDir;
 		this.undoDir = new File(projectDir, Constants.UNDO_DIRECTORY_NAME);
-		if (undoDir.exists()) {
-			clearHistory();
-		}
 		if (!undoDir.exists() && !undoDir.mkdirs()) {
 			Log.e(TAG, "Failed to create undo history directory: " + undoDir.getAbsolutePath());
 		}

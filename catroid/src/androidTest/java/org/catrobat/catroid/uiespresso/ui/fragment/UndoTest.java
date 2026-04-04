@@ -192,11 +192,11 @@ public class UndoTest {
 	@Test
 	public void testMultiStepUndo() {
 		// 1. Delete first brick
-		onBrickAtPosition(0).performDeleteBrick();
+		onBrickAtPosition(brickPosition).performDeleteBrick();
 		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
 
 		// 2. Delete second brick
-		onBrickAtPosition(0).performDeleteBrick();
+		onBrickAtPosition(brickPosition).performDeleteBrick();
 
 		// 3. Undo first time
 		onView(withId(R.id.menu_undo)).perform(click());
@@ -223,7 +223,7 @@ public class UndoTest {
 
 	@Test
 	public void testConcurrentUndoRedo() {
-		onBrickAtPosition(0).performDeleteBrick();
+		onBrickAtPosition(brickPosition).performDeleteBrick();
 
 		// Attempt double click to simulate rapid interaction
 		onView(withId(R.id.menu_undo)).perform(click(), click());
