@@ -6,6 +6,8 @@ on:
       - "main"
       - "develop"
   pull_request:
+    branches:
+      - "develop"
   schedule:
     - cron: "0 0 * * *" # Run daily at midnight
   workflow_dispatch:
@@ -225,6 +227,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Set up Android SDK
+        if: ${{ env.ACT }} # Only run on local act setups, as GitHub Actions provides the Android SDK on Ubuntu
+        uses: android-actions/setup-android@v2
+
       - name: Download Unit Test Coverage XML
         uses: actions/download-artifact@v4
         with:
@@ -232,12 +238,32 @@ jobs:
           path: catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport
         continue-on-error: true
 
-      - name: Download Instrumented Test Coverage Reports
+      - name: Download Instrumented Unit Test Coverage XML
         uses: actions/download-artifact@v4
         with:
-          pattern: coverage-xml-*
-          path: coverage-reports
-          merge-multiple: false
+          name: coverage-xml-instrumented-unit-tests
+          path: coverage-reports/coverage-xml-instrumented-unit-tests
+        continue-on-error: true
+
+      - name: Download Testrunner Test Coverage XML
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-xml-testrunner-tests
+          path: coverage-reports/coverage-xml-testrunner-tests
+        continue-on-error: true
+
+      - name: Download Quarantined Test Coverage XML
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-xml-quarantined-tests
+          path: coverage-reports/coverage-xml-quarantined-tests
+        continue-on-error: true
+
+      - name: Download RTL Test Coverage XML
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-xml-rtl-tests
+          path: coverage-reports/coverage-xml-rtl-tests
         continue-on-error: true
 
       - name: Compile Sources
@@ -248,7 +274,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JACOCO_PATHS: >-
-            catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml,
+            catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/report.xml,
             coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,
             coverage-reports/coverage-xml-testrunner-tests/report.xml,
             coverage-reports/coverage-xml-quarantined-tests/report.xml,
