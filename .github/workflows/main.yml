@@ -68,9 +68,6 @@ jobs:
 
   unit-tests:
     needs: repo-check
-    permissions:
-      checks: write
-      contents: read
     name: Unit Tests
     runs-on: ubuntu-latest
     permissions:
