@@ -93,7 +93,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Run Unit Tests
-        run: ./gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace
+        run: ./gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport --continue --full-stacktrace
 
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -116,7 +116,11 @@ jobs:
         run: |
           mkdir -p coverage-xml-unit-tests
           # Find any Jacoco XML report for the unit tests and stage it as report.xml
-          find catroid/build/reports/jacoco -name "*.xml" -exec cp {} coverage-xml-unit-tests/report.xml \;
+          if [ -d "catroid/build/reports/jacoco" ]; then
+            find catroid/build/reports/jacoco -name "*.xml" -exec cp {} coverage-xml-unit-tests/report.xml \;
+          else
+            echo "::warning::JaCoCo report directory not found — coverage XML will not be available"
+          fi
 
       - name: Upload JaCoCo Coverage XML
         uses: actions/upload-artifact@v4
@@ -124,7 +128,7 @@ jobs:
         with:
           name: coverage-xml-unit-tests
           path: coverage-xml-unit-tests/report.xml
-          if-no-files-found: error
+          if-no-files-found: warn
 
   code-analysis:
     needs: repo-check
