@@ -40,59 +40,53 @@ import org.mockito.Mockito.verify
 
 class StageLifeCycleControllerTest {
 
-	@After
-	fun tearDown() {
-		StageActivity.stageListener = null
-	}
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
+    }
 
-	@Test
-	fun testStageDestroyDoesNotCrashWhenStageListenerIsNull() {
-		val mockStageActivity = mock(StageActivity::class.java)
-		val mockProjectManager = mock(ProjectManager::class.java)
-		val mockProject = mock(Project::class.java)
+    @Test
+    fun testStageDestroyDoesNotCrashWhenStageListenerIsNull() {
+        val mockStageActivity = mock(StageActivity::class.java)
+        val mockProjectManager = mock(ProjectManager::class.java)
+        val mockProject = mock(Project::class.java)
 
-		mockStatic(ProjectManager::class.java).use { pmMock ->
-			mockStatic(RequiresPermissionTask::class.java).use { rpMock ->
-				mockStatic(StageResourceHolder::class.java).use { srhMock ->
-					mockStatic(ServiceProvider::class.java).use { spMock ->
-						val mockBluetoothDeviceService =
-							mock(BluetoothDeviceService::class.java)
-						spMock.`when`<Any> {
-							ServiceProvider.getService(
-								CatroidService.BLUETOOTH_DEVICE_SERVICE
-							)
-						}.thenReturn(mockBluetoothDeviceService)
+        val pmMock = mockStatic(ProjectManager::class.java)
+        val rpMock = mockStatic(RequiresPermissionTask::class.java)
+        val srhMock = mockStatic(StageResourceHolder::class.java)
+        val spMock = mockStatic(ServiceProvider::class.java)
 
-						pmMock.`when`<Any> {
-							ProjectManager.getInstance()
-						}.thenReturn(mockProjectManager)
-						org.mockito.Mockito.`when`(
-							mockProjectManager.currentProject
-						).thenReturn(mockProject)
-						org.mockito.Mockito.`when`(
-							mockProjectManager.currentlyEditedScene
-						).thenReturn(null)
+        try {
+            val mockBluetoothDeviceService = mock(BluetoothDeviceService::class.java)
+            spMock.`when`<Any> {
+                ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+            }.thenReturn(mockBluetoothDeviceService)
 
-						srhMock.`when`<Any> {
-							StageResourceHolder
-								.getProjectsRuntimePermissionList(anyInt())
-						}.thenReturn(emptyList<String>())
-						rpMock.`when`<Any> {
-							RequiresPermissionTask.checkPermission(
-								any(), any()
-							)
-						}.thenReturn(true)
+            pmMock.`when`<Any> {
+                ProjectManager.getInstance()
+            }.thenReturn(mockProjectManager)
+            org.mockito.Mockito.`when`(mockProjectManager.currentProject).thenReturn(mockProject)
+            org.mockito.Mockito.`when`(mockProjectManager.currentlyEditedScene).thenReturn(null)
 
-						StageActivity.stageListener = null
+            srhMock.`when`<Any> {
+                StageResourceHolder.getProjectsRuntimePermissionList(anyInt())
+            }.thenReturn(emptyList<String>())
+            rpMock.`when`<Any> {
+                RequiresPermissionTask.checkPermission(any(), any())
+            }.thenReturn(true)
 
-						StageLifeCycleController.stageDestroy(mockStageActivity)
+            StageActivity.stageListener = null
 
-						verify(mockStageActivity).manageLoadAndFinish()
-						verify(mockBluetoothDeviceService).destroy()
-						assertNull(StageActivity.stageListener)
-					}
-				}
-			}
-		}
-	}
+            StageLifeCycleController.stageDestroy(mockStageActivity)
+
+            verify(mockStageActivity).manageLoadAndFinish()
+            verify(mockBluetoothDeviceService).destroy()
+            assertNull(StageActivity.stageListener)
+        } finally {
+            pmMock.close()
+            rpMock.close()
+            srhMock.close()
+            spMock.close()
+        }
+    }
 }
