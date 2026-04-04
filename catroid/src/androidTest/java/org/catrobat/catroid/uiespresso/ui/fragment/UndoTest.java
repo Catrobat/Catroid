@@ -32,7 +32,6 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -200,24 +199,24 @@ public class UndoTest {
 
 		// 3. Undo first time
 		onView(withId(R.id.menu_undo)).perform(click());
-		onView(withId(R.id.menu_undo)).perform(CustomActions.wait(1200));
+		onView(withId(R.id.menu_undo)).perform(waitFor(isEnabled(), waitThreshold));
 		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
 		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));
 
 		// 4. Undo second time
 		onView(withId(R.id.menu_undo)).perform(click());
-		onView(withId(R.id.menu_undo)).perform(CustomActions.wait(1200));
+		onView(withId(R.id.menu_redo)).perform(waitFor(isEnabled(), waitThreshold));
 		onView(withId(R.id.menu_undo)).check(matches(not(isEnabled())));
 		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));
 
 		// 5. Redo first time
 		onView(withId(R.id.menu_redo)).perform(click());
-		onView(withId(R.id.menu_redo)).perform(CustomActions.wait(1200));
+		onView(withId(R.id.menu_undo)).perform(waitFor(isEnabled(), waitThreshold));
 		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
 
 		// 6. Redo second time
 		onView(withId(R.id.menu_redo)).perform(click());
-		onView(withId(R.id.menu_redo)).perform(CustomActions.wait(1200));
+		onView(withId(R.id.menu_undo)).perform(waitFor(isEnabled(), waitThreshold));
 		onView(withId(R.id.menu_redo)).check(matches(not(isEnabled())));
 	}
 
@@ -229,7 +228,7 @@ public class UndoTest {
 		onView(withId(R.id.menu_undo)).perform(click(), click());
 
 		// Wait for async undo processing to complete before checking final state
-		onView(withId(R.id.menu_undo)).perform(CustomActions.wait(1200));
+		onView(withId(R.id.menu_redo)).perform(waitFor(isEnabled(), waitThreshold));
 
 		// Verify that it still works and didn't crash
 		onView(withId(R.id.menu_redo)).check(matches(isEnabled()));

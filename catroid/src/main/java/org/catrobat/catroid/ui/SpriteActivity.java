@@ -278,10 +278,12 @@ public class SpriteActivity extends BaseActivity {
 			showUndo(isUndoMenuItemVisible || canUndo);
 			showRedo(canRedo);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
+			menu.findItem(R.id.comment_in_out).setVisible(false);
 			menu.findItem(R.id.menu_undo).setVisible(isUndoMenuItemVisible);
 			menu.findItem(R.id.menu_redo).setVisible(false);
 			showUndo(isUndoMenuItemVisible);
 		} else {
+			menu.findItem(R.id.comment_in_out).setVisible(false);
 			menu.findItem(R.id.menu_undo).setVisible(false);
 			menu.findItem(R.id.menu_redo).setVisible(false);
 		}

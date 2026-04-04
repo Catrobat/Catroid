@@ -79,7 +79,16 @@ public class ProjectUndoManager {
 	public ProjectUndoManager(File projectDir) {
 		this.projectDir = projectDir;
 		this.undoDir = new File(projectDir, Constants.UNDO_DIRECTORY_NAME);
-		if (!undoDir.exists() && !undoDir.mkdirs()) {
+		if (undoDir.exists()) {
+			File[] staleFiles = undoDir.listFiles();
+			if (staleFiles != null) {
+				for (File file : staleFiles) {
+					if (file.exists() && !file.delete()) {
+						Log.w(TAG, "Failed to delete stale snapshot on init: " + file.getAbsolutePath());
+					}
+				}
+			}
+		} else if (!undoDir.mkdirs()) {
 			Log.e(TAG, "Failed to create undo history directory: " + undoDir.getAbsolutePath());
 		}
 	}
@@ -110,8 +119,9 @@ public class ProjectUndoManager {
 			return;
 		}
 
+		File snapshotFile = null;
 		try {
-			File snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
+			snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
 			String snapshotName = snapshotFile.getName();
 
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
@@ -136,6 +146,9 @@ public class ProjectUndoManager {
 				}
 			}
 		} catch (IOException e) {
+			if (snapshotFile != null && snapshotFile.exists() && !snapshotFile.delete()) {
+				Log.w(TAG, "Failed to delete orphaned snapshot: " + snapshotFile.getAbsolutePath());
+			}
 			Log.e(TAG, "Failed to push undo state", e);
 		}
 	}
@@ -209,8 +222,9 @@ public class ProjectUndoManager {
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
+		File snapshotFile = null;
 		try {
-			File snapshotFile = File.createTempFile("redo_", ".xml", undoDir);
+			snapshotFile = File.createTempFile("redo_", ".xml", undoDir);
 			String snapshotName = snapshotFile.getName();
 
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
@@ -229,6 +243,9 @@ public class ProjectUndoManager {
 			redoStack.add(entry);
 			return entry;
 		} catch (IOException e) {
+			if (snapshotFile != null && snapshotFile.exists() && !snapshotFile.delete()) {
+				Log.w(TAG, "Failed to delete orphaned redo snapshot: " + snapshotFile.getAbsolutePath());
+			}
 			Log.e(TAG, "Failed to push redo state", e);
 			return null;
 		}
@@ -239,8 +256,9 @@ public class ProjectUndoManager {
 						List<UserList> userLists, List<UserVariable> localUserVariables,
 						List<UserList> localLists) {
 		File currentCodeFile = new File(projectDir, Constants.CODE_XML_FILE_NAME);
+		File snapshotFile = null;
 		try {
-			File snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
+			snapshotFile = File.createTempFile("snap_", ".xml", undoDir);
 			String snapshotName = snapshotFile.getName();
 
 			StorageOperations.copyFile(currentCodeFile, snapshotFile);
@@ -259,6 +277,9 @@ public class ProjectUndoManager {
 			undoStack.add(entry);
 			return entry;
 		} catch (IOException e) {
+			if (snapshotFile != null && snapshotFile.exists() && !snapshotFile.delete()) {
+				Log.w(TAG, "Failed to delete orphaned undo snapshot: " + snapshotFile.getAbsolutePath());
+			}
 			Log.e(TAG, "Failed to push undo internal state", e);
 			return null;
 		}
