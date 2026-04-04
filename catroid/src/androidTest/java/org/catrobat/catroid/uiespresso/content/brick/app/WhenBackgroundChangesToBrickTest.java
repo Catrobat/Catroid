@@ -23,7 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import com.google.common.base.Stopwatch;
+
 import org.catrobat.catroid.ProjectManager;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
@@ -32,7 +35,9 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,7 +56,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -60,7 +64,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import com.google.common.base.Stopwatch;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenBackgroundChangesToBrickTest {
@@ -93,16 +96,16 @@ public class WhenBackgroundChangesToBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_when_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_background_spinner)
-			.performSelectNameable(R.string.new_option);
+				.performSelectNameable(R.string.new_option);
 
 		onView(withId(R.id.dialog_new_look_paintroid))
-			.perform(click());
+				.perform(click());
 
 		waitOnViewAndClick(R.id.pocketpaint_btn_skip);
 
 		onView(withId(R.id.pocketpaint_drawing_surface_view))
-			.perform(waitFor(isDisplayed(), 3000))
-			.perform(click());
+				.perform(waitFor(isDisplayed(), 3000))
+				.perform(click());
 		pressBack();
 
 		onView(isRoot()).perform(CustomActions.wait(500));
