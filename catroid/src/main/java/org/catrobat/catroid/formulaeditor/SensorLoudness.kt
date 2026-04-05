@@ -55,8 +55,7 @@ class SensorLoudness {
         recorder = createSoundRecorder()
     }
 
-    @VisibleForTesting
-    var statusChecker: Runnable = Runnable {
+    private val statusChecker: Runnable = Runnable {
         val loudness = (SCALE_RANGE / MAX_AMP_VALUE) * recorder.maxAmplitude
         if (loudness != lastValue && loudness != 0.0) {
             lastValue = loudness
@@ -144,9 +143,18 @@ class SensorLoudness {
 
         @VisibleForTesting
         @JvmStatic
-        internal fun defaultRecorderPath(): String =
-            File(Constants.SOUND_RECORDER_CACHE_DIRECTORY, LOUDNESS_SENSOR_RECORDING_FILE_NAME).absolutePath
+        internal fun defaultRecorderPath(): String {
+            val cacheDirectory = Constants.SOUND_RECORDER_CACHE_DIRECTORY
+            if (!cacheDirectory.exists() && !cacheDirectory.mkdirs()) {
+                Log.d(TAG, "Could not create recorder cache directory ${cacheDirectory.absolutePath}")
+            }
 
-        private const val LOUDNESS_SENSOR_RECORDING_FILE_NAME = "loudness_sensor.m4a"
+            return File(
+                cacheDirectory,
+                "${LOUDNESS_SENSOR_RECORDING_FILE_NAME_PREFIX}_${System.nanoTime()}.m4a"
+            ).absolutePath
+        }
+
+        private const val LOUDNESS_SENSOR_RECORDING_FILE_NAME_PREFIX = "loudness_sensor"
     }
 }
