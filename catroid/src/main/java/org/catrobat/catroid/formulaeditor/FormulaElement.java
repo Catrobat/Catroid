@@ -23,10 +23,12 @@
 package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
@@ -45,10 +47,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
 
-import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
-import java.util.UUID;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -59,6 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
