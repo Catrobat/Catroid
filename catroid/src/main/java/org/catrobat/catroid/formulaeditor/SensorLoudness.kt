@@ -69,6 +69,7 @@ class SensorLoudness {
     }
 
     @Synchronized
+    @Suppress("TooGenericExceptionCaught")
     fun registerListener(listener: SensorCustomEventListener): Boolean {
         if (listenerList.contains(listener)) {
             return true
@@ -138,7 +139,7 @@ class SensorLoudness {
     companion object {
         private const val UPDATE_INTERVAL = 50
         private const val SCALE_RANGE = 100.0
-        private const val MAX_AMP_VALUE = 32767.0
+        private const val MAX_AMP_VALUE = 32_767.0
         private const val TAG = "SensorLoudness"
 
         private fun defaultSoundRecorderFactory(path: String): SoundRecorder = SoundRecorder(path)

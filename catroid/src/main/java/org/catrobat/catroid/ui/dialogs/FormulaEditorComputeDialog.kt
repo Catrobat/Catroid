@@ -121,8 +121,7 @@ open class FormulaEditorComputeDialog(
         setDialogTextView(textView, NumberFormats.trimTrailingCharacters(result))
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
 
     override fun onSensorChanged(event: SensorEvent?) {
         showFormulaResult(scope, AndroidStringProvider(context))
@@ -134,10 +133,14 @@ open class FormulaEditorComputeDialog(
 
             val params = textView.layoutParams
             val height = textView.lineCount * textView.lineHeight
-            val heightMargin = (height * 0.5).toInt()
+            val heightMargin = (height * TEXT_HEIGHT_MARGIN_FACTOR).toInt()
             params.width = ViewGroup.LayoutParams.MATCH_PARENT
             params.height = height + heightMargin
             textView.layoutParams = params
         }
+    }
+
+    companion object {
+        private const val TEXT_HEIGHT_MARGIN_FACTOR = 0.5
     }
 }
