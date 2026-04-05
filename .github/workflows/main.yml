@@ -291,9 +291,8 @@ jobs:
         run: |
           # Strip whitespace/newlines from the paths string (YAML >- folds newlines to spaces)
           CLEAN_PATHS=$(echo "$JACOCO_PATHS" | tr -d ' \n' | sed 's/,$//')
-          ./gradlew sonar \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+          ./gradlew sonar --info \
+            -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.projectKey=Catrobat_Catroid \
             -Dsonar.organization=catrobat \
-            -Dsonar.qualitygate.wait=true \
             -Dsonar.coverage.jacoco.xmlReportPaths="$CLEAN_PATHS"
