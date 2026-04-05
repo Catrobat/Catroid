@@ -25,21 +25,34 @@ package org.catrobat.catroid.formulaeditor
 import android.os.Handler
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.soundrecorder.SoundRecorder
+import java.io.File
 import java.io.IOException
 
-class SensorLoudness @JvmOverloads @VisibleForTesting internal constructor(
-    private val soundRecorderFactory: SoundRecorderFactory = SoundRecorderFactory(::defaultSoundRecorderFactory),
-    private val recorderPath: String = defaultRecorderPath()
-) {
+class SensorLoudness {
     private val listenerList = mutableListOf<SensorCustomEventListener>()
     private val handler = Handler()
+    private val soundRecorderFactory: SoundRecorderFactory
+    private val recorderPath: String
     private var lastValue = 0.0
-    private var recorder: SoundRecorder = createSoundRecorder()
+    private var recorder: SoundRecorder
 
     @VisibleForTesting
     fun interface SoundRecorderFactory {
         fun create(path: String): SoundRecorder
+    }
+
+    constructor() : this(SoundRecorderFactory(::defaultSoundRecorderFactory), defaultRecorderPath())
+
+    @VisibleForTesting
+    internal constructor(soundRecorderFactory: SoundRecorderFactory) : this(soundRecorderFactory, defaultRecorderPath())
+
+    @VisibleForTesting
+    internal constructor(soundRecorderFactory: SoundRecorderFactory, recorderPath: String) {
+        this.soundRecorderFactory = soundRecorderFactory
+        this.recorderPath = recorderPath
+        recorder = createSoundRecorder()
     }
 
     @VisibleForTesting
@@ -69,11 +82,13 @@ class SensorLoudness @JvmOverloads @VisibleForTesting internal constructor(
             } catch (ioException: IOException) {
                 Log.d(TAG, "Could not start recorder", ioException)
                 listenerList.remove(listener)
+                cleanupRecorderFile()
                 recorder = createSoundRecorder()
                 return false
             } catch (runtimeException: RuntimeException) {
                 Log.d(TAG, "Could not start recorder", runtimeException)
                 listenerList.remove(listener)
+                cleanupRecorderFile()
                 recorder = createSoundRecorder()
                 return false
             }
@@ -96,9 +111,17 @@ class SensorLoudness @JvmOverloads @VisibleForTesting internal constructor(
                 } catch (ioException: IOException) {
                     Log.d(TAG, "Could not stop recorder", ioException)
                 }
+                cleanupRecorderFile()
                 recorder = createSoundRecorder()
             }
             lastValue = 0.0
+        }
+    }
+
+    private fun cleanupRecorderFile() {
+        val recorderFile = File(recorderPath)
+        if (recorderFile.exists() && !recorderFile.delete()) {
+            Log.d(TAG, "Could not delete recorder file $recorderPath")
         }
     }
 
@@ -122,6 +145,9 @@ class SensorLoudness @JvmOverloads @VisibleForTesting internal constructor(
 
         @VisibleForTesting
         @JvmStatic
-        internal fun defaultRecorderPath(): String = "/dev/null"
+        internal fun defaultRecorderPath(): String =
+            File(Constants.SOUND_RECORDER_CACHE_DIRECTORY, LOUDNESS_SENSOR_RECORDING_FILE_NAME).absolutePath
+
+        private const val LOUDNESS_SENSOR_RECORDING_FILE_NAME = "loudness_sensor.m4a"
     }
 }

@@ -104,6 +104,7 @@ open class FormulaEditorComputeDialog(
 
     override fun onStop() {
         SensorHandler.unregisterListener(this)
+        SensorHandler.stopSensorListeners()
         ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause()
         super.onStop()
     }
