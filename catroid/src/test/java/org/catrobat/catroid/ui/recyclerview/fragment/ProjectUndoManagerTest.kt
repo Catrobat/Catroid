@@ -34,95 +34,95 @@ import java.io.File
 
 class ProjectUndoManagerTest {
 
-	@get:Rule
-	val tempFolder = TemporaryFolder()
+    @get:Rule
+    val tempFolder = TemporaryFolder()
 
-	private lateinit var projectDir: File
-	private lateinit var undoManager: ProjectUndoManager
+    private lateinit var projectDir: File
+    private lateinit var undoManager: ProjectUndoManager
 
-	@Before
-	fun setUp() {
-		projectDir = tempFolder.newFolder("testProject")
-		File(projectDir, "code.xml").createNewFile()
-		undoManager = ProjectUndoManager(projectDir)
-	}
+    @Before
+    fun setUp() {
+        projectDir = tempFolder.newFolder("testProject")
+        File(projectDir, "code.xml").createNewFile()
+        undoManager = ProjectUndoManager(projectDir)
+    }
 
-	@Test
-	fun testUndoStackLimit() {
-		for (i in 0 until 25) {
-			undoManager.pushState(
-				"scene", "sprite",
-				emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-			)
-		}
+    @Test
+    fun testUndoStackLimit() {
+        for (i in 0 until 25) {
+            undoManager.pushState(
+                "scene", "sprite",
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
+        }
 
-		assertTrue("Undo stack should be limited", undoManager.canUndo())
+        assertTrue("Undo stack should be limited", undoManager.canUndo())
 
-		var count = 0
-		while (undoManager.popUndo(
-				"scene", "sprite",
-				emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-			) != null
-		) {
-			count++
-		}
-		assertEquals(20, count)
-	}
+        var count = 0
+        while (undoManager.popUndo(
+                "scene", "sprite",
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ) != null
+        ) {
+            count++
+        }
+        assertEquals(20, count)
+    }
 
-	@Test
-	fun testInitClearsExistingHistory() {
-		val undoDir = File(projectDir, "undo_history")
-		if (!undoDir.exists()) {
-			undoDir.mkdirs()
-		}
-		val oldFile = File(undoDir, "old_snap.xml")
-		oldFile.createNewFile()
-		val recentFile = File(undoDir, "recent_snap.xml")
-		recentFile.createNewFile()
+    @Test
+    fun testInitClearsExistingHistory() {
+        val undoDir = File(projectDir, "undo_history")
+        if (!undoDir.exists()) {
+            undoDir.mkdirs()
+        }
+        val oldFile = File(undoDir, "old_snap.xml")
+        oldFile.createNewFile()
+        val recentFile = File(undoDir, "recent_snap.xml")
+        recentFile.createNewFile()
 
-		undoManager = ProjectUndoManager(projectDir)
+        undoManager = ProjectUndoManager(projectDir)
 
-		assertFalse("Recent file should be deleted during initialization", recentFile.exists())
-		assertFalse("Old file should be deleted during initialization", oldFile.exists())
-		assertTrue("Undo directory should still exist after initialization", undoDir.exists())
-	}
+        assertFalse("Recent file should be deleted during initialization", recentFile.exists())
+        assertFalse("Old file should be deleted during initialization", oldFile.exists())
+        assertTrue("Undo directory should still exist after initialization", undoDir.exists())
+    }
 
-	@Test
-	fun testClearHistory() {
-		undoManager.pushState(
-			"scene", "sprite",
-			emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-		)
-		assertTrue(undoManager.canUndo())
+    @Test
+    fun testClearHistory() {
+        undoManager.pushState(
+            "scene", "sprite",
+            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+        )
+        assertTrue(undoManager.canUndo())
 
-		undoManager.clearHistory()
-		assertFalse("Undo stack should be empty after clearHistory", undoManager.canUndo())
-		assertFalse("Redo stack should be empty after clearHistory", undoManager.canRedo())
-	}
+        undoManager.clearHistory()
+        assertFalse("Undo stack should be empty after clearHistory", undoManager.canUndo())
+        assertFalse("Redo stack should be empty after clearHistory", undoManager.canRedo())
+    }
 
-	@Test
-	fun testUniqueFilenames() {
-		undoManager.pushState(
-			"scene", "sprite",
-			emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-		)
-		undoManager.pushState(
-			"scene", "sprite",
-			emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-		)
+    @Test
+    fun testUniqueFilenames() {
+        undoManager.pushState(
+            "scene", "sprite",
+            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+        )
+        undoManager.pushState(
+            "scene", "sprite",
+            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+        )
 
-		val entry1 = undoManager.popUndo(
-			"scene", "sprite",
-			emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-		)
-		val entry2 = undoManager.popUndo(
-			"scene", "sprite",
-			emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
-		)
+        val entry1 = undoManager.popUndo(
+            "scene", "sprite",
+            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+        )
+        val entry2 = undoManager.popUndo(
+            "scene", "sprite",
+            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+        )
 
-		assertTrue(
-			"Snapshot names should be unique",
-			entry1!!.snapshotFileName != entry2!!.snapshotFileName
-		)
-	}
+        assertTrue(
+            "Snapshot names should be unique",
+            entry1!!.snapshotFileName != entry2!!.snapshotFileName
+        )
+    }
 }

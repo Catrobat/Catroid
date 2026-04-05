@@ -55,152 +55,152 @@ import java.util.Arrays
 @RunWith(Parameterized::class)
 class UndoTest {
 
-	private val waitThreshold = 5000L
+    private val waitThreshold = 5000L
 
-	@get:Rule
-	val baseActivityTestRule = FragmentActivityTestRule(
-		ProjectActivity::class.java,
-		ProjectActivity.EXTRA_FRAGMENT_POSITION,
-		ProjectActivity.FRAGMENT_SPRITES
-	)
+    @get:Rule
+    val baseActivityTestRule = FragmentActivityTestRule(
+        ProjectActivity::class.java,
+        ProjectActivity.EXTRA_FRAGMENT_POSITION,
+        ProjectActivity.FRAGMENT_SPRITES
+    )
 
-	@Parameterized.Parameter
-	@JvmField
-	var name: String = ""
+    @Parameterized.Parameter
+    @JvmField
+    var name: String = ""
 
-	@Parameterized.Parameter(1)
-	@JvmField
-	var brickPosition: Int = 0
+    @Parameterized.Parameter(1)
+    @JvmField
+    var brickPosition: Int = 0
 
-	@Parameterized.Parameter(2)
-	@JvmField
-	var brickText: Int = 0
+    @Parameterized.Parameter(2)
+    @JvmField
+    var brickText: Int = 0
 
-	private lateinit var initialProject: String
+    private lateinit var initialProject: String
 
-	@After
-	fun tearDown() {
-		TestUtils.deleteProjects(UndoTest::class.java.simpleName)
-	}
+    @After
+    fun tearDown() {
+        TestUtils.deleteProjects(UndoTest::class.java.simpleName)
+    }
 
-	@Before
-	fun setUp() {
-		createProject()
-		baseActivityTestRule.launchActivity()
-		onView(withText("testSprite"))
-			.perform(click())
-	}
+    @Before
+    fun setUp() {
+        createProject()
+        baseActivityTestRule.launchActivity()
+        onView(withText("testSprite"))
+            .perform(click())
+    }
 
-	@Test
-	fun testUndoSpinnerActionVisible() {
-		onBrickAtPosition(brickPosition)
-			.performDeleteBrick()
+    @Test
+    fun testUndoSpinnerActionVisible() {
+        onBrickAtPosition(brickPosition)
+            .performDeleteBrick()
 
-		onView(withId(R.id.menu_undo))
-			.perform(WaitForConditionAction.waitFor(isDisplayed(), waitThreshold))
-	}
+        onView(withId(R.id.menu_undo))
+            .perform(WaitForConditionAction.waitFor(isDisplayed(), waitThreshold))
+    }
 
-	@Test
-	fun testUndo() {
-		onBrickAtPosition(brickPosition).performDeleteBrick()
+    @Test
+    fun testUndo() {
+        onBrickAtPosition(brickPosition).performDeleteBrick()
 
-		onView(withId(R.id.menu_undo))
-			.perform(click())
+        onView(withId(R.id.menu_undo))
+            .perform(click())
 
-		onView(withId(R.id.menu_undo))
-			.check(matches(not(isEnabled())))
+        onView(withId(R.id.menu_undo))
+            .check(matches(not(isEnabled())))
 
-		val projectAfterUndo = getProjectAsXmlString()
-		assertEquals(projectAfterUndo, initialProject)
-	}
+        val projectAfterUndo = getProjectAsXmlString()
+        assertEquals(projectAfterUndo, initialProject)
+    }
 
-	@Test
-	fun checkScriptAfterUndo() {
-		onBrickAtPosition(brickPosition).performDeleteBrick()
+    @Test
+    fun checkScriptAfterUndo() {
+        onBrickAtPosition(brickPosition).performDeleteBrick()
 
-		onView(withId(R.id.menu_undo))
-			.perform(click())
+        onView(withId(R.id.menu_undo))
+            .perform(click())
 
-		pressBack()
+        pressBack()
 
-		onView(withText("testSprite"))
-			.perform(click())
+        onView(withText("testSprite"))
+            .perform(click())
 
-		onBrickAtPosition(brickPosition).checkShowsText(brickText)
-	}
+        onBrickAtPosition(brickPosition).checkShowsText(brickText)
+    }
 
-	fun getProjectAsXmlString(): String {
-		return XstreamSerializer.getInstance()
-			.getXmlAsStringFromProject(ProjectManager.getInstance().currentProject)
-	}
+    fun getProjectAsXmlString(): String {
+        return XstreamSerializer.getInstance()
+            .getXmlAsStringFromProject(ProjectManager.getInstance().currentProject)
+    }
 
-	private fun createProject() {
-		val script = UiTestUtils.createProjectAndGetStartScript(UndoTest::class.java.simpleName)
-		val compositeBrick = IfLogicBeginBrick()
-		compositeBrick.addBrickToIfBranch(SetXBrick())
-		compositeBrick.addBrickToElseBranch(SetXBrick())
-		script.addBrick(compositeBrick)
+    private fun createProject() {
+        val script = UiTestUtils.createProjectAndGetStartScript(UndoTest::class.java.simpleName)
+        val compositeBrick = IfLogicBeginBrick()
+        compositeBrick.addBrickToIfBranch(SetXBrick())
+        compositeBrick.addBrickToElseBranch(SetXBrick())
+        script.addBrick(compositeBrick)
 
-		XstreamSerializer.getInstance()
-			.saveProject(ProjectManager.getInstance().currentProject)
-		initialProject = getProjectAsXmlString()
-	}
+        XstreamSerializer.getInstance()
+            .saveProject(ProjectManager.getInstance().currentProject)
+        initialProject = getProjectAsXmlString()
+    }
 
-	@Test
-	fun testMultiStepUndo() {
-		// 1. Delete first brick
-		onBrickAtPosition(brickPosition).performDeleteBrick()
-		onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
+    @Test
+    fun testMultiStepUndo() {
+        // 1. Delete first brick
+        onBrickAtPosition(brickPosition).performDeleteBrick()
+        onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
 
-		// 2. Delete second brick
-		onBrickAtPosition(brickPosition).performDeleteBrick()
+        // 2. Delete second brick
+        onBrickAtPosition(brickPosition).performDeleteBrick()
 
-		// 3. Undo first time
-		onView(withId(R.id.menu_undo)).perform(click())
-		onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
-		onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
-		onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
+        // 3. Undo first time
+        onView(withId(R.id.menu_undo)).perform(click())
+        onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
+        onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
+        onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
 
-		// 4. Undo second time
-		onView(withId(R.id.menu_undo)).perform(click())
-		onView(withId(R.id.menu_redo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
-		onView(withId(R.id.menu_undo)).check(matches(not(isEnabled())))
-		onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
+        // 4. Undo second time
+        onView(withId(R.id.menu_undo)).perform(click())
+        onView(withId(R.id.menu_redo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
+        onView(withId(R.id.menu_undo)).check(matches(not(isEnabled())))
+        onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
 
-		// 5. Redo first time
-		onView(withId(R.id.menu_redo)).perform(click())
-		onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
-		onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
+        // 5. Redo first time
+        onView(withId(R.id.menu_redo)).perform(click())
+        onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
+        onView(withId(R.id.menu_undo)).check(matches(isEnabled()))
 
-		// 6. Redo second time
-		onView(withId(R.id.menu_redo)).perform(click())
-		onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
-		onView(withId(R.id.menu_redo)).check(matches(not(isEnabled())))
-	}
+        // 6. Redo second time
+        onView(withId(R.id.menu_redo)).perform(click())
+        onView(withId(R.id.menu_undo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
+        onView(withId(R.id.menu_redo)).check(matches(not(isEnabled())))
+    }
 
-	@Test
-	fun testConcurrentUndoRedo() {
-		onBrickAtPosition(brickPosition).performDeleteBrick()
+    @Test
+    fun testConcurrentUndoRedo() {
+        onBrickAtPosition(brickPosition).performDeleteBrick()
 
-		// Attempt double click to simulate rapid interaction
-		onView(withId(R.id.menu_undo)).perform(click(), click())
+        // Attempt double click to simulate rapid interaction
+        onView(withId(R.id.menu_undo)).perform(click(), click())
 
-		// Wait for async undo processing to complete before checking final state
-		onView(withId(R.id.menu_redo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
+        // Wait for async undo processing to complete before checking final state
+        onView(withId(R.id.menu_redo)).perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
 
-		// Verify that it still works and didn't crash
-		onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
-	}
+        // Verify that it still works and didn't crash
+        onView(withId(R.id.menu_redo)).check(matches(isEnabled()))
+    }
 
-	companion object {
-		@JvmStatic
-		@Parameterized.Parameters(name = "{0}")
-		fun data(): Collection<Array<Any>> {
-			return Arrays.asList(
-				arrayOf<Any>("SingleScript", 0, R.string.brick_when_started),
-				arrayOf<Any>("CompositeBrick", 1, R.string.brick_if_begin),
-				arrayOf<Any>("SingleBrick", 2, R.string.brick_set_x)
-			)
-		}
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Collection<Array<Any>> {
+            return Arrays.asList(
+                arrayOf<Any>("SingleScript", 0, R.string.brick_when_started),
+                arrayOf<Any>("CompositeBrick", 1, R.string.brick_if_begin),
+                arrayOf<Any>("SingleBrick", 2, R.string.brick_set_x)
+            )
+        }
+    }
 }
