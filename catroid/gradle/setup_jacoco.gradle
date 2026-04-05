@@ -74,6 +74,7 @@ project.afterEvaluate {
             ]))
 
             getExecutionData().from(files(
+                    "${project.buildDir}/jacoco/${testTaskName}.exec",
                     "${project.buildDir}/code_coverage/**/*.ec",
                     "${project.buildDir}/outputs/unit_test_code_coverage/${variant.name}UnitTest/${testTaskName}.exec",
             ))

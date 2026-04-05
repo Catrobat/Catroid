@@ -222,6 +222,7 @@ android {
             buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
             signingConfig = signingConfigs.debug
             enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
         }
 
         release {
