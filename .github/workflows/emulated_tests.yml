@@ -19,6 +19,11 @@ jobs:
   emulated-tests:
     name: Emulated Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      checks: write
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -94,19 +99,26 @@ jobs:
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
 
             # 2. Standard Test-Run without Coverage
-            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{inputs.gradle-test-config}}
+            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
           # | grep "There were failing tests."
+
+      - name: Upload Test Reports XML
+        uses: actions/upload-artifact@v4
+        if: always() # IMPORTANT: Upload reports regardless of status
+        with:
+          name: ${{ inputs.calling-job }}-test-report-xml
+          path: catroid/**/androidTest-results/**/TEST-*.xml
 
       - name: Upload Test Reports Folder
         uses: actions/upload-artifact@v4
         if: always() # IMPORTANT: Upload reports regardless of status
         with:
-          name: test-reports-${{inputs.calling-job}}
+          name: ${{ inputs.calling-job }}-test-report
           path: catroid/build/reports/androidTests/connected/debug/flavors/catroid
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         if: always() # IMPORTANT: Upload reports regardless of status
         with:
-          name: coverage-report-${{inputs.calling-job}}
+          name: ${{ inputs.calling-job }}-coverage-report
           path: catroid/build/reports/coverage/androidTest/catroid/debug/connected
