@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class WhenBackgroundChangesToBrickTest {
-    private var brickPosition: Int = 0
+    private val brickPosition: Int = 0
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
@@ -67,9 +67,7 @@ class WhenBackgroundChangesToBrickTest {
     )
 
     @Before
-    @Throws(Exception::class)
     fun setUp() {
-        brickPosition = 0
         UiTestUtils.createProjectWithCustomScript(
             PROJECT_NAME,
             WhenBackgroundChangesScript()
@@ -79,7 +77,6 @@ class WhenBackgroundChangesToBrickTest {
     }
 
     @After
-    @Throws(Exception::class)
     fun tearDown() {
         Intents.release()
         baseActivityTestRule.finishActivity()
@@ -106,8 +103,10 @@ class WhenBackgroundChangesToBrickTest {
 
         onView(isRoot()).perform(CustomActions.wait(500))
 
-        val lookDataList: List<LookData> = ProjectManager.getInstance().currentProject
-            .defaultScene.backgroundSprite.lookList
+        val currentProject = checkNotNull(ProjectManager.getInstance().currentProject) {
+            "Current project should not be null"
+        }
+        val lookDataList = currentProject.defaultScene.backgroundSprite.lookList
 
         assertEquals(1, lookDataList.size)
     }
