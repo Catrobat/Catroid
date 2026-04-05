@@ -56,16 +56,14 @@ class SensorLoudness {
     }
 
     @VisibleForTesting
-    var statusChecker: Runnable = object : Runnable {
-        override fun run() {
-            val loudness = (SCALE_RANGE / MAX_AMP_VALUE) * recorder.maxAmplitude
-            if (loudness != lastValue && loudness != 0.0) {
-                lastValue = loudness
-                val event = SensorCustomEvent(Sensors.LOUDNESS, loudness)
-                listenerList.forEach { it.onCustomSensorChanged(event) }
-            }
-            handler.postDelayed(this, UPDATE_INTERVAL.toLong())
+    var statusChecker: Runnable = Runnable {
+        val loudness = (SCALE_RANGE / MAX_AMP_VALUE) * recorder.maxAmplitude
+        if (loudness != lastValue && loudness != 0.0) {
+            lastValue = loudness
+            val event = SensorCustomEvent(Sensors.LOUDNESS, loudness)
+            listenerList.forEach { it.onCustomSensorChanged(event) }
         }
+        handler.postDelayed(statusChecker, UPDATE_INTERVAL.toLong())
     }
 
     @Synchronized
