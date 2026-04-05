@@ -36,7 +36,6 @@ import com.google.common.base.Stopwatch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
-import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.WhenBackgroundChangesScript
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat
