@@ -260,8 +260,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public void manageLoadAndFinish() {
-		stageListener.pause();
-		stageListener.finish();
+		if (stageListener != null) {
+			stageListener.pause();
+			stageListener.finish();
+		}
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
 		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
