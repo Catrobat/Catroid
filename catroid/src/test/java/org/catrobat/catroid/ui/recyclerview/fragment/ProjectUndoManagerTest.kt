@@ -52,7 +52,9 @@ class ProjectUndoManagerTest {
         for (i in 0 until 25) {
             undoManager.pushState(
                 "scene", "sprite",
-                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+                ProjectUndoManager.VariableSnapshot(
+                    emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+                )
             )
         }
 
@@ -61,7 +63,9 @@ class ProjectUndoManagerTest {
         var count = 0
         while (undoManager.popUndo(
                 "scene", "sprite",
-                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+                ProjectUndoManager.VariableSnapshot(
+                    emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+                )
             ) != null
         ) {
             count++
@@ -91,7 +95,9 @@ class ProjectUndoManagerTest {
     fun testClearHistory() {
         undoManager.pushState(
             "scene", "sprite",
-            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ProjectUndoManager.VariableSnapshot(
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
         )
         assertTrue(undoManager.canUndo())
 
@@ -104,20 +110,28 @@ class ProjectUndoManagerTest {
     fun testUniqueFilenames() {
         undoManager.pushState(
             "scene", "sprite",
-            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ProjectUndoManager.VariableSnapshot(
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
         )
         undoManager.pushState(
             "scene", "sprite",
-            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ProjectUndoManager.VariableSnapshot(
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
         )
 
         val entry1 = undoManager.popUndo(
             "scene", "sprite",
-            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ProjectUndoManager.VariableSnapshot(
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
         )
         val entry2 = undoManager.popUndo(
             "scene", "sprite",
-            emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            ProjectUndoManager.VariableSnapshot(
+                emptyList(), emptyList(), emptyList(), emptyList(), emptyList()
+            )
         )
 
         assertTrue(

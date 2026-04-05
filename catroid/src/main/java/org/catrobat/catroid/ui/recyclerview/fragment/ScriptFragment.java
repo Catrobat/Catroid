@@ -892,9 +892,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 		if (spriteActivity != null && spriteActivity.getUndoManager() != null) {
 			saveVariables();
-			spriteActivity.getUndoManager().pushState(currentSceneName, currentSpriteName,
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
 					savedUserVariables, savedMultiplayerVariables, savedUserLists,
 					savedLocalUserVariables, savedLocalLists);
+			spriteActivity.getUndoManager().pushState(currentSceneName, currentSpriteName, snapshot);
 			return true;
 		}
 		return false;
@@ -911,10 +912,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			Project project = ProjectManager.getInstance().getCurrentProject();
 			XstreamSerializer.getInstance().saveProject(project);
 			saveVariables();
-			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popUndo(
-					currentSceneName, currentSpriteName,
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
 					savedUserVariables, savedMultiplayerVariables, savedUserLists,
 					savedLocalUserVariables, savedLocalLists);
+			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popUndo(
+					currentSceneName, currentSpriteName, snapshot);
 			if (entry != null) {
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);
@@ -933,10 +935,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			Project project = ProjectManager.getInstance().getCurrentProject();
 			XstreamSerializer.getInstance().saveProject(project);
 			saveVariables();
-			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popRedo(
-					currentSceneName, currentSpriteName,
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
 					savedUserVariables, savedMultiplayerVariables, savedUserLists,
 					savedLocalUserVariables, savedLocalLists);
+			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popRedo(
+					currentSceneName, currentSpriteName, snapshot);
 			if (entry != null) {
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);

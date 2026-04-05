@@ -66,11 +66,7 @@ class ProjectUndoManager(private val projectDir: File) {
     fun pushState(
         sceneName: String,
         spriteName: String,
-        userVariables: List<UserVariable>,
-        multiplayerVariables: List<UserVariable>,
-        userLists: List<UserList>,
-        localUserVariables: List<UserVariable>,
-        localLists: List<UserList>
+        variableSnapshot: VariableSnapshot
     ) {
         val currentCodeFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
         if (!currentCodeFile.exists()) {
@@ -84,9 +80,11 @@ class ProjectUndoManager(private val projectDir: File) {
 
             StorageOperations.copyFile(currentCodeFile, snapshotFile)
             val variables = VariableSnapshot(
-                ArrayList(userVariables), ArrayList(multiplayerVariables),
-                ArrayList(userLists), ArrayList(localUserVariables),
-                ArrayList(localLists)
+                ArrayList(variableSnapshot.savedUserVariables),
+                ArrayList(variableSnapshot.savedMultiplayerVariables),
+                ArrayList(variableSnapshot.savedUserLists),
+                ArrayList(variableSnapshot.savedLocalUserVariables),
+                ArrayList(variableSnapshot.savedLocalLists)
             )
             undoStack.add(UndoEntry(snapshotName, sceneName, spriteName, variables))
             for (redoEntry in redoStack) {
@@ -115,20 +113,13 @@ class ProjectUndoManager(private val projectDir: File) {
     fun popUndo(
         sceneName: String,
         spriteName: String,
-        userVariables: List<UserVariable>,
-        multiplayerVariables: List<UserVariable>,
-        userLists: List<UserList>,
-        localUserVariables: List<UserVariable>,
-        localLists: List<UserList>
+        variableSnapshot: VariableSnapshot
     ): UndoEntry? {
         if (undoStack.isEmpty()) {
             return null
         }
 
-        val redoEntry = pushCurrentToRedo(
-            sceneName, spriteName,
-            userVariables, multiplayerVariables, userLists, localUserVariables, localLists
-        ) ?: return null
+        val redoEntry = pushCurrentToRedo(sceneName, spriteName, variableSnapshot) ?: return null
 
         val entry = undoStack.removeAt(undoStack.size - 1)
         return if (restoreSnapshot(entry)) {
@@ -151,20 +142,13 @@ class ProjectUndoManager(private val projectDir: File) {
     fun popRedo(
         sceneName: String,
         spriteName: String,
-        userVariables: List<UserVariable>,
-        multiplayerVariables: List<UserVariable>,
-        userLists: List<UserList>,
-        localUserVariables: List<UserVariable>,
-        localLists: List<UserList>
+        variableSnapshot: VariableSnapshot
     ): UndoEntry? {
         if (redoStack.isEmpty()) {
             return null
         }
 
-        val undoEntry = pushCurrentToUndoInternal(
-            sceneName, spriteName,
-            userVariables, multiplayerVariables, userLists, localUserVariables, localLists
-        ) ?: return null
+        val undoEntry = pushCurrentToUndoInternal(sceneName, spriteName, variableSnapshot) ?: return null
 
         val entry = redoStack.removeAt(redoStack.size - 1)
         return if (restoreSnapshot(entry)) {
@@ -187,11 +171,7 @@ class ProjectUndoManager(private val projectDir: File) {
     private fun pushCurrentToRedo(
         sceneName: String,
         spriteName: String,
-        userVariables: List<UserVariable>,
-        multiplayerVariables: List<UserVariable>,
-        userLists: List<UserList>,
-        localUserVariables: List<UserVariable>,
-        localLists: List<UserList>
+        variableSnapshot: VariableSnapshot
     ): UndoEntry? {
         val currentCodeFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
         var snapshotFile: File? = null
@@ -208,9 +188,11 @@ class ProjectUndoManager(private val projectDir: File) {
                 }
             }
             val variables = VariableSnapshot(
-                ArrayList(userVariables), ArrayList(multiplayerVariables),
-                ArrayList(userLists), ArrayList(localUserVariables),
-                ArrayList(localLists)
+                ArrayList(variableSnapshot.savedUserVariables),
+                ArrayList(variableSnapshot.savedMultiplayerVariables),
+                ArrayList(variableSnapshot.savedUserLists),
+                ArrayList(variableSnapshot.savedLocalUserVariables),
+                ArrayList(variableSnapshot.savedLocalLists)
             )
             val entry = UndoEntry(snapshotName, sceneName, spriteName, variables)
             redoStack.add(entry)
@@ -227,11 +209,7 @@ class ProjectUndoManager(private val projectDir: File) {
     private fun pushCurrentToUndoInternal(
         sceneName: String,
         spriteName: String,
-        userVariables: List<UserVariable>,
-        multiplayerVariables: List<UserVariable>,
-        userLists: List<UserList>,
-        localUserVariables: List<UserVariable>,
-        localLists: List<UserList>
+        variableSnapshot: VariableSnapshot
     ): UndoEntry? {
         val currentCodeFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
         var snapshotFile: File? = null
@@ -248,9 +226,11 @@ class ProjectUndoManager(private val projectDir: File) {
                 }
             }
             val variables = VariableSnapshot(
-                ArrayList(userVariables), ArrayList(multiplayerVariables),
-                ArrayList(userLists), ArrayList(localUserVariables),
-                ArrayList(localLists)
+                ArrayList(variableSnapshot.savedUserVariables),
+                ArrayList(variableSnapshot.savedMultiplayerVariables),
+                ArrayList(variableSnapshot.savedUserLists),
+                ArrayList(variableSnapshot.savedLocalUserVariables),
+                ArrayList(variableSnapshot.savedLocalLists)
             )
             val entry = UndoEntry(snapshotName, sceneName, spriteName, variables)
             undoStack.add(entry)
