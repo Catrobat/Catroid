@@ -270,11 +270,10 @@ class GetListAllBricksTest {
             "IfLogicBeginBrick nested inside ForeverBrick should be found",
             allBricks.contains(ifBrick)
         )
-        // Note: getListAllBricks() only goes one level deep for nested bricks.
-        // The deeply nested brick inside IfLogicBeginBrick which is itself inside
-        // ForeverBrick will only be found if the IfLogicBeginBrick's nested bricks
-        // are also explicitly traversed. This is a known limitation documented in
-        // the maintainer's comments on IDE-31.
+        assertTrue(
+            "Deeply nested brick inside IfLogicBeginBrick should be found",
+            allBricks.contains(deeplyNestedBrick)
+        )
     }
 
     @Test

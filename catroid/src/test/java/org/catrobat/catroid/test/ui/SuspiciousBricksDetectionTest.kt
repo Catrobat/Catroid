@@ -66,8 +66,8 @@ class SuspiciousBricksDetectionTest {
     }
 
 
-    // Since containsSuspiciousBricks is private, we test it through getListAllBricks()
-    // and the public-facing suspicious brick detection logic.
+    // Since containsSuspiciousBricks is private, these tests exercise it via reflection
+    // to validate the private extension function without changing production visibility.
 
     @Test
     fun testSuspiciousWhenStartListeningAndWebRequestBrickExist() {
@@ -440,6 +440,37 @@ class SuspiciousBricksDetectionTest {
         assertTrue(
             "Project with suspicious bricks nested inside loops should trigger warning. " +
                 "This is the exact regression scenario described in IDE-31.",
+            shouldWarn
+        )
+    }
+
+    @Test
+    fun testProjectWithSuspiciousBricksMultiLevelNestedShouldWarn() {
+        val project = Project()
+        project.sceneList.clear()
+
+        val scene = Scene("Scene1", project)
+        val sprite = Sprite("Sprite1")
+        val script = StartScript()
+
+        // ForeverBrick -> IfLogicBeginBrick -> StartListeningBrick (2 levels deep)
+        val foreverBrick = ForeverBrick()
+        val ifBrick = IfLogicBeginBrick()
+        ifBrick.addBrickToIfBranch(StartListeningBrick())
+        foreverBrick.addBrick(ifBrick)
+
+        // WebRequestBrick at top level to complete the suspicious pair
+        script.addBrick(WebRequestBrick())
+        script.addBrick(foreverBrick)
+
+        sprite.addScript(script)
+        scene.addSprite(sprite)
+        project.addScene(scene)
+
+        val shouldWarn = shouldDisplaySuspiciousBricksWarningViaReflection(project)
+
+        assertTrue(
+            "Project with suspicious bricks nested two levels deep should trigger warning.",
             shouldWarn
         )
     }
