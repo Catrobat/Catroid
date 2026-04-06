@@ -104,6 +104,8 @@ import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.load
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.SCALE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
@@ -430,6 +432,8 @@ public class SpriteActivity extends BaseActivity {
 
 				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
 				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				float placementScale = extras.getFloat(SCALE_BUNDLE_ARGUMENT, 1.0f);
+				float placementRotation = extras.getFloat(ROTATION_BUNDLE_ARGUMENT, 0.0f);
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
 
 				Fragment fragment = getCurrentFragment();
@@ -445,6 +449,21 @@ public class SpriteActivity extends BaseActivity {
 					((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
 					if (fragment instanceof FormulaEditorFragment) {
 						((FormulaEditorFragment) fragment).updateFragmentAfterVisualPlacement();
+					}
+				}
+
+				if (placementScale != 1.0f) {
+					Sprite sprite = projectManager.getCurrentSprite();
+					if (sprite != null) {
+						sprite.look.setScaleX(placementScale);
+						sprite.look.setScaleY(placementScale);
+					}
+				}
+
+				if (placementRotation != 0.0f) {
+					Sprite sprite = projectManager.getCurrentSprite();
+					if (sprite != null) {
+						sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation + 90);
 					}
 				}
 

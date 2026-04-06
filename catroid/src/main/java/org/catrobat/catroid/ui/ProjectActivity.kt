@@ -44,6 +44,8 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick
+import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.databinding.ActivityRecyclerBinding
 import org.catrobat.catroid.databinding.DialogNewActorBinding
 import org.catrobat.catroid.databinding.ProgressBarBinding
@@ -258,11 +260,23 @@ class ProjectActivity : BaseCastActivity() {
                     extras.getInt(VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT)
                 val yCoordinate =
                     extras.getInt(VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT)
+                val placementScale =
+                    extras.getFloat(VisualPlacementActivity.SCALE_BUNDLE_ARGUMENT, 1.0f)
+                val placementRotation =
+                    extras.getFloat(VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT, 0.0f)
                 val placeAtBrick = PlaceAtBrick(xCoordinate, yCoordinate)
                 val currentSprite = projectManager.currentSprite
                 val startScript = StartScript()
                 currentSprite.prependScript(startScript)
                 startScript.addBrick(placeAtBrick)
+                if (placementScale != 1.0f) {
+                    val sizePercent = (placementScale * 100).toDouble()
+                    startScript.addBrick(SetSizeToBrick(sizePercent))
+                }
+                if (placementRotation != 0.0f) {
+                    val direction = (placementRotation + 90).toDouble()
+                    startScript.addBrick(PointInDirectionBrick(direction))
+                }
             }
 
             SPRITE_FROM_LOCAL -> if (data != null && data.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {

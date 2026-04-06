@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,12 +92,14 @@ import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
-		DialogInterface.OnClickListener, CoordinateInterface {
+		DialogInterface.OnClickListener, TransformationInterface {
 
 	public static final String TAG = VisualPlacementActivity.class.getSimpleName();
 
 	public static final String X_COORDINATE_BUNDLE_ARGUMENT = "xCoordinate";
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
+	public static final String SCALE_BUNDLE_ARGUMENT = "scaleFactor";
+	public static final String ROTATION_BUNDLE_ARGUMENT = "rotationDegrees";
 	public static final String CHANGED_COORDINATES = "changedCoordinates";
 
 	private ProjectManager projectManager;
@@ -114,6 +116,11 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float translateX;
 	private float translateY;
 
+	private float currentScale = 1.0f;
+	private float currentRotation = 0.0f;
+	private float initialSpriteScale = 1.0f;
+	private float initialSpriteRotation = 0.0f;
+
 	private boolean isText;
 	private String text;
 	private String textColor;
@@ -125,6 +132,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float layoutWidthRatio;
 	private float layoutHeightRatio;
 	private VisualPlacementTouchListener visualPlacementTouchListener;
+	private ResizeRotateGestureDetector resizeRotateDetector;
+	private BoundingBoxOverlay boundingBoxOverlay;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -186,7 +195,29 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 		}
+
+		resizeRotateDetector = new ResizeRotateGestureDetector(new ResizeRotateGestureDetector.OnTransformGestureListener() {
+			@Override
+			public void onScale(float scaleFactor) {
+				currentScale = scaleFactor;
+				if (imageView != null) {
+					float appliedScale = initialSpriteScale * currentScale;
+					imageView.setScaleX(appliedScale);
+					imageView.setScaleY(appliedScale);
+				}
+			}
+
+			@Override
+			public void onRotate(float rotationDegrees) {
+				currentRotation = rotationDegrees;
+				if (imageView != null) {
+					imageView.setRotation(initialSpriteRotation + currentRotation);
+				}
+			}
+		});
+
 		visualPlacementTouchListener = new VisualPlacementTouchListener();
+		visualPlacementTouchListener.setResizeRotateDetector(resizeRotateDetector);
 
 		frameLayout = findViewById(R.id.frame_container);
 
@@ -218,6 +249,14 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		setBackground();
 		showMovableImageView();
+
+		boundingBoxOverlay = new BoundingBoxOverlay(this);
+		boundingBoxOverlay.setTrackedImageView(imageView);
+		frameLayout.addView(boundingBoxOverlay,
+				new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.MATCH_PARENT));
+
+		visualPlacementTouchListener.setBoundingBoxOverlay(boundingBoxOverlay);
 
 		toolbar.bringToFront();
 		frameLayout.setOnTouchListener(this);
@@ -307,11 +346,18 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);
+			initialSpriteScale = scaleX;
 		}
 
 		if (scaleY > 0.01) {
 			imageView.setScaleY(scaleY);
 		}
+
+		resizeRotateDetector.setCumulativeScale(1.0f);
+		resizeRotateDetector.setCumulativeRotation(0.0f);
+		currentScale = 1.0f;
+		currentRotation = 0.0f;
+
 		frameLayout.addView(imageView);
 	}
 
@@ -374,7 +420,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
 		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
-		if (translateX != xCoordinate || translateY != yCoordinate) {
+		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
+				|| currentScale != 1.0f || currentRotation != 0.0f;
+
+		if (hasChanges) {
 			showSaveChangesDialog(this);
 		} else {
 			finish();
@@ -403,7 +452,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate);
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);
-		extras.putBoolean(CHANGED_COORDINATES, translateX != xCoordinate || translateY != yCoordinate);
+
+		float finalScale = initialSpriteScale * currentScale;
+		float finalRotation = initialSpriteRotation + currentRotation;
+		extras.putFloat(SCALE_BUNDLE_ARGUMENT, finalScale);
+		extras.putFloat(ROTATION_BUNDLE_ARGUMENT, finalRotation);
+
+		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
+				|| currentScale != 1.0f || currentRotation != 0.0f;
+		extras.putBoolean(CHANGED_COORDINATES, hasChanges);
 
 		returnIntent.putExtras(extras);
 		setResult(Activity.RESULT_OK, returnIntent);
@@ -436,5 +493,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			yCoord = yCoordinate;
 		}
+	}
+
+	@Override
+	public void setScale(float scaleFactor) {
+		currentScale = scaleFactor;
+	}
+
+	@Override
+	public void setRotation(float rotationDegrees) {
+		currentRotation = rotationDegrees;
 	}
 }

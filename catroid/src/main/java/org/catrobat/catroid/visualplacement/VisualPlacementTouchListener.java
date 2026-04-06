@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,9 @@ public class VisualPlacementTouchListener {
 	private float previousY;
 	private List<TouchEventData> recentTouchEventsData = new ArrayList<>();
 
+	private ResizeRotateGestureDetector resizeRotateDetector;
+	private BoundingBoxOverlay boundingBoxOverlay;
+
 	private final class TouchEventData {
 		private final long timeStamp;
 		private final float xCoordinate;
@@ -55,7 +58,29 @@ public class VisualPlacementTouchListener {
 		this.mode = mode;
 	}
 
+	public void setResizeRotateDetector(ResizeRotateGestureDetector detector) {
+		this.resizeRotateDetector = detector;
+	}
+
+	public void setBoundingBoxOverlay(BoundingBoxOverlay overlay) {
+		this.boundingBoxOverlay = overlay;
+	}
+
 	public boolean onTouch(ImageView imageView, MotionEvent event, CoordinateInterface coordinateInterface) {
+		if (resizeRotateDetector != null && event.getPointerCount() >= 2) {
+			boolean handled = resizeRotateDetector.onTouchEvent(event);
+			if (handled) {
+				updateBoundingBox();
+				return true;
+			}
+		}
+
+		if (resizeRotateDetector != null && resizeRotateDetector.isTransforming()) {
+			resizeRotateDetector.onTouchEvent(event);
+			updateBoundingBox();
+			return true;
+		}
+
 		if (event.getPointerId(0) == 0) {
 			float currentX = event.getRawX();
 			float currentY = event.getRawY();
@@ -108,9 +133,16 @@ public class VisualPlacementTouchListener {
 			}
 			coordinateInterface.setXCoordinate(imageView.getX());
 			coordinateInterface.setYCoordinate(-imageView.getY());
+			updateBoundingBox();
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private void updateBoundingBox() {
+		if (boundingBoxOverlay != null) {
+			boundingBoxOverlay.updateOverlay();
 		}
 	}
 
