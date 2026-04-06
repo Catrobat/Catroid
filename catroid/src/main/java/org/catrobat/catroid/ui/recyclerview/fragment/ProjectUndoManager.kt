@@ -55,10 +55,8 @@ class ProjectUndoManager(private val projectDir: File) {
         if (undoDir.exists()) {
             val currentTime = System.currentTimeMillis()
             undoDir.listFiles()?.forEach { file ->
-                if (currentTime - file.lastModified() > UNDO_SNAPSHOT_TTL_MS) {
-                    if (file.exists() && !file.delete()) {
-                        Log.w(TAG, "Failed to delete stale snapshot on init: ${file.absolutePath}")
-                    }
+                if (currentTime - file.lastModified() > UNDO_SNAPSHOT_TTL_MS && file.exists() && !file.delete()) {
+                    Log.w(TAG, "Failed to delete stale snapshot on init: ${file.absolutePath}")
                 }
             }
         } else if (!undoDir.mkdirs()) {
