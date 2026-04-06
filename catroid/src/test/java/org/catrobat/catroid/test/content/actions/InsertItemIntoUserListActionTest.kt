@@ -133,7 +133,7 @@ class InsertItemIntoUserListActionTest {
     @Test
     fun testInsertItemOutOfBoundsTooLargeIndex() {
         actionFactory.createInsertItemIntoUserListAction(
-            testSprite, SequenceAction(), Formula(100), Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList
+            testSprite, SequenceAction(), Formula(4), Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList
         ).act(1f)
 
         assertEquals(2, userList.value.size)
