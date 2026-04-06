@@ -111,7 +111,7 @@ class UndoTest {
             .check(matches(not(isEnabled())))
 
         val projectAfterUndo = getProjectAsXmlString()
-        assertEquals(projectAfterUndo, initialProject)
+        assertEquals(initialProject, projectAfterUndo)
     }
 
     @Test

@@ -74,19 +74,23 @@ class ProjectUndoManagerTest {
     }
 
     @Test
-    fun testInitClearsExistingHistory() {
+    fun testInitPrunesOldHistoryOnly() {
         val undoDir = File(projectDir, "undo_history")
         if (!undoDir.exists()) {
             undoDir.mkdirs()
         }
         val oldFile = File(undoDir, "old_snap.xml")
         oldFile.createNewFile()
+        // Set last modified to 2 hours ago
+        oldFile.setLastModified(System.currentTimeMillis() - 2 * 60 * 60 * 1000L)
+
         val recentFile = File(undoDir, "recent_snap.xml")
         recentFile.createNewFile()
+        // Recent file is current
 
         undoManager = ProjectUndoManager(projectDir)
 
-        assertFalse("Recent file should be deleted during initialization", recentFile.exists())
+        assertTrue("Recent file should NOT be deleted during initialization", recentFile.exists())
         assertFalse("Old file should be deleted during initialization", oldFile.exists())
         assertTrue("Undo directory should still exist after initialization", undoDir.exists())
     }

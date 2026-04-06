@@ -53,9 +53,12 @@ class ProjectUndoManager(private val projectDir: File) {
 
     init {
         if (undoDir.exists()) {
+            val currentTime = System.currentTimeMillis()
             undoDir.listFiles()?.forEach { file ->
-                if (file.exists() && !file.delete()) {
-                    Log.w(TAG, "Failed to delete stale snapshot on init: ${file.absolutePath}")
+                if (currentTime - file.lastModified() > UNDO_SNAPSHOT_TTL_MS) {
+                    if (file.exists() && !file.delete()) {
+                        Log.w(TAG, "Failed to delete stale snapshot on init: ${file.absolutePath}")
+                    }
                 }
             }
         } else if (!undoDir.mkdirs()) {
@@ -273,6 +276,7 @@ class ProjectUndoManager(private val projectDir: File) {
     companion object {
         private val TAG = ProjectUndoManager::class.java.simpleName
         private const val MAX_UNDO_STEPS = 20
+        private const val UNDO_SNAPSHOT_TTL_MS = 60 * 60 * 1000L // 1 hour
 
         @JvmStatic
         fun clearUndoHistoryForProject(projectDir: File) {
