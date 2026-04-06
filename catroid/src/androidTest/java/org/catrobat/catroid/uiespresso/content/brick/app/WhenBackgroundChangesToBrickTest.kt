@@ -123,6 +123,7 @@ class WhenBackgroundChangesToBrickTest {
                 if (stopWatch.elapsed(TimeUnit.MILLISECONDS) >= timeout.toLong()) {
                     break
                 }
+                Thread.sleep(POLL_INTERVAL_MS)
             }
         } while (!viewFound)
         return viewFound
@@ -130,5 +131,6 @@ class WhenBackgroundChangesToBrickTest {
 
     companion object {
         private const val PROJECT_NAME = "WhenBackgroundChangesToBrickTest"
+        private const val POLL_INTERVAL_MS = 10L
     }
 }
