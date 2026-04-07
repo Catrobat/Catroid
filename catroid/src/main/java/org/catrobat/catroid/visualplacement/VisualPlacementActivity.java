@@ -116,8 +116,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float translateX;
 	private float translateY;
 
-	private float currentScale = 1.0f;
-	private float currentRotation = 0.0f;
+	private float scaleFactor = 1.0f;
+	private float rotationDegrees = 0.0f;
 	private float initialSpriteScale = 1.0f;
 	private float initialSpriteRotation = 0.0f;
 
@@ -206,20 +206,20 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		resizeRotateDetector = new ResizeRotateGestureDetector(new ResizeRotateGestureDetector.OnTransformGestureListener() {
 			@Override
-			public void onScale(float scaleFactor) {
-				currentScale = scaleFactor;
+			public void onScale(float scale) {
+				scaleFactor = scale;
 				if (imageView != null) {
-					float appliedScale = initialSpriteScale * currentScale;
+					float appliedScale = initialSpriteScale * scaleFactor;
 					imageView.setScaleX(appliedScale);
 					imageView.setScaleY(appliedScale);
 				}
 			}
 
 			@Override
-			public void onRotate(float rotationDegrees) {
-				currentRotation = rotationDegrees;
+			public void onRotate(float rotation) {
+				rotationDegrees = rotation;
 				if (imageView != null) {
-					imageView.setRotation(initialSpriteRotation + currentRotation);
+					imageView.setRotation(initialSpriteRotation + rotationDegrees);
 				}
 			}
 		});
@@ -291,46 +291,72 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	}
 
 	public void showMovableImageView() {
-		Bitmap visualPlacementBitmap;
-		String objectLookPath;
+		imageView = new ImageView(this);
+		Bitmap visualPlacementBitmap = loadBitmapForPlacement();
+		
+		if (visualPlacementBitmap != null) {
+			visualPlacementBitmap = applyInitialBitmapTransformations(visualPlacementBitmap);
+			imageView.setImageBitmap(visualPlacementBitmap);
+		}
+		
+		setupImageViewPositionAndScale();
+		frameLayout.addView(imageView);
+	}
+
+	private Bitmap loadBitmapForPlacement() {
+		Bitmap bitmap = null;
 		Sprite currentSprite = projectManager.getCurrentSprite();
 
-		imageView = new ImageView(this);
-
 		if (isText) {
-			visualPlacementBitmap = convertTextToBitmap();
-		} else {
-			if (currentSprite.look != null && !currentSprite.look.getImagePath().isEmpty()) {
-				objectLookPath = currentSprite.look.getImagePath();
-				scaleX = currentSprite.look.getScaleX();
-				scaleY = currentSprite.look.getScaleY();
-				rotationMode = currentSprite.look.getRotationMode();
-				rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
-				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
-			} else if (currentSprite.getLookList() != null && currentSprite.getLookList().size() != 0) {
-				if (currentSprite.getLookList().get(0).getFile() != null) {
-					objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
-					visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
-				} else {
-					visualPlacementBitmap = null;
-				}
-			} else {
-				Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.pc_toolbar_icon);
-
-				if (drawable == null) {
-					visualPlacementBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-				} else {
-					visualPlacementBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-					Canvas canvas = new Canvas(visualPlacementBitmap);
-					drawable.draw(canvas);
-				}
+			bitmap = convertTextToBitmap();
+		} else if (currentSprite.look != null && !currentSprite.look.getImagePath().isEmpty()) {
+			String objectLookPath = currentSprite.look.getImagePath();
+			scaleX = currentSprite.look.getScaleX();
+			scaleY = currentSprite.look.getScaleY();
+			rotationMode = currentSprite.look.getRotationMode();
+			rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
+			bitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
+		} else if (currentSprite.getLookList() != null && !currentSprite.getLookList().isEmpty()) {
+			if (currentSprite.getLookList().get(0).getFile() != null) {
+				String path = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
+				bitmap = BitmapFactory.decodeFile(path, bitmapOptions);
 			}
 		}
 
-		if (visualPlacementBitmap == null) {
-			visualPlacementBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+		if (bitmap == null) {
+			bitmap = loadDefaultToolbarIcon();
 		}
+		return bitmap;
+	}
 
+	private Bitmap loadDefaultToolbarIcon() {
+		Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.pc_toolbar_icon);
+		if (drawable == null) {
+			return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+		}
+		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.draw(canvas);
+		return bitmap;
+	}
+
+	private Bitmap applyInitialBitmapTransformations(Bitmap bitmap) {
+		Matrix matrix = createInitialRotationMatrix(bitmap);
+		Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+		if (bitmap != rotatedBitmap) {
+			bitmap.recycle();
+		}
+		bitmap = rotatedBitmap;
+
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * layoutWidthRatio),
+				(int) (bitmap.getHeight() * layoutHeightRatio), true);
+		if (bitmap != scaledBitmap) {
+			bitmap.recycle();
+		}
+		return scaledBitmap;
+	}
+
+	private Matrix createInitialRotationMatrix(Bitmap bitmap) {
 		Matrix matrix = new Matrix();
 		switch (rotationMode) {
 			case ROTATION_STYLE_NONE:
@@ -343,30 +369,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				break;
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				if (rotation < 0) {
-					matrix.postScale(-1, 1, (float) visualPlacementBitmap.getWidth() / 2, (float) visualPlacementBitmap.getHeight() / 2);
+					matrix.postScale(-1, 1, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
 				}
 				break;
 		}
+		return matrix;
+	}
 
-		if (visualPlacementBitmap != null) {
-			Bitmap rotatedBitmap = Bitmap.createBitmap(visualPlacementBitmap, 0, 0,
-					visualPlacementBitmap.getWidth(),
-					visualPlacementBitmap.getHeight(), matrix, true);
-
-			if (visualPlacementBitmap != rotatedBitmap) {
-				visualPlacementBitmap.recycle();
-			}
-			visualPlacementBitmap = rotatedBitmap;
-
-			Bitmap scaledBitmap = Bitmap.createScaledBitmap(visualPlacementBitmap, (int) (visualPlacementBitmap.getWidth() * layoutWidthRatio),
-					(int) (visualPlacementBitmap.getHeight() * layoutHeightRatio), true);
-			imageView.setImageBitmap(scaledBitmap);
-			if (visualPlacementBitmap != scaledBitmap) {
-				visualPlacementBitmap.recycle();
-			}
-		}
+	private void setupImageViewPositionAndScale() {
 		imageView.setScaleType(ImageView.ScaleType.CENTER);
-
 		if (isText) {
 			imageView.setTranslationX(translateX + xOffsetText);
 			imageView.setTranslationY(-translateY + yOffsetText);
@@ -381,17 +392,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			imageView.setScaleX(scaleX);
 			initialSpriteScale = scaleX;
 		}
-
 		if (scaleY > 0.01) {
 			imageView.setScaleY(scaleY);
 		}
+		initialSpriteRotation = rotation;
 
 		resizeRotateDetector.setCumulativeScale(1.0f);
 		resizeRotateDetector.setCumulativeRotation(0.0f);
-		currentScale = 1.0f;
-		currentRotation = 0.0f;
-
-		frameLayout.addView(imageView);
+		scaleFactor = 1.0f;
+		rotationDegrees = 0.0f;
 	}
 
 	private Bitmap convertTextToBitmap() {
@@ -457,7 +466,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
-				|| currentScale != 1.0f || currentRotation != 0.0f;
+				|| scaleFactor != 1.0f || rotationDegrees != 0.0f;
 
 		if (hasChanges) {
 			showSaveChangesDialog(this);
@@ -489,13 +498,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate);
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);
 
-		float finalScale = initialSpriteScale * currentScale;
-		float finalRotation = initialSpriteRotation + currentRotation;
+		float finalScale = initialSpriteScale * scaleFactor;
+		float finalRotation = initialSpriteRotation + rotationDegrees;
 		extras.putFloat(SCALE_BUNDLE_ARGUMENT, finalScale);
 		extras.putFloat(ROTATION_BUNDLE_ARGUMENT, finalRotation);
 
 		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
-				|| currentScale != 1.0f || currentRotation != 0.0f;
+				|| scaleFactor != 1.0f || rotationDegrees != 0.0f;
 		extras.putBoolean(CHANGED_COORDINATES, hasChanges);
 
 		returnIntent.putExtras(extras);
@@ -533,11 +542,11 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public void setScale(float scaleFactor) {
-		currentScale = scaleFactor;
+		this.scaleFactor = scaleFactor;
 	}
 
 	@Override
 	public void setRotation(float rotationDegrees) {
-		currentRotation = rotationDegrees;
+		this.rotationDegrees = rotationDegrees;
 	}
 }
