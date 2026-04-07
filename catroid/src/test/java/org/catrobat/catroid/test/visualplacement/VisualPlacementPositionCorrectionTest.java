@@ -70,6 +70,8 @@ public class VisualPlacementPositionCorrectionTest {
 	@Before
 	public void setUp() {
 		when(motionEvent.getDownTime()).thenReturn((long) 0);
+		when(motionEvent.getPointerCount()).thenReturn(1);
+		when(motionEvent.getPointerId(0)).thenReturn(0);
 	}
 
 	public void triggerTouchDownEvent(float startPositionX, float startPositionY) {

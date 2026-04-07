@@ -81,7 +81,7 @@ public class VisualPlacementTouchListener {
 			return true;
 		}
 
-		if (event.getPointerId(0) == 0) {
+		if (event.getPointerCount() > 0 && event.getPointerId(0) == 0) {
 			float currentX = event.getRawX();
 			float currentY = event.getRawY();
 			long motionEventTime = event.getEventTime();

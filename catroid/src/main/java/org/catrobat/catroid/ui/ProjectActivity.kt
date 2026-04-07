@@ -91,6 +91,11 @@ class ProjectActivity : BaseCastActivity() {
         const val SPRITE_CAMERA = 3
         const val SPRITE_OBJECT = 4
         const val SPRITE_FROM_LOCAL = 5
+
+        const val DEFAULT_SCALE = 1.0f
+        const val PERCENTAGE_MULTIPLIER = 100.0
+        const val DEFAULT_ROTATION = 0.0f
+        const val ROTATION_OFFSET = 90.0
     }
 
     private lateinit var binding: ActivityRecyclerBinding
@@ -269,12 +274,12 @@ class ProjectActivity : BaseCastActivity() {
                 val startScript = StartScript()
                 currentSprite.prependScript(startScript)
                 startScript.addBrick(placeAtBrick)
-                if (placementScale != 1.0f) {
-                    val sizePercent = (placementScale * 100).toDouble()
+                if (placementScale != DEFAULT_SCALE) {
+                    val sizePercent = (placementScale * PERCENTAGE_MULTIPLIER).toDouble()
                     startScript.addBrick(SetSizeToBrick(sizePercent))
                 }
-                if (placementRotation != 0.0f) {
-                    val direction = (placementRotation + 90).toDouble()
+                if (placementRotation != DEFAULT_ROTATION) {
+                    val direction = (placementRotation + ROTATION_OFFSET).toDouble()
                     startScript.addBrick(PointInDirectionBrick(direction))
                 }
             }

@@ -454,7 +454,7 @@ public class SpriteActivity extends BaseActivity {
 
 				if (placementScale != 1.0f) {
 					Sprite sprite = projectManager.getCurrentSprite();
-					if (sprite != null) {
+					if (sprite != null && sprite.look != null) {
 						sprite.look.setScaleX(placementScale);
 						sprite.look.setScaleY(placementScale);
 					}
@@ -462,7 +462,7 @@ public class SpriteActivity extends BaseActivity {
 
 				if (placementRotation != 0.0f) {
 					Sprite sprite = projectManager.getCurrentSprite();
-					if (sprite != null) {
+					if (sprite != null && sprite.look != null) {
 						sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation + 90);
 					}
 				}

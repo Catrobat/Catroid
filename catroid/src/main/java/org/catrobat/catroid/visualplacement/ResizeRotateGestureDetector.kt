@@ -25,8 +25,7 @@ package org.catrobat.catroid.visualplacement
 
 import android.view.MotionEvent
 import kotlin.math.atan2
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.atan2
 import kotlin.math.sqrt
 
 class ResizeRotateGestureDetector(private val listener: OnTransformGestureListener) {
@@ -71,7 +70,7 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                 return true
             }
 
-            MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE ->
                 if (isTransforming && initialDistance > 0) {
                     val scaleFactor = currentDistance / initialDistance
                     val newScale = (cumulativeScale * scaleFactor)
@@ -80,9 +79,8 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
 
                     val angleDelta = currentAngle - initialAngle
                     listener.onRotate(cumulativeRotation + angleDelta)
-                    return true
-                }
-            }
+                    true
+                } else false
 
             MotionEvent.ACTION_POINTER_UP -> {
                 if (isTransforming && initialDistance > 0) {

@@ -31,6 +31,9 @@ import android.graphics.RectF
 import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
+import androidx.core.graphics.withRotation
+import androidx.core.graphics.withTranslation
 import org.catrobat.catroid.R
 
 class BoundingBoxOverlay(context: Context) : View(context) {
@@ -45,6 +48,8 @@ class BoundingBoxOverlay(context: Context) : View(context) {
 
     private val handleSizePx: Int =
         (HANDLE_SIZE_DP * context.resources.displayMetrics.density).toInt()
+
+    private val rect = RectF()
 
     var trackedImageView: ImageView? = null
 
@@ -75,38 +80,37 @@ class BoundingBoxOverlay(context: Context) : View(context) {
         val right = viewCenterX + scaledWidth / 2f
         val bottom = viewCenterY + scaledHeight / 2f
 
-        val rect = RectF(left, top, right, bottom)
+        rect.set(left, top, right, bottom)
 
-        canvas.save()
-        canvas.rotate(imageView.rotation, viewCenterX, viewCenterY)
+        canvas.withRotation(imageView.rotation, viewCenterX, viewCenterY) {
+            drawRect(rect, boundingBoxPaint)
 
-        canvas.drawRect(rect, boundingBoxPaint)
-
-        drawCornerHandle(canvas, left, top, 0f)
-        drawCornerHandle(canvas, right, top, 90f)
-        drawCornerHandle(canvas, right, bottom, 180f)
-        drawCornerHandle(canvas, left, bottom, 270f)
-
-        canvas.restore()
+            drawCornerHandle(this, left, top, ROTATION_0)
+            drawCornerHandle(this, right, top, ROTATION_90)
+            drawCornerHandle(this, right, bottom, ROTATION_180)
+            drawCornerHandle(this, left, bottom, ROTATION_270)
+        }
     }
 
     private fun drawCornerHandle(canvas: Canvas, cx: Float, cy: Float, rotationDegrees: Float) {
         val handle = cornerHandleDrawable ?: return
 
-        canvas.save()
-        canvas.translate(cx, cy)
-        canvas.rotate(rotationDegrees)
-
-        val halfSize = handleSizePx / 2
-        handle.setBounds(-halfSize, -halfSize, halfSize, halfSize)
-        handle.draw(canvas)
-
-        canvas.restore()
+        canvas.withTranslation(cx, cy) {
+            withRotation(rotationDegrees) {
+                val halfSize = handleSizePx / 2
+                handle.setBounds(-halfSize, -halfSize, halfSize, halfSize)
+                handle.draw(this)
+            }
+        }
     }
 
     companion object {
         private const val BOUNDING_BOX_STROKE_WIDTH = 3f
-        private val BOUNDING_BOX_COLOR = Color.parseColor("#4FC3F7")
+        private val BOUNDING_BOX_COLOR = "#4FC3F7".toColorInt()
         private const val HANDLE_SIZE_DP = 32
+        private const val ROTATION_0 = 0f
+        private const val ROTATION_90 = 90f
+        private const val ROTATION_180 = 180f
+        private const val ROTATION_270 = 270f
     }
 }

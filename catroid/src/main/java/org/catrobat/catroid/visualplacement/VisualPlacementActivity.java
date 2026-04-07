@@ -170,6 +170,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		setContentView(R.layout.visual_placement_layout);
 		Bundle extras = getIntent().getExtras();
+		if (extras == null) {
+			finish();
+			return;
+		}
 		translateX = extras.getInt(EXTRA_X_TRANSFORM);
 		translateY = extras.getInt(EXTRA_Y_TRANSFORM);
 		if (extras.containsKey(EXTRA_TEXT)) {
@@ -265,13 +269,18 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private void setBackground() {
 		try {
 			Bitmap backgroundBitmap = ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
-			Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
-					(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
-					(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
-			Drawable backgroundDrawable = new BitmapDrawable(getResources(), scaledBackgroundBitmap);
-			backgroundDrawable.setColorFilter(Color.parseColor("#6F000000"), PorterDuff.Mode.SRC_ATOP);
+			if (backgroundBitmap != null) {
+				Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
+						(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
+						(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
+				Drawable backgroundDrawable = new BitmapDrawable(getResources(), scaledBackgroundBitmap);
+				backgroundDrawable.setColorFilter(Color.parseColor("#6F000000"), PorterDuff.Mode.SRC_ATOP);
 
-			frameLayout.setBackground(backgroundDrawable);
+				frameLayout.setBackground(backgroundDrawable);
+				if (backgroundBitmap != scaledBackgroundBitmap) {
+					backgroundBitmap.recycle();
+				}
+			}
 		} catch (Exception e) {
 			frameLayout.setBackgroundColor(Color.WHITE);
 		}
@@ -287,7 +296,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		if (isText) {
 			visualPlacementBitmap = convertTextToBitmap();
 		} else {
-			if (!currentSprite.look.getImagePath().isEmpty()) {
+			if (currentSprite.look != null && !currentSprite.look.getImagePath().isEmpty()) {
 				objectLookPath = currentSprite.look.getImagePath();
 				scaleX = currentSprite.look.getScaleX();
 				scaleY = currentSprite.look.getScaleY();
@@ -295,15 +304,23 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
 			} else if (currentSprite.getLookList().size() != 0) {
-				objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
-				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
+				if (currentSprite.getLookList().get(0).getFile() != null) {
+					objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
+					visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
+				} else {
+					visualPlacementBitmap = null;
+				}
 			} else {
 				Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.pc_toolbar_icon);
 
-				visualPlacementBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-				Canvas canvas = new Canvas(visualPlacementBitmap);
-				drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-				drawable.draw(canvas);
+				if (drawable == null) {
+					visualPlacementBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+				} else {
+					visualPlacementBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+					Canvas canvas = new Canvas(visualPlacementBitmap);
+					drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+					drawable.draw(canvas);
+				}
 			}
 		}
 
@@ -324,14 +341,23 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				break;
 		}
 
-		visualPlacementBitmap = Bitmap.createBitmap(visualPlacementBitmap, 0, 0,
-				visualPlacementBitmap.getWidth(),
-				visualPlacementBitmap.getHeight(), matrix, true);
+		if (visualPlacementBitmap != null) {
+			Bitmap rotatedBitmap = Bitmap.createBitmap(visualPlacementBitmap, 0, 0,
+					visualPlacementBitmap.getWidth(),
+					visualPlacementBitmap.getHeight(), matrix, true);
 
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(visualPlacementBitmap, (int) (visualPlacementBitmap.getWidth() * layoutWidthRatio),
-				(int) (visualPlacementBitmap.getHeight() * layoutHeightRatio), true);
+			if (visualPlacementBitmap != rotatedBitmap) {
+				visualPlacementBitmap.recycle();
+			}
+			visualPlacementBitmap = rotatedBitmap;
 
-		imageView.setImageBitmap(scaledBitmap);
+			Bitmap scaledBitmap = Bitmap.createScaledBitmap(visualPlacementBitmap, (int) (visualPlacementBitmap.getWidth() * layoutWidthRatio),
+					(int) (visualPlacementBitmap.getHeight() * layoutHeightRatio), true);
+			imageView.setImageBitmap(scaledBitmap);
+			if (visualPlacementBitmap != scaledBitmap) {
+				visualPlacementBitmap.recycle();
+			}
+		}
 		imageView.setScaleType(ImageView.ScaleType.CENTER);
 
 		if (isText) {
