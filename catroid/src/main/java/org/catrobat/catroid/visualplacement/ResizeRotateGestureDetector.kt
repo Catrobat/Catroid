@@ -69,7 +69,7 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                 return true
             }
 
-            MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE ->
                 if (isTransforming && initialDistance > 0) {
                     val scaleFactor = currentDistance / initialDistance
                     val newScale = (cumulativeScale * scaleFactor)
@@ -82,7 +82,6 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                 } else {
                     false
                 }
-            }
 
             MotionEvent.ACTION_POINTER_UP -> {
                 if (isTransforming && initialDistance > 0) {

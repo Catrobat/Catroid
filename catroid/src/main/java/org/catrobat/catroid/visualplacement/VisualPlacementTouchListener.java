@@ -67,6 +67,9 @@ public class VisualPlacementTouchListener {
 	}
 
 	public boolean onTouch(ImageView imageView, MotionEvent event, CoordinateInterface coordinateInterface) {
+		if (imageView == null || coordinateInterface == null) {
+			return false;
+		}
 		if (resizeRotateDetector != null && event.getPointerCount() >= 2) {
 			boolean handled = resizeRotateDetector.onTouchEvent(event);
 			if (handled) {

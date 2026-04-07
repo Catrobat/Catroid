@@ -351,8 +351,9 @@ public class SpriteActivity extends BaseActivity {
 		}
 
 		if (resultCode != RESULT_OK) {
-			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
-					&& projectManager.getCurrentProject().isCastProject()
+			Project project = projectManager.getCurrentProject();
+			if (project != null && SettingsFragment.isCastSharedPreferenceEnabled(this)
+					&& project.isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);

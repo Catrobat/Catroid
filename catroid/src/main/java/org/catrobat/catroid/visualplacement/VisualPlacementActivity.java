@@ -167,6 +167,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
+		if (currentProject == null || projectManager.getCurrentSprite() == null) {
+			finish();
+			return;
+		}
 
 		setContentView(R.layout.visual_placement_layout);
 		Bundle extras = getIntent().getExtras();
@@ -303,7 +307,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				rotationMode = currentSprite.look.getRotationMode();
 				rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
-			} else if (currentSprite.getLookList().size() != 0) {
+			} else if (currentSprite.getLookList() != null && currentSprite.getLookList().size() != 0) {
 				if (currentSprite.getLookList().get(0).getFile() != null) {
 					objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
 					visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
@@ -318,10 +322,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				} else {
 					visualPlacementBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 					Canvas canvas = new Canvas(visualPlacementBitmap);
-					drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
 					drawable.draw(canvas);
 				}
 			}
+		}
+
+		if (visualPlacementBitmap == null) {
+			visualPlacementBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
 		}
 
 		Matrix matrix = new Matrix();
@@ -406,12 +413,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		float baseline = -paint.ascent();
 
 		int bitmapWidth = (int) paint.measureText(text);
-		int canvasWidth = calculateAlignmentValuesForText(paint, bitmapWidth, textAlignment);
 		int height = (int) (baseline + paint.descent());
+
+		bitmapWidth = Math.max(1, bitmapWidth);
+		height = Math.max(1, height);
 
 		visualPlacementBitmap = Bitmap.createBitmap(bitmapWidth, height,
 				Bitmap.Config.ARGB_8888);
 
+		int canvasWidth = calculateAlignmentValuesForText(paint, bitmapWidth, textAlignment);
 		Canvas canvas = new Canvas(visualPlacementBitmap);
 		canvas.drawText(text, canvasWidth,
 				baseline,
