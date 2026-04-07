@@ -111,13 +111,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float yCoord;
 	private float scaleX;
 	private float scaleY;
-	private float rotation;
+	private float initialLookRotation;
 	private int rotationMode;
 	private float translateX;
 	private float translateY;
 
 	private float scaleFactor = 1.0f;
-	private float rotationDegrees = 0.0f;
+	private float rotation = 0.0f;
 	private float initialSpriteScale = 1.0f;
 	private float initialSpriteRotation = 0.0f;
 
@@ -217,9 +217,9 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 			@Override
 			public void onRotate(float rotation) {
-				rotationDegrees = rotation;
+				VisualPlacementActivity.this.rotation = rotation;
 				if (imageView != null) {
-					imageView.setRotation(initialSpriteRotation + rotationDegrees);
+					imageView.setRotation(initialSpriteRotation + VisualPlacementActivity.this.rotation);
 				}
 			}
 		});
@@ -293,12 +293,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public void showMovableImageView() {
 		imageView = new ImageView(this);
 		Bitmap visualPlacementBitmap = loadBitmapForPlacement();
-		
+
 		if (visualPlacementBitmap != null) {
 			visualPlacementBitmap = applyInitialBitmapTransformations(visualPlacementBitmap);
 			imageView.setImageBitmap(visualPlacementBitmap);
 		}
-		
+
 		setupImageViewPositionAndScale();
 		frameLayout.addView(imageView);
 	}
@@ -314,7 +314,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			scaleX = currentSprite.look.getScaleX();
 			scaleY = currentSprite.look.getScaleY();
 			rotationMode = currentSprite.look.getRotationMode();
-			rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
+			initialLookRotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 			bitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
 		} else if (currentSprite.getLookList() != null && !currentSprite.getLookList().isEmpty()) {
 			if (currentSprite.getLookList().get(0).getFile() != null) {
@@ -363,12 +363,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				matrix.postRotate(0);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
-				if (rotation != 90) {
-					matrix.postRotate(rotation - DEGREE_UI_OFFSET);
+				if (initialLookRotation != 90) {
+					matrix.postRotate(initialLookRotation - DEGREE_UI_OFFSET);
 				}
 				break;
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
-				if (rotation < 0) {
+				if (initialLookRotation < 0) {
 					matrix.postScale(-1, 1, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
 				}
 				break;
@@ -395,12 +395,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		if (scaleY > 0.01) {
 			imageView.setScaleY(scaleY);
 		}
-		initialSpriteRotation = rotation;
+		initialSpriteRotation = initialLookRotation;
 
 		resizeRotateDetector.setCumulativeScale(1.0f);
 		resizeRotateDetector.setCumulativeRotation(0.0f);
 		scaleFactor = 1.0f;
-		rotationDegrees = 0.0f;
+		rotation = 0.0f;
 	}
 
 	private Bitmap convertTextToBitmap() {
@@ -466,7 +466,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
 
 		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
-				|| scaleFactor != 1.0f || rotationDegrees != 0.0f;
+				|| scaleFactor != 1.0f || rotation != 0.0f;
 
 		if (hasChanges) {
 			showSaveChangesDialog(this);
@@ -499,12 +499,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);
 
 		float finalScale = initialSpriteScale * scaleFactor;
-		float finalRotation = initialSpriteRotation + rotationDegrees;
+		float finalRotation = initialSpriteRotation + rotation;
 		extras.putFloat(SCALE_BUNDLE_ARGUMENT, finalScale);
 		extras.putFloat(ROTATION_BUNDLE_ARGUMENT, finalRotation);
 
 		boolean hasChanges = translateX != xCoordinate || translateY != yCoordinate
-				|| scaleFactor != 1.0f || rotationDegrees != 0.0f;
+				|| scaleFactor != 1.0f || rotation != 0.0f;
 		extras.putBoolean(CHANGED_COORDINATES, hasChanges);
 
 		returnIntent.putExtras(extras);
@@ -547,6 +547,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public void setRotation(float rotationDegrees) {
-		this.rotationDegrees = rotationDegrees;
+		this.rotation = rotationDegrees;
 	}
 }
