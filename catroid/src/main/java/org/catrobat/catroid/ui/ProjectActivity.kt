@@ -270,7 +270,7 @@ class ProjectActivity : BaseCastActivity() {
                 val placementRotation =
                     extras.getFloat(VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT, 0.0f)
                 val placeAtBrick = PlaceAtBrick(xCoordinate, yCoordinate)
-                val currentSprite = projectManager.currentSprite
+                val currentSprite = projectManager.currentSprite ?: return
                 val startScript = StartScript()
                 currentSprite.prependScript(startScript)
                 startScript.addBrick(placeAtBrick)
