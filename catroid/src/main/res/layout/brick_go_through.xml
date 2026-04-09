@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -37,27 +37,24 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_plot_through_layout"
-        style="@style/BrickContainer.Plot.Big">
+        android:id="@+id/brick_go_through_layout"
+        style="@style/BrickContainer.Motion.Big">
 
-        <include layout="@layout/icon_brick_category_plot" />
+        <include layout="@layout/icon_brick_category_motion" />
 
         <TextView
-            android:id="@+id/brick_plot_through_text_view"
+            android:id="@+id/brick_go_through_text_view"
             style="@style/BrickText.SingleLine"
-            android:text="@string/plot_through"
-            app:layout_newLine="true">
-        </TextView>
+            android:text="@string/go_through"
+            app:layout_newLine="true" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/x_label">
-        </TextView>
+            android:text="@string/x_label" />
 
         <TextView
-            android:id="@+id/brick_plot_through_x1_edit_text"
-            style="@style/BrickEditText">
-        </TextView>
+            android:id="@+id/brick_go_through_x1_edit_text"
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText.SingleLine"
@@ -65,33 +62,28 @@
             app:layout_newLine="true" />
 
         <TextView
-            android:id="@+id/brick_plot_through_y1_edit_text"
-            style="@style/BrickEditText">
-        </TextView>
+            android:id="@+id/brick_go_through_y1_edit_text"
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/plot_through_target">
-        </TextView>
+            android:text="@string/go_through_target" />
 
         <TextView
             style="@style/BrickText.SingleLine"
             android:text="@string/x_label" />
 
         <TextView
-            android:id="@+id/brick_plot_through_x2_edit_text"
-            style="@style/BrickEditText">
-        </TextView>
+            android:id="@+id/brick_go_through_x2_edit_text"
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/y_label">
-        </TextView>
+            android:text="@string/y_label" />
 
         <TextView
-            android:id="@+id/brick_plot_through_y2_edit_text"
-            style="@style/BrickEditText">
-        </TextView>
+            android:id="@+id/brick_go_through_y2_edit_text"
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

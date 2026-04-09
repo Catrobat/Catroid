@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,39 +33,39 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
 
-class LaserArcBrick() : FormulaBrick() {
-    private var direction: PlotArcBrick.Directions
+class ArcBrick() : FormulaBrick() {
+    private var direction: Directions
+
+    enum class Directions {
+        LEFT, RIGHT
+    }
 
     init {
-        direction = PlotArcBrick.Directions.LEFT
+        direction = Directions.LEFT
         addAllowedBrickField(
             BrickField.SIZE,
-            R.id.brick_laser_arc_edit_text1
+            R.id.brick_arc_edit_text1
         )
         addAllowedBrickField(
             BrickField.DEGREES,
-            R.id.brick_laser_arc_edit_text2
+            R.id.brick_arc_edit_text2
         )
     }
 
-    constructor(directionEnum: PlotArcBrick.Directions, radius: Float, degrees: Float) : this(
+    constructor(directionEnum: Directions, radius: Float, degrees: Float) : this(
         directionEnum,
-        Formula
-            (radius), Formula(degrees)
+        Formula(radius),
+        Formula(degrees)
     )
 
-    constructor(
-        directionEnum: PlotArcBrick.Directions,
-        formula1: Formula?,
-        formula2: Formula?
-    ) : this() {
+    constructor(directionEnum: Directions, formula1: Formula?, formula2: Formula?) : this() {
         direction = directionEnum
         setFormulaWithBrickField(BrickField.SIZE, formula1)
         setFormulaWithBrickField(BrickField.DEGREES, formula2)
     }
 
     override fun getViewResource(): Int {
-        return R.layout.brick_laser_arc
+        return R.layout.brick_arc
     }
 
     override fun getView(context: Context): View {
@@ -73,15 +73,17 @@ class LaserArcBrick() : FormulaBrick() {
 
         val spinnerAdapter = ArrayAdapter.createFromResource(
             context,
-            R.array.brick_plot_arc_direction_spinner, android.R.layout.simple_spinner_item
+            R.array.brick_plot_arc_direction_spinner,
+            android.R.layout.simple_spinner_item
         )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val spinner = view.findViewById<Spinner>(R.id.brick_laser_arc_spinner)
+        val spinner = view.findViewById<Spinner>(R.id.brick_arc_spinner)
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = AdapterViewOnItemSelectedListenerImpl { position: Int? ->
-            if (position != null)
-                direction = PlotArcBrick.Directions.values()[position]
+            if (position != null) {
+                direction = Directions.values()[position]
+            }
             Unit
         }
         spinner.setSelection(direction.ordinal)
@@ -91,7 +93,9 @@ class LaserArcBrick() : FormulaBrick() {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory?.createPlotArcAction(
-                sprite, sequence, direction,
+                sprite,
+                sequence,
+                direction,
                 getFormulaWithBrickField(BrickField.SIZE),
                 getFormulaWithBrickField(BrickField.DEGREES)
             )

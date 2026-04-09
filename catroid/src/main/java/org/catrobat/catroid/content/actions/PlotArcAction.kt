@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,15 +25,17 @@ package org.catrobat.catroid.content.actions
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
-import org.catrobat.catroid.content.bricks.PlotArcBrick
+import org.catrobat.catroid.content.bricks.ArcBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
+import kotlin.math.abs
+import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
 class PlotArcAction : TemporalAction() {
     private var scope: Scope? = null
-    private var direction: PlotArcBrick.Directions = PlotArcBrick.Directions.LEFT
+    private var direction: ArcBrick.Directions = ArcBrick.Directions.LEFT
     lateinit var radius: Formula
     lateinit var degrees: Formula
 
@@ -41,7 +43,7 @@ class PlotArcAction : TemporalAction() {
     private var radiusValue: Double = 0.0
     private var centerX: Double = 0.0
     private var centerY: Double = 0.0
-    private var angle: Double = Math.toRadians(90.0)
+    private var radiusAngle: Double = 0.0
 
     override fun begin() {
         super.begin()
@@ -49,15 +51,23 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            degreesValue =
-                degrees.interpretDouble(scope) * if (direction == PlotArcBrick.Directions.LEFT) -1 else 1
-            radiusValue = radius.interpretDouble(scope)
+            val interpretedDegrees = degrees.interpretDouble(scope)
+            val effectiveDirection = if (interpretedDegrees < 0) {
+                if (direction == ArcBrick.Directions.LEFT) ArcBrick.Directions.RIGHT else ArcBrick.Directions.LEFT
+            } else {
+                direction
+            }
+            degreesValue = abs(interpretedDegrees) * if (effectiveDirection == ArcBrick.Directions.LEFT) 1 else -1
+            radiusValue = abs(radius.interpretDouble(scope))
             val sprite = scope!!.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
             val y = sprite.look.yInUserInterfaceDimensionUnit
-            angle = Math.toRadians(sprite.look.rotation.toDouble())
-            centerX = x + radiusValue * cos(angle)
-            centerY = y + radiusValue * sin(angle)
+            val motionDirection = Math.toRadians(sprite.look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
+            val normalX = if (effectiveDirection == ArcBrick.Directions.LEFT) -cos(motionDirection) else cos(motionDirection)
+            val normalY = if (effectiveDirection == ArcBrick.Directions.LEFT) sin(motionDirection) else -sin(motionDirection)
+            centerX = x + radiusValue * normalX
+            centerY = y + radiusValue * normalY
+            radiusAngle = atan2(y - centerY, x - centerX)
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -72,16 +82,20 @@ class PlotArcAction : TemporalAction() {
             return
         }
         try {
-            for (i in 0 until 101) {
+            var previousX = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toDouble()
+            var previousY = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toDouble()
+            for (i in 0..100) {
                 val radians = Math.toRadians(degreesValue * i / 100)
-                val x1 = centerX - radiusValue * cos(radians + angle)
-                val y1 = centerY - radiusValue * sin(radians + angle)
-                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
-                    x1.toFloat(),
-                    y1.toFloat()
-                )
+                val x = centerX + radiusValue * cos(radiusAngle + radians)
+                val y = centerY + radiusValue * sin(radiusAngle + radians)
+                if (x != previousX || y != previousY) {
+                    val motionDirection = Math.toDegrees(atan2(x - previousX, y - previousY))
+                    scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
+                }
+                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(x.toFloat(), y.toFloat())
+                previousX = x
+                previousY = y
             }
-            scope!!.sprite.look.rotation = Math.toDegrees(angle - degreesValue).toFloat()
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -95,7 +109,7 @@ class PlotArcAction : TemporalAction() {
         this.scope = scope
     }
 
-    fun setDirection(direction: PlotArcBrick.Directions) {
+    fun setDirection(direction: ArcBrick.Directions) {
         this.direction = direction
     }
 }
