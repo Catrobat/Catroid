@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.embroidery.RunningStitch;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,11 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
 public class LookTest {
@@ -97,6 +103,32 @@ public class LookTest {
 		look.setPositionInUserInterfaceDimensionUnit(x, y);
 		checkX(x);
 		checkY(y);
+	}
+
+	@Test
+	public void testRunningStitchUpdatedOnceForCombinedPositionChange() {
+		RunningStitch runningStitch = mock(RunningStitch.class);
+		sprite.runningStitch = runningStitch;
+		look.setWidth(width);
+		look.setHeight(height);
+
+		look.setPositionInUserInterfaceDimensionUnit(5f, -3f);
+
+		verify(runningStitch, times(1)).update();
+	}
+
+	@Test
+	public void testRunningStitchNotUpdatedWhenPositionStaysSame() {
+		RunningStitch runningStitch = mock(RunningStitch.class);
+		sprite.runningStitch = runningStitch;
+		look.setWidth(width);
+		look.setHeight(height);
+		float initialX = look.getXInUserInterfaceDimensionUnit();
+		float initialY = look.getYInUserInterfaceDimensionUnit();
+
+		look.setPositionInUserInterfaceDimensionUnit(initialX, initialY);
+
+		verify(runningStitch, never()).update();
 	}
 
 	private void checkX(float x) {
