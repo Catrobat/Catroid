@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.content.actions
 
-import android.graphics.Point
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
+import kotlin.math.atan2
 import kotlin.math.pow
 
 class PlotThroughAction : TemporalAction() {
@@ -37,8 +37,14 @@ class PlotThroughAction : TemporalAction() {
     lateinit var x2: Formula
     lateinit var y2: Formula
 
-    private var p1: Point = Point()
-    private var p2: Point = Point()
+    private var startX = 0.0
+    private var startY = 0.0
+    private var throughX = 0.0
+    private var throughY = 0.0
+    private var endX = 0.0
+    private var endY = 0.0
+    private var anchorX = 0.0
+    private var anchorY = 0.0
 
     override fun begin() {
         super.begin()
@@ -46,10 +52,15 @@ class PlotThroughAction : TemporalAction() {
             return
         }
         try {
-            p1.x = x1.interpretInteger(scope)
-            p1.y = y1.interpretInteger(scope)
-            p2.x = x2.interpretInteger(scope)
-            p2.y = y2.interpretInteger(scope)
+            val sprite = scope!!.sprite
+            startX = sprite.look.xInUserInterfaceDimensionUnit.toDouble()
+            startY = sprite.look.yInUserInterfaceDimensionUnit.toDouble()
+            throughX = x1.interpretDouble(scope)
+            throughY = y1.interpretDouble(scope)
+            endX = x2.interpretDouble(scope)
+            endY = y2.interpretDouble(scope)
+            anchorX = 2 * throughX - (startX + endX) / 2
+            anchorY = 2 * throughY - (startY + endY) / 2
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
@@ -64,30 +75,30 @@ class PlotThroughAction : TemporalAction() {
             return
         }
         try {
-            // calculate slope from current sprite look position to x2, y2
-            val startPoint = Point()
-            startPoint.x = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toInt()
-            startPoint.y = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toInt()
-
-            val anchorPoint = Point()
-            anchorPoint.x = (4 * p1.x - startPoint.x - p2.x) / 2
-            anchorPoint.y = (4 * p1.y - startPoint.y - p2.y) / 2
-
+            var previousX = startX
+            var previousY = startY
             val steps = 100
             for (i in 0..steps) {
                 val timeStep = i.toDouble() / steps
+                val inverseTimeStep = 1 - timeStep
                 val x =
-                    (1 - timeStep).pow(2) * startPoint.x + 2 * (1 - timeStep) * timeStep * anchorPoint.x + timeStep.pow(
+                    inverseTimeStep.pow(2) * startX + 2 * inverseTimeStep * timeStep * anchorX + timeStep.pow(
                         2
-                    ) * p2.x
+                    ) * endX
                 val y =
-                    (1 - timeStep).pow(2) * startPoint.y + 2 * (1 - timeStep) * timeStep * anchorPoint.y + timeStep.pow(
+                    inverseTimeStep.pow(2) * startY + 2 * inverseTimeStep * timeStep * anchorY + timeStep.pow(
                         2
-                    ) * p2.y
+                    ) * endY
+                if (x != previousX || y != previousY) {
+                    val motionDirection = Math.toDegrees(atan2(x - previousX, y - previousY))
+                    scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
+                }
                 scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
                     x.toFloat(),
                     y.toFloat()
                 )
+                previousX = x
+                previousY = y
             }
         } catch (interpretationException: InterpretationException) {
             Log.d(

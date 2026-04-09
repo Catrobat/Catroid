@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -82,6 +82,8 @@ class Plot {
         return isEngraving
     }
 
+    private fun copyPoint(point: PointF): PointF = PointF(point.x, point.y)
+
     private fun startLine(data: ArrayList<ArrayList<PointF>>, queue: Queue<Queue<PointF>>) {
         data.add(ArrayList())
         queue.addLast(Queue())
@@ -92,9 +94,9 @@ class Plot {
         data: ArrayList<ArrayList<PointF>>,
         queue: Queue<Queue<PointF>>
     ) {
-        data.add(arrayListOf(point))
+        data.add(arrayListOf(copyPoint(point)))
         queue.addLast(Queue())
-        queue.last().addLast(point)
+        queue.last().addLast(copyPoint(point))
     }
 
     private fun addPoint(
@@ -102,8 +104,8 @@ class Plot {
         data: ArrayList<ArrayList<PointF>>,
         queue: Queue<Queue<PointF>>
     ) {
-        data.last().add(point)
-        queue.last().addLast(point)
+        data.last().add(copyPoint(point))
+        queue.last().addLast(copyPoint(point))
     }
 
     fun startNewPlotLine() {
@@ -138,22 +140,11 @@ class Plot {
         return plotDataPointLists
     }
 
-    private fun canDraw(): Boolean {
-        return plotQueue.size > 2 || (!plotQueue.isEmpty && plotQueue.last().size > 2)
-    }
-
-    private fun canCut(): Boolean {
-        return cutQueue.size > 2 || (!cutQueue.isEmpty && cutQueue.last().size > 2)
-    }
-
-    private fun canEngrave(): Boolean {
-        return engraveQueue.size > 2 || (!engraveQueue.isEmpty && engraveQueue.last().size > 2)
-    }
-
-    private fun updateQueue(queue: Queue<Queue<PointF>>) {
-        if (queue.isEmpty || queue.size == 1) return
-        if (queue.first().size == 1)
+    private fun canRender(queue: Queue<Queue<PointF>>): Boolean {
+        while (queue.size > 1 && queue.first().size <= 1) {
             queue.removeFirst()
+        }
+        return !queue.isEmpty && queue.first().size > 1
     }
 
     fun drawLinesForSprite(screenRatio: Float, camera: Camera?) {
@@ -164,26 +155,23 @@ class Plot {
         renderer.color = Color.BLACK
         renderer.begin(ShapeRenderer.ShapeType.Filled)
 
-        while (canDraw()) {
+        while (canRender(plotQueue)) {
             drawLine(plotQueue, screenRatio, renderer, camera)
-            updateQueue(plotQueue)
         }
         renderer.end()
 
         renderer.color = Color.RED
         renderer.begin(ShapeRenderer.ShapeType.Filled)
-        while (canCut()) {
+        while (canRender(cutQueue)) {
             drawLine(cutQueue, screenRatio, renderer, camera)
-            updateQueue(plotQueue)
         }
         renderer.end()
 
 
         renderer.color = Color.BLUE
         renderer.begin(ShapeRenderer.ShapeType.Filled)
-        while (canEngrave()) {
+        while (canRender(engraveQueue)) {
             drawLine(engraveQueue, screenRatio, renderer, camera)
-            updateQueue(engraveQueue)
         }
         renderer.end()
 

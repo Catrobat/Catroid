@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,9 @@ class SVGPlotGenerator(plot: Plot) {
         return toHexSting(action.rgb)
     }
 
+    private fun svgYCoordinate(y: Float, yAlignment: Float): String =
+        dotDecimalRound(-y - yAlignment)
+
     private fun generateSVGPath(line: List<PointF>, xAlignment: Float, yAlignment: Float):
         String {
         var path = ""
@@ -64,14 +67,10 @@ class SVGPlotGenerator(plot: Plot) {
             "<path fill=\"none\" style=\"stroke:" + stroke() + ";" +
                 "stroke-width:" + lineWidth.toString() + ";" +
                 "stroke-linecap:round;stroke-opacity:1;\" d=\"M"
-        path += dotDecimalRound(line[0].x - xAlignment) + " " + dotDecimalRound(line[0].y - yAlignment)
+        path += dotDecimalRound(line[0].x - xAlignment) + " " + svgYCoordinate(line[0].y, yAlignment)
 
         for (point in line.subList(1, line.size))
-            path = path + " L" + dotDecimalRound(point.x - xAlignment) + " " + dotDecimalRound(
-                point
-                    .y
-                    - yAlignment
-            )
+            path = path + " L" + dotDecimalRound(point.x - xAlignment) + " " + svgYCoordinate(point.y, yAlignment)
 
         path += "\" />\n"
         return path
