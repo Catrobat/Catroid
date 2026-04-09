@@ -49,6 +49,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -114,7 +116,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, COLLAPSE_EXPAND})
 	@interface ActionModeType {
 	}
 
@@ -123,6 +125,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private static final int COPY = 2;
 	private static final int DELETE = 3;
 	private static final int COMMENT = 4;
+	private static final int COLLAPSE_EXPAND = 5;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -203,6 +206,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				adapter.setCheckBoxMode(BrickAdapter.ALL);
 				mode.setTitle(getString(R.string.comment_in_out));
 				break;
+			case COLLAPSE_EXPAND:
+				adapter.selectAllCollapsedScripts();
+				adapter.setCheckBoxMode(BrickAdapter.COLLAPSE_EXPAND);
+				mode.setTitle(getString(R.string.collapse_expand));
+				break;
 			case NONE:
 				adapter.setCheckBoxMode(NONE);
 				actionMode.finish();
@@ -252,6 +260,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case COMMENT:
 				toggleComments(adapter.getSelectedItems());
+				break;
+			case COLLAPSE_EXPAND:
+				toggleCollapseExpand(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
@@ -449,6 +460,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			case R.id.comment_in_out:
 				startActionMode(COMMENT);
 				break;
+			case R.id.collapse_expand:
+				startActionMode(COLLAPSE_EXPAND);
+				break;
 			case R.id.find:
 				scriptFinder.open();
 				break;
@@ -566,6 +580,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case COMMENT:
 				actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
+				break;
+			case COLLAPSE_EXPAND:
+				actionMode.setTitle(getString(R.string.collapse_expand) + " " + selectedItemCnt);
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
@@ -685,6 +702,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			}
 			items.add(R.string.brick_context_dialog_move_script);
 
+			items.add(brick.getScript().isCollapsed()
+				? R.string.brick_context_dialog_expand_script
+				: R.string.brick_context_dialog_collapse_script);
+
 			items.add(R.string.brick_context_dialog_help);
 		} else {
 			items.add(R.string.brick_context_dialog_copy_brick);
@@ -702,6 +723,12 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			}
 			if (brick.equals(brick.getAllParts().get(0))) {
 				items.add(R.string.brick_context_dialog_move_brick);
+			}
+
+			if (brick instanceof CompositeBrick) {
+				items.add(((BrickBaseType) brick).isCollapsed()
+					? R.string.brick_context_dialog_expand_brick
+					: R.string.brick_context_dialog_collapse_brick);
 			}
 
 			if (brick.hasHelpPage()) {
@@ -773,6 +800,22 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					positions.add(adapter.getPosition(brickInControlStructure));
 				}
 				listView.highlightControlStructureBricks(positions);
+				break;
+			case R.string.brick_context_dialog_collapse_script:
+				brick.getScript().setCollapsed(true);
+				adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
+				break;
+			case R.string.brick_context_dialog_expand_script:
+				brick.getScript().setCollapsed(false);
+				adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
+				break;
+			case R.string.brick_context_dialog_collapse_brick:
+				((BrickBaseType) brick).setCollapsed(true);
+				adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
+				break;
+			case R.string.brick_context_dialog_expand_brick:
+				((BrickBaseType) brick).setCollapsed(false);
+				adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 				break;
 		}
 	}
@@ -870,6 +913,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		for (Brick brick : adapter.getItems()) {
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
+		finishActionMode();
+	}
+
+	private void toggleCollapseExpand(List<Brick> selectedBricks) {
+		adapter.toggleCollapseExpand(selectedBricks);
 		finishActionMode();
 	}
 

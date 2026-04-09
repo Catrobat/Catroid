@@ -25,15 +25,21 @@ package org.catrobat.catroid.ui.recyclerview.adapter
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.annotation.IntDef
+import androidx.core.content.ContextCompat
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
@@ -53,7 +59,7 @@ class BrickAdapter(private val sprite: Sprite) :
     AdapterView.OnItemClickListener,
     OnItemLongClickListener {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
-    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY)
+    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY, COLLAPSE_EXPAND)
     internal annotation class CheckBoxMode
 
     @CheckBoxMode
@@ -81,6 +87,8 @@ class BrickAdapter(private val sprite: Sprite) :
         const val ALL = 1
         const val SCRIPTS_ONLY = 2
         const val CONNECTED_ONLY = 3
+        const val COLLAPSE_EXPAND = 4
+        private const val COLLAPSE_INDICATOR_TAG = "collapse_indicator"
 
         @JvmStatic
         fun colorAsCommentedOut(background: Drawable) {
@@ -117,7 +125,41 @@ class BrickAdapter(private val sprite: Sprite) :
             script.setParents()
             script.addToFlatList(items)
         }
+        filterCollapsedCompositeBricks()
         notifyDataSetChanged()
+    }
+
+    private fun filterCollapsedCompositeBricks() {
+        val filteredItems = ArrayList<Brick>()
+        var skipDepth = 0
+        var skipEndBricks = 0
+
+        for (item in items) {
+            if (skipDepth > 0) {
+                if (item is CompositeBrick) {
+                    skipDepth++
+                    skipEndBricks++
+                }
+                if (item is EndBrick) {
+                    if (skipEndBricks > 0) {
+                        skipEndBricks--
+                    } else {
+                        skipDepth--
+                    }
+                }
+                continue
+            }
+
+            filteredItems.add(item)
+
+            if (item is CompositeBrick && item is BrickBaseType && (item as BrickBaseType).isCollapsed) {
+                skipDepth = 1
+                skipEndBricks = 0
+            }
+        }
+
+        items.clear()
+        items.addAll(filteredItems)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -150,7 +192,72 @@ class BrickAdapter(private val sprite: Sprite) :
         }
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
+
+        addCollapseIndicator(item, itemView, brickViewContainer)
+
         return itemView
+    }
+
+    private fun addCollapseIndicator(item: Brick, itemView: ViewGroup, brickViewContainer: View) {
+        // Remove any existing collapse indicator first
+        val existingIndicator = itemView.findViewWithTag<View>(COLLAPSE_INDICATOR_TAG)
+        if (existingIndicator != null) {
+            (existingIndicator.parent as? ViewGroup)?.removeView(existingIndicator)
+        }
+
+        val isCollapsed: Boolean
+
+        if (item is ScriptBrick) {
+            val script = item.script ?: return
+            isCollapsed = script.isCollapsed
+        } else if (item is CompositeBrick && item is BrickBaseType) {
+            isCollapsed = (item as BrickBaseType).isCollapsed
+        } else {
+            return
+        }
+
+        // Only show the indicator when collapsed
+        if (!isCollapsed) return
+
+        val context = itemView.context
+
+        // Check if the brickViewContainer is already wrapped in a FrameLayout
+        val containerParent = brickViewContainer.parent as? ViewGroup ?: return
+        val containerIndex = containerParent.indexOfChild(brickViewContainer)
+
+        val wrapper: android.widget.FrameLayout
+        if (containerParent is android.widget.FrameLayout && containerParent.tag == "collapse_wrapper") {
+            wrapper = containerParent
+        } else {
+            wrapper = android.widget.FrameLayout(context)
+            wrapper.tag = "collapse_wrapper"
+            val originalParams = brickViewContainer.layoutParams
+            containerParent.removeViewAt(containerIndex)
+            wrapper.layoutParams = originalParams
+            brickViewContainer.layoutParams = android.widget.FrameLayout.LayoutParams(
+                android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+            wrapper.addView(brickViewContainer)
+            containerParent.addView(wrapper, containerIndex)
+        }
+
+        val indicatorIcon = ImageView(context)
+        indicatorIcon.tag = COLLAPSE_INDICATOR_TAG
+
+        indicatorIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_collapse))
+        indicatorIcon.setColorFilter(
+            ContextCompat.getColor(context, android.R.color.white)
+        )
+
+        val size = (24 * context.resources.displayMetrics.density).toInt()
+        val margin = (8 * context.resources.displayMetrics.density).toInt()
+        val params = android.widget.FrameLayout.LayoutParams(size, size)
+        params.gravity = Gravity.CENTER_VERTICAL or Gravity.END
+        params.marginEnd = margin
+        indicatorIcon.layoutParams = params
+
+        wrapper.addView(indicatorIcon)
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
@@ -165,6 +272,7 @@ class BrickAdapter(private val sprite: Sprite) :
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
+            COLLAPSE_EXPAND -> handleCheckBoxModeAll(item)
         }
     }
 
@@ -346,6 +454,42 @@ class BrickAdapter(private val sprite: Sprite) :
             setSelectionTo(items[i].isCommentedOut, i)
         }
         notifyDataSetChanged()
+    }
+
+    fun selectAllCollapsedScripts() {
+        for (i in items.indices) {
+            val item = items[i]
+            if (item is ScriptBrick) {
+                val script = item.script
+                if (script != null && script.isCollapsed) {
+                    selectionManager.setSelectionTo(true, i)
+                }
+            } else if (item is CompositeBrick && item is BrickBaseType) {
+                if ((item as BrickBaseType).isCollapsed) {
+                    selectionManager.setSelectionTo(true, i)
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun toggleCollapseExpand(selectedItems: List<Brick>) {
+        for (brick in selectedItems) {
+            if (brick is ScriptBrick) {
+                val script = brick.script
+                if (script != null) {
+                    script.isCollapsed = !script.isCollapsed
+                }
+            } else if (brick is CompositeBrick && brick is BrickBaseType) {
+                (brick as BrickBaseType).isCollapsed = !(brick as BrickBaseType).isCollapsed
+            }
+        }
+        updateItemsFromCurrentScripts()
+    }
+
+    private fun handleCheckBoxModeCollapseExpand(item: Brick) {
+        item.checkBox.visibility = View.VISIBLE
+        item.disableSpinners()
     }
 
     fun addItem(position: Int, item: Brick?) {
