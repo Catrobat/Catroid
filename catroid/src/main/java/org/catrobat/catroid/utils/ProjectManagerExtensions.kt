@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,33 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Log
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME
 import org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME
-import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ScreenValues
 import java.io.File
+import java.util.UUID
+
+private const val SESSION_SCREENSHOT_DIRECTORY_NAME = "stageSessionScreenshots"
+private val screenshotSessionId = UUID.randomUUID().toString()
+
+fun ProjectManager.getSessionScreenshotFile(fileName: String): File =
+    File(
+        File(
+            File(
+                File(CACHE_DIRECTORY, SESSION_SCREENSHOT_DIRECTORY_NAME),
+                screenshotSessionId
+            ),
+            currentProject.directory.name
+        ),
+        currentlyPlayingScene.directory.name
+    ).resolve(fileName)
 
 @SuppressWarnings("TooGenericExceptionCaught")
 fun ProjectManager.getProjectBitmap(): Bitmap {
-    val projectDir = File(DEFAULT_ROOT_DIRECTORY, currentProject.name)
-    val sceneDir = File(projectDir, currentlyPlayingScene.name)
+    val sceneDir = currentlyPlayingScene.directory
+    val sessionAutomaticScreenshot = getSessionScreenshotFile(SCREENSHOT_AUTOMATIC_FILE_NAME)
+    val sessionManualScreenshot = getSessionScreenshotFile(SCREENSHOT_MANUAL_FILE_NAME)
     val automaticScreenshot = File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME)
     val manualScreenshot = File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
     val bitmapOptions = BitmapFactory.Options()
@@ -45,6 +62,8 @@ fun ProjectManager.getProjectBitmap(): Bitmap {
 
     return try {
         val backgroundBitmapPath: String = when {
+            sessionAutomaticScreenshot.exists() -> sessionAutomaticScreenshot.path
+            sessionManualScreenshot.exists() -> sessionManualScreenshot.path
             automaticScreenshot.exists() -> automaticScreenshot.path
             manualScreenshot.exists() -> manualScreenshot.path
             else -> currentlyEditedScene.backgroundSprite.lookList[0].file.absolutePath
