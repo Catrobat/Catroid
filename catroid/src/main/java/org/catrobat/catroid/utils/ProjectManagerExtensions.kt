@@ -35,16 +35,19 @@ import org.catrobat.catroid.common.ScreenValues
 import java.io.File
 import java.util.UUID
 
+private const val TAG = "ProjectManagerExtensions"
 private const val SESSION_SCREENSHOT_DIRECTORY_NAME = "stageSessionScreenshots"
-private val screenshotSessionId = UUID.randomUUID().toString()
+private val screenshotSessionDirectory: File by lazy {
+    clearOldSessionScreenshots()
+    File(getSessionScreenshotRootDirectory(), UUID.randomUUID().toString())
+}
+
+internal fun getSessionScreenshotRootDirectory(): File = File(CACHE_DIRECTORY, SESSION_SCREENSHOT_DIRECTORY_NAME)
 
 fun ProjectManager.getSessionScreenshotFile(fileName: String): File =
     File(
         File(
-            File(
-                File(CACHE_DIRECTORY, SESSION_SCREENSHOT_DIRECTORY_NAME),
-                screenshotSessionId
-            ),
+            screenshotSessionDirectory,
             currentProject.directory.name
         ),
         currentlyPlayingScene.directory.name
@@ -53,29 +56,59 @@ fun ProjectManager.getSessionScreenshotFile(fileName: String): File =
 @SuppressWarnings("TooGenericExceptionCaught")
 fun ProjectManager.getProjectBitmap(): Bitmap {
     val sceneDir = currentlyPlayingScene.directory
-    val sessionAutomaticScreenshot = getSessionScreenshotFile(SCREENSHOT_AUTOMATIC_FILE_NAME)
-    val sessionManualScreenshot = getSessionScreenshotFile(SCREENSHOT_MANUAL_FILE_NAME)
-    val automaticScreenshot = File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME)
-    val manualScreenshot = File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
     val bitmapOptions = BitmapFactory.Options()
     bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888
 
-    return try {
-        val backgroundBitmapPath: String = when {
-            sessionAutomaticScreenshot.exists() -> sessionAutomaticScreenshot.path
-            sessionManualScreenshot.exists() -> sessionManualScreenshot.path
-            automaticScreenshot.exists() -> automaticScreenshot.path
-            manualScreenshot.exists() -> manualScreenshot.path
-            else -> currentlyEditedScene.backgroundSprite.lookList[0].file.absolutePath
+    val screenshotCandidates = listOf(
+        getSessionScreenshotFile(SCREENSHOT_AUTOMATIC_FILE_NAME),
+        getSessionScreenshotFile(SCREENSHOT_MANUAL_FILE_NAME),
+        File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME),
+        File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
+    )
+
+    return screenshotCandidates
+        .asSequence()
+        .mapNotNull { decodeBitmapOrNull(it, bitmapOptions) }
+        .firstOrNull()
+        ?: getBackgroundBitmap(bitmapOptions)
+        ?: createWhiteBitmap()
+}
+
+internal fun clearOldSessionScreenshots() {
+    val screenshotCacheDirectory = getSessionScreenshotRootDirectory()
+    if (screenshotCacheDirectory.exists() && !screenshotCacheDirectory.deleteRecursively()) {
+        Log.w(TAG, "Could not clear old session screenshot cache at ${screenshotCacheDirectory.absolutePath}")
+    }
+}
+
+private fun decodeBitmapOrNull(file: File, bitmapOptions: BitmapFactory.Options): Bitmap? {
+    if (!file.exists()) {
+        return null
+    }
+
+    return BitmapFactory.decodeFile(file.absolutePath, bitmapOptions)
+        ?: run {
+            Log.w(TAG, "Could not decode bitmap at ${file.absolutePath}")
+            null
         }
-        BitmapFactory.decodeFile(backgroundBitmapPath, bitmapOptions)
+}
+
+@SuppressWarnings("TooGenericExceptionCaught")
+private fun ProjectManager.getBackgroundBitmap(bitmapOptions: BitmapFactory.Options): Bitmap? {
+    return try {
+        decodeBitmapOrNull(currentlyEditedScene.backgroundSprite.lookList[0].file, bitmapOptions)
     } catch (e: IndexOutOfBoundsException) {
-        Log.w("getProjectBitmap", "backgroundSprite has no looks! ${e.message}")
-        val bitmap = Bitmap.createBitmap(
-            ScreenValues.currentScreenResolution.width,
-            ScreenValues.currentScreenResolution.height,
-            Bitmap.Config.ARGB_8888)
-        bitmap.eraseColor(Color.WHITE)
-        bitmap
+        Log.w(TAG, "backgroundSprite has no looks! ${e.message}")
+        null
+    }
+}
+
+private fun createWhiteBitmap(): Bitmap {
+    return Bitmap.createBitmap(
+        ScreenValues.currentScreenResolution.width,
+        ScreenValues.currentScreenResolution.height,
+        Bitmap.Config.ARGB_8888
+    ).apply {
+        eraseColor(Color.WHITE)
     }
 }

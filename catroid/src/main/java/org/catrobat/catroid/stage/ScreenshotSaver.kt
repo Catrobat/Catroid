@@ -140,10 +140,16 @@ class ScreenshotSaver(
 
     @Throws(IOException::class)
     private fun saveBitmap(bitmap: Bitmap, file: File) {
-        file.parentFile?.mkdirs()
-        File(file.parentFile, Constants.NO_MEDIA_FILE).createNewFile()
-        gdxFileHandler.absolute(file.absolutePath).write(false).use { outputStream ->
+        val parentDirectory = file.parentFile
+            ?: throw IOException("Could not determine parent directory for ${file.absolutePath}")
+        parentDirectory.mkdirs()
+        File(parentDirectory, Constants.NO_MEDIA_FILE).createNewFile()
+        val compressSucceeded = gdxFileHandler.absolute(file.absolutePath).write(false).use { outputStream ->
             bitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, outputStream)
+        }
+        if (!compressSucceeded) {
+            file.delete()
+            throw IOException("Could not compress bitmap for file: ${file.absolutePath}")
         }
     }
 }
