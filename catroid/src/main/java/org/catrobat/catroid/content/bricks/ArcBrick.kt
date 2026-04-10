@@ -84,7 +84,6 @@ class ArcBrick() : FormulaBrick() {
             if (position != null) {
                 direction = Directions.values()[position]
             }
-            Unit
         }
         spinner.setSelection(direction.ordinal)
         return view
