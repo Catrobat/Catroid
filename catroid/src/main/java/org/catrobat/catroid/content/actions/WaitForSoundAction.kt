@@ -79,7 +79,7 @@ class WaitForSoundAction : WaitAction() {
                 mediaPlayer.pathToSoundFile == path
             ) {
                 restart()
-                setTime(mediaPlayer.currentPosition)
+                setTime(mediaPlayer.currentPosition.toFloat())
             }
         }
 
@@ -89,7 +89,7 @@ class WaitForSoundAction : WaitAction() {
                 midiPlayer.pathToSoundFile == path
             ) {
                 restart()
-                setTime(midiPlayer.currentPosition)
+                setTime(midiPlayer.currentPosition.toFloat())
             }
         }
     }
