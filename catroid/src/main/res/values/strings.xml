@@ -1725,8 +1725,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="arc_direction">Go in arc</string>
     <string formatted="false" name="go_through">Go through</string>
     <string formatted="false" name="go_through_target">then to</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">for</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">for</string>
     <!--  -->
 
     <!-- Phiro bricks -->

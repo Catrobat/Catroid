@@ -54,7 +54,7 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/plot_with_radius" />
+            android:text="@string/arc_with_radius" />
 
         <TextView
             android:id="@+id/brick_arc_edit_text1"
@@ -62,7 +62,7 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/plot_for_degrees" />
+            android:text="@string/arc_for_degrees" />
 
         <TextView
             android:id="@+id/brick_arc_edit_text2"
