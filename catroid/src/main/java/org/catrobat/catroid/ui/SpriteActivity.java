@@ -461,11 +461,9 @@ public class SpriteActivity extends BaseActivity {
 					}
 				}
 
-				if (placementRotation != 0.0f) {
-					Sprite sprite = projectManager.getCurrentSprite();
-					if (sprite != null && sprite.look != null) {
-						sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation + 90);
-					}
+				Sprite rotSprite = projectManager.getCurrentSprite();
+				if (rotSprite != null && rotSprite.look != null) {
+					rotSprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation);
 				}
 
 				setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES));

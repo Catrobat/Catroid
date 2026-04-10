@@ -219,7 +219,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			public void onRotate(float rotation) {
 				VisualPlacementActivity.this.rotation = rotation;
 				if (imageView != null) {
-					imageView.setRotation(initialSpriteRotation + VisualPlacementActivity.this.rotation);
+					imageView.setRotation(VisualPlacementActivity.this.rotation);
 				}
 			}
 		});
@@ -334,8 +334,11 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		if (drawable == null) {
 			return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
 		}
-		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+		int width = Math.max(1, drawable.getIntrinsicWidth());
+		int height = Math.max(1, drawable.getIntrinsicHeight());
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, width, height);
 		drawable.draw(canvas);
 		return bitmap;
 	}
