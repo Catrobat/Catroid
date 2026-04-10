@@ -148,7 +148,10 @@ class ScreenshotSaver(
             bitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, outputStream)
         }
         if (!compressSucceeded) {
-            file.delete()
+            val deletedIncompleteFile = !file.exists() || file.delete()
+            if (!deletedIncompleteFile) {
+                Log.w(TAG, "Could not delete incomplete screenshot file ${file.absolutePath}")
+            }
             throw IOException("Could not compress bitmap for file: ${file.absolutePath}")
         }
     }
