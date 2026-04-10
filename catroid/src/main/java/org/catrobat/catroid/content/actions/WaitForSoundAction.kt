@@ -69,14 +69,14 @@ class WaitForSoundAction : WaitAction() {
     }
 
     override fun end() {
+        if (soundStopped) return
         val path = soundFilePath ?: return
         val sprite = scope.sprite
 
         for (mediaPlayer in soundManager.mediaPlayers) {
             if (mediaPlayer.isPlaying &&
                 mediaPlayer.startedBySprite === sprite &&
-                mediaPlayer.pathToSoundFile == path &&
-                !soundStopped
+                mediaPlayer.pathToSoundFile == path
             ) {
                 restart()
                 setTime(mediaPlayer.currentPosition)
@@ -86,8 +86,7 @@ class WaitForSoundAction : WaitAction() {
         for (midiPlayer in midiSoundManager.midiPlayers) {
             if (midiPlayer.isPlaying &&
                 midiPlayer.startedBySprite === sprite &&
-                midiPlayer.pathToSoundFile == path &&
-                !soundStopped
+                midiPlayer.pathToSoundFile == path
             ) {
                 restart()
                 setTime(midiPlayer.currentPosition)
