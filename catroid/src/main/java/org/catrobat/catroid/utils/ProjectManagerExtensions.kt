@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.utils
 
+import androidx.core.graphics.createBitmap
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -103,12 +104,11 @@ private fun ProjectManager.getBackgroundBitmap(bitmapOptions: BitmapFactory.Opti
     }
 }
 
-private fun createWhiteBitmap(): Bitmap {
-    return Bitmap.createBitmap(
+private fun createWhiteBitmap(): Bitmap =
+    createBitmap(
         ScreenValues.currentScreenResolution.width,
         ScreenValues.currentScreenResolution.height,
         Bitmap.Config.ARGB_8888
     ).apply {
         eraseColor(Color.WHITE)
     }
-}

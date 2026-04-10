@@ -209,9 +209,8 @@ class ScreenshotSaverResolutionRegressionTest {
         }
     }
 
-    private fun backupFile(file: File): FileBackup {
-        return FileBackup(file, if (file.exists()) file.readBytes() else null)
-    }
+    private fun backupFile(file: File): FileBackup =
+        FileBackup(file, if (file.exists()) file.readBytes() else null)
 
     private fun restoreFile(fileBackup: FileBackup) {
         if (fileBackup.content == null) {
