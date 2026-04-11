@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.stage
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.core.graphics.createBitmap
 import androidx.test.rule.ActivityTestRule
 import com.badlogic.gdx.backends.android.AndroidFiles
 import com.badlogic.gdx.backends.android.DefaultAndroidFiles
@@ -142,7 +143,7 @@ class ScreenshotSaverResolutionRegressionTest {
 
         try {
             writeBitmap(
-                Bitmap.createBitmap(PERSISTED_BITMAP_WIDTH, PERSISTED_BITMAP_HEIGHT, Bitmap.Config.ARGB_8888),
+                createBitmap(PERSISTED_BITMAP_WIDTH, PERSISTED_BITMAP_HEIGHT, Bitmap.Config.ARGB_8888),
                 automaticScreenshotFile
             )
             sessionScreenshotFile.parentFile?.mkdirs()
@@ -158,6 +159,37 @@ class ScreenshotSaverResolutionRegressionTest {
         }
     }
 
+    @Test
+    fun testGetProjectBitmapPrefersAutomaticScreenshotOverSessionManualScreenshot() {
+        val automaticScreenshotFile = File(projectManager.currentlyPlayingScene.directory, Constants.SCREENSHOT_AUTOMATIC_FILE_NAME)
+        val automaticScreenshotBackup = backupFile(automaticScreenshotFile)
+        val sessionAutomaticScreenshotFile = projectManager.getSessionScreenshotFile(Constants.SCREENSHOT_AUTOMATIC_FILE_NAME)
+        val sessionAutomaticScreenshotBackup = backupFile(sessionAutomaticScreenshotFile)
+        val sessionManualScreenshotFile = projectManager.getSessionScreenshotFile(Constants.SCREENSHOT_MANUAL_FILE_NAME)
+        val sessionManualScreenshotBackup = backupFile(sessionManualScreenshotFile)
+
+        try {
+            deleteFileIfExists(sessionAutomaticScreenshotFile)
+            writeBitmap(
+                createBitmap(AUTOMATIC_BITMAP_WIDTH, AUTOMATIC_BITMAP_HEIGHT, Bitmap.Config.ARGB_8888),
+                automaticScreenshotFile
+            )
+            writeBitmap(
+                createBitmap(SESSION_MANUAL_BITMAP_WIDTH, SESSION_MANUAL_BITMAP_HEIGHT, Bitmap.Config.ARGB_8888),
+                sessionManualScreenshotFile
+            )
+
+            val projectBitmap = projectManager.getProjectBitmap()
+
+            assertEquals(AUTOMATIC_BITMAP_WIDTH, projectBitmap.width)
+            assertEquals(AUTOMATIC_BITMAP_HEIGHT, projectBitmap.height)
+        } finally {
+            restoreFile(automaticScreenshotBackup)
+            restoreFile(sessionAutomaticScreenshotBackup)
+            restoreFile(sessionManualScreenshotBackup)
+        }
+    }
+
     companion object {
         private const val FILE_NAME = "session_resolution_regression_unique.png"
         private const val IMAGE_QUALITY = 100
@@ -165,6 +197,10 @@ class ScreenshotSaverResolutionRegressionTest {
         private const val NUMBER_OF_COLORS = 4
         private const val PERSISTED_BITMAP_WIDTH = 123
         private const val PERSISTED_BITMAP_HEIGHT = 45
+        private const val AUTOMATIC_BITMAP_WIDTH = 87
+        private const val AUTOMATIC_BITMAP_HEIGHT = 65
+        private const val SESSION_MANUAL_BITMAP_WIDTH = 34
+        private const val SESSION_MANUAL_BITMAP_HEIGHT = 23
     }
 
     private fun decodeBitmap(file: File): Bitmap {
@@ -214,7 +250,7 @@ class ScreenshotSaverResolutionRegressionTest {
 
     private fun restoreFile(fileBackup: FileBackup) {
         if (fileBackup.content == null) {
-            fileBackup.file.delete()
+            deleteFileIfExists(fileBackup.file)
             return
         }
         fileBackup.file.parentFile?.mkdirs()
@@ -222,9 +258,15 @@ class ScreenshotSaverResolutionRegressionTest {
     }
 
     private fun deleteTestFiles() {
-        sceneScreenshotFile.delete()
-        projectScreenshotFile.delete()
-        findSessionScreenshotFiles().forEach { it.delete() }
+        deleteFileIfExists(sceneScreenshotFile)
+        deleteFileIfExists(projectScreenshotFile)
+        findSessionScreenshotFiles().forEach { deleteFileIfExists(it) }
+    }
+
+    private fun deleteFileIfExists(file: File) {
+        if (file.exists()) {
+            assertTrue("Could not delete ${file.absolutePath}", file.delete())
+        }
     }
 
     private data class FileBackup(val file: File, val content: ByteArray?)

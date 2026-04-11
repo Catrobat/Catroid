@@ -31,7 +31,6 @@ import android.util.Log
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME
-import org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME
 import org.catrobat.catroid.common.ScreenValues
 import java.io.File
 import java.util.UUID
@@ -62,9 +61,7 @@ fun ProjectManager.getProjectBitmap(): Bitmap {
 
     val screenshotCandidates = listOf(
         getSessionScreenshotFile(SCREENSHOT_AUTOMATIC_FILE_NAME),
-        getSessionScreenshotFile(SCREENSHOT_MANUAL_FILE_NAME),
-        File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME),
-        File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
+        File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME)
     )
 
     return screenshotCandidates
