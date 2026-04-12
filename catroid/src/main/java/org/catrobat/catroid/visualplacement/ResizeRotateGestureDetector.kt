@@ -26,7 +26,6 @@ package org.catrobat.catroid.visualplacement
 import android.view.MotionEvent
 import kotlin.math.atan2
 import kotlin.math.sqrt
-import kotlin.math.abs
 
 class ResizeRotateGestureDetector(private val listener: OnTransformGestureListener) {
 

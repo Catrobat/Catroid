@@ -79,7 +79,10 @@ class BoundingBoxOverlay(context: Context) : View(context) {
         val right = viewCenterX + scaledWidth / 2f
         val bottom = viewCenterY + scaledHeight / 2f
 
-        rect.set(left, top, right, bottom)
+        rect.left = left
+        rect.top = top
+        rect.right = right
+        rect.bottom = bottom
 
         canvas.withRotation(imageView.rotation, viewCenterX, viewCenterY) {
             drawRect(rect, boundingBoxPaint)
