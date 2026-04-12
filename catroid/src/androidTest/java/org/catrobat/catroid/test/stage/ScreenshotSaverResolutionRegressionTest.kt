@@ -23,19 +23,22 @@
 
 package org.catrobat.catroid.test.stage
 
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.graphics.createBitmap
-import androidx.test.rule.ActivityTestRule
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.badlogic.gdx.backends.android.AndroidFiles
 import com.badlogic.gdx.backends.android.DefaultAndroidFiles
 import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.ScreenValues
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.stage.ScreenshotSaver
 import org.catrobat.catroid.stage.ScreenshotSaverCallback
-import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.utils.clearOldSessionScreenshots
 import org.catrobat.catroid.utils.getProjectBitmap
 import org.catrobat.catroid.utils.getSessionScreenshotRootDirectory
@@ -45,16 +48,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito
 import java.io.File
 
+@RunWith(AndroidJUnit4::class)
 class ScreenshotSaverResolutionRegressionTest {
-    @Rule
-    @JvmField
-    var activityTestRule = ActivityTestRule(StageActivity::class.java, false, true)
-
+    private lateinit var context: ContextWrapper
     private lateinit var projectManager: ProjectManager
     private lateinit var screenshotSaver: ScreenshotSaver
     private lateinit var dummyData: ByteArray
@@ -71,21 +72,23 @@ class ScreenshotSaverResolutionRegressionTest {
         width = ScreenValues.currentScreenResolution.width
         dummyData = ByteArray(NUMBER_OF_COLORS * width * height)
 
-        val stageActivity = activityTestRule.activity
-        projectManager = ProjectManager.getInstance()
+        context = ApplicationProvider.getApplicationContext()
+        projectManager = ProjectManager.getInstance() ?: ProjectManager(context)
+        createTestProject()
         folder = projectManager.currentlyPlayingScene.directory.absolutePath + "/"
         sceneScreenshotFile = File(folder + FILE_NAME)
         projectScreenshotFile = File(projectManager.currentProject.directory, FILE_NAME)
 
         deleteTestFiles()
 
-        val gdxFileHandler: AndroidFiles = DefaultAndroidFiles(stageActivity.assets, stageActivity, true)
+        val gdxFileHandler: AndroidFiles = DefaultAndroidFiles(context.assets, context, true)
         screenshotSaver = ScreenshotSaver(gdxFileHandler, folder, width, height)
     }
 
     @After
     fun tearDown() {
         deleteTestFiles()
+        TestUtils.deleteProjects(PROJECT_NAME)
     }
 
     @Test
@@ -191,6 +194,7 @@ class ScreenshotSaverResolutionRegressionTest {
     }
 
     companion object {
+        private const val PROJECT_NAME = "ScreenshotSaverResolutionRegressionTest"
         private const val FILE_NAME = "session_resolution_regression_unique.png"
         private const val IMAGE_QUALITY = 100
         private const val MAX_PERSISTED_SCREENSHOT_DIMENSION = 480
@@ -201,6 +205,17 @@ class ScreenshotSaverResolutionRegressionTest {
         private const val AUTOMATIC_BITMAP_HEIGHT = 65
         private const val SESSION_MANUAL_BITMAP_WIDTH = 34
         private const val SESSION_MANUAL_BITMAP_HEIGHT = 23
+    }
+
+    private fun createTestProject() {
+        TestUtils.deleteProjects(PROJECT_NAME)
+        val project = Project(context, PROJECT_NAME)
+        val scene = project.defaultScene
+
+        projectManager.currentProject = project
+        projectManager.currentlyEditedScene = scene
+        projectManager.currentlyPlayingScene = scene
+        projectManager.currentSprite = scene.backgroundSprite
     }
 
     private fun decodeBitmap(file: File): Bitmap {
@@ -258,8 +273,12 @@ class ScreenshotSaverResolutionRegressionTest {
     }
 
     private fun deleteTestFiles() {
-        deleteFileIfExists(sceneScreenshotFile)
-        deleteFileIfExists(projectScreenshotFile)
+        if (::sceneScreenshotFile.isInitialized) {
+            deleteFileIfExists(sceneScreenshotFile)
+        }
+        if (::projectScreenshotFile.isInitialized) {
+            deleteFileIfExists(projectScreenshotFile)
+        }
         findSessionScreenshotFiles().forEach { deleteFileIfExists(it) }
     }
 
