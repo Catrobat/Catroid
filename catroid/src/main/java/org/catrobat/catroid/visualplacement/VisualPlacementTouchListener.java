@@ -84,7 +84,7 @@ public class VisualPlacementTouchListener {
 		}
 		if (event.getPointerCount() >= 2 || resizeRotateDetector.isTransforming()) {
 			boolean wasTransforming = resizeRotateDetector.isTransforming();
-			boolean handled = resizeRotateDetector.onTouchEvent(event);
+			resizeRotateDetector.onTouchEvent(event);
 			boolean isCurrentlyTransforming = resizeRotateDetector.isTransforming();
 
 			if (isCurrentlyTransforming) {
