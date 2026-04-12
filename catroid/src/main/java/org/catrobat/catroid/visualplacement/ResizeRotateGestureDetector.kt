@@ -26,6 +26,7 @@ package org.catrobat.catroid.visualplacement
 import android.view.MotionEvent
 import kotlin.math.atan2
 import kotlin.math.sqrt
+import kotlin.math.abs
 
 class ResizeRotateGestureDetector(private val listener: OnTransformGestureListener) {
 
@@ -76,7 +77,7 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                         .coerceIn(MIN_SCALE, MAX_SCALE)
                     listener.onScale(newScale)
 
-                    val angleDelta = currentAngle - initialAngle
+                    val angleDelta = normalizeAngle(currentAngle - initialAngle)
                     listener.onRotate(cumulativeRotation + angleDelta)
                     true
                 } else {
@@ -89,7 +90,7 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                     cumulativeScale = (cumulativeScale * finalScaleFactor)
                         .coerceIn(MIN_SCALE, MAX_SCALE)
 
-                    val finalAngleDelta = currentAngle - initialAngle
+                    val finalAngleDelta = normalizeAngle(currentAngle - initialAngle)
                     cumulativeRotation += finalAngleDelta
                 }
                 isTransforming = false
@@ -102,6 +103,20 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
     companion object {
         private const val MIN_SCALE = 0.1f
         private const val MAX_SCALE = 5.0f
+        private const val HALF_CIRCLE = 180f
+        private const val FULL_CIRCLE = 360f
+
+        /**
+         * Wraps an angle delta into the [-180, 180] range so that
+         * crossing the atan2 ±180° boundary never produces a ~360° jump.
+         */
+        @JvmStatic
+        fun normalizeAngle(angle: Float): Float {
+            var a = angle % FULL_CIRCLE
+            if (a > HALF_CIRCLE) a -= FULL_CIRCLE
+            if (a < -HALF_CIRCLE) a += FULL_CIRCLE
+            return a
+        }
 
         @JvmStatic
         fun calculateDistance(x0: Float, y0: Float, x1: Float, y1: Float): Float {

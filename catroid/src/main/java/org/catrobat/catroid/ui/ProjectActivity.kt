@@ -74,6 +74,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.setVisibleOrGone
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET
 import org.koin.android.ext.android.inject
 import java.io.File
 
@@ -278,7 +279,7 @@ class ProjectActivity : BaseCastActivity() {
                         PERCENTAGE_MULTIPLIER
                     startScript.addBrick(SetSizeToBrick(sizePercent))
                 }
-                if (placementRotation != DEFAULT_ROTATION) {
+                if (placementRotation != DEGREE_UI_OFFSET) {
                     val direction = placementRotation.toDouble()
                     startScript.addBrick(PointInDirectionBrick(direction))
                 }

@@ -88,6 +88,9 @@ public class VisualPlacementTouchListener {
 				updateBoundingBox();
 				return true;
 			}
+			previousX = event.getRawX();
+			previousY = event.getRawY();
+			setMode(Mode.MOVE);
 		}
 		return false;
 	}
