@@ -95,7 +95,6 @@ class ProjectActivity : BaseCastActivity() {
 
         const val DEFAULT_SCALE = 1.0f
         const val PERCENTAGE_MULTIPLIER = 100.0
-        const val DEFAULT_ROTATION = 0.0f
     }
 
     private lateinit var binding: ActivityRecyclerBinding
@@ -268,7 +267,7 @@ class ProjectActivity : BaseCastActivity() {
                 val placementScale =
                     extras.getFloat(VisualPlacementActivity.SCALE_BUNDLE_ARGUMENT, 1.0f)
                 val placementRotation =
-                    extras.getFloat(VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT, 0.0f)
+                    extras.getFloat(VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT, DEGREE_UI_OFFSET)
                 val placeAtBrick = PlaceAtBrick(xCoordinate, yCoordinate)
                 val currentSprite = projectManager.currentSprite ?: return
                 val startScript = StartScript()

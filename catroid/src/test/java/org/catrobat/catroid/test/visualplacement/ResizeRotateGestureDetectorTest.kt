@@ -121,6 +121,17 @@ class ResizeRotateGestureDetectorTest {
         assertFalse(detector.isTransforming)
     }
 
+    @Test
+    fun testNormalizeAngle() {
+        assertEquals(0.0f, ResizeRotateGestureDetector.normalizeAngle(0.0f), DELTA)
+        assertEquals(90.0f, ResizeRotateGestureDetector.normalizeAngle(90.0f), DELTA)
+        assertEquals(-90.0f, ResizeRotateGestureDetector.normalizeAngle(-90.0f), DELTA)
+        assertEquals(180.0f, ResizeRotateGestureDetector.normalizeAngle(180.0f), DELTA)
+        assertEquals(-170.0f, ResizeRotateGestureDetector.normalizeAngle(190.0f), DELTA)
+        assertEquals(170.0f, ResizeRotateGestureDetector.normalizeAngle(-190.0f), DELTA)
+        assertEquals(0.0f, ResizeRotateGestureDetector.normalizeAngle(360.0f), DELTA)
+    }
+
     companion object {
         private const val DELTA = 0.01f
     }

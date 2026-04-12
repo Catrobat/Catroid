@@ -128,6 +128,43 @@ class VisualPlacementResizeRotateTest {
         assertTrue(abs(detector.cumulativeRotation) < DELTA)
     }
 
+    @Test
+    fun testTransitionFromMultiToSingleTouchResetsBaseline() {
+        // 1. Start multi-touch
+        `when`(motionEvent.pointerCount).thenReturn(2)
+        `when`(motionEvent.actionMasked).thenReturn(MotionEvent.ACTION_POINTER_DOWN)
+        `when`(motionEvent.getX(0)).thenReturn(0f)
+        `when`(motionEvent.getY(0)).thenReturn(0f)
+        `when`(motionEvent.getX(1)).thenReturn(100f)
+        `when`(motionEvent.getY(1)).thenReturn(100f)
+        listener.onTouch(imageView, motionEvent, coordinateInterface)
+
+        // 2. End multi-touch (Pointer Up)
+        `when`(motionEvent.actionMasked).thenReturn(MotionEvent.ACTION_POINTER_UP)
+        `when`(motionEvent.rawX).thenReturn(50f)
+        `when`(motionEvent.rawY).thenReturn(60f)
+        listener.onTouch(imageView, motionEvent, coordinateInterface)
+        assertFalse(detector.isTransforming)
+
+        // 3. Subsequent Single-Touch Move
+        `when`(motionEvent.pointerCount).thenReturn(1)
+        `when`(motionEvent.action).thenReturn(MotionEvent.ACTION_MOVE)
+        // Long enough delay to trigger MOVE mode
+        `when`(motionEvent.eventTime).thenReturn(1000L)
+        `when`(motionEvent.downTime).thenReturn(0L)
+        `when`(motionEvent.rawX).thenReturn(70f) // moved 20 from 50
+        `when`(motionEvent.rawY).thenReturn(85f) // moved 25 from 60
+        `when`(imageView.x).thenReturn(100f)
+        `when`(imageView.y).thenReturn(200f)
+
+        listener.onTouch(imageView, motionEvent, coordinateInterface)
+
+        // If baseline was reset correctly, dX = 70-50 = 20, dY = 85-60 = 25
+        // New position should be original + delta
+        verify(imageView).setX(100f + 20f)
+        verify(imageView).setY(200f + 25f)
+    }
+
     companion object {
         private const val DELTA = 0.001f
     }

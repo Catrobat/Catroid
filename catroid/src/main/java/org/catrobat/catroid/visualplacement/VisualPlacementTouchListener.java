@@ -83,14 +83,21 @@ public class VisualPlacementTouchListener {
 			return false;
 		}
 		if (event.getPointerCount() >= 2 || resizeRotateDetector.isTransforming()) {
+			boolean wasTransforming = resizeRotateDetector.isTransforming();
 			boolean handled = resizeRotateDetector.onTouchEvent(event);
-			if (handled || resizeRotateDetector.isTransforming()) {
+			boolean isCurrentlyTransforming = resizeRotateDetector.isTransforming();
+
+			if (isCurrentlyTransforming) {
 				updateBoundingBox();
 				return true;
 			}
-			previousX = event.getRawX();
-			previousY = event.getRawY();
-			setMode(Mode.MOVE);
+			if (wasTransforming && !isCurrentlyTransforming) {
+				previousX = event.getRawX();
+				previousY = event.getRawY();
+				setMode(Mode.MOVE);
+				updateBoundingBox();
+				return true;
+			}
 		}
 		return false;
 	}
