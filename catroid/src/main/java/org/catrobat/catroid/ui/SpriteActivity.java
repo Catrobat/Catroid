@@ -189,6 +189,10 @@ public class SpriteActivity extends BaseActivity {
 		int fragmentPosition = FRAGMENT_SCRIPTS;
 
 		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+		}
+
 		if (savedInstanceState != null) {
 			isUndoMenuItemVisible = savedInstanceState.getBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, false);
 			invalidateOptionsMenu();
