@@ -65,7 +65,6 @@ class SuspiciousBricksDetectionTest {
         StaticSingletonInitializer.initializeStaticSingletonMethods()
     }
 
-
     // Since containsSuspiciousBricks is private, these tests exercise it via reflection
     // to validate the private extension function without changing production visibility.
 
