@@ -187,26 +187,26 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		switch (actionModeType) {
 			case BACKPACK:
-			adapter.setCheckBoxMode(BrickAdapter.SCRIPTS_ONLY);
-			mode.setTitle(getString(R.string.am_backpack));
-			break;
+				adapter.setCheckBoxMode(BrickAdapter.SCRIPTS_ONLY);
+				mode.setTitle(getString(R.string.am_backpack));
+				break;
 			case COPY:
-			adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
-			mode.setTitle(getString(R.string.am_copy));
-			break;
+				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
+				mode.setTitle(getString(R.string.am_copy));
+				break;
 			case DELETE:
-			adapter.setCheckBoxMode(BrickAdapter.ALL);
-			mode.setTitle(getString(R.string.am_delete));
-			break;
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				mode.setTitle(getString(R.string.am_delete));
+				break;
 			case COMMENT:
-			adapter.selectAllCommentedOutBricks();
-			adapter.setCheckBoxMode(BrickAdapter.ALL);
-			mode.setTitle(getString(R.string.comment_in_out));
-			break;
+				adapter.selectAllCommentedOutBricks();
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				mode.setTitle(getString(R.string.comment_in_out));
+				break;
 			case NONE:
-			adapter.setCheckBoxMode(NONE);
-			actionMode.finish();
-			return false;
+				adapter.setCheckBoxMode(NONE);
+				actionMode.finish();
+				return false;
 		}
 		return true;
 	}
@@ -220,10 +220,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.confirm:
-			handleContextualAction();
-			break;
+				handleContextualAction();
+				break;
 			default:
-			return false;
+				return false;
 		}
 		return true;
 	}
@@ -242,19 +242,19 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		switch (actionModeType) {
 			case BACKPACK:
-			showNewScriptGroupAlert(adapter.getSelectedItems());
-			break;
+				showNewScriptGroupAlert(adapter.getSelectedItems());
+				break;
 			case COPY:
-			copy(adapter.getSelectedItems());
-			break;
+				copy(adapter.getSelectedItems());
+				break;
 			case DELETE:
-			showDeleteAlert(adapter.getSelectedItems());
-			break;
+				showDeleteAlert(adapter.getSelectedItems());
+				break;
 			case COMMENT:
-			toggleComments(adapter.getSelectedItems());
-			break;
+				toggleComments(adapter.getSelectedItems());
+				break;
 			case NONE:
-			throw new IllegalStateException("ActionModeType not set correctly");
+				throw new IllegalStateException("ActionModeType not set correctly");
 		}
 	}
 
@@ -301,9 +301,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			listView.cancelHighlighting();
 			finishActionMode();
 			if (activity != null && !activity.isFinishing()) {
-			activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
-			activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
-			activity.addTabs();
+				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
+				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
+				activity.addTabs();
 			}
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		});
@@ -414,7 +414,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		savedListViewState = listView.onSaveInstanceState();
 
 		if (getActivity() != null && !getActivity().isChangingConfigurations()) {
-			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+				((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 		}
 	}
 
@@ -518,15 +518,15 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	protected void prepareActionMode(int type) {
 		if (adapter.getCount() == 1) {
 			switch (type) {
-			case COPY:
-				copy(adapter.getItems());
-				break;
-			case DELETE:
-				delete(adapter.getItems());
-				break;
-			default:
-				startActionMode(type);
-				break;
+				case COPY:
+					copy(adapter.getItems());
+					break;
+				case DELETE:
+					delete(adapter.getItems());
+					break;
+				default:
+					startActionMode(type);
+					break;
 			}
 		} else {
 			startActionMode(type);
@@ -928,13 +928,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			}
 			new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
-			Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
-			ToastUtil.showError(context, R.string.error_load_project);
-			SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-			if (spriteActivity != null && undoCodeFile.exists()) {
-				spriteActivity.setUndoMenuItemVisibility(true);
-				spriteActivity.showUndo(true);
-			}
+				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
+				ToastUtil.showError(context, R.string.error_load_project);
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null && undoCodeFile.exists()) {
+					spriteActivity.setUndoMenuItemVisibility(true);
+					spriteActivity.showUndo(true);
+				}
 			}
 		}
 	}
@@ -951,8 +951,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			Log.e(TAG, "Loading project after undo failed.");
 			ToastUtil.showError(getContext(), R.string.error_load_project);
 			if (spriteActivity != null) {
-			spriteActivity.setUndoMenuItemVisibility(true);
-			spriteActivity.showUndo(true);
+				spriteActivity.setUndoMenuItemVisibility(true);
+				spriteActivity.showUndo(true);
 			}
 			return;
 		}
@@ -1032,21 +1032,21 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		if (project != null) {
 			if (savedUserVariables != null) {
-			project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+				project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
 			}
 			if (savedMultiplayerVariables != null) {
-			project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+				project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
 			}
 			if (savedUserLists != null) {
-			project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+				project.restoreUserDataValues(project.getUserLists(), savedUserLists);
 			}
 		}
 		if (currentSprite != null) {
 			if (savedLocalUserVariables != null) {
-			currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+				currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
 			}
 			if (savedLocalLists != null) {
-			currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+				currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
 			}
 		}
 	}
