@@ -29,6 +29,10 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
 open class GlideToAction : TemporalAction() {
+    private companion object {
+        const val POSITION_DELTA_TOLERANCE = 0.1f
+    }
+
     private var startXValue = 0f
     private var startYValue = 0f
     private var currentXValue = 0f
@@ -37,7 +41,6 @@ open class GlideToAction : TemporalAction() {
     private var endY: Formula? = null
     var duration: Formula? = null
     lateinit var scope: Scope
-
 
     var durationValue = 0f
     private var endXValue = 0f
@@ -89,7 +92,9 @@ open class GlideToAction : TemporalAction() {
     override fun update(percent: Float) {
         val deltaX = scope.sprite.look.xInUserInterfaceDimensionUnit - currentXValue
         val deltaY = scope.sprite.look.yInUserInterfaceDimensionUnit - currentYValue
-        if ((kotlin.math.abs(deltaX) > 0.1f) || (kotlin.math.abs(deltaY) > 0.1f)) {
+        if ((kotlin.math.abs(deltaX) > POSITION_DELTA_TOLERANCE) ||
+            (kotlin.math.abs(deltaY) > POSITION_DELTA_TOLERANCE)
+        ) {
             restart = true
             val remainingDuration = getDuration() - time
             setDuration(remainingDuration)

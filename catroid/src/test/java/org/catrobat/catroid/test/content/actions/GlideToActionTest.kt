@@ -33,9 +33,8 @@ import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initialize
 import org.junit.Before
 import org.junit.Test
 
-
 class GlideToActionTest {
-     private lateinit var sprite: Sprite
+    private lateinit var sprite: Sprite
 
     @Before
     fun setUp() {
@@ -46,7 +45,7 @@ class GlideToActionTest {
     @Test
     fun testNormalBehavior() {
         val xPosition = Formula(X_POSITION)
-        val yPosition= Formula(Y_POSITION)
+        val yPosition = Formula(Y_POSITION)
         val duration = Formula(DURATION)
         assertEquals(0f, sprite.look.yInUserInterfaceDimensionUnit)
         assertEquals(0f, sprite.look.xInUserInterfaceDimensionUnit)
@@ -87,11 +86,10 @@ class GlideToActionTest {
         assertEquals(Int.MIN_VALUE.toFloat(), sprite.look.yInUserInterfaceDimensionUnit)
     }
 
-
     @Test(expected = NullPointerException::class)
     fun testNullActor() {
         val xPosition = Formula(X_POSITION)
-        val yPosition= Formula(Y_POSITION)
+        val yPosition = Formula(Y_POSITION)
         val duration = Formula(DURATION)
         val factory = ActionFactory()
         val action = factory.createGlideToAction(null, SequenceAction(), xPosition, yPosition, duration)
