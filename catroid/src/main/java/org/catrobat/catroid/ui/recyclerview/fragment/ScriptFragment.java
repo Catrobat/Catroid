@@ -930,6 +930,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				ToastUtil.showError(context, R.string.error_load_project);
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null && undoCodeFile.exists()) {
+					spriteActivity.setUndoMenuItemVisibility(true);
+					spriteActivity.showUndo(true);
+				}
 			}
 		}
 	}
@@ -937,9 +942,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		if (!isAdded() || getContext() == null || getView() == null || listView == null) {
+		if (!isAdded() || getContext() == null) {
 			return;
 		}
+
 		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 		if (!success) {
 			Log.e(TAG, "Loading project after undo failed.");
@@ -956,17 +962,17 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 
 		loadVariables();
- 
+
 		if (spriteActivity != null) {
 			spriteActivity.setUndoMenuItemVisibility(false);
 			spriteActivity.showUndo(false);
 		}
- 
+
 		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
 		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
 			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
 		}
- 
+
 		if (getView() == null || listView == null) {
 			return;
 		}
@@ -1047,17 +1053,17 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (scriptFragment == null) {
 			return;
 		}
- 
+
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (adapter != null && currentSprite != null) {
 			adapter.updateItems(currentSprite);
 		}
- 
+
 		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
 		fragmentTransaction.commitNow();
- 
+
 		if (listView != null
 				&& (undoBrickPosition < listView.getFirstVisiblePosition()
 				|| undoBrickPosition > listView.getLastVisiblePosition())) {

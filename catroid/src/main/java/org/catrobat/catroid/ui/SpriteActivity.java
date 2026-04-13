@@ -282,7 +282,7 @@ public class SpriteActivity extends BaseActivity {
 		saveProject();
 		RecentBrickListManager.getInstance().saveRecentBrickList();
 	}
- 
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
