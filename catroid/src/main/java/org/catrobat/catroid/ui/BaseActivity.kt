@@ -55,7 +55,7 @@ internal const val RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH"
 abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     lateinit var optionsMenu: Menu
     private val permissionRequestActivityExtension = PermissionRequestActivityExtension()
-    private var savedInstanceStateExpected = false
+    protected var savedInstanceStateExpected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

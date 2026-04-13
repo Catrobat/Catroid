@@ -413,7 +413,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		savedListViewState = listView.onSaveInstanceState();
 
-		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		if (getActivity() != null && !getActivity().isChangingConfigurations()) {
+			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		}
 	}
 
 	@Override
@@ -954,17 +956,21 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 
 		loadVariables();
-		refreshFragmentAfterUndo();
+ 
 		if (spriteActivity != null) {
 			spriteActivity.setUndoMenuItemVisibility(false);
 			spriteActivity.showUndo(false);
 		}
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+ 
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
 		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
 			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
 		}
+ 
+		if (getView() == null || listView == null) {
+			return;
+		}
+		refreshFragmentAfterUndo();
 	}
 
 	private void saveVariables() {
@@ -1041,12 +1047,20 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (scriptFragment == null) {
 			return;
 		}
+ 
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (adapter != null && currentSprite != null) {
+			adapter.updateItems(currentSprite);
+		}
+ 
 		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
 		fragmentTransaction.commitNow();
-
-		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
+ 
+		if (listView != null
+				&& (undoBrickPosition < listView.getFirstVisiblePosition()
+				|| undoBrickPosition > listView.getLastVisiblePosition())) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
 		}
 	}
