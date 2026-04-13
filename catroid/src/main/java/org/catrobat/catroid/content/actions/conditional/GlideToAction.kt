@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,10 +49,17 @@ open class GlideToAction : TemporalAction() {
     private var restart = false
 
     override fun begin() {
-
-        val durationInterpretation: Float = interpretFormula(duration, scope, "durationInterpretation")
-        val endXInterpretation : Float = interpretFormula(endX,scope, "endXInterpretation")
-        val endYInterpretation : Float = interpretFormula(endY,scope, "endYInterpretation")
+        var durationInterpretation = interpretFormula(duration, scope, "durationInterpretation") ?: 0f
+        val endXInterpretation = interpretFormula(endX, scope, "endXInterpretation")
+            ?: run {
+                durationInterpretation = 0f
+                0f
+            }
+        val endYInterpretation = interpretFormula(endY, scope, "endYInterpretation")
+            ?: run {
+                durationInterpretation = 0f
+                0f
+            }
 
         if (!restart) {
             super.setDuration(durationInterpretation)
@@ -106,12 +113,12 @@ open class GlideToAction : TemporalAction() {
         endY = y
     }
 
-    private fun interpretFormula(formula: Formula?, scope: Scope, name: String): Float {
+    private fun interpretFormula(formula: Formula?, scope: Scope, name: String): Float? {
         return try {
             formula?.interpretFloat(scope) ?: 0f
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation failed for [$name].", interpretationException)
-            0f
+            null
         }
     }
 }

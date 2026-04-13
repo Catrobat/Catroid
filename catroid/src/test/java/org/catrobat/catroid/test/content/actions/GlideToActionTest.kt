@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.conditional.GlideToAction
@@ -168,7 +169,22 @@ class GlideToActionTest {
         action.act(0.5f)
         val durationAfter = action.durationValue
 
-        assert(durationAfter < durationBefore)
+        assertTrue(durationAfter < durationBefore)
+    }
+
+    @Test
+    fun testInvalidEndFormulaResetsDuration() {
+        val action = sprite.actionFactory.createGlideToAction(
+            sprite,
+            SequenceAction(),
+            Formula(NOT_NUMERICAL_STRING),
+            Formula(NOT_NUMERICAL_STRING2),
+            Formula(DURATION)
+        ) as GlideToAction
+
+        action.act(0f)
+
+        assertEquals(0f, action.durationValue)
     }
 
     private fun runActionUntilFinished(action: com.badlogic.gdx.scenes.scene2d.Action) {
