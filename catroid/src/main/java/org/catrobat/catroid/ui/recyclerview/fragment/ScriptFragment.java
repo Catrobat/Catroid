@@ -813,7 +813,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					break;
 				case 1:
 					switchToBackpack();
-				}
+			}
 		}).show();
 	}
 
@@ -1071,8 +1071,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		fragmentTransaction.commitNow();
 
 		if (listView != null
-			&& (undoBrickPosition < listView.getFirstVisiblePosition()
-			|| undoBrickPosition > listView.getLastVisiblePosition())) {
+				&& (undoBrickPosition < listView.getFirstVisiblePosition()
+				|| undoBrickPosition > listView.getLastVisiblePosition())) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
 		}
 	}
