@@ -37,11 +37,15 @@ class ResizeRotateGestureDetectorTest {
     private lateinit var detector: ResizeRotateGestureDetector
     private var lastScale = 1.0f
     private var lastRotation = 0.0f
+    private var lastPanDx = 0.0f
+    private var lastPanDy = 0.0f
 
     @Before
     fun setUp() {
         lastScale = 1.0f
         lastRotation = 0.0f
+        lastPanDx = 0.0f
+        lastPanDy = 0.0f
         detector = ResizeRotateGestureDetector(
             object : ResizeRotateGestureDetector.OnTransformGestureListener {
                 override fun onScale(scaleFactor: Float) {
@@ -50,6 +54,11 @@ class ResizeRotateGestureDetectorTest {
 
                 override fun onRotate(rotationDegrees: Float) {
                     lastRotation = rotationDegrees
+                }
+
+                override fun onPan(dx: Float, dy: Float) {
+                    lastPanDx = dx
+                    lastPanDy = dy
                 }
             }
         )
@@ -134,5 +143,40 @@ class ResizeRotateGestureDetectorTest {
 
     companion object {
         private const val DELTA = 0.01f
+    }
+
+    @Test
+    fun testSetCumulativeRotationAndScaleForResetScenario() {
+        detector.cumulativeRotation = 90.0f
+        detector.cumulativeScale = 2.0f
+
+        detector.cumulativeRotation = 0.0f
+        detector.cumulativeScale = 1.0f
+
+        assertEquals(0.0f, detector.cumulativeRotation, DELTA)
+        assertEquals(1.0f, detector.cumulativeScale, DELTA)
+    }
+
+    @Test
+    fun testCumulativeRotationForRotate90Feature() {
+        // Simulates the rotateBy90Degrees feature:
+        // rotation starts at 0, incremented by 90, then synced to detector
+        var rotation = 0.0f
+
+        rotation += 90f
+        detector.cumulativeRotation = rotation
+        assertEquals(90.0f, detector.cumulativeRotation, DELTA)
+
+        rotation += 90f
+        detector.cumulativeRotation = rotation
+        assertEquals(180.0f, detector.cumulativeRotation, DELTA)
+
+        rotation += 90f
+        detector.cumulativeRotation = rotation
+        assertEquals(270.0f, detector.cumulativeRotation, DELTA)
+
+        rotation += 90f
+        detector.cumulativeRotation = rotation
+        assertEquals(360.0f, detector.cumulativeRotation, DELTA)
     }
 }

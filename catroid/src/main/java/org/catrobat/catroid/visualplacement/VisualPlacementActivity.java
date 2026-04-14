@@ -154,12 +154,27 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			case R.id.reset:
 				resetTransformations();
 				break;
+			case R.id.rotate_90:
+				rotateBy90Degrees();
+				break;
 		}
 		return true;
 	}
 
 	private void resetTransformations() {
 		setupImageViewPositionAndScale();
+		if (boundingBoxOverlay != null) {
+			boundingBoxOverlay.updateOverlay();
+		}
+	}
+
+	private void rotateBy90Degrees() {
+		if (imageView == null) {
+			return;
+		}
+		rotation += 90f;
+		imageView.setRotation(rotation);
+		resizeRotateDetector.setCumulativeRotation(rotation);
 		if (boundingBoxOverlay != null) {
 			boundingBoxOverlay.updateOverlay();
 		}

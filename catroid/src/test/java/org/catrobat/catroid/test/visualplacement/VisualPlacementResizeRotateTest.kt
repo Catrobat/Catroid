@@ -74,6 +74,10 @@ class VisualPlacementResizeRotateTest {
                 override fun onRotate(rotationDegrees: Float) {
                     lastRotation = rotationDegrees
                 }
+
+                override fun onPan(dx: Float, dy: Float) {
+                    // Not tested in this class
+                }
             }
         )
         listener.setResizeRotateDetector(detector)
