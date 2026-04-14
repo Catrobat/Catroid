@@ -32,7 +32,7 @@ import org.catrobat.catroid.test.StaticSingletonInitializer
 import org.junit.Before
 import org.junit.Test
 
-class PlotArcActionTest {
+class ArcActionTest {
     private lateinit var sprite: Sprite
     private lateinit var actionFactory: ActionFactory
 
@@ -48,7 +48,7 @@ class PlotArcActionTest {
 
     @Test
     fun testArcRightQuarterCircle() {
-        val action = actionFactory.createPlotArcAction(
+        val action = actionFactory.createArcAction(
             sprite,
             SequenceAction(),
             ArcBrick.Directions.RIGHT,
@@ -65,7 +65,7 @@ class PlotArcActionTest {
 
     @Test
     fun testArcLeftQuarterCircle() {
-        val action = actionFactory.createPlotArcAction(
+        val action = actionFactory.createArcAction(
             sprite,
             SequenceAction(),
             ArcBrick.Directions.LEFT,
@@ -82,7 +82,7 @@ class PlotArcActionTest {
 
     @Test
     fun testNegativeDegreesAreHandledByDirectionNormalization() {
-        val action = actionFactory.createPlotArcAction(
+        val action = actionFactory.createArcAction(
             sprite,
             SequenceAction(),
             ArcBrick.Directions.RIGHT,

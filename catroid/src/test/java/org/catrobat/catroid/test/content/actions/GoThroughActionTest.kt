@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.actions.PlotThroughAction
+import org.catrobat.catroid.content.actions.GoThroughAction
 import org.catrobat.catroid.embroidery.DSTPatternManager
 import org.catrobat.catroid.embroidery.ZigZagRunningStitch
 import org.catrobat.catroid.formulaeditor.Formula
@@ -43,7 +43,7 @@ import org.mockito.Mockito
 import kotlin.math.abs
 import kotlin.math.atan2
 
-class PlotThroughActionTest {
+class GoThroughActionTest {
     private lateinit var sprite: Sprite
     private lateinit var embroideryPatternManager: DSTPatternManager
 
@@ -95,11 +95,11 @@ class PlotThroughActionTest {
     }
 
     private fun executePlotThrough(x1: Float, y1: Float, x2: Float, y2: Float) {
-        val plotThroughAction = PlotThroughAction()
-        plotThroughAction.setScope(Scope(Project(), sprite, SequenceAction()))
-        plotThroughAction.setTargetCoordinates(Formula(x1), Formula(y1), Formula(x2), Formula(y2))
-        plotThroughAction.duration = 0f
-        plotThroughAction.act(1f)
+        val goThroughAction = GoThroughAction()
+        goThroughAction.setScope(Scope(Project(), sprite, SequenceAction()))
+        goThroughAction.setTargetCoordinates(Formula(x1), Formula(y1), Formula(x2), Formula(y2))
+        goThroughAction.duration = 0f
+        goThroughAction.act(1f)
     }
 
     private fun expectedEndDirection(): Float {

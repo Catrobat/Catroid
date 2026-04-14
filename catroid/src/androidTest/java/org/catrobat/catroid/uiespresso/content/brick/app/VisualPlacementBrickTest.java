@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.GoThroughBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -84,6 +85,7 @@ public class VisualPlacementBrickTest {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{"GlideToBrick", R.string.brick_glide, new GlideToBrick()},
+				{"GoThroughBrick", R.string.go_through, new GoThroughBrick(0, 0, 100, 100)},
 				{"PlaceAtBrick", R.string.brick_place_at, new PlaceAtBrick()},
 				{"ShowTextBrick", R.string.brick_show_variable, new ShowTextBrick()},
 				{"ShowTextColorSizeAlignment", R.string.brick_show_variable_size, new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#FFFF00")}

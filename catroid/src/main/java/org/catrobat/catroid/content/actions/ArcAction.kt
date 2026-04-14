@@ -33,7 +33,7 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-class PlotArcAction : TemporalAction() {
+class ArcAction : TemporalAction() {
     private var scope: Scope? = null
     private var direction: ArcBrick.Directions = ArcBrick.Directions.LEFT
     lateinit var radius: Formula
@@ -47,19 +47,17 @@ class PlotArcAction : TemporalAction() {
 
     override fun begin() {
         super.begin()
-        if (scope == null) {
-            return
-        }
+        val activeScope = scope ?: return
         try {
-            val interpretedDegrees = degrees.interpretDouble(scope)
+            val interpretedDegrees = degrees.interpretDouble(activeScope)
             val effectiveDirection = if (interpretedDegrees < 0) {
                 if (direction == ArcBrick.Directions.LEFT) ArcBrick.Directions.RIGHT else ArcBrick.Directions.LEFT
             } else {
                 direction
             }
             degreesValue = abs(interpretedDegrees) * if (effectiveDirection == ArcBrick.Directions.LEFT) 1 else -1
-            radiusValue = abs(radius.interpretDouble(scope))
-            val sprite = scope!!.sprite
+            radiusValue = abs(radius.interpretDouble(activeScope))
+            val sprite = activeScope.sprite
             val x = sprite.look.xInUserInterfaceDimensionUnit
             val y = sprite.look.yInUserInterfaceDimensionUnit
             val motionDirection = Math.toRadians(sprite.look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
@@ -78,21 +76,20 @@ class PlotArcAction : TemporalAction() {
     }
 
     override fun update(percent: Float) {
-        if (scope == null) {
-            return
-        }
+        val activeScope = scope ?: return
         try {
-            var previousX = scope!!.sprite.look.xInUserInterfaceDimensionUnit.toDouble()
-            var previousY = scope!!.sprite.look.yInUserInterfaceDimensionUnit.toDouble()
+            val look = activeScope.sprite.look
+            var previousX = look.xInUserInterfaceDimensionUnit.toDouble()
+            var previousY = look.yInUserInterfaceDimensionUnit.toDouble()
             for (i in 0..100) {
                 val radians = Math.toRadians(degreesValue * i / 100)
                 val x = centerX + radiusValue * cos(radiusAngle + radians)
                 val y = centerY + radiusValue * sin(radiusAngle + radians)
                 if (x != previousX || y != previousY) {
                     val motionDirection = Math.toDegrees(atan2(x - previousX, y - previousY))
-                    scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
+                    look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
                 }
-                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(x.toFloat(), y.toFloat())
+                look.setPositionInUserInterfaceDimensionUnit(x.toFloat(), y.toFloat())
                 previousX = x
                 previousY = y
             }

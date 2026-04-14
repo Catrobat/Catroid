@@ -91,7 +91,7 @@ class ArcBrick() : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
-            sprite.actionFactory?.createPlotArcAction(
+            sprite.actionFactory?.createArcAction(
                 sprite,
                 sequence,
                 direction,

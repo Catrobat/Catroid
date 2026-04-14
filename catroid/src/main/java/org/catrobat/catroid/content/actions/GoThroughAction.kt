@@ -30,7 +30,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException
 import kotlin.math.atan2
 import kotlin.math.pow
 
-class PlotThroughAction : TemporalAction() {
+class GoThroughAction : TemporalAction() {
     private var scope: Scope? = null
     lateinit var x1: Formula
     lateinit var y1: Formula
@@ -48,17 +48,15 @@ class PlotThroughAction : TemporalAction() {
 
     override fun begin() {
         super.begin()
-        if (scope == null) {
-            return
-        }
+        val activeScope = scope ?: return
         try {
-            val sprite = scope!!.sprite
+            val sprite = activeScope.sprite
             startX = sprite.look.xInUserInterfaceDimensionUnit.toDouble()
             startY = sprite.look.yInUserInterfaceDimensionUnit.toDouble()
-            throughX = x1.interpretDouble(scope)
-            throughY = y1.interpretDouble(scope)
-            endX = x2.interpretDouble(scope)
-            endY = y2.interpretDouble(scope)
+            throughX = x1.interpretDouble(activeScope)
+            throughY = y1.interpretDouble(activeScope)
+            endX = x2.interpretDouble(activeScope)
+            endY = y2.interpretDouble(activeScope)
             anchorX = 2 * throughX - (startX + endX) / 2
             anchorY = 2 * throughY - (startY + endY) / 2
         } catch (interpretationException: InterpretationException) {
@@ -71,10 +69,9 @@ class PlotThroughAction : TemporalAction() {
     }
 
     override fun update(percent: Float) {
-        if (scope == null) {
-            return
-        }
+        val activeScope = scope ?: return
         try {
+            val look = activeScope.sprite.look
             var previousX = startX
             var previousY = startY
             val steps = 100
@@ -91,9 +88,9 @@ class PlotThroughAction : TemporalAction() {
                     ) * endY
                 if (x != previousX || y != previousY) {
                     val motionDirection = Math.toDegrees(atan2(x - previousX, y - previousY))
-                    scope!!.sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
+                    look.setMotionDirectionInUserInterfaceDimensionUnit(motionDirection.toFloat())
                 }
-                scope!!.sprite.look.setPositionInUserInterfaceDimensionUnit(
+                look.setPositionInUserInterfaceDimensionUnit(
                     x.toFloat(),
                     y.toFloat()
                 )

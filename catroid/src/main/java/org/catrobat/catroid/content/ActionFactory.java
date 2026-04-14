@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
+import org.catrobat.catroid.content.actions.ArcAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -69,6 +70,7 @@ import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.content.actions.GoThroughAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
@@ -102,8 +104,6 @@ import org.catrobat.catroid.content.actions.PlayDrumForBeatsAction;
 import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PlaySoundAtAction;
-import org.catrobat.catroid.content.actions.PlotArcAction;
-import org.catrobat.catroid.content.actions.PlotThroughAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
@@ -622,10 +622,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPlotArcAction(Sprite sprite, SequenceAction sequence,
+	public Action createArcAction(Sprite sprite, SequenceAction sequence,
 			ArcBrick.Directions direction,
 			Formula radius, Formula degrees) {
-		PlotArcAction action = Actions.action(PlotArcAction.class);
+		ArcAction action = Actions.action(ArcAction.class);
 		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
 				sequence));
 		action.setDirection(direction);
@@ -638,9 +638,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPlotThroughAction(Sprite sprite, SequenceAction sequence,
+	public Action createGoThroughAction(Sprite sprite, SequenceAction sequence,
 			Formula x1, Formula y1, Formula x2, Formula y2) {
-		PlotThroughAction action = Actions.action(PlotThroughAction.class);
+		GoThroughAction action = Actions.action(GoThroughAction.class);
 		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
 				sequence));
 		action.setTargetCoordinates(x1, y1, x2, y2);
@@ -648,7 +648,8 @@ public class ActionFactory extends Actions {
 		action.setDuration(0);
 		action.setInterpolation(null);
 
-		return action;	}
+		return action;
+	}
 
 	public Action createSetPenSizeAction(Sprite sprite, SequenceAction sequence, Formula penSize) {
 		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);

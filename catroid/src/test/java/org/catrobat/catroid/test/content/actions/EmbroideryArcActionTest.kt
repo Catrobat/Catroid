@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.actions.PlotArcAction
+import org.catrobat.catroid.content.actions.ArcAction
 import org.catrobat.catroid.content.bricks.ArcBrick
 import org.catrobat.catroid.embroidery.DSTPatternManager
 import org.catrobat.catroid.embroidery.SimpleRunningStitch
@@ -194,13 +194,13 @@ class EmbroideryArcActionTest {
     }
 
     private fun executePlotArc(direction: ArcBrick.Directions, radius: Float, degrees: Float) {
-        val plotArcAction = PlotArcAction()
-        plotArcAction.setScope(Scope(Project(), sprite, SequenceAction()))
-        plotArcAction.setDirection(direction)
-        plotArcAction.radius = Formula(radius)
-        plotArcAction.degrees = Formula(degrees)
-        plotArcAction.duration = 0f
-        plotArcAction.act(1f)
+        val arcAction = ArcAction()
+        arcAction.setScope(Scope(Project(), sprite, SequenceAction()))
+        arcAction.setDirection(direction)
+        arcAction.radius = Formula(radius)
+        arcAction.degrees = Formula(degrees)
+        arcAction.duration = 0f
+        arcAction.act(1f)
     }
 
     private fun containsPointOffHorizontalAxis(stitchPoints: ArrayList<StitchPoint>): Boolean =

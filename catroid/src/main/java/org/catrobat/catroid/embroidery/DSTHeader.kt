@@ -76,10 +76,11 @@ class DSTHeader : EmbroideryHeader {
     @Throws(IOException::class)
     override fun appendToStream(fileStream: FileOutputStream) {
         val label = ProjectManager.getInstance()?.currentProject?.name?.take(15).orEmpty()
-        val positiveX = maxX.coerceAtLeast(0)
-        val negativeX = abs(minX.coerceAtMost(0))
-        val positiveY = maxY.coerceAtLeast(0)
-        val negativeY = abs(minY.coerceAtMost(0))
+        // DST stores +X/-X/+Y/-Y extents as magnitudes in fixed-width fields.
+        val positiveXExtent = maxX.coerceAtLeast(0)
+        val negativeXExtent = abs(minX.coerceAtMost(0))
+        val positiveYExtent = maxY.coerceAtLeast(0)
+        val negativeYExtent = abs(minY.coerceAtMost(0))
         val deltaX = lastX - firstX
         val deltaY = lastY - firstY
 
@@ -91,10 +92,10 @@ class DSTHeader : EmbroideryHeader {
                     DSTFileConstants.DST_HEADER,
                     pointAmount,
                     colorChangeCount,
-                    positiveX,
-                    negativeX,
-                    positiveY,
-                    negativeY,
+                    positiveXExtent,
+                    negativeXExtent,
+                    positiveYExtent,
+                    negativeYExtent,
                     deltaX,
                     deltaY,
                     0,

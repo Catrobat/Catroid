@@ -80,7 +80,7 @@ class GoThroughBrick() : VisualPlacementBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
-            sprite.actionFactory?.createPlotThroughAction(
+            sprite.actionFactory?.createGoThroughAction(
                 sprite,
                 sequence,
                 getFormulaWithBrickField(BrickField.X_POSITION),
