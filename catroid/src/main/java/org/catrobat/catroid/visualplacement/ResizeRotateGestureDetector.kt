@@ -32,6 +32,7 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
     interface OnTransformGestureListener {
         fun onScale(scaleFactor: Float)
         fun onRotate(rotationDegrees: Float)
+        fun onPan(dx: Float, dy: Float)
     }
 
     var isTransforming: Boolean = false
@@ -42,6 +43,11 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
 
     private var initialDistance: Float = 0f
     private var initialAngle: Float = 0f
+    private var previousMidpointX: Float = 0f
+    private var previousMidpointY: Float = 0f
+
+    private var lastRotationTime: Long = 0
+    private var lastRotationAngle: Float = 0f
 
     fun onTouchEvent(event: MotionEvent): Boolean {
         val pointerCount = event.pointerCount
@@ -60,12 +66,18 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
 
         val currentDistance = calculateDistance(x0, y0, x1, y1)
         val currentAngle = calculateAngle(x0, y0, x1, y1)
+        val currentMidpointX = (x0 + x1) / 2f
+        val currentMidpointY = (y0 + y1) / 2f
 
         when (event.actionMasked) {
             MotionEvent.ACTION_POINTER_DOWN -> {
                 isTransforming = true
                 initialDistance = currentDistance
                 initialAngle = currentAngle
+                previousMidpointX = currentMidpointX
+                previousMidpointY = currentMidpointY
+                lastRotationTime = System.currentTimeMillis()
+                lastRotationAngle = currentAngle
                 return true
             }
 
@@ -77,7 +89,27 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
                     listener.onScale(newScale)
 
                     val angleDelta = normalizeAngle(currentAngle - initialAngle)
-                    listener.onRotate(cumulativeRotation + angleDelta)
+                    var totalRotation = cumulativeRotation + angleDelta
+
+                    val currentTime = System.currentTimeMillis()
+                    val deltaTime = currentTime - lastRotationTime
+                    if (deltaTime > 0) {
+                        val rotationVelocity = Math.abs(currentAngle - lastRotationAngle) / deltaTime
+                        if (rotationVelocity > SNAP_VELOCITY_THRESHOLD) {
+                            totalRotation = getSnappedAngle(totalRotation)
+                        }
+                    }
+                    lastRotationTime = currentTime
+                    lastRotationAngle = currentAngle
+
+                    listener.onRotate(totalRotation)
+
+                    val dx = currentMidpointX - previousMidpointX
+                    val dy = currentMidpointY - previousMidpointY
+                    previousMidpointX = currentMidpointX
+                    previousMidpointY = currentMidpointY
+                    listener.onPan(dx, dy)
+
                     true
                 } else {
                     false
@@ -99,11 +131,24 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
         return false
     }
 
+    private fun getSnappedAngle(angle: Float): Float {
+        val normalizedRotation = (angle % 360 + 360) % 360
+        val snapAngles = floatArrayOf(0f, 90f, 180f, 270f, 360f)
+        for (snapAngle in snapAngles) {
+            if (Math.abs(normalizedRotation - snapAngle) < SNAP_ANGLE_THRESHOLD) {
+                return snapAngle
+            }
+        }
+        return angle
+    }
+
     companion object {
         private const val MIN_SCALE = 0.1f
         private const val MAX_SCALE = 5.0f
         private const val HALF_CIRCLE = 180f
         private const val FULL_CIRCLE = 360f
+        private const val SNAP_VELOCITY_THRESHOLD = 1.5f // degrees per ms
+        private const val SNAP_ANGLE_THRESHOLD = 10f // degrees
 
         /**
          * Wraps an angle delta into the [-180, 180] range so that

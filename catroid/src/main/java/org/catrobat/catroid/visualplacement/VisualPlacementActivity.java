@@ -52,6 +52,7 @@ import android.widget.LinearLayout;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
@@ -119,7 +120,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float scaleFactor = 1.0f;
 	private float rotation = 0.0f;
 	private float initialSpriteScale = 1.0f;
-	private float initialSpriteRotation = 0.0f;
+	private float initialSpriteRotation = DEGREE_UI_OFFSET;
 
 	private boolean isText;
 	private String text;
@@ -150,8 +151,26 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			case R.id.confirm:
 				finishWithResult();
 				break;
+			case R.id.reset:
+				resetTransformations();
+				break;
 		}
 		return true;
+	}
+
+	private void resetTransformations() {
+		setupImageViewPositionAndScale();
+		if (boundingBoxOverlay != null) {
+			boundingBoxOverlay.updateOverlay();
+		}
+	}
+
+	private void updateCoordinatesFromView() {
+		if (imageView == null) {
+			return;
+		}
+		setXCoordinate(imageView.getX());
+		setYCoordinate(imageView.getY());
 	}
 
 	@Override
@@ -203,6 +222,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 		}
+		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		resizeRotateDetector = new ResizeRotateGestureDetector(new ResizeRotateGestureDetector.OnTransformGestureListener() {
 			@Override
@@ -220,6 +240,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				VisualPlacementActivity.this.rotation = rotation;
 				if (imageView != null) {
 					imageView.setRotation(VisualPlacementActivity.this.rotation);
+				}
+			}
+
+			@Override
+			public void onPan(float dx, float dy) {
+				if (imageView != null) {
+					imageView.setX(imageView.getX() + dx);
+					imageView.setY(imageView.getY() + dy);
+					updateCoordinatesFromView();
 				}
 			}
 		});
@@ -242,8 +271,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				break;
 		}
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
 		layoutParams.gravity = Gravity.CENTER;
 		layoutParams.width = layoutResolution.getWidth();
 		layoutParams.height = layoutResolution.getHeight();
@@ -319,6 +347,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else if (currentSprite.getLookList() != null && !currentSprite.getLookList().isEmpty()
 				&& currentSprite.getLookList().get(0).getFile() != null) {
 			String path = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
+			rotationMode = ROTATION_STYLE_ALL_AROUND;
+			initialLookRotation = DEGREE_UI_OFFSET;
 			bitmap = BitmapFactory.decodeFile(path, bitmapOptions);
 		}
 

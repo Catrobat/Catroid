@@ -96,6 +96,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_BAC
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_SOUNDS_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
+import static org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
@@ -434,7 +435,7 @@ public class SpriteActivity extends BaseActivity {
 				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
 				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
 				float placementScale = extras.getFloat(SCALE_BUNDLE_ARGUMENT, 1.0f);
-				float placementRotation = extras.getFloat(ROTATION_BUNDLE_ARGUMENT, 0.0f);
+				float placementRotation = extras.getFloat(ROTATION_BUNDLE_ARGUMENT, DEGREE_UI_OFFSET);
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
 
 				Fragment fragment = getCurrentFragment();
@@ -461,9 +462,11 @@ public class SpriteActivity extends BaseActivity {
 					}
 				}
 
-				Sprite rotSprite = projectManager.getCurrentSprite();
-				if (rotSprite != null && rotSprite.look != null) {
-					rotSprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation);
+				if (placementRotation != DEGREE_UI_OFFSET) {
+					Sprite rotSprite = projectManager.getCurrentSprite();
+					if (rotSprite != null && rotSprite.look != null) {
+						rotSprite.look.setMotionDirectionInUserInterfaceDimensionUnit(placementRotation);
+					}
 				}
 
 				setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES));
