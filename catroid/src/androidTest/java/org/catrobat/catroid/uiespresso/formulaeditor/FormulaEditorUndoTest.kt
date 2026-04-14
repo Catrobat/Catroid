@@ -457,6 +457,8 @@ class FormulaEditorUndoTest {
         onView(withId(R.id.menu_undo))
             .check(matches(isDisplayed()))
 
+        assertNotNull(ProjectManager.getInstance().currentProject.getUserVariable(NEW_VARIABLE_NAME))
+
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             baseActivityTestRule.activity.recreate()
         }
@@ -464,22 +466,20 @@ class FormulaEditorUndoTest {
 
         onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at)
 
-        onView(withId(R.id.brick_place_at_edit_text_x))
-            .perform(click())
-        onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-            .perform(click())
-
-        onFormulaEditor()
-            .performEnterFormula("999")
-
-        pressBack()
+        onView(withId(R.id.menu_undo))
+            .perform(waitFor(isDisplayed(), waitThreshold))
 
         onView(withId(R.id.menu_undo))
-            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withId(R.id.menu_undo))
+            .check(doesNotExist())
+
+        assertNull(ProjectManager.getInstance().currentProject.getUserVariable(NEW_VARIABLE_NAME))
 
         onBrickAtPosition(brickPosition)
             .onFormulaTextField(R.id.brick_place_at_edit_text_x)
-            .checkShowsNumber(999)
+            .checkShowsNumber(0)
     }
 
     @Category(Cat.AppUi::class, Level.Smoke::class)

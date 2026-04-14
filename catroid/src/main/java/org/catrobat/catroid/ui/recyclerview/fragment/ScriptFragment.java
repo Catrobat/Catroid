@@ -414,7 +414,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		savedListViewState = listView.onSaveInstanceState();
 
 		if (getActivity() != null && !getActivity().isChangingConfigurations()) {
-				((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 		}
 	}
 
@@ -437,25 +437,25 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 		switch (item.getItemId()) {
 			case R.id.menu_undo:
-			loadProjectAfterUndoOption();
-			break;
+				loadProjectAfterUndoOption();
+				break;
 			case R.id.backpack:
-			prepareBackpackActionMode();
-			break;
+				prepareBackpackActionMode();
+				break;
 			case R.id.copy:
-			prepareActionMode(COPY);
-			break;
+				prepareActionMode(COPY);
+				break;
 			case R.id.delete:
-			prepareActionMode(DELETE);
-			break;
+				prepareActionMode(DELETE);
+				break;
 			case R.id.comment_in_out:
-			startActionMode(COMMENT);
-			break;
+				startActionMode(COMMENT);
+				break;
 			case R.id.find:
-			scriptFinder.open();
-			break;
+				scriptFinder.open();
+				break;
 			default:
-			return super.onOptionsItemSelected(item);
+				return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
@@ -558,19 +558,19 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public void onSelectionChanged(int selectedItemCnt) {
 		switch (actionModeType) {
 			case BACKPACK:
-			actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
-			break;
+				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
+				break;
 			case COPY:
-			actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
-			break;
+				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
+				break;
 			case DELETE:
-			actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
-			break;
+				actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
+				break;
 			case COMMENT:
-			actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
-			break;
+				actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
+				break;
 			case NONE:
-			throw new IllegalStateException("ActionModeType not set Correctly");
+				throw new IllegalStateException("ActionModeType not set Correctly");
 		}
 	}
 
@@ -600,7 +600,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public void addBrick(Brick brick) {
 		try {
 			if (!brick.getClass().equals(UserDefinedReceiverBrick.class) && !brick.getClass().equals(UserDefinedBrick.class)) {
-			RecentBrickListManager.getInstance().addBrick(brick.clone());
+				RecentBrickListManager.getInstance().addBrick(brick.clone());
 			}
 		} catch (CloneNotSupportedException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -613,11 +613,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public void addBrick(Brick brick, Sprite sprite, BrickAdapter brickAdapter, BrickListView brickListView) {
 		if (brickAdapter.getCount() == 0) {
 			if (brick instanceof ScriptBrick) {
-			sprite.addScript(brick.getScript());
+				sprite.addScript(brick.getScript());
 			} else {
-			Script script = new StartScript();
-			script.addBrick(brick);
-			sprite.addScript(script);
+				Script script = new StartScript();
+				script.addBrick(brick);
+				sprite.addScript(script);
 			}
 			brickAdapter.updateItems(sprite);
 		} else if (brickAdapter.getCount() == 1 && !(brick instanceof ScriptBrick)) {
@@ -654,7 +654,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		new AlertDialog.Builder(getContext()).setCustomTitle(brickView).setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-			handleContextMenuItemClick(options.get(which), brick, position);
+				handleContextMenuItemClick(options.get(which), brick, position);
 			}
 		}).show();
 	}
@@ -675,7 +675,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			items.add(R.string.backpack_add);
 
 			if (!(brick instanceof EmptyEventBrick)) {
-			items.add(brick.isCommentedOut() ? R.string.brick_context_dialog_comment_in_script : R.string.brick_context_dialog_comment_out_script);
+				items.add(brick.isCommentedOut() ? R.string.brick_context_dialog_comment_in_script : R.string.brick_context_dialog_comment_out_script);
 			}
 
 			items.add(R.string.brick_context_dialog_copy_script);
@@ -683,7 +683,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			items.add(R.string.brick_context_dialog_delete_script);
 
 			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
-			items.add(R.string.brick_context_dialog_formula_edit_brick);
+				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			items.add(R.string.brick_context_dialog_move_script);
 
@@ -691,23 +691,23 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		} else {
 			items.add(R.string.brick_context_dialog_copy_brick);
 			if (brick.consistsOfMultipleParts()) {
-			items.add(R.string.brick_context_dialog_highlight_brick_parts);
+				items.add(R.string.brick_context_dialog_highlight_brick_parts);
 			}
 			items.add(R.string.brick_context_dialog_delete_brick);
 
 			items.add(brick.isCommentedOut() ? R.string.brick_context_dialog_comment_in : R.string.brick_context_dialog_comment_out);
 			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).areAllBrickFieldsNumbers()) {
-			items.add(R.string.brick_option_place_visually);
+				items.add(R.string.brick_option_place_visually);
 			}
 			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
-			items.add(R.string.brick_context_dialog_formula_edit_brick);
+				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			if (brick.equals(brick.getAllParts().get(0))) {
-			items.add(R.string.brick_context_dialog_move_brick);
+				items.add(R.string.brick_context_dialog_move_brick);
 			}
 
 			if (brick.hasHelpPage()) {
-			items.add(R.string.brick_context_dialog_help);
+				items.add(R.string.brick_context_dialog_help);
 			}
 		}
 		return items;
@@ -717,65 +717,65 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		showUndo(false);
 		switch (itemId) {
 			case R.string.backpack_add:
-			List<Brick> bricksToPack = new ArrayList<>();
-			brick.addToFlatList(bricksToPack);
-			showNewScriptGroupAlert(bricksToPack);
-			break;
+				List<Brick> bricksToPack = new ArrayList<>();
+				brick.addToFlatList(bricksToPack);
+				showNewScriptGroupAlert(bricksToPack);
+				break;
 			case R.string.brick_context_dialog_copy_brick:
 			case R.string.brick_context_dialog_copy_script:
-			try {
-				Brick clonedBrick = brick.getAllParts().get(0).clone();
-				adapter.addItem(position, clonedBrick);
-				listView.startMoving(clonedBrick);
-			} catch (CloneNotSupportedException e) {
-				ToastUtil.showError(getContext(), R.string.error_copying_brick);
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-			break;
+				try {
+					Brick clonedBrick = brick.getAllParts().get(0).clone();
+					adapter.addItem(position, clonedBrick);
+					listView.startMoving(clonedBrick);
+				} catch (CloneNotSupportedException e) {
+					ToastUtil.showError(getContext(), R.string.error_copying_brick);
+					Log.e(TAG, Log.getStackTraceString(e));
+				}
+				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-			showDeleteAlert(brick.getAllParts());
-			break;
+				showDeleteAlert(brick.getAllParts());
+				break;
 			case R.string.brick_context_dialog_delete_definition:
-			showDeleteAlert(brick.getAllParts());
-			break;
+				showDeleteAlert(brick.getAllParts());
+				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
-			for (Brick brickPart : brick.getAllParts()) {
-				brickPart.setCommentedOut(false);
-			}
-			adapter.notifyDataSetChanged();
-			break;
+				for (Brick brickPart : brick.getAllParts()) {
+					brickPart.setCommentedOut(false);
+				}
+				adapter.notifyDataSetChanged();
+				break;
 			case R.string.brick_context_dialog_comment_out:
 			case R.string.brick_context_dialog_comment_out_script:
-			for (Brick brickPart : brick.getAllParts()) {
-				brickPart.setCommentedOut(true);
-			}
-			adapter.notifyDataSetChanged();
-			break;
+				for (Brick brickPart : brick.getAllParts()) {
+					brickPart.setCommentedOut(true);
+				}
+				adapter.notifyDataSetChanged();
+				break;
 			case R.string.brick_option_place_visually:
-			VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
-			visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(), visualPlacementBrick.getYBrickField());
-			break;
+				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
+				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(), visualPlacementBrick.getYBrickField());
+				break;
 			case R.string.brick_context_dialog_formula_edit_brick:
-			((FormulaBrick) brick).onClick(listView);
-			break;
+				((FormulaBrick) brick).onClick(listView);
+				break;
 			case R.string.brick_context_dialog_move_brick:
 			case R.string.brick_context_dialog_move_script:
 			case R.string.brick_context_dialog_move_definition:
-			onBrickLongClick(brick, position);
-			break;
+				onBrickLongClick(brick, position);
+				break;
 			case R.string.brick_context_dialog_help:
-			openWebViewWithHelpPage(brick);
-			break;
+				openWebViewWithHelpPage(brick);
+				break;
 			case R.string.brick_context_dialog_highlight_brick_parts:
-			List<Brick> bricksOfControlStructure = brick.getAllParts();
-			List<Integer> positions = new ArrayList<>();
-			for (Brick brickInControlStructure : bricksOfControlStructure) {
-				positions.add(adapter.getPosition(brickInControlStructure));
-			}
-			listView.highlightControlStructureBricks(positions);
-			break;
+				List<Brick> bricksOfControlStructure = brick.getAllParts();
+				List<Integer> positions = new ArrayList<>();
+				for (Brick brickInControlStructure : bricksOfControlStructure) {
+					positions.add(adapter.getPosition(brickInControlStructure));
+				}
+				listView.highlightControlStructureBricks(positions);
+				break;
 		}
 	}
 
@@ -804,16 +804,16 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
 		new AlertDialog.Builder(getContext()).setTitle(R.string.backpack_title).setItems(items, (dialog, which) -> {
 			switch (which) {
-			case 0:
-				if (adapter.getItems().size() == 1) {
-					showNewScriptGroupAlert(adapter.getItems());
-				} else {
-					startActionMode(BACKPACK);
+				case 0:
+					if (adapter.getItems().size() == 1) {
+						showNewScriptGroupAlert(adapter.getItems());
+					} else {
+						startActionMode(BACKPACK);
+					}
+					break;
+				case 1:
+					switchToBackpack();
 				}
-				break;
-			case 1:
-				switchToBackpack();
-			}
 		}).show();
 	}
 
@@ -891,11 +891,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		if (currentCodeFile.exists()) {
 			try {
-			StorageOperations.transferData(currentCodeFile, undoCodeFile);
-			saveVariables();
-			return true;
+				StorageOperations.transferData(currentCodeFile, undoCodeFile);
+				saveVariables();
+				return true;
 			} catch (IOException exception) {
-			Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
+				Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
 			}
 		}
 		return false;
@@ -920,13 +920,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		if (currentCodeFile.exists()) {
 			try {
-			StorageOperations.transferData(undoCodeFile, currentCodeFile);
-			SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(false);
-				spriteActivity.showUndo(false);
-			}
-			new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
+				StorageOperations.transferData(undoCodeFile, currentCodeFile);
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null) {
+					spriteActivity.setUndoMenuItemVisibility(false);
+					spriteActivity.showUndo(false);
+				}
+				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				ToastUtil.showError(context, R.string.error_load_project);
@@ -1093,12 +1093,12 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		for (int i = 0; i < listView.getAdapter().getCount(); ++i) {
 			Object item = listView.getItemAtPosition(i);
 			if (!(item instanceof Brick)) {
-			continue;
+				continue;
 			}
 			Brick brick = (Brick) item;
 			if ((brickToFocus != null && brick == brickToFocus) || (scriptToFocus != null && brick.getScript() == scriptToFocus)) {
-			scrollToIndex = i;
-			break;
+				scrollToIndex = i;
+				break;
 			}
 		}
 		if (scrollToIndex == -1) {
@@ -1107,10 +1107,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (getActivity() != null) {
 			int finalScrollToIndex = scrollToIndex;
 			getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(finalScrollToIndex);
-			}
+				@Override
+				public void run() {
+					listView.setSelection(finalScrollToIndex);
+				}
 			});
 		}
 		scriptToFocus = null;
