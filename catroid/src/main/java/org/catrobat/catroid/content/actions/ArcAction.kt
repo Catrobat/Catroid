@@ -33,6 +33,8 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
+private const val ARC_INTERPOLATION_STEPS = 100
+
 class ArcAction : TemporalAction() {
     private var scope: Scope? = null
     private var direction: ArcBrick.Directions = ArcBrick.Directions.LEFT
@@ -81,8 +83,8 @@ class ArcAction : TemporalAction() {
             val look = activeScope.sprite.look
             var previousX = look.xInUserInterfaceDimensionUnit.toDouble()
             var previousY = look.yInUserInterfaceDimensionUnit.toDouble()
-            for (i in 0..100) {
-                val radians = Math.toRadians(degreesValue * i / 100)
+            for (i in 0..ARC_INTERPOLATION_STEPS) {
+                val radians = Math.toRadians(degreesValue * i / ARC_INTERPOLATION_STEPS)
                 val x = centerX + radiusValue * cos(radiusAngle + radians)
                 val y = centerY + radiusValue * sin(radiusAngle + radians)
                 if (x != previousX || y != previousY) {

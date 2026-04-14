@@ -30,6 +30,8 @@ import org.catrobat.catroid.formulaeditor.InterpretationException
 import kotlin.math.atan2
 import kotlin.math.pow
 
+private const val CURVE_INTERPOLATION_STEPS = 100
+
 class GoThroughAction : TemporalAction() {
     private var scope: Scope? = null
     lateinit var x1: Formula
@@ -74,9 +76,8 @@ class GoThroughAction : TemporalAction() {
             val look = activeScope.sprite.look
             var previousX = startX
             var previousY = startY
-            val steps = 100
-            for (i in 0..steps) {
-                val timeStep = i.toDouble() / steps
+            for (i in 0..CURVE_INTERPOLATION_STEPS) {
+                val timeStep = i.toDouble() / CURVE_INTERPOLATION_STEPS
                 val inverseTimeStep = 1 - timeStep
                 val x =
                     inverseTimeStep.pow(2) * startX + 2 * inverseTimeStep * timeStep * anchorX + timeStep.pow(

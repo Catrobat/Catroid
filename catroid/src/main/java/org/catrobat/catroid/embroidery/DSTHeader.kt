@@ -30,6 +30,8 @@ import java.nio.charset.StandardCharsets
 import java.util.Locale
 import kotlin.math.abs
 
+private const val PROJECT_LABEL_MAX_LENGTH = 15
+
 class DSTHeader : EmbroideryHeader {
     private var minX = 0
     private var maxX = 0
@@ -75,7 +77,7 @@ class DSTHeader : EmbroideryHeader {
 
     @Throws(IOException::class)
     override fun appendToStream(fileStream: FileOutputStream) {
-        val label = ProjectManager.getInstance()?.currentProject?.name?.take(15).orEmpty()
+        val label = ProjectManager.getInstance()?.currentProject?.name?.take(PROJECT_LABEL_MAX_LENGTH).orEmpty()
         // DST stores +X/-X/+Y/-Y extents as magnitudes in fixed-width fields.
         val positiveXExtent = maxX.coerceAtLeast(0)
         val negativeXExtent = abs(minX.coerceAtMost(0))
