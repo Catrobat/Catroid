@@ -100,7 +100,7 @@ jobs:
             -qemu -append panic=1
           arch: x86_64
           script: |
-            set -eo pipefail
+            set -eu
 
             # 1. Compile
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
