@@ -90,16 +90,33 @@ jobs:
           emulator-boot-timeout: 900
           emulator-options: >
             -no-window
+            -no-audio
             -camera-back emulated
             -camera-front emulated
             -no-boot-anim
+            -no-snapshot
+            -no-metrics
+            -gpu swiftshader_indirect
+            -qemu -append panic=1
           arch: x86_64
           script: |
+            set -eo pipefail
+
             # 1. Compile
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
 
             # 2. Standard Test-Run without Coverage
-            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
+            run_coverage_tests() {
+              ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
+            }
+
+            if ! run_coverage_tests; then
+              echo "::warning::Android emulator test run failed once, retrying after collecting basic diagnostics"
+              adb devices || true
+              adb logcat -d -t 200 || true
+              sleep 15
+              run_coverage_tests
+            fi
           # | grep "There were failing tests."
 
       - name: Upload Test Reports XML
