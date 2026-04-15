@@ -121,7 +121,7 @@ class SensorHandlerTest {
     fun testMicRelease() {
         val loudnessSensor = SensorLoudness()
         val soundRecorder = mockk<SoundRecorder>(relaxed = true)
-        loudnessSensor.soundRecorder = soundRecorder
+        loudnessSensor.setSoundRecorder(soundRecorder)
 
         every { soundRecorder.isRecording } returns false
         SensorHandler.getInstance(ApplicationProvider.getApplicationContext())
