@@ -106,13 +106,7 @@ jobs:
             ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
 
             # 2. Standard Test-Run without Coverage
-            if ! ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}; then
-              echo "::warning::Android emulator test run failed once, retrying after collecting basic diagnostics"
-              adb devices || true
-              adb logcat -d -t 200 || true
-              sleep 15
-              ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
-            fi
+            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
           # | grep "There were failing tests."
 
       - name: Upload Test Reports XML
