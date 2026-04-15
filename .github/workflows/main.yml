@@ -275,6 +275,31 @@ jobs:
           path: coverage-reports/coverage-xml-rtl-tests
         continue-on-error: true
 
+      - name: Collect Coverage XML Paths
+        shell: bash
+        run: |
+          COVERAGE_FILES=()
+
+          while IFS= read -r -d '' file; do
+            COVERAGE_FILES+=("$file")
+          done < <(find coverage-reports -name report.xml -print0 2>/dev/null)
+
+          if [ -f "coverage-reports/coverage-xml-unit-tests/report.xml" ]; then
+            COVERAGE_FILES+=("coverage-reports/coverage-xml-unit-tests/report.xml")
+          fi
+
+          if [ ${#COVERAGE_FILES[@]} -eq 0 ]; then
+            echo "::warning::No coverage XML files were found for SonarQube analysis"
+            echo "SONAR_COVERAGE_PATHS=" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+          printf 'Coverage XML files detected:\n'
+          printf ' - %s\n' "${COVERAGE_FILES[@]}"
+
+          CLEAN_PATHS=$(printf '%s\n' "${COVERAGE_FILES[@]}" | sort -u | paste -sd, -)
+          echo "SONAR_COVERAGE_PATHS=$CLEAN_PATHS" >> "$GITHUB_ENV"
+
       - name: Compile Sources
         run: ./gradlew compileCatroidDebugSources
 
@@ -283,17 +308,13 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JACOCO_PATHS: >-
-            coverage-reports/coverage-xml-unit-tests/report.xml,
-            coverage-reports/coverage-xml-instrumented-unit-tests/report.xml,
-            coverage-reports/coverage-xml-testrunner-tests/report.xml,
-            coverage-reports/coverage-xml-quarantined-tests/report.xml,
-            coverage-reports/coverage-xml-rtl-tests/report.xml
+          SONAR_COVERAGE_PATHS: ${{ env.SONAR_COVERAGE_PATHS }}
         run: |
-          # Strip whitespace/newlines from the paths string (YAML >- folds newlines to spaces)
-          CLEAN_PATHS=$(echo "$JACOCO_PATHS" | tr -d ' \n' | sed 's/,$//')
+          if [ -z "$SONAR_COVERAGE_PATHS" ]; then
+            echo "::warning::Skipping JaCoCo import because no coverage XML files were collected"
+          fi
+
           ./gradlew sonar --info \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.projectKey=Catrobat_Catroid \
-            -Dsonar.organization=catrobat \
-            -Dsonar.coverage.jacoco.xmlReportPaths="$CLEAN_PATHS"
+            -Dsonar.organization=catrobat
