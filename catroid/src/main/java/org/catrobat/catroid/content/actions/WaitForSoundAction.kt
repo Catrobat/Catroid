@@ -40,6 +40,11 @@ class WaitForSoundAction : WaitAction() {
 
     private var soundStopped = false
 
+    override fun restart() {
+        soundStopped = false
+        super.restart()
+    }
+
     override fun update(percent: Float) {
         val path = soundFilePath ?: return
         val sprite = scope.sprite
@@ -79,7 +84,7 @@ class WaitForSoundAction : WaitAction() {
                 mediaPlayer.pathToSoundFile == path
             ) {
                 restart()
-                setTime(mediaPlayer.currentPosition.toFloat())
+                setTime(mediaPlayer.currentPosition.toFloat() / MILLISECONDS_IN_SECOND)
             }
         }
 
@@ -89,7 +94,7 @@ class WaitForSoundAction : WaitAction() {
                 midiPlayer.pathToSoundFile == path
             ) {
                 restart()
-                setTime(midiPlayer.currentPosition.toFloat())
+                setTime(midiPlayer.currentPosition.toFloat() / MILLISECONDS_IN_SECOND)
             }
         }
     }
@@ -97,5 +102,7 @@ class WaitForSoundAction : WaitAction() {
     companion object {
         @JvmField
         val TAG: String = WaitForSoundAction::class.java.simpleName
+
+        private const val MILLISECONDS_IN_SECOND = 1000f
     }
 }
