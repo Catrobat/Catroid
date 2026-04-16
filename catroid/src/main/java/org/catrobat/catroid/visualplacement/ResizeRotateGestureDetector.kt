@@ -24,6 +24,7 @@
 package org.catrobat.catroid.visualplacement
 
 import android.view.MotionEvent
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
@@ -48,15 +49,14 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
 
     private var lastRotationTime: Long = 0
     private var lastRotationAngle: Float = 0f
+    private var isRotationActive: Boolean = false
+    private var isPanActive: Boolean = false
+    private var accumulatedPanX: Float = 0f
+    private var accumulatedPanY: Float = 0f
 
     fun onTouchEvent(event: MotionEvent): Boolean {
-        val pointerCount = event.pointerCount
-
-        if (pointerCount < 2) {
-            if (isTransforming) {
-                isTransforming = false
-            }
-            return false
+        if (event.pointerCount < 2) {
+            return handleSinglePointer()
         }
 
         val x0 = event.getX(0)
@@ -69,73 +69,137 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
         val currentMidpointX = (x0 + x1) / 2f
         val currentMidpointY = (y0 + y1) / 2f
 
-        when (event.actionMasked) {
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                isTransforming = true
-                initialDistance = currentDistance
-                initialAngle = currentAngle
-                previousMidpointX = currentMidpointX
-                previousMidpointY = currentMidpointY
-                lastRotationTime = System.currentTimeMillis()
-                lastRotationAngle = currentAngle
-                return true
-            }
-
+        return when (event.actionMasked) {
+            MotionEvent.ACTION_POINTER_DOWN ->
+                handlePointerDown(currentDistance, currentAngle, currentMidpointX, currentMidpointY)
             MotionEvent.ACTION_MOVE ->
-                if (isTransforming && initialDistance > 0) {
-                    val scaleFactor = currentDistance / initialDistance
-                    val newScale = (cumulativeScale * scaleFactor)
-                        .coerceIn(MIN_SCALE, MAX_SCALE)
-                    listener.onScale(newScale)
+                handleMove(currentDistance, currentAngle, currentMidpointX, currentMidpointY)
+            MotionEvent.ACTION_POINTER_UP ->
+                handlePointerUp(currentDistance, currentAngle)
+            else -> false
+        }
+    }
 
-                    val angleDelta = normalizeAngle(currentAngle - initialAngle)
-                    var totalRotation = cumulativeRotation + angleDelta
-
-                    val currentTime = System.currentTimeMillis()
-                    val deltaTime = currentTime - lastRotationTime
-                    if (deltaTime > 0) {
-                        val rotationVelocity = Math.abs(currentAngle - lastRotationAngle) / deltaTime
-                        if (rotationVelocity > SNAP_VELOCITY_THRESHOLD) {
-                            totalRotation = getSnappedAngle(totalRotation)
-                        }
-                    }
-                    lastRotationTime = currentTime
-                    lastRotationAngle = currentAngle
-
-                    listener.onRotate(totalRotation)
-
-                    val dx = currentMidpointX - previousMidpointX
-                    val dy = currentMidpointY - previousMidpointY
-                    previousMidpointX = currentMidpointX
-                    previousMidpointY = currentMidpointY
-                    listener.onPan(dx, dy)
-
-                    true
-                } else {
-                    false
-                }
-
-            MotionEvent.ACTION_POINTER_UP -> {
-                if (isTransforming && initialDistance > 0) {
-                    val finalScaleFactor = currentDistance / initialDistance
-                    cumulativeScale = (cumulativeScale * finalScaleFactor)
-                        .coerceIn(MIN_SCALE, MAX_SCALE)
-
-                    val finalAngleDelta = normalizeAngle(currentAngle - initialAngle)
-                    cumulativeRotation += finalAngleDelta
-                }
-                isTransforming = false
-                return true
-            }
+    private fun handleSinglePointer(): Boolean {
+        if (isTransforming) {
+            isTransforming = false
+            isRotationActive = false
+            isPanActive = false
         }
         return false
     }
 
+    private fun handlePointerDown(
+        distance: Float,
+        angle: Float,
+        midpointX: Float,
+        midpointY: Float
+    ): Boolean {
+        isTransforming = true
+        isRotationActive = false
+        isPanActive = false
+        accumulatedPanX = 0f
+        accumulatedPanY = 0f
+        initialDistance = distance
+        initialAngle = angle
+        previousMidpointX = midpointX
+        previousMidpointY = midpointY
+        lastRotationTime = System.currentTimeMillis()
+        lastRotationAngle = angle
+        return true
+    }
+
+    private fun handleMove(
+        currentDistance: Float,
+        currentAngle: Float,
+        currentMidpointX: Float,
+        currentMidpointY: Float
+    ): Boolean {
+        if (!isTransforming || initialDistance <= 0) {
+            return false
+        }
+
+        applyScale(currentDistance)
+        applyRotation(currentAngle)
+        applyPan(currentMidpointX, currentMidpointY)
+        return true
+    }
+
+    private fun applyScale(currentDistance: Float) {
+        val scaleFactor = currentDistance / initialDistance
+        val newScale = (cumulativeScale * scaleFactor).coerceIn(MIN_SCALE, MAX_SCALE)
+        listener.onScale(newScale)
+    }
+
+    private fun applyRotation(currentAngle: Float) {
+        val angleDelta = normalizeAngle(currentAngle - initialAngle)
+
+        if (!isRotationActive && abs(angleDelta) < ROTATION_DEAD_ZONE) {
+            return
+        }
+        isRotationActive = true
+
+        var totalRotation = cumulativeRotation + angleDelta
+        totalRotation = applySnappingIfNeeded(totalRotation, currentAngle)
+        listener.onRotate(totalRotation)
+    }
+
+    private fun applySnappingIfNeeded(totalRotation: Float, currentAngle: Float): Float {
+        val currentTime = System.currentTimeMillis()
+        val deltaTime = currentTime - lastRotationTime
+        var result = totalRotation
+
+        if (deltaTime > 0) {
+            val rotationVelocity = abs(currentAngle - lastRotationAngle) / deltaTime
+            if (rotationVelocity > SNAP_VELOCITY_THRESHOLD) {
+                result = getSnappedAngle(totalRotation)
+            }
+        }
+        lastRotationTime = currentTime
+        lastRotationAngle = currentAngle
+        return result
+    }
+
+    private fun applyPan(currentMidpointX: Float, currentMidpointY: Float) {
+        val dx = currentMidpointX - previousMidpointX
+        val dy = currentMidpointY - previousMidpointY
+        previousMidpointX = currentMidpointX
+        previousMidpointY = currentMidpointY
+
+        if (!isPanActive) {
+            accumulatedPanX += dx
+            accumulatedPanY += dy
+            val totalDrift = sqrt(accumulatedPanX * accumulatedPanX + accumulatedPanY * accumulatedPanY)
+            if (totalDrift < PAN_DEAD_ZONE) {
+                return
+            }
+            isPanActive = true
+            listener.onPan(accumulatedPanX, accumulatedPanY)
+        } else {
+            listener.onPan(dx, dy)
+        }
+    }
+
+    private fun handlePointerUp(currentDistance: Float, currentAngle: Float): Boolean {
+        if (isTransforming && initialDistance > 0) {
+            val finalScaleFactor = currentDistance / initialDistance
+            cumulativeScale = (cumulativeScale * finalScaleFactor).coerceIn(MIN_SCALE, MAX_SCALE)
+
+            if (isRotationActive) {
+                val finalAngleDelta = normalizeAngle(currentAngle - initialAngle)
+                cumulativeRotation += finalAngleDelta
+            }
+        }
+        isTransforming = false
+        isRotationActive = false
+        isPanActive = false
+        return true
+    }
+
     private fun getSnappedAngle(angle: Float): Float {
-        val normalizedRotation = (angle % 360 + 360) % 360
-        val snapAngles = floatArrayOf(0f, 90f, 180f, 270f, 360f)
-        for (snapAngle in snapAngles) {
-            if (Math.abs(normalizedRotation - snapAngle) < SNAP_ANGLE_THRESHOLD) {
+        val normalizedRotation = (angle % FULL_CIRCLE + FULL_CIRCLE) % FULL_CIRCLE
+        for (snapAngle in SNAP_ANGLES) {
+            if (abs(normalizedRotation - snapAngle) < SNAP_ANGLE_THRESHOLD) {
                 return snapAngle
             }
         }
@@ -149,6 +213,10 @@ class ResizeRotateGestureDetector(private val listener: OnTransformGestureListen
         private const val FULL_CIRCLE = 360f
         private const val SNAP_VELOCITY_THRESHOLD = 1.5f // degrees per ms
         private const val SNAP_ANGLE_THRESHOLD = 10f // degrees
+        private const val ROTATION_DEAD_ZONE = 5f // degrees threshold before rotation activates
+        private const val PAN_DEAD_ZONE = 10f // pixels threshold before pan activates
+
+        private val SNAP_ANGLES = floatArrayOf(0f, 90f, 180f, 270f, FULL_CIRCLE)
 
         /**
          * Wraps an angle delta into the [-180, 180] range so that

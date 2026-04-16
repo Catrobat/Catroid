@@ -144,19 +144,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			case R.id.confirm:
-				finishWithResult();
-				break;
-			case R.id.reset:
-				resetTransformations();
-				break;
-			case R.id.rotate_90:
-				rotateBy90Degrees();
-				break;
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			onBackPressed();
+		} else if (itemId == R.id.confirm) {
+			finishWithResult();
+		} else if (itemId == R.id.reset) {
+			resetTransformations();
+		} else if (itemId == R.id.rotate_90) {
+			rotateBy90Degrees();
 		}
 		return true;
 	}
