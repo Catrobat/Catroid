@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
 import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArcBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
@@ -120,6 +121,7 @@ import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoThroughBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
@@ -413,6 +415,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", EmptyScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
+		xstream.alias("brick", ArcBrick.class);
 		xstream.alias("brick", AskBrick.class);
 		xstream.alias("brick", AskSpeechBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -472,6 +475,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", PenDownBrick.class);
 		xstream.alias("brick", PenUpBrick.class);
 		xstream.alias("brick", PlaceAtBrick.class);
+		xstream.alias("brick", GoThroughBrick.class);
 		xstream.alias("brick", GoToBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArcBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
@@ -76,8 +77,6 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
-import org.catrobat.catroid.content.bricks.EmbroideryArcBrick;
-import org.catrobat.catroid.content.bricks.EmbroideryThroughBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
@@ -87,6 +86,7 @@ import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoThroughBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
@@ -105,8 +105,6 @@ import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
-import org.catrobat.catroid.content.bricks.LaserArcBrick;
-import org.catrobat.catroid.content.bricks.LaserThroughBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -139,8 +137,6 @@ import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.PlotArcBrick;
-import org.catrobat.catroid.content.bricks.PlotThroughBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
@@ -284,6 +280,8 @@ public class BrickCategoryTest {
 						TurnRightBrick.class,
 						PointInDirectionBrick.class,
 						PointToBrick.class,
+						ArcBrick.class,
+						GoThroughBrick.class,
 						SetRotationStyleBrick.class,
 						GlideToBrick.class,
 						GoNStepsBackBrick.class,
@@ -308,22 +306,49 @@ public class BrickCategoryTest {
 						SewUpBrick.class,
 						StopRunningStitchBrick.class,
 						WriteEmbroideryToFileBrick.class,
-						EmbroideryArcBrick.class,
-						EmbroideryThroughBrick.class)},
+						PlaceAtBrick.class,
+						SetXBrick.class,
+						SetYBrick.class,
+						ChangeXByNBrick.class,
+						ChangeYByNBrick.class,
+						MoveNStepsBrick.class,
+						TurnLeftBrick.class,
+						TurnRightBrick.class,
+						PointInDirectionBrick.class,
+						ArcBrick.class,
+						GoThroughBrick.class)},
 				{"Laser Cutter", Arrays.asList(StartEngraveBrick.class,
 						StopEngraveBrick.class,
 						StartCutBrick.class,
 						StopCutBrick.class,
 						SaveLaserBrick.class,
 						ShareLaserBrick.class,
-						LaserArcBrick.class,
-						LaserThroughBrick.class)},
+						PlaceAtBrick.class,
+						SetXBrick.class,
+						SetYBrick.class,
+						ChangeXByNBrick.class,
+						ChangeYByNBrick.class,
+						MoveNStepsBrick.class,
+						TurnLeftBrick.class,
+						TurnRightBrick.class,
+						PointInDirectionBrick.class,
+						ArcBrick.class,
+						GoThroughBrick.class)},
 				{"Plot", Arrays.asList(StartPlotBrick.class,
 						StopPlotBrick.class,
 						SavePlotBrick.class,
 						SharePlotBrick.class,
-						PlotArcBrick.class,
-						PlotThroughBrick.class)},
+						PlaceAtBrick.class,
+						SetXBrick.class,
+						SetYBrick.class,
+						ChangeXByNBrick.class,
+						ChangeYByNBrick.class,
+						MoveNStepsBrick.class,
+						TurnLeftBrick.class,
+						TurnRightBrick.class,
+						PointInDirectionBrick.class,
+						ArcBrick.class,
+						GoThroughBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,

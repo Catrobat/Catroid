@@ -40,6 +40,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -242,6 +243,7 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList(Build.VERSION.SDK_INT))) {
 			if (stageActivity.brickDialogManager != null) {
 				stageActivity.brickDialogManager.dismissAllDialogs();
@@ -262,6 +264,18 @@ public final class StageLifeCycleController {
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
 		}
+		resetProjectDrawingState(project);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+	}
+
+	static void resetProjectDrawingState(Project project) {
+		if (project == null) {
+			return;
+		}
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.resetDrawingState();
+			}
+		}
 	}
 }
