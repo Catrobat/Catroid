@@ -138,6 +138,7 @@ class SensorLoudness {
         private const val SCALE_RANGE = 100.0
         private const val MAX_AMP_VALUE = 32_767.0
         private const val TAG = "SensorLoudness"
+        private const val LOUDNESS_SENSOR_RECORDING_FILE_NAME_PREFIX = "loudness_sensor"
 
         private fun defaultSoundRecorderFactory(path: String): SoundRecorder = SoundRecorder(path)
 
@@ -154,7 +155,5 @@ class SensorLoudness {
                 "${LOUDNESS_SENSOR_RECORDING_FILE_NAME_PREFIX}_${System.nanoTime()}.m4a"
             ).absolutePath
         }
-
-        private const val LOUDNESS_SENSOR_RECORDING_FILE_NAME_PREFIX = "loudness_sensor"
     }
 }
