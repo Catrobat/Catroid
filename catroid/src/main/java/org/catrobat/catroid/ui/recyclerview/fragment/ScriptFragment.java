@@ -963,7 +963,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		this.savedUserLists = entry.variableSnapshot.savedUserLists;
 		this.savedLocalUserVariables = entry.variableSnapshot.savedLocalUserVariables;
 		this.savedLocalLists = entry.variableSnapshot.savedLocalLists;
-
 		new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 	}
 
