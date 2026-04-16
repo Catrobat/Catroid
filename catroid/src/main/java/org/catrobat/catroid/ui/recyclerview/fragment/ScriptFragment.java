@@ -703,8 +703,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			items.add(R.string.brick_context_dialog_move_script);
 
 			items.add(brick.getScript().isCollapsed()
-				? R.string.brick_context_dialog_expand_script
-				: R.string.brick_context_dialog_collapse_script);
+					? R.string.brick_context_dialog_expand_script
+					: R.string.brick_context_dialog_collapse_script);
 
 			items.add(R.string.brick_context_dialog_help);
 		} else {
@@ -727,8 +727,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 			if (brick instanceof CompositeBrick) {
 				items.add(((BrickBaseType) brick).isCollapsed()
-					? R.string.brick_context_dialog_expand_brick
-					: R.string.brick_context_dialog_collapse_brick);
+						? R.string.brick_context_dialog_expand_brick
+						: R.string.brick_context_dialog_collapse_brick);
 			}
 
 			if (brick.hasHelpPage()) {

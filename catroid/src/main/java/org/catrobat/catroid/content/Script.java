@@ -159,6 +159,10 @@ public abstract class Script implements Serializable, Cloneable {
 			for (Brick brick : brickList) {
 				brick.addToFlatList(bricks);
 			}
+		} else {
+			for (int i = 0; i < Math.min(3, brickList.size()); i++) {
+				bricks.add(brickList.get(i));
+			}
 		}
 	}
 
