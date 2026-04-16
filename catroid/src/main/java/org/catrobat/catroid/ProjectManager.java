@@ -68,6 +68,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -84,7 +86,7 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
-	private HashMap<String, Boolean> downloadedProjects;
+	private ConcurrentHashMap<String, Boolean> downloadedProjects;
 	private final String downloadedProjectsName = "downloaded_projects";
 
 	private Context applicationContext;
@@ -650,7 +652,11 @@ public final class ProjectManager {
 
 	public void addNewDownloadedProject(String projectName) {
 		Boolean flag = downloadedProjects.get(projectName);
+		for (Map.Entry entry : downloadedProjects.entrySet()) {
+			Log.e("peter", "ˇ321projectName:" + entry.getKey());
+		}
 		if (flag == null || flag) {
+			Log.e("peter", "projectName:" + projectName);
 			downloadedProjects.put(projectName, false);
 			saveDownloadedProjects();
 		}
@@ -699,14 +705,17 @@ public final class ProjectManager {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 		Gson gson = new Gson();
 		String json = null;
+
 		if (sharedPreferences != null) {
 			json = sharedPreferences.getString(downloadedProjectsName, null);
+			Log.e("peter", "json:" + json);
 			if (json != null) {
 				Type type = new TypeToken<HashMap<String, Boolean>>() {
 				}.getType();
-				downloadedProjects = gson.fromJson(json, type);
+				HashMap<String, Boolean> tempMap = gson.fromJson(json, type);
+				downloadedProjects = new ConcurrentHashMap<>(tempMap);
 			} else {
-				downloadedProjects = new HashMap<>();
+				downloadedProjects = new ConcurrentHashMap<>();
 			}
 		}
 	}

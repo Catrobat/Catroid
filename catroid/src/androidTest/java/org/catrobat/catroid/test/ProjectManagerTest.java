@@ -27,11 +27,13 @@ import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.UiTestCatroidApplication;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.io.asynctask.ProjectCopier;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -45,6 +47,8 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -177,5 +181,27 @@ public class ProjectManagerTest {
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
+	}
+
+	@Test
+	public void testCopyProjectConcurrentModificationException() throws IOException {
+		List<Project> testProjectList = new ArrayList<>();
+		for (int i = 0; i < 30; i++) {
+			String projectName = "test:" + i;
+			Project project = DefaultProjectHandler.createAndSaveEmptyProject(projectName,
+					ApplicationProvider.getApplicationContext(), false, false);
+
+			testProjectList.add(project);
+		}
+		projectManager.loadDownloadedProjects();
+		for (int j = 0; j < testProjectList.size(); j++) {
+			Project projectData = testProjectList.get(j);
+			String uniqueName = projectData.getName() + j;
+
+			ProjectCopier projectCopier = new ProjectCopier(projectData.getDirectory(), uniqueName);
+			projectCopier.copyProjectAsync(success -> {
+				return kotlin.Unit.INSTANCE;
+			});
+		}
 	}
 }
