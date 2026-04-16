@@ -40,6 +40,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
@@ -58,6 +59,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
 import androidx.core.graphics.toColorInt
+import androidx.core.view.WindowCompat
 import kotlin.math.roundToInt
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -68,6 +70,7 @@ import org.catrobat.catroid.content.Look.ROTATION_STYLE_ALL_AROUND
 import org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY
 import org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE
 import org.catrobat.catroid.ui.BaseCastActivity
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT
@@ -156,6 +159,7 @@ class VisualPlacementActivity :
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (isFinishing) return
 
@@ -166,6 +170,7 @@ class VisualPlacementActivity :
         }
 
         setContentView(R.layout.visual_placement_layout)
+        hideSystemUI()
 
         val extras = intent.extras ?: run {
             finish()
@@ -194,6 +199,7 @@ class VisualPlacementActivity :
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.brick_option_place_visually)
         }
+        EdgeToEdge.applyTopPadding(toolbar)
 
         requestedOrientation = if (projectManager.isCurrentProjectLandscapeMode()) {
             SCREEN_ORIENTATION_LANDSCAPE
@@ -208,11 +214,12 @@ class VisualPlacementActivity :
             currentProject.xmlHeader.virtualScreenWidth,
             currentProject.xmlHeader.virtualScreenHeight
         )
+        val fullscreenWindowResolution = getFullscreenWindowResolution(projectResolution)
 
         layoutResolution = when (currentProject.screenMode) {
-            ScreenModes.MAXIMIZE -> projectResolution.resizeToFit(ScreenValues.currentScreenResolution)
-            ScreenModes.STRETCH -> ScreenValues.currentScreenResolution
-            else -> projectResolution.resizeToFit(ScreenValues.currentScreenResolution)
+            ScreenModes.MAXIMIZE -> projectResolution.resizeToFit(fullscreenWindowResolution)
+            ScreenModes.STRETCH -> fullscreenWindowResolution
+            else -> projectResolution.resizeToFit(fullscreenWindowResolution)
         }
 
         frameLayout.layoutParams = LinearLayout.LayoutParams(
@@ -399,11 +406,29 @@ class VisualPlacementActivity :
         } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or
                 View.SYSTEM_UI_FLAG_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
         }
+    }
+
+    private fun getFullscreenWindowResolution(projectResolution: Resolution): Resolution {
+        val fullscreenResolution = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val bounds = windowManager.currentWindowMetrics.bounds
+            Resolution(bounds.width(), bounds.height())
+        } else {
+            val displayMetrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+            Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        }
+
+        return fullscreenResolution.flipToFit(projectResolution)
     }
 
     @Suppress("OVERRIDE_DEPRECATION")
