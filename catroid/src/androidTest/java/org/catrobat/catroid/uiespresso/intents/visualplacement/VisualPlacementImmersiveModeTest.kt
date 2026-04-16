@@ -25,14 +25,20 @@ package org.catrobat.catroid.uiespresso.intents.visualplacement
 
 import android.content.Intent
 import android.os.Build
+import android.util.DisplayMetrics
 import android.view.View
+import android.widget.FrameLayout
 import android.view.WindowInsetsController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.ScreenModes
+import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
+import org.catrobat.catroid.utils.Resolution
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -60,6 +66,8 @@ class VisualPlacementImmersiveModeTest {
         UiTestUtils.createProjectAndGetStartScript(
             VisualPlacementImmersiveModeTest::class.java.simpleName
         )
+        ProjectManager.getInstance().currentProject.setScreenMode(ScreenModes.STRETCH)
+        ScreenValues.currentScreenResolution = createStaleScreenResolution()
         val launchIntent = Intent(
             InstrumentationRegistry.getInstrumentation().targetContext,
             VisualPlacementActivity::class.java
@@ -128,5 +136,57 @@ class VisualPlacementImmersiveModeTest {
                 )
             }
         }
+    }
+
+    @Test
+    fun testUsesFullscreenWindowBoundsEvenWhenCachedScreenResolutionIsSmaller() {
+        scenario.onActivity { activity ->
+            val projectResolution = Resolution(
+                ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenWidth,
+                ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenHeight
+            )
+            val expectedWindowResolution = getFullscreenWindowResolution(activity, projectResolution)
+            val frameLayout = activity.findViewById<FrameLayout>(org.catrobat.catroid.R.id.frame_container)
+
+            assertEquals(
+                "Visual placement must use the fullscreen window width instead of stale cached screen metrics (CATROID-1648)",
+                expectedWindowResolution.width,
+                frameLayout.layoutParams.width
+            )
+            assertEquals(
+                "Visual placement must use the fullscreen window height instead of stale cached screen metrics (CATROID-1648)",
+                expectedWindowResolution.height,
+                frameLayout.layoutParams.height
+            )
+        }
+    }
+
+    private fun createStaleScreenResolution(): Resolution {
+        val displayMetrics = InstrumentationRegistry.getInstrumentation().targetContext.resources.displayMetrics
+        return Resolution(
+            displayMetrics.widthPixels,
+            (displayMetrics.heightPixels - STALE_SCREEN_HEIGHT_DELTA).coerceAtLeast(1)
+        )
+    }
+
+    private fun getFullscreenWindowResolution(
+        activity: VisualPlacementActivity,
+        projectResolution: Resolution
+    ): Resolution {
+        val fullscreenResolution = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val bounds = activity.windowManager.currentWindowMetrics.bounds
+            Resolution(bounds.width(), bounds.height())
+        } else {
+            val displayMetrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            activity.windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+            Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        }
+
+        return fullscreenResolution.flipToFit(projectResolution)
+    }
+
+    companion object {
+        private const val STALE_SCREEN_HEIGHT_DELTA = 120
     }
 }
