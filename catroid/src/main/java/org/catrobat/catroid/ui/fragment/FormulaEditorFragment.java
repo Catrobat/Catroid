@@ -932,7 +932,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
-		if (hasFileChanged() || fragment.checkVariables()) {
+		if (hasFileChanged() || (fragment != null && fragment.checkVariables())) {
 			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
 		}
 	}
