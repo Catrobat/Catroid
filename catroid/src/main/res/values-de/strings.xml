@@ -326,7 +326,7 @@
         Wenn du dich damit jedoch nicht wohl fühlen, kannst du unsere kostenlosen Web-Services nutzen unter</string>
     <string formatted="false" name="wtf_error">Unvorhergesehener Fehler aufgetreten: Default Projekt konnte NICHT wiederhergestellt werden.</string>
     <!-- Project Handling Errors -->
-    <string formatted="false" name="error_copy_project">Fehler beim Kopieren des Projekts aufgetreten</string>
+    <string formatted="false" name="error_copy_project">Fehler beim kopiert des Projekts aufgetreten</string>
     <!-- Dialog Errors -->
     <string formatted="false" name="name_already_exists">Dieser Name ist bereits vergeben. Bitte versuche es mit einem anderen.</string>
     <string formatted="false" name="name_consists_of_spaces_only">Der Text besteht nur aus Leerzeichen. Bitte verwende Buchstaben, Zahlen und anderen Sonderzeichen.</string>
@@ -337,7 +337,7 @@
     <string formatted="false" name="am_merge_error">Es wird keine Zusammenlegung durchgeführt. Es müssen genau 2 Projekte ausgewählt werden, welche zusammengeführt werden sollen.</string>
     <string formatted="false" name="am_backpack">Einpacken</string>
     <string formatted="false" name="am_unpack">Auspacken</string>
-    <string formatted="false" name="am_copy">Kopieren</string>
+    <string formatted="false" name="am_copy">kopiert</string>
     <string formatted="false" name="am_delete">Löschen</string>
     <string formatted="false" name="am_rename">Umbenennen</string>
     <string formatted="false" name="am_convert">Konvertieren</string>
@@ -346,7 +346,7 @@
     <string formatted="false" name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string formatted="false" name="backpack">Rucksack</string>
-    <string formatted="false" name="copy">Kopieren</string>
+    <string formatted="false" name="copy">kopiert</string>
     <string formatted="false" name="delete">Löschen</string>
     <string formatted="false" name="rename">Umbenennen</string>
     <string formatted="false" name="merge">Zusammenführen</string>
@@ -701,8 +701,8 @@
     <string formatted="false" name="brick_context_dialog_move_script">Skript bewegen</string>
     <string formatted="false" name="brick_context_dialog_move_definition">Verschiebe diese Definition</string>
     <string formatted="false" name="brick_context_dialog_delete_brick">Baustein löschen</string>
-    <string formatted="false" name="brick_context_dialog_copy_brick">Baustein kopieren</string>
-    <string formatted="false" name="brick_context_dialog_copy_script">Skript kopieren</string>
+    <string formatted="false" name="brick_context_dialog_copy_brick">Baustein kopiert</string>
+    <string formatted="false" name="brick_context_dialog_copy_script">Skript kopiert</string>
     <string formatted="false" name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string formatted="false" name="brick_context_dialog_delete_script">Skript löschen</string>
     <string formatted="false" name="brick_context_dialog_delete_definition">Lösche diese Definition</string>
@@ -942,9 +942,9 @@
     <string formatted="false" name="brick_paint_new_look">Neuen Look malen</string>
     <string formatted="false" name="brick_paint_new_background">Neuen Hintergrund malen</string>
     <string formatted="false" name="brick_paint_new_look_name">"Name des neuen Look"</string>
-    <string formatted="false" name="brick_copy_look">Look kopieren und Namen geben</string>
+    <string formatted="false" name="brick_copy_look">Look kopiert und Namen geben</string>
     <string formatted="false" name="brick_copy_look_name">Name des kopierten Look</string>
-    <string formatted="false" name="brick_copy_background">Hintergrund kopieren und benennen</string>
+    <string formatted="false" name="brick_copy_background">Hintergrund kopiert und benennen</string>
     <string formatted="false" name="brick_focus_point">Fokuspunkt werden mit</string>
     <string formatted="false" name="brick_horizontal_and">horizontal und</string>
     <string formatted="false" name="brick_vertical_flex">vertikale Flexibilität</string>
@@ -1288,7 +1288,7 @@
     <string formatted="false" name="error_upload_default_project">Du kannst kein unverändertes Beispiel Projekt hochladen. Bitte
         ändere etwas und versuche es dann nochmals.</string>
     <string formatted="false" name="error_adding_brick">Beim Hinzufügen des Bausteins ist ein Fehler aufgetreten</string>
-    <string formatted="false" name="error_copying_brick">Beim Kopieren des Blocks ist ein Fehler aufgetreten</string>
+    <string formatted="false" name="error_copying_brick">Beim kopiert des Blocks ist ein Fehler aufgetreten</string>
     <string formatted="false" name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
     <string formatted="false" name="error_embroidery_file_export">Während dem Teilen der Stickdatei ist etwas schief gelaufen.</string>
     <string formatted="false" name="error_embroidery_file_write">Beim Schreiben der Stickdatei ist ein Fehler aufgetreten.</string>
