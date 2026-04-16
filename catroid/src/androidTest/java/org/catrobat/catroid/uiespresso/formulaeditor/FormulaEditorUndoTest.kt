@@ -335,7 +335,11 @@ class FormulaEditorUndoTest {
             .check(matches(isDisplayed()))
 
         assertEquals(ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME), userVariable)
-        assertEquals(ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME).value, NEW_VARIABLE_VALUE)
+        assertEquals(
+            (ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME).value as Number).toDouble(),
+            NEW_VARIABLE_VALUE.toDouble(),
+            0.001
+        )
 
         onView(withId(R.id.menu_undo))
             .perform(click())
@@ -343,7 +347,11 @@ class FormulaEditorUndoTest {
             .check(doesNotExist())
 
         assertEquals(ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME), userVariable)
-        assertEquals(ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME).value, VARIABLE_VALUE)
+        assertEquals(
+            (ProjectManager.getInstance().currentProject.getUserVariable(VARIABLE_NAME).value as Number).toDouble(),
+            VARIABLE_VALUE.toDouble(),
+            0.001
+        )
     }
 
     @Category(Cat.AppUi::class, Level.Smoke::class)

@@ -61,6 +61,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
+import org.catrobat.catroid.utils.ShowTextUtils
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
@@ -482,26 +483,27 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_value))
-            .setText((item as UserData<*>).value?.toString() ?: "")
+            .setText(ShowTextUtils.convertObjectToString(item.value))
             .setPositiveButton(getString(R.string.save)) { _: DialogInterface?, textInput: String? ->
                 editItem(item, textInput)
             }
-        builder.setTitle(getString(R.string.edit) + " " + item.name)
+        builder.setTitle(getString(R.string.edit_data_dialog_title, item.name))
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
     private fun editItem(item: T, value: String?) {
+        val trimmedValue = value?.trim()
         if (item is UserVariable) {
             val parsedValue: Any? = try {
-                value?.toDouble()
+                trimmedValue?.toDouble()
             } catch (e: NumberFormatException) {
-                value
+                trimmedValue
             }
             @Suppress("UNCHECKED_CAST")
             (item as UserVariable).value = parsedValue
         } else {
-            updateUserVariableValue(value, item)
+            updateUserVariableValue(trimmedValue, item)
         }
         adapter?.updateDataSet()
         finishActionMode()
