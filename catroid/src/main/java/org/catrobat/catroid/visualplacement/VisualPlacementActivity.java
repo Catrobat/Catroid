@@ -208,6 +208,38 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			finish();
 			return;
 		}
+
+		parseIntentExtras(extras);
+		setupToolbar();
+		setupOrientation();
+		ScreenValueHandler.updateScreenWidthAndHeight(this);
+
+		resizeRotateDetector = createResizeRotateDetector();
+		visualPlacementTouchListener = new VisualPlacementTouchListener();
+		visualPlacementTouchListener.setResizeRotateDetector(resizeRotateDetector);
+
+		frameLayout = findViewById(R.id.frame_container);
+		setupLayout(currentProject);
+
+		bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+		setBackground();
+		showMovableImageView();
+
+		boundingBoxOverlay = new BoundingBoxOverlay(this);
+		boundingBoxOverlay.setTrackedImageView(imageView);
+		frameLayout.addView(boundingBoxOverlay,
+				new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.MATCH_PARENT));
+
+		visualPlacementTouchListener.setBoundingBoxOverlay(boundingBoxOverlay);
+
+		findViewById(R.id.transparent_toolbar).bringToFront();
+		frameLayout.setOnTouchListener(this);
+	}
+
+	private void parseIntentExtras(Bundle extras) {
 		translateX = extras.getInt(EXTRA_X_TRANSFORM);
 		translateY = extras.getInt(EXTRA_Y_TRANSFORM);
 		if (extras.containsKey(EXTRA_TEXT)) {
@@ -222,20 +254,25 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			}
 			xOffsetText = -DEFAULT_X_OFFSET;
 		}
+	}
 
+	private void setupToolbar() {
 		Toolbar toolbar = findViewById(R.id.transparent_toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.brick_option_place_visually);
+	}
 
+	private void setupOrientation() {
 		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 		}
-		ScreenValueHandler.updateScreenWidthAndHeight(this);
+	}
 
-		resizeRotateDetector = new ResizeRotateGestureDetector(new ResizeRotateGestureDetector.OnTransformGestureListener() {
+	private ResizeRotateGestureDetector createResizeRotateDetector() {
+		return new ResizeRotateGestureDetector(new ResizeRotateGestureDetector.OnTransformGestureListener() {
 			@Override
 			public void onScale(float scale) {
 				scaleFactor = scale;
@@ -263,12 +300,9 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				}
 			}
 		});
+	}
 
-		visualPlacementTouchListener = new VisualPlacementTouchListener();
-		visualPlacementTouchListener.setResizeRotateDetector(resizeRotateDetector);
-
-		frameLayout = findViewById(R.id.frame_container);
-
+	private void setupLayout(Project currentProject) {
 		Resolution projectResolution = new Resolution(
 				currentProject.getXmlHeader().virtualScreenWidth,
 				currentProject.getXmlHeader().virtualScreenHeight);
@@ -290,23 +324,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		layoutHeightRatio = (float) layoutResolution.getHeight() / (float) projectResolution.getHeight();
 		layoutWidthRatio = (float) layoutResolution.getWidth() / (float) projectResolution.getWidth();
-
-		bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-		setBackground();
-		showMovableImageView();
-
-		boundingBoxOverlay = new BoundingBoxOverlay(this);
-		boundingBoxOverlay.setTrackedImageView(imageView);
-		frameLayout.addView(boundingBoxOverlay,
-				new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-						ViewGroup.LayoutParams.MATCH_PARENT));
-
-		visualPlacementTouchListener.setBoundingBoxOverlay(boundingBoxOverlay);
-
-		toolbar.bringToFront();
-		frameLayout.setOnTouchListener(this);
 	}
 
 	private void setBackground() {
