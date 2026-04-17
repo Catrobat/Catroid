@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog
 
+import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
@@ -50,7 +51,7 @@ import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
-import org.catrobat.catroid.utils.idlingresources.EspressoIdlingResource
+import org.catrobat.catroid.uiespresso.util.idlingresources.ViewVisibilityIdlingResource
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -81,10 +82,12 @@ class ImportLocalSpriteTest {
         ProjectListActivity::class.java, true, false
     )
 
+    private val progressIdlingResource = ViewVisibilityIdlingResource(R.id.progress_bar, View.GONE)
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+        IdlingRegistry.getInstance().register(progressIdlingResource)
         createTestProjects()
         activityTestRule.launchActivity(null)
     }
@@ -92,7 +95,7 @@ class ImportLocalSpriteTest {
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+        IdlingRegistry.getInstance().unregister(progressIdlingResource)
         TestUtils.deleteProjects(projectToImportFrom.name)
         TestUtils.deleteProjects(projectWithSameGlobals.name)
         TestUtils.deleteProjects(projectWithConflicts.name)
@@ -203,7 +206,6 @@ class ImportLocalSpriteTest {
         onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(R.string.ok)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText("cat")).check(matches(isDisplayed()))
         onView(withText("dog")).check(matches(isDisplayed()))
 

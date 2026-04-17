@@ -70,7 +70,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectio
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.utils.idlingresources.EspressoIdlingResource
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
@@ -154,7 +153,6 @@ class ProjectListFragment(
         if (actionModeType != IMPORT_LOCAL) {
             projectManager.currentProject = null
         }
-        EspressoIdlingResource.increment()
 
         if (adapter != null) {
             setAdapterItems(adapter.projectsSorted)
@@ -168,7 +166,6 @@ class ProjectListFragment(
                     checkForEmptyList()
                     setShowProgressBar(false)
                 }
-                EspressoIdlingResource.decrement()
             }
         })
 
@@ -177,8 +174,6 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
-        EspressoIdlingResource.increment()
-
         getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 sharedPreferenceDetailsKey =
@@ -189,7 +184,6 @@ class ProjectListFragment(
                 }
 
                 onAdapterReady()
-                EspressoIdlingResource.decrement()
             }
         })
     }
@@ -450,7 +444,6 @@ class ProjectListFragment(
             setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_load_project)
         }
-        EspressoIdlingResource.decrement()
     }
 
     private fun onCopyProjectComplete(success: Boolean) {
@@ -474,7 +467,6 @@ class ProjectListFragment(
             }
             NONE -> {
                 setShowProgressBar(true)
-                EspressoIdlingResource.increment()
                 val directoryFile = item?.directory ?: return
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
