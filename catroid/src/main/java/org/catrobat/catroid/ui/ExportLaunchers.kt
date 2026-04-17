@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,8 @@ class ExportEmbroideryFileLauncher(
 ) : ExportLauncher {
 
     override fun startActivity() {
-        val fileUri = FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
+        val fileUri =
+            FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
@@ -49,5 +50,30 @@ class ExportEmbroideryFileLauncher(
         chooserIntent.putExtra(Intent.EXTRA_TITLE, "Share embroidery file")
 
         activity.startActivity(chooserIntent)
+    }
+}
+
+class ExportSVGFileLauncher(
+    private val activity: StageActivity,
+    private val file: File
+) : ExportLauncher {
+
+    fun getIntent(): Intent {
+        val fileUri =
+            FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, file.name)
+
+        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, shareIntent)
+        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Share SVG file")
+        return chooserIntent
+    }
+
+    override fun startActivity() {
+
+        activity.startActivity(getIntent())
     }
 }

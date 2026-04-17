@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -87,15 +87,15 @@ class AppStoreDialogFragment : DialogFragment() {
     private fun getCorrectUrl(): String {
         return if (android.os.Build.BRAND != Constants.DEVICE_BRAND_HUAWEI) {
             when (extension) {
-                Extension.LEGO_NXT_EV3 -> Constants.PREFRENCE_PLAYSTORE_MINDSTORMS_URL
-                Extension.EMBROIDERY -> Constants.PREFRENCE_PLAYSTORE_EMBROIDERY_URL
-                Extension.PHIRO -> Constants.PREFRENCE_PLAYSTORE_PHIRO_URL
+                Extension.LEGO_NXT_EV3 -> Constants.PREFERENCE_PLAYSTORE_MINDSTORMS_URL
+                Extension.EMBROIDERY -> Constants.PREFERENCE_PLAYSTORE_EMBROIDERY_URL
+                Extension.PHIRO -> Constants.PREFERENCE_PLAYSTORE_PHIRO_URL
             }
         } else {
             when (extension) {
-                Extension.LEGO_NXT_EV3 -> Constants.PREFRENCE_APPGALLERY_MINDSTORMS_URL
-                Extension.EMBROIDERY -> Constants.PREFRENCE_APPGALLERY_EMBROIDERY_URL
-                Extension.PHIRO -> Constants.PREFRENCE_APPGALLERY_PHIRO_URL
+                Extension.LEGO_NXT_EV3 -> Constants.PREFERENCE_APPGALLERY_MINDSTORMS_URL
+                Extension.EMBROIDERY -> Constants.PREFERENCE_APPGALLERY_EMBROIDERY_URL
+                Extension.PHIRO -> Constants.PREFERENCE_APPGALLERY_PHIRO_URL
             }
         }
     }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.uiespresso.pocketmusic;
 
 import android.content.Intent;
@@ -117,7 +118,11 @@ public class PocketMusicActivityTest {
 			public String getDescription() {
 				String description;
 				if (row < TrackView.ROW_COUNT && col < TrackRowView.INITIAL_QUARTER_COUNT) {
-					description = String.format(Locale.getDefault(), "Toggle note at row %d, and columnt %d", row, col);
+					description = String.format(
+							Locale.getDefault(),
+							"Toggle note at row %d, and column %d",
+							row,
+							col);
 				} else {
 					description = "Do not toggle note because the index is out of bounds";
 				}

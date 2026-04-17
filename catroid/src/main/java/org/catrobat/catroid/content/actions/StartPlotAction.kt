@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,16 +30,17 @@ class StartPlotAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        if (sprite!!.plot.isPlotting())
+        val sprite = this.sprite ?: return
+        if (sprite.plot.isPlotting())
             return
 
-        sprite!!.plot.startNewPlotLine(
+        sprite.plot.startNewPlotLine(
             PointF(
-                sprite!!.look.xInUserInterfaceDimensionUnit,
-                sprite!!.look.yInUserInterfaceDimensionUnit
+                sprite.look.xInUserInterfaceDimensionUnit,
+                sprite.look.yInUserInterfaceDimensionUnit
             )
         )
-        sprite!!.plot.resume()
+        sprite.plot.resumePlot()
     }
 
     fun setSprite(sprite: Sprite?) {

@@ -1,0 +1,124 @@
+# This file is a reusable workflow that can be reused to run a specific testsuite on an emulator
+name: Catroid Emulated Tests Workflow
+
+on:
+  workflow_call:
+    inputs:
+      gradle-test-config:
+        required: true
+        type: string
+      calling-job:
+        required: true
+        type: string
+
+env:
+  # Java version for the JDK setup
+  JAVA_VERSION: 21
+
+jobs:
+  emulated-tests:
+    name: Emulated Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      checks: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK
+        if: ${{ env.ACT }} # Only run on local act setups, as GitHub Actions provides the Android SDK on Ubuntu
+        uses: android-actions/setup-android@v3
+
+      - name: Install Emulator Dependencies
+        if: ${{ env.ACT }} # Only run on local act setups, as GitHub Actions provides the dependencies on Ubuntu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libx11-xcb1 \
+            libxcb-cursor0 \
+
+      - name: Enable KVM
+        if: ${{ env.ACT }} # Only run on local act setups, as normal KVM Setup doesn't work there
+        run: |
+          # 1. Create the kvm group
+          sudo groupadd -f kvm
+
+          # 2. Add current user to the group
+          sudo usermod -aG kvm $USER
+
+          # 3. Create the rule file (good for documentation, though it might not trigger)
+          sudo mkdir -p /etc/udev/rules.d/
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+
+          # 4. MANUALLY set permissions (This bypasses the need for udevadm reload)
+          if [ -e /dev/kvm ]; then
+          sudo chown root:kvm /dev/kvm
+          sudo chmod 0666 /dev/kvm
+          echo "Successfully set permissions for /dev/kvm"
+          else
+          echo "ERROR: /dev/kvm not found. Did you use the --device flag in act?"
+          exit 1
+          fi
+          #sudo udevadm control --reload-rules
+          #sudo udevadm trigger --name-match=kvm
+
+      - name: Enable KVM Github
+        if: ${{ !env.ACT }} # Only run on GitHub-hosted runners
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          force-avd-creation: true
+          emulator-boot-timeout: 900
+          emulator-options: >
+            -no-window
+            -camera-back emulated
+            -camera-front emulated
+            -no-boot-anim
+          arch: x86_64
+          script: |
+            # 1. Compile
+            ./gradlew compileCatroidDebugSources compileCatroidDebugAndroidTestSources
+
+            # 2. Standard Test-Run without Coverage
+            ./gradlew disableAnimations -PenableCoverage createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=${{ inputs.gradle-test-config }}
+          # | grep "There were failing tests."
+
+      - name: Upload Test Reports XML
+        uses: actions/upload-artifact@v4
+        if: always() # IMPORTANT: Upload reports regardless of status
+        with:
+          name: ${{ inputs.calling-job }}-test-report-xml
+          path: catroid/**/androidTest-results/**/TEST-*.xml
+
+      - name: Upload Test Reports Folder
+        uses: actions/upload-artifact@v4
+        if: always() # IMPORTANT: Upload reports regardless of status
+        with:
+          name: ${{ inputs.calling-job }}-test-report
+          path: catroid/build/reports/androidTests/connected/debug/flavors/catroid
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always() # IMPORTANT: Upload reports regardless of status
+        with:
+          name: ${{ inputs.calling-job }}-coverage-report
+          path: catroid/build/reports/coverage/androidTest/catroid/debug/connected

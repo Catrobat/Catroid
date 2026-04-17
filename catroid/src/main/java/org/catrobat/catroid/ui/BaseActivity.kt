@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui
 
 import android.annotation.SuppressLint
@@ -34,8 +35,10 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
@@ -52,7 +55,7 @@ internal const val RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH"
 abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     lateinit var optionsMenu: Menu
     private val permissionRequestActivityExtension = PermissionRequestActivityExtension()
-    private var savedInstanceStateExpected = false
+    protected var savedInstanceStateExpected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +68,19 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
 
         if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
             CastManager.getInstance().initializeCast(this)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        findViewById<Toolbar?>(R.id.toolbar)?.let {
+            EdgeToEdge.applyTopPadding(it)
+        }
+        findViewById<View?>(R.id.bottom_bar)?.let {
+            EdgeToEdge.applyBottomMargin(it)
+        }
+        findViewById<View?>(R.id.recycler_view)?.let {
+            EdgeToEdge.applyBottomPadding(it)
         }
     }
 

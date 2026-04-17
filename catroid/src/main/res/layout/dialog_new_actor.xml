@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -72,12 +72,12 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                 app:drawableTopCompat="@drawable/ic_gallery" />
 
             <TextView
-                android:id="@+id/dialog_new_look_object_library"
+                android:id="@+id/dialog_new_look_camera"
                 android:background="@drawable/new_object_dialog_selector"
                 android:gravity="center"
-                android:text="@string/add_look_object_library"
+                android:text="@string/add_look_from_camera"
                 android:textSize="?attr/medium"
-                app:drawableTopCompat="@drawable/ic_apps" />
+                app:drawableTopCompat="@drawable/ic_camera" />
         </TableRow>
 
         <TableRow
@@ -85,20 +85,20 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
             android:layout_height="match_parent">
 
              <TextView
-                 android:id="@+id/dialog_new_look_camera"
+                 android:id="@+id/dialog_new_look_backpack"
                  android:background="@drawable/new_object_dialog_selector"
                  android:gravity="center"
-                 android:text="@string/add_look_from_camera"
+                 android:text="@string/backpack"
                  android:textSize="?attr/medium"
-                 app:drawableTopCompat="@drawable/ic_camera" />
+                 app:drawableTopCompat="@drawable/ic_content_paste" />
 
             <TextView
-                android:id="@+id/dialog_new_look_backpack"
+                android:id="@+id/dialog_new_look_from_actors_and_objects"
                 android:background="@drawable/new_object_dialog_selector"
                 android:gravity="center"
-                android:text="@string/backpack"
+                android:text="@string/add_look_actors_and_object"
                 android:textSize="?attr/medium"
-                app:drawableTopCompat="@drawable/ic_content_paste" />
+                app:drawableTopCompat="@drawable/ic_library_add" />
         </TableRow>
 
         <TableRow
@@ -106,35 +106,21 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
             android:layout_height="match_parent">
 
              <TextView
-                 android:id="@+id/dialog_new_look_from_actors_and_objects"
+                 android:id="@+id/dialog_new_look_empty_object"
                  android:background="@drawable/new_object_dialog_selector"
                  android:gravity="center"
-                 android:text="@string/add_look_actors_and_object"
+                 android:text="@string/add_look_empty_object"
                  android:textSize="?attr/medium"
-                 app:drawableTopCompat="@drawable/ic_library_add" />
+                 app:drawableTopCompat="@drawable/ic_plus"
+                 app:drawableTint="@color/solid_white" />
 
             <TextView
-                android:id="@+id/dialog_new_look_empty_object"
+                android:id="@+id/dialog_new_look_from_local"
                 android:background="@drawable/new_object_dialog_selector"
                 android:gravity="center"
-                android:text="@string/add_look_empty_object"
+                android:text="@string/add_look_from_local_project"
                 android:textSize="?attr/medium"
-                app:drawableTopCompat="@drawable/ic_plus"
-                app:drawableTint="@color/solid_white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-             <TextView
-                 android:id="@+id/dialog_new_look_from_local"
-                 android:background="@drawable/new_object_dialog_selector"
-                 android:gravity="center"
-                 android:text="@string/add_look_from_local_project"
-                 android:textSize="?attr/medium"
-                 app:drawableTopCompat="@drawable/ic_library_add" />
-
+                app:drawableTopCompat="@drawable/ic_library_add" />
         </TableRow>
     </TableLayout>
 </ScrollView>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -73,14 +73,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 import static org.catrobat.catroid.ui.UiUtils.getAlertDialogAdapterForTextWithIcons;
 
-public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements
-		ActionMode.Callback,
-		RVAdapter.SelectionListener,
-		RVAdapter.OnItemClickListener<T> {
+public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements ActionMode.Callback, RVAdapter.SelectionListener, RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
 
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
@@ -258,16 +256,15 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		if (getActivity().isFinishing()) {
 			return;
 		}
+
 		initializeAdapter();
 	}
 
 	public void onAdapterReady() {
-		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 		recyclerView.setAdapter(adapter);
 
-		adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getBoolean(SORT_PROJECTS_PREFERENCE_KEY, false);
+		adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(SORT_PROJECTS_PREFERENCE_KEY, false);
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
@@ -276,6 +273,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		touchHelper = new ItemTouchHelper(callback);
 		touchHelper.attachToRecyclerView(recyclerView);
 
+		adapter.registerAdapterDataObserver(observer);
+		notifyDataSetChanged();
+		setShowEmptyView(shouldShowEmptyView());
 		setShowProgressBar(false);
 	}
 
@@ -285,14 +285,23 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 		BackpackListManager.getInstance().loadBackpack();
 
-		adapter.notifyDataSetChanged();
-		adapter.registerAdapterDataObserver(observer);
-		setShowEmptyView(shouldShowEmptyView());
+		if (adapter != null) {
+			notifyDataSetChanged();
+
+			try {
+				adapter.registerAdapterDataObserver(observer);
+			} catch (IllegalStateException exception) {
+				Log.d(TAG, "Observer is already registered");
+			}
+
+			setShowEmptyView(shouldShowEmptyView());
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
 		try {
 			adapter.unregisterAdapterDataObserver(observer);
 		} catch (IllegalStateException exception) {
@@ -313,13 +322,10 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		// necessary because of cast! blows up when activity is restored (CATROID-37)
 		// see BaseCastActivity
 		if (context != null && adapter != null) {
-			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-					context).getBoolean(sharedPreferenceDetailsKey, false);
+			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(sharedPreferenceDetailsKey, false);
 
 			if (menu.findItem(R.id.show_details) != null) {
-				menu.findItem(R.id.show_details).setTitle(adapter.showDetails
-						? R.string.hide_details
-						: R.string.show_details);
+				menu.findItem(R.id.show_details).setTitle(adapter.showDetails ? R.string.hide_details : R.string.show_details);
 			}
 		}
 	}
@@ -344,10 +350,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(getActivity())
-						.edit()
-						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
-						.apply();
+				PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:
@@ -360,12 +363,10 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		if (adapter.getItemCount() == itemCountThreshold) {
 			switch (type) {
 				case COPY:
-					copyItems(adapter.getItems()
-							.subList(itemCountThreshold - 1, adapter.getItemCount()));
+					copyItems(adapter.getItems().subList(itemCountThreshold - 1, adapter.getItemCount()));
 					break;
 				case DELETE:
-					deleteItems(adapter.getItems()
-							.subList(itemCountThreshold - 1, adapter.getItemCount()));
+					deleteItems(adapter.getItems().subList(itemCountThreshold - 1, adapter.getItemCount()));
 					break;
 				default:
 					break;
@@ -376,13 +377,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	private void prepareBackpackActionMode() {
-		if (adapter.getItemCount() == itemCountThreshold) {
-			packItems(adapter.getItems().subList(itemCountThreshold - 1, adapter.getItemCount()));
-			return;
-		}
-
 		if (isBackpackEmpty()) {
-			startActionMode(BACKPACK);
+			if (adapter.getItemCount() == itemCountThreshold) {
+				packItems(adapter.getItems().subList(itemCountThreshold - 1, adapter.getItemCount()));
+			} else {
+				startActionMode(BACKPACK);
+			}
 		} else if (adapter.getItems().isEmpty()) {
 			switchToBackpack();
 		} else {
@@ -483,38 +483,20 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected void showBackpackModeChooser() {
-		List<Pair<String, Integer>> items = Arrays.asList(
-				new Pair<>(getString(R.string.pack), R.drawable.ic_login),
-				new Pair<>(getString(R.string.unpack), R.drawable.ic_logout)
-		);
-
-		LayoutInflater inflater = LayoutInflater.from(requireContext());
-		View customDialogView = inflater.inflate(R.layout.dialog_backpack_custom_alert, null);
-		ListAdapter listAdapter = getAlertDialogAdapterForTextWithIcons(requireActivity(),
-				requireContext(), items);
-
-		AlertDialog dialog = new AlertDialog.Builder(requireContext())
-				.setView(customDialogView)
-				.create();
-		Objects.requireNonNull(dialog.getWindow())
-				.setBackgroundDrawableResource(R.drawable.backpack_background_round);
-
-		ListView listView = customDialogView.findViewById(R.id.backpack_item_list);
-		listView.setAdapter(listAdapter);
-		listView.setOnItemClickListener((parent, view, position, id) -> {
-			switch (position) {
+		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
+		new AlertDialog.Builder(requireContext()).setTitle(R.string.backpack_title).setItems(items, (dialog, which) -> {
+			switch (which) {
 				case 0:
-					startActionMode(BACKPACK);
+					if (adapter.getItemCount() == itemCountThreshold) {
+						packItems(adapter.getItems().subList(itemCountThreshold - 1, adapter.getItemCount()));
+					} else {
+						startActionMode(BACKPACK);
+					}
 					break;
 				case 1:
 					switchToBackpack();
-					break;
 			}
-
-			dialog.dismiss();
-		});
-
-		dialog.show();
+		}).show();
 	}
 
 	protected abstract void packItems(List<T> selectedItems);
@@ -527,35 +509,23 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract int getDeleteAlertTitleId();
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(requireContext())
-				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
-				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.delete, (dialog, id) -> deleteItems(selectedItems))
-				.setNegativeButton(R.string.cancel, null)
-				.setCancelable(false)
-				.show();
+		new AlertDialog.Builder(requireContext()).setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size())).setMessage(R.string.dialog_confirm_delete).setPositiveButton(R.string.delete, (dialog, id) -> deleteItems(selectedItems)).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
 	}
 
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected void showRenameDialog(T selectedItem) {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(requireContext());
-		builder.setHint(getString(getRenameDialogHint()))
-				.setText(selectedItem.getName())
-				.setTextWatcher(new DuplicateInputTextWatcher(adapter.getItems()))
-				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(selectedItem, textInput));
+		builder.setHint(getString(getRenameDialogHint())).setText(selectedItem.getName()).setTextWatcher(new DuplicateInputTextWatcher(adapter.getItems())).setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(selectedItem, textInput));
 
-		builder.setTitle(getRenameDialogTitle())
-				.setNegativeButton(R.string.cancel, null)
-				.setOnDismissListener(dialogInterface -> {
-					if (this instanceof SpriteListFragment) {
-						((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
-					}
-					if (actionMode != null) {
-						finishActionMode();
-					}
-				})
-				.show();
+		builder.setTitle(getRenameDialogTitle()).setNegativeButton(R.string.cancel, null).setOnDismissListener(dialogInterface -> {
+			if (this instanceof SpriteListFragment) {
+				((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
+			}
+			if (actionMode != null) {
+				finishActionMode();
+			}
+		}).show();
 	}
 
 	protected void showMergeDialog(List<T> selectedItems) {
@@ -564,14 +534,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		} else {
 			TextInputDialog.Builder builder = new TextInputDialog.Builder(requireContext());
 
-			builder.setHint(getString(R.string.project_name_label))
-					.setTextWatcher(new NewProjectNameTextWatcher<>())
-					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
-							-> mergeProjects(selectedItems, textInput));
+			builder.setHint(getString(R.string.project_name_label)).setTextWatcher(new NewProjectNameTextWatcher<>()).setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> mergeProjects(selectedItems, textInput));
 
-			builder.setTitle(R.string.new_merge_project_dialog_title)
-					.setNegativeButton(R.string.cancel, null)
-					.show();
+			builder.setTitle(R.string.new_merge_project_dialog_title).setNegativeButton(R.string.cancel, null).show();
 		}
 
 		setShowProgressBar(true);

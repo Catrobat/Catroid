@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
-import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
@@ -93,10 +92,9 @@ import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
-import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_BACKGROUNDS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_SOUNDS_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
@@ -141,6 +139,7 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
+	private static final String BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE = "isUndoMenuItemVisible";
 
 	public static final String EXTRA_X_TRANSFORM = "X";
 	public static final String EXTRA_Y_TRANSFORM = "Y";
@@ -164,6 +163,9 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			setSavedInstanceStateExpected(true);
+		}
 		super.onCreate(savedInstanceState);
 
 		if (isFinishing()) {
@@ -190,7 +192,13 @@ public class SpriteActivity extends BaseActivity {
 		if (bundle != null) {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
-		loadFragment(this, fragmentPosition);
+
+		if (savedInstanceState != null) {
+			isUndoMenuItemVisible = savedInstanceState.getBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, false);
+			invalidateOptionsMenu();
+		} else {
+			loadFragment(this, fragmentPosition);
+		}
 		addTabLayout(this, fragmentPosition);
 	}
 
@@ -277,6 +285,12 @@ public class SpriteActivity extends BaseActivity {
 		super.onPause();
 		saveProject();
 		RecentBrickListManager.getInstance().saveRecentBrickList();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
 	}
 
 	@Override
@@ -633,10 +647,6 @@ public class SpriteActivity extends BaseActivity {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();
 			return;
 		}
-		if (getCurrentFragment() instanceof CatblocksScriptFragment) {
-			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
-			return;
-		}
 		if (getCurrentFragment() instanceof DataListFragment) {
 			handleAddUserDataButton();
 			return;
@@ -667,7 +677,7 @@ public class SpriteActivity extends BaseActivity {
 			alertDialog.dismiss();
 		});
 		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_LOOKS_URL)
 					.startActivityForResult(SPRITE_LIBRARY);
 			alertDialog.dismiss();
 		});
@@ -693,21 +703,13 @@ public class SpriteActivity extends BaseActivity {
 				.setView(root)
 				.create();
 
-		String mediaLibraryUrl;
-
-		if (projectManager.isCurrentProjectLandscapeMode()) {
-			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-		} else {
-			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-		}
-
 		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
 			new ImportFromPocketPaintLauncher(this)
 					.startActivityForResult(BACKGROUND_POCKET_PAINT);
 			alertDialog.dismiss();
 		});
 		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, mediaLibraryUrl)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_BACKGROUNDS_URL)
 					.startActivityForResult(BACKGROUND_LIBRARY);
 			alertDialog.dismiss();
 		});
@@ -736,13 +738,9 @@ public class SpriteActivity extends BaseActivity {
 		String mediaLibraryUrl;
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			if (projectManager.isCurrentProjectLandscapeMode()) {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-			} else {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-			}
+			mediaLibraryUrl = CATROBAT_CONTENT_BACKGROUNDS_URL;
 		} else {
-			mediaLibraryUrl = LIBRARY_LOOKS_URL;
+			mediaLibraryUrl = CATROBAT_CONTENT_LOOKS_URL;
 		}
 
 		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
@@ -783,7 +781,7 @@ public class SpriteActivity extends BaseActivity {
 		});
 
 		root.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(view -> {
-			new ImportFormMediaLibraryLauncher(this, LIBRARY_SOUNDS_URL)
+			new ImportFormMediaLibraryLauncher(this, CATROBAT_CONTENT_SOUNDS_URL)
 					.startActivityForResult(SOUND_LIBRARY);
 			alertDialog.dismiss();
 		});

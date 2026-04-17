@@ -1,8 +1,6 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +21,13 @@ import com.android.build.api.dsl.ManagedVirtualDevice
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
@@ -34,13 +35,14 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.23.0"
+    id "io.gitlab.arturbosch.detekt" version "1.23.7"
+    id 'com.google.devtools.ksp' version '2.0.21-1.0.25' apply true
     id 'checkstyle'
 }
 
 repositories {
     mavenLocal()
-    maven { url "https://jitpack.io" }
+    maven { url = "https://jitpack.io" }
 }
 
 ext {
@@ -50,23 +52,22 @@ ext {
     manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"
-    gdxVersion = "1.9.10"
-    mockitoVersion = "3.12.4"
-    espressoVersion = "3.1.0"
-    playServicesVersion = '17.0.1'
-    cameraXVersion = "1.0.0-beta07"
-    room_version = "2.3.0"
-    coroutines_version = "1.3.2"
-    work_manager_version = '2.7.1'
+    gdxVersion = "1.13.0"
+    mockitoVersion = '5.14.2'
+    mockkVersion = "1.14.7"
+    espressoVersion = '3.6.1'
+    playServicesVersion = '18.1.1'
+    cameraXVersion = '1.4.0'
+    room_version = "2.6.1"
+    coroutines_version = '1.9.0'
+    work_manager_version = '2.9.1'
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
-apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/setup_jacoco.gradle'
 apply from: 'gradle/emulator.gradle'
@@ -77,10 +78,6 @@ if (rootProject.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
-}
-
-if (!rootProject.hasProperty("signingKeystore")) {
-    ext.signingKeystore = "dummyKeystore"
 }
 
 ext.getProperty = { property, defaultValue ->
@@ -102,14 +99,13 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 97
-def defaultVersionName = "1.3.0"
+def defaultVersionCode = 99
+def defaultVersionName = "1.3.2"
 
 android {
-    compileSdk 34
-    buildToolsVersion = "33.0.2"
+    compileSdk = 35
 
-    namespace 'org.catrobat.catroid'
+    namespace = 'org.catrobat.catroid'
 
     buildFeatures {
         buildConfig = true
@@ -118,7 +114,7 @@ android {
 
     defaultConfig {
         minSdkVersion 28
-        targetSdkVersion 34
+        targetSdkVersion 35
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -162,8 +158,6 @@ android {
         buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
@@ -207,11 +201,10 @@ android {
 
     signingConfigs {
         signedRelease {
-            // credentials loaded in release_task.gradle
-            storeFile file(project.getProperty("signingKeystore"))
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storeFile file(System.getenv("SIGNING_KEYSTORE") ?: "dummyKeystore")
+            storePassword System.getenv("SIGNING_KEYSTORE_PASSWORD") ?: ""
+            keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: ""
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: ""
         }
 
         debug {
@@ -222,24 +215,13 @@ android {
         }
     }
 
-    if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
-            rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
-        android.signingConfigs.signedRelease {
-            storePassword = rootProject.property("signingKeystorePassword")
-            keyAlias = rootProject.property("signingKeyAlias")
-            keyPassword = rootProject.property("signingKeyPassword")
-        }
-    }
-
     buildTypes {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "DEBUG_MODE", "true"
-            buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
             buildConfigField "boolean", "FEATURE_AI_ASSIST_ENABLED", "false"
-            testCoverageEnabled = rootProject.hasProperty('enableCoverage')
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
+            enableAndroidTestCoverage = true
         }
 
         release {
@@ -247,35 +229,43 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
         }
 
         signedRelease {
             initWith buildTypes.release
-            signingConfig signingConfigs.signedRelease
+            signingConfig = signingConfigs.signedRelease
         }
     }
 
     flavorDimensions = ["default"]
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
+
     androidResources {
         noCompress 'lite'
     }
-    lint {
-        abortOnError false
-        baseline file('config/lint-baseline.xml')
-        htmlOutput file('build/reports/lint-report.html')
-        htmlReport true
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
-        lintConfig file('config/lint.xml')
-        textReport true
-        xmlOutput file('build/reports/lint-report.xml')
-        xmlReport true
-    }
 
+    lint {
+        abortOnError = false
+        baseline = file('config/lint-baseline.xml')
+
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        lintConfig = file('config/lint.xml')
+
+        htmlReport = true
+        htmlOutput = file('build/reports/html/lint.html')
+
+        xmlReport = true
+        xmlOutput = file('build/reports/lint.xml')
+
+        textReport = true
+
+        sarifReport = true
+        sarifOutput = file('build/reports/lint.sarif')
+    }
 
     productFlavors {
         catroid {
@@ -318,8 +308,8 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
 
             if(variant.buildType.name == "signedRelease")
             {
@@ -340,7 +330,7 @@ android {
             }
         }
     }
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
 }
@@ -369,7 +359,7 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_manager_version"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
@@ -382,11 +372,10 @@ dependencies {
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.browser:browser:1.8.0'
     implementation 'androidx.core:core-ktx:1.3.2'
 
-
-
+    implementation "org.mockito:mockito-core:$mockitoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     implementation ('com.opencsv:opencsv:5.0') {
@@ -410,12 +399,12 @@ dependencies {
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     // Room
     implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
@@ -435,30 +424,26 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ar.com.hjg:pngj:2.1.0'
 
-    implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
+    implementation ('com.thoughtworks.xstream:xstream:1.4.21') {
         exclude group: 'xmlpull'
     }
 
-    // Catblocks
+    // WebView
     implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
-    implementation 'com.github.oliewa92:MidiDroid:v1.1'
-    implementation 'com.github.billthefarmer:mididriver:v1.16'
+    implementation 'com.github.pdrogfer:MidiDroid:1.3'
 
     // CameraX
     implementation "androidx.camera:camera-camera2:$cameraXVersion"
     implementation "androidx.camera:camera-lifecycle:${cameraXVersion}"
 
     // ML Kit
-    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
-    implementation 'com.google.mlkit:object-detection:16.2.7'
-    implementation 'com.google.mlkit:language-id:16.1.1'
-    implementation 'com.google.mlkit:pose-detection:17.0.0'
-
-    // HUAWEI Mobile Services
-    implementation 'com.huawei.hms:base:6.4.0.303'
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.1'
+    implementation 'com.google.mlkit:object-detection:17.0.2'
+    implementation 'com.google.mlkit:language-id:17.0.6'
+    implementation 'com.google.mlkit:pose-detection:18.0.0-beta5'
 
     // Huawei ML Kit
     implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.7.0.301'
@@ -491,14 +476,14 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
     testImplementation 'junit:junit:4.13.2'
+
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    testImplementation "io.mockk:mockk:${mockkVersion}"
+
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
-    testImplementation 'org.powermock:powermock:1.6.6'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
-
-    testImplementation 'org.robolectric:robolectric:4.7.3'
+    testImplementation 'org.robolectric:robolectric:4.16.1'
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
@@ -511,6 +496,8 @@ dependencies {
 
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
@@ -536,7 +523,7 @@ project.gradle.taskGraph.whenReady {
     connectedCatroidDebugAndroidTest.ignoreFailures = true
 }
 
-task copyAndroidNatives {
+tasks.register('copyAndroidNatives') {
     doFirst {
         file("src/main/jniLibs/armeabi-v7a/").mkdirs()
         file("src/main/jniLibs/arm64-v8a/").mkdirs()
@@ -560,17 +547,18 @@ task copyAndroidNatives {
     }
 }
 
-tasks.whenTaskAdded { packageTask ->
+tasks.configureEach { packageTask ->
     if (packageTask.name.contains("package")) {
         packageTask.dependsOn 'copyAndroidNatives'
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = "11"
-  }
+tasks.withType(KotlinCompile).configureEach {
+  kotlin {
+      compilerOptions{
+        jvmTarget = JvmTarget.JVM_21
+      }
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.huawei.agconnect'

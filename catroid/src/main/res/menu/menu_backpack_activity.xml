@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,26 +20,31 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_undo"
+        android:icon="@drawable/icon_undo"
+        android:title="@string/undo"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/unpack"
+        android:icon="@drawable/ic_placeholder"
         android:title="@string/unpack"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/delete"
+        android:icon="@drawable/ic_delete"
         android:title="@string/delete"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_delete"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/show_details"
+        android:icon="@drawable/ic_placeholder"
         android:title="@string/show_details"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
+        app:showAsAction="never" />
 
 </menu>

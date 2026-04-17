@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.utils.notifications;
 
 import android.app.IntentService;
@@ -79,15 +80,11 @@ public final class StatusBarNotificationManager {
 		uploadIntent.setAction(Intent.ACTION_MAIN);
 		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
-		PendingIntent pendingIntent;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			pendingIntent = PendingIntent.getActivity(context, notificationId,
-					uploadIntent,
-					PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-		} else {
-			pendingIntent = PendingIntent.getActivity(context, notificationId,
-					uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		}
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				context,
+				notificationId,
+				uploadIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
@@ -235,16 +232,11 @@ public final class StatusBarNotificationManager {
 				openIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 						.putExtra(EXTRA_PROJECT_NAME, bundle.getString("projectName"));
 
-				PendingIntent pendingIntent;
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-					pendingIntent = PendingIntent.getActivity(context, notificationId,
-							openIntent,
-							PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-				} else {
-					pendingIntent = PendingIntent.getActivity(context, notificationId,
-							openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-				}
-
+				PendingIntent pendingIntent = PendingIntent.getActivity(
+						context,
+						notificationId,
+						openIntent,
+						PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 				builder.setContentIntent(pendingIntent);
 				break;
 		}

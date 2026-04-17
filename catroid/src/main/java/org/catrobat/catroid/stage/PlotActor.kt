@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,12 +98,14 @@ class PlotActor : Actor() {
     private fun calculateScreenRatio(): Float {
         val metrics = Resources.getSystem().displayMetrics
         val deviceDiagonalPixel =
-            sqrt(metrics.widthPixels.toFloat().pow(2) + metrics.heightPixels .toFloat().pow(2))
+            sqrt(metrics.widthPixels.toFloat().pow(2) + metrics.heightPixels.toFloat().pow(2))
 
         val header = ProjectManager.getInstance().currentProject.xmlHeader
         val creatorDiagonalPixel =
-            sqrt(header.getVirtualScreenWidth().toFloat().pow(2) + header.getVirtualScreenHeight
-                ().toFloat().pow(2))
+            sqrt(
+                header.getVirtualScreenWidth().toFloat().pow(2) + header.getVirtualScreenHeight
+                    ().toFloat().pow(2)
+            )
         return creatorDiagonalPixel / deviceDiagonalPixel
     }
 }

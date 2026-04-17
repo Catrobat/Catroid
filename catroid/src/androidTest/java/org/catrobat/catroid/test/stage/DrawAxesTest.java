@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class DrawAxesTest {
 	private StageListener stageListener;
 	private static Project project;
 
-	@Parameterized.Parameters(name = "{0}")
+	@Parameterized.Parameters(name = "{0}x{1}, landscape={2}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{1440, 2560, false, 8, 8f},

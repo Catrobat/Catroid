@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.fragment
 
 import android.os.Bundle
@@ -35,6 +36,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.databinding.FragmentUserDefinedBrickListBinding
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
 import org.catrobat.catroid.ui.fragment.AddBrickFragment.OnAddBrickListener
 import org.catrobat.catroid.utils.ToastUtil
@@ -59,6 +61,7 @@ class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserDefinedBrickListBinding.inflate(inflater, container, false)
+        EdgeToEdge.applyFloatingActionButtonMargin(binding.buttonAddUserBrick)
         return binding.root
     }
 

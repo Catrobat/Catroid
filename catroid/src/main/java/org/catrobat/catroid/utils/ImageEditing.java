@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -76,12 +76,10 @@ public final class ImageEditing {
 		int[] imageDimensions = getImageDimensions(imagePath);
 		int originalWidth = imageDimensions[0];
 		int originalHeight = imageDimensions[1];
-
 		int[] scaledImageDimensions = getScaledImageDimensions(originalWidth, originalHeight, outputRectangleWidth,
 				outputRectangleHeight, resizeType, justScaleDown);
 		int newWidth = scaledImageDimensions[0];
 		int newHeight = scaledImageDimensions[1];
-
 		int loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth,
 				outputRectangleHeight);
 
@@ -107,7 +105,7 @@ public final class ImageEditing {
 	}
 
 	private static int[] getScaledImageDimensions(int originalWidth, int originalHeight, int outputRectangleWidth, int
-			outputRectangleHeight,
+					outputRectangleHeight,
 			ResizeType resizeType, boolean justScaleDown) {
 		int newWidth = originalWidth;
 		int newHeight = originalHeight;
@@ -130,8 +128,8 @@ public final class ImageEditing {
 			}
 		}
 		int[] scaledImageDimensions = new int[2];
-		scaledImageDimensions[0] = newWidth;
-		scaledImageDimensions[1] = newHeight;
+		scaledImageDimensions[0] = Math.max(newWidth, 1);
+		scaledImageDimensions[1] = Math.max(newHeight, 1);
 		return scaledImageDimensions;
 	}
 

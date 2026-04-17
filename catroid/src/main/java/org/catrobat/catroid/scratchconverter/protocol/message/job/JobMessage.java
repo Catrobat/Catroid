@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -128,8 +128,11 @@ public abstract class JobMessage extends Message {
 			case JOB_FINISHED:
 				final String downloadURL = jsonData.getString(JsonDataKeys.URL.toString());
 				final String cachedUTCDateKey = JsonDataKeys.CACHED_UTC_DATE.toString();
-				final String dateUTC = jsonData.isNull(cachedUTCDateKey) ? null : jsonData.getString(cachedUTCDateKey);
-				final DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_DEFAULT, Locale.US);
+				final String dateUTC = jsonData.isNull(cachedUTCDateKey)
+						? null
+						: jsonData.getString(cachedUTCDateKey);
+				final DateFormat dateFormat = new SimpleDateFormat(
+						Constants.DATE_FORMAT_DEFAULT, Locale.US);
 				dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				Date cachedDate = null;
 				try {
