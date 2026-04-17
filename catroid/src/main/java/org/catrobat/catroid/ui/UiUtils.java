@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Build;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,10 @@ public final class UiUtils {
 				return R.drawable.ic_library_add_small;
 			case R.string.menu_rate_us:
 				return R.drawable.ic_star_rate;
+			case R.string.pack:
+				return R.drawable.ic_login;
+			case R.string.unpack:
+				return R.drawable.ic_logout;
 			default:
 				return R.drawable.ic_placeholder;
 		}
@@ -156,6 +161,37 @@ public final class UiUtils {
 				} else {
 					item.setCompoundDrawablesWithIntrinsicBounds(0, 0, icons.get(position),
 							0);
+				}
+
+				return convertView;
+			}
+		};
+	}
+
+	public static ArrayAdapter getAlertDialogAdapterForTextWithIcons(Activity activity, Context context, List<Pair<String, Integer>> items) {
+		return new ArrayAdapter<Pair<String, Integer>>(context, android.R.layout.simple_list_item_1, items) {
+			TextView item;
+
+			@NonNull
+			@Override
+			public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+				final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+				if (convertView == null) {
+					convertView = inflater.inflate(R.layout.dialog_item_with_icon, parent, false);
+					item = (TextView) convertView.findViewById(R.id.item_text);
+					convertView.setTag(item);
+				} else {
+					item = (TextView) convertView.getTag();
+				}
+
+				item.setText(items.get(position).first);
+
+				if (activity.getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
+					item.setCompoundDrawablesWithIntrinsicBounds(items.get(position).second, 0, 0,
+							0);
+				} else {
+					item.setCompoundDrawablesWithIntrinsicBounds(0, 0, items.get(position).second, 0);
 				}
 
 				return convertView;
