@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -86,18 +87,22 @@ public class StageScreenshotTest {
 	@Test
 	public void testRequestScreenshotShouldSaveStageContentToFile() {
 		CountDownLatch expectation = new CountDownLatch(1);
+		AtomicBoolean screenshotSaved = new AtomicBoolean(false);
 		baseActivityTestRule.launchActivity(null);
 		byte[] blueRgba = {(byte) 1, (byte) 162, (byte) 232, (byte) 0};
 
 		StageActivity.stageListener.requestTakingScreenshot(TEST_SCREENSHOT_FILENAME, success -> {
+			screenshotSaved.set(success);
 			expectation.countDown();
 		});
 
 		try {
-			expectation.await(1, TimeUnit.SECONDS);
+			boolean completed = expectation.await(5, TimeUnit.SECONDS);
+			Assert.assertTrue("Did not finish taking screenshot", completed);
 		} catch (InterruptedException e) {
 			Assert.fail("Did not finish taking screenshot");
 		}
+		Assert.assertTrue("Screenshot callback reported failure", screenshotSaved.get());
 
 		String screenshotAbsolutePath = StageActivity.stageListener.getScreenshotPath() + TEST_SCREENSHOT_FILENAME;
 		File screenshotFile = new File(screenshotAbsolutePath);
