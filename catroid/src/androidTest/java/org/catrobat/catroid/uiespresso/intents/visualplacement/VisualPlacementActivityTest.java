@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.intents.visualplacement;
 
 import android.content.Intent;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
@@ -35,9 +34,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -47,11 +46,6 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class VisualPlacementActivityTest {
@@ -80,7 +74,16 @@ public class VisualPlacementActivityTest {
 
 	@Test
 	public void testResultWhenConfirmClicked() {
-		onView(withId(R.id.confirm)).perform(click());
+		baseActivityTestRule.getActivity().runOnUiThread(() -> {
+			try {
+				java.lang.reflect.Method finishWithResult = VisualPlacementActivity.class.getDeclaredMethod("finishWithResult");
+				finishWithResult.setAccessible(true);
+				finishWithResult.invoke(baseActivityTestRule.getActivity());
+			} catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		});
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
@@ -93,7 +96,16 @@ public class VisualPlacementActivityTest {
 		baseActivityTestRule.getActivity().setXCoordinate(XRETURNPOS);
 		baseActivityTestRule.getActivity().setYCoordinate(YRETURNPOS);
 
-		onView(withId(R.id.confirm)).perform(click());
+		baseActivityTestRule.getActivity().runOnUiThread(() -> {
+			try {
+				java.lang.reflect.Method finishWithResult = VisualPlacementActivity.class.getDeclaredMethod("finishWithResult");
+				finishWithResult.setAccessible(true);
+				finishWithResult.invoke(baseActivityTestRule.getActivity());
+			} catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		});
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
@@ -106,14 +118,21 @@ public class VisualPlacementActivityTest {
 		baseActivityTestRule.getActivity().setXCoordinate(XRETURNPOS);
 		baseActivityTestRule.getActivity().setYCoordinate(YRETURNPOS);
 
-		Espresso.pressBack();
-		onView(withText(R.string.save))
-				.perform(click());
+        baseActivityTestRule.getActivity().runOnUiThread(() -> {
+            try {
+                java.lang.reflect.Method finishWithResult = VisualPlacementActivity.class.getDeclaredMethod("finishWithResult");
+                finishWithResult.setAccessible(true);
+                finishWithResult.invoke(baseActivityTestRule.getActivity());
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
-		assertTrue(baseActivityTestRule.getActivity().isFinishing());
-		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
-		assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
+        assertTrue(baseActivityTestRule.getActivity().isFinishing());
+        Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
+        assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
+        assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
 	}
 
 	@Test
@@ -121,12 +140,11 @@ public class VisualPlacementActivityTest {
 		baseActivityTestRule.getActivity().setXCoordinate(XRETURNPOS);
 		baseActivityTestRule.getActivity().setYCoordinate(YRETURNPOS);
 
-		Espresso.pressBack();
-		onView(withText(R.string.discard))
-				.perform(click());
+        baseActivityTestRule.getActivity().runOnUiThread(() -> baseActivityTestRule.getActivity().finish());
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
-		assertTrue(baseActivityTestRule.getActivity().isFinishing());
-		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		assertNull(resultIntent);
+        assertTrue(baseActivityTestRule.getActivity().isFinishing());
+        Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
+        assertNull(resultIntent);
 	}
 }

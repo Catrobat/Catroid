@@ -64,6 +64,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.Espresso.pressBackUnconditionally;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -180,7 +181,7 @@ public class VisualPlacementBrickTest {
 	@Test
 	public void testIsVisualPlacementActivityShown() {
 		openVisualPlacementActivityFromEditTextX();
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
+		UiTestUtils.assertCurrentActivityIsInstanceOf(VisualPlacementActivity.class);
 	}
 
 	@Test
@@ -201,7 +202,7 @@ public class VisualPlacementBrickTest {
 	public void testIsVisualPlacementActivityShownInFormulaFragment() {
 		openFormulaEditorFragmentFromEditTextX();
 		openVisualPlacementActivityFromEditTextX();
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
+		UiTestUtils.assertCurrentActivityIsInstanceOf(VisualPlacementActivity.class);
 	}
 
 	@Test
@@ -216,8 +217,8 @@ public class VisualPlacementBrickTest {
 	public void testDoesFormulaFragmentReturnCorrectlyAfterVisualPlacement() {
 		openFormulaEditorFragmentFromEditTextX();
 		openVisualPlacementActivityFromEditTextX();
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
-		pressBack();
+		UiTestUtils.assertCurrentActivityIsInstanceOf(VisualPlacementActivity.class);
+		pressBackUnconditionally();
 		onFormulaEditor()
 				.check(matches(isDisplayed()));
 		pressBack();
