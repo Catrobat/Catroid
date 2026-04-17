@@ -60,6 +60,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
 import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowCompat
+import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -117,6 +118,7 @@ class VisualPlacementActivity :
     private lateinit var imageView: ImageView
     private lateinit var visualPlacementTouchListener: VisualPlacementTouchListener
     private lateinit var layoutResolution: Resolution
+    private lateinit var projectResolution: Resolution
 
     private val bitmapOptions = BitmapFactory.Options().apply {
         inPreferredConfig = Bitmap.Config.ARGB_8888
@@ -210,7 +212,7 @@ class VisualPlacementActivity :
         visualPlacementTouchListener = VisualPlacementTouchListener()
         frameLayout = findViewById(R.id.frame_container)
 
-        val projectResolution = Resolution(
+        projectResolution = Resolution(
             currentProject.xmlHeader.virtualScreenWidth,
             currentProject.xmlHeader.virtualScreenHeight
         )
@@ -231,13 +233,12 @@ class VisualPlacementActivity :
             height = layoutResolution.height
         }
 
-        layoutHeightRatio = layoutResolution.height.toFloat() / projectResolution.height.toFloat()
-        layoutWidthRatio = layoutResolution.width.toFloat() / projectResolution.width.toFloat()
-
-        setBackground()
-        showMovableImageView()
-
-        toolbar.bringToFront()
+        frameLayout.doOnLayout {
+            updateLayoutMetrics()
+            setBackground()
+            showMovableImageView()
+            toolbar.bringToFront()
+        }
         frameLayout.setOnTouchListener(this)
     }
 
@@ -246,8 +247,8 @@ class VisualPlacementActivity :
         try {
             val backgroundBitmap = projectManager.getProjectBitmap()
             val scaledBitmap = backgroundBitmap.scale(
-                (backgroundBitmap.width * layoutWidthRatio).toInt(),
-                (backgroundBitmap.height * layoutHeightRatio).toInt()
+                frameLayout.width.coerceAtLeast(1),
+                frameLayout.height.coerceAtLeast(1)
             )
             frameLayout.background = scaledBitmap.toDrawable(resources).apply {
                 setColorFilter("#6F000000".toColorInt(), PorterDuff.Mode.SRC_ATOP)
@@ -288,23 +289,23 @@ class VisualPlacementActivity :
             matrix, true
         )
         val scaledBitmap = rotatedBitmap.scale(
-            (rotatedBitmap.width * layoutWidthRatio).toInt(),
-            (rotatedBitmap.height * layoutHeightRatio).toInt()
+            (rotatedBitmap.width * currentLayoutWidthRatio()).toInt().coerceAtLeast(1),
+            (rotatedBitmap.height * currentLayoutHeightRatio()).toInt().coerceAtLeast(1)
         )
 
         imageView.setImageBitmap(scaledBitmap)
         imageView.scaleType = ImageView.ScaleType.CENTER
 
         if (isText) {
-            imageView.translationX = translateX + xOffsetText
-            imageView.translationY = -translateY + yOffsetText
+            imageView.translationX = projectToLayoutX(translateX) + textXOffsetInLayout()
+            imageView.translationY = -projectToLayoutY(translateY) + textYOffsetInLayout()
         } else {
-            imageView.translationX = translateX
-            imageView.translationY = -translateY
+            imageView.translationX = projectToLayoutX(translateX)
+            imageView.translationY = -projectToLayoutY(translateY)
         }
 
-        xCoord = translateX * layoutWidthRatio
-        yCoord = translateY * layoutHeightRatio
+        xCoord = projectToLayoutX(translateX)
+        yCoord = projectToLayoutY(translateY)
 
         if (scaleX > MINIMUM_SCALE_THRESHOLD) imageView.scaleX = scaleX
         if (scaleY > MINIMUM_SCALE_THRESHOLD) imageView.scaleY = scaleY
@@ -433,8 +434,8 @@ class VisualPlacementActivity :
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
-        val xCoordinate = (xCoord / layoutWidthRatio).roundToInt()
-        val yCoordinate = (yCoord / layoutHeightRatio).roundToInt()
+        val xCoordinate = (xCoord / currentLayoutWidthRatio()).roundToInt()
+        val yCoordinate = (yCoord / currentLayoutHeightRatio()).roundToInt()
         if (translateX.toInt() != xCoordinate || translateY.toInt() != yCoordinate) {
             showSaveChangesDialog(this)
         } else {
@@ -453,8 +454,8 @@ class VisualPlacementActivity :
     }
 
     private fun finishWithResult() {
-        val xCoordinate = (xCoord / layoutWidthRatio).roundToInt()
-        val yCoordinate = (yCoord / layoutHeightRatio).roundToInt()
+        val xCoordinate = (xCoord / currentLayoutWidthRatio()).roundToInt()
+        val yCoordinate = (yCoord / currentLayoutHeightRatio()).roundToInt()
         val returnIntent = Intent()
         returnIntent.putExtra(EXTRA_BRICK_HASH, intent.getIntExtra(EXTRA_BRICK_HASH, -1))
         returnIntent.putExtra(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate)
@@ -478,10 +479,46 @@ class VisualPlacementActivity :
     }
 
     override fun setXCoordinate(xCoordinate: Float) {
-        xCoord = if (isText) xCoordinate - xOffsetText else xCoordinate
+        xCoord = if (isText) xCoordinate - textXOffsetInLayout() else xCoordinate
     }
 
     override fun setYCoordinate(yCoordinate: Float) {
-        yCoord = if (isText) yCoordinate + yOffsetText else yCoordinate
+        yCoord = if (isText) yCoordinate + textYOffsetInLayout() else yCoordinate
     }
+
+    private fun updateLayoutMetrics() {
+        layoutResolution = Resolution(frameLayout.width, frameLayout.height)
+        layoutWidthRatio = currentLayoutWidthRatio()
+        layoutHeightRatio = currentLayoutHeightRatio()
+    }
+
+    private fun currentLayoutWidthRatio(): Float {
+        if (!::projectResolution.isInitialized) {
+            return layoutWidthRatio
+        }
+        return if (frameLayout.width > 0) {
+            frameLayout.width.toFloat() / projectResolution.width.toFloat()
+        } else {
+            layoutWidthRatio
+        }
+    }
+
+    private fun currentLayoutHeightRatio(): Float {
+        if (!::projectResolution.isInitialized) {
+            return layoutHeightRatio
+        }
+        return if (frameLayout.height > 0) {
+            frameLayout.height.toFloat() / projectResolution.height.toFloat()
+        } else {
+            layoutHeightRatio
+        }
+    }
+
+    private fun projectToLayoutX(projectX: Float): Float = projectX * currentLayoutWidthRatio()
+
+    private fun projectToLayoutY(projectY: Float): Float = projectY * currentLayoutHeightRatio()
+
+    private fun textXOffsetInLayout(): Float = projectToLayoutX(xOffsetText)
+
+    private fun textYOffsetInLayout(): Float = projectToLayoutY(yOffsetText)
 }
