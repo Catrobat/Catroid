@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -35,13 +36,30 @@ public final class ScreenValueHandler {
 	}
 
 	public static void updateScreenWidthAndHeight(Context context) {
-		if (context != null) {
-			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-			DisplayMetrics displayMetrics = new DisplayMetrics();
-			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.currentScreenResolution = new Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels);
-		} else {
+		if (context == null) {
 			ScreenValues.setToDefaultScreenSize();
+			return;
 		}
+
+		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		if (windowManager == null) {
+			ScreenValues.setToDefaultScreenSize();
+			return;
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			ScreenValues.currentScreenResolution = new Resolution(
+					windowManager.getCurrentWindowMetrics().getBounds().width(),
+					windowManager.getCurrentWindowMetrics().getBounds().height());
+			return;
+		}
+
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
+		} else {
+			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+		}
+		ScreenValues.currentScreenResolution = new Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels);
 	}
 }
