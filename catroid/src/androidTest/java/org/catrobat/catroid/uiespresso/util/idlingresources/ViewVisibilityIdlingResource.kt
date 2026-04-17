@@ -25,43 +25,40 @@ package org.catrobat.catroid.uiespresso.util.idlingresources
 
 import android.view.View
 import androidx.test.espresso.IdlingResource
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 
-class ViewVisibilityIdlingResource(private val viewId: Int, private val expectedVisibility: Int) : IdlingResource {
+class ViewVisibilityIdlingResource(
+    private val viewId: Int,
+    private val expectedVisibility: Int
+) : IdlingResource {
+
     private var resourceCallback: IdlingResource.ResourceCallback? = null
 
-    private var isIdle = false
-
-    override fun getName(): String = "ViewVisibilityIdlingResource"
+    override fun getName(): String = "ViewVisibilityIdlingResource($viewId)"
 
     override fun isIdleNow(): Boolean {
-        val checkVisibility = {
-            var view: View? = null
-            val resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED)
-            if (resumedActivities.iterator().hasNext()) {
-                val currentActivity = resumedActivities.iterator().next()
-                view = currentActivity.findViewById(viewId)
-            }
-            view != null && view?.visibility == expectedVisibility
+        // This method is always called on the main thread by Espresso's internal polling.
+        // No need for runOnMainSync.
+        val resumedActivities = ActivityLifecycleMonitorRegistry.getInstance()
+            .getActivitiesInStage(Stage.RESUMED)
+
+        if (!resumedActivities.iterator().hasNext()) {
+            return true // No activity yet — don't block
         }
 
-        val currentlyIdle = if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
-            checkVisibility()
-        } else {
-            var result = false
-            getInstrumentation().runOnMainSync {
-                result = checkVisibility()
-            }
-            result
+        val currentActivity = resumedActivities.iterator().next()
+        val view: View? = currentActivity.findViewById(viewId)
+
+        if (view == null) {
+            return true // View not in this layout — don't block
         }
 
-        if (currentlyIdle && !isIdle) {
+        val idle = view.visibility == expectedVisibility
+        if (idle) {
             resourceCallback?.onTransitionToIdle()
         }
-        isIdle = currentlyIdle
-        return isIdle
+        return idle
     }
 
     override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {

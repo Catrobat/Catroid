@@ -90,6 +90,7 @@ class ImportLocalSpriteTest {
         IdlingRegistry.getInstance().register(progressIdlingResource)
         createTestProjects()
         activityTestRule.launchActivity(null)
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
     @After
@@ -120,6 +121,8 @@ class ImportLocalSpriteTest {
 
         onView(withText(projectToImportTo.name)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Thread.sleep(1000)
+        onView(withId(R.id.button_add)).check(matches(isDisplayed()))
         onView(withId(R.id.button_add)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
@@ -157,7 +160,9 @@ class ImportLocalSpriteTest {
         val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
         onView(withText(projectToImportTo.name)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Thread.sleep(1000)
 
+        onView(withId(R.id.button_add)).check(matches(isDisplayed()))
         onView(withId(R.id.button_add)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
@@ -173,8 +178,9 @@ class ImportLocalSpriteTest {
     fun importActorOrObjectTest() {
         onView(withText(projectToImportFrom.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
-
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(projectToImportFrom.name)).perform(click())
+        Thread.sleep(1000)
 
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList[1], cat)
@@ -188,6 +194,7 @@ class ImportLocalSpriteTest {
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Thread.sleep(1000)
 
         onView(withText("dog")).check(matches(isDisplayed()))
         onView(withText("cat")).check(doesNotExist())
@@ -206,6 +213,7 @@ class ImportLocalSpriteTest {
         onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(R.string.ok)).perform(click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText("cat")).check(matches(isDisplayed()))
         onView(withText("dog")).check(matches(isDisplayed()))
 

@@ -159,6 +159,7 @@ class ProjectListFragment(
             checkForEmptyList()
         }
 
+        setShowProgressBar(true)
         getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 if (adapter != null) {
@@ -174,6 +175,7 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
+        setShowProgressBar(true)
         getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 sharedPreferenceDetailsKey =
@@ -411,6 +413,7 @@ class ProjectListFragment(
                 setAdapterItems(adapter.projectsSorted)
                 setShowProgressBar(false)
             } else {
+                setShowProgressBar(false)
                 ToastUtil.showError(requireContext(), R.string.wtf_error)
                 requireActivity().finish()
             }
@@ -433,6 +436,7 @@ class ProjectListFragment(
     }
 
     override fun onLoadFinished(success: Boolean) {
+        setShowProgressBar(false)
         if (success) {
             val intent = Intent(requireContext(), ProjectActivity::class.java)
             intent.putExtra(
@@ -441,7 +445,6 @@ class ProjectListFragment(
             )
             startActivity(intent)
         } else {
-            setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_load_project)
         }
     }
@@ -455,6 +458,7 @@ class ProjectListFragment(
                 }
             })
         } else {
+            setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_copy_project)
         }
     }
