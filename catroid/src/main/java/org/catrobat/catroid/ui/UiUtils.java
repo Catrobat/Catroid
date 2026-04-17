@@ -102,6 +102,10 @@ public final class UiUtils {
 				return R.drawable.ic_library_add_small;
 			case R.string.menu_rate_us:
 				return R.drawable.ic_star_rate;
+			case R.string.pack:
+				return R.drawable.ic_login;
+			case R.string.unpack:
+				return R.drawable.ic_logout;
 			default:
 				return R.drawable.ic_placeholder;
 		}

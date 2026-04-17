@@ -23,10 +23,8 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Pair;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,7 +50,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -308,15 +305,28 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		}
 		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names, requireContext(), requireActivity());
 
-		new AlertDialog.Builder(requireContext()).setTitle(getItemName(item)).setAdapter(arrayAdapter, (dialog, which) -> {
+		View customDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_backpack_custom_alert, null);
+		((TextView) customDialogView.findViewById(R.id.backpack_dialog_title)).setText(getItemName(item));
+		ListView listView = customDialogView.findViewById(R.id.backpack_item_list);
+		listView.setAdapter(arrayAdapter);
+
+		AlertDialog dialog = new AlertDialog.Builder(requireContext()).setView(customDialogView).create();
+		Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.backpack_background_round);
+
+		listView.setOnItemClickListener((parent, view, which, id) -> {
 			switch (which) {
 				case 0:
 					unpackItems(new ArrayList<>(Collections.singletonList(item)));
 					break;
 				case 1:
 					deleteItem(new ArrayList<>(Collections.singletonList(item)));
+					break;
 			}
-		}).show();
+
+			dialog.dismiss();
+		});
+
+		dialog.show();
 	}
 
 	public void setShowProgressBar(boolean show) {
@@ -341,7 +351,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 					break;
 				case R.id.delete:
 					deleteItem(itemList);
-
 					break;
 				default:
 					break;
