@@ -24,7 +24,6 @@
 package org.catrobat.catroid.utils
 
 import android.content.Context
-import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import org.catrobat.catroid.common.ScreenValues
@@ -43,22 +42,18 @@ object ScreenValueHandler {
         }
     }
 
-    private fun screenResolutionFromWindowManager(windowManager: WindowManager): Resolution =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val bounds = windowManager.currentWindowMetrics.bounds
-            Resolution(bounds.width(), bounds.height())
-        } else {
-            val displayMetrics = displayMetricsFor(windowManager)
-            Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels)
-        }
+    @Suppress("DEPRECATION")
+    private fun screenResolutionFromWindowManager(windowManager: WindowManager): Resolution {
+        val displayMetrics = displayMetricsFor(windowManager)
+        return Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels)
+    }
 
     @Suppress("DEPRECATION")
     private fun displayMetricsFor(windowManager: WindowManager): DisplayMetrics =
         DisplayMetrics().apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                windowManager.defaultDisplay.getRealMetrics(this)
-            } else {
-                windowManager.defaultDisplay.getMetrics(this)
-            }
+            // Project coordinates must match the drawable app window instead of the
+            // full physical display, otherwise a hidden system-bar strip becomes
+            // part of the virtual screen and STRETCH projects render squashed.
+            windowManager.defaultDisplay.getMetrics(this)
         }
 }
