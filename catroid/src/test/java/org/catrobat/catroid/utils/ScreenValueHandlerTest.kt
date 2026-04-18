@@ -52,7 +52,7 @@ class ScreenValueHandlerTest {
 
     @Test
     @Config(sdk = [Build.VERSION_CODES.R])
-    fun updateScreenWidthAndHeightUsesCurrentWindowMetricsOnAndroidRAndAbove() {
+    fun updateScreenWidthAndHeightUsesAppWindowMetricsOnAndroidRAndAbove() {
         val context = mock(Context::class.java)
         val windowManager = mock(WindowManager::class.java)
         val windowMetrics = mock(WindowMetrics::class.java)
@@ -67,12 +67,12 @@ class ScreenValueHandlerTest {
         ScreenValueHandler.updateScreenWidthAndHeight(context)
 
         assertEquals(1080, ScreenValues.currentScreenResolution.width)
-        assertEquals(2400, ScreenValues.currentScreenResolution.height)
+        assertEquals(2280, ScreenValues.currentScreenResolution.height)
     }
 
     @Test
     @Config(sdk = [Build.VERSION_CODES.Q])
-    fun updateScreenWidthAndHeightUsesRealMetricsBeforeAndroidR() {
+    fun updateScreenWidthAndHeightUsesAppWindowMetricsBeforeAndroidR() {
         val context = mock(Context::class.java)
         val windowManager = mock(WindowManager::class.java)
         val display = mock(Display::class.java)
@@ -85,7 +85,7 @@ class ScreenValueHandlerTest {
         ScreenValueHandler.updateScreenWidthAndHeight(context)
 
         assertEquals(1080, ScreenValues.currentScreenResolution.width)
-        assertEquals(2400, ScreenValues.currentScreenResolution.height)
+        assertEquals(2280, ScreenValues.currentScreenResolution.height)
     }
 
     private fun stubGetMetrics(display: Display, width: Int, height: Int) {
