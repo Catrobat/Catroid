@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.stage
 
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.scenes.scene2d.Stage
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.content.Project
@@ -33,8 +30,8 @@ import org.catrobat.catroid.utils.Resolution
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mockito.mock
 import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 class StageListenerResizeTest {
 
@@ -55,14 +52,9 @@ class StageListenerResizeTest {
         ScreenValues.currentScreenResolution = Resolution(1080, 2400)
 
         setField(stageListener, "project", project)
-        setField(stageListener, "camera", OrthographicCamera())
-        setField(stageListener, "shapeRenderer", mock(ShapeRenderer::class.java))
-        setField(stageListener, "stage", mock(Stage::class.java))
-        setField(stageListener, "virtualWidth", 480f)
-        setField(stageListener, "virtualHeight", 800f)
         setField(stageListener, "maxViewPort", Resolution(1080, 1800, 0, 300))
 
-        stageListener.resize(1080, 2280)
+        invokeMethod(stageListener, "updateStageSurfaceResolution", 1080, 2280)
 
         assertEquals(1080, ScreenValues.currentScreenResolution.width)
         assertEquals(2280, ScreenValues.currentScreenResolution.height)
@@ -83,5 +75,15 @@ class StageListenerResizeTest {
         val field: Field = target.javaClass.getDeclaredField(name)
         field.isAccessible = true
         return field.get(target)
+    }
+
+    private fun invokeMethod(target: Any, name: String, vararg args: Any) {
+        val method: Method = target.javaClass.getDeclaredMethod(
+            name,
+            Int::class.javaPrimitiveType,
+            Int::class.javaPrimitiveType
+        )
+        method.isAccessible = true
+        method.invoke(target, *args)
     }
 }

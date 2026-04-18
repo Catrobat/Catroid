@@ -706,6 +706,14 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
+		if (project == null || camera == null || shapeRenderer == null || width <= 0 || height <= 0) {
+			return;
+		}
+
+		updateStageSurfaceResolution(width, height);
+		initScreenMode();
+		refreshScreenshotSaver();
+		refreshPassepartout();
 	}
 
 	@Override
@@ -819,9 +827,50 @@ public class StageListener implements ApplicationListener {
 		viewPort.update(ScreenValues.currentScreenResolution.getWidth(),
 				ScreenValues.currentScreenResolution.getHeight(),
 				false);
+		if (stage != null) {
+			stage.setViewport(viewPort);
+		}
 		camera.position.set(0, 0, 0);
 		camera.update();
 		shapeRenderer.updateMatrices();
+	}
+
+	private void updateStageSurfaceResolution(int width, int height) {
+		Resolution projectResolution = new Resolution(
+				project.getXmlHeader().virtualScreenWidth,
+				project.getXmlHeader().virtualScreenHeight);
+		Resolution surfaceResolution = new Resolution(width, height).flipToFit(projectResolution);
+
+		ScreenValues.currentScreenResolution = surfaceResolution;
+		if (!project.isCastProject() && !surfaceResolution.sameRatioOrMeasurements(projectResolution)) {
+			maxViewPort = projectResolution.resizeToFit(surfaceResolution);
+		} else {
+			maxViewPort = surfaceResolution;
+		}
+	}
+
+	private void refreshScreenshotSaver() {
+		if (scene == null || Gdx.files == null) {
+			return;
+		}
+		screenshotSaver = new ScreenshotSaver(Gdx.files, getScreenshotPath(), screenshotWidth, screenshotHeight);
+	}
+
+	private void refreshPassepartout() {
+		if (stage == null || Gdx.gl == null) {
+			return;
+		}
+		if (passepartout != null) {
+			passepartout.remove();
+		}
+		passepartout = new Passepartout(
+				ScreenValues.currentScreenResolution.getWidth(),
+				ScreenValues.currentScreenResolution.getHeight(),
+				maxViewPort.getWidth(),
+				maxViewPort.getHeight(),
+				virtualWidth,
+				virtualHeight);
+		stage.addActor(passepartout);
 	}
 
 	private void disposeTextures() {
