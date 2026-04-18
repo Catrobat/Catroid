@@ -121,6 +121,7 @@ class MainMenuFragment : Fragment(),
         binding.projectImageView.setOnClickListener(this)
         binding.playProject.setOnClickListener(this)
         binding.featuredProjectsTextView.setOnClickListener(this)
+        binding.exploreShareTextView.setOnClickListener(this)
 
         setFragment(this)
 
@@ -321,6 +322,11 @@ class MainMenuFragment : Fragment(),
             R.id.featuredProjectsTextView -> {
                 viewModel.setIsLoading(true)
                 startActivity(Intent(activity, WebViewActivity::class.java))
+            }
+
+            R.id.exploreShareTextView -> {
+                viewModel.setIsLoading(true)
+                openWebView(Constants.MAIN_URL_HTTPS)
             }
         }
     }

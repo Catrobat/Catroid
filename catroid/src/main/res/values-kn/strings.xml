@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">ದಯಮಾಡಿ ತಡೆಯಿರಿ</string>
     <string formatted="false" name="search_hint">ಹುಡುಕಿ…</string>
     <string formatted="false" name="backpack_add">ಬ್ಯಾಕ್ ಪ್ಯಾಕ್ ನಲ್ಲಿ ಸೇರಿಸಿ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
         in the background and also sends data to the internet. This may be harmless, and necessary

@@ -56,7 +56,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({ProjectDownloader.class, ReplaceExistingProjectDialogFragment.class, ToastUtil.class, URLDecoder.class})
 public class ProjectDownloaderTest {
 
-	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+	private static final String URL = "https://share.catrobat.org/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
 	private static final String PROJECT_NAME = "Pet Simulator";
 
 	private ProjectDownloader downloaderSpy = null;

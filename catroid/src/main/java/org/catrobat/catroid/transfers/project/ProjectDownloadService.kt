@@ -47,15 +47,14 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.NotificationData
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.CHANNEL_ID
-import org.catrobat.catroid.web.CatrobatServerCalls
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadErrorCallback
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadProgressCallback
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadSuccessCallback
-import org.catrobat.catroid.web.CatrobatWebClient
+import org.catrobat.catroid.web.DownloadClient
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
 
 class ProjectDownloadService : IntentService("ProjectDownloadService") {
+
+    private val downloadClient: DownloadClient by inject()
 
     companion object {
         val TAG: String = ProjectDownloadService::class.java.simpleName
@@ -97,29 +96,22 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
 
         startForeground(id, notification)
 
-        CatrobatServerCalls(CatrobatWebClient.client)
-            .downloadProject(
+        downloadClient.downloadProject(
                 url,
                 destinationFile,
-                object : DownloadSuccessCallback {
-                    override fun onSuccess() {
-                        downloadSuccessCallback(
-                            this@ProjectDownloadService,
-                            projectName,
-                            destinationFile,
-                            resultReceiver
-                        )
-                    }
+                successCallback = {
+                    downloadSuccessCallback(
+                        this@ProjectDownloadService,
+                        projectName,
+                        destinationFile,
+                        resultReceiver
+                    )
                 },
-                object : DownloadErrorCallback {
-                    override fun onError(code: Int, message: String) {
-                        downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
-                    }
+                errorCallback = { _, _ ->
+                    downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
                 },
-                object : DownloadProgressCallback {
-                    override fun onProgress(progress: Long) {
-                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
-                    }
+                progressCallback = { progress ->
+                    downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
                 }
             )
 

@@ -478,29 +478,37 @@ public final class Utils {
 	}
 
 	public static void logoutUser(Context context) {
+		// Clear JWT tokens
+		kotlin.Lazy<org.catrobat.catroid.web.JwtTokenStore> tokenStoreLazy =
+				org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class);
+		tokenStoreLazy.getValue().clearTokens();
+
+		// Sign out of Google
+		if (context instanceof AppCompatActivity) {
+			GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
+			googleLoginHandler.getGoogleSignInClient().signOut();
+		}
+
+		// Clear old tokens from SharedPreferences (migration cleanup)
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
-		googleLoginHandler.getGoogleSignInClient().signOut();
 		sharedPreferences.edit()
-				.putString(Constants.TOKEN, Constants.NO_TOKEN)
-				.putString(Constants.USERNAME, Constants.NO_USERNAME)
-				.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
-				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
-				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
-				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
-				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
-				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN)
+				.remove(Constants.TOKEN)
+				.remove(Constants.USERNAME)
+				.remove(Constants.GOOGLE_EXCHANGE_CODE)
+				.remove(Constants.GOOGLE_EMAIL)
+				.remove(Constants.GOOGLE_USERNAME)
+				.remove(Constants.GOOGLE_ID)
+				.remove(Constants.GOOGLE_LOCALE)
+				.remove(Constants.GOOGLE_ID_TOKEN)
 				.apply();
+
 		WebViewActivity.clearCookies();
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != TOKEN_LENGTH
-				|| token.equals(TOKEN_CODE_INVALID));
-		return tokenValid;
+		kotlin.Lazy<org.catrobat.catroid.web.JwtTokenStore> tokenStoreLazy =
+				org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class);
+		return tokenStoreLazy.getValue().isLoggedIn();
 	}
 
 	public static int setBit(int number, int index, int value) {
