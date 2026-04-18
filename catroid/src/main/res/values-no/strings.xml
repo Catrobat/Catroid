@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Et øyeblikk</string>
     <string formatted="false" name="search_hint">Søk…</string>
     <string formatted="false" name="backpack_add">Legg til i backpack</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Prosjektet du har lastet ned lytter til din stemme
         i bakgrunnen og sender også data til Internett. Dette kan være ufarlig og nødvendig

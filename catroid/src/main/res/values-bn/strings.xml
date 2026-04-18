@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">অনুগ্রহ করে অপেক্ষা করুন</string>
     <string formatted="false" name="search_hint">অনুসন্ধান</string>
     <string formatted="false" name="backpack_add">ব্যাকপ্যাক যোগ করুন</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">আপনি যে প্রকল্পটি ডাউনলোড করেছেন তা আপনার ভয়েস শুনে
         ব্যাকগ্রাউন্ডে এবং ইন্টারনেটে ডেটা প্রেরণ করে। এটি নিরীহ এবং প্রয়োজনীয় হতে পারে

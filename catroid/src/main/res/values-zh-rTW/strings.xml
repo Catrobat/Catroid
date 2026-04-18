@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">請稍候</string>
     <string formatted="false" name="search_hint">搜索…</string>
     <string formatted="false" name="backpack_add">放進背包</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">你下載的專案有在背景監聽並傳送資料到網際網路.
 這可能是專案原本預期的行為且無害的. 無論如何,請確認你執行專案時的談話內容是安全的. 

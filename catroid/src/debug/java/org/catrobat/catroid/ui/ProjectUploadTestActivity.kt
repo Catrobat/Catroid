@@ -33,7 +33,7 @@ class ProjectUploadTestActivity : ProjectUploadActivity() {
     }
 
     override fun verifyUserIdentity() {
-        onTokenCheckComplete(true, false)
+        onCreateView()
     }
 
     fun projectUploadController(): ProjectUploadController? = projectUploadController

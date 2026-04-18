@@ -73,7 +73,7 @@
 
     <string formatted="false" name="backpack_add">Add to backpack</string>
 
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
 
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -114,6 +114,11 @@
     <string formatted="false" name="main_menu_programs">Projects</string>
     <string formatted="false" name="main_menu_help">Help</string>
     <string formatted="false" name="main_menu_web">Catrobat</string>
+    <string formatted="false" name="popular_projects">Popular</string>
+    <string formatted="false" name="trending_projects">Trending</string>
+    <string formatted="false" name="explore_share">Explore our community</string>
+    <string formatted="false" name="random_projects">Random</string>
+    <string formatted="false" name="upload_to_community">Upload to community</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
 

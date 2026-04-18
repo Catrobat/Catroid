@@ -60,7 +60,6 @@ class MainFragmentViewModel(
     private val connectionMonitor: NetworkConnectionMonitor
 ) : ViewModel() {
     private val projectList = MutableLiveData<List<ProjectData>>()
-
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun getProjects(): LiveData<List<ProjectData>> = projectList
@@ -115,6 +114,7 @@ class MainFragmentViewModel(
             ExistingPeriodicWorkPolicy.REPLACE,
             createPeriodicWorkerRequestOf(ProjectsCategoriesSyncWorker::class.java)
         )
+
     }
 
     private val isLoadingData = MutableLiveData<Boolean>(true)

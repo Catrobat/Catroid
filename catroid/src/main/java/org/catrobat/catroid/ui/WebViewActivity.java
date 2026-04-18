@@ -27,13 +27,11 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
@@ -56,8 +54,6 @@ import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
 import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -111,7 +107,8 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + buildType);
 
-		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
+		kotlin.Lazy<org.catrobat.catroid.web.JwtTokenStore> tokenStoreLazy = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class);
+		setLoginCookies(url, CookieManager.getInstance(), tokenStoreLazy.getValue().getAccessToken());
 		webView.loadUrl(url);
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
@@ -167,7 +164,8 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && (urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
+			} else if (allowGoBack && (urlClient.contains("/exit")
+					|| urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
 					|| urlClient.equals(Constants.BASE_APP_URL_HTTPS))) {
 				allowGoBack = false;
 				onBackPressed();
@@ -283,26 +281,13 @@ public class WebViewActivity extends AppCompatActivity {
 	}
 
 	@VisibleForTesting
-	public static void setLoginCookies(String url, SharedPreferences sharedPreferences, CookieManager cookieManager) {
-		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
-		if (username.equals(Constants.NO_USERNAME) || token.equals(Constants.NO_TOKEN)) {
+	public static void setLoginCookies(String url, CookieManager cookieManager, String jwtToken) {
+		if (jwtToken == null || jwtToken.isEmpty()) {
 			return;
 		}
 
-		String encodedUsername;
-		try {
-			encodedUsername = URLEncoder.encode(username, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			return;
-		}
-
-		Cookie usernameCookie = new Cookie(Constants.USERNAME_COOKIE_NAME, encodedUsername);
-		Cookie tokenCookie = new Cookie(Constants.TOKEN_COOKIE_NAME, token);
-		cookieManager.setCookie(url, usernameCookie.generateCookieString());
-		cookieManager.setCookie(url, tokenCookie.generateCookieString());
+		Cookie bearerCookie = new Cookie("BEARER", jwtToken);
+		cookieManager.setCookie(url, bearerCookie.generateCookieString());
 	}
 
 	public static void clearCookies() {

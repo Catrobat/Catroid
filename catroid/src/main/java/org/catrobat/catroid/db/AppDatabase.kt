@@ -36,7 +36,7 @@ import org.catrobat.catroid.retrofit.models.ProjectsCategory
     entities = [FeaturedProject::class,
         ProjectsCategory::class,
         ProjectResponse::class],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(StringListConverter::class, BooleanConverter::class)

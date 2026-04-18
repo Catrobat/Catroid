@@ -54,10 +54,8 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.transfers.CheckTokenTask
-import org.catrobat.catroid.transfers.CheckTokenTask.TokenCheckListener
-import org.catrobat.catroid.transfers.GetTagsTask
-import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
+import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.web.LoginRepository
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
 import org.catrobat.catroid.ui.controller.ProjectUploadController
@@ -65,7 +63,6 @@ import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadI
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
-import org.catrobat.catroid.web.ServerAuthenticationConstants
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileOutputStream
@@ -95,10 +92,11 @@ const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
 
 open class ProjectUploadActivity : BaseActivity(),
     ProjectLoadListener,
-    TokenCheckListener,
-    TagResponseListener,
     ResultReceiverWrapperInterface,
     ProjectUploadInterface {
+
+    private val loginRepository: LoginRepository by inject()
+    private val webService: WebService by inject()
 
     private lateinit var project: Project
     private lateinit var xmlFile: File
@@ -159,7 +157,7 @@ open class ProjectUploadActivity : BaseActivity(),
         verifyUserIdentity()
     }
 
-    private fun onCreateView() {
+    protected open fun onCreateView() {
         val thumbnailSize = THUMBNAIL_SIZE
         val screenshotLoader = ProjectAndSceneScreenshotLoader(
             thumbnailSize,
@@ -578,34 +576,11 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     protected open fun verifyUserIdentity() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME)
-        val isTokenSetInPreferences =
-            token != Constants.NO_TOKEN && token?.length == ServerAuthenticationConstants.TOKEN_LENGTH && token != ServerAuthenticationConstants.TOKEN_CODE_INVALID
-        if (isTokenSetInPreferences) {
-            CheckTokenTask(this)
-                .execute(token, username)
+        if (loginRepository.isLoggedIn()) {
+            onCreateView()
         } else {
             startSignInWorkflow()
         }
-    }
-
-    override fun onTokenCheckComplete(tokenValid: Boolean, connectionFailed: Boolean) {
-        if (connectionFailed) {
-            if (!tokenValid) {
-                ToastUtil.showError(this, R.string.error_session_expired)
-                Utils.logoutUser(this)
-                startSignInWorkflow()
-            } else {
-                ToastUtil.showError(this, R.string.error_internet_connection)
-                return
-            }
-        } else if (!tokenValid) {
-            startSignInWorkflow()
-            return
-        }
-        onCreateView()
     }
 
     fun startSignInWorkflow() {
@@ -625,13 +600,17 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun getTags() {
-        val getTagsTask = GetTagsTask()
-        getTagsTask.setOnTagsResponseListener(this)
-        getTagsTask.execute()
-    }
-
-    override fun onTagsReceived(tags: List<String>) {
-        this.tags = tags
+        Thread {
+            try {
+                val response = webService.getProjectTags().execute()
+                if (response.isSuccessful) {
+                    val tagNames = response.body()?.data?.map { it.text } ?: emptyList()
+                    runOnUiThread { this.tags = tagNames }
+                }
+            } catch (_: Exception) {
+                // Tags are optional — proceed without them
+            }
+        }.start()
     }
 
     inner class NameInputTextWatcher : TextWatcher {

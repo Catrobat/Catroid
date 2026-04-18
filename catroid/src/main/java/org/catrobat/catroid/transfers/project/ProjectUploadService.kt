@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,43 +32,33 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
-import org.catrobat.catroid.common.Constants.EMAIL
-import org.catrobat.catroid.common.Constants.EXTRA_LANGUAGE
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_DESCRIPTION
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_PATH
-import org.catrobat.catroid.common.Constants.EXTRA_PROVIDER
 import org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER
 import org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES
 import org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME
-import org.catrobat.catroid.common.Constants.EXTRA_USER_EMAIL
-import org.catrobat.catroid.common.Constants.GOOGLE_EMAIL
-import org.catrobat.catroid.common.Constants.GOOGLE_PLUS
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
-import org.catrobat.catroid.common.Constants.NO_EMAIL
-import org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.ui.MainMenuActivity
-import org.catrobat.catroid.utils.DeviceSettingsProvider
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.web.CatrobatWebClient
-import org.catrobat.catroid.web.ServerCalls
+import org.koin.android.ext.android.inject
 import java.io.File
-import java.util.Locale
 
 const val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
 
 class ProjectUploadService : IntentService("ProjectUploadService") {
+
+    private val webService: WebService by inject()
 
     override fun onHandleIntent(projectUploadIntent: Intent?) {
         val intent = projectUploadIntent
@@ -99,15 +89,12 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             putString(EXTRA_PROJECT_DESCRIPTION, intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION))
             putString(EXTRA_PROJECT_PATH, projectPath)
             putStringArray(EXTRA_SCENE_NAMES, intent.getStringArrayExtra(EXTRA_SCENE_NAMES))
-            putString(EXTRA_USER_EMAIL, getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)))
-            putString(EXTRA_LANGUAGE, Locale.getDefault().language)
         }
 
         ProjectUpload(
             projectDirectory = projectDirectory,
             projectName = projectName,
             projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION) ?: "",
-            userEmail = getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)),
             sceneNames = intent.getStringArrayExtra(EXTRA_SCENE_NAMES),
             archiveDirectory = File(cacheDir, UPLOAD_FILE_NAME),
             zipArchiver = ZipArchiver(),
@@ -115,8 +102,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_width),
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_height)
             ),
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this),
-            serverCalls = ServerCalls(CatrobatWebClient.client)
+            webService = webService
         ).start(
             successCallback = { projectId ->
                 Log.v(TAG, "Upload successful")
@@ -139,11 +125,6 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         )
     }
 
-    override fun onDestroy() {
-        Utils.invalidateLoginTokenIfUserRestricted(applicationContext)
-        super.onDestroy()
-    }
-
     private fun createUploadNotification(programName: String): Notification {
         StatusBarNotificationManager(applicationContext).createNotificationChannel(applicationContext)
 
@@ -151,19 +132,11 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -181,20 +154,11 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
-
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -207,23 +171,6 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             .setOngoing(false)
             .setProgress(0, 0, false)
             .build()
-    }
-
-    private fun getUserEmail(provider: String?): String {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
-        val email = when (provider) {
-            GOOGLE_PLUS -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
-            else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
-        }
-
-        val result = if (email == NO_EMAIL) {
-            DeviceSettingsProvider.getUserEmail(this)
-        } else {
-            email
-        }
-
-        return result ?: ""
     }
 
     private fun logWarning(warningMessage: String) {

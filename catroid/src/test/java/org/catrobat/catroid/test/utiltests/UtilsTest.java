@@ -40,7 +40,7 @@ public class UtilsTest {
 
 	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
-		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String expectedFirstProgramRemixUrl = "https://share.catrobat.org/pocketcode/program/16267";
 
 		List<String> result = Utils.extractRemixUrlsFromString(expectedFirstProgramRemixUrl);
 		assertEquals(1, result.size());
@@ -58,7 +58,7 @@ public class UtilsTest {
 
 	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoAbsoluteUrls() {
-		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String expectedFirstProgramRemixUrl = "https://share.catrobat.org/pocketcode/program/16267";
 		final String expectedSecondProgramRemixUrl = "https://scratch.mit.edu/projects/110380057/";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
@@ -141,7 +141,7 @@ public class UtilsTest {
 		final String expectedFirstProgramRemixUrl = "https://scratch.mit.edu/projects/117697631/";
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 		final String expectedThirdProgramRemixUrl = "https://scratch.mit.edu/projects/121648946/";
-		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String expectedFourthProgramRemixUrl = "https://share.catrobat.org/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
 		headerOfFirstProgram.setProjectName("My first Scratch program");
@@ -187,7 +187,7 @@ public class UtilsTest {
 	@Test
 	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMissingUrls() {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
-		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String expectedFourthProgramRemixUrl = "https://share.catrobat.org/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
 		headerOfFirstProgram.setProjectName("Program A");

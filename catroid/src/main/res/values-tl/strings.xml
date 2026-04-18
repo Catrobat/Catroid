@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Pakiusap maghintay</string>
     <string formatted="false" name="search_hint">Maghanap</string>
     <string formatted="false" name="backpack_add">Idagdag sa backpack</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ang na-download mong project ay nakikinig sa boses mo
         sa background at nagpapadala ng data sa internet. Maaaring hindi naman ito nakakapanakit,at kailangan

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,8 @@ import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
+import org.catrobat.catroid.retrofit.AuthInterceptor
+import org.catrobat.catroid.retrofit.AuthService
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
@@ -51,6 +53,10 @@ import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesReposito
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
+import org.catrobat.catroid.web.CatrobatWebClient
+import org.catrobat.catroid.web.DownloadClient
+import org.catrobat.catroid.web.JwtTokenStore
+import org.catrobat.catroid.web.LoginRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -59,13 +65,33 @@ import org.koin.core.logger.Level
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+private const val API_BASE_URL = "https://share.catrobat.org/api/"
+
 val componentsModules = module(createdAtStart = true, override = false) {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database")
-            .addMigrations(DatabaseMigrations.MIGRATION_1_2)
+            .addMigrations(DatabaseMigrations.MIGRATION_1_2, DatabaseMigrations.MIGRATION_2_3)
             .build()
     }
-    single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
+
+    // JWT token store
+    single { JwtTokenStore(androidContext()) }
+
+    // Auth service (no auth interceptor — avoids refresh loop)
+    single<AuthService> { CatroidWebServer.getAuthService(API_BASE_URL) }
+
+    // Auth interceptor
+    single { AuthInterceptor(get(), API_BASE_URL) }
+
+    // Login repository
+    single { LoginRepository(get(), get()) }
+
+    // WebService with auth interceptor for authenticated API calls
+    single { CatroidWebServer.getWebService(API_BASE_URL, listOf(get<AuthInterceptor>())) }
+
+    // Download client (uses base OkHttp — no auth needed for public downloads)
+    single { DownloadClient(CatrobatWebClient.client) }
+
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }

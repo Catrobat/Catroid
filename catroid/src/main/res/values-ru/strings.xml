@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Пожалуйста, подождите</string>
     <string formatted="false" name="search_hint">Поиск</string>
     <string formatted="false" name="backpack_add">Положить в портфель</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проект который вы скачали, прослушивает голос
         в фоновом режиме, а также отправляет данные в интернет. Это может быть безвредным и необходимым

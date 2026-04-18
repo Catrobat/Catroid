@@ -28,9 +28,14 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
-import org.catrobat.catroid.transfers.GetSurveyTask;
+import org.catrobat.catroid.retrofit.WebService;
+import org.catrobat.catroid.retrofit.models.SurveyResponse;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
+
+import static org.koin.java.KoinJavaComponent.inject;
+
+import kotlin.Lazy;
 
 import java.util.Date;
 
@@ -42,7 +47,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL1_HASH_
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL2_HASH_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.TIME_SPENT_IN_APP_IN_SECONDS_KEY;
 
-public class Survey implements GetSurveyTask.SurveyResponseListener {
+public class Survey {
 	@VisibleForTesting
 	public static final int MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS = 60 * 60;
 
@@ -145,12 +150,23 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 
 	@VisibleForTesting
 	public void getSurvey(Context context) {
-		GetSurveyTask getSurveyTask = new GetSurveyTask(context);
-		getSurveyTask.setOnSurveyResponseListener(this);
-		getSurveyTask.execute();
+		Lazy<WebService> webServiceLazy = inject(WebService.class);
+		String langCode = java.util.Locale.getDefault().getLanguage();
+		new Thread(() -> {
+			try {
+				retrofit2.Response<SurveyResponse> response =
+						webServiceLazy.getValue().getSurvey(langCode, "android").execute();
+				if (response.isSuccessful() && response.body() != null && response.body().getUrl() != null) {
+					String surveyUrl = response.body().getUrl();
+					new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+							onSurveyReceived(context, surveyUrl));
+				}
+			} catch (Exception e) {
+				// Survey is non-critical — silently ignore network failures
+			}
+		}).start();
 	}
 
-	@Override
 	public void onSurveyReceived(Context context, String surveyUrl) {
 		if (isUrlNew(context, surveyUrl)) {
 			Intent intent = new Intent(context, WebViewActivity.class);

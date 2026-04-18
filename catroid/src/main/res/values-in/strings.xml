@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Mohon tungggu</string>
     <string formatted="false" name="search_hint">Pencarian…</string>
     <string formatted="false" name="backpack_add">Tambahkan ke ransel</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Proyek yang telah Anda unduh mendengarkan suara Anda
         di latar belakang dan juga mengirimkan data ke internet. Ini mungkin tidak berbahaya, dan perlu

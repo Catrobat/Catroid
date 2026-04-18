@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,18 +51,19 @@ class DefaultProjectsCategoriesSync(
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")
         if (requireUpdate(localHashVersion, serverHashVersion) || force) {
-            update(response.body())
+            val body = response.body()
+            update(body?.data)
             localHashVersionRepository.setProjectsCategoriesHashVersion(serverHashVersion)
         } else {
             Log.d(javaClass.simpleName, "no update needed! you've latest version :)")
         }
     }
 
-    private fun update(body: List<ProjectsCategoryApi>?) {
+    private fun update(categories: List<ProjectsCategoryApi>?) {
         Log.d(javaClass.simpleName, "updating projectsCategories")
-        Log.d(javaClass.simpleName, "$body")
+        Log.d(javaClass.simpleName, "$categories")
 
-        body?.toProjectCategoryWithResponsesList()?.let {
+        categories?.toProjectCategoryWithResponsesList()?.let {
             appDatabase.projectCategoryDao().nukeAll()
             appDatabase.projectCategoryDao().insertProjectCategoriesWithResponses(it)
         }

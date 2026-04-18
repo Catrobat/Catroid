@@ -64,6 +64,7 @@ fun View.setVisibleOrGone(show: Boolean) {
 
 fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<ProjectResponse> {
     return this.map { src ->
+        val screenshotUrl = src.getScreenshotUrl() ?: ""
         ProjectResponse(
             id = src.id,
             name = src.name,
@@ -71,20 +72,24 @@ fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<P
             description = src.description,
             version = src.version,
             views = src.views,
-            download = src.download,
+            download = src.downloads,
             private = src.private,
             flavor = src.flavor,
-            tags = src.tags,
-            uploaded = src.uploaded,
+            tags = when (val t = src.tags) {
+                is List<*> -> t.filterIsInstance<String>()
+                is Map<*, *> -> t.values.filterIsInstance<String>()
+                else -> emptyList()
+            },
+            uploaded = 0L,
             uploadedString = src.uploaded_string,
-            screenshotSmall = src.screenshot_small,
-            screenshotLarge = src.screenshot_large,
+            screenshotSmall = src.screenshot?.getThumbUrl() ?: screenshotUrl,
+            screenshotLarge = src.screenshot?.getDetailUrl() ?: screenshotUrl,
             projectUrl = src.project_url,
             downloadUrl = src.download_url,
             fileSize = src.filesize,
             categoryType = projectType
         )
-    }.toMutableList()
+    }
 }
 
 fun ProjectsCategoryApi.convertToProjectsCategory() = ProjectsCategory(this.type, this.name)
@@ -97,4 +102,4 @@ fun ProjectsCategoryApi.toProjectCategoryWithResponses(): ProjectCategoryWithRes
 }
 
 fun List<ProjectsCategoryApi>.toProjectCategoryWithResponsesList() =
-    this.map { it.toProjectCategoryWithResponses() }.toMutableList()
+    this.map { it.toProjectCategoryWithResponses() }
