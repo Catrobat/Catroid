@@ -600,6 +600,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public void addBrick(Brick brick) {
+		copyProjectForUndoOption();
 		try {
 			if (!brick.getClass().equals(UserDefinedReceiverBrick.class) && !brick.getClass().equals(UserDefinedBrick.class)) {
 				RecentBrickListManager.getInstance().addBrick(brick.clone());
@@ -716,7 +717,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
-		showUndo(false);
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
@@ -725,6 +725,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_copy_brick:
 			case R.string.brick_context_dialog_copy_script:
+				copyProjectForUndoOption();
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
@@ -743,6 +744,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
+				copyProjectForUndoOption();
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(false);
 				}
@@ -750,6 +752,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_comment_out:
 			case R.string.brick_context_dialog_comment_out_script:
+				copyProjectForUndoOption();
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(true);
 				}
@@ -793,10 +796,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public boolean onBrickLongClick(Brick brick, int position) {
-		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
+			copyProjectForUndoOption();
 			listView.startMoving(brick);
 		}
 		return true;
@@ -849,6 +852,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void copy(List<Brick> selectedBricks) {
+		copyProjectForUndoOption();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		brickController.copy(selectedBricks, sprite);
 		adapter.updateItems(sprite);
@@ -871,6 +875,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void toggleComments(List<Brick> selectedBricks) {
+		copyProjectForUndoOption();
 		for (Brick brick : adapter.getItems()) {
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
@@ -896,6 +901,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					savedUserVariables, savedMultiplayerVariables, savedUserLists,
 					savedLocalUserVariables, savedLocalLists);
 			spriteActivity.getUndoManager().pushState(currentSceneName, currentSpriteName, snapshot);
+			spriteActivity.setUndoMenuItemVisibility(false);
+			spriteActivity.invalidateOptionsMenu();
 			return true;
 		}
 		return false;
@@ -921,6 +928,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);
 				spriteActivity.showRedo(false);
+				listView.cancelMove();
+				listView.cancelHighlighting();
 				restoreFromEntry(entry);
 			}
 		}
@@ -944,6 +953,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				isUndoRedoInProgress = true;
 				spriteActivity.showUndo(false);
 				spriteActivity.showRedo(false);
+				listView.cancelMove();
+				listView.cancelHighlighting();
 				restoreFromEntry(entry);
 			}
 		}
