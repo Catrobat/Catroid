@@ -73,7 +73,7 @@
 
     <string formatted="false" name="backpack_add">Add to backpack</string>
 
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
 
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -114,6 +114,8 @@
     <string formatted="false" name="main_menu_programs">Projects</string>
     <string formatted="false" name="main_menu_help">Help</string>
     <string formatted="false" name="main_menu_web">Catrobat</string>
+    <string formatted="false" name="explore_share">Explore our community</string>
+    <string formatted="false" name="upload_to_community">Upload to community</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
 
@@ -1455,6 +1457,8 @@ needs read and write access to it. You can always change permissions through you
 
     <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Too many uploads. Please wait a few minutes and try again.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Project size %1$s exceeds the %2$s MB upload limit. Please reduce the project size before sharing.</string>
     <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -2240,8 +2244,11 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Processing on server…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
+    <string name="upload_progress_percent">%1$d%%</string>
+    <string name="upload_progress_initial">0%%</string>
     <!--  -->
 
     <!-- unchanged upload dialog -->

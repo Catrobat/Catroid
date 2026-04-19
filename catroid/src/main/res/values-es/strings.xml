@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Espere por favor</string>
     <string formatted="false" name="search_hint">Búsqueda…</string>
     <string formatted="false" name="backpack_add">Agregar a la Mochila</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">El proyecto que ha descargado escucha su voz. 
         en segundo plano y también envía datos a Internet. Esto puede ser inofensivo y necesario

@@ -130,7 +130,7 @@ class MainMenuFragmentTest : KoinTest {
     @Test
     fun testCatrobatCommunitySectionIsDisplayed() {
         syncBeforeLaunch()
-        onView(withId(R.id.featuredProjectsTextView))
+        onView(withId(R.id.exploreShareTextView))
             .check(matches(isDisplayed()))
             .check(matches(isClickable()))
 

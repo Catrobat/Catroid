@@ -127,7 +127,7 @@ android {
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
-                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterHost: "share.catrobat.org",
                                  intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
@@ -397,6 +397,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     // retrofit moshi converter
     implementation 'com.squareup.retrofit2:converter-moshi:2.7.1'
+    // Moshi Kotlin support (reflection adapter for Kotlin data classes)
+    implementation 'com.squareup.moshi:moshi-kotlin:1.15.1'
     // Glide (Images downloader)
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 

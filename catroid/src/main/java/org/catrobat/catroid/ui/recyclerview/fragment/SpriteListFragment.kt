@@ -256,36 +256,46 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMPORT_OBJECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
-                Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT)))
+            if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
+                importSpriteFromUri(Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT))))
             } else {
-                Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+                val paths = data?.getStringArrayListExtra(WebViewActivity.MEDIA_FILE_PATHS)
+                if (!paths.isNullOrEmpty()) {
+                    for (path in paths) {
+                        importSpriteFromUri(Uri.fromFile(File(path)))
+                    }
+                } else {
+                    val single = data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)
+                    if (single != null) {
+                        importSpriteFromUri(Uri.fromFile(File(single)))
+                    }
+                }
             }
+        }
+    }
 
-            val currentScene = projectManager.currentlyEditedScene
-            val resolvedName: String
-            val resolvedFileName =
-                StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
-            val lookFileName: String
-            val useDefaultSpriteName =
-                resolvedFileName == null || StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
-            if (useDefaultSpriteName) {
-                resolvedName = getString(R.string.default_sprite_name)
-                lookFileName = resolvedName + Constants.CATROBAT_EXTENSION
-            } else {
-                lookFileName = resolvedFileName
-            }
-            val importProjectHelper = ImportProjectHelper(
-                lookFileName, currentScene, requireActivity()
-            )
-            if (!importProjectHelper.checkForConflicts()) {
-                return
-            }
-            if (currentSprite != null) {
-                importProjectHelper.addObjectDataToNewSprite(currentSprite)
-            } else {
-                importProjectHelper.rejectImportDialog(null)
-            }
+    private fun importSpriteFromUri(uri: Uri) {
+        val currentScene = projectManager.currentlyEditedScene
+        val resolvedFileName =
+            StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
+        val lookFileName: String
+        val useDefaultSpriteName =
+            resolvedFileName == null || StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
+        if (useDefaultSpriteName) {
+            lookFileName = getString(R.string.default_sprite_name) + Constants.CATROBAT_EXTENSION
+        } else {
+            lookFileName = resolvedFileName
+        }
+        val importProjectHelper = ImportProjectHelper(
+            lookFileName, currentScene, requireActivity()
+        )
+        if (!importProjectHelper.checkForConflicts()) {
+            return
+        }
+        if (currentSprite != null) {
+            importProjectHelper.addObjectDataToNewSprite(currentSprite)
+        } else {
+            importProjectHelper.rejectImportDialog(null)
         }
     }
 

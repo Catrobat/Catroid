@@ -43,19 +43,19 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.ProjectIdUtils
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.NotificationData
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.CHANNEL_ID
-import org.catrobat.catroid.web.CatrobatServerCalls
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadErrorCallback
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadProgressCallback
-import org.catrobat.catroid.web.CatrobatServerCalls.DownloadSuccessCallback
-import org.catrobat.catroid.web.CatrobatWebClient
+import org.catrobat.catroid.web.DownloadClient
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
 
 class ProjectDownloadService : IntentService("ProjectDownloadService") {
+
+    private val downloadClient: DownloadClient by inject()
 
     companion object {
         val TAG: String = ProjectDownloadService::class.java.simpleName
@@ -74,13 +74,13 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
 
     override fun onHandleIntent(intent: Intent?) {
         val downloadIntent = intent
-            ?: return logWarning("Called ProjectDownloadService with null intent - aborting")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectDownloadService with null intent - aborting") }
         val projectName = downloadIntent.getStringExtra(EXTRA_DOWNLOAD_NAME)
-            ?: return logWarning("Called ProjectDownloadService with null projectName -  aborting")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectDownloadService with null projectName - aborting") }
         val url = downloadIntent.getStringExtra(EXTRA_URL)
-            ?: return logWarning("Called ProjectDownloadService without url - aborting")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectDownloadService without url - aborting") }
         val resultReceiver = downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
-                ?: return logWarning("Called ProjectDownloadService without url - aborting")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectDownloadService without receiver - aborting") }
 
         val zipFileString = File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
         val destinationFile = File(zipFileString)
@@ -97,29 +97,23 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
 
         startForeground(id, notification)
 
-        CatrobatServerCalls(CatrobatWebClient.client)
-            .downloadProject(
+        downloadClient.downloadProject(
                 url,
                 destinationFile,
-                object : DownloadSuccessCallback {
-                    override fun onSuccess() {
-                        downloadSuccessCallback(
-                            this@ProjectDownloadService,
-                            projectName,
-                            destinationFile,
-                            resultReceiver
-                        )
-                    }
+                successCallback = {
+                    downloadSuccessCallback(
+                        this@ProjectDownloadService,
+                        projectName,
+                        url,
+                        destinationFile,
+                        resultReceiver
+                    )
                 },
-                object : DownloadErrorCallback {
-                    override fun onError(code: Int, message: String) {
-                        downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
-                    }
+                errorCallback = { _, _ ->
+                    downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
                 },
-                object : DownloadProgressCallback {
-                    override fun onProgress(progress: Long) {
-                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
-                    }
+                progressCallback = { progress ->
+                    downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
                 }
             )
 
@@ -129,10 +123,10 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
     private fun downloadSuccessCallback(
         context: Context,
         projectName: String,
+        downloadUrl: String,
         destinationFile: File,
         resultReceiver: ResultReceiver
     ) {
-        val statusBarNotificationManager = StatusBarNotificationManager(context)
         val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
 
         try {
@@ -141,7 +135,14 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             ZipArchiver().unzip(destinationFile, projectDir)
 
             XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
-            ProjectManager.getInstance().addNewDownloadedProject(projectName)
+
+            val serverProjectId = extractProjectIdFromUrl(downloadUrl)
+            val projectManager = ProjectManager.getInstance()
+            projectManager.addNewDownloadedProject(projectName)
+            if (serverProjectId != null) {
+                setRemixUrlInProject(projectDir, serverProjectId)
+                File(projectDir, ".server_project_id").writeText(serverProjectId)
+            }
 
             val downloadIntent = Intent(context, MainMenuActivity::class.java)
             downloadIntent.setAction(Intent.ACTION_MAIN)
@@ -177,12 +178,13 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         resultReceiver: ResultReceiver,
         projectName: String
     ) {
-        val statusBarNotificationManager = StatusBarNotificationManager(context)
         val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
         statusBarNotificationManager.abortProgressNotificationWithMessage(context, notificationData, R.string.error_project_download)
 
         resultReceiver.send(ERROR_CODE, Bundle())
     }
+
+    private val statusBarNotificationManager by lazy { StatusBarNotificationManager(this) }
 
     private fun downloadProgressCallback(
         context: Context,
@@ -190,14 +192,32 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         notificationData: NotificationData,
         progress: Long
     ) {
-        StatusBarNotificationManager(context)
+        statusBarNotificationManager
             .showOrUpdateNotification(context, notificationData, progress.toInt(), null)
         val bundle = Bundle()
         bundle.putInt(UPDATE_PROGRESS_EXTRA, progress.toInt())
         resultReceiver.send(UPDATE_PROGRESS_CODE, bundle)
     }
 
-    private fun logWarning(warningMessage: String) {
-        Log.w(TAG, warningMessage)
+    private fun extractProjectIdFromUrl(url: String): String? {
+        return ProjectIdUtils.extractUuidFromString(url)
     }
+
+    private fun setRemixUrlInProject(projectDir: File, serverProjectId: String) {
+        try {
+            val shareUrl = Constants.SHARE_PROJECT_URL + serverProjectId
+            val codeXml = File(projectDir, Constants.CODE_XML_FILE_NAME)
+            if (!codeXml.exists()) return
+
+            val content = codeXml.readText()
+            val updatedContent = content.replace(
+                ProjectIdUtils.URL_TAG_REGEX,
+                "<url>$shareUrl</url>"
+            )
+            codeXml.writeText(updatedContent)
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to set remix URL in project: ${e.message}")
+        }
+    }
+
 }

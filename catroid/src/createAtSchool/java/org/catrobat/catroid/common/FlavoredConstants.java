@@ -30,34 +30,31 @@ import org.catrobat.catroid.CatroidApplication;
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
-import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
 
-	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/create@school/";
 
 	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
 
-	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
+	public static final String FLAVOR_NAME = "create@school";
+
+	public static final String CATEGORY_URL = MAIN_URL_HTTPS + "/" + FLAVOR_NAME + "/#home-projects__";
 
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Create@School";
-
-	public static final String FLAVOR_NAME = "create@school";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 
 	public static final File EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
 			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
-	// Media Library:
-	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
-	public static final String CATROBAT_BASE_URL = "https://catrobat.org/";
-	public static final String CATROBAT_CONTENT_DOWNLOAD_URL = CATROBAT_BASE_URL + "wp-content/";
-	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
-	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
-	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
+	// Media Library (via share.catrobat.org):
+	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/" + FLAVOR_NAME + "/media-library";
+	public static final String CATROBAT_CONTENT_DOWNLOAD_URL = MAIN_URL_HTTPS + "/resources/media/";
+	public static final String CATROBAT_CONTENT_LOOKS_URL = LIBRARY_BASE_URL + "?file_type=IMAGE";
+	public static final String CATROBAT_CONTENT_SOUNDS_URL = LIBRARY_BASE_URL + "?file_type=SOUND";
+	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = LIBRARY_BASE_URL + "?file_type=IMAGE&category=backgrounds";
 	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
 
 	private FlavoredConstants() {

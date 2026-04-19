@@ -28,11 +28,13 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
-import org.catrobat.catroid.transfers.GetSurveyTask;
+import org.catrobat.catroid.retrofit.WebService;
+import org.catrobat.catroid.retrofit.models.SurveyResponse;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Date;
+import kotlin.Lazy;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -41,8 +43,9 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_SURVEY_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL1_HASH_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL2_HASH_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.TIME_SPENT_IN_APP_IN_SECONDS_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
-public class Survey implements GetSurveyTask.SurveyResponseListener {
+public class Survey {
 	@VisibleForTesting
 	public static final int MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS = 60 * 60;
 
@@ -77,7 +80,9 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 
 	public void endAppTime(Context context) {
 		if (!fulfilledSurveyRequirements) {
-			sessionTimeSpentInIdeInSeconds = (System.currentTimeMillis() - sessionStartTimeInMilliseconds - sessionTimeSpentInStageInMilliseconds) / 1000;
+			long elapsed = System.currentTimeMillis() - sessionStartTimeInMilliseconds
+					- sessionTimeSpentInStageInMilliseconds;
+			sessionTimeSpentInIdeInSeconds = elapsed / 1000;
 			sessionStartTimeInMilliseconds = 0;
 
 			long oldTimeSpentInApp = PreferenceManager.getDefaultSharedPreferences(context)
@@ -145,12 +150,23 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 
 	@VisibleForTesting
 	public void getSurvey(Context context) {
-		GetSurveyTask getSurveyTask = new GetSurveyTask(context);
-		getSurveyTask.setOnSurveyResponseListener(this);
-		getSurveyTask.execute();
+		Lazy<WebService> webServiceLazy = inject(WebService.class);
+		String langCode = java.util.Locale.getDefault().getLanguage();
+		new Thread(() -> {
+			try {
+				retrofit2.Response<SurveyResponse> response =
+						webServiceLazy.getValue().getSurvey(langCode, "android").execute();
+				if (response.isSuccessful() && response.body() != null && response.body().getUrl() != null) {
+					String surveyUrl = response.body().getUrl();
+					new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+							onSurveyReceived(context, surveyUrl));
+				}
+			} catch (Exception ignored) {
+				android.util.Log.d("Survey", "Survey fetch skipped", ignored);
+			}
+		}).start();
 	}
 
-	@Override
 	public void onSurveyReceived(Context context, String surveyUrl) {
 		if (isUrlNew(context, surveyUrl)) {
 			Intent intent = new Intent(context, WebViewActivity.class);

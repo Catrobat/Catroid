@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,61 +32,51 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
-import org.catrobat.catroid.common.Constants.EMAIL
-import org.catrobat.catroid.common.Constants.EXTRA_LANGUAGE
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_DESCRIPTION
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_PATH
-import org.catrobat.catroid.common.Constants.EXTRA_PROVIDER
 import org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER
 import org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES
 import org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME
-import org.catrobat.catroid.common.Constants.EXTRA_USER_EMAIL
-import org.catrobat.catroid.common.Constants.GOOGLE_EMAIL
-import org.catrobat.catroid.common.Constants.GOOGLE_PLUS
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
-import org.catrobat.catroid.common.Constants.NO_EMAIL
-import org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.ui.MainMenuActivity
-import org.catrobat.catroid.utils.DeviceSettingsProvider
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.web.CatrobatWebClient
-import org.catrobat.catroid.web.ServerCalls
+import org.koin.android.ext.android.inject
 import java.io.File
-import java.util.Locale
 
 const val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
 
 class ProjectUploadService : IntentService("ProjectUploadService") {
 
+    private val webService: WebService by inject()
+
     override fun onHandleIntent(projectUploadIntent: Intent?) {
         val intent = projectUploadIntent
-            ?: return logWarning("Called ProjectUploadService with null intent!")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectUploadService with null intent!") }
 
         val projectPath = intent.getStringExtra(EXTRA_PROJECT_PATH)
-            ?: return logWarning("Called ProjectUploadService without project path!")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectUploadService without project path!") }
 
         val projectDirectory = File(projectPath)
-        if (projectDirectory.listFiles().isEmpty()) {
-            return logWarning("Called ProjectUploadService with empty project directory!")
+        if (projectDirectory.listFiles().isNullOrEmpty()) {
+            return Unit.also { Log.w(TAG, "Called ProjectUploadService with empty project directory!") }
         }
 
         val resultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER) as? ResultReceiver
-            ?: return logWarning("Called ProjectUploadService without resultReceiver!")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectUploadService without resultReceiver!") }
 
         val projectName = intent.getStringExtra(EXTRA_UPLOAD_NAME)
-            ?: return logWarning("Called ProjectUploadService with empty project name!")
+            ?: return Unit.also { Log.w(TAG, "Called ProjectUploadService with empty project name!") }
 
         val notificationID = StatusBarNotificationManager.getNextNotificationID()
         startForeground(
@@ -99,15 +89,12 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             putString(EXTRA_PROJECT_DESCRIPTION, intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION))
             putString(EXTRA_PROJECT_PATH, projectPath)
             putStringArray(EXTRA_SCENE_NAMES, intent.getStringArrayExtra(EXTRA_SCENE_NAMES))
-            putString(EXTRA_USER_EMAIL, getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)))
-            putString(EXTRA_LANGUAGE, Locale.getDefault().language)
         }
 
         ProjectUpload(
             projectDirectory = projectDirectory,
             projectName = projectName,
             projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION) ?: "",
-            userEmail = getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)),
             sceneNames = intent.getStringArrayExtra(EXTRA_SCENE_NAMES),
             archiveDirectory = File(cacheDir, UPLOAD_FILE_NAME),
             zipArchiver = ZipArchiver(),
@@ -115,9 +102,14 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_width),
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_height)
             ),
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this),
-            serverCalls = ServerCalls(CatrobatWebClient.client)
+            webService = webService
         ).start(
+            progressCallback = { percent ->
+                val progressBundle = Bundle().apply {
+                    putInt(Constants.EXTRA_UPLOAD_PROGRESS, percent)
+                }
+                resultReceiver.send(Constants.UPLOAD_PROGRESS_RESULT_CODE, progressBundle)
+            },
             successCallback = { projectId ->
                 Log.v(TAG, "Upload successful")
                 stopForeground(true)
@@ -134,14 +126,10 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
                 StatusBarNotificationManager(applicationContext)
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
-                resultReceiver.send(0, null)
+                val errorResult = Bundle().apply { putInt(EXTRA_ERROR_CODE, errorCode) }
+                resultReceiver.send(0, errorResult)
             }
         )
-    }
-
-    override fun onDestroy() {
-        Utils.invalidateLoginTokenIfUserRestricted(applicationContext)
-        super.onDestroy()
     }
 
     private fun createUploadNotification(programName: String): Notification {
@@ -151,19 +139,11 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -181,20 +161,11 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getActivity(
-                applicationContext,
-                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
-
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -209,28 +180,8 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             .build()
     }
 
-    private fun getUserEmail(provider: String?): String {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
-        val email = when (provider) {
-            GOOGLE_PLUS -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
-            else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
-        }
-
-        val result = if (email == NO_EMAIL) {
-            DeviceSettingsProvider.getUserEmail(this)
-        } else {
-            email
-        }
-
-        return result ?: ""
-    }
-
-    private fun logWarning(warningMessage: String) {
-        Log.w(TAG, warningMessage)
-    }
-
     companion object {
         private val TAG = ProjectUploadService::class.java.simpleName
+        const val EXTRA_ERROR_CODE = "errorCode"
     }
 }

@@ -114,22 +114,6 @@
                     app:layoutManager="LinearLayoutManager"
                     android:orientation="horizontal" />
 
-                <TextView
-                    android:id="@+id/featuredProjectsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_background_selector"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="32dp"
-                    android:paddingStart="20dp"
-                    android:paddingTop="16dp"
-                    android:text="@string/main_menu_web"
-                    android:textColor="@color/landing_page_icons"
-                    android:textSize="?attr/x_large"
-                    app:drawableEndCompat="@drawable/ic_arrow_forward_vector" />
-
                 <org.catrobat.catroid.ui.recyclerview.AutoScrollableRecyclerView
                     android:id="@+id/featuredProjectsRecyclerView"
                     android:layout_width="match_parent"
@@ -139,6 +123,23 @@
                     android:orientation="horizontal"
                     android:overScrollMode="never"
                     app:layoutManager="LinearLayoutManager" />
+
+                <TextView
+                    android:id="@+id/exploreShareTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="32dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/explore_share"
+                    android:textColor="@color/landing_page_icons"
+                    android:textSize="?attr/x_large"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_forward_vector" />
 
                 <RelativeLayout
                     android:id="@+id/noInternetLayout"

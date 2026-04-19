@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">请等待</string>
     <string formatted="false" name="search_hint">搜索…</string>
     <string formatted="false" name="backpack_add">添加到背包</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">您所下载的项目能听到您的声音。
         在后台，也会向互联网发送数据。这可能是无害的，也是必要的
