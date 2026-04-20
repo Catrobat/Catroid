@@ -67,6 +67,13 @@ public class InternFormula {
 
 	private InternFormulaParser internTokenFormulaParser;
 
+	public static StackStatusBrackets stackStatusBrackets;
+
+	public enum StackStatusBrackets {
+		STACK_OK, BRACKET_CLOSE_STACK_NOT_EMPTY,
+		FUNCTION_PARAMETERS_BRACKET_CLOSE_STACK_NOT_EMPTY, BRACKET_OPEN_STACK_NOT_EMPTY, FUNCTION_PARAMETERS_BRACKET_OPEN_STACK_NOT_EMPTY
+	}
+
 	public InternFormula(List<InternToken> internTokenList) {
 
 		this.internTokenFormulaList = internTokenList;
@@ -607,11 +614,28 @@ public class InternFormula {
 					return;
 				}
 
-				bracketsInternTokensLastIndex = bracketsInternTokens.size() - 1;
-
-				startSelectionIndex = internTokenFormulaList.indexOf(bracketsInternTokens.get(0));
-				endSelectionIndex = internTokenFormulaList.indexOf(bracketsInternTokens
-						.get(bracketsInternTokensLastIndex));
+				if (InternFormula.stackStatusBrackets == StackStatusBrackets.BRACKET_CLOSE_STACK_NOT_EMPTY) {
+					startSelectionIndex =
+							InternFormulaUtils.getLastIndexOfToken(internTokenFormulaList,
+							InternTokenType.BRACKET_CLOSE);
+					endSelectionIndex =
+							InternFormulaUtils.getLastIndexOfToken(internTokenFormulaList,
+									InternTokenType.BRACKET_CLOSE);
+				} else if (InternFormula.stackStatusBrackets == StackStatusBrackets.BRACKET_OPEN_STACK_NOT_EMPTY) {
+					startSelectionIndex =
+							InternFormulaUtils.getFirstIndexOfToken(internTokenFormulaList,
+									InternTokenType.BRACKET_OPEN);
+					endSelectionIndex =
+							InternFormulaUtils.getFirstIndexOfToken(internTokenFormulaList,
+									InternTokenType.BRACKET_OPEN);
+				} else {
+					startSelectionIndex =
+							InternFormulaUtils.getFirstIndexOfToken(internTokenFormulaList,
+							InternTokenType.BRACKET_OPEN);
+					endSelectionIndex =
+							InternFormulaUtils.getLastIndexOfToken(internTokenFormulaList,
+							InternTokenType.BRACKET_CLOSE);
+				}
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						startSelectionIndex, endSelectionIndex);
