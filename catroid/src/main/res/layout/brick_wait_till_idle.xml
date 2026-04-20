@@ -23,7 +23,6 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -44,6 +43,9 @@
 
         <TextView
             style="@style/BrickText"
+            android:layout_width="0dp"
+            android:ellipsize="none"
+            android:singleLine="false"
             android:text="@string/brick_wait_till_idle">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
