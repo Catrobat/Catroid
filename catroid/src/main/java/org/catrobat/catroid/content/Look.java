@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -324,6 +324,10 @@ public class Look extends Image {
 				sprite.plot.addCutPoint(new PointF(x, y));
 			if (sprite.plot.isEngraving())
 				sprite.plot.addEngravePoint(new PointF(x, y));
+		}
+		if (sprite != null && sprite.runningStitch != null
+				&& !simultaneousMovementXY) {
+			sprite.runningStitch.update();
 		}
 	}
 

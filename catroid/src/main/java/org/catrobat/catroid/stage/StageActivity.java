@@ -260,8 +260,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public void manageLoadAndFinish() {
-		stageListener.pause();
-		stageListener.finish();
+		if (stageListener != null) {
+			stageListener.pause();
+			stageListener.finish();
+		}
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
 		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
@@ -286,6 +288,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			return activeStageActivity.get().vibrationManager;
 		}
 		return null;
+	}
+
+	public boolean hasAudioFocus() {
+		return stageAudioFocus.isAudioFocusGranted();
 	}
 
 	public boolean isResizePossible() {

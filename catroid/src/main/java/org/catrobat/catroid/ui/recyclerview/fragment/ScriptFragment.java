@@ -413,7 +413,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		savedListViewState = listView.onSaveInstanceState();
 
-		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		if (getActivity() != null && !getActivity().isChangingConfigurations()) {
+			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		}
 	}
 
 	@Override
@@ -903,22 +905,76 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		Context context = getContext();
+
+		if (!isAdded() || context == null) {
+			Log.w(TAG, "Cannot load project after undo because fragment is not attached.");
+			return;
+		}
+
+		if (!undoCodeFile.exists()) {
+			Log.e(TAG, "Undo code file " + UNDO_CODE_XML_FILE_NAME + " does not exist.");
+			ToastUtil.showError(context, R.string.error_load_project);
+			return;
+		}
 
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null) {
+					spriteActivity.setUndoMenuItemVisibility(false);
+					spriteActivity.showUndo(false);
+				}
+				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
-				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
+				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
+				ToastUtil.showError(context, R.string.error_load_project);
+				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+				if (spriteActivity != null && undoCodeFile.exists()) {
+					spriteActivity.setUndoMenuItemVisibility(true);
+					spriteActivity.showUndo(true);
+				}
 			}
 		}
 	}
 
+
 	@Override
 	public void onLoadFinished(boolean success) {
-		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
-		if (checkVariables()) {
-			loadVariables();
+		if (!isAdded() || getContext() == null) {
+			return;
+		}
+
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (!success) {
+			Log.e(TAG, "Loading project after undo failed.");
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			if (spriteActivity != null) {
+				spriteActivity.setUndoMenuItemVisibility(true);
+				spriteActivity.showUndo(true);
+			}
+			return;
+		}
+
+		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
+			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+		}
+
+		loadVariables();
+
+		if (spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(false);
+			spriteActivity.showUndo(false);
+		}
+
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
+			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
+		}
+
+		if (getView() == null || listView == null) {
+			return;
 		}
 		refreshFragmentAfterUndo();
 	}
@@ -940,7 +996,33 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		return (project.hasUserDataChanged(project.getUserVariables(), savedUserVariables) || project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables) || project.hasUserDataChanged(project.getUserLists(), savedUserLists) || currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables) || currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists));
+		return (project != null && hasProjectVariablesChanged(project))
+			|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
+	}
+
+	private boolean hasProjectVariablesChanged(Project project) {
+		boolean changed = false;
+		if (savedUserVariables != null && project.getUserVariables() != null) {
+			changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+		}
+		if (savedMultiplayerVariables != null && project.getMultiplayerVariables() != null) {
+			changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
+		}
+		if (savedUserLists != null && project.getUserLists() != null) {
+			changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
+		}
+		return changed;
+	}
+
+	private boolean hasSpriteVariablesChanged(Sprite currentSprite) {
+		boolean changed = false;
+		if (savedLocalUserVariables != null && currentSprite.getUserVariables() != null) {
+			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
+		}
+		if (savedLocalLists != null && currentSprite.getUserLists() != null) {
+			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+		}
+		return changed;
 	}
 
 	private void loadVariables() {
@@ -948,20 +1030,49 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
-		project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
-		project.restoreUserDataValues(project.getUserLists(), savedUserLists);
-		currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
-		currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+		if (project != null) {
+			if (savedUserVariables != null) {
+				project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+			}
+		}
+		if (currentSprite != null) {
+			if (savedLocalUserVariables != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
+			}
+		}
 	}
 
 	private void refreshFragmentAfterUndo() {
-		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
-		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		if (!isAdded() || getActivity() == null || getParentFragmentManager().isStateSaved()) {
+			return;
+		}
+		Fragment scriptFragment = getParentFragmentManager().findFragmentByTag(TAG);
+		if (scriptFragment == null) {
+			return;
+		}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (adapter != null && currentSprite != null) {
+			adapter.updateItems(currentSprite);
+		}
+
+		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commit();
-		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
+		fragmentTransaction.commitNow();
+
+		if (listView != null
+				&& (undoBrickPosition < listView.getFirstVisiblePosition()
+				|| undoBrickPosition > listView.getLastVisiblePosition())) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));
 		}
 	}

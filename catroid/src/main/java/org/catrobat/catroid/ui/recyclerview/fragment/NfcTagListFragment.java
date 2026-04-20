@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,12 +61,16 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		super.onCreate(savedInstanceState);
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass());
+		nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+		int flags = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
-		} else {
-			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
+			flags = PendingIntent.FLAG_MUTABLE;
 		}
+		pendingIntent = PendingIntent.getActivity(
+				getActivity(), 0, nfcIntent, flags);
 
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);

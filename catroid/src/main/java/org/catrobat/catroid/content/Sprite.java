@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -342,6 +342,12 @@ public class Sprite implements Nameable, Serializable {
 		}
 	}
 
+	public void resetDrawingState() {
+		penConfiguration = new PenConfiguration();
+		plot = new Plot();
+		runningStitch = new RunningStitch();
+	}
+
 	public void resetSprite() {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
@@ -359,9 +365,7 @@ public class Sprite implements Nameable, Serializable {
 			look.setLookData(getLookList().get(0));
 		}
 
-		penConfiguration = new PenConfiguration();
-		plot = new Plot();
-		runningStitch = new RunningStitch();
+		resetDrawingState();
 	}
 
 	public void invalidate() {

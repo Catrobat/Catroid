@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.fragment
 
 import android.content.Context
@@ -30,6 +31,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.ListFragment
@@ -37,6 +39,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
 import org.catrobat.catroid.ui.BottomBar.showPlayButton
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.ViewSwitchLock
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
@@ -91,6 +94,9 @@ class BrickCategoryFragment : ListFragment() {
     override fun onResume() {
         super.onResume()
         hideBottomBar(activity)
+        EdgeToEdge.applyBottomPadding(
+            requireActivity().findViewById<ListView>(R.id.brick_category_list)
+        )
         setupBrickCategories()
         SnackbarUtil.showHintSnackbar(activity, R.string.hint_category)
     }

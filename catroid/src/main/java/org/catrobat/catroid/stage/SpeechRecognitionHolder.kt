@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.stage
 
 import android.content.ActivityNotFoundException
@@ -162,7 +163,7 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
                 stageActivity.getString(
                     R.string.speech_recognition_offline_mode_missing_data_error_dialog_msg,
                     Locale.getDefault().getDisplayName(Locale.getDefault())
-                        .toUpperCase(Locale.getDefault())
+                        .uppercase(Locale.getDefault())
                 )
             )
             .setCancelable(false)

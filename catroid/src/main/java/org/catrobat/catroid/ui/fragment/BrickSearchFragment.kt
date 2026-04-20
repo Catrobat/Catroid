@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.util.Locale
 import android.widget.AbsListView
 import android.database.Cursor
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.utils.setVisibleOrGone
 
 class BrickSearchFragment : ListFragment() {
@@ -97,6 +98,13 @@ class BrickSearchFragment : ListFragment() {
             BRICK_SEARCH_FRAGMENT_TAG
         ) }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        EdgeToEdge.applyBottomPadding(
+            requireActivity().findViewById(R.id.fragment_brick_search)
+        )
     }
 
     override fun onDestroy() {
@@ -245,9 +253,11 @@ class BrickSearchFragment : ListFragment() {
 
     private fun searchBrick(query: String) {
         availableBricks.forEach { brick ->
-            val regexQuery = (".*" + query.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), ".*") + ".*").toRegex()
+            val regexQuery = (".*" + query.lowercase(Locale.ROOT)
+                .replace("\\s".toRegex(), ".*") + ".*").toRegex()
             val brickView = brick.getView(context)
-            if (regexQuery.containsMatchIn(findBrickString(brickView)) && !searchResultContains(brick)) {
+            if (regexQuery.containsMatchIn(findBrickString(brickView)) &&
+                !searchResultContains(brick)) {
                 searchResults.add(brick)
             }
         }
@@ -269,7 +279,7 @@ class BrickSearchFragment : ListFragment() {
                 val stringFoundInBrick = findBrickString(child)
                 if (stringFoundInBrick.isNotBlank()) wholeStringFoundInBrick = wholeStringFoundInBrick.plus(stringFoundInBrick)
             }
-        } else if (view is TextView) return view.text.toString().toLowerCase(Locale.ROOT)
+        } else if (view is TextView) return view.text.toString().lowercase(Locale.ROOT)
         return wholeStringFoundInBrick
         }
 

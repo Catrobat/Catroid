@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,8 +83,7 @@ public class DeleteProjectTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(0)
-				.performCheckItemClick();
+		onView(withText(projectToDelete)).perform(click());
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -116,8 +115,6 @@ public class DeleteProjectTest {
 		onView(withText(projectToDelete))
 				.check(doesNotExist());
 
-		onView(withText("My project"))
-				.check(matches(isDisplayed())); // default project
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

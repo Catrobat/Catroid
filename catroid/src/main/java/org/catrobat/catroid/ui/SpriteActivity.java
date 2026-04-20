@@ -139,6 +139,7 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
+	private static final String BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE = "isUndoMenuItemVisible";
 
 	public static final String EXTRA_X_TRANSFORM = "X";
 	public static final String EXTRA_Y_TRANSFORM = "Y";
@@ -162,6 +163,9 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			setSavedInstanceStateExpected(true);
+		}
 		super.onCreate(savedInstanceState);
 
 		if (isFinishing()) {
@@ -188,7 +192,13 @@ public class SpriteActivity extends BaseActivity {
 		if (bundle != null) {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
-		loadFragment(this, fragmentPosition);
+
+		if (savedInstanceState != null) {
+			isUndoMenuItemVisible = savedInstanceState.getBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, false);
+			invalidateOptionsMenu();
+		} else {
+			loadFragment(this, fragmentPosition);
+		}
 		addTabLayout(this, fragmentPosition);
 	}
 
@@ -275,6 +285,12 @@ public class SpriteActivity extends BaseActivity {
 		super.onPause();
 		saveProject();
 		RecentBrickListManager.getInstance().saveRecentBrickList();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
 	}
 
 	@Override

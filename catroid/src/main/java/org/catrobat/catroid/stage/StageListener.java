@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -460,6 +460,11 @@ public class StageListener implements ApplicationListener {
 
 		Gdx.input.setInputProcessor(stage);
 
+		// Fresh starts must drop any persisted stitch/plot state before the scene is recreated.
+		for (Sprite sprite : scene.getSpriteList()) {
+			sprite.resetDrawingState();
+		}
+
 		scene.firstStart = true;
 		create();
 	}
@@ -490,6 +495,9 @@ public class StageListener implements ApplicationListener {
 		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.resetDrawingState();
+			}
 			scene.firstStart = true;
 		}
 		reloadProject = true;

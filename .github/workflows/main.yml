@@ -35,7 +35,6 @@ jobs:
     steps:
       - run: echo "This workflow was triggered in the ${{ github.repository }} repo!"
 
-
   build:
     needs: repo-check
     name: Build APK
@@ -69,6 +68,11 @@ jobs:
     needs: repo-check
     name: Unit Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      repository-projects: write
+      checks: write
     env:
       WEB_TEST_URL: ${{ inputs.WEB_TEST_URL != '' && format('-PwebTestUrl=''{0}''', inputs.WEB_TEST_URL) || '' }}
       ALL_FLAVOURS_PARAMETERS: ${{ inputs.BUILD_ALL_FLAVOURS && 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug assemblePocketCodeBetaDebug assembleMindstormsDebug' || '' }}
@@ -89,8 +93,8 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace
 
-      - name: Test Report
-        uses: dorny/test-reporter@v1
+      - name: Upload Unit Test Reports XML
+        uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: Unit Tests
@@ -160,7 +164,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.LocalHeadlessTestSuite
-      calling-job: ${{github.job}}
+      calling-job: instrumented-unit-tests
 
   testrunner-tests:
     needs: repo-check
@@ -168,7 +172,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
-      calling-job: ${{github.job}}
+      calling-job: testrunner-tests
 
   quarantined-tests:
     needs: repo-check
@@ -176,7 +180,7 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
-      calling-job: ${{github.job}}
+      calling-job: quarantined-tests
 
   rtl-tests:
     needs: repo-check
@@ -184,4 +188,4 @@ jobs:
     uses: ./.github/workflows/emulated_tests.yml
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
-      calling-job: ${{github.job}}
+      calling-job: rtl-tests
