@@ -106,7 +106,7 @@ import androidx.fragment.app.ListFragment;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 
-public class ScriptFragment extends ListFragment implements ActionMode.Callback, BrickAdapter.OnBrickClickListener, BrickAdapter.SelectionListener, OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener, ProjectLoader.ProjectLoadListener {
+public class ScriptFragment extends ListFragment implements ActionMode.Callback, BrickAdapter.OnBrickClickListener, BrickAdapter.SelectionListener, OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener, ProjectLoader.ProjectLoadListener, BrickListView.OnMoveCommittedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -142,6 +142,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private Script scriptToFocus;
 
 	private SpriteActivity activity;
+	private boolean pendingMoveUndoSnapshot = false;
 
 	public static ScriptFragment newInstance(Brick brickToFocus) {
 		ScriptFragment scriptFragment = new ScriptFragment();
@@ -361,6 +362,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
+		listView.setOnMoveCommittedListener(this);
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS, R.string.formula_editor_object_number_of_backgrounds);
@@ -478,9 +480,18 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public void cancelMove() {
+		pendingMoveUndoSnapshot = false;
 		listView.cancelMove();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		adapter.updateItems(sprite);
+	}
+
+	@Override
+	public void onMoveCommitted() {
+		if (pendingMoveUndoSnapshot) {
+			copyProjectForUndoOption();
+			pendingMoveUndoSnapshot = false;
+		}
 	}
 
 	public boolean isCurrentlyHighlighted() {
@@ -799,7 +810,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
-			copyProjectForUndoOption();
+			pendingMoveUndoSnapshot = true;
 			listView.startMoving(brick);
 		}
 		return true;
