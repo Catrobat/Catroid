@@ -25,32 +25,37 @@ package org.catrobat.catroid.test.content.backwardcompatibility;
 
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+@RunWith(Parameterized.class)
 public class ProjectMetaDataParserTest {
 
-	@Test
-	public void testGetProjectMetaDataWithMissingProgramNameThrowsIOException() throws Exception {
-		File xmlFile = createTempXml("<program><header><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>");
-		assertInvalidMetadata(xmlFile);
+	@Parameterized.Parameter
+	public String xmlContent;
+
+	@Parameterized.Parameters(name = "{index}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{"<program><header><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>"},
+				{"<program><header><programName></programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>"},
+				{"<program><header><programName>My Project</programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header>"},
+		});
 	}
 
 	@Test
-	public void testGetProjectMetaDataWithBlankProgramNameThrowsIOException() throws Exception {
-		File xmlFile = createTempXml("<program><header><programName></programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>");
-		assertInvalidMetadata(xmlFile);
-	}
-
-	@Test
-	public void testGetProjectMetaDataWithMalformedXmlThrowsIOException() throws Exception {
-		File xmlFile = createTempXml("<program><header><programName>My Project</programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header>");
+	public void testGetProjectMetaDataWithInvalidXmlThrowsIOException() throws Exception {
+		File xmlFile = createTempXml(xmlContent);
 		assertInvalidMetadata(xmlFile);
 	}
 
