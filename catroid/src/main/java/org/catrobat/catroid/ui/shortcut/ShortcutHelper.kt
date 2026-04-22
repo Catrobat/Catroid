@@ -277,5 +277,77 @@ object ShortcutHelper {
      */
     private fun encodeShortcutId(projectName: String): String =
         FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+
+    // --- MIUI / Xiaomi Compatibility ---
+
+    private const val MIUI_INSTALL_SHORTCUT_OP_CODE = 10017
+
+    /**
+     * Checks if the device is a Xiaomi-related brand (Redmi, POCO, etc.)
+     */
+    fun isXiaomiDevice(): Boolean {
+        val manufacturer = android.os.Build.MANUFACTURER
+        return manufacturer.contains("Xiaomi", ignoreCase = true) ||
+                manufacturer.contains("Redmi", ignoreCase = true) ||
+                manufacturer.contains("POCO", ignoreCase = true) ||
+                manufacturer.contains("Blackshark", ignoreCase = true)
+    }
+
+    /**
+     * Checks if the "Install shortcut" permission is granted on MIUI.
+     * Uses reflection to access the hidden 'checkOp' method in AppOpsManager.
+     */
+    fun isShortcutPermissionGranted(context: Context): Boolean {
+        if (!isXiaomiDevice()) return true
+
+        return try {
+            val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as android.app.AppOpsManager
+            val method = appOpsManager.javaClass.getMethod(
+                "checkOp",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java
+            )
+            val result = method.invoke(
+                appOpsManager,
+                MIUI_INSTALL_SHORTCUT_OP_CODE,
+                android.os.Process.myUid(),
+                context.packageName
+            ) as Int
+            result == android.app.AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to check MIUI shortcut permission", e)
+            false
+        }
+    }
+
+    /**
+     * Launches the MIUI-specific Permission Editor activity.
+     */
+    fun openMiuiPermissionEditor(context: Context) {
+        val intent = Intent("miui.intent.action.APP_PERM_EDITOR").apply {
+            setClassName(
+                "com.miui.securitycenter",
+                "com.miui.permcenter.permissions.PermissionsEditorActivity"
+            )
+            putExtra("extra_pkgname", context.packageName)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        try {
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to open MIUI permission editor, falling back to app settings", e)
+            try {
+                val fallbackIntent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = android.net.Uri.parse("package:${context.packageName}")
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                context.startActivity(fallbackIntent)
+            } catch (e2: Exception) {
+                Log.e(TAG, "Failed to open app settings", e2)
+            }
+        }
+    }
 }
 
