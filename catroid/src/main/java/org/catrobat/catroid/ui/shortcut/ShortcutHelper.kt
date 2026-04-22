@@ -142,11 +142,10 @@ object ShortcutHelper {
     /**
      * Requests a pinned shortcut for the given project. Must be called on the main thread.
      *
-     * Shortcut ID = encoded directory name (unique per project).
+     * Also pushes a dynamic shortcut with the same ID so that
+     * [updateShortcutOnRename] and [removeShortcutsForProjects] can manage it later.
      *
-     * @param context      Application or Activity context
-     * @param projectName  The project name (used as the shortcut label)
-     * @param icon         Optional pre-loaded bitmap for the icon; uses the default app icon if null
+     * Shortcut ID = encoded directory name at time of pinning.
      */
     fun pinProject(context: Context, projectName: String, icon: Bitmap?) {
         if (!isShortcutSupported(context)) {
@@ -158,7 +157,100 @@ object ShortcutHelper {
             return
         }
 
-        val shortcutId = encodeShortcutId(projectName)
+        val shortcutInfo = buildShortcutInfo(context, projectName, icon)
+
+        // Register as dynamic shortcut first — required for updateShortcuts / remove to work
+        try {
+            ShortcutManagerCompat.pushDynamicShortcut(context, shortcutInfo)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not push dynamic shortcut: ${e.message}")
+        }
+
+        // Request the pinned shortcut on the home screen
+        val callbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            callbackIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
+    }
+
+    /**
+     * Updates the label and intent of an existing pinned shortcut after a project rename.
+     *
+     * Uses [ShortcutManagerCompat.updateShortcuts] to change the shortcut in-place —
+     * the home-screen icon stays, but its label and launch intent switch to the new name.
+     *
+     * The shortcut ID stays the same (= encoded old directory name). Only the displayed
+     * label and the intent extra change.
+     */
+    suspend fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
+        val shortcutId = encodeShortcutId(oldName)
+
+        val icon = loadProjectIcon(newName)
+        val updatedShortcut = buildShortcutInfo(context, newName, icon, shortcutId)
+
+        try {
+            ShortcutManagerCompat.updateShortcuts(context, listOf(updatedShortcut))
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not update shortcut for rename '$oldName' -> '$newName': ${e.message}")
+        }
+    }
+
+    /**
+     * Removes shortcuts for deleted projects.
+     *
+     * Removes dynamic shortcuts and disables pinned shortcuts so they show
+     * a "project not found" message if tapped.
+     *
+     * Note: Android does not allow apps to programmatically remove pinned shortcuts
+     * from the home screen. Disabling is the closest the API offers — the launcher
+     * will either hide or dim the icon depending on the device.
+     */
+    fun removeShortcutsForProjects(context: Context, projectNames: List<String>) {
+        if (projectNames.isEmpty()) return
+
+        val shortcutIds = projectNames.map { encodeShortcutId(it) }
+
+        // removeLongLivedShortcuts fully removes pinned shortcuts from the home screen
+        try {
+            ShortcutManagerCompat.removeLongLivedShortcuts(context, shortcutIds)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not remove long-lived shortcuts: ${e.message}")
+        }
+
+        try {
+            ShortcutManagerCompat.removeDynamicShortcuts(context, shortcutIds)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not remove dynamic shortcuts: ${e.message}")
+        }
+
+        try {
+            ShortcutManagerCompat.disableShortcuts(
+                context,
+                shortcutIds,
+                context.getString(R.string.shortcut_project_not_found)
+            )
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not disable shortcuts: ${e.message}")
+        }
+    }
+
+    /**
+     * Builds a [ShortcutInfoCompat] for a project.
+     *
+     * @param overrideId  If non-null, uses this as the shortcut ID instead of encoding the name.
+     *                    Needed for rename where the ID must stay the same as the original.
+     */
+    private fun buildShortcutInfo(
+        context: Context,
+        projectName: String,
+        icon: Bitmap?,
+        overrideId: String? = null
+    ): ShortcutInfoCompat {
+        val shortcutId = overrideId ?: encodeShortcutId(projectName)
 
         val trampolineIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
             action = Intent.ACTION_VIEW
@@ -171,80 +263,13 @@ object ShortcutHelper {
             IconCompat.createWithResource(context, R.drawable.ic_launcher_foreground)
         }
 
-        val shortcutInfo = ShortcutInfoCompat.Builder(context, shortcutId)
+        return ShortcutInfoCompat.Builder(context, shortcutId)
             .setShortLabel(projectName)
             .setLongLabel(projectName)
+            .setLongLived(true)
             .setIcon(iconCompat)
             .setIntent(trampolineIntent)
             .build()
-
-        val callbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            callbackIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-
-        ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
-    }
-
-    /**
-     * Updates any existing pinned shortcut after a project rename.
-     *
-     * Disables the old shortcut (by old encoded directory name) and — if the launcher supports
-     * updating — pushes a new dynamic shortcut with the new label and intent so existing
-     * home-screen icons reflect the new name.
-     *
-     * Call from a coroutine; the icon load runs on [Dispatchers.IO] internally.
-     *
-     * @param context  Application or Activity context
-     * @param oldName  The previous project name (before rename)
-     * @param newName  The new project name (after rename)
-     */
-    suspend fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
-        val oldShortcutId = encodeShortcutId(oldName)
-        val newShortcutId = encodeShortcutId(newName)
-
-        // Disable the old shortcut so tapping it shows "project not found" gracefully
-        try {
-            ShortcutManagerCompat.disableShortcuts(
-                context,
-                listOf(oldShortcutId),
-                context.getString(R.string.shortcut_project_not_found)
-            )
-        } catch (e: Exception) {
-            Log.w(TAG, "Could not disable old shortcut '$oldShortcutId': ${e.message}")
-        }
-
-        // Build a replacement shortcut with the new name
-        val icon = loadProjectIcon(newName)
-        val iconCompat = if (icon != null) {
-            IconCompat.createWithAdaptiveBitmap(icon)
-        } else {
-            IconCompat.createWithResource(context, R.drawable.ic_launcher_foreground)
-        }
-
-        val trampolineIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, newName)
-        }
-
-        val newShortcut = ShortcutInfoCompat.Builder(context, newShortcutId)
-            .setShortLabel(newName)
-            .setLongLabel(newName)
-            .setIcon(iconCompat)
-            .setIntent(trampolineIntent)
-            .build()
-
-        // Push a dynamic shortcut so the launcher can pick up the change.
-        // Pinned shortcuts cannot be directly updated, but pushing a dynamic shortcut
-        // with the new ID keeps the shortcut registry consistent.
-        try {
-            ShortcutManagerCompat.pushDynamicShortcut(context, newShortcut)
-        } catch (e: Exception) {
-            Log.w(TAG, "Could not push updated shortcut '$newShortcutId': ${e.message}")
-        }
     }
 
     /**
@@ -253,3 +278,4 @@ object ShortcutHelper {
     private fun encodeShortcutId(projectName: String): String =
         FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 }
+
