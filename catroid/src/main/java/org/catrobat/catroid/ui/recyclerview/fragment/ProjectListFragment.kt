@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,6 +69,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
@@ -421,9 +422,19 @@ class ProjectListFragment(
         item ?: return
         name ?: return
         if (name != item.name) {
+            val oldName = item.name
             setShowProgressBar(true)
             ProjectRenamer(item.directory, name)
-                .renameProjectAsync({ success: Boolean -> onRenameFinished(success) })
+                .renameProjectAsync({ success: Boolean ->
+                    onRenameFinished(success)
+                    if (success) {
+                        coroutineScope.launch {
+                            ShortcutHelper.updateShortcutOnRename(
+                                requireContext(), oldName, name
+                            )
+                        }
+                    }
+                })
         }
     }
 
@@ -485,13 +496,18 @@ class ProjectListFragment(
     override fun onSettingsClick(item: ProjectData?, view: View?) {
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
-        val hiddenMenuOptionIds = intArrayOf(
+
+        val hiddenMenuOptionIds = mutableListOf(
             R.id.new_group, R.id.new_scene, R.id.show_details,
             R.id.from_local, R.id.edit
         )
+        if (!ShortcutHelper.isShortcutSupported(requireContext())) {
+            hiddenMenuOptionIds.add(R.id.pin_to_home_screen)
+        }
+
         val popupMenu = UiUtils.createSettingsPopUpMenu(
             view, requireContext(),
-            R.menu.menu_project_activity, hiddenMenuOptionIds
+            R.menu.menu_project_activity, hiddenMenuOptionIds.toIntArray()
         )
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
@@ -499,6 +515,7 @@ class ProjectListFragment(
                 R.id.rename -> showRenameDialog(item)
                 R.id.delete -> deleteItems(itemList)
                 R.id.project_options -> showProjectOptionsFragment(item)
+                R.id.pin_to_home_screen -> pinProjectToHomeScreen(item)
             }
             true
         }
@@ -597,6 +614,17 @@ class ProjectListFragment(
                 } catch (exception: IOException) {
                     Log.e(TAG, "Could no parse local project.", exception)
                 }
+            }
+        }
+    }
+
+    private fun pinProjectToHomeScreen(item: ProjectData?) {
+        item ?: return
+        val projectName = item.name
+        coroutineScope.launch {
+            val icon = ShortcutHelper.loadProjectIcon(projectName)
+            withContext(mainDispatcher) {
+                ShortcutHelper.pinProject(requireContext(), projectName, icon)
             }
         }
     }
