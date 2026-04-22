@@ -375,6 +375,7 @@ class ProjectListFragment(
     override fun deleteItems(selectedItems: MutableList<ProjectData?>?) {
         setShowProgressBar(true)
         var deletedItemCount = 0
+        val deletedProjectNames = mutableListOf<String>()
         selectedItems ?: return
         for (item in selectedItems) {
             item ?: continue
@@ -382,11 +383,15 @@ class ProjectListFragment(
                 projectManager.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
                 items.remove(item)
+                deletedProjectNames.add(item.name)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
             deletedItemCount++
+        }
+        if (deletedProjectNames.isNotEmpty()) {
+            ShortcutHelper.removeShortcutsForProjects(requireContext(), deletedProjectNames)
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
@@ -624,8 +629,37 @@ class ProjectListFragment(
         coroutineScope.launch {
             val icon = ShortcutHelper.loadProjectIcon(projectName)
             withContext(mainDispatcher) {
-                ShortcutHelper.pinProject(requireContext(), projectName, icon)
+                showPinShortcutDialog(projectName, icon)
             }
         }
+    }
+
+    private fun showPinShortcutDialog(projectName: String, icon: android.graphics.Bitmap?) {
+        val context = context ?: return
+        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+
+        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
+        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
+        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
+
+        if (icon != null) {
+            iconView.setImageBitmap(icon)
+        } else {
+            iconView.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+        nameView.text = projectName
+
+        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        pinButton.setOnClickListener {
+            dialog.dismiss()
+            ShortcutHelper.pinProject(context, projectName, icon)
+        }
+
+        dialog.show()
     }
 }
