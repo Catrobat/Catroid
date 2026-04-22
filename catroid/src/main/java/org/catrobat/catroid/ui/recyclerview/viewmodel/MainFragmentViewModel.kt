@@ -1,6 +1,6 @@
 /*
 * Catroid: An on-device visual programming system for Android devices
-* Copyright (C) 2010-2025 The Catrobat Team
+* Copyright (C) 2010-2026 The Catrobat Team
 * (<http://developer.catrobat.org/credits>)
 *
 * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,6 @@ import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesReposito
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.combineWith
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class MainFragmentViewModel(
@@ -83,8 +82,12 @@ class MainFragmentViewModel(
                 val metaDataParser = ProjectMetaDataParser(xmlFile)
                 try {
                     myProjects.add(metaDataParser.projectMetaData)
-                } catch (e: IOException) {
-                    Log.e(javaClass.simpleName, "Project not parsable", e)
+                } catch (e: Exception) {
+                    Log.e(
+                        javaClass.simpleName,
+                        "Project metadata not parsable for file ${xmlFile.absolutePath}",
+                        e
+                    )
                 }
             }
         }

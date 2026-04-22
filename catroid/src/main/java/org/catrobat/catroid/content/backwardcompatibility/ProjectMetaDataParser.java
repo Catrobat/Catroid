@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,21 +45,31 @@ public class ProjectMetaDataParser {
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}
-		XStream xstream = new XStream();
-		xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
-		xstream.processAnnotations(ProjectMetaData.class);
-		xstream.ignoreUnknownElements();
-		ProjectMetaData metaData;
+
 		try {
-			metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
-		} catch (Exception e) {
+			XStream xstream = new XStream();
+			xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
+			xstream.processAnnotations(ProjectMetaData.class);
+			xstream.ignoreUnknownElements();
+
+			ProjectMetaData metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+			if (metaData == null
+					|| metaData.header == null
+					|| metaData.header.programName == null
+					|| metaData.header.programName.trim().isEmpty()) {
+				throw new IOException("Project metadata invalid");
+			}
+
+			metaData.setFile(xmlFile);
+			return new ProjectData(metaData.getName(),
+					metaData.getDirectory(),
+					metaData.getLanguageVersion(),
+					metaData.hasScenes());
+		} catch (IOException e) {
+			throw e;
+		} catch (RuntimeException e) {
 			throw new IOException("Project metadata invalid", e);
 		}
-		metaData.setFile(xmlFile);
-		return new ProjectData(metaData.getName(),
-				metaData.getDirectory(),
-				metaData.getLanguageVersion(),
-				metaData.hasScenes());
 	}
 
 	@XStreamAlias("program")
