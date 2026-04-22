@@ -300,8 +300,29 @@ object ShortcutHelper {
     fun isShortcutPermissionGranted(context: Context): Boolean {
         if (!isXiaomiDevice()) return true
 
+        val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as android.app.AppOpsManager
+        
+        // Try checkOpNoThrow first (API 19+)
+        try {
+            val method = appOpsManager.javaClass.getMethod(
+                "checkOpNoThrow",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java
+            )
+            val result = method.invoke(
+                appOpsManager,
+                MIUI_INSTALL_SHORTCUT_OP_CODE,
+                android.os.Process.myUid(),
+                context.packageName
+            ) as Int
+            return result == android.app.AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            Log.e(TAG, "checkOpNoThrow failed, trying checkOp", e)
+        }
+
+        // Fallback to checkOp
         return try {
-            val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as android.app.AppOpsManager
             val method = appOpsManager.javaClass.getMethod(
                 "checkOp",
                 Int::class.javaPrimitiveType,
@@ -316,7 +337,7 @@ object ShortcutHelper {
             ) as Int
             result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to check MIUI shortcut permission", e)
+            Log.e(TAG, "MIUI shortcut permission check failed completely", e)
             false
         }
     }

@@ -175,17 +175,12 @@ class ProjectListFragment(
             }
         })
 
-        // After returning from MIUI settings, mark permission as acknowledged and re-open dialog
+        // After returning from MIUI settings, re-open the dialog to check permission status
         val projectName = pendingShortcutProjectName
         if (projectName != null) {
             val icon = pendingShortcutIcon
             pendingShortcutProjectName = null
             pendingShortcutIcon = null
-            // Mark that the user has visited MIUI settings (permission assumed granted)
-            requireContext().getSharedPreferences("shortcut_prefs", 0)
-                .edit()
-                .putBoolean("miui_permission_granted", true)
-                .apply()
             showPinShortcutDialog(projectName, icon)
         }
 
@@ -670,15 +665,14 @@ class ProjectListFragment(
         }
         nameView.text = projectName
 
-        val hasAcknowledgedMiui = context.getSharedPreferences("shortcut_prefs", 0)
-            .getBoolean("miui_permission_granted", false)
+        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
 
-        if (ShortcutHelper.isXiaomiDevice() && !hasAcknowledgedMiui) {
-            // Xiaomi/Redmi: first time — show warning + settings, hide pin button.
+        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
+            // Xiaomi/Redmi without permission: show warning + settings, hide pin button.
             miuiContainer.visibility = android.view.View.VISIBLE
             pinButton.visibility = android.view.View.GONE
         } else {
-            // Permission already acknowledged or not Xiaomi: show pin button
+            // Permission granted or not Xiaomi: show pin button
             miuiContainer.visibility = android.view.View.GONE
             pinButton.visibility = android.view.View.VISIBLE
         }
