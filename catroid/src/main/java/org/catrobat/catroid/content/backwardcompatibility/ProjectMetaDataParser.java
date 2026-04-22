@@ -65,8 +65,6 @@ public class ProjectMetaDataParser {
 					metaData.getDirectory(),
 					metaData.getLanguageVersion(),
 					metaData.hasScenes());
-		} catch (IOException e) {
-			throw e;
 		} catch (RuntimeException e) {
 			throw new IOException("Project metadata invalid", e);
 		}

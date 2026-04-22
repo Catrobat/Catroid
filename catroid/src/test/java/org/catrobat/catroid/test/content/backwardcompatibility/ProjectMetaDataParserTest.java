@@ -48,6 +48,12 @@ public class ProjectMetaDataParserTest {
 		assertInvalidMetadata(xmlFile);
 	}
 
+	@Test
+	public void testGetProjectMetaDataWithMalformedXmlThrowsIOException() throws Exception {
+		File xmlFile = createTempXml("<program><header><programName>My Project</programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header>");
+		assertInvalidMetadata(xmlFile);
+	}
+
 	private void assertInvalidMetadata(File xmlFile) throws Exception {
 		try {
 			new ProjectMetaDataParser(xmlFile).getProjectMetaData();

@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesReposito
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.combineWith
 import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class MainFragmentViewModel(
@@ -82,7 +83,7 @@ class MainFragmentViewModel(
                 val metaDataParser = ProjectMetaDataParser(xmlFile)
                 try {
                     myProjects.add(metaDataParser.projectMetaData)
-                } catch (e: Exception) {
+                } catch (e: IOException) {
                     Log.e(
                         javaClass.simpleName,
                         "Project metadata not parsable for file ${xmlFile.absolutePath}",
