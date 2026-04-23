@@ -36,35 +36,42 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
 public class ProjectMetaDataParserTest {
 
-	@Parameterized.Parameter
+	@Parameterized.Parameter(0)
 	public String xmlContent;
+
+	@Parameterized.Parameter(1)
+	public boolean assertCausePresent;
 
 	@Parameterized.Parameters(name = "{index}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"<program><header><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>"},
-				{"<program><header><programName></programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>"},
-				{"<program><header><programName>My Project</programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header>"},
+				{"<program><header><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>", false},
+				{"<program><header><programName></programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header></program>", false},
+				{"<program><header><programName>My Project</programName><catrobatLanguageVersion>0.999</catrobatLanguageVersion><scenesEnabled>true</scenesEnabled></header>", true},
 		});
 	}
 
 	@Test
 	public void testGetProjectMetaDataWithInvalidXmlThrowsIOException() throws Exception {
 		File xmlFile = createTempXml(xmlContent);
-		assertInvalidMetadata(xmlFile);
+		assertInvalidMetadata(xmlFile, assertCausePresent);
 	}
 
-	private void assertInvalidMetadata(File xmlFile) throws Exception {
+	private void assertInvalidMetadata(File xmlFile, boolean assertCausePresent) throws Exception {
 		try {
 			new ProjectMetaDataParser(xmlFile).getProjectMetaData();
 			fail("Expected IOException for invalid metadata XML");
 		} catch (IOException expected) {
 			assertEquals("Project metadata invalid", expected.getMessage());
+			if (assertCausePresent) {
+				assertNotNull("Malformed XML should keep parsing exception as cause", expected.getCause());
+			}
 		}
 	}
 
