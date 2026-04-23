@@ -30,11 +30,14 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 
 import java.util.ArrayList;
 
@@ -141,8 +144,7 @@ public final class CollisionDetection {
 		if (indexOfSpriteInFormula >= formula.length()) {
 			return null;
 		}
-		String secondSpriteName = formula.substring(indexOfSpriteInFormula);
-		return secondSpriteName;
+		return formula.substring(indexOfSpriteInFormula);
 	}
 
 	public static boolean collidesWithEdge(Polygon[] currentCollisionPolygon, Rectangle screen) {
@@ -181,20 +183,30 @@ public final class CollisionDetection {
 		Vector2 start = new Vector2();
 		Vector2 end = new Vector2();
 		Vector2 center = new Vector2();
-		float touchRadius = Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS;
+
+		XmlHeader head = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+
+		float multiplier = (float) head.getVirtualScreenWidth()
+				/ (float) ScreenValues.currentScreenResolution.getWidth();
+
+		float touchRadius =
+				multiplier * Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS;
 
 		for (PointF point : touchingPoints) {
 			center.set(point.x, point.y);
 			int containedIn = 0;
+
 			for (Polygon polygon : currentCollisionPolygon) {
 				Rectangle boundingRectangle = polygon.getBoundingRectangle();
 				boundingRectangle.x -= touchRadius;
 				boundingRectangle.y -= touchRadius;
 				boundingRectangle.width += touchRadius * 2;
 				boundingRectangle.height += touchRadius * 2;
+
 				if (boundingRectangle.contains(point.x, point.y)) {
 					float[] vertices = polygon.getTransformedVertices();
 					int f = 0;
+
 					while (f < polygon.getVertices().length - 3) {
 						start.x = vertices[f++];
 						start.y = vertices[f++];
@@ -204,18 +216,22 @@ public final class CollisionDetection {
 							return 1d;
 						}
 					}
+
 					start.x = vertices[vertices.length - 2];
 					start.y = vertices[vertices.length - 1];
 					end.x = vertices[0];
 					end.y = vertices[1];
+
 					if (Intersector.intersectSegmentCircle(start, end, center, touchRadius * touchRadius)) {
 						return 1d;
 					}
-					if (polygon.contains(point.x, point.y)) {
+
+					if (boundingRectangle.contains(point.x, point.y)) {
 						containedIn++;
 					}
 				}
 			}
+
 			if (containedIn % 2 != 0) {
 				return 1d;
 			}
