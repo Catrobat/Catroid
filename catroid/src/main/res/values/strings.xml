@@ -2333,4 +2333,5 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
     <string formatted="false" name="miui_shortcut_permission_warning">Xiaomi devices (MIUI) require manual permission to add shortcuts.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_limit_reached">Maximum number of pinned projects reached. Please remove one from your home screen first.</string>
 </resources>

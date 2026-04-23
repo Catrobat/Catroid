@@ -691,9 +691,18 @@ class ProjectListFragment(
             ShortcutHelper.openMiuiPermissionEditor(context)
         }
 
+        val canAddMore = ShortcutHelper.canAddMoreShortcuts(context)
+        if (!canAddMore && pinButton.visibility == android.view.View.VISIBLE) {
+            pinButton.alpha = 0.5f
+        }
+
         pinButton.setOnClickListener {
-            dialog.dismiss()
-            ShortcutHelper.pinProject(context, projectName, icon)
+            if (ShortcutHelper.canAddMoreShortcuts(context)) {
+                dialog.dismiss()
+                ShortcutHelper.pinProject(context, projectName, icon)
+            } else {
+                android.widget.Toast.makeText(context, R.string.shortcut_limit_reached, android.widget.Toast.LENGTH_LONG).show()
+            }
         }
 
         dialog.show()
