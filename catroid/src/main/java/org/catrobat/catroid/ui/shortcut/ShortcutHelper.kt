@@ -318,7 +318,7 @@ object ShortcutHelper {
             ) as Int
             return result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(TAG, "checkOpNoThrow failed, trying checkOp", e)
+            Log.w(TAG, "checkOpNoThrow failed or blocked, trying fallback", e)
         }
 
         // Fallback to checkOp
@@ -337,8 +337,10 @@ object ShortcutHelper {
             ) as Int
             result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(TAG, "MIUI shortcut permission check failed completely", e)
-            false
+            Log.e(TAG, "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.", e)
+            // If reflection is blocked or API changed (e.g. HyperOS), default to TRUE 
+            // so we don't block the user from trying to pin.
+            true
         }
     }
 
@@ -346,28 +348,31 @@ object ShortcutHelper {
      * Launches the MIUI-specific Permission Editor activity.
      */
     fun openMiuiPermissionEditor(context: Context) {
-        val intent = Intent("miui.intent.action.APP_PERM_EDITOR").apply {
-            setClassName(
-                "com.miui.securitycenter",
-                "com.miui.permcenter.permissions.PermissionsEditorActivity"
-            )
-            putExtra("extra_pkgname", context.packageName)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-
         try {
+            val intent = Intent("miui.intent.action.APP_PERM_EDITOR").apply {
+                setClassName(
+                    "com.miui.securitycenter",
+                    "com.miui.permcenter.permissions.PermissionsEditorActivity"
+                )
+                putExtra("extra_pkgname", context.packageName)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             context.startActivity(intent)
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to open MIUI permission editor, falling back to app settings", e)
-            try {
-                val fallbackIntent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = android.net.Uri.parse("package:${context.packageName}")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-                context.startActivity(fallbackIntent)
-            } catch (e2: Exception) {
-                Log.e(TAG, "Failed to open app settings", e2)
+            Log.e(TAG, "MIUI Permission Editor not found, falling back to app settings", e)
+            openStandardAppSettings(context)
+        }
+    }
+
+    private fun openStandardAppSettings(context: Context) {
+        try {
+            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = android.net.Uri.parse("package:${context.packageName}")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to open even standard app settings", e)
         }
     }
 }
