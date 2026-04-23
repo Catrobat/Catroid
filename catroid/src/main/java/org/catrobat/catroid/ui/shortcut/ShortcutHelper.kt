@@ -294,6 +294,55 @@ object ShortcutHelper {
     }
 
     /**
+     * Architectural Note: Most OEM implementations (including MIUI) share a combined limit
+     * for both dynamic and pinned shortcuts per activity (usually 5-10).
+     *
+     * Calling [ShortcutManagerCompat.getMaxShortcutCountPerActivity] before showing
+     * the "Pin" UI ensures we don't present an option that the OS will reject.
+     */
+    fun canAddMoreShortcuts(context: Context): Boolean =
+        ShortcutManagerCompat.getMaxShortcutCountPerActivity(context) > 0
+
+    /**
+     * Performs a 'Silent Probe' to detect if shortcut creation is blocked by the OS.
+     * This is a reliable fallback for Xiaomi/HyperOS when reflection checks are blocked.
+     *
+     * 1. Pushes a dummy dynamic shortcut.
+     * 2. Waits 200ms to allow MIUI's throttled shortcut manager to sync.
+     * 3. Checks if the shortcut actually exists in the dynamic list.
+     * 4. Cleans up the dummy shortcut.
+     */
+    suspend fun probeIsShortcutCreationBlocked(context: Context): Boolean = withContext(Dispatchers.IO) {
+        if (!isShortcutSupported(context)) return@withContext true
+
+        val probeId = "miui_probe_${System.currentTimeMillis()}"
+        val probeShortcut = ShortcutInfoCompat.Builder(context, probeId)
+            .setShortLabel("Probe")
+            .setIntent(Intent(Intent.ACTION_VIEW))
+            .build()
+
+        try {
+            // 1. Push dummy
+            ShortcutManagerCompat.pushDynamicShortcut(context, probeShortcut)
+
+            // 2. Timeout guard: MIUI can be stale immediately after push
+            kotlinx.coroutines.delay(200)
+
+            // 3. Verify existence
+            val dynamicShortcuts = ShortcutManagerCompat.getDynamicShortcuts(context)
+            val exists = dynamicShortcuts.any { it.id == probeId }
+
+            // 4. Cleanup
+            ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(probeId))
+
+            !exists // If it doesn't exist, creation is blocked
+        } catch (e: Exception) {
+            Log.w(TAG, "Silent probe failed: ${e.message}")
+            false // Default to not blocked on error
+        }
+    }
+
+    /**
      * Checks if the "Install shortcut" permission is granted on MIUI.
      * Uses reflection to access the hidden 'checkOp' method in AppOpsManager.
      */
