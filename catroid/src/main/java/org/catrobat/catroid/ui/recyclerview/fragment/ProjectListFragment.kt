@@ -520,9 +520,6 @@ class ProjectListFragment(
             R.id.new_group, R.id.new_scene, R.id.show_details,
             R.id.from_local, R.id.edit
         )
-        if (!ShortcutHelper.isShortcutSupported(requireContext())) {
-            hiddenMenuOptionIds.add(R.id.pin_to_home_screen)
-        }
 
         val popupMenu = UiUtils.createSettingsPopUpMenu(
             view, requireContext(),
@@ -638,7 +635,19 @@ class ProjectListFragment(
     }
 
     private fun pinProjectToHomeScreen(item: ProjectData?) {
+        val context = context ?: return
         item ?: return
+
+        if (!ShortcutHelper.isShortcutSupported(context)) {
+            val view = view ?: return
+            com.google.android.material.snackbar.Snackbar.make(
+                view,
+                R.string.shortcut_not_supported,
+                com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+            ).show()
+            return
+        }
+
         val projectName = item.name
         coroutineScope.launch {
             val icon = ShortcutHelper.loadProjectIcon(projectName)
@@ -691,22 +700,9 @@ class ProjectListFragment(
             ShortcutHelper.openMiuiPermissionEditor(context)
         }
 
-        val canAddMore = ShortcutHelper.canAddMoreShortcuts(context)
-        if (!canAddMore && pinButton.visibility == android.view.View.VISIBLE) {
-            pinButton.alpha = 0.5f
-        }
-
         pinButton.setOnClickListener {
-            if (ShortcutHelper.canAddMoreShortcuts(context)) {
-                dialog.dismiss()
-                ShortcutHelper.pinProject(context, projectName, icon)
-            } else {
-                com.google.android.material.snackbar.Snackbar.make(
-                    dialogView,
-                    R.string.shortcut_limit_reached,
-                    com.google.android.material.snackbar.Snackbar.LENGTH_LONG
-                ).show()
-            }
+            dialog.dismiss()
+            ShortcutHelper.pinProject(context, projectName, icon)
         }
 
         dialog.show()

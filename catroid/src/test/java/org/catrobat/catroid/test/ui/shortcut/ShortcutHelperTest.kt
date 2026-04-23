@@ -82,15 +82,17 @@ class ShortcutHelperTest {
     // Must: Launcher unsupported guard
 
     @Test
-    fun `pinProject does not crash when launcher unsupported`() {
+    fun `pinProject returns false when launcher does not support shortcuts`() {
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns false
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns false
 
-        // Should show toast but never attempt to pin
-        ShortcutHelper.pinProject(context, "TestProject", null)
+        // ShortcutHelper no longer shows Toast — just returns false
+        // UI layer (Fragment) is responsible for Snackbar feedback
+        val result = ShortcutHelper.pinProject(context, "TestProject", null)
 
-        verify(exactly = 0) {
-            ShortcutManagerCompat.requestPinShortcut(any(), any(), any())
-        }
+        assertFalse(result)
+        verify { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
     }
 
     // Must: Blank project name rejected

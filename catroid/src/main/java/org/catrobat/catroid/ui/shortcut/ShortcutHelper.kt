@@ -147,16 +147,7 @@ object ShortcutHelper {
      *
      * Shortcut ID = encoded directory name at time of pinning.
      */
-    fun pinProject(context: Context, projectName: String, icon: Bitmap?) {
-        if (!isShortcutSupported(context)) {
-            Toast.makeText(
-                context,
-                R.string.shortcut_not_supported,
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
+    fun pinProject(context: Context, projectName: String, icon: Bitmap?): Boolean {
         val shortcutInfo = buildShortcutInfo(context, projectName, icon)
 
         // Register as dynamic shortcut first — required for updateShortcuts / remove to work
@@ -174,7 +165,7 @@ object ShortcutHelper {
             callbackIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
-        ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
+        return ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
     }
 
     /**
