@@ -38,14 +38,14 @@ class DatabaseMigrationsTest {
 
         DatabaseMigrations.MIGRATION_2_3.migrate(database)
 
-        val inOrder = inOrder(database)
-        inOrder.verify(database).execSQL("DROP TABLE IF EXISTS `featured_project`")
-        inOrder.verify(database).execSQL("DROP TABLE IF EXISTS `project_response`")
-        inOrder.verify(database).execSQL("DROP TABLE IF EXISTS `project_category`")
-        inOrder.verify(database).execSQL(
+        val orderedVerifier = inOrder(database)
+        orderedVerifier.verify(database).execSQL("DROP TABLE IF EXISTS `featured_project`")
+        orderedVerifier.verify(database).execSQL("DROP TABLE IF EXISTS `project_response`")
+        orderedVerifier.verify(database).execSQL("DROP TABLE IF EXISTS `project_category`")
+        orderedVerifier.verify(database).execSQL(
             "CREATE TABLE IF NOT EXISTS `featured_project` (`id` TEXT NOT NULL, `project_id` TEXT NOT NULL, `project_url` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `featured_image` TEXT NOT NULL, PRIMARY KEY(`id`))"
         )
-        inOrder.verify(database).execSQL(
+        orderedVerifier.verify(database).execSQL(
             "CREATE TABLE IF NOT EXISTS `project_category` (`type` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`type`))"
         )
         verify(database).execSQL(contains("CREATE TABLE IF NOT EXISTS `project_response`"))
