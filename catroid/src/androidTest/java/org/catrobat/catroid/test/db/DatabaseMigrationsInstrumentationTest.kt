@@ -28,7 +28,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.junit.After
 import org.junit.Assert.assertTrue
