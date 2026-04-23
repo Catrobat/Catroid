@@ -42,7 +42,7 @@ class DatabaseMigrationsInstrumentationTest {
     @get:Rule
     val migrationHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        AppDatabase::class.java.canonicalName,
+        SCHEMA_ASSETS_PATH,
         FrameworkSQLiteOpenHelperFactory()
     )
 
@@ -81,5 +81,6 @@ class DatabaseMigrationsInstrumentationTest {
 
     companion object {
         private const val TEST_DB_NAME = "database-migration-test"
+        private const val SCHEMA_ASSETS_PATH = "schemas/org.catrobat.catroid.db.AppDatabase"
     }
 }
