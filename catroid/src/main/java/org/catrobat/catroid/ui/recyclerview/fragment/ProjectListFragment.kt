@@ -701,7 +701,11 @@ class ProjectListFragment(
                 dialog.dismiss()
                 ShortcutHelper.pinProject(context, projectName, icon)
             } else {
-                android.widget.Toast.makeText(context, R.string.shortcut_limit_reached, android.widget.Toast.LENGTH_LONG).show()
+                com.google.android.material.snackbar.Snackbar.make(
+                    dialogView,
+                    R.string.shortcut_limit_reached,
+                    com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
