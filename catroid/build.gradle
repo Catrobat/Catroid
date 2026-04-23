@@ -75,7 +75,10 @@ apply from: 'gradle/emulator.gradle'
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
     def today = new Date()
-    appId += '.independent_' + today.format('YYYYMMdd_HHmm')
+    def independentPackageSuffix = rootProject.hasProperty('independentPackageSuffix')
+            ? rootProject.property('independentPackageSuffix')
+            : today.format('YYYYMMdd_HHmm')
+    appId += '.independent_' + independentPackageSuffix
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
 }
@@ -510,6 +513,7 @@ dependencies {
 
     // Room Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+    androidTestImplementation("androidx.room:room-testing:$room_version")
 }
 
 static def getGitCommitInfo() {
