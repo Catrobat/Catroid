@@ -520,6 +520,9 @@ class ProjectListFragment(
             R.id.new_group, R.id.new_scene, R.id.show_details,
             R.id.from_local, R.id.edit
         )
+        if (!ShortcutHelper.isShortcutSupported(requireContext())) {
+            hiddenMenuOptionIds.add(R.id.pin_to_home_screen)
+        }
 
         val popupMenu = UiUtils.createSettingsPopUpMenu(
             view, requireContext(),
