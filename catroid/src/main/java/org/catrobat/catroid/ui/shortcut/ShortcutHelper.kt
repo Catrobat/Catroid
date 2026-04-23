@@ -57,8 +57,15 @@ object ShortcutHelper {
 
     private const val TAG = "ShortcutHelper"
 
+    /**
+     * POCO phones report [ShortcutManagerCompat.isRequestPinShortcutSupported] as true
+     * but silently fail to create shortcuts. The feature is hidden on those devices.
+     */
     fun isShortcutSupported(context: Context): Boolean =
-        ShortcutManagerCompat.isRequestPinShortcutSupported(context)
+        !isPocoDevice() && ShortcutManagerCompat.isRequestPinShortcutSupported(context)
+
+    fun isPocoDevice(): Boolean =
+        android.os.Build.MANUFACTURER.contains("POCO", ignoreCase = true)
 
     /**
      * Loads the project screenshot bitmap from the project directory on a background thread.

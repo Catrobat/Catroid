@@ -140,6 +140,8 @@ class ShortcutDialogEspressoTest {
         }
 
         scenario.close()
+    }
+
     // Automated: Unsupported launcher shows snackbar with explanation
     //
     // This verifies the ProjectListFragment logic that checks
