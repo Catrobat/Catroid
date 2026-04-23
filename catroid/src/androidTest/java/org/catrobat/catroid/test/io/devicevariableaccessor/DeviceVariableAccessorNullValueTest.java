@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@ public class DeviceVariableAccessorNullValueTest {
 	}
 
 	@Test
-	public void saveNullUserVariableTest() throws IOException {
+	public void saveNullUserVariableTest() {
 		accessor.writeUserData(userVariable);
 		userVariable.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
@@ -88,7 +88,7 @@ public class DeviceVariableAccessorNullValueTest {
 	}
 
 	@Test
-	public void loadUserVariableJsonFileDoesNotContainKeyTest() throws IOException {
+	public void loadUserVariableJsonFileDoesNotContainKeyTest() {
 		HashMap<UUID, Object> map = new HashMap<>();
 		map.put(UUID.randomUUID(), "value");
 		accessor.writeMapToJson(map);

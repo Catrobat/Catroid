@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -160,6 +160,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_letter:
 				return buildDoubleParameterFunction(Functions.LETTER, NUMBER, "1",
 						STRING, "hello world");
+			case R.string.formula_editor_function_subtext:
+				return buildTripleParameterFunction(Functions.SUBTEXT, NUMBER, "3", NUMBER, "5",
+						STRING, "hello world");
 			case R.string.formula_editor_function_length:
 				return buildSingleParameterFunction(Functions.LENGTH, STRING, "hello world");
 			case R.string.formula_editor_function_number_of_items:
@@ -246,17 +249,157 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_face_size:
 				return buildSensor(Sensors.FACE_SIZE);
 			case R.string.formula_editor_sensor_face_x_position:
-				return buildSensor(Sensors.FACE_X_POSITION);
+				return buildSensor(Sensors.FACE_X);
 			case R.string.formula_editor_sensor_face_y_position:
-				return buildSensor(Sensors.FACE_Y_POSITION);
+				return buildSensor(Sensors.FACE_Y);
 			case R.string.formula_editor_sensor_second_face_detected:
 				return buildSensor(Sensors.SECOND_FACE_DETECTED);
 			case R.string.formula_editor_sensor_second_face_size:
 				return buildSensor(Sensors.SECOND_FACE_SIZE);
 			case R.string.formula_editor_sensor_second_face_x_position:
-				return buildSensor(Sensors.SECOND_FACE_X_POSITION);
+				return buildSensor(Sensors.SECOND_FACE_X);
 			case R.string.formula_editor_sensor_second_face_y_position:
-				return buildSensor(Sensors.SECOND_FACE_Y_POSITION);
+				return buildSensor(Sensors.SECOND_FACE_Y);
+			case R.string.formula_editor_sensor_head_top_x:
+				return buildSensor(Sensors.HEAD_TOP_X);
+			case R.string.formula_editor_sensor_head_top_y:
+				return buildSensor(Sensors.HEAD_TOP_Y);
+			case R.string.formula_editor_sensor_neck_x:
+				return buildSensor(Sensors.NECK_X);
+			case R.string.formula_editor_sensor_neck_y:
+				return buildSensor(Sensors.NECK_Y);
+			case R.string.formula_editor_sensor_nose_x:
+				return buildSensor(Sensors.NOSE_X);
+			case R.string.formula_editor_sensor_nose_y:
+				return buildSensor(Sensors.NOSE_Y);
+			case R.string.formula_editor_sensor_left_eye_inner_x:
+				return buildSensor(Sensors.LEFT_EYE_INNER_X);
+			case R.string.formula_editor_sensor_left_eye_inner_y:
+				return buildSensor(Sensors.LEFT_EYE_INNER_Y);
+			case R.string.formula_editor_sensor_left_eye_center_x:
+				return buildSensor(Sensors.LEFT_EYE_CENTER_X);
+			case R.string.formula_editor_sensor_left_eye_center_y:
+				return buildSensor(Sensors.LEFT_EYE_CENTER_Y);
+			case R.string.formula_editor_sensor_left_eye_outer_x:
+				return buildSensor(Sensors.LEFT_EYE_OUTER_X);
+			case R.string.formula_editor_sensor_left_eye_outer_y:
+				return buildSensor(Sensors.LEFT_EYE_OUTER_Y);
+			case R.string.formula_editor_sensor_right_eye_inner_x:
+				return buildSensor(Sensors.RIGHT_EYE_INNER_X);
+			case R.string.formula_editor_sensor_right_eye_inner_y:
+				return buildSensor(Sensors.RIGHT_EYE_INNER_Y);
+			case R.string.formula_editor_sensor_right_eye_center_x:
+				return buildSensor(Sensors.RIGHT_EYE_CENTER_X);
+			case R.string.formula_editor_sensor_right_eye_center_y:
+				return buildSensor(Sensors.RIGHT_EYE_CENTER_Y);
+			case R.string.formula_editor_sensor_right_eye_outer_x:
+				return buildSensor(Sensors.RIGHT_EYE_OUTER_X);
+			case R.string.formula_editor_sensor_right_eye_outer_y:
+				return buildSensor(Sensors.RIGHT_EYE_OUTER_Y);
+			case R.string.formula_editor_sensor_left_ear_x:
+				return buildSensor(Sensors.LEFT_EAR_X);
+			case R.string.formula_editor_sensor_left_ear_y:
+				return buildSensor(Sensors.LEFT_EAR_Y);
+			case R.string.formula_editor_sensor_right_ear_x:
+				return buildSensor(Sensors.RIGHT_EAR_X);
+			case R.string.formula_editor_sensor_right_ear_y:
+				return buildSensor(Sensors.RIGHT_EAR_Y);
+			case R.string.formula_editor_sensor_mouth_left_corner_x:
+				return buildSensor(Sensors.MOUTH_LEFT_CORNER_X);
+			case R.string.formula_editor_sensor_mouth_left_corner_y:
+				return buildSensor(Sensors.MOUTH_LEFT_CORNER_Y);
+			case R.string.formula_editor_sensor_mouth_right_corner_x:
+				return buildSensor(Sensors.MOUTH_RIGHT_CORNER_X);
+			case R.string.formula_editor_sensor_mouth_right_corner_y:
+				return buildSensor(Sensors.MOUTH_RIGHT_CORNER_Y);
+			case R.string.formula_editor_sensor_left_shoulder_x:
+				return buildSensor(Sensors.LEFT_SHOULDER_X);
+			case R.string.formula_editor_sensor_left_shoulder_y:
+				return buildSensor(Sensors.LEFT_SHOULDER_Y);
+			case R.string.formula_editor_sensor_right_shoulder_x:
+				return buildSensor(Sensors.RIGHT_SHOULDER_X);
+			case R.string.formula_editor_sensor_right_shoulder_y:
+				return buildSensor(Sensors.RIGHT_SHOULDER_Y);
+			case R.string.formula_editor_sensor_left_elbow_x:
+				return buildSensor(Sensors.LEFT_ELBOW_X);
+			case R.string.formula_editor_sensor_left_elbow_y:
+				return buildSensor(Sensors.LEFT_ELBOW_Y);
+			case R.string.formula_editor_sensor_right_elbow_x:
+				return buildSensor(Sensors.RIGHT_ELBOW_X);
+			case R.string.formula_editor_sensor_right_elbow_y:
+				return buildSensor(Sensors.RIGHT_ELBOW_Y);
+			case R.string.formula_editor_sensor_left_wrist_x:
+				return buildSensor(Sensors.LEFT_WRIST_X);
+			case R.string.formula_editor_sensor_left_wrist_y:
+				return buildSensor(Sensors.LEFT_WRIST_Y);
+			case R.string.formula_editor_sensor_right_wrist_x:
+				return buildSensor(Sensors.RIGHT_WRIST_X);
+			case R.string.formula_editor_sensor_right_wrist_y:
+				return buildSensor(Sensors.RIGHT_WRIST_Y);
+			case R.string.formula_editor_sensor_left_pinky_knuckle_x:
+				return buildSensor(Sensors.LEFT_PINKY_X);
+			case R.string.formula_editor_sensor_left_pinky_knuckle_y:
+				return buildSensor(Sensors.LEFT_PINKY_Y);
+			case R.string.formula_editor_sensor_right_pinky_knuckle_x:
+				return buildSensor(Sensors.RIGHT_PINKY_X);
+			case R.string.formula_editor_sensor_right_pinky_knuckle_y:
+				return buildSensor(Sensors.RIGHT_PINKY_Y);
+			case R.string.formula_editor_sensor_left_index_knuckle_x:
+				return buildSensor(Sensors.LEFT_INDEX_X);
+			case R.string.formula_editor_sensor_left_index_knuckle_y:
+				return buildSensor(Sensors.LEFT_INDEX_Y);
+			case R.string.formula_editor_sensor_right_index_knuckle_x:
+				return buildSensor(Sensors.RIGHT_INDEX_X);
+			case R.string.formula_editor_sensor_right_index_knuckle_y:
+				return buildSensor(Sensors.RIGHT_INDEX_Y);
+			case R.string.formula_editor_sensor_left_thumb_knuckle_x:
+				return buildSensor(Sensors.LEFT_THUMB_X);
+			case R.string.formula_editor_sensor_left_thumb_knuckle_y:
+				return buildSensor(Sensors.LEFT_THUMB_Y);
+			case R.string.formula_editor_sensor_right_thumb_knuckle_x:
+				return buildSensor(Sensors.RIGHT_THUMB_X);
+			case R.string.formula_editor_sensor_right_thumb_knuckle_y:
+				return buildSensor(Sensors.RIGHT_THUMB_Y);
+			case R.string.formula_editor_sensor_left_hip_x:
+				return buildSensor(Sensors.LEFT_HIP_X);
+			case R.string.formula_editor_sensor_left_hip_y:
+				return buildSensor(Sensors.LEFT_HIP_Y);
+			case R.string.formula_editor_sensor_right_hip_x:
+				return buildSensor(Sensors.RIGHT_HIP_X);
+			case R.string.formula_editor_sensor_right_hip_y:
+				return buildSensor(Sensors.RIGHT_HIP_Y);
+			case R.string.formula_editor_sensor_left_knee_x:
+				return buildSensor(Sensors.LEFT_KNEE_X);
+			case R.string.formula_editor_sensor_left_knee_y:
+				return buildSensor(Sensors.LEFT_KNEE_Y);
+			case R.string.formula_editor_sensor_right_knee_x:
+				return buildSensor(Sensors.RIGHT_KNEE_X);
+			case R.string.formula_editor_sensor_right_knee_y:
+				return buildSensor(Sensors.RIGHT_KNEE_Y);
+			case R.string.formula_editor_sensor_left_ankle_x:
+				return buildSensor(Sensors.LEFT_ANKLE_X);
+			case R.string.formula_editor_sensor_left_ankle_y:
+				return buildSensor(Sensors.LEFT_ANKLE_Y);
+			case R.string.formula_editor_sensor_right_ankle_x:
+				return buildSensor(Sensors.RIGHT_ANKLE_X);
+			case R.string.formula_editor_sensor_right_ankle_y:
+				return buildSensor(Sensors.RIGHT_ANKLE_Y);
+			case R.string.formula_editor_sensor_left_heel_x:
+				return buildSensor(Sensors.LEFT_HEEL_X);
+			case R.string.formula_editor_sensor_left_heel_y:
+				return buildSensor(Sensors.LEFT_HEEL_Y);
+			case R.string.formula_editor_sensor_right_heel_x:
+				return buildSensor(Sensors.RIGHT_HEEL_X);
+			case R.string.formula_editor_sensor_right_heel_y:
+				return buildSensor(Sensors.RIGHT_HEEL_Y);
+			case R.string.formula_editor_sensor_left_foot_index_x:
+				return buildSensor(Sensors.LEFT_FOOT_INDEX_X);
+			case R.string.formula_editor_sensor_left_foot_index_y:
+				return buildSensor(Sensors.LEFT_FOOT_INDEX_Y);
+			case R.string.formula_editor_sensor_right_foot_index_x:
+				return buildSensor(Sensors.RIGHT_FOOT_INDEX_X);
+			case R.string.formula_editor_sensor_right_foot_index_y:
+				return buildSensor(Sensors.RIGHT_FOOT_INDEX_Y);
 			case R.string.formula_editor_phiro_sensor_front_left:
 				return buildSensor(Sensors.PHIRO_FRONT_LEFT);
 			case R.string.formula_editor_phiro_sensor_front_right:
@@ -392,7 +535,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_object_size:
 				return buildObject(Sensors.OBJECT_SIZE);
 			case R.string.formula_editor_object_rotation:
-				return buildObject(Sensors.OBJECT_ROTATION);
+				return buildObject(Sensors.MOTION_DIRECTION);
+			case R.string.formula_editor_object_rotation_look:
+				return buildObject(Sensors.LOOK_DIRECTION);
 			case R.string.formula_editor_object_layer:
 				return buildObject(Sensors.OBJECT_LAYER);
 			case R.string.formula_editor_object_x_velocity:
@@ -405,6 +550,9 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_LOOK_NUMBER);
 			case R.string.formula_editor_object_look_name:
 				return buildObject(Sensors.OBJECT_LOOK_NAME);
+			case R.string.formula_editor_object_number_of_looks:
+			case R.string.formula_editor_object_number_of_backgrounds:
+				return buildObject(Sensors.OBJECT_NUMBER_OF_LOOKS);
 			case R.string.formula_editor_object_background_number:
 				return buildObject(Sensors.OBJECT_BACKGROUND_NUMBER);
 			case R.string.formula_editor_object_background_name:
@@ -441,6 +589,15 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.COLOR_TOUCHES_COLOR, STRING, "#ff0000", STRING, "#ff0000");
 			case R.string.formula_editor_listening_language_sensor:
 				return buildSensor(Sensors.SPEECH_RECOGNITION_LANGUAGE);
+			case R.string.formula_editor_sensor_stage_width:
+				return buildSensor(Sensors.STAGE_WIDTH);
+			case R.string.formula_editor_sensor_stage_height:
+				return buildSensor(Sensors.STAGE_HEIGHT);
+
+			case R.string.formula_editor_function_get_id_of_detected_object:
+				return buildSingleParameterFunction(Functions.ID_OF_DETECTED_OBJECT, NUMBER, "1");
+			case R.string.formula_editor_function_object_with_id_visible:
+				return buildSingleParameterFunction(Functions.OBJECT_WITH_ID_VISIBLE, NUMBER, "1");
 		}
 		return null;
 	}

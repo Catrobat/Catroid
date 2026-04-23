@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,19 +28,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.VariableViewHolder;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.ShowTextUtils;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.List;
-
-import static org.catrobat.catroid.utils.NumberFormats.toMetricUnitRepresentation;
 
 public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickInput> {
 
@@ -49,31 +45,27 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-		return new VariableVH(view);
+		return new VariableViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 		if (position == 0) {
 			((TextView) holder.itemView.findViewById(R.id.headline)).setText(holder.itemView.getResources().getQuantityText(R.plurals.user_defined_brick_input_headline, getItemCount()));
 		}
 
 		UserDefinedBrickInput item = items.get(position);
-		VariableVH variableVH = (VariableVH) holder;
-		variableVH.title.setText(item.getName());
+		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
+		variableViewHolder.title.setText(item.getName());
 
-		int value;
-		try {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			Project project = projectManager.getCurrentProject();
-			Sprite sprite = projectManager.getCurrentSprite();
-			value = item.getValue().interpretInteger(new Scope(project, sprite, null));
-		} catch (InterpretationException e) {
-			value = 0;
-		}
-		variableVH.value.setText(toMetricUnitRepresentation(value));
+		AndroidStringProvider stringProvider = new AndroidStringProvider(
+				CatroidApplication.getAppContext()
+		);
+		String result = item.getValue().getUserFriendlyString(stringProvider, null);
+		result = ShowTextUtils.convertStringToMetricRepresentation(result);
+		variableViewHolder.value.setText(result);
 	}
 }

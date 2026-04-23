@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -289,7 +289,7 @@ public class ShowBubbleActor extends Actor {
 	public static ArrayList<String> formatStringForBubbleBricks(String text) {
 		text = text.trim();
 		ArrayList<String> words = new ArrayList<>();
-		for (String word : Arrays.asList(text.split(" "))) {
+		for (String word : Arrays.asList(text.split(" |((?<=\\n)|(?=\\n))"))) {
 			words.addAll(splitLongWordIntoSubStrings(word, Constants.MAX_STRING_LENGTH_BUBBLES));
 		}
 		return concatWordsIntoLines(words, Constants.MAX_STRING_LENGTH_BUBBLES);
@@ -307,16 +307,19 @@ public class ShowBubbleActor extends Actor {
 
 	private static ArrayList<String> concatWordsIntoLines(ArrayList<String> words, int maxLineLength) {
 		ArrayList<String> lines = new ArrayList<>();
-		String line = words.get(0);
+		StringBuilder line = new StringBuilder(words.get(0));
 		for (String word : words.subList(1, words.size())) {
-			if (line.length() + word.length() < maxLineLength) {
-				line = line + " " + word;
+			if (word.equals("\n")) {
+				lines.add(line.toString());
+				line = new StringBuilder();
+			} else if (line.length() + word.length() < maxLineLength) {
+				line.append(' ').append(word);
 			} else {
-				lines.add(line);
-				line = word;
+				lines.add(line.toString());
+				line = new StringBuilder(word);
 			}
 		}
-		lines.add(line);
+		lines.add(line.toString());
 		return lines;
 	}
 }

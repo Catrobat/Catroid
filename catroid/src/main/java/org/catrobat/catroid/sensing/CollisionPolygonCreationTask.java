@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.LookData;
 
+import ar.com.hjg.pngj.PngjInputException;
+
 public class CollisionPolygonCreationTask implements Runnable {
 	private LookData lookdata;
 	private static final String TAG = CollisionPolygonCreationTask.class.getSimpleName();
@@ -42,6 +44,8 @@ public class CollisionPolygonCreationTask implements Runnable {
 			lookdata.getCollisionInformation().loadCollisionPolygon();
 		} catch (NullPointerException exception) {
 			Log.e(TAG, "Image format not supported ");
+		} catch (PngjInputException exception) {
+			Log.e(TAG, "File not found");
 		}
 	}
 }

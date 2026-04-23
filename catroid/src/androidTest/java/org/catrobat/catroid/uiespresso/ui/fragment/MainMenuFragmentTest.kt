@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,14 +29,18 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ScrollToAction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.actionWithAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isClickable
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -45,6 +49,9 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
+import org.catrobat.catroid.db.AppDatabase
+import org.catrobat.catroid.sync.FeaturedProjectsSync
+import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
@@ -69,7 +76,11 @@ import org.koin.test.inject
 class MainMenuFragmentTest : KoinTest {
     private var privacyPreferenceSetting: Int = 0
     private lateinit var applicationContext: Context
+
     private val connectionMonitor: NetworkConnectionMonitor by inject()
+    private val appDatabase: AppDatabase by inject()
+    private val projectsCategoriesSync: ProjectsCategoriesSync by inject()
+    private val featuredProjectsSync: FeaturedProjectsSync by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
     private val categoriesAdapter: CategoriesAdapter by inject()
     private val projectManager: ProjectManager by inject()
@@ -95,7 +106,6 @@ class MainMenuFragmentTest : KoinTest {
             ).commit()
 
         createProject()
-        baseActivityTestRule.launchActivity(null)
     }
 
     @After
@@ -108,65 +118,93 @@ class MainMenuFragmentTest : KoinTest {
     }
 
     @Test
-    fun testIsLoading() {
-        waitFor(800)
-        onView(withId(R.id.shimmerViewContainer))
-            .perform(scrollTo())
-            .check(matches(isDisplayed()))
-
-        onView(withId(R.id.categoriesRecyclerView))
-            .check(matches(not(isDisplayed())))
-    }
-
-    @Test
-    fun testCategoriesAreLoadedAfter9Seconds() {
-        waitFor(9000)
+    fun testCategoriesSectionIsDisplayed() {
+        syncBeforeLaunch()
         onView(withId(R.id.categoriesRecyclerView))
             .perform(scrollTo())
             .check(matches(isDisplayed()))
 
-        assumeTrue(categoriesAdapter.itemCount > 0)
-
-        onView(withId(R.id.shimmerViewContainer))
-            .check(matches(not(isDisplayed())))
+        assumeTrue("seems there is no internet connection", categoriesAdapter.itemCount > 0)
     }
 
     @Test
-    fun testCatrobatCommunityIsDisplayed() {
+    fun testCatrobatCommunitySectionIsDisplayed() {
+        syncBeforeLaunch()
         onView(withId(R.id.featuredProjectsTextView))
             .check(matches(isDisplayed()))
+            .check(matches(isClickable()))
+
+        onView(withId(R.id.featuredProjectsRecyclerView))
+            .perform(scrollTo())
+            .check(matches(isDisplayed()))
+
+        assumeTrue("seems there is no internet connection", featuredProjectsAdapter.itemCount > 0)
     }
 
     @Test
     fun testHelpIsDisplayed() {
+        syncBeforeLaunch(false)
         onView(withId(R.id.menu_help))
+            .check(matches(isDisplayed()))
+            .check(matches(isClickable()))
+    }
+
+    @Test
+    fun testDoesNotShowNoInternetMsg() {
+        syncBeforeLaunch()
+        connectionMonitor.setValueTo(true)
+        waitFor()
+        onView(withId(R.id.noInternetLayout))
+            .check(matches(not(isDisplayed())))
+        onView(withText(R.string.no_internet_connection))
+            .check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.featuredProjectsRecyclerView))
             .check(matches(isDisplayed()))
     }
 
     @Test
     fun testShowNoInternetMsg() {
-        connectionMonitor.setValueTo(true)
-        waitFor()
-        onView(withId(R.id.noInternetLayout))
-            .check(matches(not(isDisplayed())))
-        onView(withText(R.string.no_internet_connection))
-            .check(matches(not(isDisplayed())))
+        appDatabase.featuredProjectDao().deleteAll()
+        appDatabase.projectCategoryDao().nukeAll()
+        syncBeforeLaunch(false)
+        connectionMonitor.setValueTo(false)
+
         onView(withId(R.id.featuredProjectsRecyclerView))
+            .check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.categoriesRecyclerView))
+            .check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.noInternetLayout))
+            .perform(scrollTo(), CustomActions.wait(900))
             .check(matches(isDisplayed()))
-        assumeTrue("seems there is no internet connection", featuredProjectsAdapter.itemCount > 0)
+
+        onView(withText(R.string.no_internet_connection))
+            .check(matches(isDisplayed()))
+
+        connectionMonitor.setValueTo(true)
     }
 
     @Test
-    fun testShowInternetMsg() {
-        connectionMonitor.setValueTo(false)
-        waitFor()
-        onView(withId(R.id.noInternetLayout))
+    fun testBackButtonAfterTappingOnUploadButton() {
+        syncBeforeLaunch(false)
+        onView(withId(R.id.uploadProject))
+            .perform(ViewActions.click())
+        pressBack()
+        onView(withId(R.id.projectImageView))
             .check(matches(isDisplayed()))
-        onView(withText(R.string.no_internet_connection))
+    }
+
+    @Test
+    fun testBackButtonAfterTappingOnPlayButton() {
+        syncBeforeLaunch(false)
+        onView(withId(R.id.playProject))
+            .perform(ViewActions.click())
+        pressBack()
+        pressBack()
+        onView(withId(R.id.projectImageView))
             .check(matches(isDisplayed()))
-        onView(withId(R.id.featuredProjectsRecyclerView))
-            .check(matches(not(isDisplayed())))
-        connectionMonitor.setValueTo(true)
     }
 
     private fun createProject() {
@@ -178,7 +216,7 @@ class MainMenuFragmentTest : KoinTest {
     }
 
     private fun waitFor(time: Int = 1000) {
-        onView(ViewMatchers.isRoot()).perform(CustomActions.wait(time))
+        onView(isRoot()).perform(CustomActions.wait(time))
     }
 
     private fun scrollTo(): ViewAction = actionWithAssertions(NestedScrollViewScrollToAction())
@@ -193,5 +231,13 @@ class MainMenuFragmentTest : KoinTest {
                 action.constraints
             )
         }
+    }
+
+    private fun syncBeforeLaunch(triggerSync: Boolean = true) {
+        if (triggerSync) {
+            featuredProjectsSync.sync(true)
+            projectsCategoriesSync.sync(true)
+        }
+        baseActivityTestRule.launchActivity(null)
     }
 }

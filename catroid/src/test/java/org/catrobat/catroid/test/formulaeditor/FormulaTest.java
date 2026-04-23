@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,12 +85,12 @@ public class FormulaTest {
 		formula1.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formula2 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null));
+		Formula formula2 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_X.name(), null));
 		resourcesSet = new Brick.ResourcesSet();
 		formula2.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formula3 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null));
+		Formula formula3 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y.name(), null));
 		resourcesSet = new Brick.ResourcesSet();
 		formula3.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
@@ -107,7 +107,7 @@ public class FormulaTest {
 	@Test
 	public void resourceWithMultipleElementsAndSensorsTest() {
 		Formula formulaWithResourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
+				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y.name(), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(96d), null)));
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formulaWithResourceLeft.addRequiredResources(resourcesSet);
@@ -115,7 +115,7 @@ public class FormulaTest {
 
 		Formula formulaWithResourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
-				ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
+				ElementType.SENSOR, Sensors.FACE_X.name(), null)));
 		resourcesSet = new Brick.ResourcesSet();
 		formulaWithResourceRight.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
@@ -222,7 +222,7 @@ public class FormulaTest {
 				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = joinFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = joinFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("helloworld", computeDialogResult);
 	}
 
@@ -234,7 +234,7 @@ public class FormulaTest {
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = letterFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = letterFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("h", computeDialogResult);
 	}
 
@@ -247,7 +247,7 @@ public class FormulaTest {
 				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = regexFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = regexFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("elephant", computeDialogResult);
 	}
 
@@ -259,7 +259,7 @@ public class FormulaTest {
 				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
 		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = bracketWrappedFormula.getResultForComputeDialog(stringProvider, null);
-		assertEquals("1.0", computeDialogResult);
+		String computeDialogResult = bracketWrappedFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("1", computeDialogResult);
 	}
 }

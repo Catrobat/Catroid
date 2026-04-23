@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+
+import kotlin.Unit;
 
 public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
@@ -79,17 +81,10 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 		Spinner spinner = view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motor = Motor.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			motor = Motor.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}

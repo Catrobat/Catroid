@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ package org.catrobat.catroid.transfers.project
 import android.content.SharedPreferences
 import android.util.Log
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME
+import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_WIDTH
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -118,7 +118,7 @@ class ProjectUpload(
     private fun zipProjectToArchive(projectDirectory: File, archiveDirectory: File): File? {
         return try {
             val fileList = projectDirectory.listFiles()
-            val filteredFileList = fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILENAME }
+            val filteredFileList = fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILE_NAME }
 
             zipArchiver.zip(archiveDirectory, filteredFileList.toTypedArray())
             archiveDirectory

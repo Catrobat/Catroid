@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,7 @@ fun Activity?.removeTabLayout() {
     }
 }
 
+@SuppressLint("InflateParams")
 fun Activity?.addTabLayout(selectedTabPosition: Int) {
     if (this is SpriteActivity) {
         val tabLayoutView = layoutInflater.inflate(R.layout.layout_tabs_sprite_activity, null)
@@ -109,7 +111,7 @@ private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction)
     } else {
         fragmentTransaction.replace(
             R.id.fragment_container,
-            CatblocksScriptFragment(0),
+            CatblocksScriptFragment(null),
             TAG
         )
     }

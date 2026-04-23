@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,6 @@ import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 
 @RunWith(AndroidJUnit4.class)
 public class BackpackBroadcastMessageTest {
-
 	private final String firstMessage = "firstMessage";
 	private final String secondMessage = "secondMessage";
 	private final String thirdMessage = "thirdMessage";
@@ -73,8 +72,9 @@ public class BackpackBroadcastMessageTest {
 	@Test
 	public void testUnpackBroadcastMessagesIntoNewScene() throws CloneNotSupportedException {
 		ScriptController scriptController = new ScriptController();
-		scriptController.pack("Backpack", backpackedStartScript.getBrickList());
-		scriptController.unpack(backpackedStartScript, ProjectManager.getInstance().getCurrentSprite());
+		String backpackGroupName = "Backpack";
+		scriptController.pack(backpackGroupName, backpackedStartScript.getBrickList());
+		scriptController.unpack(backpackGroupName, backpackedStartScript, ProjectManager.getInstance().getCurrentSprite());
 
 		Set<String> usedMessages = secondScene.getBroadcastMessagesInUse();
 		Assert.assertTrue(usedMessages.contains(firstMessage));

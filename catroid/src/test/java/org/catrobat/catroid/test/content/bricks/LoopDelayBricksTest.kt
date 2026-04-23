@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,16 @@ package org.catrobat.catroid.test.content.bricks
 
 import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.common.BrickValues
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
@@ -51,7 +55,9 @@ import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
+import org.catrobat.catroid.content.bricks.SetTempoBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
@@ -72,6 +78,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate
 internal class LoopDelayBricksTest(private val brick: Brick?) {
 
     private val REPEAT_TIMES = 3
+    private lateinit var script: Script
     private lateinit var repeatBrickInner: RepeatBrick
     private lateinit var repeatBrickOuter: RepeatBrick
     private lateinit var conditionBrick: IfThenLogicBeginBrick
@@ -106,7 +113,10 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
                 arrayOf(SetColorBrick(0.0)),
                 arrayOf(ChangeColorByNBrick(0.0)),
                 arrayOf(SetBackgroundBrick()),
-                arrayOf(SetBackgroundByIndexBrick(0))
+                arrayOf(SetBackgroundByIndexBrick(0)),
+                arrayOf(SetVolumeToBrick(0.0)),
+                arrayOf(ChangeVolumeByNBrick(0.0)),
+                arrayOf(SetTempoBrick(0))
             )
         }
     }
@@ -123,21 +133,40 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
 
     @Test
     fun testLoopDelayOnly() {
+        script = StartScript()
         repeatBrickInner.addBrick(brick)
-        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickInner))
+        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickInner, script))
     }
 
     @Test
     fun testLoopDelayWithInnerLoop() {
+        script = StartScript()
         repeatBrickOuter.addBrick(repeatBrickInner)
         repeatBrickInner.addBrick(brick)
-        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickOuter))
+        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickOuter, script))
     }
 
     @Test
     fun testLoopDelayWithInnerCondition() {
+        script = StartScript()
         repeatBrickOuter.addBrick(conditionBrick)
         conditionBrick.addBrick(brick)
-        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickOuter))
+        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickOuter, script))
+    }
+
+    @Test
+    fun testLoopDelayInUserDefinedBrickWithoutScreenRefreshingOnly() {
+        script = UserDefinedScript()
+        (script as UserDefinedScript).screenRefresh = false
+        repeatBrickInner.addBrick(brick)
+        assert(!LoopUtil.checkLoopBrickForLoopDelay(repeatBrickInner, script))
+    }
+
+    @Test
+    fun testLoopDelayInUserDefinedBrickWithScreenRefreshingOnly() {
+        script = UserDefinedScript()
+        (script as UserDefinedScript).screenRefresh = true
+        repeatBrickInner.addBrick(brick)
+        assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickInner, script))
     }
 }

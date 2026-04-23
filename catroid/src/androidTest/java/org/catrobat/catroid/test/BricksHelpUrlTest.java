@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,6 +94,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneTurnLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAndWaitBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAtBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAtBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroPlayToneBrick",
@@ -458,6 +460,14 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FadeParticleEffectBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FadeParticleEffectBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParticleEffectAdditivityBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetCameraFocusPointBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetParticleColorBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetParticleColorBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
@@ -467,6 +477,7 @@ public class BricksHelpUrlTest {
 
 		brickClasses = removeAbstractClasses(brickClasses);
 		brickClasses = removeInnerClasses(brickClasses);
+		brickClasses = removeEndBrick(brickClasses);
 		for (Class<?> brickClazz : brickClasses) {
 			parameters.add(new Object[] {brickClazz.getName(), brickClazz});
 		}
@@ -534,6 +545,17 @@ public class BricksHelpUrlTest {
 		for (Class clazz : classes) {
 			boolean isInnerClass = clazz.getEnclosingClass() != null;
 			if (!isInnerClass) {
+				filtered.add(clazz);
+			}
+		}
+		return filtered;
+	}
+
+	private static Set<Class> removeEndBrick(Set<Class> classes) {
+		Set<Class> filtered = new HashSet<>();
+
+		for (Class clazz : classes) {
+			if (!clazz.getName().contains("EndBrick")) {
 				filtered.add(clazz);
 			}
 		}

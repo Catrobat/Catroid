@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -42,11 +40,13 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.io.StorageOperations.copyFileToDir;
 
 public class SceneController {
 
@@ -54,26 +54,6 @@ public class SceneController {
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
-
-	public static String getUniqueDefaultSceneName(Resources resources, List<Scene> scope) {
-
-		for (int i = 1; i < Integer.MAX_VALUE; i++) {
-			String name = resources.getString(R.string.default_scene_name, i);
-
-			boolean isNameUnique = true;
-			for (Scene scene : scope) {
-				if (scene.getName().equals(name)) {
-					isNameUnique = false;
-				}
-			}
-
-			if (isNameUnique) {
-				return name;
-			}
-		}
-
-		throw new IllegalStateException("Could not find new Scene name.");
-	}
 
 	public static Scene newSceneWithBackgroundSprite(String sceneName, String backgroundName, Project dstProject) {
 		Scene scene = new Scene(sceneName, dstProject);
@@ -84,10 +64,14 @@ public class SceneController {
 	}
 
 	public boolean rename(Scene sceneToRename, String name) {
+		boolean renamed = true;
 		String previousName = sceneToRename.getName();
 		String encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name);
 		File newDir = new File(sceneToRename.getProject().getDirectory(), encodedName);
-		boolean renamed = sceneToRename.getDirectory().renameTo(newDir);
+		File oldDir = sceneToRename.getDirectory();
+		if (oldDir.exists()) {
+			renamed = oldDir.renameTo(newDir);
+		}
 
 		if (renamed) {
 			sceneToRename.setName(name);
@@ -127,10 +111,29 @@ public class SceneController {
 			scene.getSpriteList().add(spriteController.copy(sprite, dstProject, scene));
 		}
 
+		copyScreenshot(sceneToCopy.getDirectory(), scene.getDirectory());
+
 		return scene;
 	}
 
+	private void copyScreenshot(File sourceDirectory, File destinationDirectory) {
+		File screenshotFile = new File(sourceDirectory, SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (!screenshotFile.exists()) {
+			screenshotFile = new File(sourceDirectory, SCREENSHOT_AUTOMATIC_FILE_NAME);
+		}
+
+		if (screenshotFile.exists()) {
+			try {
+				copyFileToDir(screenshotFile, destinationDirectory);
+			} catch (IOException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
+			}
+		}
+	}
+
 	public void delete(Scene sceneToDelete) throws IOException {
+		ProjectManager.getInstance().getCurrentProject().removeScene(sceneToDelete);
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 
@@ -149,6 +152,8 @@ public class SceneController {
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
 			scene.getSpriteList().add(spriteController.copy(sprite, null, scene));
 		}
+
+		copyScreenshot(sceneToPack.getDirectory(), scene.getDirectory());
 
 		return scene;
 	}

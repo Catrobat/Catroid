@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,7 +56,7 @@ public class FormulaEditorMovementPropertiesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(this.getClass().getName());
+		Script script = UiTestUtils.createProjectAndGetStartScript(this.getClass().getName());
 		script.addBrick(new ChangeSizeByNBrick(new Formula(10)));
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
@@ -72,7 +72,7 @@ public class FormulaEditorMovementPropertiesTest {
 		onFormulaEditor()
 				.performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(matches(withText("0")));
+				.check(matches(withText("false")));
 		pressBack();
 		pressBack();
 	}

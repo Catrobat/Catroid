@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,7 +106,7 @@ class IfOnEdgeBounceActionTest(
             width = WIDTH
             height = HEIGHT
             setPositionInUserInterfaceDimensionUnit(initialPosX, initialPosY)
-            directionInUserInterfaceDimensionUnit = initialDirection.toFloat()
+            motionDirectionInUserInterfaceDimensionUnit = initialDirection.toFloat()
         }
         Project(MockUtil.mockContextForProject(), "Test", false).apply {
             xmlHeader.virtualScreenWidth = SCREEN_WIDTH
@@ -120,6 +120,6 @@ class IfOnEdgeBounceActionTest(
         Assert.assertTrue(sprite.actionFactory.createIfOnEdgeBounceAction(sprite).act(1.0f))
         Assert.assertEquals(expectedPosX, sprite.look.xInUserInterfaceDimensionUnit)
         Assert.assertEquals(expectedPosY, sprite.look.yInUserInterfaceDimensionUnit)
-        Assert.assertEquals(expectedDirection, sprite.look.directionInUserInterfaceDimensionUnit)
+        Assert.assertEquals(expectedDirection, sprite.look.motionDirectionInUserInterfaceDimensionUnit)
     }
 }

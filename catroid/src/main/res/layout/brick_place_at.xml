@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -55,22 +55,17 @@
 
         <TextView
             android:id="@+id/brick_place_at_edit_text_x"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:paddingStart="@dimen/material_design_spacing_small"
             android:text="@string/y_label">
         </TextView>
 
         <TextView
             android:id="@+id/brick_place_at_edit_text_y"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

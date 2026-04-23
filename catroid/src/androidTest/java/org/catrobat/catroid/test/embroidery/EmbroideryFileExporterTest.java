@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@ public class EmbroideryFileExporterTest {
 
 	@Test
 	public void testShareSimpleFile() {
-		File dstFile = new File(Constants.CACHE_DIR, filename);
+		File dstFile = new File(Constants.CACHE_DIRECTORY, filename);
 		Uri uriForFile = FileProvider.getUriForFile(stageActivity, stageActivity.getPackageName() + ".fileProvider", dstFile);
 
 		new ExportEmbroideryFileLauncher(stageActivity, dstFile).startActivity();
@@ -70,7 +70,7 @@ public class EmbroideryFileExporterTest {
 		Intent actualShareIntent = actualChooserIntent.getParcelableExtra(Intent.EXTRA_INTENT);
 
 		Intent expectedShareIntent = new Intent(Intent.ACTION_SEND, uriForFile);
-		expectedShareIntent.setType("application/octet-stream");
+		expectedShareIntent.setType("text/*");
 		expectedShareIntent.putExtra(Intent.EXTRA_STREAM, uriForFile);
 		expectedShareIntent.putExtra(Intent.EXTRA_SUBJECT, dstFile.getName());
 

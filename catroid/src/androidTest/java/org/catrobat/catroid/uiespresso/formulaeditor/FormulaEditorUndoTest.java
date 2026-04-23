@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -86,7 +86,7 @@ public class FormulaEditorUndoTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript(FormulaEditorUndoTest.class.getName());
+		Script script = UiTestUtils.createProjectAndGetStartScript(FormulaEditorUndoTest.class.getName());
 		script.addBrick(new PlaceAtBrick());
 		userVariable = new UserVariable(VARIABLE_NAME, VARIABLE_VALUE);
 		ProjectManager.getInstance().getCurrentProject().addUserVariable(userVariable);
@@ -177,10 +177,8 @@ public class FormulaEditorUndoTest {
 
 		onView(withId(R.id.brick_place_at_edit_text_x))
 				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
-		onFormulaEditor()
-				.performEnterFormula("0");
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		onFormulaEditor().performEnterFormula("0");
 
 		pressBack();
 
@@ -289,25 +287,14 @@ public class FormulaEditorUndoTest {
 	@Test
 	public void testUndoFormulaRenameVariable() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-
-		onView(withId(R.id.brick_place_at_edit_text_x))
-				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
-
-		onFormulaEditor()
-				.performOpenDataFragment();
-
-		onDataList().onVariableAtPosition(0)
-				.performRename(NEW_VARIABLE_NAME);
-
-		onDataList()
-				.performClose();
-
+		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		onFormulaEditor().performOpenDataFragment();
+		onDataList().onVariableAtPosition(0).performRename(NEW_VARIABLE_NAME);
+		onDataList().performClose();
 		pressBack();
 
-		onView(withId(R.id.menu_undo))
-				.check(matches(isDisplayed()));
+		onView(withId(R.id.menu_undo)).check(matches(isDisplayed()));
 
 		assertNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(VARIABLE_NAME));
 		assertNotNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(NEW_VARIABLE_NAME));
@@ -428,7 +415,7 @@ public class FormulaEditorUndoTest {
 		pressBack();
 
 		onView(withId(R.id.brick_place_at_edit_text_x))
-				.check(matches(withText("'#0074CD' ")));
+				.check(matches(withText("'#0074CD ' ")));
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(0);

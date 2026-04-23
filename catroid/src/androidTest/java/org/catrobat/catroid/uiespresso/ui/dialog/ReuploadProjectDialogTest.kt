@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,9 +37,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask
-import org.catrobat.catroid.ui.ProjectUploadActivity
-import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadRatingDialogTest.ProjectUploadTestActivity
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.ui.PROJECT_DIR
+import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Rule
@@ -52,23 +52,23 @@ class ReuploadProjectDialogTest {
     )
 
     var dummyProject: Project? = null
-    var projectName = "reuploadedProject"
+    var projectName = "reUploadedProject"
 
     fun createDownloadedProject(name: String?) {
         dummyProject = Project(
             ApplicationProvider.getApplicationContext(),
             name
         )
-        val dummyScene = Scene("scene", dummyProject!!)
+        val dummyScene = dummyProject?.let { Scene("scene", it) }
         ProjectManager.getInstance().currentProject = dummyProject
         val sprite = Sprite("sprite")
         val firstScript: Script = StartScript()
-        dummyScene.addSprite(sprite)
+        dummyScene?.addSprite(sprite)
         sprite.addScript(firstScript)
         dummyProject!!.addScene(dummyScene)
-        ProjectSaveTask.task(dummyProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
-        intent.putExtra(ProjectUploadActivity.PROJECT_DIR, dummyProject!!.directory)
+        intent.putExtra(PROJECT_DIR, dummyProject?.directory)
         activityTestRule.launchActivity(intent)
     }
 
@@ -101,9 +101,9 @@ class ReuploadProjectDialogTest {
         val newScene = Scene("scene", currentProject)
         currentProject.addScene(newScene)
         XstreamSerializer.getInstance().saveProject(currentProject)
-        ProjectSaveTask.task(currentProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(currentProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
-        intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.directory)
+        intent.putExtra(PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)
         Espresso.onView(ViewMatchers.withText(R.string.main_menu_upload))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -122,9 +122,9 @@ class ReuploadProjectDialogTest {
         val userVariable = UserVariable("uservariable")
         currentProject.addUserVariable(userVariable)
         XstreamSerializer.getInstance().saveProject(currentProject)
-        ProjectSaveTask.task(currentProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(currentProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
-        intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.directory)
+        intent.putExtra(PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)
         Espresso.onView(ViewMatchers.withText(R.string.main_menu_upload))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

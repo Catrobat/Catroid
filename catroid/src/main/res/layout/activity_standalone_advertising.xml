@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,7 @@
             <ImageView
                 android:layout_width="27dp"
                 android:layout_height="30dp"
-                android:src="@drawable/google_playstore_logo"
+                android:src="@drawable/ic_google_playstore_logo"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -107,7 +107,7 @@
             <ImageView
                 android:layout_width="27dp"
                 android:layout_height="30dp"
-                android:src="@drawable/huawei_app_gallery_logo"
+                android:src="@drawable/ic_huawei_app_gallery_logo"
                 tools:ignore="ContentDescription" />
 
             <TextView

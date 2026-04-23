@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -157,6 +158,11 @@ public class BrickStringSpinnerTest {
 
 		brickSpinner = (Spinner) brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	@Test

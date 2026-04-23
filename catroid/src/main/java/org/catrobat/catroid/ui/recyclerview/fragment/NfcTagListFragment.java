@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,20 +26,26 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -56,7 +62,12 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
+		} else {
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+		}
+
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
 			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
@@ -189,9 +200,36 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	public void onItemClick(NfcTagData item) {
+	public void onItemClick(NfcTagData item, MultiSelectionManager selectionManager) {
 		if (actionModeType == RENAME) {
-			super.onItemClick(item);
+			super.onItemClick(item, null);
 		}
+	}
+
+	@Override
+	public void onSettingsClick(NfcTagData item, View view) {
+		List<NfcTagData> itemList = new ArrayList<>();
+		itemList.add(item);
+		int[] hiddenMenuOptionIds = {R.id.new_group, R.id.new_scene, R.id.show_details,
+				R.id.project_options, R.id.edit, R.id.from_library, R.id.from_local};
+		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+				R.menu.menu_project_activity, hiddenMenuOptionIds);
+		popupMenu.setOnMenuItemClickListener(menuItem -> {
+			switch (menuItem.getItemId()) {
+				case R.id.copy:
+					copyItems(itemList);
+					break;
+				case R.id.rename:
+					showRenameDialog(item);
+					break;
+				case R.id.delete:
+					deleteItems(itemList);
+					break;
+				default:
+					break;
+			}
+			return true;
+		});
+		popupMenu.show();
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import java.net.Socket;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
 public final class SensorTestArduinoServerConnection {
@@ -96,16 +97,14 @@ public final class SensorTestArduinoServerConnection {
 			connectToArduinoServer();
 			Log.d(TAG, "requesting sensor value: ");
 
-			String command = "";
+			StringBuilder command = new StringBuilder().append(Integer.toHexString(NFC_EMULATE))
+					.append(writable ? '1' : '0')
+					.append(tagId)
+					.append(ndefMsg);
 
-			command += Integer.toHexString(NFC_EMULATE);
-			command += writable ? '1' : '0';
-			command += tagId;
-			command += ndefMsg;
+			Log.d(TAG, "emulateNfcTag() - command: " + command.toString());
 
-			Log.d(TAG, "emulateNfcTag() - command: " + command);
-
-			sendToServer.writeBytes(command);
+			sendToServer.writeBytes(command.toString());
 			sendToServer.flush();
 			Thread.sleep(NETWORK_DELAY_MS);
 			response = receiveFromServer.readLine();
@@ -153,7 +152,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -193,7 +192,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("AUDIO_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -236,7 +235,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {

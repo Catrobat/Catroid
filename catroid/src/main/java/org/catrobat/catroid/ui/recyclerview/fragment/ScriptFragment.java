@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,10 +36,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ListAdapter;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -50,20 +55,25 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoader;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
@@ -83,6 +93,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -99,10 +110,10 @@ import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
-		BrickAdapter.OnItemClickListener,
+		BrickAdapter.OnBrickClickListener,
 		BrickAdapter.SelectionListener, OnCategorySelectedListener,
 		AddBrickFragment.OnAddBrickListener,
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoader.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -126,6 +137,7 @@ public class ScriptFragment extends ListFragment implements
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
+	private ScriptFinder scriptFinder;
 	private String currentSceneName;
 	private String currentSpriteName;
 	private int undoBrickPosition;
@@ -136,6 +148,8 @@ public class ScriptFragment extends ListFragment implements
 	private Parcelable savedListViewState;
 	private Brick brickToFocus;
 	private Script scriptToFocus;
+
+	private SpriteActivity activity;
 
 	public static ScriptFragment newInstance(Brick brickToFocus) {
 		ScriptFragment scriptFragment = new ScriptFragment();
@@ -265,9 +279,86 @@ public class ScriptFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
+		int bottomListPadding;
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
+		} else {
+			bottomListPadding = ScreenValues.currentScreenResolution.getHeight() / 3;
+		}
+		listView.setPadding(0, 0, 0, bottomListPadding);
+		listView.setClipToPadding(false);
+
+		activity = (SpriteActivity) getActivity();
+		SettingsFragment.setToChosenLanguage(activity);
+
+		scriptFinder = view.findViewById(R.id.findview);
+		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
+				textView
+				) -> {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
+			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
+
+			textView.setText(createActionBarTitle(currentProject,
+					currentScene,
+					currentSprite));
+
+			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(),
+					currentSprite.getName());
+
+			adapter.updateItems(currentSprite);
+			adapter.notifyDataSetChanged();
+			listView.smoothScrollToPosition(brickIndex);
+			highlightBrickAtIndex(brickIndex);
+			hideKeyboard();
+		});
+
+		scriptFinder.setOnCloseListener(() -> {
+			listView.cancelHighlighting();
+			finishActionMode();
+			if (activity != null && !activity.isFinishing()) {
+				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
+						ProjectManager.getInstance().getCurrentSprite());
+				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
+				activity.addTabs();
+			}
+			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+		});
+
+		scriptFinder.setOnOpenListener(() -> {
+			activity.removeTabs();
+			activity.findViewById(R.id.toolbar).setVisibility(View.GONE);
+		});
+
 		setHasOptionsMenu(true);
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return view;
+	}
+
+	public String createActionBarTitle(Project currentProject, Scene currentScene, Sprite currentSprite) {
+		if (currentProject.getSceneList().size() == 1) {
+			return currentSprite.getName();
+		} else {
+			return currentScene.getName() + ": " + currentSprite.getName();
+		}
+	}
+
+	private void highlightBrickAtIndex(int index) {
+		listView.getBrickPositionsToHighlight().clear();
+		listView.getBrickPositionsToHighlight().add(index);
+	}
+
+	private void hideKeyboard() {
+		InputMethodManager imm =
+				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (scriptFinder.isOpen() && activity != null) {
+			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -275,6 +366,8 @@ public class ScriptFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		currentProject.getBroadcastMessageContainer().update();
 
 		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
@@ -284,6 +377,14 @@ public class ScriptFragment extends ListFragment implements
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
+					R.string.formula_editor_object_number_of_backgrounds);
+		} else {
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
+					R.string.formula_editor_object_number_of_looks);
+		}
 	}
 
 	@Override
@@ -310,6 +411,10 @@ public class ScriptFragment extends ListFragment implements
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			BottomBar.showAiAssistButton(getActivity());
+		}
+
 		adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 
 		if (savedListViewState != null) {
@@ -317,14 +422,14 @@ public class ScriptFragment extends ListFragment implements
 		}
 
 		scrollToFocusItem();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getContext())
-				.execute();
+		new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 
 		savedListViewState = listView.onSaveInstanceState();
 
@@ -336,6 +441,7 @@ public class ScriptFragment extends ListFragment implements
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.find).setVisible(true);
 		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
 			menu.findItem(R.id.catblocks).setVisible(false);
 		}
@@ -356,7 +462,7 @@ public class ScriptFragment extends ListFragment implements
 				loadProjectAfterUndoOption();
 				break;
 			case R.id.backpack:
-				prepareActionMode(BACKPACK);
+				prepareBackpackActionMode();
 				break;
 			case R.id.copy:
 				prepareActionMode(COPY);
@@ -365,10 +471,13 @@ public class ScriptFragment extends ListFragment implements
 				prepareActionMode(DELETE);
 				break;
 			case R.id.comment_in_out:
-				prepareActionMode(COMMENT);
+				startActionMode(COMMENT);
 				break;
 			case R.id.catblocks:
 				switchToCatblocks();
+				break;
+			case R.id.find:
+				scriptFinder.open();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -413,40 +522,60 @@ public class ScriptFragment extends ListFragment implements
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
-
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 	}
 
 	@Override
 	public void onCategorySelected(String category) {
-		ListFragment addListFragment = null;
+		ListFragment fragment = null;
 		String tag = "";
-
+		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserDefinedBrickListFragment.newInstance(this);
+			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
+		} else if (currentFragment instanceof AddBrickFragment || category.equals(getContext().getString(R.string.category_search_bricks))) {
+			fragment = BrickSearchFragment.newInstance(this, category);
+			tag = BrickSearchFragment.BRICK_SEARCH_FRAGMENT_TAG;
 		} else {
-			addListFragment = AddBrickFragment.newInstance(category, this);
+			fragment = AddBrickFragment.newInstance(category, this);
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
 		}
 
 		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, addListFragment, tag)
+				.add(R.id.fragment_container, fragment, tag)
 				.addToBackStack(null)
 				.commit();
 	}
 
-	protected void prepareActionMode(@ActionModeType int type) {
-		if (type == BACKPACK) {
-			if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
-				startActionMode(BACKPACK);
-			} else if (adapter.isEmpty()) {
-				switchToBackpack();
-			} else {
-				showBackpackModeChooser();
+	protected void prepareActionMode(int type) {
+		if (adapter.getCount() == 1) {
+			switch (type) {
+				case COPY:
+					copy(adapter.getItems());
+					break;
+				case DELETE:
+					delete(adapter.getItems());
+					break;
+				default:
+					startActionMode(type);
+					break;
 			}
 		} else {
 			startActionMode(type);
+		}
+	}
+
+	private void prepareBackpackActionMode() {
+		if (adapter.getItems().size() == 1) {
+			showNewScriptGroupAlert(adapter.getItems());
+			return;
+		}
+
+		if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
+			startActionMode(BACKPACK);
+		} else if (adapter.isEmpty()) {
+			switchToBackpack();
+		} else {
+			showBackpackModeChooser();
 		}
 	}
 
@@ -542,31 +671,40 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onItemClick(Brick brick, int position) {
+	public void onBrickClick(Brick brick, int position) {
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 			return;
 		}
-		List<Integer> options = getContextMenuItems(brick);
-		CharSequence[] items = new CharSequence[options.size()];
 
-		for (int i = 0; i < options.size(); i++) {
-			items[i] = getString(options.get(i));
+		List<Integer> options = getContextMenuItems(brick);
+		List<String> names = new ArrayList<>();
+		for (Integer option: options) {
+			names.add(getString(option));
 		}
+
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names,
+				requireContext(), requireActivity());
 
 		View brickView = brick.getView(getContext());
 		brick.disableSpinners();
 
 		new AlertDialog.Builder(getContext())
-				.setCustomTitle(brickView)
-				.setItems(items, (dialog, which) -> handleContextMenuItemClick(options.get(which), brick, position))
-				.show();
+			.setCustomTitle(brickView)
+			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handleContextMenuItemClick(options.get(which), brick, position);
+				}
+			}).show();
 	}
 
-	private List<Integer> getContextMenuItems(Brick brick) {
+	@VisibleForTesting
+	public static List<Integer> getContextMenuItems(Brick brick) {
 		List<Integer> items = new ArrayList<>();
 
 		if (brick instanceof UserDefinedReceiverBrick) {
+			items.add(R.string.backpack_add);
 			items.add(R.string.brick_context_dialog_delete_definition);
 			items.add(R.string.brick_context_dialog_move_definition);
 			items.add(R.string.brick_context_dialog_help);
@@ -586,7 +724,7 @@ public class ScriptFragment extends ListFragment implements
 
 			items.add(R.string.brick_context_dialog_delete_script);
 
-			if (brick instanceof FormulaBrick) {
+			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			items.add(R.string.brick_context_dialog_move_script);
@@ -605,7 +743,7 @@ public class ScriptFragment extends ListFragment implements
 			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).areAllBrickFieldsNumbers()) {
 				items.add(R.string.brick_option_place_visually);
 			}
-			if (brick instanceof FormulaBrick) {
+			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			if (brick.equals(brick.getAllParts().get(0))) {
@@ -624,7 +762,7 @@ public class ScriptFragment extends ListFragment implements
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
-				bricksToPack.add(brick);
+				brick.addToFlatList(bricksToPack);
 				showNewScriptGroupAlert(bricksToPack);
 				break;
 			case R.string.brick_context_dialog_copy_brick:
@@ -670,7 +808,7 @@ public class ScriptFragment extends ListFragment implements
 			case R.string.brick_context_dialog_move_brick:
 			case R.string.brick_context_dialog_move_script:
 			case R.string.brick_context_dialog_move_definition:
-				onItemLongClick(brick, position);
+				onBrickLongClick(brick, position);
 				break;
 			case R.string.brick_context_dialog_help:
 				openWebViewWithHelpPage(brick);
@@ -698,7 +836,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onItemLongClick(Brick brick, int position) {
+	public boolean onBrickLongClick(Brick brick, int position) {
 		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
@@ -762,23 +900,25 @@ public class ScriptFragment extends ListFragment implements
 			return;
 		}
 
-		int scriptIndex = -1;
 		int firstVisible = listView.getFirstVisiblePosition();
-
+		UUID firstVisibleBrickID = null;
 		if (listView.getCount() > 0 && firstVisible >= 0) {
-			Object firstBrick = listView.getItemAtPosition(firstVisible);
-			if (firstBrick instanceof Brick) {
-				Script scriptOfBrick = ((Brick) firstBrick).getScript();
-				scriptIndex =
-						ProjectManager.getInstance().getCurrentSprite().getScriptIndex(scriptOfBrick);
+			Object firstVisibleObject = listView.getItemAtPosition(firstVisible);
+			if (firstVisibleObject instanceof Brick) {
+				Brick firstVisibleBrick = (Brick) firstVisibleObject;
+				if (firstVisibleBrick instanceof ScriptBrick) {
+					firstVisibleBrickID = firstVisibleBrick.getScript().getScriptId();
+				} else {
+					firstVisibleBrickID = firstVisibleBrick.getBrickID();
+				}
 			}
 		}
 
 		SettingsFragment.setUseCatBlocks(getContext(), true);
 
-		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(scriptIndex);
+		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
 
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
 				CatblocksScriptFragment.Companion.getTAG());
 		fragmentTransaction.commit();
@@ -847,7 +987,7 @@ public class ScriptFragment extends ListFragment implements
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				new ProjectLoadTask(project.getDirectory(), getContext()).setListener(this).execute();
+				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
 			}
@@ -949,5 +1089,19 @@ public class ScriptFragment extends ListFragment implements
 		}
 		scriptToFocus = null;
 		brickToFocus = null;
+	}
+
+	public int getActionModeType() {
+		return actionModeType;
+	}
+
+	public boolean isFinderOpen() {
+		return scriptFinder.isOpen();
+	}
+
+	public void closeFinder() {
+		if (!scriptFinder.isClosed()) {
+			scriptFinder.close();
+		}
 	}
 }

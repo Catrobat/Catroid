@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,8 +49,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
@@ -72,6 +70,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -139,8 +139,7 @@ public class XstreamSerializerTest {
 		project.getDefaultScene().addSprite(thirdSprite);
 		project.getDefaultScene().addSprite(fourthSprite);
 
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		Project loadedProject = XstreamSerializer.getInstance()
 				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
@@ -276,7 +275,7 @@ public class XstreamSerializerTest {
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMapping);
 
-		ProjectSaveTask.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		Setting setting = project.getSettings().get(0);
 
@@ -298,8 +297,7 @@ public class XstreamSerializerTest {
 		SettingsFragment
 				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
 
-		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
@@ -368,9 +366,7 @@ public class XstreamSerializerTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		project.getSceneList().get(0).setName(firstSceneName);
-
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(project.getDirectory()));
 	}

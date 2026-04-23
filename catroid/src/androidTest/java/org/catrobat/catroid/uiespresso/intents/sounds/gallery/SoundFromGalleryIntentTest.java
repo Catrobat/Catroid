@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,18 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.intents.sounds.gallery;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -49,16 +45,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
@@ -84,19 +79,19 @@ public class SoundFromGalleryIntentTest {
 	private Matcher<Intent> expectedGetContentIntent;
 	private final String soundFileName = "longsound.mp3";
 	private final String projectName = getClass().getSimpleName();
-	private final File tmpPath = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
 
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		baseActivityTestRule.launchActivity();
 		Intents.init();
@@ -111,14 +106,10 @@ public class SoundFromGalleryIntentTest {
 				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
 				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
 
-		if (!tmpPath.exists()) {
-			tmpPath.mkdirs();
-		}
-
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				tmpPath,
+				tmpFolder.getRoot(),
 				soundFileName);
 
 		Intent resultData = new Intent();
@@ -133,8 +124,6 @@ public class SoundFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
-		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {
@@ -154,17 +143,6 @@ public class SoundFromGalleryIntentTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(soundFileName.replace(".mp3", " (1)"))));
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
+				.check(matches(withText(soundFileName.replace(".mp3", ""))));
 	}
 }

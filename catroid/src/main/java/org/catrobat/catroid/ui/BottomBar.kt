@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,5 +55,15 @@ object BottomBar {
     @JvmStatic
     fun hidePlayButton(activity: Activity?) {
         activity?.findViewById<View?>(R.id.button_play)?.visibility = View.GONE
+    }
+
+    @JvmStatic
+    fun showAiAssistButton(activity: Activity?) {
+        activity?.findViewById<View?>(R.id.button_ai_assist)?.visibility = View.VISIBLE
+    }
+
+    @JvmStatic
+    fun hideAiAssistButton(activity: Activity?) {
+        activity?.findViewById<View?>(R.id.button_ai_assist)?.visibility = View.GONE
     }
 }

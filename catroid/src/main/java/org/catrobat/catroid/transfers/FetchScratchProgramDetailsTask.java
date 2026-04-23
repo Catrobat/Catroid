@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ScratchDataFetcher;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.catrobat.catroid.web.WebScratchProgramException;
-import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.InterruptedIOException;
 
@@ -94,7 +94,7 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 	public ScratchProgramData fetchProjectData(final long projectID) throws InterruptedIOException {
 		// exponential backoff
 		final int minTimeout = Constants.SCRATCH_HTTP_REQUEST_MIN_TIMEOUT;
-		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES;
+		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUMBER_OF_RETRIES;
 
 		int delay;
 
@@ -121,7 +121,7 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 				});
 
 				return null;
-			} catch (WebconnectionException e) {
+			} catch (WebConnectionException e) {
 				Log.e(TAG, e.getMessage() + "\n" + e.getStackTrace());
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
 				Log.i(TAG, "Retry #" + (attempt + 1) + " to fetch scratch project list scheduled in "

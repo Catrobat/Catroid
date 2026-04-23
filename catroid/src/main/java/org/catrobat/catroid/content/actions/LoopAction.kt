@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,14 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
+import org.catrobat.catroid.utils.LoopUtil
 
 abstract class LoopAction : RepeatAction() {
     var isLoopDelay = true
     protected open var currentTime = 0f
 
-    protected fun isLoopDelayNeeded(): Boolean = currentTime < LOOP_DELAY && isLoopDelay
+    protected fun isLoopDelayNeeded(): Boolean = currentTime < LOOP_DELAY &&
+        isLoopDelay && !LoopUtil.isAnyStitchRunning()
 
     companion object {
         private const val LOOP_DELAY = 0.02f

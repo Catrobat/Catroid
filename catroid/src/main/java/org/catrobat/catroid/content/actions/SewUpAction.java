@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ public class SewUpAction extends TemporalAction {
 	public static final int STEPS = 3;
 
 	protected void begin() {
-		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		double radians = Math.toRadians(sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 
 		sprite.runningStitch.pause();
 

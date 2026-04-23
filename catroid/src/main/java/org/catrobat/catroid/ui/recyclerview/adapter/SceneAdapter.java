@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.io.File;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		int thumbnailWidth = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
@@ -67,8 +67,8 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	}
 
 	@Override
-	public boolean onItemMove(int srcPosition, int targetPosition) {
-		boolean moved = super.onItemMove(srcPosition, targetPosition);
+	public boolean onItemMove(int sourcePosition, int targetPosition) {
+		boolean moved = super.onItemMove(sourcePosition, targetPosition);
 		ProjectManager.getInstance().setCurrentlyEditedScene(items.get(0));
 		return moved;
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,9 +32,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN
-import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_URL
-import org.catrobat.catroid.common.Constants.NO_TOKEN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_TOKEN_URL
@@ -59,7 +56,7 @@ import java.util.HashMap
 class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebClient.client) {
     private val tag = CatrobatServerCalls::class.java.simpleName
 
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     fun checkToken(token: String, username: String, baseUrl: String): Boolean {
         try {
             val postValues = HashMap<String, String>()
@@ -78,14 +75,14 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             return if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
                 true
             } else {
-                throw WebconnectionException(statusCode, "server response token ok, but error: $serverAnswer")
+                throw WebConnectionException(statusCode, "server response token ok, but error: $serverAnswer")
             }
         } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
+            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
     }
 
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     private fun getRequest(url: String): String {
         val request = Request.Builder()
             .url(url)
@@ -100,7 +97,7 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
                 serverUrl += "?language=$language"
             }
             getRequest(serverUrl)
-        } catch (e: WebconnectionException) {
+        } catch (e: WebConnectionException) {
             Log.e(tag, Log.getStackTraceString(e))
             ""
         }
@@ -113,13 +110,13 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
                 serverUrl += language
             }
             getRequest(serverUrl)
-        } catch (e: WebconnectionException) {
+        } catch (e: WebConnectionException) {
             Log.e(tag, Log.getStackTraceString(e))
             ""
         }
     }
 
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     fun checkOAuthToken(id: String, oauthProvider: String, context: Context?): Boolean? {
         var statusCode: Int
         var message: String
@@ -129,7 +126,7 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
 
             val serverUrl = when (oauthProvider) {
                 Constants.GOOGLE_PLUS -> CHECK_GOOGLE_TOKEN_URL
-                else -> throw WebconnectionException(-1, "OAuth provider not supported!")
+                else -> throw WebConnectionException(-1, "OAuth provider not supported!")
             }
 
             val request = postValues.createFormEncodedRequest(serverUrl)
@@ -154,13 +151,13 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             }
             message = resultString
         } catch (e: JSONException) {
-            statusCode = WebconnectionException.ERROR_JSON
+            statusCode = WebConnectionException.ERROR_JSON
             message = Log.getStackTraceString(e)
         }
-        throw WebconnectionException(statusCode, message)
+        throw WebConnectionException(statusCode, message)
     }
 
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     fun isEMailAvailable(email: String): Boolean {
         try {
             val postValues = HashMap<String, String>()
@@ -173,16 +170,16 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             val jsonObject = JSONObject(resultString)
             val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
             if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
+                throw WebConnectionException(statusCode, resultString)
             }
 
             return jsonObject.getBoolean(EMAIL_AVAILABLE)
         } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
+            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
     }
 
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     fun isUserNameAvailable(username: String): Boolean {
         var resultString = ""
         try {
@@ -196,38 +193,28 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             val jsonObject = JSONObject(resultString)
             val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
             if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
+                throw WebConnectionException(statusCode, resultString)
             }
 
             return jsonObject.getBoolean(USERNAME_AVAILABLE)
         } catch (jsonException: JSONException) {
             Log.e(tag, Log.getStackTraceString(jsonException))
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, resultString)
+            throw WebConnectionException(WebConnectionException.ERROR_JSON, resultString)
         }
     }
 
-    fun logout(userName: String) {
-        try {
-            val serverUrl = CATROBAT_TOKEN_LOGIN_URL + userName + CATROBAT_TOKEN_LOGIN_AMP_TOKEN + NO_TOKEN
-
-            getRequest(serverUrl)
-        } catch (e: WebconnectionException) {
-            Log.e(tag, Log.getStackTraceString(e))
-        }
-    }
-
-    @Throws(WebconnectionException::class)
+    @Throws(WebConnectionException::class)
     fun deleteTestUserAccountsOnServer(): Boolean {
         try {
             val resultString = getRequest("")
             val jsonObject = JSONObject(resultString)
             val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
             if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
+                throw WebConnectionException(statusCode, resultString)
             }
             return true
         } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
+            throw WebConnectionException(WebConnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
     }
 
@@ -271,7 +258,7 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             }
         } catch (ioException: IOException) {
             Log.e(tag, Log.getStackTraceString(ioException))
-            errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception")
+            errorCallback.onError(WebConnectionException.ERROR_NETWORK, "I/O Exception")
         }
     }
 

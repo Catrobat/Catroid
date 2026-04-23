@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,11 +44,7 @@ public class StageAudioFocus implements OnAudioFocusChangeListener {
 
 		int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-		if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-			isAudioFocusGranted = true;
-		} else {
-			isAudioFocusGranted = false;
-		}
+		isAudioFocusGranted = result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
 	}
 
 	public void releaseAudioFocus() {

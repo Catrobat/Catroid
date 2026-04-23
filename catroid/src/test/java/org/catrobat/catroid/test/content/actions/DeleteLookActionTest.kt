@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ class DeleteLookActionTest {
         lookData1 = LookData("firstLook", mock(File::class.java))
         lookData2 = LookData("secondLook", mock(File::class.java))
         lookData3 = LookData("thirdLook", mock(File::class.java))
+
         sprite = Sprite("testSprite").apply {
             lookList.add(lookData1)
             lookList.add(lookData2)

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,6 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -95,12 +94,12 @@ public class CopySceneTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void copySceneTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy))
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm))
 				.perform(click());
@@ -108,7 +107,7 @@ public class CopySceneTest {
 		onView(withText(toBeCopiedSceneName + " (1)"))
 				.check(matches(isDisplayed()));
 
-		onView(withText(toBeCopiedSceneName + " (3)"))
+		onView(withText(toBeCopiedSceneName + " (2)"))
 				.check(matches(isDisplayed()));
 		int copiedSceneSpritesCount =
 				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().size();
@@ -122,12 +121,22 @@ public class CopySceneTest {
 		assertEquals(1, copiedSceneSoundFilesCount);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void selectFragmentToCopyTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
+	}
+
 	private void createProject(Context context, String projectName) throws Exception {
 
 		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(sprite);
-		Scene scene2 = new Scene("Scene (2)", project);
+		Scene scene2 = new Scene("Scene (1)", project);
 		project.addScene(scene2);
 
 		ProjectManager.getInstance().setCurrentProject(project);

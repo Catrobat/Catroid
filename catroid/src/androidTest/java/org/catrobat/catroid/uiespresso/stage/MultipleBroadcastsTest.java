@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ public class MultipleBroadcastsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = UiTestUtils.createEmptyProject("test");
+		project = UiTestUtils.createDefaultTestProject("test");
 		userVariables = new ArrayList<>();
 		for (int i = 0; i < VALUES.length; i++) {
 			Sprite sprite = new Sprite("sprite" + i);

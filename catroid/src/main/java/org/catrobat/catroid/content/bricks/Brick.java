@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,8 +50,9 @@ public interface Brick extends Serializable, Cloneable {
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
 
 		VARIABLE_CHANGE, WEB_REQUEST, LOOK_REQUEST, LOOK_NEW, LOOK_COPY, BACKGROUND_REQUEST, WRITE_FILENAME,
-		READ_FILENAME, TEMPO,
+		READ_FILENAME, TEMPO, HORIZONTAL_FLEXIBILITY, VERTICAL_FLEXIBILITY,
 		TEMPO_CHANGE, BEATS_TO_PAUSE, NOTE_TO_PLAY, BEATS_TO_PLAY_NOTE, OPEN_URL, PLAY_DRUM,
+		PLAY_SOUND_AT,
 
 		PEN_SIZE, PEN_COLOR_RED, PEN_COLOR_GREEN, PEN_COLOR_BLUE,
 
@@ -125,7 +126,7 @@ public interface Brick extends Serializable, Cloneable {
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATION, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
 			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
 			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, MICROPHONE, STORAGE_WRITE, STORAGE_READ,
-			SPEECH_RECOGNITION, TEXT_DETECTION})
+			SPEECH_RECOGNITION, TEXT_DETECTION, POSE_DETECTION, OBJECT_DETECTION})
 	@interface Resources {
 	}
 
@@ -155,6 +156,8 @@ public interface Brick extends Serializable, Cloneable {
 	int MICROPHONE = 24;
 	int STORAGE_READ = 25;
 	int STORAGE_WRITE = 26;
+	int POSE_DETECTION = 27;
+	int OBJECT_DETECTION = 28;
 
 	class ResourcesSet extends HashSet<Integer> {
 		@Override

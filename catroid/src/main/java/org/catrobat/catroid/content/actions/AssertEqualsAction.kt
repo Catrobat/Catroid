@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,17 @@
 package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
+import org.catrobat.catroid.formulaeditor.Functions.FALSE
+import org.catrobat.catroid.formulaeditor.Functions.TRUE
 
 class AssertEqualsAction : AssertAction() {
     var actualFormula: Formula? = null
     var expectedFormula: Formula? = null
+    lateinit var actualValue: Any
+    lateinit var expectedValue: Any
 
     override fun act(delta: Float): Boolean {
         assertTitle = "\nAssertEqualsError\n"
@@ -38,13 +45,40 @@ class AssertEqualsAction : AssertAction() {
             failWith("Expected is null")
             return false
         }
-        val actualValue = actualFormula!!.interpretObject(scope).toString()
-        val expectedValue = expectedFormula!!.interpretObject(scope).toString()
-        if (!equalValues(actualValue, expectedValue)) {
+
+        actualValue = actualFormula!!.interpretObject(scope)
+        expectedValue = expectedFormula!!.interpretObject(scope)
+        if (!equalValues(actualValue.toString(), expectedValue.toString())) {
+            convertValuesToBooleanString()
             failWith(formattedAssertEqualsError(actualValue, expectedValue))
             return false
         }
         return true
+    }
+
+    private fun convertValuesToBooleanString() {
+        val actualBoolean = isValueBoolean(actualFormula!!.formulaTree.elementType,
+            actualFormula!!.formulaTree.value)
+        val expectedBoolean = isValueBoolean(expectedFormula!!.formulaTree.elementType,
+            expectedFormula!!.formulaTree.value)
+
+        if (actualBoolean) {
+            actualValue = (actualValue as Double > 0).toString()
+        }
+        if (expectedBoolean) {
+            expectedValue = (expectedValue as Double > 0).toString()
+        }
+    }
+
+    private fun isValueBoolean(elementType: ElementType, value: String): Boolean {
+        return when (elementType) {
+            FUNCTION -> when (value) {
+                TRUE.toString(), FALSE.toString() -> true
+                else -> false
+            }
+            OPERATOR -> true
+            else -> false
+        }
     }
 
     private fun formattedAssertEqualsError(

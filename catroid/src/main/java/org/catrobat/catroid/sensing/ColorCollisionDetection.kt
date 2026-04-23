@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ private const val MAX_PIXELS = 10_000f
 
 class ColorCollisionDetection(
     scope: Scope,
-    override val stageListener: StageListener
+    stageListener: StageListener?
 ) : ColorDetection(scope, stageListener) {
     private val polygons = scope.sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
@@ -47,7 +47,7 @@ class ColorCollisionDetection(
     @Suppress("TooGenericExceptionCaught")
     fun tryInterpretFunctionTouchesColor(color: Any?): Boolean {
         setBufferParameters()
-        if (isParameterInvalid(color) || isLookInvalid()) {
+        if (isParameterInvalid(color) || isLookInvalid() || stageListener == null) {
             return false
         }
         val matcher = TouchesColorMatcher(color as String)
@@ -59,18 +59,28 @@ class ColorCollisionDetection(
     }
 
     private fun interpretMatcherOnStage(matcher: ConditionMatcher): Boolean {
-        val lookList: MutableList<Look> = getLooksOfRelevantSprites()
+        val lookList: MutableList<Look> = getLooksOfRelevantSprites() ?: return false
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(scope.project)
-        matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
+        matcher.stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
         val wasLookVisible = look.isLookVisible
         look.isLookVisible = true
-        matcher.spritePixmap = createPicture(listOf(look), projectionMatrix, spriteBatch)
+        matcher.spritePixmap = projectionMatrix?.let {
+            createPicture(listOf(look), it, spriteBatch)
+        }
         look.isLookVisible = wasLookVisible
 
-        try {
-            return ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
+        return tryConditionMatcherRunnerMatch(matcher, batch, spriteBatch)
+    }
+
+    private fun tryConditionMatcherRunnerMatch(
+        matcher: ConditionMatcher,
+        batch: SpriteBatch,
+        spriteBatch: SpriteBatch
+    ): Boolean {
+        return try {
+            ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
         } finally {
             matcher.stagePixmap?.dispose()
             matcher.spritePixmap?.dispose()
@@ -111,11 +121,13 @@ class ColorCollisionDetection(
     override fun isParameterInvalid(parameter: Any?): Boolean =
         parameter !is String || !parameter.isValidHexColor()
 
-    override fun getLooksOfRelevantSprites(): MutableList<Look> =
-        ArrayList<Sprite>(stageListener.spritesFromStage)
-            .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
-            .map { s -> s.look }
-            .toMutableList()
+    override fun getLooksOfRelevantSprites(): MutableList<Look>? =
+        stageListener?.let {
+            ArrayList<Sprite>(it.spritesFromStage)
+                .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
+                .map { s -> s.look }
+                .toMutableList()
+        }
 
     override fun createProjectionMatrix(project: Project): Matrix4 {
         val scaledWidth = boundingRectangle.width * look.scaleX

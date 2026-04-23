@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,34 +26,44 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.VariableViewHolder;
 
 import java.util.List;
 
-import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.catrobat.catroid.utils.ShowTextUtils.convertObjectToString;
 
 public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
+
+	public boolean showSettings = true;
 
 	UserDataRVAdapter(List<T> items) {
 		super(items);
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-		return new VariableVH(view);
+		return new VariableViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		UserData item = items.get(position);
-		VariableVH variableVH = (VariableVH) holder;
-		variableVH.title.setText(item.getName());
-		variableVH.value.setText(trimTrailingCharacters(item.getValue().toString()));
+		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
+		variableViewHolder.title.setText(item.getName());
+		variableViewHolder.value.setText(convertObjectToString(item.getValue()));
+		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
+		if (settings != null && showSettings) {
+			settings.setVisibility(View.VISIBLE);
+		} else if (settings != null && !showSettings) {
+			settings.setVisibility(View.GONE);
+		}
 	}
 }

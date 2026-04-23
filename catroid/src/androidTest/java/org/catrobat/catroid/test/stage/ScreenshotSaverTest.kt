@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,8 +68,8 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
     @Before
     fun setUp() {
         ScreenValues.setToDefaultScreenSize()
-        val height = ScreenValues.SCREEN_HEIGHT
-        val width = ScreenValues.SCREEN_WIDTH
+        val height = ScreenValues.currentScreenResolution.height
+        val width = ScreenValues.currentScreenResolution.width
         dummyData = ByteArray(NUMBER_OF_COLORS * width * height)
         val stageActivity = activityTestRule.activity
         val folder = stageActivity.cacheDir.absolutePath + "/"

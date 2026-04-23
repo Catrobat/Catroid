@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,8 +65,8 @@ public class LookDirectionTest {
 	@Test
 	public void testDirection() {
 		Look look = new Look(new Sprite("testsprite"));
-		look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
-		assertEquals(degreesInUserInterfaceDimensionUnit, look.getDirectionInUserInterfaceDimensionUnit());
+		look.setMotionDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
+		assertEquals(degreesInUserInterfaceDimensionUnit, look.getMotionDirectionInUserInterfaceDimensionUnit());
 		assertEquals(degrees, look.getRotation());
 	}
 }

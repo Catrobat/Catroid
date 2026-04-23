@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,8 +39,7 @@ public final class ScreenValueHandler {
 			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 			DisplayMetrics displayMetrics = new DisplayMetrics();
 			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+			ScreenValues.currentScreenResolution = new Resolution(displayMetrics.widthPixels, displayMetrics.heightPixels);
 		} else {
 			ScreenValues.setToDefaultScreenSize();
 		}

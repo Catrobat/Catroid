@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,16 @@
 
 package org.catrobat.catroid.utils
 
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.CompositeBrick
@@ -47,10 +51,11 @@ import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
+import org.catrobat.catroid.content.bricks.SetTempoBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
-import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
 import java.util.ArrayList
@@ -66,20 +71,34 @@ object LoopUtil {
         SetSizeToBrick::class, ChangeSizeByNBrick::class, SetTransparencyBrick::class,
         ChangeTransparencyByNBrick::class, SetBrightnessBrick::class,
         ChangeBrightnessByNBrick::class, SetColorBrick::class, ChangeColorByNBrick::class,
-        SetBackgroundBrick::class, SetBackgroundByIndexBrick::class)
+        SetBackgroundBrick::class, SetBackgroundByIndexBrick::class,
+        SetVolumeToBrick::class, ChangeVolumeByNBrick::class, SetTempoBrick::class)
 
     @JvmStatic
-    fun checkLoopBrickForLoopDelay(loopBrick: CompositeBrick): Boolean {
-        var isLoopDelayBrick = false
+    fun checkLoopBrickForLoopDelay(loopBrick: CompositeBrick, script: Script): Boolean {
         val allNestedBricks: List<Brick> = ArrayList()
         loopBrick.addToFlatList(allNestedBricks)
 
+        if (script is UserDefinedScript && !script.screenRefresh) {
+            return false
+        }
         for (brick in allNestedBricks.filter { b -> !b.isCommentedOut }) {
-            isLoopDelayBrick = isLoopDelayBrick || loopDelayBricks.contains(brick::class)
-            if (brick is StitchBrick) {
-                return false
+            if (loopDelayBricks.contains(brick::class)) {
+                return true
             }
         }
-        return isLoopDelayBrick
+        return false
+    }
+
+    @JvmStatic
+    fun isAnyStitchRunning(): Boolean {
+        ProjectManager.getInstance() ?: return false
+        ProjectManager.getInstance().currentProject ?: return false
+        ProjectManager.getInstance().currentProject.spriteListWithClones?.forEach {
+            if (it.runningStitch.isRunning) {
+                return true
+            }
+        }
+        return false
     }
 }

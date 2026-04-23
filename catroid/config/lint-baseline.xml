@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,248 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<issues format="5" by="lint 3.5.2" client="gradle" variant="catroidDebug" version="3.5.2">
+<issues format="5" by="lint 4.0.2" client="gradle" variant="catroidDebug" version="4.0.2">
 
     <issue
-        id="MissingSuperCall"
-        message="Overriding method should call `super.onActivityResult`"
-        errorLine1=" public void onActivityResult(int requestCode, int resultCode, Intent data) {"
-        errorLine2="             ~~~~~~~~~~~~~~~~">
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.createRfcommSocketToServiceRecord: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);"
+        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/bluetooth/ConnectBluetoothDeviceActivity.java"
-            line="352"
-            column="14"/>
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="76"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {"
+        errorLine2="       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="78"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   } else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {"
+        errorLine2="              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="80"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothSocket.connect: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   this.bluetoothSocket.connect();"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="111"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothSocket.connect: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    this.bluetoothSocket.connect();"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothConnectionImpl.java"
+            line="120"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent BluetoothAdapter.ACTION_REQUEST_ENABLE: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="   activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\BluetoothManager.java"
+            line="53"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getBondState: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="155"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="156"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="                                                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="156"
+            column="53"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      Pair&lt;Pair&lt;String, String>, Integer> listElement = new Pair&lt;>(new Pair&lt;>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);"
+        errorLine2="                                                                              ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="157"
+            column="79"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="162"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getType: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="     if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {"
+        errorLine2="                                               ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="162"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      String deviceInfoBLE = &quot;BLE&quot; + (device.getName() != null ? &quot; - &quot; + device.getName() : &quot;&quot;);"
+        errorLine2="                                      ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="163"
+            column="39"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="      String deviceInfoBLE = &quot;BLE&quot; + (device.getName() != null ? &quot; - &quot; + device.getName() : &quot;&quot;);"
+        errorLine2="                                                                         ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="163"
+            column="74"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE: android.permission.BLUETOOTH_ADVERTISE"
+        errorLine1="   startActivity(intent);"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="401"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.getBondedDevices: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="  Set&lt;android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();"
+        errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="413"
+            column="58"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothDevice.getName: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    Pair&lt;String, String> listElement = new Pair&lt;>(device.getName(), device.getAddress());"
+        errorLine2="                                                  ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="418"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.startDiscovery: android.permission.BLUETOOTH_SCAN"
+        errorLine1="  btManager.getBluetoothAdapter().startDiscovery();"
+        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="457"
+            column="3"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.isDiscovering: android.permission.BLUETOOTH_SCAN"
+        errorLine1="  if (btManager.getBluetoothAdapter().isDiscovering()) {"
+        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="461"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.cancelDiscovery: android.permission.BLUETOOTH_SCAN"
+        errorLine1="   btManager.getBluetoothAdapter().cancelDiscovery();"
+        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="462"
+            column="4"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by BluetoothAdapter.listenUsingRfcommWithServiceRecord: android.permission.BLUETOOTH_CONNECT"
+        errorLine1="    serverSocket = BluetoothAdapter.getDefaultAdapter()"
+        errorLine2="                   ^">
+        <location
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="523"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Missing permissions required by intent Intent.ACTION_CLOSE_SYSTEM_DIALOGS: android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
+        errorLine1="   sendBroadcast(it);"
+        errorLine2="   ~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\java\org\catrobat\catroid\utils\notifications\StatusBarNotificationManager.java"
+            line="296"
+            column="4"/>
     </issue>
 
     <issue
@@ -40,7 +271,7 @@
         errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
         errorLine2="                                                  ~">
         <location
-            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
             line="287"
             column="51"/>
     </issue>
@@ -51,7 +282,7 @@
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
         errorLine2="         ~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
             line="72"
             column="10"/>
     </issue>
@@ -62,8 +293,8 @@
         errorLine1=" private static Context context;"
         errorLine2="         ~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/CatroidApplication.java"
-            line="46"
+            file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
+            line="49"
             column="10"/>
     </issue>
 
@@ -73,7 +304,7 @@
         errorLine1=" private Activity activity;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/transfers/CheckOAuthTokenTask.java"
+            file="src\main\java\org\catrobat\catroid\transfers\CheckOAuthTokenTask.java"
             line="40"
             column="2"/>
     </issue>
@@ -84,8 +315,8 @@
         errorLine1=" private class ConnectDeviceTask extends AsyncTask&lt;String, Void, BluetoothConnection.State> {"
         errorLine2="               ~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/bluetooth/ConnectBluetoothDeviceActivity.java"
-            line="182"
+            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            line="192"
             column="16"/>
     </issue>
 
@@ -95,7 +326,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/transfers/DeleteTestUserTask.java"
+            file="src\main\java\org\catrobat\catroid\transfers\DeleteTestUserTask.java"
             line="39"
             column="2"/>
     </issue>
@@ -106,42 +337,9 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/transfers/FetchScratchProgramDetailsTask.java"
+            file="src\main\java\org\catrobat\catroid\transfers\FetchScratchProgramDetailsTask.java"
             line="52"
             column="2"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaEditorEditText` which has field `context` pointing to `Context`); this is a memory leak"
-        errorLine1=" private static FormulaEditorEditText formulaEditorEditText;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="133"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields; this is a memory leak"
-        errorLine1=" private static LinearLayout formulaEditorBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="135"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaBrick` which has field `view` pointing to `View`); this is a memory leak"
-        errorLine1=" private static FormulaBrick formulaBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="137"
-            column="10"/>
     </issue>
 
     <issue
@@ -150,7 +348,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/transfers/GoogleExchangeCodeTask.java"
+            file="src\main\java\org\catrobat\catroid\transfers\GoogleExchangeCodeTask.java"
             line="43"
             column="2"/>
     </issue>
@@ -161,19 +359,8 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/transfers/GoogleLogInTask.java"
+            file="src\main\java\org\catrobat\catroid\transfers\GoogleLogInTask.java"
             line="44"
-            column="2"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="This field leaks a context object"
-        errorLine1=" private Context context;"
-        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/transfers/LogoutTask.java"
-            line="33"
             column="2"/>
     </issue>
 
@@ -183,7 +370,7 @@
         errorLine1=" private class ReadTask extends AsyncTask&lt;UserList, Void, Void> {"
         errorLine2="               ~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/ReadListFromDeviceAction.java"
+            file="src\main\java\org\catrobat\catroid\content\actions\ReadListFromDeviceAction.java"
             line="62"
             column="16"/>
     </issue>
@@ -194,7 +381,7 @@
         errorLine1=" private class ReadTask extends AsyncTask&lt;UserVariable, Void, Void> {"
         errorLine2="               ~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/ReadVariableFromDeviceAction.java"
+            file="src\main\java\org\catrobat\catroid\content\actions\ReadVariableFromDeviceAction.java"
             line="61"
             column="16"/>
     </issue>
@@ -205,53 +392,31 @@
         errorLine1=" private class FinishThreadAndDisposeTexturesTask extends AsyncTask&lt;Void, Void, Void> {"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/ui/dialogs/StageDialog.java"
+            file="src\main\java\org\catrobat\catroid\ui\dialogs\StageDialog.java"
             line="252"
             column="16"/>
     </issue>
 
     <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteListOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserList, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteListOnDeviceAction.java"
-            line="65"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserVariable, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteVariableOnDeviceAction.java"
-            line="63"
-            column="16"/>
-    </issue>
-
-    <issue
         id="UnusedResources"
-        message="The resource `R.drawable.brick_brown_2h_9` appears to be unused">
+        message="The resource `R.drawable.brick_2h_brown_9` appears to be unused">
         <location
-            file="src/main/res/drawable-ldpi/brick_brown_2h_9.9.png"/>
+            file="src\main\res\drawable-ldpi\brick_2h_brown_9.9.png"/>
         <location
-            file="src/main/res/drawable-mdpi/brick_brown_2h_9.9.png"/>
+            file="src\main\res\drawable-mdpi\brick_2h_brown_9.9.png"/>
         <location
-            file="src/main/res/drawable-xhdpi/brick_brown_2h_9.9.png"/>
+            file="src\main\res\drawable-xhdpi\brick_2h_brown_9.9.png"/>
     </issue>
 
     <issue
         id="UnusedResources"
         message="The resource `R.drawable.brick_control_1h` appears to be unused">
         <location
-            file="src/main/res/drawable-ldpi/brick_control_1h.9.png"/>
+            file="src\main\res\drawable-ldpi\brick_control_1h.9.png"/>
         <location
-            file="src/main/res/drawable-mdpi/brick_control_1h.9.png"/>
+            file="src\main\res\drawable-mdpi\brick_control_1h.9.png"/>
         <location
-            file="src/main/res/drawable-xhdpi/brick_control_1h.9.png"/>
+            file="src\main\res\drawable-xhdpi\brick_control_1h.9.png"/>
     </issue>
 
     <issue
@@ -260,69 +425,33 @@
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
         <location
-            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
             line="25"
             column="1"/>
         <location
-            file="src/main/res/mipmap-hdpi/ic_launcher_round.png"/>
+            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
         <location
-            file="src/main/res/mipmap-mdpi/ic_launcher_round.png"/>
+            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
         <location
-            file="src/main/res/mipmap-xhdpi/ic_launcher_round.png"/>
+            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
         <location
-            file="src/main/res/mipmap-xxhdpi/ic_launcher_round.png"/>
+            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
         <location
-            file="src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.BrickContainer_Event_Medium` appears to be unused"
-        errorLine1="    &lt;style name=&quot;BrickContainer.Event.Medium&quot;>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="507"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.BrickContainer_Script_Small` appears to be unused"
-        errorLine1="    &lt;style name=&quot;BrickContainer.Script.Small&quot;>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="514"
-            column="12"/>
+            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (42 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (25 more)">
         <location
-            file="src/main/res/drawable-hdpi"/>
+            file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (44 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (27 more)">
         <location
-            file="src/main/res/drawable-mdpi"/>
-    </issue>
-
-    <issue
-        id="IconDensities"
-        message="Missing the following drawables in `drawable-xhdpi`: embroidery_neg.png, embroidery_pos.png, favorites_72x72.png, google_playstore_logo.png, huawei_app_gallery_logo.png... (5 more)">
-        <location
-            file="src/main/res/drawable-xhdpi"/>
-    </issue>
-
-    <issue
-        id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (88 more)">
-        <location
-            file="src/main/res/drawable-xxhdpi"/>
+            file="src\main\res\drawable-xxhdpi"/>
     </issue>
 
     <issue
@@ -331,7 +460,7 @@
         errorLine1=" public boolean onTouchEvent(MotionEvent event) {"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/ui/dragndrop/BrickListView.java"
+            file="src\main\java\org\catrobat\catroid\ui\dragndrop\BrickListView.java"
             line="168"
             column="17"/>
     </issue>
@@ -342,8 +471,8 @@
         errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                   ~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/content/bricks/brickspinner/BrickSpinner.java"
-            line="220"
+            file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
+            line="232"
             column="20"/>
     </issue>
 
@@ -353,7 +482,7 @@
         errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
             line="207"
             column="19"/>
     </issue>
@@ -364,7 +493,7 @@
         errorLine1="   btn.setOnTouchListener(otl);"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
             line="224"
             column="4"/>
     </issue>
@@ -375,7 +504,7 @@
         errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/pocketmusic/fastscroller/FastScroller.java"
+            file="src\main\java\org\catrobat\catroid\pocketmusic\fastscroller\FastScroller.java"
             line="152"
             column="19"/>
     </issue>
@@ -386,8 +515,8 @@
         errorLine1="  this.setOnTouchListener(this);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java"
-            line="148"
+            file="src\main\java\org\catrobat\catroid\formulaeditor\FormulaEditorEditText.java"
+            line="164"
             column="3"/>
     </issue>
 
@@ -397,8 +526,8 @@
         errorLine1="   public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="331"
+            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
+            line="342"
             column="19"/>
     </issue>
 
@@ -408,7 +537,7 @@
         errorLine1=" public boolean onTouchEvent(MotionEvent e) {"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/pocketmusic/ui/TactScrollRecyclerView.java"
+            file="src\main\java\org\catrobat\catroid\pocketmusic\ui\TactScrollRecyclerView.java"
             line="97"
             column="17"/>
     </issue>
@@ -419,8 +548,8 @@
         errorLine1="  frameLayout.setOnTouchListener(this);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
-            line="243"
+            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
+            line="247"
             column="3"/>
     </issue>
 
@@ -430,977 +559,9 @@
         errorLine1=" public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                ~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
-            line="376"
+            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
+            line="385"
             column="17"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/accessibility_profile.xml"
-            line="43"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_main_menu_splashscreen.xml"
-            line="30"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageButton"
-        errorLine2="         ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_pocketmusic.xml"
-            line="37"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="                    &lt;ImageView"
-        errorLine2="                     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_scratch_project_details.xml"
-            line="87"
-            column="22"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="31"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="40"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="52"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="66"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="77"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="87"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="97"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_stage_gamepad.xml"
-            line="108"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_upload.xml"
-            line="45"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_stage.xml"
-            line="34"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_stage.xml"
-            line="96"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_stage.xml"
-            line="104"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_upload_project_progress.xml"
-            line="51"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/fragment_project_show_details.xml"
-            line="39"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_ardrone.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_arduino.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_chromecast.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_control.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_data.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_device.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_embroidery.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_event.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_legonxt.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_look.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_motion.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_pen.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_phiro.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_raspberrypi.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_recently_used.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_sound.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/icon_brick_category_userbrick.xml"
-            line="28"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/scratch_social_bar.xml"
-            line="33"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/scratch_social_bar.xml"
-            line="49"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/scratch_social_bar.xml"
-            line="66"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/vh_sprite_group.xml"
-            line="51"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/vh_sprite_group_item.xml"
-            line="50"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="        &lt;ImageView"
-        errorLine2="         ~~~~~~~~~">
-        <location
-            file="src/main/res/layout/vh_with_checkbox.xml"
-            line="51"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="             android:paddingStart=&quot;5dip&quot;"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_backward.xml"
-            line="69"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_down.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_forward.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_left.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_right.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_move_up.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_turn_left.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_drone_turn_right.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_ev3_motor_move.xml"
-            line="64"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_if_begin_if.xml"
-            line="53"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_begin_if.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_if_begin_if.xml"
-            line="66"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_begin_if.xml"
-            line="66"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="             android:paddingStart=&quot;5dip&quot;"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_if_begin_if.xml"
-            line="73"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="             android:paddingStart=&quot;5dip&quot;"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_begin_if.xml"
-            line="73"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="           android:paddingStart=&quot;5dip&quot;"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_if_begin_if.xml"
-            line="80"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="           android:paddingStart=&quot;5dip&quot;"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_begin_if.xml"
-            line="80"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_then_begin_if.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_if_then_begin_if.xml"
-            line="66"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_jumping_sumo_move_backward.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_jumping_sumo_move_forward.xml"
-            line="69"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_nxt_motor_action.xml"
-            line="65"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_phiro_if_sensor.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_place_at.xml"
-            line="65"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
-            line="66"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="             android:paddingStart=&quot;5dip&quot;"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
-            line="73"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="           android:paddingStart=&quot;5dip&quot;"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
-            line="80"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_repeat_until.xml"
-            line="53"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_repeat_until.xml"
-            line="60"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_show_variable.xml"
-            line="76"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_tap_at.xml"
-            line="65"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_wait_until.xml"
-            line="54"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_wait_until.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-ar/brick_when_condition_true.xml"
-            line="54"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;5dip&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/brick_when_condition_true.xml"
-            line="59"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="        android:paddingStart=&quot;@dimen/device_text_view_padding&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/device_list.xml"
-            line="34"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="        android:paddingStart=&quot;@dimen/device_text_view_padding&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/device_list.xml"
-            line="55"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_new_project.xml"
-            line="67"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_new_project.xml"
-            line="75"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_new_project.xml"
-            line="84"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="        android:paddingStart=&quot;5dp&quot;>"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_select_cast.xml"
-            line="35"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/fragment_accesibility_profiles.xml"
-            line="37"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/fragment_accesibility_profiles.xml"
-            line="54"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
-        errorLine1="        android:paddingEnd=&quot;@dimen/material_design_spacing_small&quot; />"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/single_seek_bar_view.xml"
-            line="42"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
-        errorLine1="            android:paddingEnd=&quot;@dimen/details_spacing&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/vh_list.xml"
-            line="54"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
-        errorLine1="            android:paddingEnd=&quot;@dimen/details_spacing&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/vh_variable.xml"
-            line="54"
-            column="13"/>
     </issue>
 
 </issues>

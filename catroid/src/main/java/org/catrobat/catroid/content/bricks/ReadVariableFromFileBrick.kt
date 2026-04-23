@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@ package org.catrobat.catroid.content.bricks
 
 import android.content.Context
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
@@ -60,11 +60,8 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
         super.getView(context)
         view.findViewById<Spinner>(R.id.brick_read_variable_from_file_spinner_mode).apply {
             adapter = createArrayAdapter(context)
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, l: Long) {
-                    spinnerSelectionID = position
-                }
-                override fun onNothingSelected(adapterView: AdapterView<*>) = Unit
+            onItemSelectedListener = AdapterViewOnItemSelectedListenerImpl { position ->
+                spinnerSelectionID = position
             }
             setSelection(spinnerSelectionID)
         }

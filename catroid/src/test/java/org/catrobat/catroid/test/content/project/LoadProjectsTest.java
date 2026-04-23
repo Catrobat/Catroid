@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.project;
 
 import android.content.Context;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -79,7 +80,7 @@ public class LoadProjectsTest {
 		doReturn(projectMock).when(xstreamSerializerMock).loadProject(Mockito.any(), Mockito.any());
 	}
 
-	@Test (expected = CompatibilityProjectException.class)
+	@Test(expected = CompatibilityProjectException.class)
 	public void testInvalidLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(INVALID_LANGUAGE_VERSION);
 
@@ -91,7 +92,7 @@ public class LoadProjectsTest {
 		}
 	}
 
-	@Test (expected = OutdatedVersionProjectException.class)
+	@Test(expected = OutdatedVersionProjectException.class)
 	public void testTooBigLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(TOO_BIG_LANGUAGE_VERSION);
 
@@ -134,6 +135,12 @@ public class LoadProjectsTest {
 
 		PowerMockito.verifyStatic(ProjectManager.class, times(1));
 		ProjectManager.updateBackgroundIndexTo9999995(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(1));
+		ProjectManager.flattenAllLists(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(1));
+		ProjectManager.updateDirectionProperty(projectMock);
 	}
 
 	@Test
@@ -164,5 +171,15 @@ public class LoadProjectsTest {
 
 		PowerMockito.verifyStatic(ProjectManager.class, times(0));
 		ProjectManager.removePermissionsFile(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(0));
+		ProjectManager.updateDirectionProperty(projectMock);
+
+		if (!BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
+			PowerMockito.verifyStatic(ProjectManager.class, times(1));
+		} else {
+			PowerMockito.verifyStatic(ProjectManager.class, times(0));
+		}
+		ProjectManager.flattenAllLists(projectMock);
 	}
 }

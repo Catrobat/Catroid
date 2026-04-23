@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
@@ -51,7 +49,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
@@ -60,7 +57,7 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -99,7 +96,7 @@ public class PlaySoundBrickTest {
 	private void renameSound(int position, String newSoundName) {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onRecyclerView().atPosition(position)
@@ -114,11 +111,11 @@ public class PlaySoundBrickTest {
 	private void deleteSound(int position) {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)
-				.performCheckItem();
+				.performCheckItemClick();
 		onView(withId(R.id.confirm))
 				.perform(click());
 		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
@@ -147,7 +144,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename) + " (1)");
+				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename));
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}
@@ -187,15 +184,8 @@ public class PlaySoundBrickTest {
 	}
 
 	private void createProject() throws IOException {
-		SoundManager.getInstance();
-		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		Sprite sprite = new Sprite("testSprite");
-		Script startScript = new StartScript();
-
-		sprite.addScript(startScript);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		Project project = UiTestUtils.createDefaultTestProject("PlaySoundBrickTest");
+		Script startScript = UiTestUtils.getDefaultTestScript(project);
 
 		XstreamSerializer.getInstance().saveProject(project);
 

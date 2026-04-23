@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -39,20 +39,18 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_arduino_send_digital_layout"
-        style="@style/BrickContainer.Arduino.Big">
+        style="@style/BrickContainer.Arduino.Medium">
 
         <include layout="@layout/icon_brick_category_arduino" />
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_pin_text_view"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_arduino_select_digital_value" />
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_pin_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_value_text_view"
@@ -62,9 +60,7 @@
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_value_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

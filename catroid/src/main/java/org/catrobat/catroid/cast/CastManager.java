@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -441,8 +442,16 @@ public final class CastManager {
 		public void startCastService(final AppCompatActivity activity) {
 
 			Intent intent = new Intent(activity, activity.getClass());
+			PendingIntent notificationPendingIntent;
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
+						intent,PendingIntent.FLAG_IMMUTABLE);
+			} else {
+				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
+						intent, 0);
+			}
+
 
 			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
 					.NotificationSettings.Builder()

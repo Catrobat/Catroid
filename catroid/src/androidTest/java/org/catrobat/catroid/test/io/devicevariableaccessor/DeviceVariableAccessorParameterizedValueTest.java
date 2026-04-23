@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -90,7 +90,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void saveUserVariable() throws IOException {
+	public void saveUserVariable() {
 		accessor.writeUserData(userVariable);
 		userVariable.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
@@ -119,7 +119,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void cloneSpriteTest() throws IOException {
+	public void cloneSpriteTest() {
 		Project dummyProject = new Project();
 		Scene dummyScene = new Scene();
 		dummyProject.addScene(dummyScene);

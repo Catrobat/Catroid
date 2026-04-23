@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ public class SetRotationStyleActionTest {
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class SetRotationStyleActionTest {
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
 
-		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class SetRotationStyleActionTest {
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
 
-		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	//Directions here get funky because in physics there is no UI Degree Offset as in the normal looks

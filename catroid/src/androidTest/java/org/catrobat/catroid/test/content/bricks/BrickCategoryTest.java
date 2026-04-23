@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,6 +77,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
@@ -118,6 +119,7 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -131,6 +133,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -156,6 +159,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
@@ -164,6 +168,7 @@ import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -221,6 +226,7 @@ import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -233,10 +239,19 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static android.content.SharedPreferences.Editor;
+
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {
+
+	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
+			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS));
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -257,6 +272,7 @@ public class BrickCategoryTest {
 						GlideToBrick.class,
 						GoNStepsBackBrick.class,
 						ComeToFrontBrick.class,
+						SetCameraFocusPointBrick.class,
 						VibrationBrick.class,
 						SetPhysicsObjectTypeBrick.class,
 						WhenBounceOffBrick.class,
@@ -266,7 +282,8 @@ public class BrickCategoryTest {
 						SetGravityBrick.class,
 						SetMassBrick.class,
 						SetBounceBrick.class,
-						SetFrictionBrick.class)},
+						SetFrictionBrick.class,
+						FadeParticleEffectBrick.class)},
 				{"Embroidery", Arrays.asList(StitchBrick.class,
 						SetThreadColorBrick.class,
 						RunningStitchBrick.class,
@@ -308,7 +325,11 @@ public class BrickCategoryTest {
 						ChangeBrightnessByNBrick.class,
 						SetColorBrick.class,
 						ChangeColorByNBrick.class,
+						FadeParticleEffectBrick.class,
+						ParticleEffectAdditivityBrick.class,
+						SetParticleColorBrick.class,
 						ClearGraphicEffectBrick.class,
+						SetCameraFocusPointBrick.class,
 						WhenBackgroundChangesBrick.class,
 						SetBackgroundBrick.class,
 						SetBackgroundByIndexBrick.class,
@@ -331,6 +352,7 @@ public class BrickCategoryTest {
 						ClearBackgroundBrick.class)},
 				{"Sound", Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
+						PlaySoundAtBrick.class,
 						StopSoundBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
@@ -409,6 +431,8 @@ public class BrickCategoryTest {
 						FlashBrick.class,
 						WriteVariableOnDeviceBrick.class,
 						ReadVariableFromDeviceBrick.class,
+						WriteVariableToFileBrick.class,
+						ReadVariableFromFileBrick.class,
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
@@ -490,11 +514,26 @@ public class BrickCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit().clear().commit();
+		Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
+
+		sharedPreferencesEditor.clear();
+		// The speech AI settings have to be activated here, because these bricks have no own
+		// brick category.
+		for (String setting : speechAISettings) {
+			sharedPreferencesEditor.putBoolean(setting, true);
+		}
+		sharedPreferencesEditor.commit();
 
 		createProject(ApplicationProvider.getApplicationContext());
-
 		categoryBricksFactory = new CategoryBricksFactory();
+	}
+
+	@After
+	public void tearDown() {
+		Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
+		sharedPreferencesEditor.clear().commit();
 	}
 
 	public void createProject(Context context) {

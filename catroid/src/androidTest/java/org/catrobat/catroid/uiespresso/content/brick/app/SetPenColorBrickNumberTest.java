@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,7 +40,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.hamcrest.Matchers.containsString;
 
@@ -91,7 +91,7 @@ public class SetPenColorBrickNumberTest {
 			formula.add(new Formula((Integer) color));
 		}
 
-		createProjectAndGetStartScript("SetPenColorBrickTest")
+		UiTestUtils.createProjectAndGetStartScript("SetPenColorBrickTest")
 				.addBrick(new SetPenColorBrick(formula.get(0), formula.get(1), formula.get(2)));
 
 		formula.clear();
@@ -145,6 +145,7 @@ public class SetPenColorBrickNumberTest {
 				.perform(click());
 		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
+
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
 				.checkShowsNumber((Integer) red);
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)

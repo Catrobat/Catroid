@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2024 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
+import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -111,6 +112,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
@@ -158,6 +160,7 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -171,6 +174,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -197,6 +201,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
@@ -206,6 +211,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -338,6 +344,7 @@ public final class XstreamSerializer {
 		xstream.registerConverter(new XStreamUserDataHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
+		xstream.registerConverter(new XStreamFormulaElementConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -377,6 +384,10 @@ public final class XstreamSerializer {
 		xstream.omitField(WhenScript.class, "action");
 
 		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
+
+		xstream.omitField(FadeParticleEffectBrick.class, "formulaList");
+		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
+		xstream.omitField(SetParticleColorBrick.class, "formulaList");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -464,6 +475,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", GoToBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
+		xstream.alias("brick", PlaySoundAtBrick.class);
 		xstream.alias("brick", PauseForBeatsBrick.class);
 		xstream.alias("brick", PlayNoteForBeatsBrick.class);
 		xstream.alias("brick", PointInDirectionBrick.class);
@@ -477,6 +489,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SceneTransitionBrick.class);
 		xstream.alias("brick", SceneStartBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
+		xstream.alias("brick", SetCameraFocusPointBrick.class);
 		xstream.alias("brick", SetColorBrick.class);
 		xstream.alias("brick", SetTransparencyBrick.class);
 		xstream.alias("brick", SetLookBrick.class);
@@ -621,6 +634,13 @@ public final class XstreamSerializer {
 
 		xstream.alias("setting", LegoNXTSetting.class);
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
+
+		xstream.alias("setting", LegoEV3Setting.class);
+		xstream.alias("ev3Port", LegoEV3Setting.EV3Port.class);
+
+		xstream.alias("brick", FadeParticleEffectBrick.class);
+		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
+		xstream.alias("brick", SetParticleColorBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
@@ -675,7 +695,7 @@ public final class XstreamSerializer {
 		}
 	}
 
-	public static boolean renameProject(File xmlFile, String dstName) throws IOException {
+	public static boolean renameProject(File xmlFile, String destinationName) throws IOException {
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
@@ -683,20 +703,22 @@ public final class XstreamSerializer {
 		String currentXml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
 		StringFinder stringFinder = new StringFinder();
 
-		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
+		String sourceName = stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG,
+				PROGRAM_NAME_END_TAG);
+
+		if (sourceName == null) {
 			return false;
 		}
 
-		String srcName = stringFinder.getResult();
-		dstName = getXMLEncodedString(dstName);
+		destinationName = getXMLEncodedString(destinationName);
 
-		if (srcName.equals(dstName)) {
+		if (sourceName.equals(destinationName)) {
 			return true;
 		}
 
-		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
-		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
+		String sourceProjectNameTag = PROGRAM_NAME_START_TAG + sourceName + PROGRAM_NAME_END_TAG;
+		String destinationProjectNameTag = PROGRAM_NAME_START_TAG + destinationName + PROGRAM_NAME_END_TAG;
+		String newXml = currentXml.replace(sourceProjectNameTag, destinationProjectNameTag);
 
 		if (currentXml.equals(newXml)) {
 			Log.e(TAG, "Cannot find projectNameTag in code.xml");
@@ -707,11 +729,11 @@ public final class XstreamSerializer {
 		return true;
 	}
 
-	private static String getXMLEncodedString(String srcName) {
-		srcName = new XStream().toXML(srcName);
-		srcName = srcName.replace("<string>", "");
-		srcName = srcName.replace("</string>", "");
-		return srcName;
+	private static String getXMLEncodedString(String sourceName) {
+		sourceName = new XStream().toXML(sourceName);
+		sourceName = sourceName.replace("<string>", "");
+		sourceName = sourceName.replace("</string>", "");
+		return sourceName;
 	}
 
 	private static void setFileReferences(Project project) {
@@ -874,11 +896,7 @@ public final class XstreamSerializer {
 
 		try {
 			String xml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
-			if (!stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>")) {
-				return null;
-			} else {
-				return stringFinder.getResult();
-			}
+			return stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>");
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}

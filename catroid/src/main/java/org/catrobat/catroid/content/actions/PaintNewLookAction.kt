@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,8 +67,8 @@ class PaintNewLookAction : PocketPaintAction() {
 
     private fun createEmptyImageFile(): File {
         val pocketPaintImageFileName = Constants.TMP_IMAGE_FILE_NAME + Constants.DEFAULT_IMAGE_EXTENSION
-        Constants.POCKET_PAINT_CACHE_DIR.mkdirs()
-        if (!Constants.POCKET_PAINT_CACHE_DIR.isDirectory) {
+        Constants.POCKET_PAINT_CACHE_DIRECTORY.mkdirs()
+        if (!Constants.POCKET_PAINT_CACHE_DIRECTORY.isDirectory) {
             Log.e(TAG, "Failed to create directory!")
         }
         val currentProject = ProjectManager.getInstance().currentProject
@@ -77,7 +77,7 @@ class PaintNewLookAction : PocketPaintAction() {
             currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
         )
         return StorageOperations.compressBitmapToPng(
-            bitmap, File(Constants.POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
+            bitmap, File(Constants.POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName))
     }
 
     override fun onIntentResult(resultCode: Int, data: Intent?) {
@@ -134,7 +134,7 @@ object LookRequester {
             val currentScene = ProjectManager.getInstance().currentlyPlayingScene
             val imageDirectory = File(currentScene.directory, Constants.IMAGE_DIRECTORY_NAME)
             val pocketPaintImageFileName = Constants.TMP_IMAGE_FILE_NAME + Constants.DEFAULT_IMAGE_EXTENSION
-            val pocketPaintFile = File(Constants.POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName)
+            val pocketPaintFile = File(Constants.POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName)
             file = StorageOperations.copyFileToDir(pocketPaintFile, imageDirectory)
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))

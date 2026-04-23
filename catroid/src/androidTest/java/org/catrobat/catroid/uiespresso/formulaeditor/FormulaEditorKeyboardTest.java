@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,10 @@ package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.app.Activity;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -48,7 +46,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -75,7 +72,19 @@ public class FormulaEditorKeyboardTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Project project = UiTestUtils.createDefaultTestProject(PROJECT_NAME);
+		Sprite sprite = project.getDefaultScene().getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME);
+		Script script = sprite.getScript(TestUtils.DEFAULT_TEST_SCRIPT_INDEX);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick();
+		UserVariable userVariable = new UserVariable("Global1");
+		project.addUserVariable(userVariable);
+		setVariableBrick.setUserVariable(userVariable);
+
+		script.addBrick(setVariableBrick);
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -134,8 +143,8 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
-		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
-		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
@@ -151,8 +160,9 @@ public class FormulaEditorKeyboardTest {
 			return;
 		}
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_sensors)).perform(click());
-		onView(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration))).perform(click());
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.DEVICE)
+				.performSelect(R.string.formula_editor_sensor_x_acceleration);
 		onFormulaEditor()
 				.performEnterFormula("+2");
 		pressBack();
@@ -174,32 +184,18 @@ public class FormulaEditorKeyboardTest {
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 
-		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD' ")));
+		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD ' ")));
+	}
+
+	@Test
+	public void testConfirmButtonString() {
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_compute)).check(matches(withText(R.string.formula_editor_confirm)));
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(PROJECT_NAME);
-	}
-
-	public Project createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		SetVariableBrick setVariableBrick = new SetVariableBrick();
-		UserVariable userVariable = new UserVariable("Global1");
-		project.addUserVariable(userVariable);
-		setVariableBrick.setUserVariable(userVariable);
-
-		script.addBrick(setVariableBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		return project;
 	}
 }

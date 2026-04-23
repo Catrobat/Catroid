@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_speak_and_wait_layout"
-        style="@style/BrickContainer.Sound.Medium">
+        style="@style/BrickContainer.Sound.Small">
 
         <include layout="@layout/icon_brick_category_sound" />
 
@@ -52,8 +52,6 @@
             android:id="@+id/brick_speak_and_wait_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
-            app:layout_inputType="text"
-            app:layout_textField="true"
             android:gravity="start">
         </TextView>
 

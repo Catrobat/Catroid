@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,17 @@ public final class ClassDiscoverer {
 		for (Class<? extends T> clazz : classes) {
 			boolean isInnerClass = clazz.getEnclosingClass() != null;
 			if (!isInnerClass) {
+				filtered.add(clazz);
+			}
+		}
+		return filtered;
+	}
+
+	public static <T> Set<Class<? extends T>> removeEndBrick(Set<Class<? extends T>> classes) {
+		Set<Class<? extends T>> filtered = new HashSet<>();
+
+		for (Class<? extends T> clazz : classes) {
+			if (!clazz.getName().contains("EndBrick")) {
 				filtered.add(clazz);
 			}
 		}

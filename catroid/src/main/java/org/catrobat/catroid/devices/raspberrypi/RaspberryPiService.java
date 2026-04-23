@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,11 +80,7 @@ public final class RaspberryPiService {
 			return false;
 		}
 
-		if (rpi.getConnection().isConnected()) {
-			return true;
-		}
-
-		return false;
+		return rpi.getConnection().isConnected();
 	}
 
 	public void disconnect() {

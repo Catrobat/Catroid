@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -92,30 +93,27 @@ public class Project implements Serializable {
 		xmlHeader.setNotesAndCredits("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+		if (ScreenValues.currentScreenResolution == null) {
 			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
-		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
+
+		if (landscapeMode) {
+			ScreenValues.currentScreenResolution = ScreenValues.currentScreenResolution.flipToLandscape();
+		} else {
+			ScreenValues.currentScreenResolution = ScreenValues.currentScreenResolution.flipToPortrait();
 		}
 
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.currentScreenResolution.getWidth();
+		xmlHeader.virtualScreenHeight = ScreenValues.currentScreenResolution.getHeight();
 
 		if (isCastProject) {
-			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
-			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_RESOLUTION.getHeight();
+			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_RESOLUTION.getWidth();
 			xmlHeader.setlandscapeMode(true);
 			xmlHeader.setIsCastProject(true);
 		}
 
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
+		Scene scene = new Scene(context.getString(R.string.default_scene_name), this);
 		Sprite backgroundSprite = new Sprite(context.getString(R.string.background));
 		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
 		scene.addSprite(backgroundSprite);
@@ -338,6 +336,10 @@ public class Project implements Serializable {
 		return null;
 	}
 
+	public boolean hasMultiplayerVariables() {
+		return multiplayerVariables.size() > 0;
+	}
+
 	public boolean addMultiplayerVariable(UserVariable multiplayerVariable) {
 		return multiplayerVariables.add(multiplayerVariable);
 	}
@@ -520,6 +522,29 @@ public class Project implements Serializable {
 	public void checkForInvisibleSprites() {
 		for (Scene scene : sceneList) {
 			scene.checkForInvisibleSprites();
+		}
+	}
+
+	public List<String> getSpriteNames(List<Sprite> spriteList) {
+		List<String> spriteNames = new ArrayList<>();
+		for (int sprite = 0; sprite < spriteList.size(); ++sprite) {
+			spriteNames.add(spriteList.get(sprite).getName());
+		}
+		return spriteNames;
+	}
+
+	public void checkIfSpriteNameEqualBackground(Context context) {
+		List<Sprite> spriteList =
+				new ArrayList<>(this.getSpriteListWithClones());
+		List<String> spriteNames = getSpriteNames(spriteList);
+		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + context.getString(R.string.background)
+					+ "[\\s]*")) {
+				UniqueNameProvider name = new UniqueNameProvider();
+				String newSpriteName = name.getUniqueName(context.getString(R.string.background), spriteNames);
+				spriteList.get(sprite).setName(newSpriteName);
+				return;
+			}
 		}
 	}
 }

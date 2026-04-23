@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,7 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -106,6 +107,7 @@ import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -138,12 +140,14 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -209,13 +213,18 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_JUMPING_SUMO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.catrobat.catroid.uiespresso.util.matchers.rtl.RtlViewDirection.isViewRtl;
 import static org.hamcrest.Matchers.allOf;
@@ -238,10 +247,13 @@ public class RtlBrickTest {
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private Locale arLocale = new Locale("ar");
-	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
+	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
-			SETTINGS_SHOW_JUMPING_SUMO_BRICKS));
+			SETTINGS_SHOW_JUMPING_SUMO_BRICKS, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
+			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
@@ -393,6 +405,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(SetBounceBrick.class, R.id.brick_set_bounce_factor_layout);
 
 		checkIfBrickISRtl(SetFrictionBrick.class, R.id.brick_set_friction_layout);
+
+		checkIfBrickISRtl(FadeParticleEffectBrick.class, R.id.brick_fade_particle_effect_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -472,6 +486,8 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(ClearGraphicEffectBrick.class, R.id.brick_clear_graphic_effect_layout);
 
+		checkIfBrickISRtl(SetCameraFocusPointBrick.class, R.id.brick_set_camera_focus_layout);
+
 		checkIfBrickISRtl(WhenBackgroundChangesBrick.class, R.id.brick_when_background_layout);
 
 		checkIfBrickAtPositionIsRtl(SetBackgroundBrick.class, 0, R.id.brick_set_background_layout);
@@ -499,6 +515,12 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
 
 		checkIfBrickISRtl(EditLookBrick.class, R.id.brick_edit_look_layout);
+
+		checkIfBrickISRtl(FadeParticleEffectBrick.class, R.id.brick_fade_particle_effect_layout);
+
+		checkIfBrickISRtl(ParticleEffectAdditivityBrick.class, R.id.brick_particle_effect_additivity_layout);
+
+		checkIfBrickISRtl(SetParticleColorBrick.class, R.id.brick_set_particle_color_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -727,18 +749,13 @@ public class RtlBrickTest {
 
 	private void createProject(String projectName) {
 		String nameSpriteTwo = "testSpriteTwo";
-
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite spriteOne = new Sprite("testSpriteOne");
-		project.getDefaultScene().addSprite(spriteOne);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 
 		Sprite spriteTwo = new Sprite(nameSpriteTwo);
 		Script script = new StartScript();
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}
 

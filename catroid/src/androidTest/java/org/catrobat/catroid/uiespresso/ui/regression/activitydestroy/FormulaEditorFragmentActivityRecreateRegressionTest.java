@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,16 @@
 
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
+import android.content.Intent;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -65,123 +65,89 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
 		script.addBrick(new ChangeSizeByNBrick());
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
 				.perform(click());
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateFormulaEditorFragment() {
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
-		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-
-		onBrickAtPosition(0)
-				.checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1)
-				.checkShowsText(R.string.brick_change_size_by);
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(doesNotExist());
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(doesNotExist());
-
-		onBrickAtPosition(1)
-				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
-				.perform(click());
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(matches(isDisplayed()));
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(matches(isDisplayed()));
+		recreateActivity();
+		checkInitialListeners();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateDataFragment() {
 		onFormulaEditor().performOpenDataFragment();
-
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-
-		onBrickAtPosition(0)
-				.checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1)
-				.checkShowsText(R.string.brick_change_size_by);
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(doesNotExist());
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(doesNotExist());
-
-		onBrickAtPosition(1)
-				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
-				.perform(click());
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(matches(isDisplayed()));
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(matches(isDisplayed()));
+		recreateActivity();
+		checkInitialListeners();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateCategoryFragment() {
 		onFormulaEditor().performOpenFunctions();
-
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
-
-		onBrickAtPosition(0)
-				.checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1)
-				.checkShowsText(R.string.brick_change_size_by);
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(doesNotExist());
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(doesNotExist());
-
-		onBrickAtPosition(1)
-				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
-				.perform(click());
-
-		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
-				.check(matches(isDisplayed()));
-		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(matches(isDisplayed()));
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+		recreateActivity();
+		checkInitialListeners();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateStringDialogFragment() {
 		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.TEXT);
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.formula_editor_new_string_name)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
+		recreateActivity();
+		checkInitialListeners();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateComputeDialogFragment() {
 		onFormulaEditor().performCompute();
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		onView(withId(R.id.formula_editor_compute_dialog_textview)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
+		recreateActivity();
+		checkInitialListeners();
+	}
+
+	private void recreateActivity() {
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().finish());
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().startActivity(intent));
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+	}
+
+	private void checkInitialListeners() {
+		onBrickAtPosition(0)
+				.checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(1)
+				.checkShowsText(R.string.brick_change_size_by);
+		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
+				.check(doesNotExist());
+		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+				.check(doesNotExist());
+		onBrickAtPosition(1).perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
+				.check(matches(isDisplayed()));
+		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+				.check(matches(isDisplayed()));
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 }

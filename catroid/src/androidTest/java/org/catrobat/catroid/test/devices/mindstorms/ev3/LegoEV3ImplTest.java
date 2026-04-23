@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEV3ImplTest {
@@ -154,7 +155,7 @@ public class LegoEV3ImplTest {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals(null, command);
+		assertNull(command);
 	}
 
 	@Test
@@ -169,7 +170,7 @@ public class LegoEV3ImplTest {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals(null, command);
+		assertNull(command);
 	}
 
 	@Test

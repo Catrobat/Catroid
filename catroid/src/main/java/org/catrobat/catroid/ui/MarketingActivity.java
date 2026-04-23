@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -147,7 +147,8 @@ public class MarketingActivity extends AppCompatActivity {
 	private Bitmap scaleDrawable2Bitmap(boolean landscapeMode) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pocket_code);
 
-		int width = landscapeMode ? ScreenValues.SCREEN_HEIGHT : ScreenValues.SCREEN_WIDTH;
+		int width = landscapeMode ? ScreenValues.currentScreenResolution.getHeight()
+				: ScreenValues.currentScreenResolution.getWidth();
 
 		double factor = ((float) width / (float) bitmap.getWidth());
 		int height = (int) ((float) bitmap.getHeight() * factor);

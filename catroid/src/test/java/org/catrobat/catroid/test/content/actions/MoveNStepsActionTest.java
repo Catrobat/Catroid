@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(JUnit4.class)
 public class MoveNStepsActionTest {
 	private final float delta = 0.0001f;
@@ -47,6 +49,7 @@ public class MoveNStepsActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("Test");
 		factory = sprite.getActionFactory();
 	}
@@ -65,7 +68,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(0);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(0);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, steps);
@@ -73,7 +76,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(180);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(180);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, -steps);
@@ -81,7 +84,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalRightUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(45);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, diagonalStepLength);
@@ -89,7 +92,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalLeftUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-45);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-45);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, diagonalStepLength);
@@ -97,7 +100,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalRightDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(135);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(135);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, -diagonalStepLength);
@@ -105,7 +108,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalLeftDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-135);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-135);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, -diagonalStepLength);
@@ -113,13 +116,13 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveOther() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(100);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(100);
 		Action action = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(10));
 
 		action.act(1.0f);
 		checkPosition(9.848078f, -1.7364818f);
 
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-30);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-30);
 
 		action.restart();
 		action.act(1.0f);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,33 +25,30 @@ package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.ui.fragment.actionutils.ActionUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.koin.java.KoinJavaComponent.inject;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -63,59 +60,78 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class CopyLookTest {
 
+	final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_LOOKS);
 
-	private String toBeCopiedLookName = "testLook";
+	private String testLookName1 = "testLook";
+	private String testLookName2 = "testLook2";
+	private String toBeCopiedLookName1 = "testLook (1)";
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		createProject();
-		baseActivityTestRule.launchActivity();
+	}
+
+	@After
+	public void tearDown() {
+		baseActivityTestRule.getActivity().finish();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void copyLookTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+	public void copyLookOneElementListTest() throws IOException {
+		ActionUtils.addLook(projectManager, testLookName1);
+		baseActivityTestRule.launchActivity();
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 
-		onRecyclerView().atPosition(0)
-			.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
-
-		onView(withText(toBeCopiedLookName))
-				.check(matches(isDisplayed()));
-
-		onView(withText(toBeCopiedLookName + " (1)"))
+		onView(withText(toBeCopiedLookName1))
 				.check(matches(isDisplayed()));
 	}
 
-	private void createProject() throws IOException {
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void copyLookMultipleElementsListTest() throws IOException {
+		ActionUtils.addLook(projectManager, testLookName1);
+		ActionUtils.addLook(projectManager, testLookName2);
+		baseActivityTestRule.launchActivity();
+
+		openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItemClick();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(toBeCopiedLookName1))
+				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void selectFragmentToCopyTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
+	}
+
+	private void createProject() {
 		String projectName = "copyLookFragmentTest";
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
-
-		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.drawable.catroid_banzai,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				"catroid_sunglasses.png",
-				1);
-
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
-		LookData lookData = new LookData();
-		lookData.setFile(imageFile);
-		lookData.setName(toBeCopiedLookName);
-		lookDataList.add(lookData);
 	}
 }

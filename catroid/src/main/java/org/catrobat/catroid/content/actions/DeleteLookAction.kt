@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,38 +33,50 @@ import org.catrobat.catroid.ui.recyclerview.controller.LookController
 class DeleteLookAction : SingleSpriteEventAction() {
 
     private var lookController = LookController()
-    private var xstreamSerializer: XstreamSerializer = XstreamSerializer.getInstance()
+    private lateinit var xStreamSerializer: XstreamSerializer
 
     override fun getEventId(): EventId? {
         sprite?.apply {
-            val lookData = look?.lookData
-            if (lookList.isNullOrEmpty() || lookData == null) {
+            val lookData = look?.lookData ?: return null
+            if (lookData.isWebRequest) {
+                setNewLookData(0)
+                return SetLookEventId(sprite, sprite?.look?.lookData)
+            }
+            if (lookList.isNullOrEmpty()) {
                 return null
             }
-            val indexOfLookData = lookList.indexOf(look?.lookData)
+            val indexOfLookData = lookList.indexOf(lookData)
             if (indexOfLookData == -1) {
                 return null
             }
-            val lookDataToDelete = look?.lookData
             setNewLookData(indexOfLookData + 1)
-            lookDataToDelete?.invalidate()
-            lookController.delete(lookDataToDelete)
-            lookList?.removeAt(indexOfLookData)
-            xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+            lookData.invalidate()
+            lookList.removeAt(indexOfLookData)
+            if (!::xStreamSerializer.isInitialized) {
+                xStreamSerializer = XstreamSerializer.getInstance()
+            }
+            xStreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
         }
         return SetLookEventId(sprite, sprite?.look?.lookData)
     }
 
     private fun setNewLookData(indexOfLookData: Int) {
         sprite?.apply {
-            if (lookList?.size!! > 1) {
-                if (lookList?.last() == look?.lookData) {
-                    look?.lookData = lookList?.first()
+            if (lookList.isNullOrEmpty()) {
+                look.lookData = null
+                return
+            }
+            look?.lookData ?: return
+            if (look.lookData.isWebRequest) {
+                look.lookData = lookList[indexOfLookData]
+            } else if (lookList.size > 1) {
+                if (lookList.last() == look.lookData) {
+                    look.lookData = lookList.first()
                 } else {
-                    look?.lookData = lookList?.get(indexOfLookData)
+                    look.lookData = lookList[indexOfLookData]
                 }
             } else {
-                look?.lookData = null
+                look.lookData = null
             }
         }
     }
@@ -76,6 +88,6 @@ class DeleteLookAction : SingleSpriteEventAction() {
 
     @VisibleForTesting
     fun setXStreamSerializer(xstreamSerializer: XstreamSerializer) {
-        this.xstreamSerializer = xstreamSerializer
+        this.xStreamSerializer = xstreamSerializer
     }
 }

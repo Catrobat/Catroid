@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 
 	private static final long serialVersionUID = 1L;
 
-	private transient EndBrick endBrick = new EndBrick(this);
+	private transient EndBrick endBrick = new EndBrick(this, R.layout.brick_if_end_if);
 
 	private List<Brick> ifBranchBricks = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		IfThenLogicBeginBrick clone = (IfThenLogicBeginBrick) super.clone();
-		clone.endBrick = new EndBrick(clone);
+		clone.endBrick = new EndBrick(clone, R.layout.brick_if_end_if);
 		clone.ifBranchBricks = new ArrayList<>();
 		for (Brick brick : ifBranchBricks) {
 			clone.addBrick(brick.clone());
@@ -174,52 +174,6 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		super.addRequiredResources(requiredResourcesSet);
 		for (Brick brick : ifBranchBricks) {
 			brick.addRequiredResources(requiredResourcesSet);
-		}
-	}
-
-	private static class EndBrick extends BrickBaseType {
-
-		EndBrick(IfThenLogicBeginBrick parent) {
-			this.parent = parent;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList();
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_if_end_if;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		}
 	}
 }

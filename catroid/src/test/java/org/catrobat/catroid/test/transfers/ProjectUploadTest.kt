@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,7 @@ class ProjectUploadTest {
         screenshotLoader = mock(ProjectAndSceneScreenshotLoader::class.java)
         projectDirectory = mock(File::class.java)
         val deviceVariableFile = mock(File::class.java)
-        `when`(deviceVariableFile.getName()).thenReturn(Constants.DEVICE_VARIABLE_JSON_FILENAME)
+        `when`(deviceVariableFile.getName()).thenReturn(Constants.DEVICE_VARIABLE_JSON_FILE_NAME)
         projectDirectoryFilesFiltered = arrayOf(mock(File::class.java), mock(File::class.java), mock(File::class.java))
         projectDirectoryFiles = projectDirectoryFilesFiltered + arrayOf(deviceVariableFile)
         archiveDirectory = mock(File::class.java)

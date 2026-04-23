@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.IntDef;
+import androidx.core.content.res.ResourcesCompat;
 
 import static android.view.View.GONE;
 
@@ -65,29 +66,29 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
+	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
 
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
 			case BACKGROUND:
-				backgroundView = inflater.inflate(R.layout.vh_background_sprite, parent, false);
-				return new ExtendedVH(backgroundView);
+				backgroundView = inflater.inflate(R.layout.view_holder_background_sprite, parent, false);
+				return new ExtendedViewHolder(backgroundView);
 			case SPRITE_SINGLE:
-				View view = inflater.inflate(R.layout.vh_with_checkbox, parent, false);
-				return new ExtendedVH(view);
+				View view = inflater.inflate(R.layout.view_holder_with_checkbox, parent, false);
+				return new ExtendedViewHolder(view);
 			case SPRITE_GROUP:
-				view = inflater.inflate(R.layout.vh_sprite_group, parent, false);
-				return new ExtendedVH(view);
+				view = inflater.inflate(R.layout.view_holder_sprite_group, parent, false);
+				return new ExtendedViewHolder(view);
 			case SPRITE_GROUP_ITEM:
-				view = inflater.inflate(R.layout.vh_sprite_group_item, parent, false);
-				return new ExtendedVH(view);
+				view = inflater.inflate(R.layout.view_holder_sprite_group_item, parent, false);
+				return new ExtendedViewHolder(view);
 			default:
 				throw new IllegalArgumentException(TAG + ": viewType was not defined correctly.");
 		}
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Context context = holder.itemView.getContext();
 
 		Sprite item = items.get(position);
@@ -95,8 +96,10 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
 			Drawable drawable = ((GroupSprite) item).isCollapsed()
-					? context.getResources().getDrawable(R.drawable.ic_play)
-					: context.getResources().getDrawable(R.drawable.ic_play_down);
+					? ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play,
+					context.getTheme())
+					: ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_down,
+					context.getTheme());
 			holder.image.setImageDrawable(drawable);
 			holder.checkBox.setVisibility(GONE);
 			return;
@@ -150,12 +153,12 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public boolean onItemMove(int srcPosition, int targetPosition) {
-		if (srcPosition == 0 || targetPosition == 0) {
+	public boolean onItemMove(int sourcePosition, int targetPosition) {
+		if (sourcePosition == 0 || targetPosition == 0) {
 			return true;
 		}
 
-		Sprite fromItem = items.get(srcPosition);
+		Sprite fromItem = items.get(sourcePosition);
 		Sprite toItem = items.get(targetPosition);
 
 		if (fromItem instanceof GroupSprite) {
@@ -164,28 +167,28 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (toItem instanceof GroupSprite) {
 			GroupSprite groupItem = (GroupSprite) toItem;
-			if (targetPosition > srcPosition) {
+			if (targetPosition > sourcePosition) {
 				targetPosition += groupItem.getNumberOfItems();
 				fromItem.setConvertToGroupItemSprite(true);
 			} else {
 				fromItem.setConvertToSprite(true);
 			}
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		if (!(fromItem instanceof GroupItemSprite) && toItem instanceof GroupItemSprite) {
 			fromItem.setConvertToGroupItemSprite(true);
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
 			fromItem.setConvertToSprite(true);
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		fromItem.setConvertToGroupItemSprite(false);
 		fromItem.setConvertToSprite(false);
-		return super.onItemMove(srcPosition, targetPosition);
+		return super.onItemMove(sourcePosition, targetPosition);
 	}
 
 	@Override

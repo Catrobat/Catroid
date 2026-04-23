@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -43,7 +41,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
@@ -86,13 +83,13 @@ public class ActionModeMergeTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(0).onChildView(R.id.checkbox).check(matches(isChecked()));
 		onRecyclerView().atPosition(1).onChildView(R.id.checkbox).check(matches(isChecked()));
@@ -115,34 +112,28 @@ public class ActionModeMergeTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 2");
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 0");
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("firstSprite");
-
-		Script script = new StartScript();
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		Script script = UiTestUtils.getDefaultTestScript(project);
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
-		sprite.addScript(script);
-
-		project.getDefaultScene().addSprite(sprite);
-
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

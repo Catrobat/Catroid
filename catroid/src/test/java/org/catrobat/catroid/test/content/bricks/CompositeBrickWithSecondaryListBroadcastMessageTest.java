@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +41,11 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Set;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickWithSecondaryListBroadcastMessageTest {
@@ -68,6 +72,7 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		Project project = new Project();
 		scene = new Scene();
 		Sprite sprite = new Sprite();
@@ -91,8 +96,8 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 	@Test
 	public void testCorrectBroadcastMessages() {
 		Set<String> usedMessages = scene.getBroadcastMessagesInUse();
-		Assert.assertTrue(usedMessages.contains(FIRST_MESSAGE));
-		Assert.assertTrue(usedMessages.contains(SECOND_MESSAGE));
-		Assert.assertTrue(usedMessages.size() == 2);
+		assertTrue(usedMessages.contains(FIRST_MESSAGE));
+		assertTrue(usedMessages.contains(SECOND_MESSAGE));
+		assertEquals(2, usedMessages.size());
 	}
 }

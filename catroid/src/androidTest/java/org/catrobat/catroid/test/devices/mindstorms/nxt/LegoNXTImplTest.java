@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,10 +80,10 @@ public class LegoNXTImplTest {
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, false);
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, true)
 				.commit();
 
 		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
@@ -105,7 +105,7 @@ public class LegoNXTImplTest {
 		logger.disconnectAndDestroy();
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, nxtSettingBuffer)
 				.commit();
 		setSensorMapping(sensorMappingBuffer);
 	}

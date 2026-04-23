@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -137,7 +137,7 @@ public class PocketMusicActivityTest {
 
 	@Before
 	public void startPocketMusicActivityWithEmptyProject() {
-		UiTestUtils.createEmptyProject("pocketMusicInputTest");
+		UiTestUtils.createDefaultTestProject("pocketMusicInputTest");
 		pocketMusicActivityRule.launchActivity(null);
 	}
 

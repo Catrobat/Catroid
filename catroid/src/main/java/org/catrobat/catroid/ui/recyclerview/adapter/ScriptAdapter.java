@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class ScriptAdapter extends ExtendedRVAdapter<String> {
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		holder.title.setText(items.get(position));
 		holder.image.setImageResource(ic_program_menu_scripts);
 	}

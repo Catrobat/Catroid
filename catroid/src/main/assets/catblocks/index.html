@@ -18,28 +18,31 @@
 
   <body>
     <div id="catroid-catblocks-container"></div>
-    <script>
-      window.onload = function () {
-        CatBlocks.init({
-          container: 'catroid-catblocks-container',
-          renderSize: 0.75,
-          language: Android.getCurrentLanguage(),
-          rtl: Android.isRTL(),
-          shareRoot: 'https://appassets.androidplatform.net/assets/catblocks',
-          media: 'https://appassets.androidplatform.net/assets/catblocks/media',
-          i18n: 'https://appassets.androidplatform.net/assets/catblocks/i18n',
-          noImageFound: 'No_Image_Available.jpg',
-          renderLooks: false,
-          renderSounds: false,
-          readOnly: false
-        }).then(() => {
-          const programXML = Android.getCurrentProject();
-          const scene = Android.getSceneNameToDisplay();
-          const object = Android.getSpriteNameToDisplay();
-          CatBlocks.render(programXML, scene, object);
-        });
-      };
-    </script>
+
+    <div id="catroid-catblocks-hidden-container" style="display:none;"></div>
+
+    <div id="catroid-catblocks-add-brick-dialog" style="display:none;">
+      <div id="catroid-catblocks-add-brick-dialog-header">
+        <div id="catroid-catblocks-add-brick-dialog-header-content-container">
+          <div id="catroid-catblocks-add-brick-back-container">
+            <img
+                src="https://appassets.androidplatform.net/assets/catblocks/media/arrow_back_ios_black_36dp.svg" />
+          </div>
+          <div id="catroid-catblocks-add-brick-text-container">
+            <h3 id="catroid-catblocks-add-brick-dialog-header-text"></h3>
+          </div>
+        </div>
+        <div id="catroid-catblocks-add-brick-dialog-close-container">
+          <img
+              src="https://appassets.androidplatform.net/assets/catblocks/media/close_black_36dp.svg" />
+        </div>
+      </div>
+      <div id="catroid-catblocks-add-brick-dialog-content">
+        <div id="catroid-catblocks-brick-category-container" class="list-group" style="display:none;"></div>
+        <div id="catroid-catblocks-bricks-container" style="display:none;"></div>
+      </div>
+    </div>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
       integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="

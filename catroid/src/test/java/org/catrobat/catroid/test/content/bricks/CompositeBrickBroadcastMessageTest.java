@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Set;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(Parameterized.class)
 public class CompositeBrickBroadcastMessageTest {
 
@@ -69,6 +71,7 @@ public class CompositeBrickBroadcastMessageTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		Project project = new Project();
 		scene = new Scene();
 		Sprite sprite = new Sprite();

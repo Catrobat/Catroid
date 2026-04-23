@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -57,16 +59,16 @@ public class SpriteController {
 		return spriteToConvert.convert();
 	}
 
-	public Sprite copy(Sprite spriteToCopy, Project dstProject, Scene dstScene) throws IOException {
-		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToCopy.getName(), dstScene.getSpriteList());
+	public Sprite copy(Sprite spriteToCopy, Project destinationProject, Scene destinationScene) throws IOException {
+		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToCopy.getName(), destinationScene.getSpriteList());
 		Sprite sprite = new SpriteFactory().newInstance(spriteToCopy.getClass().getSimpleName(), name);
 
 		for (LookData look : spriteToCopy.getLookList()) {
-			sprite.getLookList().add(lookController.copy(look, dstScene, sprite));
+			sprite.getLookList().add(lookController.copy(look, destinationScene, sprite));
 		}
 
 		for (SoundInfo sound : spriteToCopy.getSoundList()) {
-			sprite.getSoundList().add(soundController.copy(sound, dstScene, sprite));
+			sprite.getSoundList().add(soundController.copy(sound, destinationScene, sprite));
 		}
 
 		for (NfcTagData nfcTag : spriteToCopy.getNfcTagList()) {
@@ -86,10 +88,14 @@ public class SpriteController {
 
 		for (Script script : spriteToCopy.getScriptList()) {
 			try {
-				sprite.addScript(scriptController.copy(script, dstProject, dstScene, sprite));
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+				sprite.addScript(scriptController.copy(script, destinationProject, destinationScene, sprite));
+			} catch (CloneNotSupportedException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
+		}
+
+		if (spriteToCopy instanceof GroupItemSprite) {
+			((GroupItemSprite) sprite).setCollapsed(((GroupItemSprite) spriteToCopy).isCollapsed());
 		}
 
 		return sprite;
@@ -132,8 +138,8 @@ public class SpriteController {
 		for (Script script : spriteToCopy.getScriptList()) {
 			try {
 				sprite.addScript(scriptController.copy(script, currentProject, currentScene, sprite));
-			} catch (CloneNotSupportedException | IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (CloneNotSupportedException | IOException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 
@@ -143,6 +149,15 @@ public class SpriteController {
 			sprite.look.setLookData(sprite.getLookList().get(currentLookDataIndex));
 		}
 		spriteToCopy.look.copyTo(sprite.look);
+
+		if (spriteToCopy.penConfiguration.isPenDown()) {
+			sprite.penConfiguration.setPenDown(true);
+			sprite.penConfiguration.addQueue();
+		}
+		if(spriteToCopy.plot.isPlotting()){
+			sprite.plot.resume();
+			sprite.plot.startNewPlotLine();
+		}
 		return sprite;
 	}
 
@@ -151,20 +166,26 @@ public class SpriteController {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
+
 		for (LookData look : spriteToDelete.getLookList()) {
 			try {
 				lookController.delete(look);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (IOException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 
 		for (SoundInfo sound : spriteToDelete.getSoundList()) {
 			try {
 				soundController.delete(sound);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (IOException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
+		}
+
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		if (currentScene != null) {
+			currentScene.removeSpriteFromCloneBricks(spriteToDelete);
 		}
 	}
 
@@ -189,32 +210,32 @@ public class SpriteController {
 		for (Brick brick: spriteToPack.getUserDefinedBrickList()) {
 			try {
 				sprite.addUserDefinedBrick((UserDefinedBrick) brick.clone());
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (CloneNotSupportedException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 
 		for (Script script : spriteToPack.getScriptList()) {
 			try {
-				scriptController.packForSprite(script, sprite);
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+				scriptController.packForSprite(spriteToPack, script, sprite);
+			} catch (CloneNotSupportedException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 
 		return sprite;
 	}
 
-	public Sprite unpack(Sprite spriteToUnpack, Project dstProject, Scene dstScene) throws IOException {
-		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToUnpack.getName(), dstScene.getSpriteList());
+	public Sprite unpack(Sprite spriteToUnpack, Project destinationProject, Scene destinationScene) throws IOException {
+		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToUnpack.getName(), destinationScene.getSpriteList());
 		Sprite sprite = new Sprite(name);
 
 		for (LookData look : spriteToUnpack.getLookList()) {
-			lookController.unpackForSprite(look, dstScene, sprite);
+			lookController.unpackForSprite(look, destinationScene, sprite);
 		}
 
 		for (SoundInfo sound : spriteToUnpack.getSoundList()) {
-			soundController.unpackForSprite(sound, dstScene, sprite);
+			soundController.unpackForSprite(sound, destinationScene, sprite);
 		}
 
 		for (NfcTagData nfcTag : spriteToUnpack.getNfcTagList()) {
@@ -224,16 +245,16 @@ public class SpriteController {
 		for (Brick brick: spriteToUnpack.getUserDefinedBrickList()) {
 			try {
 				sprite.addUserDefinedBrick((UserDefinedBrick) brick.clone());
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (CloneNotSupportedException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 
 		for (Script script : spriteToUnpack.getScriptList()) {
 			try {
-				scriptController.unpackForSprite(script, dstProject, dstScene, sprite);
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+				scriptController.unpackForSprite(spriteToUnpack.getName(), script, destinationProject, destinationScene, sprite);
+			} catch (CloneNotSupportedException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 

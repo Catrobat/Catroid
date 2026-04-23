@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,8 +46,8 @@ import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class FormulaEditorDeleteVariableTest {
 
@@ -58,7 +58,8 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDeleteVariableTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript(
+				"FormulaEditorDeleteVariableTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		baseActivityTestRule.launchActivity();
@@ -86,15 +87,15 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteVariableFromMenuTest() throws InterruptedException {
+	public void deleteVariableFromMenuTest() {
 		final String itemName = "item";
 		onDataList()
 				.performAdd(itemName);
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withId(R.id.title)).inRoot(isPlatformPopup())
+		onView(withText(R.string.delete))
 				.perform(click());
 		onDataList().onVariableAtPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode()
 				.performConfirm();
 		onView(withId(android.R.id.button1))

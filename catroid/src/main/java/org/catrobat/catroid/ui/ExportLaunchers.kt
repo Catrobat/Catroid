@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ class ExportEmbroideryFileLauncher(
     override fun startActivity() {
         val fileUri = FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
         val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "application/octet-stream"
+        shareIntent.type = "text/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, file.name)
 

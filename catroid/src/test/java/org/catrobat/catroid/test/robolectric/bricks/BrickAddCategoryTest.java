@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.widget.ListAdapter;
 
@@ -56,15 +57,16 @@ import androidx.fragment.app.Fragment;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_JUMPING_SUMO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -73,11 +75,12 @@ public class BrickAddCategoryTest {
 	private SpriteActivity activity;
 	private BrickCategoryFragment brickCategoryFragment;
 
-	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
+	private final List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
+			SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
-			SETTINGS_SHOW_EMBROIDERY_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS));
-	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
+			SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_JUMPING_SUMO_BRICKS));
+	private final List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
 	public void setUp() throws Exception {
@@ -107,6 +110,8 @@ public class BrickAddCategoryTest {
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	public void createProject(Activity activity) {

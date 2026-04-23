@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,11 @@ package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Polygon;
@@ -40,11 +43,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ThreadScheduler;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.physics.ParticleConstants;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -53,6 +58,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
+
+import static org.catrobat.catroid.physics.ParticleConstants.LIFE_HIGH_MAX_ACTIVE;
+import static org.catrobat.catroid.physics.ParticleConstants.LIFE_HIGH_MAX_DEAD;
+import static org.catrobat.catroid.physics.ParticleConstants.PARTICLE_SCALE;
 
 public class Look extends Image {
 
@@ -79,6 +88,12 @@ public class Look extends Image {
 	private float rotation = 90f;
 	private float realRotation = rotation;
 	private ThreadScheduler scheduler;
+	private ParticleEffect particleEffect;
+
+	public boolean hasParticleEffect = false;
+	public boolean isAdditive = true;
+
+	private boolean isParticleEffectPaused = false;
 
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
@@ -89,7 +104,6 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
-		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -151,8 +165,10 @@ public class Look extends Image {
 		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
 
 		destination.setRotationMode(this.getRotationMode());
-		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		destination.setMotionDirectionInUserInterfaceDimensionUnit(this.getMotionDirectionInUserInterfaceDimensionUnit());
 		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
+		destination.hasParticleEffect = hasParticleEffect;
+		destination.isAdditive = isAdditive;
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
@@ -182,14 +198,98 @@ public class Look extends Image {
 		shader.setHue(hue);
 	}
 
+	public ParticleEffect getParticleEffect() {
+		if (particleEffect == null) {
+			initialiseParticleEffect();
+		}
+		return particleEffect;
+	}
+
+	private void initialiseParticleEffect() {
+		particleEffect = new ParticleEffect();
+		particleEffect.load(Gdx.files.internal("particles"), Gdx.files.internal(""));
+		particleEffect.start();
+	}
+
+	public void pauseParticleEffect() {
+		isParticleEffectPaused = true;
+	}
+
+	public void resumeParticleEffect() {
+		isParticleEffectPaused = false;
+	}
+
+	@VisibleForTesting
+	public boolean isParticleEffectPaused() {
+		return isParticleEffectPaused;
+	}
+
+	public void clearParticleEffect() {
+		if (particleEffect != null) {
+			particleEffect.dispose();
+			particleEffect = null;
+		}
+	}
+
+	public ParticleEmitter getParticleEmitter() {
+		return getParticleEffect().getEmitters().first();
+	}
+
+	private void setupParticleEffects(ParticleEmitter particleEmitter) {
+		particleEmitter.setPosition(
+				sprite.look.getX() + sprite.look.getWidth() / 2f,
+				sprite.look.getY() + sprite.look.getHeight() / 2f);
+
+		float spriteSize = sprite.look.getSizeInUserInterfaceDimensionUnit() / 2;
+
+		float pScale = 1;
+		if (sprite.getLookList().size() == 0) {
+			pScale = spriteSize / PARTICLE_SCALE;
+		}
+
+		particleEmitter.getXScale().setHigh(spriteSize);
+		particleEmitter.getVelocity().setHighMin(ParticleConstants.VELOCITY_HIGH_MIN * pScale);
+		particleEmitter.getVelocity().setHighMax(ParticleConstants.VELOCITY_HIGH_MAX * pScale);
+		particleEmitter.getGravity().setHigh(ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld().getGravity().y);
+		particleEmitter.setAdditive(isAdditive);
+	}
+
+	private void fadeInParticles() {
+		ParticleEmitter particleEmitter = getParticleEmitter();
+		setupParticleEffects(particleEmitter);
+		particleEmitter.setContinuous(true);
+		particleEmitter.getLife().setHighMax(LIFE_HIGH_MAX_ACTIVE);
+
+		particleEffect.update(Gdx.graphics.getDeltaTime());
+	}
+
+	private void fadeOutParticles() {
+		ParticleEmitter particleEmitter = getParticleEmitter();
+		setupParticleEffects(particleEmitter);
+		particleEmitter.setContinuous(false);
+		particleEmitter.getLife().setHighMax(LIFE_HIGH_MAX_DEAD);
+
+		particleEffect.update(Gdx.graphics.getDeltaTime());
+	}
+
 	@Override
 	public synchronized void draw(Batch batch, float parentAlpha) {
-		batch.setShader(shader);
-		if (alpha == 0.0f) {
-			super.setVisible(false);
-		} else {
-			super.setVisible(true);
+		if (!isParticleEffectPaused) {
+			if (hasParticleEffect) {
+				fadeInParticles();
+			} else {
+				if (particleEffect != null) {
+					fadeOutParticles();
+				}
+			}
 		}
+
+		if (particleEffect != null) {
+			particleEffect.draw(batch);
+		}
+
+		batch.setShader(shader);
+		super.setVisible(alpha != 0.0f);
 
 		if (isLookVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
@@ -213,6 +313,12 @@ public class Look extends Image {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
+		}
+		if (sprite != null && sprite.plot != null && sprite.plot.isPlotting()
+				&& !simultaneousMovementXY) {
+			float x = getXInUserInterfaceDimensionUnit();
+			float y = getYInUserInterfaceDimensionUnit();
+			sprite.plot.addPoint(new PointF(x, y));
 		}
 	}
 
@@ -321,24 +427,28 @@ public class Look extends Image {
 	}
 
 	public float getXVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityX();
+		}
 		return 0;
 	}
 
 	public float getYVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityY();
+		}
 		return 0;
 	}
 
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
 		adjustSimultaneousMovementXY(x, y);
 		setXInUserInterfaceDimensionUnit(x);
-		adjustSimultaneousMovementXY(this.getX(), y);
+		adjustSimultaneousMovementXY(getXInUserInterfaceDimensionUnit(), y);
 		setYInUserInterfaceDimensionUnit(y);
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		simultaneousMovementXY = x != this.getX() && y != this.getY();
+		simultaneousMovementXY = x != getXInUserInterfaceDimensionUnit() && y != getYInUserInterfaceDimensionUnit();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
@@ -346,7 +456,12 @@ public class Look extends Image {
 	}
 
 	public void changeYInUserInterfaceDimensionUnit(float changeY) {
+
 		setY(getY() + changeY);
+	}
+
+	public void changePositionInInterfaceDimensionUnit(float changeX, float changeY){
+		setPosition(getX() + changeX, getY() + changeY);
 	}
 
 	public float getWidthInUserInterfaceDimensionUnit() {
@@ -357,8 +472,21 @@ public class Look extends Image {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
 	}
 
-	public float getDirectionInUserInterfaceDimensionUnit() {
+	public float getMotionDirectionInUserInterfaceDimensionUnit() {
 		return realRotation;
+	}
+
+	public float getLookDirectionInUserInterfaceDimensionUnit() {
+		float direction = 0f;
+		switch (rotationMode) {
+			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
+			break;
+			case ROTATION_STYLE_ALL_AROUND : direction = realRotation;
+			break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
+					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+		}
+		return direction;
 	}
 
 	public void setRotationMode(int mode) {
@@ -367,7 +495,7 @@ public class Look extends Image {
 	}
 
 	private void flipLookDataIfNeeded(int mode) {
-		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean orientedLeft = getMotionDirectionInUserInterfaceDimensionUnit() < 0;
 		boolean differentModeButFlipped = mode != ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
 		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && (orientedLeft ^ isFlipped());
 		if (differentModeButFlipped || facingWrongDirection) {
@@ -423,7 +551,7 @@ public class Look extends Image {
 		return p.getBoundingRectangle();
 	}
 
-	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
+	public void setMotionDirectionInUserInterfaceDimensionUnit(float degrees) {
 		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
 		realRotation = convertStageAngleToCatroidAngle(rotation);
 
@@ -451,8 +579,8 @@ public class Look extends Image {
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setDirectionInUserInterfaceDimensionUnit(
-				(getDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
+		setMotionDirectionInUserInterfaceDimensionUnit(
+				(getMotionDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -669,7 +797,6 @@ public class Look extends Image {
 		}
 	}
 
-	@VisibleForTesting
 	public float getAlpha() {
 		return alpha;
 	}

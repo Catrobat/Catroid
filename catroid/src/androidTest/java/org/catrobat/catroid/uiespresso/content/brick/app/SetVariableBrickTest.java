@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -48,10 +47,9 @@ import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -70,7 +68,7 @@ public class SetVariableBrickTest {
 	public void setUp() throws Exception {
 		SetVariableBrick setVariableTestBrick1 = new SetVariableBrick(10);
 		SetVariableBrick setVariableTestBrick2 = new SetVariableBrick(0);
-		Script script = BrickTestUtils.createProjectAndGetStartScript("setVariableTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("setVariableTest");
 		script.addBrick(setVariableTestBrick1);
 		script.addBrick(setVariableTestBrick2);
 		baseActivityTestRule.launchActivity();
@@ -137,7 +135,7 @@ public class SetVariableBrickTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(userVariableName), closeSoftKeyboard());
+				.perform(replaceText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))

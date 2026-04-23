@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,14 +59,14 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	protected void unpackItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
-		Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite destinationSprite = ProjectManager.getInstance().getCurrentSprite();
 		int unpackedItemCnt = 0;
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				dstSprite.getSoundList().add(soundController.unpack(item,
+				destinationSprite.getSoundList().add(soundController.unpack(item,
 						ProjectManager.getInstance().getCurrentlyEditedScene(),
-						dstSprite));
+						destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

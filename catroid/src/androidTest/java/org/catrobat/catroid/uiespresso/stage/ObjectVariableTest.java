@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,7 +98,7 @@ public class ObjectVariableTest {
 		assertEquals(SPRITE_TRANSPARENCY, getSensorValue(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals(SPRITE_BRIGHTNESS, getSensorValue(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals(SPRITE_SIZE, getSensorValue(Sensors.OBJECT_SIZE), DELTA);
-		assertEquals(SPRITE_DIRECTION, getSensorValue(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals(SPRITE_DIRECTION, getSensorValue(Sensors.MOTION_DIRECTION), DELTA);
 		assertEquals(NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE, getSensorValue(Sensors.OBJECT_LAYER), DELTA);
 	}
 

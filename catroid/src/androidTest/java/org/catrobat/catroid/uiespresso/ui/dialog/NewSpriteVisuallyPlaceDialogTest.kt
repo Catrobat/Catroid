@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -76,7 +76,7 @@ class NewSpriteVisuallyPlaceDialogTest {
     )
     private val projectName = "newProject"
     private lateinit var expectedIntent: Matcher<Intent>
-    val newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name).toString() + " (1)"
+    val newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name).toString()
 
     @Before
     @Throws(Exception::class)

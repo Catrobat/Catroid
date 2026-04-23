@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -159,6 +160,13 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
+	public void updateSensorTokens(String oldName, String newName, Context context) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.updateSensorTokens(oldName, newName);
+		}
+		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
 	public void updateCollisionFormulaToVersion(Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
 			internToken.updateCollisionFormulaToVersion();
@@ -253,6 +261,13 @@ public class InternFormula {
 
 			return setCursorPositionAndSelectionAfterInput(internTokenSelectionStart);
 		}
+	}
+
+	public void deleteSelection(Context context) {
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = handleDeletion();
+		updateExternCursorPosition(cursorTokenPropertiesAfterInput);
+		generateExternFormulaStringAndInternExternMapping(context);
+		updateInternCursorPosition();
 	}
 
 	private void deleteInternTokens(int deleteIndexStart, int deleteIndexEnd) {
@@ -715,6 +730,10 @@ public class InternFormula {
 	}
 
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
+		if (internTokenFormulaList.isEmpty()) {
+			return CursorTokenPropertiesAfterModification.RIGHT;
+		}
+
 		InternToken insertedInternToken = internTokenFormulaList.get(insertedInternTokenIndex);
 
 		if (insertedInternToken.getInternTokenType() == InternTokenType.FUNCTION_NAME) {
@@ -727,14 +746,19 @@ public class InternFormula {
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
 				String functionName = functionInternTokenList.get(0).getTokenStringValue();
 
-				if (userListNotFirstParameter(functionName, functionFirstParameter.get(0))) {
-					functionFirstParameter = functionParameters.get(1);
-					insertedInternTokenIndex += 2;
+				if (functionFirstParameter.isEmpty()) {
+					internFormulaTokenSelection = null;
+					cursorPositionInternTokenIndex = insertedInternTokenIndex + 1;
+				} else {
+					if (userListNotFirstParameter(functionName, functionFirstParameter.get(0))) {
+						functionFirstParameter = functionParameters.get(1);
+						insertedInternTokenIndex += 2;
+					}
+					internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
+							insertedInternTokenIndex + 2,
+							insertedInternTokenIndex + functionFirstParameter.size() + 1);
+					cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 				}
-
-				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
-						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
-				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 			} else {
 				cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
 				internFormulaTokenSelection = null;
@@ -951,6 +975,47 @@ public class InternFormula {
 		return externSelectionEndIndex;
 	}
 
+	public void addTokens(Context context, List<InternToken> tokens) {
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput =
+				CursorTokenPropertiesAfterModification
+						.DO_NOT_MODIFY;
+
+		if (isTokenSelected()) {
+			int startIndex = internFormulaTokenSelection.getStartIndex();
+			replaceInternTokens(tokens, startIndex, internFormulaTokenSelection.getEndIndex());
+			cursorTokenPropertiesAfterInput = setCursorPositionAndSelectionAfterInput(startIndex);
+		} else if (cursorTokenPosition == null) {
+			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(tokens);
+		} else {
+			switch (cursorTokenPosition) {
+				case LEFT:
+					cursorTokenPropertiesAfterInput = insertLeftToCurrentToken(tokens);
+					break;
+				case MIDDLE:
+					cursorTokenPropertiesAfterInput = replaceCursorPositionInternTokenByTokenList(tokens);
+					break;
+				case RIGHT:
+					cursorTokenPropertiesAfterInput = insertRightToCurrentToken(tokens);
+					break;
+			}
+		}
+
+		generateExternFormulaStringAndInternExternMapping(context);
+		updateExternCursorPosition(cursorTokenPropertiesAfterInput);
+		updateInternCursorPosition();
+	}
+
+	public List<InternToken> getSelectedTokenForCopy() {
+		List<InternToken> tokens = new ArrayList<>();
+		if (internTokenFormulaList != null && internFormulaTokenSelection != null) {
+			for (int i = internFormulaTokenSelection.getStartIndex(); i <= internFormulaTokenSelection.getEndIndex(); i++) {
+				tokens.add(internTokenFormulaList.get(i));
+			}
+			return tokens;
+		}
+		return null;
+	}
+
 	private InternToken getSelectedToken() {
 		if (internFormulaTokenSelection == null || internFormulaTokenSelection.getTokenSelectionType() != TokenSelectionType.USER_SELECTION) {
 			return null;
@@ -1116,5 +1181,13 @@ public class InternFormula {
 		}
 		return !(cursorTokenPosition == null
 				|| (cursorTokenPosition == CursorTokenPosition.LEFT && getFirstLeftInternToken(externCursorPosition - 1) == null));
+	}
+
+	public void setInternTokenFormulaList(List<InternToken> list) {
+		internTokenFormulaList = list;
+	}
+
+	public List<InternToken> getInternTokenFormulaList() {
+		return internTokenFormulaList;
 	}
 }

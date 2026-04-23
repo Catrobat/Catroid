@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,8 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.content.res.Resources
 import com.badlogic.gdx.math.Rectangle
+import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.GroupSprite
@@ -42,7 +44,7 @@ import org.catrobat.catroid.nfc.NfcHandler
 import org.catrobat.catroid.sensing.CollisionDetection
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
-import org.catrobat.catroid.utils.NumberFormats
+import org.catrobat.catroid.utils.NumberFormats.Companion.trimTrailingCharacters
 import org.catrobat.catroid.utils.TouchUtil
 import java.lang.Double.valueOf
 import kotlin.math.round
@@ -90,6 +92,8 @@ object FormulaElementOperations {
         return when (value) {
             is String,
             is Char -> value
+            is Boolean -> Conversions.booleanToDouble(value)
+            is Int -> value.toDouble()
             is Double -> when (value) {
                 Double.NEGATIVE_INFINITY -> -Double.MAX_VALUE
                 Double.POSITIVE_INFINITY -> Double.MAX_VALUE
@@ -108,6 +112,15 @@ object FormulaElementOperations {
 
     @JvmStatic
     fun getLookName(lookData: LookData?) = lookData?.name ?: ""
+
+    @JvmStatic
+    fun getNumberOfLooks(lookData: LookData?, lookDataList: List<LookData>): Int {
+        return if (lookData?.isWebRequest == true) {
+            lookDataList.count() + 1
+        } else {
+            lookDataList.count()
+        }
+    }
 
     @JvmStatic
     fun tryCalculateCollidesWithEdge(
@@ -148,7 +161,8 @@ object FormulaElementOperations {
             Sensors.OBJECT_COLOR -> look.colorInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_TRANSPARENCY -> look.transparencyInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_LAYER -> getLookLayerIndex(sprite, look, currentlyEditedScene.spriteList)
-            Sensors.OBJECT_ROTATION -> look.directionInUserInterfaceDimensionUnit.toDouble()
+            Sensors.MOTION_DIRECTION -> look.motionDirectionInUserInterfaceDimensionUnit.toDouble()
+            Sensors.LOOK_DIRECTION -> look.lookDirectionInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_SIZE -> look.sizeInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_X -> look.xInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_Y -> look.yInUserInterfaceDimensionUnit.toDouble()
@@ -158,6 +172,7 @@ object FormulaElementOperations {
             Sensors.OBJECT_DISTANCE_TO -> look.distanceToTouchPositionInUserInterfaceDimensions.toDouble()
             Sensors.OBJECT_LOOK_NUMBER,
             Sensors.OBJECT_BACKGROUND_NUMBER -> tryGetLookNumber(lookData, lookDataList)
+            Sensors.OBJECT_NUMBER_OF_LOOKS -> getNumberOfLooks(lookData, lookDataList).toDouble()
             Sensors.OBJECT_LOOK_NAME,
             Sensors.OBJECT_BACKGROUND_NAME -> getLookName(lookData)
             Sensors.NFC_TAG_MESSAGE -> NfcHandler.getLastNfcTagMessage()
@@ -190,11 +205,22 @@ object FormulaElementOperations {
         } ?: Conversions.FALSE
     }
 
+    private fun booleanToLocalizedString(value: Boolean): String {
+        return if (value) {
+            CatroidApplication.getAppContext().getString(R.string.formula_editor_true)
+        } else {
+            CatroidApplication.getAppContext().getString(R.string.formula_editor_false)
+        }
+    }
+
     private fun interpretMultipleItemsUserList(userListValues: List<Any>): Any {
-        val userListStringValues = userListValues.filter { it is Double || it is String }.map {
-            NumberFormats.trimTrailingCharacters(
+        val userListStringValues = userListValues.map {
+            trimTrailingCharacters(
                 when (it) {
-                    is Double -> it.toInt().toString()
+                    is Int -> it.toString()
+                    is Double -> it.toString()
+                    is Boolean -> booleanToLocalizedString(it)
+                    is Char -> it.toString()
                     else -> it as String
                 }
             )
@@ -202,16 +228,18 @@ object FormulaElementOperations {
         val stringBuilder = StringBuilder(userListStringValues.size)
         val separator = if (listConsistsOfSingleCharacters(userListStringValues)) "" else " "
         for (userListStringValue in userListStringValues) {
-            stringBuilder.append(NumberFormats.trimTrailingCharacters(userListStringValue))
+            stringBuilder.append(trimTrailingCharacters(userListStringValue))
             stringBuilder.append(separator)
         }
         return stringBuilder.toString().trim { it <= ' ' }
     }
 
-    private fun listConsistsOfSingleCharacters(userListStringValues: List<String>) = userListStringValues.none { it.length > 1 }
+    private fun listConsistsOfSingleCharacters(userListStringValues: List<String>) =
+        userListStringValues.none { it.length > 1 }
 
     @JvmStatic
-    fun interpretUserVariable(userVariable: UserVariable?) = userVariable?.value ?: Conversions.FALSE
+    fun interpretUserVariable(userVariable: UserVariable?) =
+        userVariable?.value ?: Conversions.FALSE
 
     @JvmStatic
     fun interpretUserDefinedBrickInput(userDefinedBrickInput: UserData<Any>?): Any {

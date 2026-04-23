@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,11 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class InternFormulaStateTest {
@@ -58,7 +55,7 @@ public class InternFormulaStateTest {
 		internState = new InternFormulaState(internTokenList, null, 0);
 		internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
 
-		assertFalse(internState.equals(internStateToCompare));
+		assertNotEquals(internStateToCompare, internState);
 
 		internTokenList = new ArrayList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.NUMBER));
@@ -70,18 +67,18 @@ public class InternFormulaStateTest {
 
 	@Test
 	public void testEquals() {
-		assertThat(internState, not(equalTo(internStateToCompare)));
-		assertFalse(internState.equals(Integer.valueOf(1)));
+		assertNotEquals(internStateToCompare, internState);
+		assertNotEquals(1, internState);
 	}
 
 	@Test
 	public void testHashCode() {
 		int hashCodeInternalState = internState.hashCode();
 		int hashCodeInternStateToCompare = internStateToCompare.hashCode();
-		assertThat(hashCodeInternalState, not(equalTo(hashCodeInternStateToCompare)));
+		assertNotEquals(hashCodeInternStateToCompare, hashCodeInternalState);
 
 		InternFormulaState internalState2 = internState;
 		assertEquals(internState.hashCode(), internalState2.hashCode());
-		assertThat(internState.hashCode(), not(equalTo(1)));
+		assertNotEquals(1, internState.hashCode());
 	}
 }

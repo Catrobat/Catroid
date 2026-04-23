@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,10 +98,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	}
 
 	public boolean isSensorOff() throws MindstormsException {
-		if (getMode() == UltrasonicCommand.Off) {
-			return true;
-		}
-		return false;
+		return getMode() == UltrasonicCommand.Off;
 	}
 
 	public void reset() throws MindstormsException {

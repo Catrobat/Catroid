@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +80,8 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG;
+import static org.koin.java.KoinJavaComponent.get;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -94,16 +97,18 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
 
 	private static final List<Integer> OBJECT_GENERAL_PROPERTIES = asList(
+			R.string.formula_editor_object_rotation_look,
 			R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_color);
 	private static final List<Integer> OBJECT_LOOK = asList(R.string.formula_editor_object_look_number,
-			R.string.formula_editor_object_look_name);
+			R.string.formula_editor_object_look_name, R.string.formula_editor_object_number_of_looks);
 	private static final List<Integer> OBJECT_BACKGROUND = asList(R.string.formula_editor_object_background_number,
-			R.string.formula_editor_object_background_name);
+			R.string.formula_editor_object_background_name, R.string.formula_editor_object_number_of_backgrounds);
 	private static final List<Integer> OBJECT_PHYSICAL_1 = asList(R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
-			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer);
+			R.string.formula_editor_object_rotation, R.string.formula_editor_object_rotation_look,
+			R.string.formula_editor_object_layer);
 	private static final List<Integer> OBJECT_PHYSICAL_COLLISION = singletonList(R.string.formula_editor_function_collision);
 	private static final List<Integer> OBJECT_PHYSICAL_2 = asList(R.string.formula_editor_function_collides_with_edge,
 			R.string.formula_editor_function_touched,
@@ -134,12 +139,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
 			R.string.formula_editor_function_if_then_else_parameter);
 	private static final List<Integer> STRING_FUNCTIONS = asList(R.string.formula_editor_function_length,
-			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
+			R.string.formula_editor_function_letter,
+			R.string.formula_editor_function_subtext, R.string.formula_editor_function_join,
 			R.string.formula_editor_function_join3, R.string.formula_editor_function_regex,
 			R.string.formula_editor_function_regex_assistant,
 			R.string.formula_editor_function_flatten);
 	private static final List<Integer> STRING_PARAMS = asList(R.string.formula_editor_function_length_parameter,
 			R.string.formula_editor_function_letter_parameter,
+			R.string.formula_editor_function_subtext_parameter,
 			R.string.formula_editor_function_join_parameter,
 			R.string.formula_editor_function_join3_parameter,
 			R.string.formula_editor_function_regex_parameter,
@@ -161,7 +168,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal);
 	private static final List<Integer> SENSORS_DEFAULT = asList(R.string.formula_editor_sensor_loudness,
-			R.string.formula_editor_function_touched);
+			R.string.formula_editor_function_touched, R.string.formula_editor_sensor_stage_width,
+			R.string.formula_editor_sensor_stage_height);
 	private static final List<Integer> OBJECT_COLOR_COLLISION =
 			asList(R.string.formula_editor_function_collides_with_color, R.string.formula_editor_function_color_touches_color);
 	private static final List<Integer> OBJECT_COLOR_PARAMS =
@@ -197,36 +205,231 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter);
-	private static final List<Integer> SENSORS_VISUAL_DETECTION = asList(R.string.formula_editor_sensor_face_detected,
+	private static final List<Integer> SENSORS_FACE_DETECTION = asList(R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position,
 			R.string.formula_editor_sensor_second_face_detected,
 			R.string.formula_editor_sensor_second_face_size,
 			R.string.formula_editor_sensor_second_face_x_position,
-			R.string.formula_editor_sensor_second_face_y_position,
-			R.string.formula_editor_sensor_text_from_camera,
+			R.string.formula_editor_sensor_second_face_y_position);
+	private static final List<Integer> SENSORS_FACE_DETECTION_PARAMS = asList(R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter);
+	private static final List<Integer> SENSORS_POSE_DETECTION =
+			asList(R.string.formula_editor_sensor_nose_x,
+					R.string.formula_editor_sensor_nose_y,
+					R.string.formula_editor_sensor_left_eye_inner_x,
+					R.string.formula_editor_sensor_left_eye_inner_y,
+					R.string.formula_editor_sensor_left_eye_center_x,
+					R.string.formula_editor_sensor_left_eye_center_y,
+					R.string.formula_editor_sensor_left_eye_outer_x,
+					R.string.formula_editor_sensor_left_eye_outer_y,
+					R.string.formula_editor_sensor_right_eye_inner_x,
+					R.string.formula_editor_sensor_right_eye_inner_y,
+					R.string.formula_editor_sensor_right_eye_center_x,
+					R.string.formula_editor_sensor_right_eye_center_y,
+					R.string.formula_editor_sensor_right_eye_outer_x,
+					R.string.formula_editor_sensor_right_eye_outer_y,
+					R.string.formula_editor_sensor_left_ear_x,
+					R.string.formula_editor_sensor_left_ear_y,
+					R.string.formula_editor_sensor_right_ear_x,
+					R.string.formula_editor_sensor_right_ear_y,
+					R.string.formula_editor_sensor_mouth_left_corner_x,
+					R.string.formula_editor_sensor_mouth_left_corner_y,
+					R.string.formula_editor_sensor_mouth_right_corner_x,
+					R.string.formula_editor_sensor_mouth_right_corner_y,
+					R.string.formula_editor_sensor_left_shoulder_x,
+					R.string.formula_editor_sensor_left_shoulder_y,
+					R.string.formula_editor_sensor_right_shoulder_x,
+					R.string.formula_editor_sensor_right_shoulder_y,
+					R.string.formula_editor_sensor_left_elbow_x,
+					R.string.formula_editor_sensor_left_elbow_y,
+					R.string.formula_editor_sensor_right_elbow_x,
+					R.string.formula_editor_sensor_right_elbow_y,
+					R.string.formula_editor_sensor_left_wrist_x,
+					R.string.formula_editor_sensor_left_wrist_y,
+					R.string.formula_editor_sensor_right_wrist_x,
+					R.string.formula_editor_sensor_right_wrist_y,
+					R.string.formula_editor_sensor_left_pinky_knuckle_x,
+					R.string.formula_editor_sensor_left_pinky_knuckle_y,
+					R.string.formula_editor_sensor_right_pinky_knuckle_x,
+					R.string.formula_editor_sensor_right_pinky_knuckle_y,
+					R.string.formula_editor_sensor_left_index_knuckle_x,
+					R.string.formula_editor_sensor_left_index_knuckle_y,
+					R.string.formula_editor_sensor_right_index_knuckle_x,
+					R.string.formula_editor_sensor_right_index_knuckle_y,
+					R.string.formula_editor_sensor_left_thumb_knuckle_x,
+					R.string.formula_editor_sensor_left_thumb_knuckle_y,
+					R.string.formula_editor_sensor_right_thumb_knuckle_x,
+					R.string.formula_editor_sensor_right_thumb_knuckle_y,
+					R.string.formula_editor_sensor_left_hip_x,
+					R.string.formula_editor_sensor_left_hip_y,
+					R.string.formula_editor_sensor_right_hip_x,
+					R.string.formula_editor_sensor_right_hip_y,
+					R.string.formula_editor_sensor_left_knee_x,
+					R.string.formula_editor_sensor_left_knee_y,
+					R.string.formula_editor_sensor_right_knee_x,
+					R.string.formula_editor_sensor_right_knee_y,
+					R.string.formula_editor_sensor_left_ankle_x,
+					R.string.formula_editor_sensor_left_ankle_y,
+					R.string.formula_editor_sensor_right_ankle_x,
+					R.string.formula_editor_sensor_right_ankle_y,
+					R.string.formula_editor_sensor_left_heel_x,
+					R.string.formula_editor_sensor_left_heel_y,
+					R.string.formula_editor_sensor_right_heel_x,
+					R.string.formula_editor_sensor_right_heel_y,
+					R.string.formula_editor_sensor_left_foot_index_x,
+					R.string.formula_editor_sensor_left_foot_index_y,
+					R.string.formula_editor_sensor_right_foot_index_x,
+					R.string.formula_editor_sensor_right_foot_index_y);
+	private static final List<Integer> SENSORS_POSE_DETECTION_PARAMS =
+			asList(R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter);
+	private static final List<Integer> SENSORS_POSE_DETECTION_HUAWEI =
+			asList(R.string.formula_editor_sensor_head_top_x,
+					R.string.formula_editor_sensor_head_top_y,
+					R.string.formula_editor_sensor_neck_x,
+					R.string.formula_editor_sensor_neck_y,
+					R.string.formula_editor_sensor_left_shoulder_x,
+					R.string.formula_editor_sensor_left_shoulder_y,
+					R.string.formula_editor_sensor_right_shoulder_x,
+					R.string.formula_editor_sensor_right_shoulder_y,
+					R.string.formula_editor_sensor_left_elbow_x,
+					R.string.formula_editor_sensor_left_elbow_y,
+					R.string.formula_editor_sensor_right_elbow_x,
+					R.string.formula_editor_sensor_right_elbow_y,
+					R.string.formula_editor_sensor_left_wrist_x,
+					R.string.formula_editor_sensor_left_wrist_y,
+					R.string.formula_editor_sensor_right_wrist_x,
+					R.string.formula_editor_sensor_right_wrist_y,
+					R.string.formula_editor_sensor_left_hip_x,
+					R.string.formula_editor_sensor_left_hip_y,
+					R.string.formula_editor_sensor_right_hip_x,
+					R.string.formula_editor_sensor_right_hip_y,
+					R.string.formula_editor_sensor_left_knee_x,
+					R.string.formula_editor_sensor_left_knee_y,
+					R.string.formula_editor_sensor_right_knee_x,
+					R.string.formula_editor_sensor_right_knee_y,
+					R.string.formula_editor_sensor_left_ankle_x,
+					R.string.formula_editor_sensor_left_ankle_y,
+					R.string.formula_editor_sensor_right_ankle_x,
+					R.string.formula_editor_sensor_right_ankle_y);
+	private static final List<Integer> SENSORS_POSE_DETECTION_PARAMS_HUAWEI =
+			asList(R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter);
+	private static final List<Integer> SENSORS_TEXT_RECOGNITION = asList(R.string.formula_editor_sensor_text_from_camera,
 			R.string.formula_editor_sensor_text_blocks_number,
 			R.string.formula_editor_function_text_block_x,
 			R.string.formula_editor_function_text_block_y,
 			R.string.formula_editor_function_text_block_size,
 			R.string.formula_editor_function_text_block_from_camera,
 			R.string.formula_editor_function_text_block_language_from_camera);
-	private static final List<Integer> SENSORS_VISUAL_DETECTION_PARAMS =
-			asList(R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
+	private static final List<Integer> SENSORS_TEXT_RECOGNITION_PARAMS = asList(R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter);
+	private static final List<Integer> SENSORS_OBJECT_DETECTION = asList(
+			R.string.formula_editor_function_get_id_of_detected_object,
+			R.string.formula_editor_function_object_with_id_visible
+	);
 	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
 			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
 			R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
@@ -256,6 +459,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_phiro_sensor_bottom_right);
 	private static final List<Integer> SENSORS_ARDUINO = asList(R.string.formula_editor_function_arduino_read_pin_value_analog,
 			R.string.formula_editor_function_arduino_read_pin_value_digital);
+	private static final List<Integer> SENSORS_ARDUINO_PARAMS = asList(R.string.formula_editor_function_pin_default_parameter,
+			R.string.formula_editor_function_pin_default_parameter);
 	private static final List<Integer> SENSORS_DRONE = asList(R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
@@ -328,6 +533,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		}
 	}
 
+	public CategoryListItem chosenItem = null;
+
 	@Override
 	public void onItemClick(CategoryListItem item) {
 		switch (item.type) {
@@ -346,7 +553,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
 					regularExpressionAssistantActivityOnButtonClick();
 				} else {
-					addResourceToActiveFormulaInFormulaEditor(item);
+					FormulaEditorFragment formulaEditorFragment =
+							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+					if (formulaEditorFragment != null) {
+						formulaEditorFragment.setChosenCategoryItem(item);
+					}
 					getActivity().onBackPressed();
 				}
 				break;
@@ -422,7 +633,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		FormulaEditorFragment formulaEditorFragment = null;
 		if (getFragmentManager() != null) {
 			formulaEditorFragment = ((FormulaEditorFragment) getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+					.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
 			if (formulaEditorFragment != null) {
 				formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId);
 			}
@@ -499,7 +710,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private FormulaEditorFragment getFormulaEditorFragment() {
 		if (getFragmentManager() != null) {
 			return ((FormulaEditorFragment) getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+					.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
 		}
 		return null;
 	}
@@ -512,7 +723,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			FragmentActivity activity, TextInputDialog.Builder builder) {
 
 		AddUserListDialog userListDialog = new AddUserListDialog(builder);
-		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback(){
+		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback() {
 			@Override
 			public void onPositiveButton(DialogInterface dialog, String textInput) {
 				UserList userList = new UserList(textInput);
@@ -540,7 +751,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					}
 
 					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
-							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+							.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
 
 					int sensorPortsId = type == Constants.NXT
 							? R.array.formula_editor_nxt_ports
@@ -583,7 +794,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					selectedSprite.createCollisionPolygons();
 
 					((FormulaEditorFragment) getFragmentManager()
-							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+							.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
 							.addCollideFormulaToActiveFormula(selectedSprite.getName());
 					getActivity().onBackPressed();
 				})
@@ -676,11 +887,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getSensorItems() {
 		List<CategoryListItem> result = new ArrayList<>();
-		result.addAll(getDeviceSensorItems());
-		result.addAll(getTouchDetectionSensorItems());
-		result.addAll(getVisualSensorItems());
-		result.addAll(getDateTimeSensorItems());
-		result.addAll(getSpeechRecognitionItems());
 		result.addAll(getNxtSensorItems());
 		result.addAll(getEv3SensorItems());
 		result.addAll(getPhiroSensorItems());
@@ -689,6 +895,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getRaspberrySensorItems());
 		result.addAll(getNfcItems());
 		result.addAll(getCastGamepadSensorItems());
+		result.addAll(getSpeechRecognitionItems());
+		result.addAll(getFaceSensorItems());
+		result.addAll(getPoseSensorItems());
+		result.addAll(getTextSensorItems());
+		result.addAll(getObjectDetectionSensorItems());
+		result.addAll(getDeviceSensorItems());
+		result.addAll(getTouchDetectionSensorItems());
+		result.addAll(getDateTimeSensorItems());
 		return result;
 	}
 
@@ -716,37 +930,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return addHeader(result, getString(R.string.formula_editor_object_movement));
 	}
 
-	private List<CategoryListItem> getDeviceSensorItems() {
-		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
-		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_EQUALS_COLOR,
-				SENSORS_COLOR_EQUALS_COLOR_PARAMS));
-		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
-		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
-
-		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
-	}
-
-	private List<CategoryListItem> getTouchDetectionSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_TOUCH, SENSORS_TOUCH_PARAMS), getString(R.string.formula_editor_device_touch_detection));
-	}
-
-	private List<CategoryListItem> getVisualSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_VISUAL_DETECTION, SENSORS_VISUAL_DETECTION_PARAMS),
-				getString(R.string.formula_editor_device_visual_detection));
-	}
-
-	private List<CategoryListItem> getDateTimeSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_DATE_TIME), getString(R.string.formula_editor_device_date_and_time));
-	}
-
 	private List<CategoryListItem> getNxtSensorItems() {
 		return SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_NXT, CategoryListRVAdapter.NXT), getString(R.string.formula_editor_device_lego_nxt))
@@ -767,7 +950,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getArduinoSensorItems() {
 		return SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity().getApplicationContext())
-				? addHeader(toCategoryListItems(SENSORS_ARDUINO), getString(R.string.formula_editor_device_arduino))
+				? addHeader(toCategoryListItems(SENSORS_ARDUINO, SENSORS_ARDUINO_PARAMS), getString(R.string.formula_editor_device_arduino))
 				: Collections.emptyList();
 	}
 
@@ -795,8 +978,75 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				: Collections.emptyList();
 	}
 
+	private List<CategoryListItem> getDeviceSensorItems() {
+		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
+		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_EQUALS_COLOR,
+				SENSORS_COLOR_EQUALS_COLOR_PARAMS));
+		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
+		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
+
+		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
+	}
+
+	private List<CategoryListItem> getTouchDetectionSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_TOUCH, SENSORS_TOUCH_PARAMS), getString(R.string.formula_editor_device_touch_detection));
+	}
+
+	private List<CategoryListItem> getDateTimeSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_DATE_TIME), getString(R.string.formula_editor_device_date_and_time));
+	}
+
 	private List<CategoryListItem> getSpeechRecognitionItems() {
-		return addHeader(toCategoryListItems(SENSORS_SPEECH_RECOGNITION),
-				getString(R.string.formula_editor_speech_recognition));
+		return SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_SPEECH_RECOGNITION), getString(R.string.formula_editor_speech_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getFaceSensorItems() {
+		return SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
+				getString(R.string.formula_editor_device_face_detection))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getPoseSensorItems() {
+		MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
+		boolean isHMSAvailable =
+				mobileServiceAvailability.isHmsAvailable(getActivity().getApplicationContext());
+		boolean isPoseDetectionEnabled =
+				SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(getActivity().getApplicationContext());
+		if (isPoseDetectionEnabled && isHMSAvailable) {
+			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION_HUAWEI,
+					SENSORS_POSE_DETECTION_PARAMS_HUAWEI),
+					getString(R.string.formula_editor_device_pose_detection));
+		} else if (isPoseDetectionEnabled) {
+			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION,
+					SENSORS_POSE_DETECTION_PARAMS),
+					getString(R.string.formula_editor_device_pose_detection));
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	private List<CategoryListItem> getTextSensorItems() {
+		return SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
+				getString(R.string.formula_editor_device_text_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getObjectDetectionSensorItems() {
+		return SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_OBJECT_DETECTION),
+				getString(R.string.formula_editor_device_object_recognition))
+				: Collections.emptyList();
 	}
 }

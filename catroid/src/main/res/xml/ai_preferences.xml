@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+    <PreferenceScreen
+        android:key="settings_ai_screen"
+        android:summary="@string/preference_description_ai"
+        android:title="@string/preference_title_ai"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_speech_recognition"
+            android:summary="@string/preference_description_ai_speech_recognition"
+            android:title="@string/preference_title_ai_speech_recognition" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_speech_synthetization"
+            android:summary="@string/preference_description_ai_speech_synthetization"
+            android:title="@string/preference_title_ai_speech_synthetization" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_face_detection"
+            android:summary="@string/preference_description_ai_face_detection"
+            android:title="@string/preference_title_ai_face_detection" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_pose_detection"
+            android:summary="@string/preference_description_ai_pose_detection"
+            android:title="@string/preference_title_ai_pose_detection" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_text_recognition"
+            android:summary="@string/preference_description_ai_text_recognition"
+            android:title="@string/preference_title_ai_text_recognition" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_object_detection"
+            android:summary="@string/preference_description_ai_object_recognition"
+            android:title="@string/preference_title_ai_object_recognition" />
+
+    </PreferenceScreen>
