@@ -27,6 +27,9 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 object DatabaseMigrations {
+    private const val DATABASE_VERSION_1 = 1
+    private const val DATABASE_VERSION_2 = 2
+    private const val DATABASE_VERSION_3 = 3
 
     private const val CREATE_FEATURED_PROJECT_TABLE_SQL =
         "CREATE TABLE IF NOT EXISTS `featured_project` (`id` TEXT NOT NULL, `project_id` TEXT NOT NULL, `project_url` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `featured_image` TEXT NOT NULL, PRIMARY KEY(`id`))"
@@ -40,14 +43,14 @@ object DatabaseMigrations {
     private const val CREATE_PROJECT_RESPONSE_TABLE_V3_SQL =
         "CREATE TABLE IF NOT EXISTS `project_response` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `version` TEXT NOT NULL, `views` INTEGER NOT NULL, `download` INTEGER NOT NULL, `private` INTEGER NOT NULL, `flavor` TEXT NOT NULL, `tags` TEXT NOT NULL, `uploaded` INTEGER NOT NULL, `uploadedString` TEXT NOT NULL, `screenshotLarge` TEXT NOT NULL, `screenshotSmall` TEXT NOT NULL, `projectUrl` TEXT NOT NULL, `downloadUrl` TEXT NOT NULL, `fileSize` REAL NOT NULL, `categoryType` TEXT NOT NULL, PRIMARY KEY(`id`, `categoryType`))"
 
-    val MIGRATION_1_2 = object : Migration(1, 2) {
+    val MIGRATION_1_2 = object : Migration(DATABASE_VERSION_1, DATABASE_VERSION_2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(CREATE_PROJECT_CATEGORY_TABLE_SQL)
             database.execSQL(CREATE_PROJECT_RESPONSE_TABLE_V2_SQL)
         }
     }
 
-    val MIGRATION_2_3 = object : Migration(2, 3) {
+    val MIGRATION_2_3 = object : Migration(DATABASE_VERSION_2, DATABASE_VERSION_3) {
         override fun migrate(database: SupportSQLiteDatabase) {
             // Featured projects are synced from network; rebuilding these cache tables prevents
             // startup crashes for legacy v2 schemas with a mismatching Room identity hash.
