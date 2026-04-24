@@ -32,7 +32,7 @@
     android:paddingStart="24dp"
     android:paddingTop="20dp"
     android:paddingEnd="24dp"
-    android:paddingBottom="20dp">
+    android:paddingBottom="24dp">
 
     <ImageView
         android:id="@+id/shortcut_dialog_icon"
@@ -65,30 +65,50 @@
         android:paddingStart="12dp"
         android:paddingTop="12dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="12dp"
+        android:paddingBottom="16dp"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/shortcut_dialog_miui_warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/miui_shortcut_permission_warning"
+            android:text="@string/shortcut_permission_required_message"
             android:textColor="@color/miui_warning_text"
             android:textSize="12sp"
             android:lineSpacingExtra="2dp"
             android:gravity="center" />
 
-        <Button
-            android:id="@+id/shortcut_dialog_miui_settings_button"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_shortcut_settings_button"
-            android:text="@string/miui_open_settings"
-            android:textAllCaps="true"
-            android:textColor="@color/solid_white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/shortcut_dialog_miui_settings_button"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_shortcut_settings_button"
+                android:text="@string/miui_open_settings"
+                android:textAllCaps="true"
+                android:textColor="@color/solid_white"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/shortcut_dialog_miui_cancel_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/miui_warning_text"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
