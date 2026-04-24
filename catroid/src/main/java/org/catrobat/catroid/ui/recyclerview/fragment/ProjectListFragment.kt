@@ -662,13 +662,20 @@ class ProjectListFragment(
 
     private fun showPinShortcutDialog(projectName: String, icon: android.graphics.Bitmap?) {
         val context = context ?: return
+
+        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
+
+        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
+            showShortcutPermissionDialog(context, projectName, icon)
+            return
+        }
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
 
         val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
         val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
         val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
         val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
-        val miuiSettingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
 
         if (icon != null) {
             iconView.setImageBitmap(icon)
@@ -676,32 +683,16 @@ class ProjectListFragment(
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
         nameView.text = projectName
-
-        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
-
-        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
-            // Xiaomi/Redmi without permission: show warning + settings, hide pin button.
-            miuiContainer.visibility = android.view.View.VISIBLE
-            pinButton.visibility = android.view.View.GONE
-        } else {
-            // Permission granted or not Xiaomi: show pin button
-            miuiContainer.visibility = android.view.View.GONE
-            pinButton.visibility = android.view.View.VISIBLE
-        }
+        miuiContainer.visibility = android.view.View.GONE
+        pinButton.visibility = android.view.View.VISIBLE
 
         val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
             .setView(dialogView)
             .create()
 
-        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
-
-        miuiSettingsButton.setOnClickListener {
-            // Remember the project so we can re-open the dialog after returning
-            pendingShortcutProjectName = projectName
-            pendingShortcutIcon = icon
-            dialog.dismiss()
-            ShortcutHelper.openMiuiPermissionEditor(context)
-        }
+        dialog.window?.setBackgroundDrawable(
+            android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT)
+        )
 
         pinButton.setOnClickListener {
             dialog.dismiss()
@@ -709,5 +700,23 @@ class ProjectListFragment(
         }
 
         dialog.show()
+    }
+
+    private fun showShortcutPermissionDialog(
+        context: Context,
+        projectName: String,
+        icon: android.graphics.Bitmap?
+    ) {
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.pin_to_home_screen)
+            .setMessage(R.string.shortcut_permission_required_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.miui_open_settings) { dialog, _ ->
+                pendingShortcutProjectName = projectName
+                pendingShortcutIcon = icon
+                dialog.dismiss()
+                ShortcutHelper.openMiuiPermissionEditor(context)
+            }
+            .show()
     }
 }
