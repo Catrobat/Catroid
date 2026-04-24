@@ -47,8 +47,10 @@ import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
+import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -65,30 +67,34 @@ public class LanguagePickerTest {
 			DontGenerateDefaultProjectActivityTestRule<>(SettingsActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
-	private static final Locale FRANCELOCALE = new Locale("fr");
+	private static final Locale ARABICLOCALE = new Locale("ar");
 	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+	private SharedPreferences sharedPreferences;
 
 	@Before
-	public void setUp() {
-		SharedPreferences sharedPreferences = PreferenceManager
+	public void setUp() throws InterruptedException {
+		sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.edit()
+		sharedPreferences.edit()
+				.putString(LANGUAGE_TAG_KEY, "en")
+				.putString(SettingsFragment.SETTINGS_MULTILINGUAL, "en")
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.commit();
+
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.edit()
+		sharedPreferences.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
+				.remove(LANGUAGE_TAG_KEY)
+				.remove(SettingsFragment.SETTINGS_MULTILINGUAL)
 				.commit();
 
 		SettingsFragment.removeLanguageSharedPreference(ApplicationProvider.getApplicationContext());
@@ -96,12 +102,14 @@ public class LanguagePickerTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void testChangeLanguageToFrench() {
+	public void testChangeLanguageToArabic() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_language)).perform(click());
-		onData(hasToString(startsWith(FRANCELOCALE.getDisplayName(FRANCELOCALE)))).perform(click());
+		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE))))
+				.check(matches(isDisplayed()));
+		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE)))).perform(click());
 		onView(withText(R.string.confirm)).perform(click());
 
-		onView(withText("Programmes")).check(matches(isDisplayed()));
+		onView(withText("البرامج")).check(matches(isDisplayed()));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -112,5 +120,20 @@ public class LanguagePickerTest {
 		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText("Projekte am Gerät")).check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
+	@Test
+	public void testCancelLanguageChange() {
+		String languageBefore = sharedPreferences.getString(LANGUAGE_TAG_KEY, null);
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_language)).perform(click());
+		onView(withText(R.string.cancel)).perform(click());
+
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
+		String languageAfter = sharedPreferences.getString(LANGUAGE_TAG_KEY, null);
+
+		assertEquals(languageBefore, languageAfter);
 	}
 }

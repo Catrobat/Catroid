@@ -21,10 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package android.preference
+package org.catrobat.catroid.ui.settings
 
 import android.app.AlertDialog
 import android.content.Context
+import android.preference.ListPreference
 import android.util.AttributeSet
 import org.catrobat.catroid.R
 
@@ -39,6 +40,7 @@ class LanguageSettingListPreference(context: Context, attrs: AttributeSet) : Lis
 
     private fun getValueIndex(): Int = findIndexOfValue(this.value.toString())
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareDialogBuilder(builder: AlertDialog.Builder?) {
         super.onPrepareDialogBuilder(builder)
 
@@ -48,9 +50,11 @@ class LanguageSettingListPreference(context: Context, attrs: AttributeSet) : Lis
         }
 
         builder?.setPositiveButton(positiveButtonText) { _, _ ->
-            val selectedLanguageTag = entryValues[mClickedDialogEntryIndex].toString()
-            if (callChangeListener(selectedLanguageTag)) {
-                value = selectedLanguageTag
+            if (mClickedDialogEntryIndex >= 0) {
+                val selectedLanguageTag = entryValues[mClickedDialogEntryIndex].toString()
+                if (callChangeListener(selectedLanguageTag)) {
+                    value = selectedLanguageTag
+                }
             }
         }
     }

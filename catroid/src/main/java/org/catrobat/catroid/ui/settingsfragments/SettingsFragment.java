@@ -30,7 +30,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.LanguageSettingListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -49,6 +48,7 @@ import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment.Companion.Extension;
+import org.catrobat.catroid.ui.settings.LanguageSettingListPreference;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
