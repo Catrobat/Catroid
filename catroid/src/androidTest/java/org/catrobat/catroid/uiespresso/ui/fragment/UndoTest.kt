@@ -107,8 +107,8 @@ class UndoTest {
         onView(withId(R.id.menu_undo))
             .perform(click())
 
-        onView(withId(R.id.menu_undo))
-            .check(matches(not(isEnabled())))
+        onView(withId(R.id.menu_redo))
+            .perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
 
         val projectAfterUndo = getProjectAsXmlString()
         assertEquals(initialProject, projectAfterUndo)
@@ -120,6 +120,9 @@ class UndoTest {
 
         onView(withId(R.id.menu_undo))
             .perform(click())
+
+        onView(withId(R.id.menu_redo))
+            .perform(WaitForConditionAction.waitFor(isEnabled(), waitThreshold))
 
         pressBack()
 
