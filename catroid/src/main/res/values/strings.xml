@@ -1480,7 +1480,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_plot_file_write">Something went wrong while writing the
         svg plot file.</string>
     <string formatted="false" name="error_plot_data_not_found">Plot is missing.</string>
-    <string formatted="false" name="error_laser_data_not_found">Laser is missing.</string>
+    <string formatted="false" name="error_laser_data_not_found">Laser path is missing.</string>
 
     <string formatted="false" name="error_variable_file_write">Something went wrong while writing
         the variable file.</string>
