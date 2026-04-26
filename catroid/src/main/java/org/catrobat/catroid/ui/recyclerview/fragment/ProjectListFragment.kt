@@ -675,6 +675,7 @@ class ProjectListFragment(
         val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
         val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
         val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
+        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
         val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
 
         if (icon != null) {
@@ -699,6 +700,10 @@ class ProjectListFragment(
             ShortcutHelper.pinProject(context, projectName, icon)
         }
 
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
@@ -707,16 +712,45 @@ class ProjectListFragment(
         projectName: String,
         icon: android.graphics.Bitmap?
     ) {
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.pin_to_home_screen)
-            .setMessage(R.string.shortcut_permission_required_message)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.miui_open_settings) { dialog, _ ->
-                pendingShortcutProjectName = projectName
-                pendingShortcutIcon = icon
-                dialog.dismiss()
-                ShortcutHelper.openMiuiPermissionEditor(context)
-            }
-            .show()
+        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+
+        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
+        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
+        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
+        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
+        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
+        val settingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
+        val miuiCancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_cancel_button)
+
+        if (icon != null) {
+            iconView.setImageBitmap(icon)
+        } else {
+            iconView.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+        nameView.text = projectName
+        miuiContainer.visibility = android.view.View.VISIBLE
+        pinButton.visibility = android.view.View.GONE
+        cancelButton.visibility = android.view.View.GONE
+
+        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(
+            android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT)
+        )
+
+        settingsButton.setOnClickListener {
+            pendingShortcutProjectName = projectName
+            pendingShortcutIcon = icon
+            dialog.dismiss()
+            ShortcutHelper.openMiuiPermissionEditor(context)
+        }
+
+        miuiCancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

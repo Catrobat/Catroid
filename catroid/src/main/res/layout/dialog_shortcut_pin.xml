@@ -124,4 +124,18 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/shortcut_dialog_cancel_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/miui_warning_text"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
 </LinearLayout>
