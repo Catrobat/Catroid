@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.ui.dialog
 
 import android.content.Context
+import android.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -32,6 +33,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
@@ -58,6 +60,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogUserDefinedBrickInputTest(
+    @Suppress("unused") private val label: String,
     private val formula: Formula,
     private val expectedString: String
 ) {
@@ -88,6 +91,10 @@ class FormulaEditorComputeDialogUserDefinedBrickInputTest(
             ChangeSizeByNBrick(Formula(FormulaElement(USER_DEFINED_BRICK_INPUT, input.name, null)))
         )
         projectManager.currentSprite.addScript(userDefinedScript)
+        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            .edit()
+            .putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
+            .commit()
         baseActivityTestRule.launchActivity()
     }
 
