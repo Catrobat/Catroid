@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
-import org.catrobat.catroid.utils.ShowTextUtils
+import org.catrobat.catroid.utils.NumberFormats.Companion.trimTrailingCharacters
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
@@ -483,7 +483,7 @@ class DataListFragment : Fragment(),
         val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_value))
-            .setText(ShowTextUtils.convertObjectToString(item.value))
+            .setText(rawValueToString(item.value))
             .setPositiveButton(getString(R.string.save)) { _: DialogInterface?, textInput: String? ->
                 editItem(item, textInput)
             }
@@ -492,13 +492,25 @@ class DataListFragment : Fragment(),
             .show()
     }
 
+    private fun rawValueToString(value: Any?): String {
+        return when (value) {
+            is Boolean -> value.toString()
+            is Double -> trimTrailingCharacters(value.toString())
+            else -> value?.toString().orEmpty()
+        }
+    }
+
     private fun editItem(item: UserData<*>, value: String?) {
         val trimmedValue = value?.trim()
         if (item is UserVariable) {
-            val parsedValue: Any? = try {
-                trimmedValue?.toDouble()
-            } catch (e: NumberFormatException) {
-                trimmedValue
+            val parsedValue: Any? = when {
+                trimmedValue.equals("true", ignoreCase = true) -> true
+                trimmedValue.equals("false", ignoreCase = true) -> false
+                else -> try {
+                    trimmedValue?.toDouble()
+                } catch (_: NumberFormatException) {
+                    trimmedValue
+                }
             }
             item.value = parsedValue
         }
