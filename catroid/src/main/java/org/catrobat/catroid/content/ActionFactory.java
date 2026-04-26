@@ -153,6 +153,7 @@ import org.catrobat.catroid.content.actions.ShareLaserAction;
 import org.catrobat.catroid.content.actions.SharePlotAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
+import org.catrobat.catroid.content.actions.ShowToastAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
@@ -1743,6 +1744,15 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createShowToastAction(Sprite sprite, ScriptSequenceAction sequence,
+			Formula toastFormula) {
+		ShowToastAction action = action(ShowToastAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setToast(toastFormula);
 		return action;
 	}
 }
