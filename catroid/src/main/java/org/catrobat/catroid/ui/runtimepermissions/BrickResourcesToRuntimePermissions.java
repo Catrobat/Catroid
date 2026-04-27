@@ -63,8 +63,7 @@ public final class BrickResourcesToRuntimePermissions {
 		Map<Integer, List<String>> brickResourcesToPermissions = new HashMap<>();
 		brickResourcesToPermissions.put(
 				Brick.SENSOR_GPS, Arrays.asList(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION));
-
-		List<String> bluetoothPermissions = apiLevel >= Build.VERSION_CODES.S
+		List<String> bluetoothPermissions = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 				? Arrays.asList(BLUETOOTH_ADVERTISE, BLUETOOTH_SCAN, BLUETOOTH_CONNECT)
 				: Arrays.asList(BLUETOOTH_ADMIN, BLUETOOTH);
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_LEGO_NXT, bluetoothPermissions);
