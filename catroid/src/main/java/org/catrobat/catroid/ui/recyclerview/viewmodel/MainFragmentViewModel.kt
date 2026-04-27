@@ -1,6 +1,6 @@
 /*
 * Catroid: An on-device visual programming system for Android devices
-* Copyright (C) 2010-2025 The Catrobat Team
+* Copyright (C) 2010-2026 The Catrobat Team
 * (<http://developer.catrobat.org/credits>)
 *
 * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,11 @@ class MainFragmentViewModel(
                 try {
                     myProjects.add(metaDataParser.projectMetaData)
                 } catch (e: IOException) {
-                    Log.e(javaClass.simpleName, "Project not parsable", e)
+                    Log.e(
+                        javaClass.simpleName,
+                        "Project metadata not parsable for file ${xmlFile.absolutePath}",
+                        e
+                    )
                 }
             }
         }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,6 +63,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database")
             .addMigrations(DatabaseMigrations.MIGRATION_1_2)
+            .addMigrations(DatabaseMigrations.MIGRATION_2_3)
             .build()
     }
     single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
