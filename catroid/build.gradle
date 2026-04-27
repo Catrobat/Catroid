@@ -510,6 +510,9 @@ dependencies {
 
     // Room Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+
+    // LeakCanary - Memory leak detection (debug builds only)
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 }
 
 static def getGitCommitInfo() {
