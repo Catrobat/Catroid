@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.ui
 
 import junit.framework.TestCase.assertEquals
@@ -42,9 +42,9 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.Mockito.`when`
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(PowerMockRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 class FormulaEditorClipboardTest {
 
     @Mock
@@ -137,4 +137,3 @@ class FormulaEditorClipboardTest {
         }
     }
 }
-*/

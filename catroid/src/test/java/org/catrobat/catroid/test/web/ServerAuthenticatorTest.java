@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.web;
 
 import android.content.SharedPreferences;
@@ -31,12 +31,14 @@ import org.catrobat.catroid.web.ServerAuthenticator;
 import org.catrobat.catroid.web.WebConnectionException;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedConstruction;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashMap;
 
@@ -70,14 +72,14 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({CatrobatWebClientKt.class, JSONObject.class, SharedPreferences.class, ServerAuthenticator.class, Request.class})
+@RunWith(MockitoJUnitRunner.class)
 public class ServerAuthenticatorTest {
 
 	private static final String USERNAME = "USERNAME";
@@ -92,25 +94,30 @@ public class ServerAuthenticatorTest {
 	private ServerAuthenticator authenticatorSpy;
 	private SharedPreferences.Editor sharedPreferencesEditorMock;
 
+	private MockedStatic<CatrobatWebClientKt> catrobatWebClientMock;
+
 	@Before
 	public void setUp() {
-		PowerMockito.mockStatic(CatrobatWebClientKt.class);
+		catrobatWebClientMock = mockStatic(CatrobatWebClientKt.class);
 		taskListenerMock = mock(TaskListener.class);
 		okHttpClientMock = mock(OkHttpClient.class);
 		SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
 		sharedPreferencesEditorMock = mock(SharedPreferences.Editor.class);
 		when(sharedPreferencesMock.edit()).thenReturn(sharedPreferencesEditorMock);
 		when(sharedPreferencesEditorMock.putString(anyString(), anyString())).thenReturn(sharedPreferencesEditorMock);
-		authenticatorSpy = PowerMockito.spy(new ServerAuthenticator(USERNAME, PASSWORD, TOKEN, okHttpClientMock,
-				BASE_URL_TEST_HTTPS, sharedPreferencesMock, taskListenerMock));
+		authenticatorSpy = Mockito.spy(new ServerAuthenticator(USERNAME, PASSWORD, TOKEN, okHttpClientMock, BASE_URL_TEST_HTTPS, sharedPreferencesMock, taskListenerMock));
+	}
+
+	@After
+	public void tearDown() {
+		catrobatWebClientMock.close();
 	}
 
 	@Test
 	public void testPerformCatrobatRegisterInit() {
-		PowerMockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
+		Mockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
 		authenticatorSpy.performCatrobatRegister(EMAIL, LANGUAGE, COUNTRY);
-		verify(authenticatorSpy, times(1))
-				.performTask(eq(BASE_URL_TEST_HTTPS + REGISTRATION_URL_APPENDING), eq(SERVER_RESPONSE_REGISTER_OK));
+		verify(authenticatorSpy, times(1)).performTask(BASE_URL_TEST_HTTPS + REGISTRATION_URL_APPENDING, SERVER_RESPONSE_REGISTER_OK);
 
 		verify(taskListenerMock, never()).onError(anyInt(), anyString());
 		HashMap<String, String> expectedMap = new HashMap<>();
@@ -125,10 +132,9 @@ public class ServerAuthenticatorTest {
 
 	@Test
 	public void testPerformCatrobatLoginInit() {
-		PowerMockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
+		Mockito.doNothing().when(authenticatorSpy).performTask(anyString(), anyInt());
 		authenticatorSpy.performCatrobatLogin();
-		verify(authenticatorSpy, times(1))
-				.performTask(eq(BASE_URL_TEST_HTTPS + LOGIN_URL_APPENDING), eq(SERVER_RESPONSE_TOKEN_OK));
+		verify(authenticatorSpy, times(1)).performTask(BASE_URL_TEST_HTTPS + LOGIN_URL_APPENDING, SERVER_RESPONSE_TOKEN_OK);
 
 		verify(taskListenerMock, never()).onError(anyInt(), anyString());
 		HashMap<String, String> expectedMap = new HashMap<>();
@@ -139,16 +145,15 @@ public class ServerAuthenticatorTest {
 	}
 
 	@Test
-	public void testWhenServerConnectionFailsOnTaskFailedCalled() throws Exception {
-		Request requestMock = PowerMockito.mock(Request.class);
-		PowerMockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
+	public void testWhenServerConnectionFailsOnTaskFailedCalled() {
+		Request requestMock = Mockito.mock(Request.class);
+		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
 
 		int expectedStatusCode = 0;
-		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), any(Request.class)))
-				.thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
+		catrobatWebClientMock.when(() -> CatrobatWebClientKt.performCallWith(okHttpClientMock, any(Request.class))).thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
 
 		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
-		verify(taskListenerMock, times(1)).onError(eq(expectedStatusCode), eq(null));
+		verify(taskListenerMock, times(1)).onError(expectedStatusCode, null);
 		verifyNoMoreInteractions(taskListenerMock);
 	}
 
@@ -156,70 +161,71 @@ public class ServerAuthenticatorTest {
 	public void testInvalidResponseOnTaskFailedCalled() throws Exception {
 		String responseString = "response";
 
-		Request requestMock = PowerMockito.mock(Request.class);
-		PowerMockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
-		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn(responseString);
-		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
-		PowerMockito.whenNew(JSONObject.class).withAnyArguments().thenReturn(responseJsonObjectMock);
-		when(responseJsonObjectMock.optString(anyString())).thenReturn("message");
-
-		doReturn(true).when(authenticatorSpy).isInvalidResponse(eq(0), eq(responseJsonObjectMock));
-		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
-
-		verify(taskListenerMock, times(1)).onError(eq(0), eq("message"));
-		verifyNoMoreInteractions(taskListenerMock);
-		verify(responseJsonObjectMock, times(1)).optString(JSON_ANSWER);
-		verify(responseJsonObjectMock, times(1)).optInt(eq(JSON_STATUS_CODE));
-		verifyNoMoreInteractions(responseJsonObjectMock);
+		Request requestMock = Mockito.mock(Request.class);
+		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
+		Mockito.when(CatrobatWebClientKt.performCallWith(okHttpClientMock, requestMock)).thenReturn(responseString);
+		try (MockedConstruction<JSONObject> jsonObjectMock =
+				Mockito.mockConstruction(JSONObject.class, (mock, object) ->
+						when(mock.optString(anyString())).thenReturn("message"))) {
+			doReturn(true).when(authenticatorSpy).isInvalidResponse(eq(0), any(JSONObject.class));
+			authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
+			verify(taskListenerMock, times(1)).onError(0, "message");
+			verifyNoMoreInteractions(taskListenerMock);
+			JSONObject constructed = jsonObjectMock.constructed().get(0);
+			verify(constructed, times(1)).optString(JSON_ANSWER);
+			verify(constructed, times(1)).optInt(JSON_STATUS_CODE);
+			verifyNoMoreInteractions(constructed);
+		}
 	}
 
 	@Test
 	public void testValidResponseUpdateSharedPreferences() throws Exception {
-		Request requestMock = PowerMockito.mock(Request.class);
-		PowerMockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
-		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn("");
+		Request requestMock = Mockito.mock(Request.class);
+		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
+		Mockito.when(CatrobatWebClientKt.performCallWith(okHttpClientMock, requestMock)).thenReturn("");
 
-		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
-		PowerMockito.whenNew(JSONObject.class).withAnyArguments().thenReturn(responseJsonObjectMock);
 		String expectedToken = "any TOKEN";
 		String expectedEmail = "random EMAIL";
-		when(responseJsonObjectMock.optString(eq(Constants.TOKEN))).thenReturn(expectedToken);
-		when(responseJsonObjectMock.optString(eq(Constants.EMAIL))).thenReturn(expectedEmail);
 
-		doReturn(false).when(authenticatorSpy).isInvalidResponse(eq(0), eq(responseJsonObjectMock));
-		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
+		try (MockedConstruction<JSONObject> jsonObjectMock = Mockito.mockConstruction(JSONObject.class, (mock, object) -> {
+			when(mock.optString(Constants.TOKEN)).thenReturn(expectedToken);
+			when(mock.optString(Constants.EMAIL)).thenReturn(expectedEmail);
+		})) {
+			doReturn(false).when(authenticatorSpy).isInvalidResponse(eq(0), any(JSONObject.class));
+			authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
 
-		verify(taskListenerMock, atLeastOnce()).onSuccess();
-		verifyNoMoreInteractions(taskListenerMock);
+			verify(taskListenerMock, atLeastOnce()).onSuccess();
+			verifyNoMoreInteractions(taskListenerMock);
 
-		verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.TOKEN), eq(expectedToken));
-		verify(sharedPreferencesEditorMock, times(1)).putString(Constants.USERNAME, USERNAME);
-		verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.EMAIL), eq(expectedEmail));
-		verify(sharedPreferencesEditorMock, times(1)).apply();
-		verifyNoMoreInteractions(sharedPreferencesEditorMock);
+			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.TOKEN, expectedToken);
+			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.USERNAME, USERNAME);
+			verify(sharedPreferencesEditorMock, times(1)).putString(Constants.EMAIL, expectedEmail);
+			verify(sharedPreferencesEditorMock, times(1)).apply();
+			verifyNoMoreInteractions(sharedPreferencesEditorMock);
+		}
 	}
 
 	@Test
 	public void testWrongStateIsInvalidResponseMethod() {
-		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
+		JSONObject responseJsonObjectMock = Mockito.mock(JSONObject.class);
 		when(responseJsonObjectMock.optInt(JSON_STATUS_CODE)).thenReturn(-1);
 		assertTrue(authenticatorSpy.isInvalidResponse(0, responseJsonObjectMock));
 	}
 
 	@Test
 	public void testWrongTokenIsInvalidResponseMethod() {
-		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
+		JSONObject responseJsonObjectMock = Mockito.mock(JSONObject.class);
 		when(responseJsonObjectMock.optInt(JSON_STATUS_CODE)).thenReturn(0);
 		when(responseJsonObjectMock.optString(JSON_TOKEN)).thenReturn("invalid");
 		assertTrue(authenticatorSpy.isInvalidResponse(0, responseJsonObjectMock));
 	}
+
 	@Test
 	public void testValidResponse() {
-		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
+		JSONObject responseJsonObjectMock = Mockito.mock(JSONObject.class);
 		when(responseJsonObjectMock.optInt(JSON_STATUS_CODE)).thenReturn(0);
 		String validToken = StringUtils.repeat("1", TOKEN_LENGTH);
 		when(responseJsonObjectMock.optString(JSON_TOKEN)).thenReturn(validToken);
 		assertFalse(authenticatorSpy.isInvalidResponse(0, responseJsonObjectMock));
 	}
 }
-*/
