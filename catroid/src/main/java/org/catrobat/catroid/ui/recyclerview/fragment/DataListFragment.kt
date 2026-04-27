@@ -509,7 +509,7 @@ class DataListFragment : Fragment(),
                 else -> try {
                     trimmedValue?.toDouble()
                 } catch (_: NumberFormatException) {
-                    trimmedValue
+                    value
                 }
             }
             item.value = parsedValue
