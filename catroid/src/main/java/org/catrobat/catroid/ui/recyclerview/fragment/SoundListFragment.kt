@@ -32,6 +32,8 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.ui.dialogs.DeleteTarget
+import org.catrobat.catroid.ui.dialogs.showDeleteConfirmationDialog
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
@@ -212,7 +214,15 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
                 R.id.rename -> showRenameDialog(item)
-                R.id.delete -> deleteItems(itemList)
+                R.id.delete -> {
+                    val itemsToDelete = itemList.toList() // snapshot
+                    showDeleteConfirmationDialog(
+                        target = DeleteTarget.SOUND,
+                        itemCount = itemsToDelete.size
+                    ) {
+                        deleteItems(itemsToDelete)
+                    }
+                }
                 else -> {
                 }
             }

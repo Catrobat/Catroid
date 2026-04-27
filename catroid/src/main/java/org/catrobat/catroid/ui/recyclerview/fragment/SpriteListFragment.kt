@@ -51,6 +51,8 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.ui.dialogs.DeleteTarget
+import org.catrobat.catroid.ui.dialogs.showDeleteConfirmationDialog
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback
@@ -354,7 +356,15 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
-                R.id.delete -> deleteItems(itemList)
+                R.id.delete -> {
+                    val itemsToDelete = itemList.toList() // snapshot (prevents weirdness if list changes)
+                    showDeleteConfirmationDialog(
+                        target = DeleteTarget.ACTOR,
+                        itemCount = itemsToDelete.size
+                    ) {
+                        deleteItems(itemsToDelete)
+                    }
+                }
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_local -> addFromLocalProject(item)
             }
