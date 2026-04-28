@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.Functions.COLLIDES_WITH_COLOR
 import org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY
+import org.catrobat.catroid.formulaeditor.Functions.COLOR_EQUALS_COLOR
 import org.catrobat.catroid.formulaeditor.Functions.COLOR_TOUCHES_COLOR
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
@@ -59,6 +60,7 @@ class FormulaEditorColorSensorsComputeTest(
     private val formulaElement: FormulaElement,
     private val leftChild: FormulaElement?,
     private val rightChild: FormulaElement?,
+    private val additionalChild: FormulaElement?,
     private val expectedValue: String
 ) {
     @Rule
@@ -77,17 +79,31 @@ class FormulaEditorColorSensorsComputeTest(
         var colorAtXY = FormulaElement(FUNCTION, COLOR_AT_XY.name, null)
         var touchesColor = FormulaElement(FUNCTION, COLLIDES_WITH_COLOR.name, null)
         var colorTouchesColor = FormulaElement(FUNCTION, COLOR_TOUCHES_COLOR.name, null)
+        var colorEqualsColor = FormulaElement(FUNCTION, COLOR_EQUALS_COLOR.name, null)
+        var colorEqualsColorLeftChild = FormulaElement(STRING, "#FFFFFF", null)
+        var colorEqualsColorRightChild = FormulaElement(STRING, "#000000", null)
+
+        var colorEqualsColorAdditionalChild = FormulaElement(NUMBER, "1", null)
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("Color at xy", colorAtXY, colorAtXYLeftChild, colorAtXYRightChild, "NaN"),
-            arrayOf("Touches Color", touchesColor, touchesColorLeftChild, null, "false"),
+            arrayOf("Color at xy", colorAtXY, colorAtXYLeftChild, colorAtXYRightChild, null, "NaN"),
+            arrayOf("Touches Color", touchesColor, touchesColorLeftChild, null, null, "false"),
             arrayOf(
                 "Color touches color",
                 colorTouchesColor,
                 touchesColorLeftChild,
                 touchesColorRightChild,
+                null,
+                "false"
+            ),
+            arrayOf(
+                "Color equals color",
+                colorEqualsColor,
+                colorEqualsColorLeftChild,
+                colorEqualsColorRightChild,
+                colorEqualsColorAdditionalChild,
                 "false"
             )
         )
@@ -95,12 +111,11 @@ class FormulaEditorColorSensorsComputeTest(
 
     @Test
     fun testComputingColorSensors() {
-        onView(ViewMatchers.withId(R.id.brick_if_begin_edit_text))
-            .perform(click())
-        FormulaEditorWrapper.onFormulaEditor()
-            .performCompute()
-        onView(ViewMatchers.withId(R.id.formula_editor_compute_dialog_textview))
-            .check(ViewAssertions.matches(ViewMatchers.withText(expectedValue)))
+        onView(ViewMatchers.withId(R.id.brick_if_begin_edit_text)).perform(click())
+        FormulaEditorWrapper.onFormulaEditor().performCompute()
+        onView(ViewMatchers.withId(R.id.formula_editor_compute_dialog_textview)).check(
+            ViewAssertions.matches(ViewMatchers.withText(expectedValue))
+        )
         pressBack()
     }
 
@@ -123,6 +138,7 @@ class FormulaEditorColorSensorsComputeTest(
         val script: Script = StartScript()
         if (leftChild != null) formulaElement.setLeftChild(leftChild)
         if (rightChild != null) formulaElement.setRightChild(rightChild)
+        if (additionalChild != null) formulaElement.addAdditionalChild(additionalChild)
 
         val formula = Formula(formulaElement)
 
