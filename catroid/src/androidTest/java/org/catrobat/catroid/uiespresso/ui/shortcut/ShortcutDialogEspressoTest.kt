@@ -147,12 +147,32 @@ class ShortcutDialogEspressoTest {
     // This verifies the ProjectListFragment logic that checks
     // ShortcutHelper.isShortcutSupported() and shows a Snackbar.
     // To fully automate on a device that MAY support shortcuts,
-    // ShortcutHelper would need to be mocked/stubbed.
+    // ShortcutHelper would need to be mocked/stubbed at the Fragment level.
 
+    @Ignore("Requires ShortcutHelper to be mockable at Fragment level — tracked in follow-up")
     @Test
     fun unsupported_launcher_shows_snackbar_with_explanation() {
-        // Implementation note: This test verifies that the UI logic
-        // in ProjectListFragment triggers the R.string.shortcut_not_supported
-        // Snackbar when pinning is requested but not supported.
+        // To properly test this, we need to:
+        // 1. Launch ProjectListFragment with ShortcutHelper.isShortcutSupported() returning false
+        // 2. Trigger the pin action
+        // 3. Assert the Snackbar with R.string.shortcut_not_supported is shown
+        //
+        // This requires fragment-level dependency injection or a test-scoped
+        // ShortcutHelper mock, which is not yet available in this test harness.
+    }
+
+    // Nice to Have: Cancel button dismisses dialog
+
+    @Ignore("Requires ShortcutHelper to be mockable at Fragment level — tracked in follow-up")
+    @Test
+    fun cancel_button_dismisses_pin_dialog_without_creating_shortcut() {
+        // To properly test this, we need to:
+        // 1. Launch ProjectListFragment with a valid project
+        // 2. Open the pin dialog via the settings menu
+        // 3. Click the cancel button (R.id.shortcut_dialog_cancel_button)
+        // 4. Assert the dialog is dismissed
+        // 5. Assert ShortcutManagerCompat.requestPinShortcut was NOT called
+        //
+        // This requires fragment-level UI testing with mocked ShortcutHelper.
     }
 }

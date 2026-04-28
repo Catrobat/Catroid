@@ -136,6 +136,7 @@ class ShortcutTrampolineActivity : Activity() {
                 this@ShortcutTrampolineActivity,
                 StageActivity::class.java
             ).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 putExtra(StageActivity.EXTRA_IS_FROM_SHORTCUT, true)
             }
             startActivity(stageIntent)

@@ -157,6 +157,17 @@ object ShortcutHelper {
     fun pinProject(context: Context, projectName: String, icon: Bitmap?): Boolean {
         val shortcutInfo = buildShortcutInfo(context, projectName, icon)
 
+        // Guard: prevent duplicate pins for the same project
+        val existingShortcuts = ShortcutManagerCompat.getDynamicShortcuts(context)
+        if (existingShortcuts.any { it.id == shortcutInfo.id }) {
+            Toast.makeText(
+                context,
+                R.string.shortcut_already_pinned,
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+
         // Register as dynamic shortcut first — required for updateShortcuts / remove to work
         try {
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcutInfo)

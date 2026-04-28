@@ -267,4 +267,50 @@ class ShortcutHelperTest {
         ShadowBuild.setManufacturer("Samsung")
         assertFalse(ShortcutHelper.isXiaomiDevice())
     }
+
+    // Should: POCO device exclusion
+
+    @Test
+    fun `isShortcutSupported returns false on POCO devices`() {
+        ShadowBuild.setManufacturer("POCO")
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+
+        val supported = ShortcutHelper.isShortcutSupported(context)
+
+        assertFalse("POCO devices should be excluded even if ShortcutManagerCompat says supported", supported)
+    }
+
+    @Test
+    fun `pin to home screen menu item is hidden on POCO devices`() {
+        ShadowBuild.setManufacturer("POCO")
+
+        // isPocoDevice() is called by ProjectListFragment.onSettingsClick() to hide the menu item.
+        // The test verifies the underlying detection that drives that UI decision.
+        assertTrue("isPocoDevice() should return true for POCO manufacturer", ShortcutHelper.isPocoDevice())
+
+        // Also verify isShortcutSupported returns false (which is what the Fragment actually checks)
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        assertFalse("isShortcutSupported should return false on POCO devices", ShortcutHelper.isShortcutSupported(context))
+    }
+
+    // Should: Duplicate pin guard
+
+    @Test
+    fun `pinProject shows already pinned message when shortcut already exists`() {
+        val projectName = "AlreadyPinnedProject"
+        val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+
+        // Simulate an existing dynamic shortcut with the same encoded ID
+        val existingShortcut = mockk<ShortcutInfoCompat> {
+            every { id } returns encodedName
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+
+        val result = ShortcutHelper.pinProject(context, projectName, null)
+
+        assertFalse("pinProject should return false when shortcut already exists", result)
+        // pushDynamicShortcut should NOT be called — we bail out before reaching it
+        verify(exactly = 0) { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
+    }
 }
