@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,55 +30,121 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Queue
 import org.catrobat.catroid.stage.StageActivity
 
-class Plot
-{
+class Plot {
     private var isPlotting = false
-    private var dataPointLists = ArrayList<ArrayList<PointF>>()
-    private var drawQueue = Queue<Queue<PointF>>()
+    private var isEngraving = false
+    private var isCutting = false
+    var plotDataPointLists = ArrayList<ArrayList<PointF>>()
+    private var plotQueue = Queue<Queue<PointF>>()
+
+    var engraveDataPointLists = ArrayList<ArrayList<PointF>>()
+    private var engraveQueue = Queue<Queue<PointF>>()
+
+    var cutDataPointLists = ArrayList<ArrayList<PointF>>()
+    private var cutQueue = Queue<Queue<PointF>>()
 
     var width = 0.0F
     var height = 0.0F
 
-
-    fun pause(){
-        isPlotting = false;
+    fun pausePlot() {
+        isPlotting = false
     }
 
-    fun resume(){
-        isPlotting = true;
+    fun resumePlot() {
+        isPlotting = true
+    }
+
+    fun pauseCut() {
+        isCutting = false
+    }
+
+    fun resumeCut() {
+        isCutting = true
+    }
+
+    fun pauseEngrave() {
+        isEngraving = false
+    }
+
+    fun resumeEngrave() {
+        isEngraving = true
     }
 
     fun isPlotting(): Boolean {
         return isPlotting
     }
 
-    fun startNewPlotLine(){
-        dataPointLists.add(ArrayList())
-        drawQueue.addLast(Queue())
-    }
-    fun startNewPlotLine(point : PointF){
-        dataPointLists.add(arrayListOf(point))
-        drawQueue.addLast(Queue())
-        drawQueue.last().addLast(point)
+    fun isCutting(): Boolean {
+        return isCutting
     }
 
-    fun addPoint(point : PointF){
-        dataPointLists.last().add(point)
-        drawQueue.last().addLast(point)
+    fun isEngraving(): Boolean {
+        return isEngraving
     }
 
-    fun data() : ArrayList<ArrayList<PointF>>{
-        return dataPointLists
+    private fun copyPoint(point: PointF): PointF = PointF(point.x, point.y)
+
+    private fun startLine(data: ArrayList<ArrayList<PointF>>, queue: Queue<Queue<PointF>>) {
+        data.add(ArrayList())
+        queue.addLast(Queue())
     }
 
-    private fun canDraw(): Boolean {
-        return drawQueue.size > 2 || (!drawQueue.isEmpty && drawQueue.last().size > 2)
+    private fun startNewLine(
+        point: PointF,
+        data: ArrayList<ArrayList<PointF>>,
+        queue: Queue<Queue<PointF>>
+    ) {
+        data.add(arrayListOf(copyPoint(point)))
+        queue.addLast(Queue())
+        queue.last().addLast(copyPoint(point))
     }
 
-    private fun updateQueue(){
-        if (drawQueue.isEmpty || drawQueue.size == 1) return
-        if(drawQueue.first().size == 1)
-            drawQueue.removeFirst()
+    private fun addPoint(
+        point: PointF,
+        data: ArrayList<ArrayList<PointF>>,
+        queue: Queue<Queue<PointF>>
+    ) {
+        data.last().add(copyPoint(point))
+        queue.last().addLast(copyPoint(point))
+    }
+
+    fun startNewPlotLine() {
+        startLine(plotDataPointLists, plotQueue)
+    }
+
+    fun startNewPlotLine(point: PointF) {
+        startNewLine(point, plotDataPointLists, plotQueue)
+    }
+
+    fun addPlotPoint(point: PointF) {
+        addPoint(point, plotDataPointLists, plotQueue)
+    }
+
+    fun startNewCutLine(point: PointF) {
+        startNewLine(point, cutDataPointLists, cutQueue)
+    }
+
+    fun addCutPoint(point: PointF) {
+        addPoint(point, cutDataPointLists, cutQueue)
+    }
+
+    fun startNewEngraveLine(point: PointF) {
+        startNewLine(point, engraveDataPointLists, engraveQueue)
+    }
+
+    fun addEngravePoint(point: PointF) {
+        addPoint(point, engraveDataPointLists, engraveQueue)
+    }
+
+    fun data(): ArrayList<ArrayList<PointF>> {
+        return plotDataPointLists
+    }
+
+    private fun canRender(queue: Queue<Queue<PointF>>): Boolean {
+        while (queue.size > 1 && queue.first().size <= 1) {
+            queue.removeFirst()
+        }
+        return !queue.isEmpty && queue.first().size > 1
     }
 
     fun drawLinesForSprite(screenRatio: Float, camera: Camera?) {
@@ -86,23 +152,39 @@ class Plot
             return
 
         val renderer = StageActivity.stageListener.shapeRenderer
-        renderer.color = Color(0.0F, 0.0F, 0.0F, 255.0F)
+        renderer.color = Color.BLACK
         renderer.begin(ShapeRenderer.ShapeType.Filled)
 
-        while (canDraw()) {
-            drawLine(screenRatio, renderer, camera)
-            updateQueue()
+        while (canRender(plotQueue)) {
+            drawLine(plotQueue, screenRatio, renderer, camera)
         }
-
         renderer.end()
+
+        renderer.color = Color.RED
+        renderer.begin(ShapeRenderer.ShapeType.Filled)
+        while (canRender(cutQueue)) {
+            drawLine(cutQueue, screenRatio, renderer, camera)
+        }
+        renderer.end()
+
+
+        renderer.color = Color.BLUE
+        renderer.begin(ShapeRenderer.ShapeType.Filled)
+        while (canRender(engraveQueue)) {
+            drawLine(engraveQueue, screenRatio, renderer, camera)
+        }
+        renderer.end()
+
         width = camera.viewportWidth
         height = camera.viewportHeight
-
     }
 
-    private fun drawLine(screenRatio: Float, renderer: ShapeRenderer, camera: Camera) {
-        val currentPosition: PointF = drawQueue.first().removeFirst()
-        val nextPosition: PointF = drawQueue.first().first()
+    private fun drawLine(
+        queue: Queue<Queue<PointF>>, screenRatio: Float, renderer:
+        ShapeRenderer, camera: Camera
+    ) {
+        val currentPosition: PointF = queue.first().removeFirst()
+        val nextPosition: PointF = queue.first().first()
         currentPosition.x += camera.position.x
         currentPosition.y += camera.position.y
         nextPosition.x += camera.position.x

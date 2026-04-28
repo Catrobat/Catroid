@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,14 +27,14 @@ jacoco {
     toolVersion = jacoco_core_version
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
 
 project.afterEvaluate {
 
-    android.applicationVariants.all { variant ->
+    android.applicationVariants.configureEach { variant ->
         def variantName = variant.name.capitalize()
         def kotlinClassSubdirectory = variant.name
 
@@ -58,7 +58,9 @@ project.afterEvaluate {
                     '**/*Test*.*',
                     'android/**/*.*'
             ]
-            def javaClasses = fileTree(dir: variant.javaCompiler.destinationDir, excludes: excludes)
+            def javaClasses = fileTree(
+                    dir: variant.javaCompileProvider.get().destinationDirectory.get().asFile,
+                    excludes: excludes)
             def kotlinClasses = fileTree(
                     dir: "${buildDir}/tmp/kotlin-classes/${kotlinClassSubdirectory}",
                     excludes: excludes)

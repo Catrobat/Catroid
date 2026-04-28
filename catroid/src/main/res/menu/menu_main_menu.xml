@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@
     <item
         android:id="@+id/menu_scratch_converter"
         android:title="@string/main_menu_scratch_converter"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_placeholder"/>
     <item
@@ -68,11 +69,13 @@
     <item
         android:id="@+id/menu_login"
         android:title="@string/main_menu_login"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_login"/>
     <item
         android:id="@+id/menu_logout"
         android:title="@string/main_menu_logout"
+        android:visible="false"
         app:showAsAction="never"
         android:icon="@drawable/ic_logout"/>
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -133,8 +133,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 	public static final String TAG = SettingsFragment.class.getSimpleName();
-
-	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -594,16 +592,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void removeLanguageSharedPreference(Context context) {
 		getSharedPreferences(context).edit()
 				.remove(LANGUAGE_TAG_KEY)
-				.apply();
-	}
-
-	public static boolean useCatBlocks(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_USE_CATBLOCKS, context);
-	}
-
-	public static void setUseCatBlocks(Context context, boolean useCatBlocks) {
-		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,11 @@ public class CopyLookTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void selectFragmentToCopyTest() {
+	public void selectFragmentToCopyTest() throws IOException {
+		ActionUtils.addLook(projectManager, testLookName1);
+		ActionUtils.addLook(projectManager, testLookName2);
+		baseActivityTestRule.launchActivity();
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 

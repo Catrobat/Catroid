@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,11 +65,11 @@ class StartPlotActionTest {
         TestUtils.deleteProjects(projectName)
     }
 
-    @Test(expected = NullPointerException::class)
+    @Test
     fun testNullSprite() {
         val factory = ActionFactory()
         val action = factory.createStartPlotAction(null)
-        action.act(1.0f)
+        Assert.assertTrue(action.act(1.0f))
     }
 
     @Test

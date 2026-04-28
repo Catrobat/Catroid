@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,7 +80,9 @@ object VisualDetectionHandler {
     fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>): List<VisualDetectionHandlerFace> {
         val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
         for (face in faceList) {
-            newFacesList.add(VisualDetectionHandlerFace(face.trackingId, face.boundingBox))
+            face.trackingId?.let {
+                newFacesList.add(VisualDetectionHandlerFace(it, face.boundingBox))
+            }
         }
         return newFacesList
     }

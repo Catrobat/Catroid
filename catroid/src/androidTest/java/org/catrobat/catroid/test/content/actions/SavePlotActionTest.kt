@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,21 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import android.os.Looper
+import android.os.Handler
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.SavePlotAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
 import org.junit.Before
@@ -49,15 +50,15 @@ class SavePlotActionTest {
     private val xMovement = Formula(X_MOVEMENT)
     private var sprite: Sprite? = null
     private val camera: OrthographicCamera = Mockito.spy(OrthographicCamera())
-    private lateinit var plotFile : File
-    
+    private lateinit var plotFile: File
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
         sprite = Sprite("testSprite")
         Mockito.doNothing().`when`(camera).update()
         createTestProject()
-        plotFile = File(Constants.CACHE_DIRECTORY, "$projectName.svg")
+        plotFile = File(Constants.CACHE_DIRECTORY, "$PROJECT_NAME.svg")
         if (plotFile.exists()) {
             plotFile.delete()
         }
@@ -65,12 +66,13 @@ class SavePlotActionTest {
             Constants.CACHE_DIRECTORY.mkdirs()
         }
         plotFile.createNewFile()
+        StageActivity.messageHandler = Handler(Looper.getMainLooper())
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        TestUtils.deleteProjects(projectName)
+        TestUtils.deleteProjects(PROJECT_NAME)
     }
 
     @Test(expected = NullPointerException::class)
@@ -78,7 +80,6 @@ class SavePlotActionTest {
         val action = sprite!!.actionFactory.createSavePlotAction(null, null, null)
         Assert.assertTrue(action is SavePlotAction)
     }
-
 
     @Test
     fun testSaveNoPositionChange() {
@@ -89,7 +90,7 @@ class SavePlotActionTest {
         val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
 
         Assert.assertTrue(action is SavePlotAction)
-        if(action is SavePlotAction)
+        if (action is SavePlotAction)
             action.writeToFile(plotFile)
         Assert.assertTrue(plotFile.readText().isNotEmpty())
     }
@@ -104,10 +105,11 @@ class SavePlotActionTest {
         val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
 
         Assert.assertTrue(action is SavePlotAction)
-        if(action is SavePlotAction)
+        if (action is SavePlotAction)
             action.writeToFile(plotFile)
         Assert.assertTrue(plotFile.readText().isNotEmpty())
     }
+
     @Test
     fun testSaveOnePositionChangeClosed() {
         Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
@@ -119,7 +121,7 @@ class SavePlotActionTest {
         val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
 
         Assert.assertTrue(action is SavePlotAction)
-        if(action is SavePlotAction)
+        if (action is SavePlotAction)
             action.writeToFile(plotFile)
         Assert.assertTrue(plotFile.readText().isNotEmpty())
     }
@@ -139,21 +141,21 @@ class SavePlotActionTest {
         val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
 
         Assert.assertTrue(action is SavePlotAction)
-        if(action is SavePlotAction)
+        if (action is SavePlotAction)
             action.writeToFile(plotFile)
         Assert.assertTrue(plotFile.readText().isNotEmpty())
     }
 
     private fun createTestProject() {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME)
         XstreamSerializer.getInstance().saveProject(project)
         ProjectManager.getInstance().currentProject = project
     }
 
     companion object {
         private const val X_MOVEMENT = 100.0f
-        private const val projectName = "testProject"
-        private const val FILENAME = "$projectName.svg"
+        private const val PROJECT_NAME = "testProject"
+        private const val FILENAME = "$PROJECT_NAME.svg"
         private val FILE = Formula(FILENAME)
     }
 }

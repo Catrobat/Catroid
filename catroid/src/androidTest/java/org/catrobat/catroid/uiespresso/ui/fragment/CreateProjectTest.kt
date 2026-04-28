@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@ class CreateProjectTest {
     private var bufferedChromeCastSetting = false
     private var bufferedPrivacyPolicyPreferenceSetting = 0
     private lateinit var sharedPreferences: SharedPreferences
-    private val newProjectName = CreateProjectTest::class.simpleName
+    private val newProjectName = CreateProjectTest::class.simpleName.orEmpty()
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(

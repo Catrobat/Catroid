@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -342,6 +342,12 @@ public class Sprite implements Nameable, Serializable {
 		}
 	}
 
+	public void resetDrawingState() {
+		penConfiguration = new PenConfiguration();
+		plot = new Plot();
+		runningStitch = new RunningStitch();
+	}
+
 	public void resetSprite() {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
@@ -359,9 +365,7 @@ public class Sprite implements Nameable, Serializable {
 			look.setLookData(getLookList().get(0));
 		}
 
-		penConfiguration = new PenConfiguration();
-		plot = new Plot();
-		runningStitch = new RunningStitch();
+		resetDrawingState();
 	}
 
 	public void invalidate() {
@@ -835,12 +839,12 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
-		for (UserVariable userVariable: sprite.userVariables) {
+		for (UserVariable userVariable : sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
+		for (UserList userlist : sprite.userLists) {
 			if (!this.userLists.contains(userlist)) {
 				this.userLists.add(userlist);
 			}
@@ -861,6 +865,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
+
 	public boolean isGliding() {
 		return isGliding;
 	}
@@ -868,6 +873,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGlidingVelocityX(float velocity) {
 		glidingVelocityX = velocity;
 	}
+
 	public void setGlidingVelocityY(float velocity) {
 		glidingVelocityY = velocity;
 	}
@@ -875,6 +881,7 @@ public class Sprite implements Nameable, Serializable {
 	public float getGlidingVelocityX() {
 		return glidingVelocityX;
 	}
+
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
 	}

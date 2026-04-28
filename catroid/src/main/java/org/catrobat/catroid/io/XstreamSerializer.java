@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
 import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArcBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
@@ -120,6 +121,7 @@ import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoThroughBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
@@ -191,6 +193,8 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ReportBrick;
 import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
+import org.catrobat.catroid.content.bricks.SaveLaserBrick;
+import org.catrobat.catroid.content.bricks.SavePlotBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -227,15 +231,23 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SewUpBrick;
+import org.catrobat.catroid.content.bricks.ShareLaserBrick;
+import org.catrobat.catroid.content.bricks.SharePlotBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartCutBrick;
+import org.catrobat.catroid.content.bricks.StartEngraveBrick;
 import org.catrobat.catroid.content.bricks.StartListeningBrick;
+import org.catrobat.catroid.content.bricks.StartPlotBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopCutBrick;
+import org.catrobat.catroid.content.bricks.StopEngraveBrick;
+import org.catrobat.catroid.content.bricks.StopPlotBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
@@ -413,6 +425,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", EmptyScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
+		xstream.alias("brick", ArcBrick.class);
 		xstream.alias("brick", AskBrick.class);
 		xstream.alias("brick", AskSpeechBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -472,6 +485,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", PenDownBrick.class);
 		xstream.alias("brick", PenUpBrick.class);
 		xstream.alias("brick", PlaceAtBrick.class);
+		xstream.alias("brick", GoThroughBrick.class);
 		xstream.alias("brick", GoToBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
@@ -619,6 +633,18 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 		xstream.alias("brick", WhenTouchDownBrick.class);
+
+		xstream.alias("brick", StartPlotBrick.class);
+		xstream.alias("brick", StopPlotBrick.class);
+		xstream.alias("brick", SavePlotBrick.class);
+		xstream.alias("brick", SharePlotBrick.class);
+
+		xstream.alias("brick", StartCutBrick.class);
+		xstream.alias("brick", StopCutBrick.class);
+		xstream.alias("brick", StartEngraveBrick.class);
+		xstream.alias("brick", StopEngraveBrick.class);
+		xstream.alias("brick", SaveLaserBrick.class);
+		xstream.alias("brick", ShareLaserBrick.class);
 
 		xstream.alias("script", WhenBounceOffScript.class);
 		xstream.alias("brick", WhenBounceOffBrick.class);

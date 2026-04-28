@@ -1,6 +1,6 @@
 /*
 * Catroid: An on-device visual programming system for Android devices
-* Copyright (C) 2010-2022 The Catrobat Team
+* Copyright (C) 2010-2026 The Catrobat Team
 * (<http://developer.catrobat.org/credits>)
 *
 * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,10 @@ import androidx.work.ListenableWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.ProjectData
@@ -57,7 +61,19 @@ class MainFragmentViewModel(
 ) : ViewModel() {
     private val projectList = MutableLiveData<List<ProjectData>>()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     fun getProjects(): LiveData<List<ProjectData>> = projectList
+
+    private fun getProjectDataAsync(callback: Callback) {
+        coroutineScope.launch {
+            val projectData = getProjectData()
+
+            withContext(Dispatchers.Main) {
+                callback.onProjectLoaded(projectData)
+            }
+        }
+    }
 
     private fun getProjectData(): List<ProjectData> {
         val myProjects = mutableListOf<ProjectData>()
@@ -68,7 +84,11 @@ class MainFragmentViewModel(
                 try {
                     myProjects.add(metaDataParser.projectMetaData)
                 } catch (e: IOException) {
-                    Log.e(javaClass.simpleName, "Project not parsable", e)
+                    Log.e(
+                        javaClass.simpleName,
+                        "Project metadata not parsable for file ${xmlFile.absolutePath}",
+                        e
+                    )
                 }
             }
         }
@@ -76,7 +96,11 @@ class MainFragmentViewModel(
     }
 
     fun forceUpdate() {
-        projectList.postValue(getProjectData())
+        getProjectDataAsync(object: Callback {
+            override fun onProjectLoaded(projectData: List<ProjectData>?) {
+                projectList.postValue(projectData)
+            }
+        })
     }
 
     init {
@@ -140,6 +164,10 @@ class MainFragmentViewModel(
                 TimeUnit.SECONDS
             )
             .build()
+    }
+
+    interface Callback {
+        fun onProjectLoaded(projectData: List<ProjectData>?)
     }
 
     companion object {

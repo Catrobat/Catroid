@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2025 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -55,11 +55,12 @@
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="false" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
         tools:ignore="ProtectedPermissions" />
 
@@ -78,9 +79,14 @@
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true" /><uses-feature
-    android:name="android.hardware.camera"
-    android:required="false" />
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <!-- foreground services -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <!-- foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -95,7 +101,7 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="false"
         tools:ignore="UnusedAttribute"
-        tools:replace="android:label,android:allowBackup,android:name"
+        tools:replace="android:label,android:allowBackup,android:name,android:theme"
         android:usesCleartextTraffic="true">
 
         <activity

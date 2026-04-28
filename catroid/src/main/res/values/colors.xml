@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ Copyright (C) 2010-2025  The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -135,5 +135,6 @@
      <color name="brick_color_white">#FFFFFF</color>
      <color name="brick_color_black">#323331</color>
      <color name="brick_color_winered">#910D06</color>
+     <color name="brick_color_raspberry">#aa274e</color>
 
     </resources>

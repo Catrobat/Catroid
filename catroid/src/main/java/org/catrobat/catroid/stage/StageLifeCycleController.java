@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -116,7 +118,7 @@ public final class StageLifeCycleController {
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
 		MidiSoundManager.getInstance().reset();
 
-		List<String> requiredPermissions = getProjectsRuntimePermissionList();
+		List<String> requiredPermissions = getProjectsRuntimePermissionList(Build.VERSION.SDK_INT);
 		if (requiredPermissions.isEmpty()) {
 			stageActivity.stageResourceHolder.initResources();
 		} else {
@@ -129,7 +131,7 @@ public final class StageLifeCycleController {
 	}
 
 	static void stagePause(final StageActivity stageActivity) {
-		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+		if (checkPermission(stageActivity, getProjectsRuntimePermissionList(Build.VERSION.SDK_INT))) {
 			if (stageActivity.nfcAdapter != null) {
 				try {
 					stageActivity.nfcAdapter.disableForegroundDispatch(stageActivity);
@@ -177,14 +179,15 @@ public final class StageLifeCycleController {
 			return;
 		}
 
-		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+		if (checkPermission(stageActivity,
+				getProjectsRuntimePermissionList(Build.VERSION.SDK_INT))) {
 			Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 
 			SensorHandler.startSensorListener(stageActivity);
 
 			for (Sprite sprite : spriteList) {
-				if (sprite.getPlaySoundBricks().size() > 0) {
+				if (!sprite.getPlaySoundBricks().isEmpty()) {
 					stageActivity.stageAudioFocus.requestAudioFocus();
 					break;
 				}
@@ -203,9 +206,10 @@ public final class StageLifeCycleController {
 			}
 
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
+					|| resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)
 					|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
 					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)
-					|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+					|| resourcesSet.contains(Brick.BLUETOOTH_MULTIPLAYER)) {
 				try {
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 				} catch (MindstormsException e) {
@@ -239,7 +243,8 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
-		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if (checkPermission(stageActivity, getProjectsRuntimePermissionList(Build.VERSION.SDK_INT))) {
 			if (stageActivity.brickDialogManager != null) {
 				stageActivity.brickDialogManager.dismissAllDialogs();
 			}
@@ -256,10 +261,21 @@ public final class StageLifeCycleController {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
-			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
 		}
+		resetProjectDrawingState(project);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+	}
+
+	static void resetProjectDrawingState(Project project) {
+		if (project == null) {
+			return;
+		}
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.resetDrawingState();
+			}
+		}
 	}
 }

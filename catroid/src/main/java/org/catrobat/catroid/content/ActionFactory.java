@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
+import org.catrobat.catroid.content.actions.ArcAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -69,6 +70,7 @@ import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.content.actions.GoThroughAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
@@ -117,6 +119,7 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
+import org.catrobat.catroid.content.actions.SaveLaserAction;
 import org.catrobat.catroid.content.actions.SavePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
@@ -146,18 +149,24 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.SewUpAction;
+import org.catrobat.catroid.content.actions.ShareLaserAction;
+import org.catrobat.catroid.content.actions.SharePlotAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StartCutAction;
+import org.catrobat.catroid.content.actions.StartEngraveAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StartPlotAction;
-import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
+import org.catrobat.catroid.content.actions.StopCutAction;
+import org.catrobat.catroid.content.actions.StopEngraveAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopSoundAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
@@ -181,6 +190,7 @@ import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.ArcBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -584,6 +594,60 @@ public class ActionFactory extends Actions {
 	public Action createStopPlotAction(Sprite sprite) {
 		StopPlotAction action = Actions.action(StopPlotAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStartEngraveAction(Sprite sprite) {
+		StartEngraveAction action = Actions.action(StartEngraveAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopEngraveAction(Sprite sprite) {
+		StopEngraveAction action = Actions.action(StopEngraveAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+
+	public Action createStartCutAction(Sprite sprite) {
+		StartCutAction action = Actions.action(StartCutAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopCutAction(Sprite sprite) {
+		StopCutAction action = Actions.action(StopCutAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createArcAction(Sprite sprite, SequenceAction sequence,
+			ArcBrick.Directions direction,
+			Formula radius, Formula degrees) {
+		ArcAction action = Actions.action(ArcAction.class);
+		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
+				sequence));
+		action.setDirection(direction);
+		action.setRadius(radius);
+		action.setDegrees(degrees);
+
+		action.setDuration(0);
+		action.setInterpolation(null);
+
+		return action;
+	}
+
+	public Action createGoThroughAction(Sprite sprite, SequenceAction sequence,
+			Formula x1, Formula y1, Formula x2, Formula y2) {
+		GoThroughAction action = Actions.action(GoThroughAction.class);
+		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
+				sequence));
+		action.setTargetCoordinates(x1, y1, x2, y2);
+
+		action.setDuration(0);
+		action.setInterpolation(null);
+
 		return action;
 	}
 
@@ -1170,6 +1234,28 @@ public class ActionFactory extends Actions {
 
 	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
 		SavePlotAction action = Actions.action(SavePlotAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
+		return action;
+	}
+	public Action createSaveLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		SaveLaserAction action = Actions.action(SaveLaserAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
+		return action;
+	}
+
+	public Action createSharePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		SharePlotAction action = Actions.action(SharePlotAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setFormula(fileName);
+		return action;
+	}
+	public Action createShareLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+		ShareLaserAction action = Actions.action(ShareLaserAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(fileName);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.13;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.14;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
@@ -137,15 +137,15 @@ public final class Constants {
 	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
-	public static final String CATROBAT_FORMULA_WIKI_URL = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
-	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
+	public static final String CATROBAT_FORMULA_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://developer.catrobat.org/pages/legal/licenses/";
+	public static final String WEB_REQUEST_WIKI_URL = "https://catrobat.org/docs/";
 
-	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
-	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
-	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
-	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";
+	public static final String CATROBAT_TERMS_OF_USE_URL = "https://developer.catrobat.org/pages/legal/terms-of-use-and-service/";
+	public static final String CATROBAT_FUNCTIONS_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_LOGIC_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_SENSORS_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_OBJECT_WIKI_URL = "https://catrobat.org/docs/";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";
@@ -368,12 +368,12 @@ public final class Constants {
 	public static final String FLAVOR_LUNA_AND_CAT = "lunaAndCat";
 	public static final String FLAVOR_CREATE_AT_SCHOOL = "createAtSchool";
 
-	public static final String PREFRENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.embroiderydesigner";
-	public static final String PREFRENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
-	public static final String PREFRENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid";
-	public static final String PREFRENCE_APPGALLERY_MINDSTORMS_URL = "https://appgallery.huawei.com/app/C100085769";
-	public static final String PREFRENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.phiro";
-	public static final String PREFRENCE_APPGALLERY_PHIRO_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFERENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
+	public static final String PREFERENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFERENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
+	public static final String PREFERENCE_APPGALLERY_MINDSTORMS_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFERENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
+	public static final String PREFERENCE_APPGALLERY_PHIRO_URL = "https://appgallery.huawei.com/app/C100085769";
 
 	public static final String DEVICE_BRAND_HUAWEI = "huawei";
 
