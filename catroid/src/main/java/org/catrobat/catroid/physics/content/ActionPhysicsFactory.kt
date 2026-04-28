@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,11 +58,12 @@ class ActionPhysicsFactory : ActionFactory() {
     }
 
     override fun createGlideToAction(sprite: Sprite, sequence: SequenceAction, x: Formula?, y: Formula?, duration: Formula?): Action {
+
         val action = Actions.action(GlideToPhysicsAction::class.java)
         action.setPosition(x, y)
-        action.setDuration(duration)
+        action.duration = duration
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
-        action.setScope(scope)
+        action.scope = scope
         action.setPhysicsLook(sprite.look as PhysicsLook)
         return action
     }
