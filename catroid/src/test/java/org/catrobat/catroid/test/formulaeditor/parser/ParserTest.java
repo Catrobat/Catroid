@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ public class ParserTest {
 	public void testNumbers() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", null);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", scope);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "5000", "5000", scope);
 
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, "", 0, null);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".", 0, null);
@@ -66,7 +67,7 @@ public class ParserTest {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".1", ".1", null);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", null);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", null);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "'^_^'", "'^_^'", null);
 	}
 
 	@Test

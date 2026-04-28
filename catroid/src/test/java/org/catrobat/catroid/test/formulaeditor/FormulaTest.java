@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,12 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.content.Context;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Formula.StringProvider;
@@ -38,6 +42,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +62,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FormulaTest {
@@ -106,23 +113,17 @@ public class FormulaTest {
 
 	@Test
 	public void resourceWithMultipleElementsAndSensorsTest() {
-		Formula formulaWithResourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y.name(), null), new FormulaElement(
-				ElementType.NUMBER, Double.toString(96d), null)));
+		Formula formulaWithResourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y.name(), null), new FormulaElement(ElementType.NUMBER, Double.toString(96d), null)));
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formulaWithResourceLeft.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formulaWithResourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
-				ElementType.SENSOR, Sensors.FACE_X.name(), null)));
+		Formula formulaWithResourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(ElementType.SENSOR, Sensors.FACE_X.name(), null)));
 		resourcesSet = new Brick.ResourcesSet();
 		formulaWithResourceRight.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formulaSameResourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
-				ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
+		Formula formulaSameResourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
 		resourcesSet = new Brick.ResourcesSet();
 		formulaSameResourceTwice.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
@@ -218,8 +219,7 @@ public class FormulaTest {
 	public void stringConcatenationTest() {
 		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
 		FormulaElement worldStringFormulaElement = new FormulaElement(ElementType.STRING, "world", null);
-		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
-				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
+		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION, Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
 		String computeDialogResult = joinFormula.getUserFriendlyString(stringProvider, null);
@@ -230,8 +230,7 @@ public class FormulaTest {
 	public void letterAtIndexTest() {
 		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
 		FormulaElement indexFormulaElement = new FormulaElement(ElementType.NUMBER, "1", null);
-		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
-				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
+		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION, Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
 		String computeDialogResult = letterFormula.getUserFriendlyString(stringProvider, null);
@@ -241,10 +240,8 @@ public class FormulaTest {
 	@Test
 	public void regularExpressionTest() {
 		FormulaElement regexStringFormulaElement = new FormulaElement(ElementType.STRING, " an? ([^ .]+)", null);
-		FormulaElement iamanelephantStringFormulaElement = new FormulaElement(ElementType.STRING, "I am an elephant.",
-				null);
-		FormulaElement regexFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
-				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
+		FormulaElement iamanelephantStringFormulaElement = new FormulaElement(ElementType.STRING, "I am an elephant.", null);
+		FormulaElement regexFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION, Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
 		String computeDialogResult = regexFormula.getUserFriendlyString(stringProvider, null);
@@ -255,11 +252,140 @@ public class FormulaTest {
 	public void bracketsWrappedFormulaTest() {
 		FormulaElement bracketOpenFormulaElement = new FormulaElement(ElementType.BRACKET, null, null);
 		FormulaElement numberFormulaElement = new FormulaElement(ElementType.NUMBER, "1", bracketOpenFormulaElement);
-		bracketOpenFormulaElement.replaceElement(
-				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
+		bracketOpenFormulaElement.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
 		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
 		String computeDialogResult = bracketWrappedFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("1", computeDialogResult);
+	}
+
+	@Test
+	public void singleNumberIntTest() {
+		FormulaElement numberFormulaElement = new FormulaElement(ElementType.NUMBER, "5000", null);
+		Formula numberFormula = new Formula(numberFormulaElement);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = numberFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("5000", computeDialogResult);
+	}
+
+	@Test
+	public void singleNumberDoubleTest() {
+		FormulaElement numberFormulaElement = new FormulaElement(ElementType.NUMBER, "5000.23", null);
+		Formula numberFormula = new Formula(numberFormulaElement);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = numberFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("5000.23", computeDialogResult);
+	}
+
+	@Test
+	public void singleNumberIntWithDecimalPointTest() {
+		FormulaElement numberFormulaElement = new FormulaElement(ElementType.NUMBER, "5000.0", null);
+		Formula numberFormula = new Formula(numberFormulaElement);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = numberFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("5000", computeDialogResult);
+	}
+
+	@Test
+	public void singleStringNumberTest() {
+		FormulaElement stringFormulaElement = new FormulaElement(ElementType.STRING, "1000", null);
+		Formula stringFormula = new Formula(stringFormulaElement);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = stringFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("1000", computeDialogResult);
+	}
+
+	@Test
+	public void arithmeticOperatorsTest() {
+		StringProvider stringProvider = mock(StringProvider.class);
+
+		assertEquals("234", createOperatorFormula(Operators.PLUS, "123", "111").getUserFriendlyString(stringProvider, null));
+		assertEquals("-111", createOperatorFormula(Operators.MINUS, "123", "234").getUserFriendlyString(stringProvider, null));
+		assertEquals("-1000000", createOperatorFormula(Operators.MINUS, "300", "1000300").getUserFriendlyString(stringProvider, null));
+		assertEquals("-35", createOperatorFormula(Operators.MULT, "5", "-7").getUserFriendlyString(stringProvider, null));
+		assertEquals("-5", createOperatorFormula(Operators.DIVIDE, "-35", "7").getUserFriendlyString(stringProvider, null));
+		assertEquals("32", createOperatorFormula(Operators.POW, "2", "5").getUserFriendlyString(stringProvider, null));
+	}
+
+	@Test
+	public void booleanOperatorsTest() {
+		StringProvider stringProvider = mock(StringProvider.class);
+		when(stringProvider.getTrueOrFalse(true)).thenReturn("true");
+		when(stringProvider.getTrueOrFalse(false)).thenReturn("false");
+
+		assertEquals("false", createOperatorFormula(Operators.LOGICAL_NOT, null, "1").getUserFriendlyString(stringProvider, null));
+		assertEquals("false", createOperatorFormula(Operators.LOGICAL_AND, "1", "0").getUserFriendlyString(stringProvider, null));
+		assertEquals("true", createOperatorFormula(Operators.LOGICAL_OR, "1", "0").getUserFriendlyString(stringProvider, null));
+		assertEquals("true", createOperatorFormula(Operators.EQUAL, "1", "1").getUserFriendlyString(stringProvider, null));
+		assertEquals("true", createOperatorFormula(Operators.NOT_EQUAL, "0", "1").getUserFriendlyString(stringProvider, null));
+		assertEquals("false", createOperatorFormula(Operators.SMALLER_OR_EQUAL, "1", "0").getUserFriendlyString(stringProvider, null));
+		assertEquals("true", createOperatorFormula(Operators.GREATER_OR_EQUAL, "1", "1").getUserFriendlyString(stringProvider, null));
+		assertEquals("true", createOperatorFormula(Operators.SMALLER_THAN, "0", "1").getUserFriendlyString(stringProvider, null));
+		assertEquals("false", createOperatorFormula(Operators.GREATER_THAN, "1", "1").getUserFriendlyString(stringProvider, null));
+	}
+
+	@Test
+	public void functionBooleanValueTest() {
+		StringProvider stringProvider = mock(StringProvider.class);
+		when(stringProvider.getTrueOrFalse(true)).thenReturn("true");
+		when(stringProvider.getTrueOrFalse(false)).thenReturn("false");
+
+		FormulaElement trueFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION, Functions.TRUE.name(), null);
+		Formula trueFunctionFormula = new Formula(trueFunctionFormulaElement);
+		assertEquals("true", trueFunctionFormula.getUserFriendlyString(stringProvider, null));
+
+		FormulaElement falseFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION, Functions.FALSE.name(), null);
+		Formula falseFunctionFormula = new Formula(falseFunctionFormulaElement);
+		assertEquals("false", falseFunctionFormula.getUserFriendlyString(stringProvider, null));
+	}
+
+	@Test
+	public void userVariableBooleanValueTest() {
+		StringProvider stringProvider = mock(StringProvider.class);
+		when(stringProvider.getTrueOrFalse(true)).thenReturn("true");
+		when(stringProvider.getTrueOrFalse(false)).thenReturn("false");
+
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		ProjectManager.getInstance().setCurrentProject(project);
+		Sprite testSprite = new Sprite("sprite");
+		project.getDefaultScene().addSprite(testSprite);
+		Scope testScope = new Scope(project, testSprite, new SequenceAction());
+		project.addUserVariable(new UserVariable("trueVariable", true));
+		project.addUserVariable(new UserVariable("falseVariable", false));
+
+		FormulaElement userVariableFormulaElement = new FormulaElement(ElementType.USER_VARIABLE, "trueVariable", null);
+		Formula userVariableFormula = new Formula(userVariableFormulaElement);
+		assertEquals("true", userVariableFormula.getUserFriendlyString(stringProvider, testScope));
+
+		userVariableFormulaElement = new FormulaElement(ElementType.USER_VARIABLE, "falseVariable", null);
+		userVariableFormula = new Formula(userVariableFormulaElement);
+		assertEquals("false", userVariableFormula.getUserFriendlyString(stringProvider, testScope));
+	}
+
+	@Test
+	public void testCollision() {
+		StringProvider stringProvider = mock(StringProvider.class);
+		when(stringProvider.getTrueOrFalse(false)).thenReturn("false");
+
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		ProjectManager.getInstance().setCurrentProject(project);
+		Sprite testSprite = new Sprite("sprite");
+		project.getDefaultScene().addSprite(testSprite);
+		Scope testScope = new Scope(project, testSprite, new SequenceAction());
+
+		FormulaElement collisionFormulaElement = new FormulaElement(ElementType.COLLISION_FORMULA, "sprite", null);
+		Formula collisionFormula = new Formula(collisionFormulaElement);
+		assertEquals("false", collisionFormula.getUserFriendlyString(stringProvider, testScope));
+	}
+
+	private Formula createOperatorFormula(Operators operator, String leftChildValue, String rightChildValue) {
+		FormulaElement operatorElement = new FormulaElement(ElementType.OPERATOR, operator.name(), null);
+		if (leftChildValue != null) {
+			operatorElement.setLeftChild(new FormulaElement(ElementType.NUMBER, leftChildValue, operatorElement));
+		}
+		if (rightChildValue != null) {
+			operatorElement.setRightChild(new FormulaElement(ElementType.NUMBER, rightChildValue, operatorElement));
+		}
+		return new Formula(operatorElement);
 	}
 }
