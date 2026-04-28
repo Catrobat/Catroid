@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,11 +92,9 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbersStringInteger.add(3.0);
 		userListValuesMultipleNumbersStringInteger.add("4");
 
-		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME,
-				userListValuesMultipleNumbersStringInteger)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbersStringInteger)));
 
-		assertEquals("1234",
-				interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals("1234", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
@@ -131,14 +129,73 @@ public class ParserTestUserLists {
 	}
 
 	@Test
-	public void testUserListInterpretationStringsAndNumbers() {
-		List<Object> userListValuesStringsAndNumbers = new ArrayList<>();
-		userListValuesStringsAndNumbers.add("Hello");
-		userListValuesStringsAndNumbers.add(42.0);
-		userListValuesStringsAndNumbers.add("WORLDS");
+	public void testUserListInterpretationMultipleBigNumbers() {
+		List<Object> userListValuesMultipleBigNumbers = new ArrayList<>();
+		userListValuesMultipleBigNumbers.add(1);
+		userListValuesMultipleBigNumbers.add(2_000);
+		userListValuesMultipleBigNumbers.add(3_000_000);
 
-		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
-		assertEquals("Hello 42 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleBigNumbers)));
+		assertEquals("1 2000 3000000", interpretUserList(PROJECT_USER_LIST_NAME));
+	}
+
+	@Test
+	public void testUserListInterpretationMultipleBigNegativeNumbers() {
+		List<Object> userListValuesMultipleBigNegativeNumbers = new ArrayList<>();
+		userListValuesMultipleBigNegativeNumbers.add(-1);
+		userListValuesMultipleBigNegativeNumbers.add(-2_000);
+		userListValuesMultipleBigNegativeNumbers.add(-3_000_000);
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleBigNegativeNumbers)));
+		assertEquals("-1 -2000 -3000000", interpretUserList(PROJECT_USER_LIST_NAME));
+	}
+
+	@Test
+	public void testUserListInterpretationMultipleDoubles() {
+		List<Object> userListValuesMultipleNumbers = new ArrayList<>();
+		userListValuesMultipleNumbers.add(1.1);
+		userListValuesMultipleNumbers.add(2.2);
+		userListValuesMultipleNumbers.add(3.3);
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertEquals("1.1 2.2 3.3", interpretUserList(PROJECT_USER_LIST_NAME));
+	}
+
+	@Test
+	public void testUserListInterpretationStrings() {
+		List<Object> userListValuesStrings = new ArrayList<>();
+		userListValuesStrings.add("Hello");
+		userListValuesStrings.add("world");
+		userListValuesStrings.add("!");
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStrings)));
+		assertEquals("Hello world !", interpretUserList(PROJECT_USER_LIST_NAME));
+	}
+
+	@Test
+	public void testUserListInterpretationCharacters() {
+		List<Object> userListValuesCharacters = new ArrayList<>();
+		userListValuesCharacters.add('H');
+		userListValuesCharacters.add('e');
+		userListValuesCharacters.add('l');
+		userListValuesCharacters.add('l');
+		userListValuesCharacters.add('o');
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesCharacters)));
+		assertEquals("Hello", interpretUserList(PROJECT_USER_LIST_NAME));
+	}
+
+	@Test
+	public void testUserListInterpretationMixed() {
+		List<Object> userListValuesMixed = new ArrayList<>();
+		userListValuesMixed.add("Hello");
+		userListValuesMixed.add("!");
+		userListValuesMixed.add(42.0);
+		userListValuesMixed.add(3.1415);
+		userListValuesMixed.add("WORLDS");
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMixed)));
+		assertEquals("Hello ! 42 3.1415 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
@@ -167,8 +224,7 @@ public class ParserTestUserLists {
 
 	@Test
 	public void testNotExistingUserList() {
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_LIST,
-				"NOT_EXISTING_USER_LIST", 0, scope);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_LIST, "NOT_EXISTING_USER_LIST", 0, scope);
 	}
 
 	@Test
@@ -182,53 +238,37 @@ public class ParserTestUserLists {
 		assertTrue(project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE)));
 
 		String index = "1";
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
-				scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
 
 		index = "0";
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
-				scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 
 		index = "4";
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
-				scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 
 		index = "1.4";
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
-				scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
 
 		index = "1.0";
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.STRING, index,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
-				scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.STRING, index, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue("1");
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue("0");
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue("4");
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue(1d);
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue(0d);
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue(4d);
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", scope);
 	}
 
 	@Test
@@ -240,29 +280,23 @@ public class ParserTestUserLists {
 
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
 
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH,
-				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 0, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 0, scope);
 
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesStrings);
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 15, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 15, scope);
 
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add("0");
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userList);
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 1, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 1, scope);
 
 		userList.clear();
 		userList.add("0.0");
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 3, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 3, scope);
 
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0",
-				(double) 1, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0", (double) 1, scope);
 
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0.0",
-				(double) 3, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0.0", (double) 3, scope);
 	}
 
 	@Test
@@ -274,12 +308,10 @@ public class ParserTestUserLists {
 
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
 
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 0, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 0, scope);
 
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesStrings);
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 15, scope);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 15, scope);
 	}
 
 	@Test
@@ -292,17 +324,13 @@ public class ParserTestUserLists {
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
 		assertTrue(project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, 1.0)));
 
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.NUMBER, "1", 1d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.NUMBER, "1", 1d, scope);
 
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.STRING, "1", 1d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.STRING, "1", 1d, scope);
 
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.STRING, "1.00", 1d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.STRING, "1.00", 1d, scope);
 
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.NUMBER, "0", 0d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.NUMBER, "0", 0d, scope);
 
 		List<Object> userListValuesStringsAndNumbers = new ArrayList<>();
 		userListValuesStringsAndNumbers.add("Hello");
@@ -311,12 +339,33 @@ public class ParserTestUserLists {
 
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesStringsAndNumbers);
 
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.STRING, "Hello", 1d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.STRING, "Hello", 1d, scope);
 
 		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, scope).setValue("Hello");
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, 1d, scope);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, 1d, scope);
+	}
+
+	@Test
+	public void testFunctionFlatten() {
+		List<Object> userListValuesMultipleStrings = new ArrayList<>();
+		userListValuesMultipleStrings.add("a");
+		userListValuesMultipleStrings.add("2");
+		userListValuesMultipleStrings.add("c");
+		userListValuesMultipleStrings.add("4");
+		userListValuesMultipleStrings.add("d");
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleStrings)));
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLATTEN, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "a2c4d", scope);
+
+		List<Object> userListValuesMultipleNumbers = new ArrayList<>();
+		userListValuesMultipleNumbers.add(1.0);
+		userListValuesMultipleNumbers.add(2.0);
+		userListValuesMultipleNumbers.add(3.0);
+		userListValuesMultipleNumbers.add(4.0);
+		userListValuesMultipleNumbers.add(5.0);
+
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesMultipleNumbers);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLATTEN, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "12345", scope);
 	}
 
 	private Object interpretUserList(String userListName) {
