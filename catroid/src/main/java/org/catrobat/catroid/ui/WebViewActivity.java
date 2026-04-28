@@ -27,46 +27,58 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.common.annotations.VisibleForTesting;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.MediaDownloader;
 import org.catrobat.catroid.utils.ProjectDownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.Cookie;
 import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
 import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_DOWNLOAD_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
-import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_DOWNLOAD_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -78,14 +90,34 @@ public class WebViewActivity extends AppCompatActivity {
 	public static final String INTENT_FORCE_OPEN_IN_APP = "openInApp";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
+	public static final String MEDIA_FILE_PATHS = "media_file_paths";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
+	private static final Pattern PROJECT_DOWNLOAD_PATTERN =
+			Pattern.compile("/api/projects/([a-zA-Z0-9-]+)/catrobat");
 
 	private WebView webView;
+	private org.catrobat.catroid.web.JwtTokenStore tokenStore;
 	private boolean allowGoBack = false;
 	private boolean forceOpenInApp = false;
-	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private final java.util.ArrayList<String> downloadedMediaPaths = new java.util.ArrayList<>();
+	private ValueCallback<Uri[]> fileUploadCallback;
+	private final ActivityResultLauncher<Intent> fileChooserLauncher =
+			registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+				if (fileUploadCallback == null) {
+					return;
+				}
+				Uri[] uris = null;
+				if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+					String dataString = result.getData().getDataString();
+					if (dataString != null) {
+						uris = new Uri[]{Uri.parse(dataString)};
+					}
+				}
+				fileUploadCallback.onReceiveValue(uris);
+				fileUploadCallback = null;
+			});
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +134,21 @@ public class WebViewActivity extends AppCompatActivity {
 		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
+		webView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> callback,
+					FileChooserParams fileChooserParams) {
+				if (fileUploadCallback != null) {
+					fileUploadCallback.onReceiveValue(null);
+				}
+				fileUploadCallback = callback;
+				Intent intent = fileChooserParams.createIntent();
+				fileChooserLauncher.launch(intent);
+				return true;
+			}
+		});
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings().setDomStorageEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
@@ -111,16 +157,22 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + buildType);
 
-		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
+		tokenStore = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class).getValue();
+		setLoginCookies(url, CookieManager.getInstance(), tokenStore.getAccessToken());
 		webView.loadUrl(url);
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
-			// TODO: Delete only this if case, when the Catrobat share server completely closes
-			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
+			if (downloadUrl != null && downloadUrl.startsWith("blob:")) {
+				return;
+			}
+			if (contentDisposition != null && getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
+				String projectName = extractProjectNameFromContentDisposition(contentDisposition);
 				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
-						ProjectDownloadUtil.INSTANCE).download(this);
-			} else if (downloadUrl.contains(CATROBAT_CONTENT_DOWNLOAD_URL)) {
-				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
+						ProjectDownloadUtil.INSTANCE, projectName).download(this);
+			} else if (downloadUrl.contains(CATROBAT_CONTENT_DOWNLOAD_URL)
+						|| downloadUrl.contains("/resources/media/")
+						|| downloadUrl.contains("/api/media/assets/")) {
+				String fileName = getFilenameFromContentDisposition(contentDisposition, downloadUrl, mimetype);
 
 				MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs();
 				if (!MEDIA_LIBRARY_CACHE_DIRECTORY.isDirectory()) {
@@ -129,9 +181,11 @@ public class WebViewActivity extends AppCompatActivity {
 				}
 
 				File file = new File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName);
+				downloadedMediaPaths.add(file.getAbsolutePath());
 				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
-				new MediaDownloader(this)
-						.startDownload(this, downloadUrl, fileName, file.getAbsolutePath());
+				resultIntent.putStringArrayListExtra(MEDIA_FILE_PATHS, downloadedMediaPaths);
+				new MediaDownloader(WebViewActivity.this)
+						.startDownload(WebViewActivity.this, downloadUrl, fileName, file.getAbsolutePath());
 			} else {
 				DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
 				String projectName = ProjectDownloader.Companion.getProjectNameFromUrl(downloadUrl);
@@ -160,6 +214,74 @@ public class WebViewActivity extends AppCompatActivity {
 
 	private class MyWebViewClient extends WebViewClient {
 		@Override
+		public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+			String url = request.getUrl().toString();
+
+			Matcher projectMatcher = PROJECT_DOWNLOAD_PATTERN.matcher(url);
+			if (projectMatcher.find()) {
+				return interceptProjectDownload(url);
+			}
+
+			return super.shouldInterceptRequest(view, request);
+		}
+
+		private WebResourceResponse interceptProjectDownload(String url) {
+			try {
+				okhttp3.Request httpRequest = new okhttp3.Request.Builder().url(url).build();
+				okhttp3.Response httpResponse = CatrobatWebClient.INSTANCE.getClient()
+						.newCall(httpRequest).execute();
+				if (httpResponse.isSuccessful() && httpResponse.body() != null) {
+					String projectName = extractProjectNameFromContentDisposition(
+							httpResponse.header("Content-Disposition"));
+					if (projectName == null) {
+						Matcher m = PROJECT_DOWNLOAD_PATTERN.matcher(url);
+						projectName = m.find() ? m.group(1) : "Project";
+					}
+
+					File tempFile = new File(Constants.CACHE_DIRECTORY,
+							Constants.TMP_DIRECTORY_NAME + "/down.catrobat");
+					if (tempFile.getParentFile() != null) {
+						tempFile.getParentFile().mkdirs();
+					}
+
+					okio.BufferedSink sink = okio.Okio.buffer(okio.Okio.sink(tempFile));
+					sink.writeAll(httpResponse.body().source());
+					sink.close();
+					httpResponse.close();
+
+					String safeName = FileMetaDataExtractor
+							.encodeSpecialCharsForFileSystem(projectName);
+					File projectDir = new File(
+							FlavoredConstants.DEFAULT_ROOT_DIRECTORY, safeName);
+					if (projectDir.exists()) {
+						org.catrobat.catroid.io.StorageOperations.deleteDir(projectDir);
+					}
+					new ZipArchiver().unzip(tempFile, projectDir);
+
+					if (!tempFile.delete()) {
+						Log.w(TAG, "Could not delete temp file: " + tempFile.getAbsolutePath());
+					}
+
+					final String finalName = projectName;
+					new Handler(Looper.getMainLooper()).post(() -> {
+						ProjectManager.getInstance()
+								.addNewDownloadedProject(finalName);
+						Intent resultIntent = new Intent(WebViewActivity.this, MainMenuActivity.class);
+						resultIntent.setAction(Intent.ACTION_MAIN);
+						resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						resultIntent.putExtra(Constants.EXTRA_PROJECT_NAME, finalName);
+						startActivity(resultIntent);
+						finish();
+					});
+					return null;
+				}
+			} catch (Exception e) {
+				Log.e(TAG, "Project download interception failed", e);
+			}
+			return null;
+		}
+
+		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
 			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
@@ -167,7 +289,8 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && (urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
+			} else if (allowGoBack && (urlClient.contains("/exit")
+					|| urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
 					|| urlClient.equals(Constants.BASE_APP_URL_HTTPS))) {
 				allowGoBack = false;
 				onBackPressed();
@@ -180,6 +303,27 @@ public class WebViewActivity extends AppCompatActivity {
 			if (webViewLoadingDialog != null) {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
+			}
+			syncLoginStateFromCookies(url);
+		}
+
+		private void syncLoginStateFromCookies(String url) {
+			if (url == null || !url.contains(MAIN_URL_HTTPS)) {
+				return;
+			}
+
+			String cookies = CookieManager.getInstance().getCookie(url);
+			String bearerToken = extractBearerFromCookies(cookies);
+
+			if (bearerToken != null && !bearerToken.isEmpty()
+					&& org.catrobat.catroid.web.JwtTokenStore.Companion.isValidJwtFormat(bearerToken)) {
+				if (!tokenStore.isLoggedIn()) {
+					tokenStore.setAccessTokenOnly(bearerToken);
+				}
+			} else if (bearerToken == null || bearerToken.isEmpty()) {
+				if (tokenStore.isLoggedIn()) {
+					tokenStore.clearTokens();
+				}
 			}
 		}
 
@@ -232,43 +376,44 @@ public class WebViewActivity extends AppCompatActivity {
 		}
 	}
 
-	public void createProgressDialog(String mediaName) {
-		progressDialog = new ProgressDialog(this);
-
-		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
-		progressDialog.setMessage(getString(R.string.notification_download_pending));
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		progressDialog.setProgress(0);
-		progressDialog.setMax(100);
-		progressDialog.setProgressNumberFormat(null);
-		if (!isFinishing()) {
-			progressDialog.show();
-		}
-	}
-
-	public void updateProgressDialog(long progress) {
-		if (progress == 100) {
-			if (progressDialog.isShowing() && !isFinishing()) {
-				progressDialog.setProgress(progressDialog.getMax());
-				setResult(RESULT_OK, resultIntent);
-				progressDialog.dismiss();
-			}
-			finish();
-		} else {
-			progressDialog.setProgress((int) progress);
-		}
-	}
-
-	public void dismissProgressDialog() {
-		progressDialog.dismiss();
-	}
-
 	public Intent getResultIntent() {
 		return resultIntent;
 	}
 
 	public void setResultIntent(Intent intent) {
 		resultIntent = intent;
+	}
+
+	@VisibleForTesting
+	static String getFilenameFromContentDisposition(String contentDisposition, String url, String mimetype) {
+		if (contentDisposition != null) {
+			Matcher starMatcher = CONTENT_DISPOSITION_FILENAME_STAR.matcher(contentDisposition);
+			if (starMatcher.find()) {
+				try {
+					return URLDecoder.decode(starMatcher.group(1), StandardCharsets.UTF_8.name());
+				} catch (Exception ignored) {
+					Log.w(TAG, "Failed to decode filename from Content-Disposition", ignored);
+				}
+			}
+			Matcher quotedMatcher = CONTENT_DISPOSITION_FILENAME_QUOTED.matcher(contentDisposition);
+			if (quotedMatcher.find()) {
+				return quotedMatcher.group(1);
+			}
+		}
+		return URLUtil.guessFileName(url, null, mimetype);
+	}
+
+	private static final Pattern CONTENT_DISPOSITION_FILENAME_STAR =
+			Pattern.compile("filename\\*\\s*=\\s*[Uu][Tt][Ff]-8''(.+?)(?:;|$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern CONTENT_DISPOSITION_FILENAME_QUOTED =
+			Pattern.compile("filename\\s*=\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
+
+	private static String extractProjectNameFromContentDisposition(String contentDisposition) {
+		String filename = getFilenameFromContentDisposition(contentDisposition, "", null);
+		if (filename != null && filename.endsWith(Constants.CATROBAT_EXTENSION)) {
+			return filename.substring(0, filename.length() - Constants.CATROBAT_EXTENSION.length());
+		}
+		return filename;
 	}
 
 	// TODO: Delete this function, when the Catrobat share server completely closes
@@ -283,31 +428,32 @@ public class WebViewActivity extends AppCompatActivity {
 	}
 
 	@VisibleForTesting
-	public static void setLoginCookies(String url, SharedPreferences sharedPreferences, CookieManager cookieManager) {
-		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
-		if (username.equals(Constants.NO_USERNAME) || token.equals(Constants.NO_TOKEN)) {
+	public static void setLoginCookies(String url, CookieManager cookieManager, String jwtToken) {
+		if (jwtToken == null || jwtToken.isEmpty()) {
 			return;
 		}
 
-		String encodedUsername;
-		try {
-			encodedUsername = URLEncoder.encode(username, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			return;
-		}
-
-		Cookie usernameCookie = new Cookie(Constants.USERNAME_COOKIE_NAME, encodedUsername);
-		Cookie tokenCookie = new Cookie(Constants.TOKEN_COOKIE_NAME, token);
-		cookieManager.setCookie(url, usernameCookie.generateCookieString());
-		cookieManager.setCookie(url, tokenCookie.generateCookieString());
+		Cookie bearerCookie = new Cookie("BEARER", jwtToken);
+		cookieManager.setCookie(url, bearerCookie.generateCookieString());
 	}
 
 	public static void clearCookies() {
 		CookieManager.getInstance().removeAllCookies(null);
 		CookieManager.getInstance().flush();
+	}
+
+	@VisibleForTesting
+	public static String extractBearerFromCookies(String cookies) {
+		if (cookies == null) {
+			return null;
+		}
+		for (String cookie : cookies.split(";")) {
+			String trimmed = cookie.trim();
+			if (trimmed.startsWith("BEARER=")) {
+				return trimmed.substring("BEARER=".length());
+			}
+		}
+		return null;
 	}
 
 	private boolean isWhatsappInstalled() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,21 +23,82 @@
 
 package org.catrobat.catroid.retrofit.models
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.squareup.moshi.Json
+import org.catrobat.catroid.retrofit.FlexibleMap
 
-@SuppressWarnings("ConstructorParameterNaming")
+// --- Cursor pagination envelope ---
+
+data class CursorPaginatedResponse<T>(
+    val data: List<T>,
+    @Json(name = "next_cursor") val nextCursor: String? = null,
+    @Json(name = "has_more") val hasMore: Boolean = false
+)
+
+// --- Image variants (responsive images from API v2) ---
+
+data class ImageVariantSet(
+    @Json(name = "avif_1x") val avif1x: String? = null,
+    @Json(name = "avif_2x") val avif2x: String? = null,
+    @Json(name = "webp_1x") val webp1x: String? = null,
+    @Json(name = "webp_2x") val webp2x: String? = null
+) {
+    fun getBestUrl(): String? = webp2x ?: webp1x ?: avif2x ?: avif1x
+}
+
+data class ImageVariants(
+    val thumb: ImageVariantSet? = null,
+    val card: ImageVariantSet? = null,
+    val detail: ImageVariantSet? = null,
+    val width: Int? = null,
+    val height: Int? = null
+) {
+    fun getCardUrl(): String? = card?.getBestUrl() ?: thumb?.getBestUrl()
+    fun getDetailUrl(): String? = detail?.getBestUrl() ?: card?.getBestUrl()
+    fun getThumbUrl(): String? = thumb?.getBestUrl() ?: card?.getBestUrl()
+}
+
+// --- Featured projects (from /api/projects/featured) ---
+
+data class FeaturedProjectApi(
+    val id: String,
+    @Json(name = "project_id") val projectId: String,
+    @Json(name = "project_url") val projectUrl: String,
+    val url: String? = null,
+    val name: String,
+    val author: String,
+    @Json(name = "featured_image") val featuredImage: ImageVariants? = null
+) {
+    fun toRoomEntity(): FeaturedProject = FeaturedProject(
+        id = id,
+        projectId = projectId,
+        projectUrl = projectUrl,
+        name = name,
+        author = author,
+        featuredImage = featuredImage?.getDetailUrl() ?: featuredImage?.getCardUrl() ?: ""
+    )
+}
+
+// Room entity (stores best image URL as string)
 @Entity(tableName = "featured_project")
 data class FeaturedProject(
     @PrimaryKey
     val id: String,
-    val project_id: String,
-    val project_url: String,
+    @ColumnInfo(name = "project_id") val projectId: String,
+    @ColumnInfo(name = "project_url") val projectUrl: String,
     val name: String,
     val author: String,
-    val featured_image: String
+    @ColumnInfo(name = "featured_image") val featuredImage: String
+)
+
+// --- Project categories (from /api/projects/categories) ---
+
+data class ProjectsCategoryListResponse(
+    val data: List<ProjectsCategoryApi>
 )
 
 @Entity(tableName = "project_response", primaryKeys = ["id", "categoryType"])
@@ -49,7 +110,8 @@ data class ProjectResponse(
     var version: String,
     var views: Int,
     var download: Int,
-    var private: Boolean,
+    @ColumnInfo(name = "private")
+    var isPrivate: Boolean,
     var flavor: String,
     var tags: List<String>,
     var uploaded: Long,
@@ -102,26 +164,89 @@ data class ProjectCategoryWithResponses(
 data class ProjectsCategoryApi(
     val type: String,
     val name: String,
-    val projectsList: List<ProjectResponseApi>
+    @Json(name = "projects_list") val projectsList: List<ProjectResponseApi>
 )
 
-@SuppressWarnings("ConstructorParameterNaming")
+// --- Project response (from /api/projects endpoints) ---
+
 data class ProjectResponseApi(
     val id: String,
     val name: String,
     val author: String,
-    val description: String,
-    val version: String,
-    val views: Int,
-    val download: Int,
-    val private: Boolean,
-    val flavor: String,
-    val tags: List<String>,
-    val uploaded: Long,
-    val uploaded_string: String,
-    val screenshot_large: String,
-    val screenshot_small: String,
-    val project_url: String,
-    val download_url: String,
-    val filesize: Double
+    @Json(name = "author_id") val authorId: String? = null,
+    @Json(name = "scratch_id") val scratchId: Int? = null,
+    val description: String = "",
+    val credits: String = "",
+    val version: String = "",
+    val views: Int = 0,
+    val downloads: Int = 0,
+    val reactions: Int = 0,
+    val comments: Int = 0,
+    @Json(name = "private")
+    val isPrivate: Boolean = false,
+    val flavor: String = "",
+    @FlexibleMap val tags: Map<String, String>? = null,
+    @FlexibleMap val extensions: Map<String, String>? = null,
+    @Json(name = "uploaded_at") val uploadedAt: String? = null,
+    @Json(name = "uploaded_string") val uploadedString: String = "",
+    val screenshot: ImageVariants? = null,
+    @Json(name = "project_url") val projectUrl: String = "",
+    @Json(name = "download_url") val downloadUrl: String = "",
+    val filesize: Double = 0.0,
+    @Json(name = "not_for_kids") val notForKids: Int = 0,
+    @Json(name = "retention_days") val retentionDays: Int? = null,
+    @Json(name = "retention_expiry") val retentionExpiry: String? = null
+) {
+    fun getScreenshotUrl(): String? = screenshot?.getCardUrl()
+}
+
+// --- Upload response (minimal — avoids PHP empty-array vs object mismatch on tags) ---
+
+data class ProjectUploadResponse(
+    val id: String = ""
+)
+
+// --- Tags & Survey responses ---
+
+data class TagsResponse(
+    val data: List<TagItem> = emptyList()
+)
+
+data class TagItem(
+    val id: String,
+    val text: String
+)
+
+data class SurveyResponse(
+    val url: String? = null
+)
+
+// --- Media Library responses ---
+
+data class MediaCategoryPreview(
+    val id: String,
+    val name: String,
+    val description: String? = null,
+    val priority: Int = 0,
+    @Json(name = "assets_count") val assetsCount: Int = 0,
+    @Json(name = "preview_assets") val previewAssets: List<MediaAssetResponse> = emptyList()
+)
+
+data class MediaAssetResponse(
+    val id: String,
+    val name: String,
+    val description: String? = null,
+    @Json(name = "file_type") val fileType: String = "",
+    val extension: String = "",
+    val size: Int = 0,
+    val author: String? = null,
+    val downloads: Int = 0,
+    val active: Boolean = true,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "category_id") val categoryId: String? = null,
+    @Json(name = "category_name") val categoryName: String? = null,
+    val flavors: List<String> = emptyList(),
+    @Json(name = "download_url") val downloadUrl: String = "",
+    val thumbnail: ImageVariants? = null
 )

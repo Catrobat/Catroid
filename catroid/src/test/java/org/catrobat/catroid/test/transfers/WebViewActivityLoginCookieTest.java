@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.transfers;
 
-import android.content.SharedPreferences;
 import android.webkit.CookieManager;
 
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -33,71 +32,57 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import static org.catrobat.catroid.common.Constants.NO_TOKEN;
-import static org.catrobat.catroid.common.Constants.NO_USERNAME;
-import static org.catrobat.catroid.common.Constants.TOKEN;
-import static org.catrobat.catroid.common.Constants.TOKEN_COOKIE_NAME;
-import static org.catrobat.catroid.common.Constants.USERNAME;
-import static org.catrobat.catroid.common.Constants.USERNAME_COOKIE_NAME;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class WebViewActivityLoginCookieTest {
 
 	private CookieManager cookieManagerMock;
-	private SharedPreferences sharedPreferencesMock;
-	private String urlStub = "url";
-	private String username = "username #1";
-	private String token = "token";
+	private String urlStub = "https://share.catrobat.org";
+	private String jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test.signature";
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		cookieManagerMock = Mockito.mock(CookieManager.class);
-		sharedPreferencesMock = Mockito.mock(SharedPreferences.class);
 	}
 
 	@Test
-	public void testNoUserNameAvailable() {
-		when(sharedPreferencesMock.getString(eq(USERNAME), eq(NO_USERNAME))).thenReturn(NO_USERNAME);
-		when(sharedPreferencesMock.getString(eq(TOKEN), eq(NO_TOKEN))).thenReturn(token);
+	public void testSetLoginCookiesWithJwtToken() {
+		WebViewActivity.setLoginCookies(urlStub, cookieManagerMock, jwtToken);
+		String expectedCookie = "BEARER=" + jwtToken + "; HttpOnly; Secure; Path=/; SameSite=Strict";
+		verify(cookieManagerMock, times(1)).setCookie(urlStub, expectedCookie);
+	}
 
-		WebViewActivity.setLoginCookies(urlStub, sharedPreferencesMock, cookieManagerMock);
-
+	@Test
+	public void testSetLoginCookiesWithNullToken() {
+		WebViewActivity.setLoginCookies(urlStub, cookieManagerMock, null);
 		verifyNoMoreInteractions(cookieManagerMock);
 	}
 
 	@Test
-	public void testNoTokenAvailable() {
-		when(sharedPreferencesMock.getString(eq(USERNAME), eq(NO_USERNAME))).thenReturn(username);
-		when(sharedPreferencesMock.getString(eq(TOKEN), eq(NO_TOKEN))).thenReturn(NO_TOKEN);
-
-		WebViewActivity.setLoginCookies(urlStub, sharedPreferencesMock, cookieManagerMock);
-
+	public void testSetLoginCookiesWithEmptyToken() {
+		WebViewActivity.setLoginCookies(urlStub, cookieManagerMock, "");
 		verifyNoMoreInteractions(cookieManagerMock);
 	}
 
 	@Test
-	public void testSuccess() throws UnsupportedEncodingException {
-		when(sharedPreferencesMock.getString(eq(USERNAME), eq(NO_USERNAME))).thenReturn(username);
-		when(sharedPreferencesMock.getString(eq(TOKEN), eq(NO_TOKEN))).thenReturn(token);
-
-		WebViewActivity.setLoginCookies(urlStub, sharedPreferencesMock, cookieManagerMock);
-
-		verify(cookieManagerMock, times(1))
-				.setCookie(eq(urlStub), eq(generateCookie(USERNAME_COOKIE_NAME, URLEncoder.encode(username, "UTF-8"))));
-		verify(cookieManagerMock, times(1))
-				.setCookie(eq(urlStub), eq(generateCookie(TOKEN_COOKIE_NAME, token)));
-		verifyNoMoreInteractions(cookieManagerMock);
+	public void testExtractBearerFromCookies() {
+		String cookies = "session=abc; BEARER=my-jwt-token; other=value";
+		assertEquals("my-jwt-token", WebViewActivity.extractBearerFromCookies(cookies));
 	}
 
-	private String generateCookie(String name, String value) {
-		return name + "=" + value;
+	@Test
+	public void testExtractBearerFromCookiesNoBearerPresent() {
+		String cookies = "session=abc; other=value";
+		assertNull(WebViewActivity.extractBearerFromCookies(cookies));
+	}
+
+	@Test
+	public void testExtractBearerFromNullCookies() {
+		assertNull(WebViewActivity.extractBearerFromCookies(null));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,13 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.web.CatrobatWebClient;
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.DownloadClient;
 import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.IOException;
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class MediaDownloadService extends IntentService {
 
@@ -47,6 +49,8 @@ public class MediaDownloadService extends IntentService {
 
 	public ResultReceiver receiver;
 	private Handler handler;
+
+	private final Lazy<DownloadClient> downloadClient = inject(DownloadClient.class);
 
 	public MediaDownloadService() {
 		super(MediaDownloadService.class.getSimpleName());
@@ -67,7 +71,7 @@ public class MediaDownloadService extends IntentService {
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).downloadMedia(url, fileString, receiver);
+			downloadClient.getValue().downloadMedia(url, fileString, receiver);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;

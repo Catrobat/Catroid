@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import androidx.annotation.WorkerThread
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.FeaturedProjectApi
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 
 interface FeaturedProjectsSync {
@@ -49,17 +50,19 @@ class DefaultFeaturedProjectSync(
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")
         if (requireUpdate(localHashVersion, serverHashVersion) || force) {
-            update(response.body())
+            val body = response.body()
+            val projects = body?.data?.map { it.toRoomEntity() }
+            update(projects)
             localHashVersionRepository.setFeaturedProjectsHashVersion(serverHashVersion)
         } else {
             Log.d(javaClass.simpleName, "no update needed! you've latest version :)")
         }
     }
 
-    private fun update(body: List<FeaturedProject>?) {
+    private fun update(projects: List<FeaturedProject>?) {
         Log.d(javaClass.simpleName, "updating feature projects")
-        Log.d(javaClass.simpleName, "$body")
-        body?.let {
+        Log.d(javaClass.simpleName, "$projects")
+        projects?.let {
             appDatabase.featuredProjectDao().deleteAll()
             appDatabase.featuredProjectDao().insertFeaturedProjects(it)
         }

@@ -59,6 +59,8 @@ import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
+import org.catrobat.catroid.ui.ProjectUploadActivity
+import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
@@ -97,6 +99,7 @@ class ProjectOptionsFragment : Fragment() {
         addTags()
         setupProjectAspectRatio()
         setupProjectSaveExternal()
+        setupProjectUpload()
         setupProjectMoreDetails()
         setupProjectOptionDelete()
 
@@ -156,6 +159,17 @@ class ProjectOptionsFragment : Fragment() {
     private fun setupProjectSaveExternal() {
         binding.projectOptionsSaveExternal.setOnClickListener {
             exportProject()
+        }
+    }
+
+    private fun setupProjectUpload() {
+        binding.projectOptionsUpload.setOnClickListener {
+            saveProject()
+            project?.let {
+                val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
+                intent.putExtra(PROJECT_DIR, it.directory.absolutePath)
+                startActivity(intent)
+            }
         }
     }
 

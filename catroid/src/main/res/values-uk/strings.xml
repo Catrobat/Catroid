@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проєкт, який Ви завантажили слухає ваш голос
      у фоновому режимі, а також відправляє дані в інтернет. Це може бути корисним й обов\'язковим 

@@ -23,5 +23,5 @@
 package org.catrobat.catroid.web
 
 class Cookie(private val name: String, private val value: String) {
-    fun generateCookieString(): String = "$name=$value"
+    fun generateCookieString(): String = "$name=$value; HttpOnly; Secure; Path=/; SameSite=Strict"
 }

@@ -33,7 +33,6 @@ import android.os.ResultReceiver
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback
 import org.catrobat.catroid.transfers.project.ProjectDownloadService
@@ -53,10 +52,11 @@ import java.util.Collections
 import java.util.HashSet
 import java.util.Locale
 
-class ProjectDownloader(
+class ProjectDownloader @JvmOverloads constructor(
     private val queue: ProjectDownloadQueue,
     private val url: String,
-    callback: ProjectDownloadCallback?
+    callback: ProjectDownloadCallback?,
+    private val resolvedProjectName: String? = null
 ) : Serializable {
     private val callbackWeakReference = WeakReference<ProjectDownloadCallback>(callback)
 
@@ -66,19 +66,27 @@ class ProjectDownloader(
         private val TAG = ProjectDownloader::class.java.simpleName
 
         fun getProjectNameFromUrl(url: String): String? {
-            val projectNameIndex = url.lastIndexOf(FILENAME_QUERY_PARAM) + FILENAME_QUERY_PARAM.length
-            val projectNameUTF8 = url.substring(projectNameIndex)
-            return try {
-                URLDecoder.decode(projectNameUTF8, "UTF-8")
-            } catch (e: UnsupportedEncodingException) {
-                Log.e(TAG, "Could not decode project name: $projectNameUTF8", e)
-                null
+            if (url.contains(FILENAME_QUERY_PARAM)) {
+                val projectNameIndex = url.lastIndexOf(FILENAME_QUERY_PARAM) + FILENAME_QUERY_PARAM.length
+                val projectNameUTF8 = url.substring(projectNameIndex)
+                return try {
+                    URLDecoder.decode(projectNameUTF8, "UTF-8")
+                } catch (e: UnsupportedEncodingException) {
+                    Log.e(TAG, "Could not decode project name: $projectNameUTF8", e)
+                    null
+                }
             }
+            val apiPattern = Regex("/api/projects/([a-zA-Z0-9-]+)/catrobat")
+            val match = apiPattern.find(url)
+            if (match != null) {
+                return match.groupValues[1]
+            }
+            return null
         }
     }
 
     fun download(activity: AppCompatActivity) {
-        val projectName = getProjectNameFromUrl(url)
+        val projectName = resolvedProjectName ?: getProjectNameFromUrl(url)
 
         if (projectName == null) {
             ToastUtil.showError(activity, R.string.error_could_not_decode_project_name_from_url)
@@ -139,11 +147,10 @@ class ProjectDownloader(
             when (resultCode) {
                 UPDATE_PROGRESS_CODE -> {
                     val progress = resultData.getInt(UPDATE_PROGRESS_EXTRA)
-                    callbackWeakReference.get()?.onDownloadProgress(progress.toInt(), url)
+                    callbackWeakReference.get()?.onDownloadProgress(progress, url)
                 }
                 SUCCESS_CODE -> {
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
-                    ProjectManager.getInstance().addNewDownloadedProject(projectName)
                     queue.finished(projectName)
                 }
                 ERROR_CODE -> queue.finished(projectName)

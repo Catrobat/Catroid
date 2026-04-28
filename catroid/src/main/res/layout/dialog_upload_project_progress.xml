@@ -43,10 +43,48 @@
 
        <ProgressBar
            android:id="@+id/dialog_upload_progress_progressbar"
-           android:layout_width="wrap_content"
+           style="@android:style/Widget.ProgressBar.Horizontal"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="@dimen/material_design_spacing_large"
-           android:layout_gravity="center"/>
+           android:layout_marginBottom="@dimen/material_design_spacing_small"
+           android:max="100"
+           android:progress="0"
+           android:indeterminate="false"
+           android:progressTint="@color/accent"
+           android:progressBackgroundTint="@color/app_background"/>
+
+        <TextView
+            android:id="@+id/dialog_upload_progress_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/material_design_spacing_large"
+            android:text="@string/upload_progress_initial"
+            android:textColor="@color/accent"/>
+
+        <LinearLayout
+            android:id="@+id/dialog_upload_processing_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/material_design_spacing_large">
+
+            <ProgressBar
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/material_design_spacing_small"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/accent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/progress_upload_dialog_processing"
+                android:textColor="@color/accent"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/dialog_upload_progress_image"

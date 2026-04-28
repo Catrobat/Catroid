@@ -36,6 +36,9 @@ import org.catrobat.catroid.retrofit.models.ProjectResponse
 import org.catrobat.catroid.retrofit.models.ProjectResponseApi
 import org.catrobat.catroid.retrofit.models.ProjectsCategory
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 fun ImageView.loadImageFromUrl(url: String) {
     Glide.with(context)
@@ -62,8 +65,20 @@ fun View.setVisibleOrGone(show: Boolean) {
     }
 }
 
+private fun parseIso8601ToMillis(dateString: String?): Long {
+    if (dateString.isNullOrEmpty()) return 0L
+    return try {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US)
+        format.timeZone = TimeZone.getTimeZone("UTC")
+        format.parse(dateString)?.time ?: 0L
+    } catch (_: Exception) {
+        0L
+    }
+}
+
 fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<ProjectResponse> {
     return this.map { src ->
+        val screenshotUrl = src.getScreenshotUrl() ?: ""
         ProjectResponse(
             id = src.id,
             name = src.name,
@@ -71,20 +86,20 @@ fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<P
             description = src.description,
             version = src.version,
             views = src.views,
-            download = src.download,
-            private = src.private,
+            download = src.downloads,
+            isPrivate = src.isPrivate,
             flavor = src.flavor,
-            tags = src.tags,
-            uploaded = src.uploaded,
-            uploadedString = src.uploaded_string,
-            screenshotSmall = src.screenshot_small,
-            screenshotLarge = src.screenshot_large,
-            projectUrl = src.project_url,
-            downloadUrl = src.download_url,
+            tags = src.tags?.values?.toList() ?: emptyList(),
+            uploaded = parseIso8601ToMillis(src.uploadedAt),
+            uploadedString = src.uploadedString,
+            screenshotSmall = src.screenshot?.getThumbUrl() ?: screenshotUrl,
+            screenshotLarge = src.screenshot?.getDetailUrl() ?: screenshotUrl,
+            projectUrl = src.projectUrl,
+            downloadUrl = src.downloadUrl,
             fileSize = src.filesize,
             categoryType = projectType
         )
-    }.toMutableList()
+    }
 }
 
 fun ProjectsCategoryApi.convertToProjectsCategory() = ProjectsCategory(this.type, this.name)
@@ -97,4 +112,4 @@ fun ProjectsCategoryApi.toProjectCategoryWithResponses(): ProjectCategoryWithRes
 }
 
 fun List<ProjectsCategoryApi>.toProjectCategoryWithResponsesList() =
-    this.map { it.toProjectCategoryWithResponses() }.toMutableList()
+    this.map { it.toProjectCategoryWithResponses() }

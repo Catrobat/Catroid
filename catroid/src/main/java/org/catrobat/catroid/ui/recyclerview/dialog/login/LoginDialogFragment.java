@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,15 +39,18 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.LoginHelper;
+import org.catrobat.catroid.web.LoginRepository;
+import kotlin.Lazy;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
+import static org.koin.java.KoinJavaComponent.inject;
+
+public class LoginDialogFragment extends DialogFragment {
 
 	public static final String TAG = LoginDialogFragment.class.getSimpleName();
 	public static final String PASSWORD_FORGOTTEN_PATH = "reset-password";
@@ -59,6 +62,8 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	private AlertDialog alertDialog;
 
 	private SignInCompleteListener signInCompleteListener;
+
+	private final Lazy<LoginRepository> loginRepository = inject(LoginRepository.class);
 
 	public void setSignInCompleteListener(SignInCompleteListener signInCompleteListener) {
 		this.signInCompleteListener = signInCompleteListener;
@@ -150,35 +155,42 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	}
 
 	@Override
-	public void onLoginComplete() {
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
-		signInCompleteListener.onLoginSuccessful(bundle);
-		dismiss();
-	}
-
-	@Override
-	public void onLoginFailed(String msg) {
-		passwordEditText.setError(msg);
-		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-	}
-
-	@Override
 	public void onCancel(DialogInterface dialog) {
+		LoginHelper.cancel();
 		signInCompleteListener.onLoginCancel();
+	}
+
+	@Override
+	public void onDestroyView() {
+		LoginHelper.cancel();
+		super.onDestroyView();
 	}
 
 	private void onLoginButtonClick() {
 		String username = usernameEditText.getText().toString().replaceAll("\\s", "");
 		String password = passwordEditText.getText().toString();
-		LoginTask loginTask = new LoginTask(getActivity(), username, password);
-		loginTask.setOnLoginListener(this);
-		loginTask.execute();
+
+		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+		LoginHelper.performLogin(
+				loginRepository.getValue(),
+				username,
+				password,
+				() -> {
+					Bundle bundle = new Bundle();
+					bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
+					signInCompleteListener.onLoginSuccessful(bundle);
+					dismiss();
+				},
+				errorMsg -> {
+					passwordEditText.setError(errorMsg);
+					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+				}
+		);
 	}
 
 	private void onPasswordForgottenButtonClick() {
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : FlavoredConstants.BASE_URL_HTTPS;
-		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
+		String url = Constants.BASE_APP_URL_HTTPS + PASSWORD_FORGOTTEN_PATH;
 
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);

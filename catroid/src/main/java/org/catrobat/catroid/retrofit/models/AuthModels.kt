@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.transfers.project
+package org.catrobat.catroid.retrofit.models
 
-import java.io.File
+import com.squareup.moshi.Json
 
-data class ProjectUploadData(
-    val projectName: String,
-    val projectDescription: String,
-    val projectArchive: File,
-    val userEmail: String,
-    val language: String,
+data class LoginRequest(
+    val username: String,
+    val password: String
+)
+
+data class RefreshRequest(
+    @Json(name = "refresh_token") val refreshToken: String
+)
+
+data class OAuthLoginRequest(
+    @Json(name = "id_token") val idToken: String,
+    @Json(name = "resource_owner") val resourceOwner: String
+)
+
+data class AuthResponse(
     val token: String,
-    val username: String
+    @Json(name = "refresh_token") val refreshToken: String,
+    val username: String? = null
+)
+
+data class ApiErrorResponse(
+    val error: ApiErrorDetail
+)
+
+data class ApiErrorDetail(
+    val code: Int,
+    val type: String,
+    val message: String,
+    val details: List<ApiFieldError>? = null
+)
+
+data class ApiFieldError(
+    val field: String,
+    val message: String
 )

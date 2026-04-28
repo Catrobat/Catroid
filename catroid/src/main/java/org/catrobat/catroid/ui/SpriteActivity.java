@@ -103,6 +103,7 @@ import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFr
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATHS;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
@@ -366,8 +367,9 @@ public class SpriteActivity extends BaseActivity {
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_LIBRARY:
-				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
-				addSpriteFromUri(uri);
+				for (String path : getMediaFilePaths(data)) {
+					addSpriteFromUri(Uri.fromFile(new File(path)));
+				}
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
@@ -382,8 +384,9 @@ public class SpriteActivity extends BaseActivity {
 				addBackgroundFromUri(uri);
 				break;
 			case BACKGROUND_LIBRARY:
-				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
-				addBackgroundFromUri(uri);
+				for (String path : getMediaFilePaths(data)) {
+					addBackgroundFromUri(Uri.fromFile(new File(path)));
+				}
 				break;
 			case BACKGROUND_FILE:
 				uri = data.getData();
@@ -399,8 +402,9 @@ public class SpriteActivity extends BaseActivity {
 				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_LIBRARY:
-				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
-				addLookFromUri(uri);
+				for (String path : getMediaFilePaths(data)) {
+					addLookFromUri(Uri.fromFile(new File(path)));
+				}
 				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_FILE:
@@ -419,8 +423,9 @@ public class SpriteActivity extends BaseActivity {
 				addSoundFromUri(uri);
 				break;
 			case SOUND_LIBRARY:
-				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
-				addSoundFromUri(uri);
+				for (String path : getMediaFilePaths(data)) {
+					addSoundFromUri(Uri.fromFile(new File(path)));
+				}
 				break;
 			case REQUEST_CODE_VISUAL_PLACEMENT:
 				Bundle extras = data.getExtras();
@@ -464,6 +469,15 @@ public class SpriteActivity extends BaseActivity {
 
 	public void registerOnNewSoundListener(NewItemInterface<SoundInfo> listener) {
 		onNewSoundListener = listener;
+	}
+
+	private java.util.List<String> getMediaFilePaths(Intent data) {
+		java.util.ArrayList<String> paths = data.getStringArrayListExtra(MEDIA_FILE_PATHS);
+		if (paths != null && !paths.isEmpty()) {
+			return paths;
+		}
+		String singlePath = data.getStringExtra(MEDIA_FILE_PATH);
+		return singlePath != null ? java.util.Collections.singletonList(singlePath) : java.util.Collections.emptyList();
 	}
 
 	private void addSpriteFromUri(final Uri uri) {

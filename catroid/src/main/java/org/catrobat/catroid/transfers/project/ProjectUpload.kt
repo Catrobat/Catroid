@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,25 @@
 
 package org.catrobat.catroid.transfers.project
 
-import android.content.SharedPreferences
 import android.util.Log
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_WIDTH
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.utils.ImageEditing
-import org.catrobat.catroid.web.ServerCalls
+import org.catrobat.catroid.utils.ProjectIdUtils
+import org.catrobat.catroid.utils.Utils
+import org.catrobat.catroid.web.ProgressRequestBody
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.util.Locale
 
 typealias UploadProjectSuccessCallback = (projectId: String) -> Unit
 typealias UploadProjectErrorCallback = (errorCode: Int, errorMessage: String) -> Unit
@@ -45,18 +50,17 @@ class ProjectUpload(
     private val projectDirectory: File,
     private val projectName: String,
     private val projectDescription: String,
-    private val userEmail: String,
     private val sceneNames: Array<String>?,
     private val archiveDirectory: File,
     private val zipArchiver: ZipArchiver,
     private val screenshotLoader: ProjectAndSceneScreenshotLoader,
-    private val sharedPreferences: SharedPreferences,
-    private val serverCalls: ServerCalls
+    private val webService: WebService
 ) {
 
     fun start(
         successCallback: UploadProjectSuccessCallback,
-        errorCallback: UploadProjectErrorCallback
+        errorCallback: UploadProjectErrorCallback,
+        progressCallback: ((percent: Int) -> Unit)? = null
     ) {
         val projectArchive = zipProjectToArchive(projectDirectory, archiveDirectory)
         if (projectArchive == null) {
@@ -64,43 +68,41 @@ class ProjectUpload(
             return
         }
 
-        val projectUploadData = createUploadData(projectArchive)
-
         scaleSceneScreenshots(projectName, sceneNames)
 
-        serverCalls.uploadProject(
-            projectUploadData,
-            { projectId, successUsername, successToken ->
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, successToken)
-                    .putString(Constants.USERNAME, successUsername)
-                    .apply()
-
-                successCallback(projectId)
-                projectArchive.delete()
-            },
-            { errorCode, errorMessage ->
-                errorCallback(
-                    errorCode,
-                    errorMessage
-                )
+        try {
+            val checksum = Utils.md5Checksum(projectArchive)
+            var fileBody: RequestBody = RequestBody.create(MediaType.parse("application/zip"), projectArchive)
+            if (progressCallback != null) {
+                fileBody = ProgressRequestBody(fileBody, progressCallback)
             }
-        )
-    }
+            val filePart = MultipartBody.Part.createFormData("file", UPLOAD_FILE_NAME, fileBody)
+            val checksumPart = RequestBody.create(MediaType.parse("text/plain"), checksum)
+            val flavorPart = RequestBody.create(MediaType.parse("text/plain"), FlavoredConstants.FLAVOR_NAME)
+            val resolvedProjectId = readProjectId()
+            val projectIdPart = resolvedProjectId?.let {
+                RequestBody.create(MediaType.parse("text/plain"), it)
+            }
 
-    private fun createUploadData(projectArchive: File): ProjectUploadData {
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME)
+            val response = webService.uploadProject(filePart, checksumPart, flavorPart, projectId = projectIdPart).execute()
 
-        return ProjectUploadData(
-            projectName = projectName,
-            projectDescription = projectDescription,
-            projectArchive = projectArchive,
-            userEmail = userEmail,
-            language = Locale.getDefault().language,
-            token = token ?: Constants.NO_TOKEN,
-            username = username ?: Constants.NO_USERNAME
-        )
+            if (response.isSuccessful) {
+                val returnedProjectId = response.body()?.id ?: ""
+                if (returnedProjectId.isNotEmpty()) {
+                    saveProjectId(returnedProjectId)
+                }
+                successCallback(returnedProjectId)
+                if (!projectArchive.delete()) {
+                    Log.w(TAG, "Failed to delete project archive: ${projectArchive.absolutePath}")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: UPLOAD_FAILED_MESSAGE
+                errorCallback(response.code(), errorBody)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, UPLOAD_FAILED_MESSAGE, e)
+            errorCallback(UPLOAD_NETWORK_ERROR, e.message ?: UPLOAD_FAILED_MESSAGE)
+        }
     }
 
     private fun scaleSceneScreenshots(projectName: String, sceneNames: Array<String>?) {
@@ -117,8 +119,10 @@ class ProjectUpload(
 
     private fun zipProjectToArchive(projectDirectory: File, archiveDirectory: File): File? {
         return try {
-            val fileList = projectDirectory.listFiles()
-            val filteredFileList = fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILE_NAME }
+            val fileList = projectDirectory.listFiles() ?: emptyArray()
+            val filteredFileList = fileList.filter { file ->
+                file.name != DEVICE_VARIABLE_JSON_FILE_NAME && file.name != SERVER_PROJECT_ID_FILE
+            }
 
             zipArchiver.zip(archiveDirectory, filteredFileList.toTypedArray())
             archiveDirectory
@@ -129,9 +133,59 @@ class ProjectUpload(
         }
     }
 
+    private fun readProjectId(): String? {
+        return try {
+            // First check the dedicated server ID file (survives code.xml backup/restore)
+            val idFile = File(projectDirectory, SERVER_PROJECT_ID_FILE)
+            val id = idFile.readText().trim()
+            if (id.isNotBlank() && ProjectIdUtils.UUID_REGEX.matches(id)) {
+                return id
+            }
+
+            // Fall back to extracting UUID from code.xml <url> tag
+            val codeXml = File(projectDirectory, Constants.CODE_XML_FILE_NAME)
+            val content = codeXml.readText()
+            val urlMatch = ProjectIdUtils.URL_TAG_REGEX.find(content) ?: return null
+            val urlContent = urlMatch.groupValues[1]
+            if (urlContent.isBlank()) return null
+            ProjectIdUtils.extractUuidFromString(urlContent)
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to read project ID: ${e.message}")
+            null
+        }
+    }
+
+    private fun saveProjectId(projectId: String) {
+        try {
+            // Write to a dedicated file that won't be overwritten by loadBackup()
+            val idFile = File(projectDirectory, SERVER_PROJECT_ID_FILE)
+            idFile.writeText(projectId)
+
+            // Also update code.xml <url> for remix detection
+            val codeXml = File(projectDirectory, Constants.CODE_XML_FILE_NAME)
+            val shareUrl = Constants.SHARE_PROJECT_URL + projectId
+            val content = codeXml.readText()
+            val updatedContent = when {
+                ProjectIdUtils.URL_TAG_REGEX.containsMatchIn(content) ->
+                    content.replace(ProjectIdUtils.URL_TAG_REGEX, "<url>$shareUrl</url>")
+                content.contains("<url/>") ->
+                    content.replace("<url/>", "<url>$shareUrl</url>")
+                content.contains("<url />") ->
+                    content.replace("<url />", "<url>$shareUrl</url>")
+                else -> return
+            }
+            codeXml.writeText(updatedContent)
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to update project URL in code.xml: ${e.message}")
+        }
+    }
+
     companion object {
         private val TAG = ProjectUpload::class.java.simpleName
+        private const val SERVER_PROJECT_ID_FILE = ".server_project_id"
         const val UPLOAD_ZIP_ERROR = 32_202
         const val UPLOAD_ZIP_ERROR_MESSAGE = "Failed to zip directory for upload"
+        const val UPLOAD_FAILED_MESSAGE = "Upload failed"
+        const val UPLOAD_NETWORK_ERROR = 32_203
     }
 }

@@ -233,13 +233,15 @@ class ProjectActivity : BaseCastActivity() {
             }
 
             SPRITE_LIBRARY -> {
-                uri = Uri.fromFile(File(data!!.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
-                addSpriteFromUri(uri)
+                for (path in getMediaFilePaths(data!!)) {
+                    addSpriteFromUri(Uri.fromFile(File(path)))
+                }
             }
 
             SPRITE_OBJECT -> {
-                uri = Uri.fromFile(File(data!!.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
-                addObjectFromUri(uri)
+                for (path in getMediaFilePaths(data!!)) {
+                    addObjectFromUri(Uri.fromFile(File(path)))
+                }
             }
 
             SPRITE_FILE -> {
@@ -272,6 +274,13 @@ class ProjectActivity : BaseCastActivity() {
                 addObjectFromUri(uri)
             }
         }
+    }
+
+    private fun getMediaFilePaths(data: Intent): List<String> {
+        val paths = data.getStringArrayListExtra(WebViewActivity.MEDIA_FILE_PATHS)
+        if (!paths.isNullOrEmpty()) return paths
+        val single = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)
+        return if (single != null) listOf(single) else emptyList()
     }
 
     private fun addSpriteFromUri(uri: Uri?, imageExtension: String = DEFAULT_IMAGE_EXTENSION) {

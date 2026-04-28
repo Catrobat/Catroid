@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,7 @@
 package org.catrobat.catroid.transfers;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,26 +33,26 @@ import com.google.android.gms.tasks.Task;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
-import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.web.LoginHelper;
+import org.catrobat.catroid.web.LoginRepository;
+import kotlin.Lazy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent;
-
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID;
+import static org.koin.java.KoinJavaComponent.inject;
 
-public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
-		GoogleLogInTask.OnGoogleServerLogInCompleteListener,
-		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
-		GoogleExchangeCodeTask.OnGoogleExchangeCodeCompleteListener {
+public class GoogleLoginHandler {
 
 	private AppCompatActivity activity;
 	public static final int REQUEST_CODE_GOOGLE_SIGNIN = 100;
 	private GoogleSignInClient googleSignInClient;
+
+	private final Lazy<LoginRepository> loginRepository = inject(LoginRepository.class);
 
 	@SuppressWarnings("RestrictedApi")
 	public GoogleLoginHandler(AppCompatActivity activity) {
@@ -78,100 +76,34 @@ public class GoogleLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthToken
 			if (task.isSuccessful()) {
 				onGoogleLogInComplete(task.getResult());
 			} else {
+				String errorMsg = task.getException() != null && task.getException().getLocalizedMessage() != null
+						? task.getException().getLocalizedMessage().replace(":", "")
+						: "Unknown error";
 				ToastUtil.showError(activity,
-						String.format(activity.getString(R.string.error_google_plus_sign_in), task.getException().getLocalizedMessage().replace(":", "")));
+						String.format(activity.getString(R.string.error_google_plus_sign_in), errorMsg));
 			}
 		}
 	}
 
 	public void onGoogleLogInComplete(GoogleSignInAccount account) {
-		String id = account.getId();
-		String personName = account.getDisplayName();
-		String email = account.getEmail();
-		String locale = DeviceSettingsProvider.getUserCountryCode();
 		String idToken = account.getIdToken();
-		String code = account.getServerAuthCode();
 
-		PreferenceManager.getDefaultSharedPreferences(activity).edit()
-				.putString(Constants.GOOGLE_ID, id)
-				.putString(Constants.GOOGLE_USERNAME, personName)
-				.putString(Constants.GOOGLE_EMAIL, email)
-				.putString(Constants.GOOGLE_LOCALE, locale)
-				.putString(Constants.GOOGLE_ID_TOKEN, idToken)
-				.putString(Constants.GOOGLE_EXCHANGE_CODE, code)
-				.apply();
-
-		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(activity, id, Constants.GOOGLE_PLUS);
-		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
-		checkOAuthTokenTask.execute();
-	}
-
-	@Override
-	public void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		if (tokenAvailable) {
-			GoogleLogInTask googleLogInTask = new GoogleLogInTask(activity,
-					sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-					sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-					sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-					sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-			googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
-			googleLogInTask.execute();
-		} else {
-			String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(email, Constants.GOOGLE_PLUS);
-			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
-			checkEmailAvailableTask.execute();
+		if (idToken == null) {
+			ToastUtil.showError(activity, R.string.sign_in_error);
+			return;
 		}
-	}
 
-	@Override
-	public void onGoogleServerLogInComplete() {
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		((SignInCompleteListener) activity).onLoginSuccessful(bundle);
-	}
-
-	@Override
-	public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
-		if (emailAvailable) {
-			exchangeGoogleAuthorizationCode();
-		} else {
-			showOauthUserNameDialog(Constants.GOOGLE_PLUS);
-		}
-	}
-
-	public void exchangeGoogleAuthorizationCode() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(activity,
-				sharedPreferences.getString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE),
-				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE),
-				sharedPreferences.getString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN));
-		googleExchangeCodeTask.setOnGoogleExchangeCodeCompleteListener(this);
-		googleExchangeCodeTask.execute();
-	}
-
-	private void showOauthUserNameDialog(String provider) {
-		OAuthUsernameDialogFragment dialog = new OAuthUsernameDialogFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
-		dialog.setArguments(bundle);
-		dialog.setSignInCompleteListener((SignInCompleteListener) activity);
-		dialog.show(activity.getSupportFragmentManager(), OAuthUsernameDialogFragment.TAG);
-	}
-
-	@Override
-	public void onGoogleExchangeCodeComplete() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		GoogleLogInTask googleLogInTask = new GoogleLogInTask(activity,
-				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-		googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
-		googleLogInTask.execute();
+		LoginHelper.performGoogleLogin(
+				loginRepository.getValue(),
+				idToken,
+				() -> {
+					if (activity instanceof SignInCompleteListener && !activity.isFinishing()) {
+						Bundle bundle = new Bundle();
+						bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
+						((SignInCompleteListener) activity).onLoginSuccessful(bundle);
+					}
+				},
+				errorMsg -> ToastUtil.showError(activity, errorMsg)
+		);
 	}
 }

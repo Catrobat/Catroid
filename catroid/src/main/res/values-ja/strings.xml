@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">しばらくお待ちください</string>
     <string formatted="false" name="search_hint">検索…</string>
     <string formatted="false" name="backpack_add">バックパックに追加</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">あなたがダウンロードしたプロジェクトは、バックグラウンドであなたの声を聴き
         バックグラウンドであなたの声を聞き、またデータをインターネットに送信します。これは無害かもしれませんし

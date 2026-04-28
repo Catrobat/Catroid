@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.Utils;
 
@@ -42,6 +41,7 @@ import static org.catrobat.catroid.transfers.GoogleLoginHandler.REQUEST_CODE_GOO
 
 public class SignInActivity extends BaseActivity implements SignInCompleteListener {
 	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
+	public static final String REGISTRATION_PATH = "register";
 
 	private GoogleLoginHandler googleLoginHandler;
 
@@ -78,9 +78,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
 				break;
 			case R.id.sign_in_register:
-				RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();
-				registrationDialog.setSignInCompleteListener(this);
-				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
+				openRegistrationInWebView();
 				break;
 			case R.id.sign_in_google_login_button:
 				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
@@ -88,6 +86,13 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 			default:
 				break;
 		}
+	}
+
+	private void openRegistrationInWebView() {
+		String url = Constants.BASE_APP_URL_HTTPS + REGISTRATION_PATH;
+		Intent intent = new Intent(this, WebViewActivity.class);
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		startActivity(intent);
 	}
 
 	@Override

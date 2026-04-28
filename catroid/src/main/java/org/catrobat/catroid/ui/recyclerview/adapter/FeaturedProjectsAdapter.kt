@@ -60,8 +60,8 @@ class FeaturedProjectsAdapter : RecyclerView.Adapter<FeaturedProjectsAdapter.Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.featuredProjectIV.loadImageFromUrl(item.featured_image)
-        holder.itemView.setOnClickListener { callback.onFeatureProjectClicked(item.project_url) }
+        holder.featuredProjectIV.loadImageFromUrl(item.featuredImage)
+        holder.itemView.setOnClickListener { callback.onFeatureProjectClicked(item.projectUrl) }
     }
 
     override fun getItemCount() = data.size

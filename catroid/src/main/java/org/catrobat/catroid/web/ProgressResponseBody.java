@@ -39,12 +39,16 @@ public class ProgressResponseBody extends ResponseBody {
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
 
+	public interface DownloadProgressCallback {
+		void onProgress(long progress);
+	}
+
 	private final ResponseBody responseBody;
 	private BufferedSource bufferedSource;
-	private CatrobatServerCalls.DownloadProgressCallback progressCallback;
+	private DownloadProgressCallback progressCallback;
 
 	ProgressResponseBody(ResponseBody responseBody,
-			CatrobatServerCalls.DownloadProgressCallback progressCallback) {
+			DownloadProgressCallback progressCallback) {
 		this.responseBody = responseBody;
 		this.progressCallback = progressCallback;
 	}
