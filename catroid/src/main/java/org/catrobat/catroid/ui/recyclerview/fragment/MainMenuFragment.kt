@@ -155,6 +155,7 @@ class MainMenuFragment : Fragment(),
                 binding.categoriesRecyclerView.setVisibleOrGone(!showNoInternetLayout)
 
                 featuredProjectsAdapter.setItems(featuredProjectsList)
+                binding.featuredProjectsRecyclerView.setVisibleOrGone(featuredProjectsList.isNotEmpty())
                 binding.featuredProjectsRecyclerView.itemsCount = featuredProjectsList.size
 
                 categoriesAdapter.setItems(projectsCategoriesList)

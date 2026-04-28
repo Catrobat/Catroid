@@ -64,12 +64,4 @@ object DatabaseMigrations {
         }
     }
 
-    val MIGRATION_2_3 = object : Migration(2, 3) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            // Clear cached featured projects — schema unchanged, but API response format changed
-            database.execSQL("DELETE FROM featured_project")
-            database.execSQL("DELETE FROM project_category")
-            database.execSQL("DELETE FROM project_response")
-        }
-    }
 }

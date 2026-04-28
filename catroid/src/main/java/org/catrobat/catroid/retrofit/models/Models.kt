@@ -29,6 +29,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.squareup.moshi.Json
+import org.catrobat.catroid.retrofit.FlexibleMap
 
 // --- Cursor pagination envelope ---
 
@@ -184,8 +185,8 @@ data class ProjectResponseApi(
     @Json(name = "private")
     val isPrivate: Boolean = false,
     val flavor: String = "",
-    val tags: Map<String, String>? = null,
-    val extensions: Map<String, String>? = null,
+    @FlexibleMap val tags: Map<String, String>? = null,
+    @FlexibleMap val extensions: Map<String, String>? = null,
     @Json(name = "uploaded_at") val uploadedAt: String? = null,
     @Json(name = "uploaded_string") val uploadedString: String = "",
     val screenshot: ImageVariants? = null,

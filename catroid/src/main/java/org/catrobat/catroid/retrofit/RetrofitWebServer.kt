@@ -130,6 +130,7 @@ interface WebService {
 class CatroidWebServer private constructor() {
     companion object {
         val moshi: Moshi = Moshi.Builder()
+            .add(FlexibleMapAdapter.FACTORY)
             .addLast(KotlinJsonAdapterFactory())
             .build()
 

@@ -134,11 +134,11 @@ class MainMenuFragmentTest : KoinTest {
             .check(matches(isDisplayed()))
             .check(matches(isClickable()))
 
+        assumeTrue("no featured projects available", featuredProjectsAdapter.itemCount > 0)
+
         onView(withId(R.id.featuredProjectsRecyclerView))
             .perform(scrollTo())
             .check(matches(isDisplayed()))
-
-        assumeTrue("seems there is no internet connection", featuredProjectsAdapter.itemCount > 0)
     }
 
     @Test
