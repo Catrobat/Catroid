@@ -443,6 +443,11 @@ public class Project implements Serializable {
 			}
 		}
 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			resourcesSet.remove(Brick.STORAGE_READ);
+			resourcesSet.remove(Brick.STORAGE_WRITE);
+		}
+
 		return resourcesSet;
 	}
 
