@@ -559,7 +559,12 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionIndexOfItem(Object left, Scope scope) {
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			UserList userList = UserDataWrapper.getUserList(rightChild.value, scope);
-			return (double) (userList.getIndexOf(left) + 1);
+			List<Object> items = userList.getValue();
+			for (int i = 0; i < items.size(); i++) {
+				if (interpretOperatorEqual(items.get(i), left)) {
+					return (double) (i + 1);
+				}
+			}
 		}
 
 		return FALSE;
