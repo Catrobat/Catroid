@@ -379,6 +379,7 @@ class ProjectListFragment(
             item ?: continue
             try {
                 projectManager.deleteDownloadedProjectInformation(item.name)
+                ProjectUndoManager.clearUndoHistoryForProject(item.directory)
                 StorageOperations.deleteDir(item.directory)
                 items.remove(item)
             } catch (e: IOException) {
@@ -422,6 +423,7 @@ class ProjectListFragment(
         name ?: return
         if (name != item.name) {
             setShowProgressBar(true)
+            ProjectUndoManager.clearUndoHistoryForProject(item.directory)
             ProjectRenamer(item.directory, name)
                 .renameProjectAsync({ success: Boolean -> onRenameFinished(success) })
         }

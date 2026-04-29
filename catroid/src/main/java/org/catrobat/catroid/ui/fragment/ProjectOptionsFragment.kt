@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.koin.android.ext.android.inject
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager
 import java.io.File
 import java.io.IOException
 
@@ -239,6 +240,7 @@ class ProjectOptionsFragment : Fragment() {
 
         if (project!!.name != name) {
             XstreamSerializer.getInstance().saveProject(project)
+            ProjectUndoManager.clearUndoHistoryForProject(project!!.directory)
             val renamedDirectory = renameProject(project!!.directory, name)
             if (renamedDirectory == null) {
                 Log.e(TAG, "Creating renamed directory failed!")
@@ -357,6 +359,7 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun deleteProject(selectedProject: ProjectData) {
         try {
+            ProjectUndoManager.clearUndoHistoryForProject(selectedProject.directory)
             StorageOperations.deleteDir(selectedProject.directory)
         } catch (exception: IOException) {
             Log.e(TAG, Log.getStackTraceString(exception))

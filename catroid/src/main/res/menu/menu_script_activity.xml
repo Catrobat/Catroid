@@ -29,7 +29,16 @@
         android:id="@+id/menu_undo"
         android:title="@string/undo"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/icon_undo"
+        android:icon="@drawable/icon_undo_disabled"
+        android:enabled="false"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/menu_redo"
+        android:title="@string/redo"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_redo_disabled"
+        android:enabled="false"
         android:visible="false"/>
 
     <item
