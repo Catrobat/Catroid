@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,9 @@ public class VisualPlacementTouchListener {
 	private float previousY;
 	private List<TouchEventData> recentTouchEventsData = new ArrayList<>();
 
+	private ResizeRotateGestureDetector resizeRotateDetector;
+	private BoundingBoxOverlay boundingBoxOverlay;
+
 	private final class TouchEventData {
 		private final long timeStamp;
 		private final float xCoordinate;
@@ -55,62 +58,121 @@ public class VisualPlacementTouchListener {
 		this.mode = mode;
 	}
 
-	public boolean onTouch(ImageView imageView, MotionEvent event, CoordinateInterface coordinateInterface) {
-		if (event.getPointerId(0) == 0) {
-			float currentX = event.getRawX();
-			float currentY = event.getRawY();
-			long motionEventTime = event.getEventTime();
+	public void setResizeRotateDetector(ResizeRotateGestureDetector detector) {
+		this.resizeRotateDetector = detector;
+	}
 
-			switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					setMode(Mode.TAP);
-					previousX = currentX;
-					previousY = currentY;
-					recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
-					break;
-				case MotionEvent.ACTION_CANCEL:
-				case MotionEvent.ACTION_UP:
-					if (mode == Mode.TAP) {
-						imageView.setX(event.getX() - (float) imageView.getWidth() / 2);
-						imageView.setY(event.getY() - (float) imageView.getHeight() / 2);
-					} else {
-						removeObsoleteTouchEventsData(motionEventTime);
-						float dX = currentX - previousX;
-						float dY = currentY - previousY;
-						if (!recentTouchEventsData.isEmpty() && recentTouchEventsData.size() > 1) {
-							TouchEventData oldestEntry = recentTouchEventsData.get(0);
-							float distanceCorrectionX = currentX - oldestEntry.xCoordinate;
-							float distanceCorrectionY = currentY - oldestEntry.yCoordinate;
-							double distance = distanceCorrectionX * distanceCorrectionX + distanceCorrectionY * distanceCorrectionY;
-							if (distance < JITTER_DISTANCE_THRESHOLD && distance != 0) {
-								dX -= distanceCorrectionX;
-								dY -= distanceCorrectionY;
-							}
-						}
-						imageView.setX(imageView.getX() + dX);
-						imageView.setY(imageView.getY() + dY);
-					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					long delayTime = motionEventTime - event.getDownTime();
-					if (delayTime > TAP_DELAY_THRESHOLD) {
-						setMode(Mode.MOVE);
-						float dX = currentX - previousX;
-						float dY = currentY - previousY;
-						imageView.setX(imageView.getX() + dX);
-						imageView.setY(imageView.getY() + dY);
-						recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
-						previousX = currentX;
-						previousY = currentY;
-						removeObsoleteTouchEventsData(motionEventTime);
-					}
-					break;
-			}
-			coordinateInterface.setXCoordinate(imageView.getX());
-			coordinateInterface.setYCoordinate(-imageView.getY());
-			return true;
-		} else {
+	public void setBoundingBoxOverlay(BoundingBoxOverlay overlay) {
+		this.boundingBoxOverlay = overlay;
+	}
+
+	public boolean onTouch(ImageView imageView, MotionEvent event, CoordinateInterface coordinateInterface) {
+		if (imageView == null || coordinateInterface == null) {
 			return false;
+		}
+
+		if (handleMultiTouch(event)) {
+			return true;
+		}
+
+		return handleSingleTouch(imageView, event, coordinateInterface);
+	}
+
+	private boolean handleMultiTouch(MotionEvent event) {
+		if (resizeRotateDetector == null) {
+			return false;
+		}
+		if (event.getPointerCount() >= 2 || resizeRotateDetector.isTransforming()) {
+			boolean wasTransforming = resizeRotateDetector.isTransforming();
+			resizeRotateDetector.onTouchEvent(event);
+			boolean isCurrentlyTransforming = resizeRotateDetector.isTransforming();
+
+			if (isCurrentlyTransforming) {
+				updateBoundingBox();
+				return true;
+			}
+			if (wasTransforming && !isCurrentlyTransforming) {
+				previousX = event.getRawX();
+				previousY = event.getRawY();
+				setMode(Mode.MOVE);
+				updateBoundingBox();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean handleSingleTouch(ImageView imageView, MotionEvent event, CoordinateInterface coordinateInterface) {
+		if (event.getPointerCount() <= 0 || event.getPointerId(0) != 0) {
+			return false;
+		}
+
+		float currentX = event.getRawX();
+		float currentY = event.getRawY();
+		long motionEventTime = event.getEventTime();
+
+		switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				setMode(Mode.TAP);
+				previousX = currentX;
+				previousY = currentY;
+				recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
+				break;
+			case MotionEvent.ACTION_CANCEL:
+			case MotionEvent.ACTION_UP:
+				handleTouchUp(imageView, event, currentX, currentY, motionEventTime);
+				break;
+			case MotionEvent.ACTION_MOVE:
+				handleTouchMove(imageView, event, currentX, currentY, motionEventTime);
+				break;
+		}
+		coordinateInterface.setXCoordinate(imageView.getX());
+		coordinateInterface.setYCoordinate(-imageView.getY());
+		updateBoundingBox();
+		return true;
+	}
+
+	private void handleTouchUp(ImageView imageView, MotionEvent event, float currentX, float currentY, long motionEventTime) {
+		if (mode == Mode.TAP) {
+			imageView.setX(event.getX() - (float) imageView.getWidth() / 2);
+			imageView.setY(event.getY() - (float) imageView.getHeight() / 2);
+		} else {
+			removeObsoleteTouchEventsData(motionEventTime);
+			float dX = currentX - previousX;
+			float dY = currentY - previousY;
+			if (!recentTouchEventsData.isEmpty() && recentTouchEventsData.size() > 1) {
+				TouchEventData oldestEntry = recentTouchEventsData.get(0);
+				float distanceCorrectionX = currentX - oldestEntry.xCoordinate;
+				float distanceCorrectionY = currentY - oldestEntry.yCoordinate;
+				double distance = distanceCorrectionX * distanceCorrectionX + distanceCorrectionY * distanceCorrectionY;
+				if (distance < JITTER_DISTANCE_THRESHOLD && distance != 0) {
+					dX -= distanceCorrectionX;
+					dY -= distanceCorrectionY;
+				}
+			}
+			imageView.setX(imageView.getX() + dX);
+			imageView.setY(imageView.getY() + dY);
+		}
+	}
+
+	private void handleTouchMove(ImageView imageView, MotionEvent event, float currentX, float currentY, long motionEventTime) {
+		long delayTime = motionEventTime - event.getDownTime();
+		if (delayTime > TAP_DELAY_THRESHOLD) {
+			setMode(Mode.MOVE);
+			float dX = currentX - previousX;
+			float dY = currentY - previousY;
+			imageView.setX(imageView.getX() + dX);
+			imageView.setY(imageView.getY() + dY);
+			recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
+			previousX = currentX;
+			previousY = currentY;
+			removeObsoleteTouchEventsData(motionEventTime);
+		}
+	}
+
+	private void updateBoundingBox() {
+		if (boundingBoxOverlay != null) {
+			boundingBoxOverlay.updateOverlay();
 		}
 	}
 

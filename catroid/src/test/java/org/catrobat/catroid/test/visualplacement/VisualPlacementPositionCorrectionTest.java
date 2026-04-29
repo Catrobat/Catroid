@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,8 @@ public class VisualPlacementPositionCorrectionTest {
 	@Before
 	public void setUp() {
 		when(motionEvent.getDownTime()).thenReturn((long) 0);
+		when(motionEvent.getPointerCount()).thenReturn(1);
+		when(motionEvent.getPointerId(0)).thenReturn(0);
 	}
 
 	public void triggerTouchDownEvent(float startPositionX, float startPositionY) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,7 @@ public class VisualPlacementTouchListenerTest {
 
 	@Test
 	public void testTouchDownSetCoordinates() {
+		when(firstEvent.getPointerCount()).thenReturn(1);
 		when(firstEvent.getAction()).thenReturn(MotionEvent.ACTION_DOWN);
 		when(imageView.getX()).thenReturn(13f);
 		when(imageView.getY()).thenReturn(17f);
@@ -71,6 +72,7 @@ public class VisualPlacementTouchListenerTest {
 
 	@Test
 	public void testTouchMoveSetCoordinates() {
+		when(secondEvent.getPointerCount()).thenReturn(1);
 		when(secondEvent.getAction()).thenReturn(MotionEvent.ACTION_MOVE);
 		when(imageView.getX()).thenReturn(10f);
 		when(imageView.getY()).thenReturn(21f);
@@ -83,6 +85,7 @@ public class VisualPlacementTouchListenerTest {
 
 	@Test
 	public void testOnTouchReturnFalse() {
+		when(firstEvent.getPointerCount()).thenReturn(1);
 		when(firstEvent.getPointerId(0)).thenReturn(1);
 		boolean returnValue = listener.onTouch(imageView, firstEvent, coordinateInterface);
 		assertFalse(returnValue);
@@ -91,6 +94,7 @@ public class VisualPlacementTouchListenerTest {
 
 	@Test
 	public void testOnTouchReturnTrue() {
+		when(firstEvent.getPointerCount()).thenReturn(1);
 		when(firstEvent.getPointerId(0)).thenReturn(0);
 		boolean returnValue = listener.onTouch(imageView, firstEvent, coordinateInterface);
 		assertTrue(returnValue);
