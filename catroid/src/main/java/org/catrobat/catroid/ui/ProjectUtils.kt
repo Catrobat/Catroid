@@ -73,39 +73,8 @@ private fun List<Brick>.containsSuspiciousBricks(): Boolean {
  * */
 public fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
-    allBricks.forEach { brick ->
-        bricks.add(brick)
-        when (brick) {
-            is ForeverBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is IfLogicBeginBrick -> {
-                bricks.addAll(brick.nestedBricks)
-                bricks.addAll(brick.secondaryNestedBricks)
-            }
-            is IfThenLogicBeginBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is RepeatBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is RepeatUntilBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is ForVariableFromToBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is ForItemInUserListBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is ParameterizedBrick ->
-                bricks.addAll(brick.nestedBricks)
-
-            is PhiroIfLogicBeginBrick -> {
-                bricks.addAll(brick.nestedBricks)
-                bricks.addAll(brick.secondaryNestedBricks)
-            }
-        }
+    scriptList.forEach { script ->
+        script.addToFlatList(bricks)
     }
     return bricks
 }
