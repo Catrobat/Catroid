@@ -1154,6 +1154,8 @@
     <string formatted="false" name="brick_reset_timer">Reset timer</string>
     <string formatted="false" name="brick_open">Open</string>
     <string formatted="false" name="brick_in_browser">in browser</string>
+    <string formatted="false" name="brick_show_toast">Show message</string>
+    <string formatted="false" name="brick_show_toast_default_value">Hello World!</string>
 
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">When scene starts</string>
