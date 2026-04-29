@@ -125,6 +125,28 @@ class ScriptUndoIntegrationTest {
     }
 
     @Test
+    fun testAddBrickUndoRedo() {
+        onView(withId(R.id.button_add)).perform(click())
+        onView(withText(R.string.category_motion)).perform(click())
+        onView(withText(R.string.brick_place_at)).perform(click())
+
+        // Adding a brick via AddBrickFragment triggers startMoving() in ScriptFragment
+        dropHoveringBrick()
+
+        onView(withId(R.id.menu_undo))
+            .perform(waitFor(isEnabled(), waitThreshold))
+        onView(withId(R.id.menu_undo))
+            .check(matches(isEnabled()))
+
+        onView(withId(R.id.menu_undo)).perform(click())
+        onView(withId(R.id.menu_redo))
+            .perform(waitFor(isEnabled(), waitThreshold))
+
+        val projectAfterUndo = getProjectAsXmlString()
+        assertEquals(initialProject, projectAfterUndo)
+    }
+
+    @Test
     fun testCopyControlStructureUndoRedo() {
         onBrickAtPosition(0).performClick()
         onView(withText(R.string.brick_context_dialog_copy_script))
