@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
+import org.catrobat.catroid.content.actions.ArcAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -69,6 +70,7 @@ import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.content.actions.GoThroughAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
@@ -102,8 +104,6 @@ import org.catrobat.catroid.content.actions.PlayDrumForBeatsAction;
 import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PlaySoundAtAction;
-import org.catrobat.catroid.content.actions.PlotArcAction;
-import org.catrobat.catroid.content.actions.PlotThroughAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
@@ -121,8 +121,6 @@ import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SaveLaserAction;
 import org.catrobat.catroid.content.actions.SavePlotAction;
-import org.catrobat.catroid.content.actions.ShareLaserAction;
-import org.catrobat.catroid.content.actions.SharePlotAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -151,6 +149,8 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.SewUpAction;
+import org.catrobat.catroid.content.actions.ShareLaserAction;
+import org.catrobat.catroid.content.actions.SharePlotAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
@@ -160,13 +160,13 @@ import org.catrobat.catroid.content.actions.StartCutAction;
 import org.catrobat.catroid.content.actions.StartEngraveAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StartPlotAction;
-import org.catrobat.catroid.content.actions.StopCutAction;
-import org.catrobat.catroid.content.actions.StopEngraveAction;
-import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
+import org.catrobat.catroid.content.actions.StopCutAction;
+import org.catrobat.catroid.content.actions.StopEngraveAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopPlotAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopSoundAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
@@ -190,6 +190,7 @@ import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.ArcBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -202,8 +203,6 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.PlotArcBrick;
-import org.catrobat.catroid.content.bricks.PlotThroughBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -623,10 +622,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPlotArcAction(Sprite sprite, SequenceAction sequence,
-			PlotArcBrick.Directions direction,
+	public Action createArcAction(Sprite sprite, SequenceAction sequence,
+			ArcBrick.Directions direction,
 			Formula radius, Formula degrees) {
-		PlotArcAction action = Actions.action(PlotArcAction.class);
+		ArcAction action = Actions.action(ArcAction.class);
 		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
 				sequence));
 		action.setDirection(direction);
@@ -639,9 +638,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPlotThroughAction(Sprite sprite, SequenceAction sequence,
+	public Action createGoThroughAction(Sprite sprite, SequenceAction sequence,
 			Formula x1, Formula y1, Formula x2, Formula y2) {
-		PlotThroughAction action = Actions.action(PlotThroughAction.class);
+		GoThroughAction action = Actions.action(GoThroughAction.class);
 		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite,
 				sequence));
 		action.setTargetCoordinates(x1, y1, x2, y2);
@@ -649,7 +648,8 @@ public class ActionFactory extends Actions {
 		action.setDuration(0);
 		action.setInterpolation(null);
 
-		return action;	}
+		return action;
+	}
 
 	public Action createSetPenSizeAction(Sprite sprite, SequenceAction sequence, Formula penSize) {
 		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);

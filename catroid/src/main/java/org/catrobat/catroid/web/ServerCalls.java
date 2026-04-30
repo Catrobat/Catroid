@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.web;
 
 import android.content.Context;
@@ -215,14 +216,11 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 
 		try {
-			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {
-				{
-					put("limit", Integer.toString(numberOfItems));
-					put("offset", Integer.toString(pageNumber * numberOfItems));
-					put("language", Locale.getDefault().getLanguage());
-					put("q", URLEncoder.encode(query, "UTF-8"));
-				}
-			};
+			final HashMap<String, String> httpGetParams = new HashMap<>();
+			httpGetParams.put("limit", Integer.toString(numberOfItems));
+			httpGetParams.put("offset", Integer.toString(pageNumber * numberOfItems));
+			httpGetParams.put("language", Locale.getDefault().getLanguage());
+			httpGetParams.put("q", URLEncoder.encode(query, "UTF-8"));
 
 			StringBuilder urlStringBuilder = new StringBuilder(Constants.SCRATCH_SEARCH_URL);
 			urlStringBuilder.append('?');

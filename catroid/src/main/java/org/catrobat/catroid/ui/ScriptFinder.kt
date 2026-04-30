@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui
 
 import android.app.Activity
@@ -76,13 +77,14 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         binding.find.visibility = VISIBLE
     }
 
-    private fun formatSearchQuery(query: CharSequence): String = query.toString().trim()
-        .lowercase(Locale.ROOT)
+    private fun formatSearchQuery(query: CharSequence): String =
+        query.toString().trim().lowercase(Locale.ROOT)
 
     init {
         orientation = VERTICAL
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = ViewScriptFinderBinding.inflate(inflater, this)
+        EdgeToEdge.applyTopPadding(binding.root)
 
         binding.find.setOnClickListener { find() }
         binding.findNext.setOnClickListener { findNext() }
@@ -121,8 +123,8 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             try {
                 if (v is Spinner) {
                     val selectedItem = v.selectedItem
-                    if (selectedItem is Nameable && selectedItem.name.lowercase(Locale.ROOT)
-                            .contains(searchQuery)
+                    if (selectedItem is Nameable &&
+                        selectedItem.name.lowercase(Locale.ROOT).contains(searchQuery)
                     ) {
                         return true
                     }
@@ -134,8 +136,8 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
                             return true
                         }
                     }
-                } else if (v is TextView && v.text.toString().lowercase(Locale.ROOT)
-                        .contains(searchQuery)
+                } else if (v is TextView &&
+                    v.text.toString().lowercase(Locale.ROOT).contains(searchQuery)
                 ) {
                     return true
                 }

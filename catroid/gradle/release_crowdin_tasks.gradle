@@ -113,16 +113,16 @@ def loadCrowdinKey() {
 }
 
 task cleanCrowdin(type: Delete) {
-    description "Delete objects in crowdin folder."
-    group releasePreparationSubGroup
+    description = "Delete objects in crowdin folder."
+    group = releasePreparationSubGroup
 
     delete crowdinExtractedPath, crowdinArchivePath
     followSymlinks = true
 }
 
 task downloadCrowdinFiles() {
-    description "Downloads crowdin translations for App Store information."
-    group releasePreparationSubGroup
+    description = "Downloads crowdin translations for App Store information."
+    group = releasePreparationSubGroup
 
     doLast {
         createCrowdinDirectory()
@@ -139,8 +139,8 @@ task downloadCrowdinFiles() {
 }
 
 task unpackCrowdinFiles(type: Copy) {
-    description "Unpacks the previously downloaded crowdin zip file."
-    group releasePreparationSubGroup
+    description = "Unpacks the previously downloaded crowdin zip file."
+    group = releasePreparationSubGroup
     dependsOn downloadCrowdinFiles
 
     def zipFile = file(project.ext.crowdinArchivePath)
@@ -154,8 +154,8 @@ task unpackCrowdinFiles(type: Copy) {
 
 android.productFlavors.all { flavor ->
     task("generateAppStoreInfo${flavor.name.capitalize()}") {
-        description "Generating App Store info files from local crowdin translations."
-        group releasePreparationSubGroup
+        description = "Generating App Store info files from local crowdin translations."
+        group = releasePreparationSubGroup
         dependsOn unpackCrowdinFiles
 
         doLast {
@@ -215,8 +215,8 @@ android.productFlavors.all { flavor ->
 
 android.productFlavors.all { flavor ->
     task("generateCrowdinMetadata${flavor.name.capitalize()}") {
-        description "Run all tasks to generate crowdin files for Metadata folder."
-        group releasePreparationMainGroup
+        description = "Run all tasks to generate crowdin files for Metadata folder."
+        group = releasePreparationMainGroup
         dependsOn downloadCrowdinFiles, unpackCrowdinFiles,
                 "generateAppStoreInfo${flavor.name.capitalize()}"
 
