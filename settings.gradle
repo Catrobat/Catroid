@@ -1,4 +1,6 @@
-/*
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
