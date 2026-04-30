@@ -23,10 +23,12 @@
 package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
@@ -55,6 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,7 +102,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA, USER_DEFINED_FUNCTION
 	}
 
 	private ElementType type;
@@ -207,6 +210,9 @@ public class FormulaElement implements Serializable {
 			case COLLISION_FORMULA:
 				addToken(tokens, COLLISION_FORMULA, value);
 				break;
+			case USER_DEFINED_FUNCTION:
+				addUserDefinedFunctionTokens(tokens, value, leftChild, rightChild, additionalChildren);
+				break;
 		}
 		return tokens;
 	}
@@ -231,25 +237,32 @@ public class FormulaElement implements Serializable {
 		tryAddInternTokens(tokens, rightChild);
 	}
 
+	private void addUserDefinedFunctionTokens(List<InternToken> tokens, String brickId, FormulaElement leftChild,
+			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
+		tokens.add(new InternToken(InternTokenType.USER_DEFINED_FUNCTION, brickId));
+		addParameterTokens(tokens, leftChild, rightChild, additionalChildren);
+	}
+
 	private void addFunctionTokens(List<InternToken> tokens, String value, FormulaElement leftChild, FormulaElement rightChild) {
 		addToken(tokens, FUNCTION_NAME, value);
-		boolean functionHasParameters = false;
+		addParameterTokens(tokens, leftChild, rightChild, additionalChildren);
+	}
+
+	private void addParameterTokens(List<InternToken> tokens, FormulaElement leftChild,
+			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
 		if (leftChild != null) {
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_OPEN);
-			functionHasParameters = true;
 			tokens.addAll(leftChild.getInternTokenList());
-		}
-		if (rightChild != null) {
-			addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
-			tokens.addAll(rightChild.getInternTokenList());
-		}
-		for (FormulaElement child : additionalChildren) {
-			if (child != null) {
+			if (rightChild != null) {
 				addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
-				tokens.addAll(child.getInternTokenList());
+				tokens.addAll(rightChild.getInternTokenList());
 			}
-		}
-		if (functionHasParameters) {
+			for (FormulaElement child : additionalChildren) {
+				if (child != null) {
+					addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
+					tokens.addAll(child.getInternTokenList());
+				}
+			}
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_CLOSE);
 		}
 	}
@@ -429,6 +442,8 @@ public class FormulaElement implements Serializable {
 				StageListener stageListener = StageActivity.stageListener;
 				return tryInterpretCollision(scope.getSprite().look, value, currentlyPlayingScene,
 						stageListener);
+			case USER_DEFINED_FUNCTION:
+				return interpretUserDefinedFunction(scope);
 		}
 		return FALSE;
 	}
@@ -523,6 +538,31 @@ public class FormulaElement implements Serializable {
 			return interpretFunctionIfThenElseObject(ifCondition, thenPart, elsePart);
 		}
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
+	}
+
+
+	private Object interpretUserDefinedFunction(Scope scope) {
+		UUID brickId = UUID.fromString(value);
+
+		List<Object> parameters = new ArrayList<>();
+		if (leftChild != null) {
+			parameters.add(leftChild.interpretRecursive(scope));
+			if (rightChild != null) {
+				parameters.add(rightChild.interpretRecursive(scope));
+				for (FormulaElement child : additionalChildren) {
+					parameters.add(child.interpretRecursive(scope));
+				}
+			}
+		}
+
+		long callId = FunctionCallManager.getInstance().createCall();
+		UserDefinedBrickEventId eventId = new UserDefinedBrickEventId(brickId, parameters, callId);
+
+		if (scope.getSprite() != null) {
+			scope.getSprite().look.fire(new EventWrapper(eventId, false));
+		}
+
+		return FunctionCallManager.getInstance().waitForResult(callId);
 	}
 
 	private Object interpretFunctionNumberOfItems(Object left, Scope scope) {
