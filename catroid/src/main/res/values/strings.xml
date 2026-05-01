@@ -2296,6 +2296,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
     data is turned on.</string>
     <string formatted="false" name="edit">Edit</string>
+    <string name="edit_data_dialog_title">Edit %s</string>
     <string formatted="false" name="data_value">Value</string>
     <string formatted="false" name="category_recently_used">Recently used</string>
     <string formatted="false" name="new_sprite_dialog_place_visually">Place visually</string>
