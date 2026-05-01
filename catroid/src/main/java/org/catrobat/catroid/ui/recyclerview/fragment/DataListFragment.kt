@@ -494,7 +494,11 @@ class DataListFragment : Fragment(),
 
     private fun rawValueToString(value: Any?): String {
         return when (value) {
-            is Boolean -> value.toString()
+            is Boolean -> if (value) {
+                getString(R.string.formula_editor_function_true)
+            } else {
+                getString(R.string.formula_editor_function_false)
+            }
             is Double -> trimTrailingCharacters(value.toString())
             else -> value?.toString().orEmpty()
         }
@@ -503,9 +507,13 @@ class DataListFragment : Fragment(),
     private fun editItem(item: UserData<*>, value: String?) {
         val trimmedValue = value?.trim()
         if (item is UserVariable) {
+            val localizedTrue = getString(R.string.formula_editor_function_true)
+            val localizedFalse = getString(R.string.formula_editor_function_false)
             val parsedValue: Any? = when {
-                trimmedValue.equals("true", ignoreCase = true) -> true
-                trimmedValue.equals("false", ignoreCase = true) -> false
+                trimmedValue.equals("true", ignoreCase = true) ||
+                    trimmedValue.equals(localizedTrue, ignoreCase = true) -> true
+                trimmedValue.equals("false", ignoreCase = true) ||
+                    trimmedValue.equals(localizedFalse, ignoreCase = true) -> false
                 else -> try {
                     trimmedValue?.toDouble()
                 } catch (_: NumberFormatException) {
