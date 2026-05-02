@@ -432,7 +432,7 @@ public class WebViewActivity extends AppCompatActivity {
 			return;
 		}
 
-		boolean secure = url != null && url.startsWith("https://");
+		boolean secure = url != null && url.regionMatches(true, 0, "https://", 0, "https://".length());
 		Cookie bearerCookie = new Cookie("BEARER", jwtToken, secure);
 		cookieManager.setCookie(url, bearerCookie.generateCookieString());
 	}

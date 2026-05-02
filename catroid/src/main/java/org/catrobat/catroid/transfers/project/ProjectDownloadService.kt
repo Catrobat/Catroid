@@ -205,8 +205,6 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         try {
             val shareUrl = Constants.SHARE_PROJECT_URL + serverProjectId
             val codeXml = File(projectDir, Constants.CODE_XML_FILE_NAME)
-            if (!codeXml.exists()) return
-
             val content = codeXml.readText()
             val replacement = "<url>$shareUrl</url>"
             val updatedContent = when {
