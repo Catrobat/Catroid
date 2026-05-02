@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,10 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -68,11 +72,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
@@ -212,7 +211,7 @@ public class WebViewActivity extends AppCompatActivity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private class MyWebViewClient extends WebViewClient {
+	private final class MyWebViewClient extends WebViewClient {
 		@Override
 		public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
 			String url = request.getUrl().toString();
@@ -433,7 +432,8 @@ public class WebViewActivity extends AppCompatActivity {
 			return;
 		}
 
-		Cookie bearerCookie = new Cookie("BEARER", jwtToken);
+		boolean secure = url != null && url.startsWith("https://");
+		Cookie bearerCookie = new Cookie("BEARER", jwtToken, secure);
 		cookieManager.setCookie(url, bearerCookie.generateCookieString());
 	}
 

@@ -69,7 +69,7 @@ class AuthInterceptor(
 
         val response = chain.proceed(request)
 
-        if (response.code() != 401 || token == null) {
+        if (response.code() != HTTP_UNAUTHORIZED || token == null) {
             return response
         }
 
@@ -121,5 +121,6 @@ class AuthInterceptor(
 
     companion object {
         private const val TAG = "AuthInterceptor"
+        private const val HTTP_UNAUTHORIZED = 401
     }
 }

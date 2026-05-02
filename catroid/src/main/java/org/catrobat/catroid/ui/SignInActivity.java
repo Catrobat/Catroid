@@ -71,20 +71,15 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	}
 
 	private void onButtonClickForRealThisTime(View view) {
-		switch (view.getId()) {
-			case R.id.sign_in_login:
-				LoginDialogFragment logInDialog = new LoginDialogFragment();
-				logInDialog.setSignInCompleteListener(this);
-				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
-				break;
-			case R.id.sign_in_register:
-				openRegistrationInWebView();
-				break;
-			case R.id.sign_in_google_login_button:
-				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
-				break;
-			default:
-				break;
+		int id = view.getId();
+		if (id == R.id.sign_in_login) {
+			LoginDialogFragment logInDialog = new LoginDialogFragment();
+			logInDialog.setSignInCompleteListener(this);
+			logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
+		} else if (id == R.id.sign_in_register) {
+			openRegistrationInWebView();
+		} else if (id == R.id.sign_in_google_login_button) {
+			startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
+import androidx.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.retrofit.WebService;
 import org.catrobat.catroid.retrofit.models.SurveyResponse;
@@ -34,9 +35,8 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Date;
-import kotlin.Lazy;
 
-import androidx.annotation.VisibleForTesting;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LAST_USED_DATE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_SURVEY_KEY;

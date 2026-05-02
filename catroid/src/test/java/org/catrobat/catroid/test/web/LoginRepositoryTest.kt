@@ -24,14 +24,12 @@
 package org.catrobat.catroid.test.web
 
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.retrofit.AuthService
 import org.catrobat.catroid.retrofit.models.AuthResponse
-import org.catrobat.catroid.retrofit.models.LoginRequest
 import org.catrobat.catroid.web.JwtTokenStore
 import org.catrobat.catroid.web.LoginRepository
 import org.junit.Assert.assertEquals

@@ -35,6 +35,7 @@ import org.catrobat.catroid.web.DownloadClient;
 import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.IOException;
+
 import kotlin.Lazy;
 
 import static org.koin.java.KoinJavaComponent.inject;

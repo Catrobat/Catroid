@@ -232,16 +232,12 @@ class ProjectActivity : BaseCastActivity() {
                 addSpriteFromUri(uri)
             }
 
-            SPRITE_LIBRARY -> {
-                for (path in getMediaFilePaths(data!!)) {
-                    addSpriteFromUri(Uri.fromFile(File(path)))
-                }
+            SPRITE_LIBRARY -> getMediaFilePaths(data!!).forEach { path ->
+                addSpriteFromUri(Uri.fromFile(File(path)))
             }
 
-            SPRITE_OBJECT -> {
-                for (path in getMediaFilePaths(data!!)) {
-                    addObjectFromUri(Uri.fromFile(File(path)))
-                }
+            SPRITE_OBJECT -> getMediaFilePaths(data!!).forEach { path ->
+                addObjectFromUri(Uri.fromFile(File(path)))
             }
 
             SPRITE_FILE -> {

@@ -63,5 +63,4 @@ object DatabaseMigrations {
             database.execSQL(CREATE_PROJECT_RESPONSE_TABLE_V3_SQL)
         }
     }
-
 }

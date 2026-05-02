@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,13 @@
  */
 package org.catrobat.catroid.web
 
-class Cookie(private val name: String, private val value: String) {
-    fun generateCookieString(): String = "$name=$value; HttpOnly; Secure; Path=/; SameSite=Strict"
+class Cookie(
+    private val name: String,
+    private val value: String,
+    private val secure: Boolean = true
+) {
+    fun generateCookieString(): String {
+        val secureFlag = if (secure) "Secure; " else ""
+        return "$name=$value; HttpOnly; ${secureFlag}Path=/; SameSite=Strict"
+    }
 }

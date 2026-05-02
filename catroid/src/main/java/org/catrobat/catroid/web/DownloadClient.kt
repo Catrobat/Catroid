@@ -29,6 +29,7 @@ import android.util.Log
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okio.buffer
 import okio.sink
 import org.catrobat.catroid.BuildConfig
@@ -75,21 +76,23 @@ class DownloadClient(private val okHttpClient: OkHttpClient) {
     private fun executeDownload(url: String, destination: File, progressCallback: (Long) -> Unit) {
         val request = Request.Builder().url(url).build()
         val httpClient = buildClientWithProgress(url, progressCallback)
-        val response = httpClient.newCall(request).execute()
-
-        response.use {
-            if (!it.isSuccessful) {
-                throw WebConnectionException(it.code(), "Download failed! HTTP ${it.code()}")
+        httpClient.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                throw WebConnectionException(response.code(), "Download failed! HTTP ${response.code()}")
             }
+            writeBodyToFile(response, destination)
+        }
+    }
 
-            try {
-                destination.sink().buffer().use { bufferedSink ->
-                    it.body()?.let { body -> bufferedSink.writeAll(body.source()) }
-                        ?: throw WebConnectionException(WebConnectionException.ERROR_NETWORK, "Empty response body")
-                }
-            } catch (e: IOException) {
-                throw WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e))
-            }
+    @Throws(WebConnectionException::class)
+    private fun writeBodyToFile(response: Response, destination: File) {
+        val body = response.body() ?: throw WebConnectionException(
+            WebConnectionException.ERROR_NETWORK, "Empty response body"
+        )
+        try {
+            destination.sink().buffer().use { it.writeAll(body.source()) }
+        } catch (e: IOException) {
+            throw WebConnectionException(WebConnectionException.ERROR_NETWORK, Log.getStackTraceString(e))
         }
     }
 
@@ -97,10 +100,15 @@ class DownloadClient(private val okHttpClient: OkHttpClient) {
         val builder = okHttpClient.newBuilder()
         builder.networkInterceptors().add { chain ->
             val originalResponse = chain.proceed(chain.request())
-            val body = ProgressResponseBody(originalResponse.body()) { progress ->
-                progressCallback(progress)
+            val originalBody = originalResponse.body()
+            if (originalBody == null) {
+                originalResponse
+            } else {
+                val body = ProgressResponseBody(originalBody) { progress ->
+                    progressCallback(progress)
+                }
+                originalResponse.newBuilder().body(body).build()
             }
-            originalResponse.newBuilder().body(body).build()
         }
         return if (url.startsWith("http://") && BuildConfig.DEBUG) {
             builder.connectionSpecs(listOf(ConnectionSpec.CLEARTEXT)).build()

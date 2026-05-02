@@ -82,11 +82,12 @@ class JwtTokenStore(context: Context) {
         private const val KEY_ACCESS_TOKEN = "jwt_access_token"
         private const val KEY_REFRESH_TOKEN = "jwt_refresh_token"
         private const val KEY_USERNAME = "jwt_username"
+        private const val JWT_PARTS = 3
 
         fun isValidJwtFormat(token: String?): Boolean {
             if (token.isNullOrEmpty()) return false
             val parts = token.split(".")
-            return parts.size == 3 && parts.all { it.isNotEmpty() }
+            return parts.size == JWT_PARTS && parts.all { it.isNotEmpty() }
         }
     }
 }

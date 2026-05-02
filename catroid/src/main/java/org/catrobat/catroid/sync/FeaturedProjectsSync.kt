@@ -28,7 +28,7 @@ import androidx.annotation.WorkerThread
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.FeaturedProject
-import org.catrobat.catroid.retrofit.models.FeaturedProjectApi
+import org.catrobat.catroid.retrofit.models.toRoomEntity
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 
 interface FeaturedProjectsSync {

@@ -34,6 +34,8 @@ import okhttp3.mockwebserver.MockWebServer
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.models.getCardUrl
+import org.catrobat.catroid.retrofit.models.getDetailUrl
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
 import org.junit.After
 import org.junit.Before

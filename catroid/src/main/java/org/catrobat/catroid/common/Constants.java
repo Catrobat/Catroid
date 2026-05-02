@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ public final class Constants {
 	public static final long PROGESSIVE_INPUT_DELAY = 400;
 	public static final long PROGESSIVE_INPUT_COUNTDOWN_INTERVALL = 500;
 	public static final long RETROFIT_WRITE_TIMEOUT = 300;
+	public static final long RETROFIT_CONNECT_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build

@@ -67,12 +67,6 @@ class DownloadClientTest {
             .build()
     }
 
-    private fun mockCall(response: Response) {
-        val call = mockk<Call>()
-        every { call.execute() } returns response
-        every { okHttpClient.newBuilder() } returns OkHttpClient.Builder()
-    }
-
     @Test
     fun `downloadProject writes file and calls success on 200`() {
         val content = "fake-project-zip"

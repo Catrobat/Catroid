@@ -46,9 +46,9 @@ data class ImageVariantSet(
     @Json(name = "avif_2x") val avif2x: String? = null,
     @Json(name = "webp_1x") val webp1x: String? = null,
     @Json(name = "webp_2x") val webp2x: String? = null
-) {
-    fun getBestUrl(): String? = webp2x ?: webp1x ?: avif2x ?: avif1x
-}
+)
+
+fun ImageVariantSet.getBestUrl(): String? = webp2x ?: webp1x ?: avif2x ?: avif1x
 
 data class ImageVariants(
     val thumb: ImageVariantSet? = null,
@@ -56,11 +56,11 @@ data class ImageVariants(
     val detail: ImageVariantSet? = null,
     val width: Int? = null,
     val height: Int? = null
-) {
-    fun getCardUrl(): String? = card?.getBestUrl() ?: thumb?.getBestUrl()
-    fun getDetailUrl(): String? = detail?.getBestUrl() ?: card?.getBestUrl()
-    fun getThumbUrl(): String? = thumb?.getBestUrl() ?: card?.getBestUrl()
-}
+)
+
+fun ImageVariants.getCardUrl(): String? = card?.getBestUrl() ?: thumb?.getBestUrl()
+fun ImageVariants.getDetailUrl(): String? = detail?.getBestUrl() ?: card?.getBestUrl()
+fun ImageVariants.getThumbUrl(): String? = thumb?.getBestUrl() ?: card?.getBestUrl()
 
 // --- Featured projects (from /api/projects/featured) ---
 
@@ -72,16 +72,16 @@ data class FeaturedProjectApi(
     val name: String,
     val author: String,
     @Json(name = "featured_image") val featuredImage: ImageVariants? = null
-) {
-    fun toRoomEntity(): FeaturedProject = FeaturedProject(
-        id = id,
-        projectId = projectId,
-        projectUrl = projectUrl,
-        name = name,
-        author = author,
-        featuredImage = featuredImage?.getDetailUrl() ?: featuredImage?.getCardUrl() ?: ""
-    )
-}
+)
+
+fun FeaturedProjectApi.toRoomEntity(): FeaturedProject = FeaturedProject(
+    id = id,
+    projectId = projectId,
+    projectUrl = projectUrl,
+    name = name,
+    author = author,
+    featuredImage = featuredImage?.getDetailUrl() ?: featuredImage?.getCardUrl() ?: ""
+)
 
 // Room entity (stores best image URL as string)
 @Entity(tableName = "featured_project")
@@ -196,9 +196,9 @@ data class ProjectResponseApi(
     @Json(name = "not_for_kids") val notForKids: Int = 0,
     @Json(name = "retention_days") val retentionDays: Int? = null,
     @Json(name = "retention_expiry") val retentionExpiry: String? = null
-) {
-    fun getScreenshotUrl(): String? = screenshot?.getCardUrl()
-}
+)
+
+fun ProjectResponseApi.getScreenshotUrl(): String? = screenshot?.getCardUrl()
 
 // --- Upload response (minimal — avoids PHP empty-array vs object mismatch on tags) ---
 

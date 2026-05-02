@@ -34,8 +34,6 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
-
-
 	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
 
 	public static final String FLAVOR_NAME = "create@school";

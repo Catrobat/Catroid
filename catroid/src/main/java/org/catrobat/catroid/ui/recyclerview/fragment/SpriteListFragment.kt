@@ -255,22 +255,25 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMPORT_OBJECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
-                importSpriteFromUri(Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT))))
-            } else {
-                val paths = data?.getStringArrayListExtra(WebViewActivity.MEDIA_FILE_PATHS)
-                if (!paths.isNullOrEmpty()) {
-                    for (path in paths) {
-                        importSpriteFromUri(Uri.fromFile(File(path)))
-                    }
-                } else {
-                    val single = data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)
-                    if (single != null) {
-                        importSpriteFromUri(Uri.fromFile(File(single)))
-                    }
-                }
-            }
+        if (requestCode != IMPORT_OBJECT_REQUEST_CODE || resultCode != Activity.RESULT_OK) {
+            return
+        }
+        importSpritesFromIntent(data)
+    }
+
+    private fun importSpritesFromIntent(data: Intent?) {
+        if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
+            importSpriteFromUri(Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT))))
+            return
+        }
+        val paths = data?.getStringArrayListExtra(WebViewActivity.MEDIA_FILE_PATHS)
+        if (!paths.isNullOrEmpty()) {
+            paths.forEach { importSpriteFromUri(Uri.fromFile(File(it))) }
+            return
+        }
+        val single = data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)
+        if (single != null) {
+            importSpriteFromUri(Uri.fromFile(File(single)))
         }
     }
 

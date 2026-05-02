@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,6 +91,9 @@ private const val LICENSE_TO_PLAY_URL =
 private const val PROGRAM_NAME_START_TAG = "<programName>"
 private const val PROGRAM_NAME_END_TAG = "</programName>"
 private const val THUMBNAIL_SIZE = 100
+private const val COMPLETE_PERCENT = 100
+private const val BYTES_PER_MB = 1024 * 1024
+private const val UPLOAD_RATING_THRESHOLD = 2
 private val TAG = ProjectUploadActivity::class.java.simpleName
 
 const val PROJECT_DIR = "projectDir"
@@ -184,7 +187,7 @@ open class ProjectUploadActivity : BaseActivity(),
             FileMetaDataExtractor.getSizeAsString(project.directory, this)
 
         if (projectSizeBytes > Constants.UPLOAD_MAX_SIZE_BYTES) {
-            val maxSizeMb = Constants.UPLOAD_MAX_SIZE_BYTES / (1024 * 1024)
+            val maxSizeMb = Constants.UPLOAD_MAX_SIZE_BYTES / BYTES_PER_MB
             binding.projectSizeView.text = getString(
                 R.string.error_project_too_large_for_upload,
                 FileMetaDataExtractor.getSizeAsString(project.directory, this),
@@ -519,38 +522,43 @@ open class ProjectUploadActivity : BaseActivity(),
         startService(intent)
     }
 
-    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+    private fun handleUploadProgress(progress: Int) {
+        val dialog = uploadProgressDialog ?: return
+        val progressBar = dialog.findViewById<android.widget.ProgressBar>(R.id.dialog_upload_progress_progressbar)
+        val percentView = dialog.findViewById<android.widget.TextView>(R.id.dialog_upload_progress_percent)
+        progressBar?.isIndeterminate = false
+        progressBar?.progress = progress
+        percentView?.text = getString(R.string.upload_progress_percent, progress)
+        if (progress >= COMPLETE_PERCENT) {
+            progressBar?.visibility = View.GONE
+            percentView?.visibility = View.GONE
+            dialog.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.VISIBLE
+        }
+    }
 
+    private fun handleUploadFailure(errorCode: Int) {
+        val dialog = uploadProgressDialog ?: return
+        dialog.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility = View.GONE
+        dialog.findViewById<View>(R.id.dialog_upload_progress_percent)?.visibility = View.GONE
+        dialog.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.GONE
+        val failedMessage = dialog.findViewById<TextView>(R.id.dialog_upload_message_failed)
+        failedMessage?.visibility = View.VISIBLE
+        if (errorCode == Constants.ERROR_TOO_MANY_REQUESTS) {
+            failedMessage?.setText(R.string.error_project_upload_rate_limit)
+        }
+        val image = dialog.findViewById<ImageView>(R.id.dialog_upload_progress_image)
+        image?.setImageResource(R.drawable.ic_upload_failed)
+        image?.visibility = View.VISIBLE
+    }
+
+    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
         if (resultCode == Constants.UPLOAD_PROGRESS_RESULT_CODE && resultData != null) {
-            val progress = resultData.getInt(Constants.EXTRA_UPLOAD_PROGRESS, 0)
-            val progressBar = uploadProgressDialog?.findViewById<android.widget.ProgressBar>(R.id.dialog_upload_progress_progressbar)
-            progressBar?.isIndeterminate = false
-            progressBar?.progress = progress
-            val percentView = uploadProgressDialog?.findViewById<android.widget.TextView>(R.id.dialog_upload_progress_percent)
-            percentView?.text = getString(R.string.upload_progress_percent, progress)
-            if (progress >= 100) {
-                progressBar?.visibility = View.GONE
-                percentView?.visibility = View.GONE
-                uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.VISIBLE
-            }
+            handleUploadProgress(resultData.getInt(Constants.EXTRA_UPLOAD_PROGRESS, 0))
             return
         }
 
         if (resultCode != Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || uploadProgressDialog?.isShowing == false) {
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
-                View.GONE
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_percent)?.visibility = View.GONE
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.GONE
-            val failedMessage = uploadProgressDialog?.findViewById<TextView>(R.id.dialog_upload_message_failed)
-            failedMessage?.visibility = View.VISIBLE
-            val errorCode = resultData?.getInt(ProjectUploadService.EXTRA_ERROR_CODE, 0) ?: 0
-            if (errorCode == Constants.ERROR_TOO_MANY_REQUESTS) {
-                failedMessage?.setText(R.string.error_project_upload_rate_limit)
-            }
-            val image =
-                uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
-            image?.setImageResource(R.drawable.ic_upload_failed)
-            image?.visibility = View.VISIBLE
+            handleUploadFailure(resultData?.getInt(ProjectUploadService.EXTRA_ERROR_CODE, 0) ?: 0)
             return
         }
 
@@ -593,7 +601,7 @@ open class ProjectUploadActivity : BaseActivity(),
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
             .apply()
 
-        if (numberOfUploadedProjects != 2) {
+        if (numberOfUploadedProjects != UPLOAD_RATING_THRESHOLD) {
             return
         }
 

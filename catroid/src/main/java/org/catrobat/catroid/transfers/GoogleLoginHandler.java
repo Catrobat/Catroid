@@ -25,6 +25,7 @@ package org.catrobat.catroid.transfers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,9 +38,8 @@ import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.LoginHelper;
 import org.catrobat.catroid.web.LoginRepository;
-import kotlin.Lazy;
 
-import androidx.appcompat.app.AppCompatActivity;
+import kotlin.Lazy;
 
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent;

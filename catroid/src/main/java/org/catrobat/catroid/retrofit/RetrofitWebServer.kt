@@ -26,6 +26,7 @@ package org.catrobat.catroid.retrofit
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
+import org.catrobat.catroid.common.Constants.RETROFIT_CONNECT_TIMEOUT
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.CursorPaginatedResponse
@@ -136,7 +137,7 @@ class CatroidWebServer private constructor() {
 
         private fun baseHttpClientBuilder(): OkHttpClient.Builder =
             OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(RETROFIT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))

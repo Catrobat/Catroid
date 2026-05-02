@@ -33,20 +33,19 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.LoginHelper;
 import org.catrobat.catroid.web.LoginRepository;
-import kotlin.Lazy;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
+import kotlin.Lazy;
 
 import static org.koin.java.KoinJavaComponent.inject;
 

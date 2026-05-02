@@ -31,9 +31,9 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_WIDTH
+import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.utils.ImageEditing
 import org.catrobat.catroid.utils.ProjectIdUtils
@@ -72,16 +72,17 @@ class ProjectUpload(
 
         try {
             val checksum = Utils.md5Checksum(projectArchive)
+            val textPlain = MediaType.parse(MEDIA_TYPE_TEXT_PLAIN)
             var fileBody: RequestBody = RequestBody.create(MediaType.parse("application/zip"), projectArchive)
             if (progressCallback != null) {
                 fileBody = ProgressRequestBody(fileBody, progressCallback)
             }
             val filePart = MultipartBody.Part.createFormData("file", UPLOAD_FILE_NAME, fileBody)
-            val checksumPart = RequestBody.create(MediaType.parse("text/plain"), checksum)
-            val flavorPart = RequestBody.create(MediaType.parse("text/plain"), FlavoredConstants.FLAVOR_NAME)
+            val checksumPart = RequestBody.create(textPlain, checksum)
+            val flavorPart = RequestBody.create(textPlain, FlavoredConstants.FLAVOR_NAME)
             val resolvedProjectId = readProjectId()
             val projectIdPart = resolvedProjectId?.let {
-                RequestBody.create(MediaType.parse("text/plain"), it)
+                RequestBody.create(textPlain, it)
             }
 
             val response = webService.uploadProject(filePart, checksumPart, flavorPart, projectId = projectIdPart).execute()
@@ -99,7 +100,7 @@ class ProjectUpload(
                 val errorBody = response.errorBody()?.string() ?: UPLOAD_FAILED_MESSAGE
                 errorCallback(response.code(), errorBody)
             }
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Log.e(TAG, UPLOAD_FAILED_MESSAGE, e)
             errorCallback(UPLOAD_NETWORK_ERROR, e.message ?: UPLOAD_FAILED_MESSAGE)
         }
@@ -135,21 +136,19 @@ class ProjectUpload(
 
     private fun readProjectId(): String? {
         return try {
-            // First check the dedicated server ID file (survives code.xml backup/restore)
             val idFile = File(projectDirectory, SERVER_PROJECT_ID_FILE)
             val id = idFile.readText().trim()
             if (id.isNotBlank() && ProjectIdUtils.UUID_REGEX.matches(id)) {
                 return id
             }
 
-            // Fall back to extracting UUID from code.xml <url> tag
             val codeXml = File(projectDirectory, Constants.CODE_XML_FILE_NAME)
             val content = codeXml.readText()
             val urlMatch = ProjectIdUtils.URL_TAG_REGEX.find(content) ?: return null
             val urlContent = urlMatch.groupValues[1]
             if (urlContent.isBlank()) return null
             ProjectIdUtils.extractUuidFromString(urlContent)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Log.w(TAG, "Failed to read project ID: ${e.message}")
             null
         }
@@ -157,25 +156,22 @@ class ProjectUpload(
 
     private fun saveProjectId(projectId: String) {
         try {
-            // Write to a dedicated file that won't be overwritten by loadBackup()
             val idFile = File(projectDirectory, SERVER_PROJECT_ID_FILE)
             idFile.writeText(projectId)
 
-            // Also update code.xml <url> for remix detection
             val codeXml = File(projectDirectory, Constants.CODE_XML_FILE_NAME)
             val shareUrl = Constants.SHARE_PROJECT_URL + projectId
             val content = codeXml.readText()
+            val replacement = "<url>$shareUrl</url>"
             val updatedContent = when {
                 ProjectIdUtils.URL_TAG_REGEX.containsMatchIn(content) ->
-                    content.replace(ProjectIdUtils.URL_TAG_REGEX, "<url>$shareUrl</url>")
-                content.contains("<url/>") ->
-                    content.replace("<url/>", "<url>$shareUrl</url>")
-                content.contains("<url />") ->
-                    content.replace("<url />", "<url>$shareUrl</url>")
+                    content.replace(ProjectIdUtils.URL_TAG_REGEX, replacement)
+                content.contains("<url/>") -> content.replace("<url/>", replacement)
+                content.contains("<url />") -> content.replace("<url />", replacement)
                 else -> return
             }
             codeXml.writeText(updatedContent)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Log.w(TAG, "Failed to update project URL in code.xml: ${e.message}")
         }
     }
@@ -183,6 +179,7 @@ class ProjectUpload(
     companion object {
         private val TAG = ProjectUpload::class.java.simpleName
         private const val SERVER_PROJECT_ID_FILE = ".server_project_id"
+        private const val MEDIA_TYPE_TEXT_PLAIN = "text/plain"
         const val UPLOAD_ZIP_ERROR = 32_202
         const val UPLOAD_ZIP_ERROR_MESSAGE = "Failed to zip directory for upload"
         const val UPLOAD_FAILED_MESSAGE = "Upload failed"

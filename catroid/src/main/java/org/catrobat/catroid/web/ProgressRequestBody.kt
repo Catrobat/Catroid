@@ -51,7 +51,7 @@ class ProgressRequestBody(
                 super.write(source, byteCount)
                 bytesWritten += byteCount
                 if (totalBytes > 0) {
-                    val percent = ((bytesWritten * 100) / totalBytes).toInt()
+                    val percent = ((bytesWritten * PERCENT) / totalBytes).toInt()
                     if (percent != lastReportedPercent) {
                         lastReportedPercent = percent
                         onProgress(percent)
@@ -63,5 +63,9 @@ class ProgressRequestBody(
         val bufferedSink = countingSink.buffer()
         delegate.writeTo(bufferedSink)
         bufferedSink.flush()
+    }
+
+    companion object {
+        private const val PERCENT = 100L
     }
 }

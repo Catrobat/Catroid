@@ -98,24 +98,24 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         startForeground(id, notification)
 
         downloadClient.downloadProject(
-                url,
-                destinationFile,
-                successCallback = {
-                    downloadSuccessCallback(
-                        this@ProjectDownloadService,
-                        projectName,
-                        url,
-                        destinationFile,
-                        resultReceiver
-                    )
-                },
-                errorCallback = { _, _ ->
-                    downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
-                },
-                progressCallback = { progress ->
-                    downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
-                }
-            )
+            url,
+            destinationFile,
+            successCallback = {
+                downloadSuccessCallback(
+                    this@ProjectDownloadService,
+                    projectName,
+                    url,
+                    destinationFile,
+                    resultReceiver
+                )
+            },
+            errorCallback = { _, _ ->
+                downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
+            },
+            progressCallback = { progress ->
+                downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
+            }
+        )
 
         stopForeground(true)
     }
@@ -199,9 +199,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         resultReceiver.send(UPDATE_PROGRESS_CODE, bundle)
     }
 
-    private fun extractProjectIdFromUrl(url: String): String? {
-        return ProjectIdUtils.extractUuidFromString(url)
-    }
+    private fun extractProjectIdFromUrl(url: String): String? = ProjectIdUtils.extractUuidFromString(url)
 
     private fun setRemixUrlInProject(projectDir: File, serverProjectId: String) {
         try {
@@ -210,14 +208,17 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             if (!codeXml.exists()) return
 
             val content = codeXml.readText()
-            val updatedContent = content.replace(
-                ProjectIdUtils.URL_TAG_REGEX,
-                "<url>$shareUrl</url>"
-            )
+            val replacement = "<url>$shareUrl</url>"
+            val updatedContent = when {
+                ProjectIdUtils.URL_TAG_REGEX.containsMatchIn(content) ->
+                    content.replace(ProjectIdUtils.URL_TAG_REGEX, replacement)
+                content.contains("<url/>") -> content.replace("<url/>", replacement)
+                content.contains("<url />") -> content.replace("<url />", replacement)
+                else -> return
+            }
             codeXml.writeText(updatedContent)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Log.w(TAG, "Failed to set remix URL in project: ${e.message}")
         }
     }
-
 }

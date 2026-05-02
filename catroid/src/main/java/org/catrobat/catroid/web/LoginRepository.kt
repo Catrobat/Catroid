@@ -57,6 +57,7 @@ class LoginRepository(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private inline fun <T> safeAuthCall(block: () -> T): Result<T> {
         return try {
             Result.success(block())
