@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1532,16 +1532,14 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string formatted="false" name="sound_insect">Insecte</string>
     <string formatted="false" name="sound_monster">Monstre</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">à gauche</string>
     <string formatted="false" name="direction_right">à droite</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">pendant</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">pendant</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
