@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -91,7 +91,7 @@
     <string formatted="false" name="main_menu_new">Mpya</string>
     <string formatted="false" name="main_menu_programs">Programu</string>
     <string formatted="false" name="main_menu_help">Msaada</string>
-    <string formatted="false" name="main_menu_web">Catrobat community</string>
+    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Pakia</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Tupime!</string>
@@ -1527,16 +1527,14 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="sound_insect">Insect</string>
     <string formatted="false" name="sound_monster">Monster</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">kushoto</string>
     <string formatted="false" name="direction_right">kulia</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">kwa ajili ya</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">kwa ajili ya</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
