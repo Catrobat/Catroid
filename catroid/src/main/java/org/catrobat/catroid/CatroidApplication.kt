@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,11 @@
 
 package org.catrobat.catroid
 
-import android.annotation.TargetApi
 import android.app.Application
 import android.content.Context
-import android.os.Build
 import android.os.StrictMode
 import android.util.Log
-import androidx.multidex.MultiDex
+import androidx.annotation.RequiresApi
 import com.google.android.gms.analytics.GoogleAnalytics
 import com.google.android.gms.analytics.Tracker
 import com.huawei.agconnect.AGConnectInstance
@@ -42,13 +40,13 @@ import java.util.Locale
 
 open class CatroidApplication : Application() {
 
-    @TargetApi(TARGET_API_VERSION)
+    @RequiresApi(TARGET_API_VERSION)
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "CatroidApplication onCreate")
         Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO)
 
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (BuildConfig.DEBUG) {
             StrictMode.setVmPolicy(
                 StrictMode.VmPolicy.Builder()
                     .detectNonSdkApiUsage()
@@ -77,11 +75,6 @@ open class CatroidApplication : Application() {
         MLApplication.getInstance().apiKey = apiKey
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
-
     @get:Synchronized
     val defaultTracker: Tracker?
         get() {
@@ -95,13 +88,13 @@ open class CatroidApplication : Application() {
     companion object {
         const val TARGET_API_VERSION = 31
         private val TAG = CatroidApplication::class.java.simpleName
-        private var appContext: Context? = null
+        private lateinit var appContext: Context
         @JvmField
         var defaultSystemLanguage: String? = null
         private lateinit var googleAnalytics: GoogleAnalytics
         private var googleTracker: Tracker? = null
 
         @JvmStatic
-        fun getAppContext(): Context? = appContext
+        fun getAppContext(): Context = appContext
     }
 }

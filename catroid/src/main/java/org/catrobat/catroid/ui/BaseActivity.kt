@@ -41,6 +41,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity
@@ -163,6 +164,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionRequestActivityExtension.onRequestPermissionsResult(
             this,
             requestCode,
