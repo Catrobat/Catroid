@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.StrictMode
@@ -40,6 +41,7 @@ import java.util.Locale
 
 open class CatroidApplication : Application() {
 
+    @SuppressLint("VisibleForTests")
     @RequiresApi(TARGET_API_VERSION)
     override fun onCreate() {
         super.onCreate()
@@ -77,6 +79,7 @@ open class CatroidApplication : Application() {
 
     @get:Synchronized
     val defaultTracker: Tracker?
+        @SuppressLint("VisibleForTests")
         get() {
             if (googleTracker == null) {
                 googleTracker = googleAnalytics.newTracker(R.xml.global_tracker)
@@ -88,13 +91,20 @@ open class CatroidApplication : Application() {
     companion object {
         const val TARGET_API_VERSION = 31
         private val TAG = CatroidApplication::class.java.simpleName
-        private lateinit var appContext: Context
+        private var appContext: Context? = null
         @JvmField
         var defaultSystemLanguage: String? = null
+        @SuppressLint("VisibleForTests")
         private lateinit var googleAnalytics: GoogleAnalytics
+        @SuppressLint("VisibleForTests")
         private var googleTracker: Tracker? = null
 
         @JvmStatic
-        fun getAppContext(): Context = appContext
+        fun setAppContextForTesting(context: Context) {
+            appContext = context
+        }
+
+        @JvmStatic
+        fun getAppContext(): Context = appContext ?: throw IllegalStateException("CatroidApplication.appContext not initialized. Ensure onCreate() has been called.")
     }
 }

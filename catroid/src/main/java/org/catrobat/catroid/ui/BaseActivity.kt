@@ -125,6 +125,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         surveyCampaign?.startAppTime(this)
     }
 
+    @SuppressLint("VisibleForTests")
     private fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
         googleTracker!!.setScreenName(this.javaClass.name)

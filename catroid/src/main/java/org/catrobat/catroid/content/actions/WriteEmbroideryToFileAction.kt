@@ -105,7 +105,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
 
     @VisibleForTesting
     fun writeToFile(file: File) {
-        var message: String = context.getString(R.string.brick_write_variable_to_file_success, file)
+        var message = context.getString(R.string.brick_write_variable_to_file_success, file)
         try {
             writeEmbroideryDataToFile(file)
         } catch (e: IOException) {
@@ -158,7 +158,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val fileName = getFileName()
-        val title = context?.getString(R.string.brick_write_embroidery)
+        val title = context.getString(R.string.brick_write_embroidery)
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             type = "*/*"
             putExtra(Intent.EXTRA_TITLE, fileName)

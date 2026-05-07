@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2026 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -118,7 +118,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
         try {
             val context: Context = CatroidApplication.getAppContext()
             val contentResolver = context.contentResolver
-            contentResolver?.openOutputStream(uri).use {
+            contentResolver.openOutputStream(uri).use {
                 it?.write(content.toByteArray())
             }
             showSuccessMessage(getFileName())
