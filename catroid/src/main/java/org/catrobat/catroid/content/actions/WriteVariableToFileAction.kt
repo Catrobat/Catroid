@@ -127,6 +127,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val fileName = getFileName()
         val context = StageActivity.activeStageActivity.get()?.context
