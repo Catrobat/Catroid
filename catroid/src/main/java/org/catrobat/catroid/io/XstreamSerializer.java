@@ -111,8 +111,6 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
-import org.catrobat.catroid.content.bricks.EmbroideryArcBrick;
-import org.catrobat.catroid.content.bricks.EmbroideryThroughBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
@@ -145,8 +143,6 @@ import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
-import org.catrobat.catroid.content.bricks.LaserArcBrick;
-import org.catrobat.catroid.content.bricks.LaserThroughBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -182,8 +178,6 @@ import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.PlotArcBrick;
-import org.catrobat.catroid.content.bricks.PlotThroughBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
@@ -674,11 +668,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
 		xstream.alias("brick", SetParticleColorBrick.class);
 
-		xstream.alias("brick", EmbroideryThroughBrick.class);
-		xstream.alias("brick", EmbroideryArcBrick.class);
-		xstream.alias("brick", LaserArcBrick.class);
-		xstream.alias("brick", LaserThroughBrick.class);
-		xstream.alias("brick", PlotArcBrick.class);
 		xstream.alias("brick", SaveLaserBrick.class);
 		xstream.alias("brick", SavePlotBrick.class);
 		xstream.alias("brick", SharePlotBrick.class);
@@ -689,7 +678,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopCutBrick.class);
 		xstream.alias("brick", StopEngraveBrick.class);
 		xstream.alias("brick", StopPlotBrick.class);
-		xstream.alias("brick", PlotThroughBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
