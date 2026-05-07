@@ -109,15 +109,15 @@ class WriteVariableToFileAction : Action(), IntentListener {
 
     private fun showSuccessMessage(fileName: String) {
         val context = CatroidApplication.getAppContext()
-        val message = context?.getString(R.string.brick_write_variable_to_file_success, fileName)
+        val message = context.getString(R.string.brick_write_variable_to_file_success, fileName)
         val params = ArrayList<Any>(listOf(message))
         StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params).sendToTarget()
     }
 
     private fun writeToUri(uri: Uri, content: String) {
         try {
-            val context: Context? = CatroidApplication.getAppContext()
-            val contentResolver = context?.contentResolver
+            val context: Context = CatroidApplication.getAppContext()
+            val contentResolver = context.contentResolver
             contentResolver?.openOutputStream(uri).use {
                 it?.write(content.toByteArray())
             }
@@ -127,7 +127,6 @@ class WriteVariableToFileAction : Action(), IntentListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val fileName = getFileName()
         val context = StageActivity.activeStageActivity.get()?.context

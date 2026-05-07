@@ -33,11 +33,8 @@ class PowerMockUtil private constructor() {
         @JvmStatic
         fun mockStaticAppContextAndInitializeStaticSingletons(): Context {
             val contextMock = Mockito.mock(Context::class.java)
-            PowerMockito.mockStatic(CatroidApplication.Companion::class.java)
+            PowerMockito.mockStatic(CatroidApplication::class.java)
             PowerMockito.`when`(CatroidApplication.getAppContext()).thenReturn(contextMock)
-
-//            mockkObject(CatroidApplication.Companion)
-//            every { CatroidApplication.getAppContext() } returns contextMock
 
             StaticSingletonInitializer.initializeStaticSingletonMethodsWith(contextMock)
             return contextMock
