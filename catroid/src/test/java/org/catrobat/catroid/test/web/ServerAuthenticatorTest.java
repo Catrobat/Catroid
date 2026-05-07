@@ -150,7 +150,7 @@ public class ServerAuthenticatorTest {
 		Mockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
 
 		int expectedStatusCode = 0;
-		catrobatWebClientMock.when(() -> CatrobatWebClientKt.performCallWith(okHttpClientMock, any(Request.class))).thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
+		catrobatWebClientMock.when(() -> CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), any(Request.class))).thenThrow(new WebConnectionException(expectedStatusCode, "any string"));
 
 		authenticatorSpy.performTask(BASE_URL_TEST_HTTPS, 0);
 		verify(taskListenerMock, times(1)).onError(expectedStatusCode, null);
