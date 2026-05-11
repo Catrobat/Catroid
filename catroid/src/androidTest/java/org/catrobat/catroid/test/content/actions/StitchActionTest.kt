@@ -46,78 +46,78 @@ import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
 class StitchActionTest {
-	private lateinit var testSprite1: Sprite
-	private lateinit var testSprite2: Sprite
-	private lateinit var spriteCoords1: PointF
-	private lateinit var spriteCoords2: PointF
-	private lateinit var embroideryPatternManagerMock: DSTPatternManager
+    private lateinit var testSprite1: Sprite
+    private lateinit var testSprite2: Sprite
+    private lateinit var spriteCoords1: PointF
+    private lateinit var spriteCoords2: PointF
+    private lateinit var embroideryPatternManagerMock: DSTPatternManager
 
-	@Before
-	fun setUp() {
-		val xCoord = 50.0f
-		val yCoord = 160.0f
+    @Before
+    fun setUp() {
+        val xCoord = 50.0f
+        val yCoord = 160.0f
 
-		testSprite1 = Sprite("testSprite1").apply {
-			look.setX(xCoord)
-			look.setY(yCoord)
-		}
-		spriteCoords1 = PointF(xCoord, yCoord)
+        testSprite1 = Sprite("testSprite1").apply {
+            look.setX(xCoord)
+            look.setY(yCoord)
+        }
+        spriteCoords1 = PointF(xCoord, yCoord)
 
-		testSprite2 = Sprite("testSprite2")
-		spriteCoords2 = PointF(0f, 0f)
+        testSprite2 = Sprite("testSprite2")
+        spriteCoords2 = PointF(0f, 0f)
 
-		val project = Project(ApplicationProvider.getApplicationContext(), "testProject")
-		ProjectManager.getInstance().currentProject = project
-		
-		embroideryPatternManagerMock = mock(DSTPatternManager::class.java)
-		val stageListenerMock = mock(StageListener::class.java)
-		stageListenerMock.embroideryPatternManager = embroideryPatternManagerMock
-		StageActivity.stageListener = stageListenerMock
-	}
+        val project = Project(ApplicationProvider.getApplicationContext(), "testProject")
+        ProjectManager.getInstance().currentProject = project
+        
+        embroideryPatternManagerMock = mock(DSTPatternManager::class.java)
+        val stageListenerMock = mock(StageListener::class.java)
+        stageListenerMock.embroideryPatternManager = embroideryPatternManagerMock
+        StageActivity.stageListener = stageListenerMock
+    }
 
-	@After
-	fun tearDown() {
-		StageActivity.stageListener = null
-	}
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
+    }
 
-	@Test
-	fun testAddSingleStitchPoint() {
-		ActionFactory.createStitchAction(testSprite1).act(1f)
-		verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
-			eq(
-				DSTStitchCommand(
-					spriteCoords1.x,
-					spriteCoords1.y,
-					testSprite1.look.zIndex,
-					testSprite1,
-					Color.BLACK
-				)
-			)
-		)
-	}
+    @Test
+    fun testAddSingleStitchPoint() {
+        ActionFactory.createStitchAction(testSprite1).act(1f)
+        verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
+            eq(
+                DSTStitchCommand(
+                    spriteCoords1.x,
+                    spriteCoords1.y,
+                    testSprite1.look.zIndex,
+                    testSprite1,
+                    Color.BLACK
+                )
+            )
+        )
+    }
 
-	@Test
-	fun testAddPointsTwoSprites() {
-		ActionFactory.createStitchAction(testSprite1).act(1f)
-		ActionFactory.createStitchAction(testSprite2).act(1f)
+    @Test
+    fun testAddPointsTwoSprites() {
+        ActionFactory.createStitchAction(testSprite1).act(1f)
+        ActionFactory.createStitchAction(testSprite2).act(1f)
 
-		verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
-			DSTStitchCommand(
-				spriteCoords1.x,
-				spriteCoords1.y,
-				testSprite1.look.zIndex,
-				testSprite1,
-				Color.BLACK
-			)
-		)
-		verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
-			DSTStitchCommand(
-				spriteCoords2.x,
-				spriteCoords2.y,
-				testSprite2.look.zIndex,
-				testSprite2,
-				Color.BLACK
-			)
-		)
-	}
+        verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
+            DSTStitchCommand(
+                spriteCoords1.x,
+                spriteCoords1.y,
+                testSprite1.look.zIndex,
+                testSprite1,
+                Color.BLACK
+            )
+        )
+        verify(embroideryPatternManagerMock, times(1)).addStitchCommand(
+            DSTStitchCommand(
+                spriteCoords2.x,
+                spriteCoords2.y,
+                testSprite2.look.zIndex,
+                testSprite2,
+                Color.BLACK
+            )
+        )
+    }
 }

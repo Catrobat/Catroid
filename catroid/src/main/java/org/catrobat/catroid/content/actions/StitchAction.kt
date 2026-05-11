@@ -32,30 +32,30 @@ import org.catrobat.catroid.stage.StageActivity
  * It pauses the running stitch, adds the current coordinates, and then resumes it.
  */
 class StitchAction : TemporalAction() {
-	var sprite: Sprite? = null
+    var sprite: Sprite? = null
 
-	override fun update(delta: Float) {
-		sprite?.let { currentSprite ->
-			val runningStitch = currentSprite.runningStitch
-			val look = currentSprite.look
+    override fun update(delta: Float) {
+        sprite?.let { currentSprite ->
+            val runningStitch = currentSprite.runningStitch
+            val look = currentSprite.look
 
-			runningStitch.pause()
-			
-			val x = look.getXInUserInterfaceDimensionUnit()
-			val y = look.getYInUserInterfaceDimensionUnit()
+            runningStitch.pause()
+            
+            val x = look.getXInUserInterfaceDimensionUnit()
+            val y = look.getYInUserInterfaceDimensionUnit()
 
-			StageActivity.stageListener?.embroideryPatternManager?.addStitchCommand(
-				DSTStitchCommand(
-					x,
-					y,
-					look.zIndex,
-					currentSprite,
-					currentSprite.embroideryThreadColor
-				)
-			)
-			
-			runningStitch.setStartCoordinates(x, y)
-			runningStitch.resume()
-		}
-	}
+            StageActivity.stageListener?.embroideryPatternManager?.addStitchCommand(
+                DSTStitchCommand(
+                    x,
+                    y,
+                    look.zIndex,
+                    currentSprite,
+                    currentSprite.embroideryThreadColor
+                )
+            )
+            
+            runningStitch.setStartCoordinates(x, y)
+            runningStitch.resume()
+        }
+    }
 }
