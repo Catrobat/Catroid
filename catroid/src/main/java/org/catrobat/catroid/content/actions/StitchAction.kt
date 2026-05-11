@@ -40,7 +40,7 @@ class StitchAction : TemporalAction() {
             val look = currentSprite.look
 
             runningStitch.pause()
-            
+
             val x = look.getXInUserInterfaceDimensionUnit()
             val y = look.getYInUserInterfaceDimensionUnit()
 
@@ -53,7 +53,7 @@ class StitchAction : TemporalAction() {
                     currentSprite.embroideryThreadColor
                 )
             )
-            
+
             runningStitch.setStartCoordinates(x, y)
             runningStitch.resume()
         }

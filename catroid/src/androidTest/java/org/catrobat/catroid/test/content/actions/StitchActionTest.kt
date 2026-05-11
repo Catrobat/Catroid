@@ -68,7 +68,7 @@ class StitchActionTest {
 
         val project = Project(ApplicationProvider.getApplicationContext(), "testProject")
         ProjectManager.getInstance().currentProject = project
-        
+
         embroideryPatternManagerMock = mock(DSTPatternManager::class.java)
         val stageListenerMock = mock(StageListener::class.java)
         stageListenerMock.embroideryPatternManager = embroideryPatternManagerMock
