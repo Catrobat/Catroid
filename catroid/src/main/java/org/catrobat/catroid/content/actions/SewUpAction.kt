@@ -34,13 +34,13 @@ class SewUpAction : TemporalAction() {
     lateinit var sprite: Sprite
 
     override fun begin() {
-        val look = sprite.look ?: throw RuntimeException("Sprite look is null")
+        val look = sprite.look ?: throw IllegalStateException("Sprite look is null")
         val radians = Math.toRadians(look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
 
         sprite.runningStitch?.pause()
 
         val embroideryPatternManager = StageActivity.stageListener?.embroideryPatternManager
-            ?: throw RuntimeException("StageActivity.stageListener or embroideryPatternManager is null")
+            ?: throw IllegalStateException("StageActivity.stageListener or embroideryPatternManager is null")
 
         var x = look.xInUserInterfaceDimensionUnit
         var y = look.yInUserInterfaceDimensionUnit
@@ -82,6 +82,7 @@ class SewUpAction : TemporalAction() {
     }
 
     override fun update(delta: Float) {
+        // Intentionally empty
     }
 
     companion object {

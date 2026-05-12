@@ -67,7 +67,7 @@ class SewUpActionTest {
         sprite.actionFactory.createSewUpAction(sprite).act(1f)
 
         val stitches = StageActivity.stageListener?.embroideryPatternManager?.embroideryPatternList
-            ?: throw RuntimeException("StageActivity.stageListener or embroideryPatternManager is null")
+            ?: throw IllegalStateException("StageActivity.stageListener or embroideryPatternManager is null")
 
         val expectedStitchesX = mutableListOf<Float>()
         val expectedStitchesY = mutableListOf<Float>()
@@ -93,12 +93,12 @@ class SewUpActionTest {
 
     @Test
     fun testAngledSewUp() {
-        val look = sprite.look ?: throw RuntimeException("Sprite look is null")
+        val look = sprite.look ?: throw IllegalStateException("Sprite look is null")
         look.setMotionDirectionInUserInterfaceDimensionUnit(137f)
         sprite.actionFactory.createSewUpAction(sprite).act(1f)
 
         val stitches = StageActivity.stageListener?.embroideryPatternManager?.embroideryPatternList
-            ?: throw RuntimeException("StageActivity.stageListener or embroideryPatternManager is null")
+            ?: throw IllegalStateException("StageActivity.stageListener or embroideryPatternManager is null")
 
         val expectedStitchesX = mutableListOf<Float>()
         val expectedStitchesY = mutableListOf<Float>()
