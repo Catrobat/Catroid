@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.utils.getSessionScreenshotFile
 import java.io.File
 import java.io.IOException
 
@@ -49,6 +50,8 @@ class ScreenshotSaver(
     companion object {
         private val TAG = ScreenshotSaver::class.java.simpleName
         private const val IMAGE_QUALITY = 100
+        private const val MAX_SCREEN_SHOT_HEIGHT = 480
+        private const val MAX_SCREEN_SHOT_WIDTH = 480
         private const val NUMBER_OF_COLORS = 4
         private val VALID_FILENAME_REGEX = Regex("^[^<>:;,?\"*|/]+\$")
         private val ONLY_WHITESPACE_REGEX = Regex("\\s*")
@@ -100,20 +103,22 @@ class ScreenshotSaver(
             Bitmap.Config.ARGB_8888
         )
 
-        val imageScene = gdxFileHandler.absolute(folder + fileName)
-        val streamScene = imageScene.write(false)
-        try {
-            File(folder + Constants.NO_MEDIA_FILE).createNewFile()
-            fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
-            streamScene.close()
+        val aspectRatio = width / height.toDouble()
+        var newWidth = (MAX_SCREEN_SHOT_HEIGHT * aspectRatio).toInt()
+        if (newWidth > MAX_SCREEN_SHOT_WIDTH) {
+            newWidth = MAX_SCREEN_SHOT_WIDTH
+        }
 
-            if (ProjectManager.getInstance().currentProject != null) {
-                val projectFolder = ProjectManager.getInstance().currentProject.directory.absolutePath + "/"
-                val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
-                val streamProject = imageProject.write(false)
-                File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()
-                fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
-                streamProject.close()
+        val resizedBitMap = Bitmap.createScaledBitmap(fullScreenBitmap, newWidth, MAX_SCREEN_SHOT_HEIGHT, false)
+
+        val imageScene = gdxFileHandler.absolute(folder + fileName)
+        try {
+            saveBitmap(resizedBitMap, File(imageScene.path()))
+
+            val projectManager = ProjectManager.getInstance()
+            if (projectManager.currentProject != null) {
+                saveBitmap(fullScreenBitmap, projectManager.getSessionScreenshotFile(fileName))
+                saveBitmap(resizedBitMap, File(projectManager.currentProject.directory, fileName))
             }
         } catch (e: IOException) {
             Log.w(TAG, "Could not save screenshot to file", e)
@@ -131,5 +136,23 @@ class ScreenshotSaver(
             data[i + 1].toInt() and 0xff,
             data[i + 2].toInt() and 0xff
         )
+    }
+
+    @Throws(IOException::class)
+    private fun saveBitmap(bitmap: Bitmap, file: File) {
+        val parentDirectory = file.parentFile
+            ?: throw IOException("Could not determine parent directory for ${file.absolutePath}")
+        parentDirectory.mkdirs()
+        File(parentDirectory, Constants.NO_MEDIA_FILE).createNewFile()
+        val compressSucceeded = gdxFileHandler.absolute(file.absolutePath).write(false).use { outputStream ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, outputStream)
+        }
+        if (!compressSucceeded) {
+            val deletedIncompleteFile = !file.exists() || file.delete()
+            if (!deletedIncompleteFile) {
+                Log.w(TAG, "Could not delete incomplete screenshot file ${file.absolutePath}")
+            }
+            throw IOException("Could not compress bitmap for file: ${file.absolutePath}")
+        }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.app.Activity;
@@ -79,14 +80,15 @@ public final class UiNFCTestUtils {
 	public static void fakeNfcTag(String uid, NdefMessage ndefMessage, Tag tag, Activity callingActivity) {
 		Class activityCls = callingActivity.getClass();
 
-		PendingIntent pendingIntent;
+		int flags = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			pendingIntent = PendingIntent.getActivity(callingActivity, 0,
-					new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | PendingIntent.FLAG_IMMUTABLE), 0);
-		} else {
-			pendingIntent = PendingIntent.getActivity(callingActivity, 0,
-					new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+			flags = PendingIntent.FLAG_MUTABLE;
 		}
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				callingActivity,
+				0,
+				new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
+				flags);
 
 		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
 		byte[] tagId = uid.getBytes();

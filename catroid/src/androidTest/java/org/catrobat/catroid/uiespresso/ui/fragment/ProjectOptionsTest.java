@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -297,16 +297,6 @@ public class ProjectOptionsTest {
 		pressBack();
 
 		assertEquals(ScreenModes.MAXIMIZE, project.getScreenMode());
-	}
-
-	@Test
-	public void uploadProject() {
-		onView(withId(R.id.project_options_upload))
-				.perform(ViewActions.scrollTo())
-				.perform(click());
-
-		onView(anyOf(withId(R.id.upload_layout), withText(R.string.login)))
-				.check(matches(isDisplayed()));
 	}
 
 	@Test

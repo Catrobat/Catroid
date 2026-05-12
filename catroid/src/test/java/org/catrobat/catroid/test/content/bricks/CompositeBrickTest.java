@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
@@ -115,7 +115,7 @@ public class CompositeBrickTest {
 		compositeBrick.setParent(mockParent);
 
 		verify(compositeBrick.getNestedBricks().get(0)).setParent(compositeBrick);
-		verifyZeroInteractions(mockParent);
+		verifyNoInteractions(mockParent);
 
 		assertSame(compositeBrick, compositeEndBrick.getParent());
 	}
@@ -126,7 +126,7 @@ public class CompositeBrickTest {
 		compositeBrick.setParent(mockParent);
 
 		List<Brick> parentList = compositeBrick.getDragAndDropTargetList();
-		verifyZeroInteractions(mockParent);
+		verifyNoInteractions(mockParent);
 
 		assertSame(compositeBrick.getNestedBricks(), parentList);
 	}

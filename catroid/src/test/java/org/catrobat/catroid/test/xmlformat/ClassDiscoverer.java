@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,12 @@
 package org.catrobat.catroid.test.xmlformat;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +40,17 @@ public final class ClassDiscoverer {
 	}
 
 	public static <T> Set<Class<? extends T>> getAllSubClassesOf(Class<T> clazz) {
-		Reflections reflections = new Reflections("org.catrobat.catroid");
+		ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+		Set<URL> urls = new HashSet<>();
+		urls.add(ClasspathHelper.forClass(clazz));
+		urls.addAll(ClasspathHelper.forPackage("org.catrobat.catroid", contextLoader));
+		urls.addAll(ClasspathHelper.forClassLoader(contextLoader));
+
+		Reflections reflections = new Reflections(new ConfigurationBuilder()
+				.setUrls(urls)
+				.addClassLoader(contextLoader)
+				.addClassLoader(ClasspathHelper.staticClassLoader())
+				.setScanners(new SubTypesScanner(false)));
 		return reflections.getSubTypesOf(clazz);
 	}
 

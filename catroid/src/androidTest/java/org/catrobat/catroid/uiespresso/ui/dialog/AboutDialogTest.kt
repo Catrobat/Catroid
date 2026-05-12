@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -103,8 +103,22 @@ class AboutDialogTest {
         Espresso.onView(ViewMatchers.withText(R.string.dialog_about_catrobat_link_text))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
+        val versionCode =
+            if (BuildConfig.FLAVOR == "pocketCodeBeta") "-${BuildConfig.VERSION_CODE}" else ""
+        val expectedVersionName = baseActivityTestRule.activity.getString(R.string.app_name) +
+            versionCode + " " +
+            baseActivityTestRule.activity.getString(R.string.dialog_about_version) + " " +
+            baseActivityTestRule.activity.getString(R.string.android_version_prefix) +
+            Utils.getVersionName(ApplicationProvider.getApplicationContext())
+        val expectedCatrobatVersionName =
+            baseActivityTestRule.activity.getString(R.string.dialog_about_catrobat_language_version) +
+                ": " + Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
+
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_about_text_view_version_name))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedVersionName)))
+
         Espresso.onView(ViewMatchers.withId(R.id.dialog_about_text_view_catrobat_version_name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedCatrobatVersionName)))
 
         Assert.assertNotNull(Utils.getVersionName(ApplicationProvider.getApplicationContext()))
 

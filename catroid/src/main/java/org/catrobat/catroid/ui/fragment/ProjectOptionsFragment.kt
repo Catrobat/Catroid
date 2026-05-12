@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -53,18 +52,15 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectExportTask
-import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.io.asynctask.ProjectExporter
 import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.ui.PROJECT_DIR
-import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.koin.android.ext.android.inject
 import java.io.File
@@ -100,7 +96,6 @@ class ProjectOptionsFragment : Fragment() {
         setupNotesAndCreditsInputLayout()
         addTags()
         setupProjectAspectRatio()
-        setupProjectUpload()
         setupProjectSaveExternal()
         setupProjectMoreDetails()
         setupProjectOptionDelete()
@@ -155,12 +150,6 @@ class ProjectOptionsFragment : Fragment() {
             setOnCheckedChangeListener { _, isChecked ->
                 handleAspectRatioChecked(isChecked)
             }
-        }
-    }
-
-    private fun setupProjectUpload() {
-        binding.projectOptionsUpload.setOnClickListener {
-            projectUpload()
         }
     }
 
@@ -282,29 +271,6 @@ class ProjectOptionsFragment : Fragment() {
         }
     }
 
-    fun projectUpload() {
-        val currentProject = projectManager.currentProject
-        ProjectSaver(currentProject, requireContext())
-            .saveProjectAsync({ onSaveProjectComplete() })
-        Utils.setLastUsedProjectName(requireContext(), currentProject.name)
-    }
-
-    private fun onSaveProjectComplete() {
-        val currentProject = projectManager.currentProject
-
-        if (Utils.isDefaultProject(currentProject, activity)) {
-            binding.root.apply {
-                Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
-            }
-            return
-        }
-
-        val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
-        intent.putExtra(PROJECT_DIR, currentProject.directory)
-
-        startActivity(intent)
-    }
-
     private fun exportProject() {
         saveProject()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -365,8 +331,9 @@ class ProjectOptionsFragment : Fragment() {
                     projectDestination,
                     it.name
                 )
-            ProjectExportTask(it.directory, projectDestination, notificationData, requireContext())
-                .execute()
+            ProjectExporter(
+                it.directory, projectDestination, notificationData, requireContext()
+            ).exportProjectToExternalStorageAsync()
         }
     }
 

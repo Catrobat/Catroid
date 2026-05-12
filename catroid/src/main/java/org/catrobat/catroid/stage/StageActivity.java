@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.stage;
 
 import android.app.Activity;
@@ -27,12 +28,12 @@ import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -259,8 +260,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public void manageLoadAndFinish() {
-		stageListener.pause();
-		stageListener.finish();
+		if (stageListener != null) {
+			stageListener.pause();
+			stageListener.finish();
+		}
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
 		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
@@ -287,6 +290,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		return null;
 	}
 
+	public boolean hasAudioFocus() {
+		return stageAudioFocus.isAudioFocusGranted();
+	}
+
 	public boolean isResizePossible() {
 		return resizePossible;
 	}
@@ -301,8 +308,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		ScreenValues.currentScreenResolution =
 				ScreenValues.currentScreenResolution.flipToFit(projectResolution);
 
-		resizePossible = ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
-						|| ProjectManager.getInstance().getCurrentProject().isCastProject();
+		resizePossible = !ScreenValues.currentScreenResolution.sameRatioOrMeasurements(projectResolution)
+				&& !ProjectManager.getInstance().getCurrentProject().isCastProject();
 
 		if (resizePossible) {
 			stageListener.setMaxViewPort(projectResolution.resizeToFit(ScreenValues.currentScreenResolution));
@@ -416,7 +423,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);
-					List<String> requiredPermissions = BrickResourcesToRuntimePermissions.translate(requiredResources);
+					List<String> requiredPermissions = BrickResourcesToRuntimePermissions.translate(
+							requiredResources, Build.VERSION.SDK_INT);
 					requiredPermissions.retainAll(deniedPermissions);
 
 					if (!requiredPermissions.isEmpty()) {

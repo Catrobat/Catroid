@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -99,7 +99,8 @@ public class RTLMainMenuTest {
 	public void testSetLanguageToArabic() {
 		String arabicLanguageTag = "ar";
 		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), arabicLanguageTag);
+		SettingsFragment.setLanguageSharedPreference(
+				ApplicationProvider.getApplicationContext(), arabicLanguageTag);
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
@@ -113,7 +114,8 @@ public class RTLMainMenuTest {
 	public void testSetLanguageToGerman() {
 		String germanLanguageTag = "de";
 		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), germanLanguageTag);
+		SettingsFragment.setLanguageSharedPreference(
+				ApplicationProvider.getApplicationContext(), germanLanguageTag);
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());

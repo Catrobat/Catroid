@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.stage
 import androidx.test.rule.ActivityTestRule
 import com.badlogic.gdx.Files
 import com.badlogic.gdx.backends.android.AndroidFiles
+import com.badlogic.gdx.backends.android.DefaultAndroidFiles
 import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.io.StorageOperations
@@ -73,7 +74,7 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
         dummyData = ByteArray(NUMBER_OF_COLORS * width * height)
         val stageActivity = activityTestRule.activity
         val folder = stageActivity.cacheDir.absolutePath + "/"
-        gdxFileHandler = AndroidFiles(stageActivity.assets, stageActivity.filesDir.absolutePath)
+        gdxFileHandler = DefaultAndroidFiles(stageActivity.assets, stageActivity, true)
         screenshotSaver = ScreenshotSaver(gdxFileHandler as AndroidFiles, folder, width, height)
     }
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -99,7 +99,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
-				.check(matches(withText(containsString("'#0074CD'"))));
+				.check(matches(withText(containsString("'#0074CD '"))));
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,21 +23,21 @@
 
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply plugin: "io.gitlab.arturbosch.detekt"
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
-check.dependsOn 'detekt'
 
 dependencies {
     pmd 'net.sourceforge.pmd:pmd-core:6.55.0'
     pmd 'net.sourceforge.pmd:pmd-java:6.55.0'
 
-    checkstyle 'com.puppycrawl.tools:checkstyle:10.12.1'
+    checkstyle 'com.puppycrawl.tools:checkstyle:10.12.4'
 
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7"
 }
 
-task checkstyle(type: Checkstyle) {
+tasks.register('checkstyle', Checkstyle) {
     configDirectory = file(".")
     configFile = file("./config/checkstyle.xml")
     source '.'
@@ -47,16 +47,45 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 
     // needed for console output of warnings/errors
-    showViolations true
-    ignoreFailures true
+    showViolations = true
+    ignoreFailures = true
+}
 
+tasks.withType(Checkstyle) {
     reports {
-        xml.required = true
-        xml.destination file("build/reports/checkstyle.xml")
+        xml.required = false
+
+        html.required = true
+        html.outputLocation = file("build/reports/html/checkstyle.html")
+
+        sarif.required = true
+        sarif.outputLocation = file("build/reports/checkstyle.sarif")
     }
 }
 
-task pmd(type: Pmd) {
+tasks.register('checkStyleSarifHack') {
+    def sarifFile = file("build/reports/checkstyle.sarif")
+    def parentDir = rootProject.projectDir.absolutePath
+
+    doLast {
+        if (!sarifFile.exists()) {
+            println("SARIF file not found: ${sarifFile.absolutePath}")
+            return
+        }
+
+        def sarifContent = sarifFile.text
+
+        def updatedContent = sarifContent.replace(parentDir + File.separatorChar, '')
+
+        sarifFile.text = updatedContent
+        println("Fixed paths in SARIF file: ${sarifFile.absolutePath}")
+    }
+}
+
+
+tasks.checkstyle.finalizedBy('checkStyleSarifHack')
+
+tasks.register('pmd', Pmd) {
     ruleSetFiles = files('config/pmd.xml')
     ruleSets = []
 
@@ -64,18 +93,36 @@ task pmd(type: Pmd) {
     include '**/*.java'
     exclude '**/gen/**', '**/build/**', '**/res/**'
 
-    ignoreFailures true
+    ignoreFailures = true
 
     reports {
-        xml.required = true
-        html.enabled = false
-        xml.destination file("build/reports/pmd.xml")
+        html.required = true
+        html.outputLocation = file("build/reports/html/pmd.html")
+        // not supported yet by gradle pmd, see https://github.com/gradle/gradle/pull/22979
+        //sarif.required = true
+        //sarif.outputLocation = file("build/reports/pmd.sarif")
     }
 }
 
 detekt {
-    toolVersion = "1.23.0"
+    toolVersion = "1.23.7"
     config = files("config/detekt.yml")
     input = files("src")
-    ignoreFailures true
+    ignoreFailures = true
+}
+
+tasks.named("detekt").configure {
+    basePath = rootProject.projectDir.absolutePath
+
+    reports {
+        xml.required.set(false)
+        md.required.set(false)
+        txt.required.set(false)
+
+        html.required.set(true)
+        html.outputLocation.set(file("build/reports/html/detekt.html"))
+
+        sarif.required.set(true)
+        sarif.outputLocation.set(file("build/reports/detekt.sarif"))
+    }
 }

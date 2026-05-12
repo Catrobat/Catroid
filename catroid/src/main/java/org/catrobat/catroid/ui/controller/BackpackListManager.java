@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,55 +94,83 @@ public final class BackpackListManager {
 	}
 
 	public void removeItemFromScriptBackPack(String scriptGroup) {
-		getBackpack().backpackedScripts.remove(scriptGroup);
-		getBackpack().backpackedUserVariables.remove(scriptGroup);
-		getBackpack().backpackedUserLists.remove(scriptGroup);
-		getBackpack().backpackedUserDefinedBricks.remove(scriptGroup);
+		backpack.backpackedScripts.remove(scriptGroup);
+		backpack.backpackedUserVariables.remove(scriptGroup);
+		backpack.backpackedUserLists.remove(scriptGroup);
+		backpack.backpackedUserDefinedBricks.remove(scriptGroup);
 	}
 
 	public List<Scene> getScenes() {
-		return getBackpack().backpackedScenes;
+		return backpack.backpackedScenes;
 	}
 
 	public List<Sprite> getSprites() {
-		return getBackpack().backpackedSprites;
+		return backpack.backpackedSprites;
+	}
+
+	public void replaceBackpackedSprites(List<Sprite> list) {
+		backpack.backpackedSprites.clear();
+		backpack.backpackedSprites.addAll(list);
+	}
+
+	public void replaceBackpackedLooks(List<LookData> list) {
+		backpack.backpackedLooks.clear();
+		backpack.backpackedLooks.addAll(list);
+	}
+
+	public void replaceBackpackedSounds(List<SoundInfo> list) {
+		backpack.backpackedSounds.clear();
+		backpack.backpackedSounds.addAll(list);
+	}
+
+	public void replaceBackpackedScenes(List<Scene> list) {
+		backpack.backpackedScenes.clear();
+		backpack.backpackedScenes.addAll(list);
+	}
+
+	public void replaceBackpackedScripts(HashMap<String, List<Script>> map) {
+		backpack.backpackedScripts.clear();
+		backpack.backpackedScripts.putAll(map);
 	}
 
 	public List<String> getBackpackedScriptGroups() {
-		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
+		return new ArrayList<>(backpack.backpackedScripts.keySet());
 	}
 
 	public HashMap<String, List<Script>> getBackpackedScripts() {
-		return getBackpack().backpackedScripts;
+		return backpack.backpackedScripts;
 	}
 
 	public HashMap<String, List<UserDefinedBrick>> getBackpackedUserDefinedBricks() {
-		return getBackpack().backpackedUserDefinedBricks;
+		return backpack.backpackedUserDefinedBricks;
 	}
 
 	public void addScriptToBackPack(String scriptGroup, List<Script> scripts) {
-		getBackpack().backpackedScripts.put(scriptGroup, scripts);
+		backpack.backpackedScripts.put(scriptGroup, scripts);
 	}
 
 	public void addUserDefinedBrickToBackPack(String scriptGroup, List<UserDefinedBrick> userDefinedBricks) {
-		getBackpack().backpackedUserDefinedBricks.put(scriptGroup, userDefinedBricks);
+		backpack.backpackedUserDefinedBricks.put(scriptGroup, userDefinedBricks);
 	}
 
 	public List<LookData> getBackpackedLooks() {
-		return getBackpack().backpackedLooks;
+		return backpack.backpackedLooks;
 	}
 
 	public List<SoundInfo> getBackpackedSounds() {
-		return getBackpack().backpackedSounds;
+		return backpack.backpackedSounds;
 	}
 
 	public boolean isBackpackEmpty() {
-		return getBackpackedLooks().isEmpty() && getBackpackedScriptGroups().isEmpty()
-				&& getBackpackedSounds().isEmpty() && getSprites().isEmpty();
+		return getBackpackedLooks().isEmpty() && getBackpackedScriptGroups().isEmpty() && getBackpackedSounds().isEmpty() && getSprites().isEmpty();
 	}
 
 	public void saveBackpack() {
-		backpackSerializer.saveBackpack(getBackpack());
+		backpackSerializer.saveBackpack(backpack);
+	}
+
+	public void setBackpack(Backpack backpack) {
+		this.backpack = backpack;
 	}
 
 	public void loadBackpack() {
@@ -153,10 +181,8 @@ public final class BackpackListManager {
 		}
 
 		for (Sprite sprite : getSprites()) {
-			setLookFileReferences(sprite.getLookList(),
-					backpackImageDirectory);
-			setSoundFileReferences(sprite.getSoundList(),
-					backpackSoundDirectory);
+			setLookFileReferences(sprite.getLookList(), backpackImageDirectory);
+			setSoundFileReferences(sprite.getSoundList(), backpackSoundDirectory);
 		}
 
 		setLookFileReferences(getBackpackedLooks(), backpackImageDirectory);

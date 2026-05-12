@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -153,7 +154,18 @@ public class SpriteController {
 			sprite.penConfiguration.setPenDown(true);
 			sprite.penConfiguration.addQueue();
 		}
-
+		if(spriteToCopy.plot.isPlotting()){
+			sprite.plot.resumePlot();
+			sprite.plot.startNewPlotLine();
+		}
+		if (spriteToCopy.plot.isEngraving()){
+			sprite.plot.resumeEngrave();
+			sprite.plot.startNewPlotLine();
+		}
+		if(spriteToCopy.plot.isCutting()){
+			sprite.plot.resumeCut();
+			sprite.plot.startNewPlotLine();
+		}
 		return sprite;
 	}
 

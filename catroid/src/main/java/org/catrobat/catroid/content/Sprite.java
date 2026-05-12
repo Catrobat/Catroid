@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.plot.Plot;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
@@ -93,6 +94,7 @@ public class Sprite implements Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
+	public transient Plot plot = new Plot();
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
@@ -340,6 +342,12 @@ public class Sprite implements Nameable, Serializable {
 		}
 	}
 
+	public void resetDrawingState() {
+		penConfiguration = new PenConfiguration();
+		plot = new Plot();
+		runningStitch = new RunningStitch();
+	}
+
 	public void resetSprite() {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
@@ -357,14 +365,14 @@ public class Sprite implements Nameable, Serializable {
 			look.setLookData(getLookList().get(0));
 		}
 
-		penConfiguration = new PenConfiguration();
-		runningStitch = new RunningStitch();
+		resetDrawingState();
 	}
 
 	public void invalidate() {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
+		plot = null;
 		runningStitch = null;
 	}
 
@@ -465,6 +473,7 @@ public class Sprite implements Nameable, Serializable {
 		convertedSprite.look.setLookData(look.getLookData());
 
 		convertedSprite.penConfiguration = penConfiguration;
+		convertedSprite.plot = plot;
 		convertedSprite.runningStitch = runningStitch;
 
 		convertedSprite.lookList = lookList;
@@ -830,12 +839,12 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
-		for (UserVariable userVariable: sprite.userVariables) {
+		for (UserVariable userVariable : sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
+		for (UserList userlist : sprite.userLists) {
 			if (!this.userLists.contains(userlist)) {
 				this.userLists.add(userlist);
 			}
@@ -856,6 +865,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
+
 	public boolean isGliding() {
 		return isGliding;
 	}
@@ -863,6 +873,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGlidingVelocityX(float velocity) {
 		glidingVelocityX = velocity;
 	}
+
 	public void setGlidingVelocityY(float velocity) {
 		glidingVelocityY = velocity;
 	}
@@ -870,6 +881,7 @@ public class Sprite implements Nameable, Serializable {
 	public float getGlidingVelocityX() {
 		return glidingVelocityX;
 	}
+
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_DOWNLOAD_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -114,11 +115,11 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.loadUrl(url);
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
-
+			// TODO: Delete only this if case, when the Catrobat share server completely closes
 			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
 				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
 						ProjectDownloadUtil.INSTANCE).download(this);
-			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
+			} else if (downloadUrl.contains(CATROBAT_CONTENT_DOWNLOAD_URL)) {
 				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
 
 				MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs();
@@ -270,8 +271,12 @@ public class WebViewActivity extends AppCompatActivity {
 		resultIntent = intent;
 	}
 
+	// TODO: Delete this function, when the Catrobat share server completely closes
 	private String getExtensionFromContentDisposition(String contentDisposition) {
 		int extensionIndex = contentDisposition.lastIndexOf('.');
+		if (extensionIndex == -1) {
+			return "NotProject";
+		}
 		String extension = contentDisposition.substring(extensionIndex);
 		extension = extension.substring(0, extension.length() - 1);
 		return extension;

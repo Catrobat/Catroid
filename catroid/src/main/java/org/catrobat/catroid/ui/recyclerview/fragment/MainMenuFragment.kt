@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.Intent
@@ -32,7 +33,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,10 +48,9 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.ui.PROJECT_DIR
+import org.catrobat.catroid.ui.EdgeToEdge
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
-import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.dialogs.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.CategoryTitleCallback
@@ -95,6 +94,7 @@ class MainMenuFragment : Fragment(),
     ): View {
         viewModel.setIsLoading(true)
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        EdgeToEdge.applyFloatingActionButtonMargin(binding.newProjectFloatingActionButton)
         return binding.root
     }
 
@@ -116,7 +116,6 @@ class MainMenuFragment : Fragment(),
         setupViewVisibility()
 
         binding.editProject.setOnClickListener(this)
-        binding.uploadProject.setOnClickListener(this)
         binding.newProjectFloatingActionButton.setOnClickListener(this)
         binding.myProjectsTextView.setOnClickListener(this)
         binding.projectImageView.setOnClickListener(this)
@@ -307,28 +306,6 @@ class MainMenuFragment : Fragment(),
             R.id.newProjectFloatingActionButton -> {
                 val dialog = NewProjectDialogFragment()
                 dialog.show(parentFragmentManager, NewProjectDialogFragment.TAG)
-            }
-
-            R.id.uploadProject -> {
-                if (Utils.isDefaultProject(projectManager.currentProject, activity)) {
-                    binding.root.apply {
-                        Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
-                    }
-                    return
-                }
-
-                viewModel.setIsLoading(true)
-                val intent = Intent(activity, ProjectUploadActivity::class.java)
-                    .putExtra(
-                        PROJECT_DIR,
-                        File(
-                            DEFAULT_ROOT_DIRECTORY,
-                            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(
-                                Utils.getCurrentProjectName(activity)
-                            )
-                        )
-                    )
-                startActivity(intent)
             }
 
             R.id.playProject -> {

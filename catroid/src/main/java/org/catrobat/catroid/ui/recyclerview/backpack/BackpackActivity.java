@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,6 @@ public class BackpackActivity extends BaseActivity {
 	public static final int FRAGMENT_LOOKS = 2;
 	public static final int FRAGMENT_SOUNDS = 3;
 	public static final int FRAGMENT_SCRIPTS = 4;
-
 	private int fragmentPosition = 0;
 
 	@Override
@@ -72,24 +71,19 @@ public class BackpackActivity extends BaseActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_SCENES:
-				fragmentTransaction
-						.replace(R.id.fragment_container, new BackpackSceneFragment(), BackpackSceneFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new BackpackSceneFragment(), BackpackSceneFragment.TAG);
 				break;
 			case FRAGMENT_SPRITES:
-				fragmentTransaction
-						.replace(R.id.fragment_container, new BackpackSpriteFragment(), BackpackSpriteFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new BackpackSpriteFragment(), BackpackSpriteFragment.TAG);
 				break;
 			case FRAGMENT_LOOKS:
-				fragmentTransaction
-						.replace(R.id.fragment_container, new BackpackLookFragment(), BackpackLookFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new BackpackLookFragment(), BackpackLookFragment.TAG);
 				break;
 			case FRAGMENT_SOUNDS:
-				fragmentTransaction
-						.replace(R.id.fragment_container, new BackpackSoundFragment(), BackpackSoundFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new BackpackSoundFragment(), BackpackSoundFragment.TAG);
 				break;
 			case FRAGMENT_SCRIPTS:
-				fragmentTransaction
-						.replace(R.id.fragment_container, new BackpackScriptFragment(), BackpackScriptFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new BackpackScriptFragment(), BackpackScriptFragment.TAG);
 				break;
 			default:
 				return;
@@ -101,15 +95,18 @@ public class BackpackActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_backpack_activity, menu);
+		optionsMenu = menu;
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		BackpackRecyclerViewFragment fragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container));
-
+		BackpackRecyclerViewFragment fragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container));
 		menu.findItem(R.id.show_details).setVisible(fragment.hasDetails);
 		return true;
+	}
+
+	public void toggleUndo(boolean status) {
+		optionsMenu.findItem(R.id.menu_undo).setVisible(status);
 	}
 }

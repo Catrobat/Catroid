@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -262,17 +262,6 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.menu_login).isVisible =
-            !Utils.isUserLoggedIn(this)
-        menu.findItem(R.id.menu_logout).isVisible =
-            Utils.isUserLoggedIn(this)
-        if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-            menu.removeItem(R.id.menu_scratch_converter)
-        }
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_rate_app -> if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
@@ -307,11 +296,6 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 startActivity(Intent(this, ScratchConverterActivity::class.java))
             }
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
-            R.id.menu_login -> startActivity(Intent(this, SignInActivity::class.java))
-            R.id.menu_logout -> {
-                Utils.logoutUser(this)
-                ToastUtil.showSuccess(this, R.string.logout_successful)
-            }
             R.id.menu_help -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW,

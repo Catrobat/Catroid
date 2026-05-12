@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.Assert.assertTrue
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import org.catrobat.catroid.common.FlavoredConstants.LIBRARY_OBJECT_URL
+import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
 import org.catrobat.catroid.web.WebConnection
 import org.junit.Before
@@ -53,7 +53,7 @@ class MediaLibraryHttpResponseTest : WebConnection.WebRequestListener {
 
     @Test
     fun testHttp() {
-        WebConnection(okHttpClient, this, LIBRARY_OBJECT_URL).sendWebRequest()
+        WebConnection(okHttpClient, this, CATROBAT_CONTENT_LOOKS_URL).sendWebRequest()
         val body: String = response.get().trim()
         assertTrue(body.startsWith(HTML_RESPONSE_START))
         assertTrue(body.endsWith(HTML_RESPONSE_END))

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,8 +75,6 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
-        menu.findItem(R.id.catblocks).isVisible = false
         menu.findItem(R.id.find).isVisible = false
     }
 
@@ -146,7 +144,7 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
 
     override fun deleteItems(selectedItems: List<SoundInfo?>) {
         setShowProgressBar(true)
-
+        var deletedItemsCount = 0
         for (item in selectedItems) {
             try {
                 soundController.delete(item)
@@ -154,13 +152,14 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
+            deletedItemsCount++
         }
 
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
                 R.plurals.deleted_sounds,
-                selectedItems.size,
-                selectedItems.size
+                deletedItemsCount,
+                deletedItemsCount
             )
         )
         finishActionMode()
@@ -204,7 +203,6 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
             R.id.project_options,
             R.id.edit,
             R.id.from_local,
-            R.id.from_library
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
             .menu_project_activity, hiddenOptionMenuIds)

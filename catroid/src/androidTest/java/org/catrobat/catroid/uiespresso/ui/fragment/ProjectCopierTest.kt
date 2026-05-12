@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,6 +57,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -68,6 +69,7 @@ class ProjectCopierTest {
             ProjectListActivity::class.java, true, false
         )
     private val toBeCopiedProjectName = "testProject"
+    private val projectManager: ProjectManager = inject(ProjectManager::class.java).value
 
     @Before
     @Throws(Exception::class)
@@ -129,8 +131,8 @@ class ProjectCopierTest {
         script.addBrick(SetXBrick(Formula(BrickValues.X_POSITION)))
         sprite.addScript(script)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
         val soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
             getInstrumentation().context.resources,

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -817,7 +817,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     falseString
                 ),
                 arrayOf(
-                    "Function COLOR_EQUALS_COLOR",
+                    "Function COLOR_EQUALS_COLOR True",
                     getFormula(
                         Pair(FUNCTION, COLOR_EQUALS_COLOR.name), Pair(STRING, "#FFFFFF"),
                         Pair(STRING, "#FFFFFF"), Pair(NUMBER, 1)
@@ -826,7 +826,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     trueString
                 ),
                 arrayOf(
-                    "Function COLOR_EQUALS_COLOR",
+                    "Function COLOR_EQUALS_COLOR False",
                     getFormula(
                         Pair(FUNCTION, COLOR_EQUALS_COLOR.name), Pair(STRING, "#FFFFFF"),
                         Pair(STRING, "#000000"), Pair(NUMBER, 1)

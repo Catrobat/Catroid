@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import androidx.annotation.Nullable;
+
 public final class UserDataWrapper {
 
 	public static UserVariable getUserVariable(String name, Scope scope) {
@@ -49,6 +51,7 @@ public final class UserDataWrapper {
 		return userVariable;
 	}
 
+	@Nullable
 	public static UserList getUserList(String name, Scope scope) {
 		UserList userList = null;
 		if (scope != null) {

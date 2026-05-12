@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,11 +34,11 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/mindstorms/";
+	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/mindstorms/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/MindstormsFlavorDocumentation";
+	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
@@ -53,12 +53,12 @@ public final class FlavoredConstants {
 
 	// Media Library:
 	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
-	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
-	public static final String LIBRARY_OBJECT_URL = BASE_URL_HTTPS + "media-library/objects";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
-	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
+	public static final String CATROBAT_BASE_URL = "https://catrobat.org/";
+	public static final String CATROBAT_CONTENT_DOWNLOAD_URL = CATROBAT_BASE_URL + "wp-content/";
+	public static final String CATROBAT_CONTENT_LOOKS_URL = CATROBAT_BASE_URL +  "figures-download/";
+	public static final String CATROBAT_CONTENT_SOUNDS_URL = CATROBAT_BASE_URL + "sounds-download/";
+	public static final String CATROBAT_CONTENT_BACKGROUNDS_URL = CATROBAT_BASE_URL + "backgrounds-download/";
+	public static final String PRIVACY_POLICY_URL = "https://developer.catrobat.org/pages/legal/policies/privacy/";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");

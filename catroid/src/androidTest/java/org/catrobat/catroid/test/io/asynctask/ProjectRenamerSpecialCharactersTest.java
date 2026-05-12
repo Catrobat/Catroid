@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,6 @@ public class ProjectRenamerSpecialCharactersTest {
 				{"smallerThanTest", "test<Project", "test%3CProject"},
 				{"greaterThanTest", "test>Project", "test%3EProject"},
 				{"percentTest", "test%Project", "test%25Project"},
-				{"slashTest", "test/Project", "test%2FProject"},
 				{"slashTest", "test/Project", "test%2FProject"},
 				{"quoteTest", "test\"Project", "test%22Project"},
 				{"colonTest", "test:Project", "test%3AProject"},

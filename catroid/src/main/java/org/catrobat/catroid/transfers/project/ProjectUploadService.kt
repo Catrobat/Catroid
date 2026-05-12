@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -161,7 +161,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             PendingIntent.getActivity(
                 applicationContext,
                 StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 
@@ -191,7 +191,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             PendingIntent.getActivity(
                 applicationContext,
                 StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 

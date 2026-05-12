@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.content.Context
@@ -173,7 +174,8 @@ class RenameSceneTest {
 
         closeSoftKeyboard()
 
-        onView(allOf(withId(android.R.id.button1), withText(getResourcesString(R.string.ok))))
+        onView(allOf(
+            withId(android.R.id.button1), withText(getResourcesString(R.string.ok))))
             .perform(click())
 
         onView(withText(newSceneName))
@@ -185,7 +187,9 @@ class RenameSceneTest {
         onView(withId(R.id.tab_layout))
             .perform(selectTabAtPosition(FRAGMENT_LOOKS))
 
-        val falseDetailsString = String.format(getDefault(), getResourcesString(R.string.look_details), "0 x 0", "0 B")
+        val falseDetailsString = String.format(
+            getDefault(),
+            getResourcesString(R.string.look_details), "0 x 0", "0 B")
 
         onRecyclerView().atPosition(0).onChildView(R.id.details_view)
             .check(matches(not(withText(falseDetailsString))))

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2025 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public final class Reflection {
 	private Reflection() {
@@ -167,6 +168,9 @@ public final class Reflection {
 	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, ParameterList parameterList) throws Exception {
 		Method method = clazz.getDeclaredMethod(methodName, parameterList.types);
 		method.setAccessible(true);
+		if (object == null && !Modifier.isStatic(method.getModifiers())) {
+			throw new NullPointerException("Object is null");
+		}
 		return method.invoke(object, parameterList.values);
 	}
 }

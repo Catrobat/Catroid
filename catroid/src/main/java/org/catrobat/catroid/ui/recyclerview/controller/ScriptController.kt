@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2025  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -524,13 +524,13 @@ class ScriptController {
         destinationSprite: Sprite?
     ) {
         for (entry in brick.userDataMap.entries) {
-            val previousUserData = entry.value
+            val previousUserData = entry
             var updatedUserList: UserData<*>?
             val scope = destinationSprite?.let { sprite -> Scope(destinationProject, sprite, null) }
             updatedUserList = if (BrickData.isUserList(entry.key)) {
-                UserDataWrapper.getUserList(previousUserData?.name, scope)
+                UserDataWrapper.getUserList(previousUserData.key.name, scope)
             } else {
-                UserDataWrapper.getUserVariable(previousUserData?.name, scope)
+                UserDataWrapper.getUserVariable(previousUserData.key.name, scope)
             }
             entry.setValue(updatedUserList)
         }

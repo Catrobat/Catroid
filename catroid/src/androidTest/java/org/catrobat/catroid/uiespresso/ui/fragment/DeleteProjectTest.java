@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,19 +72,18 @@ public class DeleteProjectTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject(projectToDelete);
-		createProject("secondProject");
-
-		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteProjectTest() {
+	public void deleteProjectMultipleElementsListTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(0)
-				.performCheckItemClick();
+		onView(withText(projectToDelete)).perform(click());
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -107,7 +106,23 @@ public class DeleteProjectTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	public void deleteProjectSingleElementListTest() {
+		baseActivityTestRule.launchActivity(null);
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(projectToDelete))
+				.check(doesNotExist());
+
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
 	public void selectFragmentToDeleteTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
@@ -118,6 +133,9 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteProjectTest() {
+		createProject("secondProject");
+		baseActivityTestRule.launchActivity(null);
+
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
