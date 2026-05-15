@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -50,7 +51,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +59,8 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -97,9 +99,8 @@ public class ActionBarUndoSpinnerTest {
 	@Parameterized.Parameter(2)
 	public int brickSpinnerViewId;
 
-	private String firstItem = "abc";
-	private String secondItem = "def";
-	private String newItem = "new";
+	private final String firstItem = "abc";
+	private final String secondItem = "def";
 
 	@After
 	public void tearDown() throws IOException {
@@ -135,6 +136,8 @@ public class ActionBarUndoSpinnerTest {
 				.onSpinner(brickSpinnerViewId)
 				.performSelectNameable(secondItem);
 		onView(withId(R.id.menu_undo))
+				.perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withId(R.id.menu_undo))
 				.perform(click());
 		onView(withId(R.id.menu_undo)).check(doesNotExist());
 	}
@@ -142,6 +145,7 @@ public class ActionBarUndoSpinnerTest {
 	@Test
 	public void testUndoSpinnerNotVisibleAfterNewOptionSelected() {
 		if (brickPosition >= 4) {
+			String newItem = "new";
 			onBrickAtPosition(brickPosition)
 					.onVariableSpinner(brickSpinnerViewId)
 					.performNewVariable(newItem);
@@ -157,14 +161,21 @@ public class ActionBarUndoSpinnerTest {
 		currentProject.addUserVariable(new UserVariable(firstItem));
 		currentProject.addUserVariable(new UserVariable(secondItem));
 
-		File fileMock = Mockito.mock(File.class);
+		File soundDirectory = new File(currentProject.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME);
+		File imageDirectory = new File(currentProject.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME);
+
+		File firstSoundFile = new File(soundDirectory, "abc.mp3");
+		File secondSoundFile = new File(soundDirectory, "def.mp3");
+		File firstLookFile = new File(imageDirectory, "abc.png");
+		File secondLookFile = new File(imageDirectory, "def.png");
+
 		List<SoundInfo> soundInfoList = currentSprite.getSoundList();
-		soundInfoList.add(new SoundInfo(firstItem, fileMock));
-		soundInfoList.add(new SoundInfo(secondItem, fileMock));
+		soundInfoList.add(new SoundInfo(firstItem, firstSoundFile));
+		soundInfoList.add(new SoundInfo(secondItem, secondSoundFile));
 
 		List<LookData> lookDataList = currentSprite.getLookList();
-		lookDataList.add(new LookData(firstItem, fileMock));
-		lookDataList.add(new LookData(secondItem, fileMock));
+		lookDataList.add(new LookData(firstItem, firstLookFile));
+		lookDataList.add(new LookData(secondItem, secondLookFile));
 
 		List<NfcTagData> nfcTagDataList = currentSprite.getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
@@ -184,5 +195,7 @@ public class ActionBarUndoSpinnerTest {
 		script.addBrick(new SetVariableBrick(new Formula(1), new UserVariable(firstItem)));
 		script.addBrick(new BroadcastBrick(firstItem));
 		script.addBrick(new BroadcastBrick(secondItem));
+
+		XstreamSerializer.getInstance().saveProject(currentProject);
 	}
 }
