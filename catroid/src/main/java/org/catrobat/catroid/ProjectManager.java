@@ -28,6 +28,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
@@ -375,6 +377,98 @@ public final class ProjectManager {
 				}
 			}
 		}
+	}
+
+	public static String getAllList(Project project) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Project: ").append(project.getName()).append("\n");
+
+		for (Scene scene : project.getSceneList()) {
+			builder.append("├── Scene: ").append(scene.getName()).append("\n");
+
+			for (Sprite sprite : scene.getSpriteList()) {
+				builder.append("│   ├── Sprite: ").append(sprite.getName()).append("\n");
+
+				for (Script script : sprite.getScriptList()) {
+					builder.append("│   │   ├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+
+					List<Brick> flatList = new ArrayList<>();
+					script.addToFlatList(flatList);
+
+					for (Brick brick : flatList) {
+						builder.append("│   │   │   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								builder.append("│   │   │   │   ├── Formula: ");
+								String formulaStr = formula.getFormulaString();
+								// Add proper indentation to formula tree
+								if (!formulaStr.isEmpty()) {
+									builder.append(formulaStr);
+								}
+								builder.append("\n");
+							}
+						}
+					}
+				}
+			}
+		}
+
+		String result = builder.toString();
+		Log.d(TAG, result);
+		return result;
+	}
+
+	public static JsonObject getAllListAsJson(Project project) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("Project", project.getName());
+
+		for (Scene scene : project.getSceneList()) {
+			JsonObject sceneJson = new JsonObject();
+			sceneJson.addProperty("Scene", scene.getName());
+
+			for (Sprite sprite : scene.getSpriteList()) {
+				JsonObject spriteJson = new JsonObject();
+				spriteJson.addProperty("Sprite", sprite.getName());
+
+				for (Script script : sprite.getScriptList()) {
+					JsonObject scriptJson = new JsonObject();
+					scriptJson.addProperty("Script", script.getClass().getSimpleName());
+
+					List<Brick> flatList = new ArrayList<>();
+					script.addToFlatList(flatList);
+
+					for (Brick brick : flatList) {
+						JsonObject brickJson = new JsonObject();
+						brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								String formulaStr = formula.getFormulaString();
+								if (!formulaStr.isEmpty()) {
+									brickJson.addProperty("Formula", formulaStr);
+								}
+							}
+						}
+						scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+					}
+					spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+				}
+				sceneJson.add(sprite.getName(), spriteJson);
+			}
+			jsonObject.add(scene.getName(), sceneJson);
+		}
+		return jsonObject;
+	}
+
+	public static String getAllListAsJsonString(Project project) {
+		JsonObject json = getAllListAsJson(project);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String prettyJson = gson.toJson(json);
+		Log.d(TAG, prettyJson);
+		return prettyJson;
 	}
 
 	@VisibleForTesting
