@@ -471,6 +471,193 @@ public final class ProjectManager {
 		return prettyJson;
 	}
 
+	public static String getAllListForSprite(Sprite sprite) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Sprite: ").append(sprite.getName()).append("\n");
+
+		for (Script script : sprite.getScriptList()) {
+			builder.append("├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+
+			List<Brick> flatList = new ArrayList<>();
+			script.addToFlatList(flatList);
+
+			for (Brick brick : flatList) {
+				builder.append("│   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						builder.append("│   │   ├── Formula: ");
+						String formulaStr = formula.getFormulaString();
+						if (!formulaStr.isEmpty()) {
+							builder.append(formulaStr);
+						}
+						builder.append("\n");
+					}
+				}
+			}
+		}
+		return builder.toString();
+	}
+
+	public static String getAllListAsJsonStringForSprite(Sprite sprite) {
+		JsonObject spriteJson = new JsonObject();
+		spriteJson.addProperty("Sprite", sprite.getName());
+
+		for (Script script : sprite.getScriptList()) {
+			JsonObject scriptJson = new JsonObject();
+			scriptJson.addProperty("Script", script.getClass().getSimpleName());
+
+			List<Brick> flatList = new ArrayList<>();
+			script.addToFlatList(flatList);
+
+			for (Brick brick : flatList) {
+				JsonObject brickJson = new JsonObject();
+				brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						String formulaStr = formula.getFormulaString();
+						if (!formulaStr.isEmpty()) {
+							brickJson.addProperty("Formula", formulaStr);
+						}
+					}
+				}
+				scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+			}
+			spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+		}
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(spriteJson);
+	}
+
+	public static String getAllListForScene(Scene scene) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Scene: ").append(scene.getName()).append("\n");
+
+		for (Sprite sprite : scene.getSpriteList()) {
+			builder.append("├── Sprite: ").append(sprite.getName()).append("\n");
+
+			for (Script script : sprite.getScriptList()) {
+				builder.append("│   ├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+
+				List<Brick> flatList = new ArrayList<>();
+				script.addToFlatList(flatList);
+
+				for (Brick brick : flatList) {
+					builder.append("│   │   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+
+					if (brick instanceof FormulaBrick) {
+						FormulaBrick formulaBrick = (FormulaBrick) brick;
+						for (Formula formula : formulaBrick.getFormulas()) {
+							builder.append("│   │   │   ├── Formula: ");
+							String formulaStr = formula.getFormulaString();
+							if (!formulaStr.isEmpty()) {
+								builder.append(formulaStr);
+							}
+							builder.append("\n");
+						}
+					}
+				}
+			}
+		}
+		return builder.toString();
+	}
+
+	public static String getAllListAsJsonStringForScene(Scene scene) {
+		JsonObject sceneJson = new JsonObject();
+		sceneJson.addProperty("Scene", scene.getName());
+
+		for (Sprite sprite : scene.getSpriteList()) {
+			JsonObject spriteJson = new JsonObject();
+			spriteJson.addProperty("Sprite", sprite.getName());
+
+			for (Script script : sprite.getScriptList()) {
+				JsonObject scriptJson = new JsonObject();
+				scriptJson.addProperty("Script", script.getClass().getSimpleName());
+
+				List<Brick> flatList = new ArrayList<>();
+				script.addToFlatList(flatList);
+
+				for (Brick brick : flatList) {
+					JsonObject brickJson = new JsonObject();
+					brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+
+					if (brick instanceof FormulaBrick) {
+						FormulaBrick formulaBrick = (FormulaBrick) brick;
+						for (Formula formula : formulaBrick.getFormulas()) {
+							String formulaStr = formula.getFormulaString();
+							if (!formulaStr.isEmpty()) {
+								brickJson.addProperty("Formula", formulaStr);
+							}
+						}
+					}
+					scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+				}
+				spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+			}
+			sceneJson.add(sprite.getName(), spriteJson);
+		}
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(sceneJson);
+	}
+
+	public static String getProjectSummary(Project project) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Project: ").append(project.getName()).append("\n");
+		builder.append("Scenes: ").append(project.getSceneList().size()).append("\n");
+
+		int totalSprites = 0;
+		int totalScripts = 0;
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				totalSprites++;
+				totalScripts += sprite.getScriptList().size();
+			}
+		}
+		builder.append("Total sprites: ").append(totalSprites).append("\n");
+		builder.append("Total scripts: ").append(totalScripts).append("\n");
+
+		for (Scene scene : project.getSceneList()) {
+			builder.append("\nScene: ").append(scene.getName()).append("\n");
+			for (Sprite sprite : scene.getSpriteList()) {
+				int scriptCount = sprite.getScriptList().size();
+				builder.append("  - ").append(sprite.getName())
+						.append(": ").append(scriptCount)
+						.append(scriptCount != 1 ? " scripts" : " script").append("\n");
+			}
+		}
+
+		List<UserVariable> projectVars = project.getUserVariables();
+		if (!projectVars.isEmpty()) {
+			builder.append("\nGlobal variables: ");
+			for (int i = 0; i < projectVars.size(); i++) {
+				if (i > 0) {
+					builder.append(", ");
+				}
+				builder.append(projectVars.get(i).getName());
+			}
+			builder.append("\n");
+		}
+
+		List<UserList> projectLists = project.getUserLists();
+		if (!projectLists.isEmpty()) {
+			builder.append("Global lists: ");
+			for (int i = 0; i < projectLists.size(); i++) {
+				if (i > 0) {
+					builder.append(", ");
+				}
+				builder.append(projectLists.get(i).getName());
+			}
+			builder.append("\n");
+		}
+
+		return builder.toString();
+	}
+
 	@VisibleForTesting
 	public static void updateCollisionFormulasTo993(Project project) {
 		for (Scene scene : project.getSceneList()) {
