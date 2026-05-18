@@ -53,7 +53,7 @@ class WebRequestAction : WebAction() {
 
     override fun onRequestSuccess(httpResponse: Response) {
         response = try {
-            httpResponse.body()?.string() ?: ""
+            httpResponse.body?.string() ?: ""
         } catch (exception: IOException) {
             Log.d(javaClass.simpleName, "HTTP reponse body is empty", exception)
             ""

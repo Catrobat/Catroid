@@ -41,11 +41,11 @@ fun OkHttpClient.performCallWith(request: Request): String {
     var statusCode = WebConnectionException.ERROR_NETWORK
     try {
         val response = this.newCall(request).execute()
-        response.body()?.let {
+        response.body?.let {
             return it.string()
         }
-        statusCode = response.code()
-        message = response.message()
+        statusCode = response.code
+        message = response.message
     } catch (e: IOException) {
         e.message?.let {
             message = it
