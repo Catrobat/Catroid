@@ -27,7 +27,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import org.catrobat.aitutor.ui.`public`.AiTutorView
 import org.catrobat.catroid.databinding.FragmentAiAssistBinding
 
 class AiAssistFragment : Fragment() {
@@ -46,8 +52,19 @@ class AiAssistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getString("structure")?.let { structure ->
-            binding.textAiAssist.text = structure
+        val structure = arguments?.getString("structure")
+        binding.textAiAssist.text = structure ?: ""
+
+        binding.composeAiTutor.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                var show by remember { mutableStateOf(true) }
+                AiTutorView(
+                    show = show,
+                    onDismissRequest = { show = false },
+                    codeContext = structure,
+                )
+            }
         }
     }
 
