@@ -38,6 +38,7 @@ plugins {
     id "io.gitlab.arturbosch.detekt" version "1.23.7"
     id 'com.google.devtools.ksp' version '2.0.21-1.0.25' apply true
     id 'checkstyle'
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.0.21'
 }
 
 repositories {
@@ -113,6 +114,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
     }
 
     defaultConfig {
@@ -471,6 +473,13 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
     implementation "com.google.android.gms:play-services-auth:17.0.0"
+
+    // Catrobat AI Tutor
+    implementation("org.catrobat:aitutor:0.0.1")
+
+    // Compose
+    implementation "androidx.compose.ui:ui:1.7.5"
+    implementation "androidx.compose.runtime:runtime:1.7.5"
 
     androidTestImplementation('tools.fastlane:screengrab:2.1.1') {
         // https://issuetracker.google.com/issues/123060356
