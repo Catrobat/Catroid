@@ -2325,4 +2325,15 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+
+    <string name="ai_assist_choose_format">Choose project format</string>
+    <string name="ai_assist_format_tree">Full project (tree)</string>
+    <string name="ai_assist_format_json">Full project (JSON)</string>
+    <string name="ai_assist_format_xml">Full project (XML)</string>
+    <string name="ai_assist_format_tree_scene">Current scene (tree)</string>
+    <string name="ai_assist_format_json_scene">Current scene (JSON)</string>
+    <string name="ai_assist_format_tree_sprite">Current sprite (tree)</string>
+    <string name="ai_assist_format_json_sprite">Current sprite (JSON)</string>
+    <string name="ai_assist_format_xml_sprite">Current sprite (XML)</string>
+    <string name="ai_assist_format_summary">Project summary</string>
 </resources>

@@ -48,11 +48,13 @@ import org.catrobat.catroid.databinding.ActivityRecyclerBinding
 import org.catrobat.catroid.databinding.DialogNewActorBinding
 import org.catrobat.catroid.databinding.ProgressBarBinding
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
+import org.catrobat.catroid.ui.aiassist.AiAssistFragment
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.controller.ActorsAndObjectsManager
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog
@@ -113,6 +115,9 @@ class ProjectActivity : BaseCastActivity() {
         showWarningForSuspiciousBricksOnce(this)
         showLegoSensorConfigInfo()
         binding.bottomBar.apply {
+            buttonAiAssist.setOnClickListener {
+                handleAiAssistButton()
+            }
             buttonAdd.setOnClickListener {
                 handleAddButton()
             }
@@ -332,6 +337,39 @@ class ProjectActivity : BaseCastActivity() {
             true, lookDataName, currentFragment!!
         ).show(supportFragmentManager, NewSpriteDialogFragment.TAG)
     }
+
+    private fun handleAiAssistButton() {
+        val options = arrayOf(
+            getString(R.string.ai_assist_format_tree),
+            getString(R.string.ai_assist_format_json),
+            getString(R.string.ai_assist_format_xml),
+            getString(R.string.ai_assist_format_tree_scene),
+            getString(R.string.ai_assist_format_json_scene),
+            getString(R.string.ai_assist_format_summary)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.ai_assist_choose_format)
+            .setItems(options) { _, which ->
+                val project = projectManager.currentProject
+                val structure = when (which) {
+                    0 -> ProjectManager.getAllList(project)
+                    1 -> ProjectManager.getAllListAsJsonString(project)
+                    2 -> XstreamSerializer.getInstance().getXmlAsStringFromProject(project)
+                    3 -> ProjectManager.getAllListForScene(projectManager.currentlyEditedScene)
+                    4 -> ProjectManager.getAllListAsJsonStringForScene(projectManager.currentlyEditedScene)
+                    else -> ProjectManager.getProjectSummary(project)
+                }
+                val bundle = Bundle().apply { putString("structure", structure) }
+                val aiAssistFragment = AiAssistFragment().apply { arguments = bundle }
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.TAG)
+                    .addToBackStack(AiAssistFragment.TAG)
+                    .commit()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
 
     private fun handleAddButton() {
         if (currentFragment is SceneListFragment) {
