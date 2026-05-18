@@ -1052,6 +1052,14 @@ public class FormulaElement implements Serializable {
 		this.value = value;
 	}
 
+	public FormulaElement getLeftChild() {
+		return leftChild;
+	}
+
+	public FormulaElement getRightChild() {
+		return rightChild;
+	}
+
 	public List<String> getUserDataRecursive(ElementType type) {
 		ArrayList<String> userDataNames = new ArrayList<>();
 

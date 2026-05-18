@@ -106,6 +106,72 @@ public class Formula implements Serializable {
 		internFormula.setInternTokenFormulaList(formulaTree.getInternTokenList());
 	}
 
+	public String getFormulaString() {
+		if (formulaTree == null) {
+			return "";
+		}
+		return buildFormulaString(formulaTree);
+	}
+
+	private String buildFormulaString(FormulaElement element) {
+		if (element == null) {
+			return "";
+		}
+
+		// Add current element information
+		StringBuilder result = new StringBuilder();
+		result.append(element.getElementType().name());
+		if (element.getValue() != null) {
+			result.append(": ").append(element.getValue());
+		}
+
+		// Process left and right children with proper tree structure
+		if (element.getLeftChild() != null) {
+			result.append("\n│   │   │   │   │   └── ").append(buildFormulaStringRecursive(element.getLeftChild(), true, element.getRightChild() != null));
+		}
+
+		if (element.getRightChild() != null) {
+			result.append("\n│   │   │   │   │   └── ").append(buildFormulaStringRecursive(element.getRightChild(), false, false));
+		}
+
+		return result.toString();
+	}
+
+	private String buildFormulaStringRecursive(FormulaElement element, boolean isLeftChild, boolean hasRightSibling) {
+		if (element == null) {
+			return "";
+		}
+
+		// Add current element information
+		StringBuilder result = new StringBuilder();
+		result.append(element.getElementType().name());
+		if (element.getValue() != null) {
+			result.append(": ").append(element.getValue());
+		}
+
+		// Process children with proper indentation
+		String childPrefix = "│   │   │   │   │   ";
+		if (element.getLeftChild() != null) {
+			result.append("\n").append(childPrefix).append("    └── ")
+					.append(buildFormulaStringRecursive(element.getLeftChild(), true, element.getRightChild() != null));
+		}
+
+		if (element.getRightChild() != null) {
+			result.append("\n").append(childPrefix).append("    └── ")
+					.append(buildFormulaStringRecursive(element.getRightChild(), false, false));
+		}
+
+		return result.toString();
+	}
+
+	public String getFlattenedAllListsString() {
+		FormulaElement tempTree = formulaTree.clone();
+		tempTree.insertFlattenForAllUserLists(tempTree, null);
+		tempTree = tempTree.getRoot();
+		InternFormula tempInternFormula = new InternFormula(tempTree.getInternTokenList());
+		return tempInternFormula.trimExternFormulaString(CatroidApplication.getAppContext());
+	}
+
 	public void updateCollisionFormulasToVersion() {
 		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext());
 		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
