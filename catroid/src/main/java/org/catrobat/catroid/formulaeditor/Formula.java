@@ -164,6 +164,57 @@ public class Formula implements Serializable {
 		return result.toString();
 	}
 
+	public String getFormulaInlineString() {
+		if (formulaTree == null) {
+			return "";
+		}
+		return buildFormulaInline(formulaTree);
+	}
+
+	private String buildFormulaInline(FormulaElement element) {
+		if (element == null) {
+			return "";
+		}
+		FormulaElement left = element.getLeftChild();
+		FormulaElement right = element.getRightChild();
+		String type = element.getElementType().name();
+		String value = element.getValue() != null ? element.getValue() : "";
+
+		if (left == null && right == null) {
+			return value.isEmpty() ? type : value;
+		}
+
+		String op;
+		switch (value) {
+			case "EQUAL": op = "=="; break;
+			case "NOT_EQUAL": op = "!="; break;
+			case "GREATER_THAN": op = ">"; break;
+			case "GREATER_OR_EQUAL": op = ">="; break;
+			case "SMALLER_THAN": op = "<"; break;
+			case "SMALLER_OR_EQUAL": op = "<="; break;
+			case "PLUS": op = "+"; break;
+			case "MINUS": op = "-"; break;
+			case "MULT": op = "*"; break;
+			case "DIVIDE": op = "/"; break;
+			case "MOD": op = "%"; break;
+			case "POW": op = "^"; break;
+			case "LOGICAL_AND": op = "&&"; break;
+			case "LOGICAL_OR": op = "||"; break;
+			case "LOGICAL_NOT": return "!" + buildFormulaInline(right != null ? right : left);
+			default: op = value.isEmpty() ? type : value; break;
+		}
+
+		String leftStr = left != null ? buildFormulaInline(left) : "";
+		String rightStr = right != null ? buildFormulaInline(right) : "";
+		if (leftStr.isEmpty()) {
+			return op + " " + rightStr;
+		}
+		if (rightStr.isEmpty()) {
+			return leftStr + " " + op;
+		}
+		return leftStr + " " + op + " " + rightStr;
+	}
+
 	public String getFlattenedAllListsString() {
 		FormulaElement tempTree = formulaTree.clone();
 		tempTree.insertFlattenForAllUserLists(tempTree, null);

@@ -43,8 +43,16 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
+import org.catrobat.catroid.content.WhenClonedScript;
+import org.catrobat.catroid.content.WhenConditionScript;
+import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -390,20 +398,27 @@ public final class ProjectManager {
 				builder.append("│   ├── Sprite: ").append(sprite.getName()).append("\n");
 
 				for (Script script : sprite.getScriptList()) {
-					builder.append("│   │   ├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+					String trigger = getScriptTriggerDescription(script);
+					builder.append("│   │   ├── Script: ").append(script.getClass().getSimpleName());
+					if (!trigger.isEmpty()) builder.append(" (").append(trigger).append(")");
+					builder.append("\n");
 
 					List<Brick> flatList = new ArrayList<>();
 					script.addToFlatList(flatList);
 
 					for (Brick brick : flatList) {
-						builder.append("│   │   │   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+						builder.append("│   │   │   ├── Brick: ").append(brick.getClass().getSimpleName());
+						String varName = getBrickVariableName(brick);
+						String msg = getBrickBroadcastMessage(brick);
+						if (varName != null) builder.append(" → ").append(varName);
+						else if (msg != null) builder.append(" → \"").append(msg).append("\"");
+						builder.append("\n");
 
 						if (brick instanceof FormulaBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
 							for (Formula formula : formulaBrick.getFormulas()) {
 								builder.append("│   │   │   │   ├── Formula: ");
 								String formulaStr = formula.getFormulaString();
-								// Add proper indentation to formula tree
 								if (!formulaStr.isEmpty()) {
 									builder.append(formulaStr);
 								}
@@ -432,29 +447,46 @@ public final class ProjectManager {
 				JsonObject spriteJson = new JsonObject();
 				spriteJson.addProperty("Sprite", sprite.getName());
 
+				HashMap<String, Integer> scriptKeyCounts = new HashMap<>();
 				for (Script script : sprite.getScriptList()) {
 					JsonObject scriptJson = new JsonObject();
 					scriptJson.addProperty("Script", script.getClass().getSimpleName());
+					String trigger = getScriptTriggerDescription(script);
+					if (!trigger.isEmpty()) scriptJson.addProperty("Trigger", trigger);
 
 					List<Brick> flatList = new ArrayList<>();
 					script.addToFlatList(flatList);
 
+					HashMap<String, Integer> brickKeyCounts = new HashMap<>();
 					for (Brick brick : flatList) {
 						JsonObject brickJson = new JsonObject();
 						brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+						String varName = getBrickVariableName(brick);
+						String msg = getBrickBroadcastMessage(brick);
+						if (varName != null) brickJson.addProperty("Variable", varName);
+						if (msg != null) brickJson.addProperty("Message", msg);
 
 						if (brick instanceof FormulaBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							int formulaCount = 0;
 							for (Formula formula : formulaBrick.getFormulas()) {
-								String formulaStr = formula.getFormulaString();
+								String formulaStr = formula.getFormulaInlineString();
 								if (!formulaStr.isEmpty()) {
-									brickJson.addProperty("Formula", formulaStr);
+									formulaCount++;
+									brickJson.addProperty(formulaCount == 1 ? "Formula" : "Formula_" + formulaCount, formulaStr);
 								}
 							}
 						}
-						scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+						String brickKey = brick.getClass().getSimpleName();
+						int brickCount = brickKeyCounts.getOrDefault(brickKey, 0) + 1;
+						brickKeyCounts.put(brickKey, brickCount);
+						scriptJson.add(brickCount == 1 ? brickKey : brickKey + "_" + brickCount, brickJson);
 					}
-					spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+
+					String scriptKey = script.getClass().getSimpleName();
+					int scriptCount = scriptKeyCounts.getOrDefault(scriptKey, 0) + 1;
+					scriptKeyCounts.put(scriptKey, scriptCount);
+					spriteJson.add(scriptCount == 1 ? scriptKey : scriptKey + "_" + scriptCount, scriptJson);
 				}
 				sceneJson.add(sprite.getName(), spriteJson);
 			}
@@ -465,7 +497,7 @@ public final class ProjectManager {
 
 	public static String getAllListAsJsonString(Project project) {
 		JsonObject json = getAllListAsJson(project);
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		String prettyJson = gson.toJson(json);
 		Log.d(TAG, prettyJson);
 		return prettyJson;
@@ -476,13 +508,21 @@ public final class ProjectManager {
 		builder.append("Sprite: ").append(sprite.getName()).append("\n");
 
 		for (Script script : sprite.getScriptList()) {
-			builder.append("├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+			String trigger = getScriptTriggerDescription(script);
+			builder.append("├── Script: ").append(script.getClass().getSimpleName());
+			if (!trigger.isEmpty()) builder.append(" (").append(trigger).append(")");
+			builder.append("\n");
 
 			List<Brick> flatList = new ArrayList<>();
 			script.addToFlatList(flatList);
 
 			for (Brick brick : flatList) {
-				builder.append("│   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+				builder.append("│   ├── Brick: ").append(brick.getClass().getSimpleName());
+				String varName = getBrickVariableName(brick);
+				String msg = getBrickBroadcastMessage(brick);
+				if (varName != null) builder.append(" → ").append(varName);
+				else if (msg != null) builder.append(" → \"").append(msg).append("\"");
+				builder.append("\n");
 
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -504,32 +544,49 @@ public final class ProjectManager {
 		JsonObject spriteJson = new JsonObject();
 		spriteJson.addProperty("Sprite", sprite.getName());
 
+		HashMap<String, Integer> scriptKeyCounts = new HashMap<>();
 		for (Script script : sprite.getScriptList()) {
 			JsonObject scriptJson = new JsonObject();
 			scriptJson.addProperty("Script", script.getClass().getSimpleName());
+			String trigger = getScriptTriggerDescription(script);
+			if (!trigger.isEmpty()) scriptJson.addProperty("Trigger", trigger);
 
 			List<Brick> flatList = new ArrayList<>();
 			script.addToFlatList(flatList);
 
+			HashMap<String, Integer> brickKeyCounts = new HashMap<>();
 			for (Brick brick : flatList) {
 				JsonObject brickJson = new JsonObject();
 				brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+				String varName = getBrickVariableName(brick);
+				String msg = getBrickBroadcastMessage(brick);
+				if (varName != null) brickJson.addProperty("Variable", varName);
+				if (msg != null) brickJson.addProperty("Message", msg);
 
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					int formulaCount = 0;
 					for (Formula formula : formulaBrick.getFormulas()) {
-						String formulaStr = formula.getFormulaString();
+						String formulaStr = formula.getFormulaInlineString();
 						if (!formulaStr.isEmpty()) {
-							brickJson.addProperty("Formula", formulaStr);
+							formulaCount++;
+							brickJson.addProperty(formulaCount == 1 ? "Formula" : "Formula_" + formulaCount, formulaStr);
 						}
 					}
 				}
-				scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+				String brickKey = brick.getClass().getSimpleName();
+				int brickCount = brickKeyCounts.getOrDefault(brickKey, 0) + 1;
+				brickKeyCounts.put(brickKey, brickCount);
+				scriptJson.add(brickCount == 1 ? brickKey : brickKey + "_" + brickCount, brickJson);
 			}
-			spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+
+			String scriptKey = script.getClass().getSimpleName();
+			int scriptCount = scriptKeyCounts.getOrDefault(scriptKey, 0) + 1;
+			scriptKeyCounts.put(scriptKey, scriptCount);
+			spriteJson.add(scriptCount == 1 ? scriptKey : scriptKey + "_" + scriptCount, scriptJson);
 		}
 
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		return gson.toJson(spriteJson);
 	}
 
@@ -541,13 +598,21 @@ public final class ProjectManager {
 			builder.append("├── Sprite: ").append(sprite.getName()).append("\n");
 
 			for (Script script : sprite.getScriptList()) {
-				builder.append("│   ├── Script: ").append(script.getClass().getSimpleName()).append("\n");
+				String trigger = getScriptTriggerDescription(script);
+				builder.append("│   ├── Script: ").append(script.getClass().getSimpleName());
+				if (!trigger.isEmpty()) builder.append(" (").append(trigger).append(")");
+				builder.append("\n");
 
 				List<Brick> flatList = new ArrayList<>();
 				script.addToFlatList(flatList);
 
 				for (Brick brick : flatList) {
-					builder.append("│   │   ├── Brick: ").append(brick.getClass().getSimpleName()).append("\n");
+					builder.append("│   │   ├── Brick: ").append(brick.getClass().getSimpleName());
+					String varName = getBrickVariableName(brick);
+					String msg = getBrickBroadcastMessage(brick);
+					if (varName != null) builder.append(" → ").append(varName);
+					else if (msg != null) builder.append(" → \"").append(msg).append("\"");
+					builder.append("\n");
 
 					if (brick instanceof FormulaBrick) {
 						FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -574,34 +639,51 @@ public final class ProjectManager {
 			JsonObject spriteJson = new JsonObject();
 			spriteJson.addProperty("Sprite", sprite.getName());
 
+			HashMap<String, Integer> scriptKeyCounts = new HashMap<>();
 			for (Script script : sprite.getScriptList()) {
 				JsonObject scriptJson = new JsonObject();
 				scriptJson.addProperty("Script", script.getClass().getSimpleName());
+				String trigger = getScriptTriggerDescription(script);
+				if (!trigger.isEmpty()) scriptJson.addProperty("Trigger", trigger);
 
 				List<Brick> flatList = new ArrayList<>();
 				script.addToFlatList(flatList);
 
+				HashMap<String, Integer> brickKeyCounts = new HashMap<>();
 				for (Brick brick : flatList) {
 					JsonObject brickJson = new JsonObject();
 					brickJson.addProperty("Brick", brick.getClass().getSimpleName());
+					String varName = getBrickVariableName(brick);
+					String msg = getBrickBroadcastMessage(brick);
+					if (varName != null) brickJson.addProperty("Variable", varName);
+					if (msg != null) brickJson.addProperty("Message", msg);
 
 					if (brick instanceof FormulaBrick) {
 						FormulaBrick formulaBrick = (FormulaBrick) brick;
+						int formulaCount = 0;
 						for (Formula formula : formulaBrick.getFormulas()) {
-							String formulaStr = formula.getFormulaString();
+							String formulaStr = formula.getFormulaInlineString();
 							if (!formulaStr.isEmpty()) {
-								brickJson.addProperty("Formula", formulaStr);
+								formulaCount++;
+								brickJson.addProperty(formulaCount == 1 ? "Formula" : "Formula_" + formulaCount, formulaStr);
 							}
 						}
 					}
-					scriptJson.add(brick.getClass().getSimpleName(), brickJson);
+					String brickKey = brick.getClass().getSimpleName();
+					int brickCount = brickKeyCounts.getOrDefault(brickKey, 0) + 1;
+					brickKeyCounts.put(brickKey, brickCount);
+					scriptJson.add(brickCount == 1 ? brickKey : brickKey + "_" + brickCount, brickJson);
 				}
-				spriteJson.add(script.getClass().getSimpleName(), scriptJson);
+
+				String scriptKey = script.getClass().getSimpleName();
+				int scriptCount = scriptKeyCounts.getOrDefault(scriptKey, 0) + 1;
+				scriptKeyCounts.put(scriptKey, scriptCount);
+				spriteJson.add(scriptCount == 1 ? scriptKey : scriptKey + "_" + scriptCount, scriptJson);
 			}
 			sceneJson.add(sprite.getName(), spriteJson);
 		}
 
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		return gson.toJson(sceneJson);
 	}
 
@@ -656,6 +738,45 @@ public final class ProjectManager {
 		}
 
 		return builder.toString();
+	}
+
+	private static String getScriptTriggerDescription(Script script) {
+		if (script instanceof StartScript) {
+			return "when program started";
+		} else if (script instanceof BroadcastScript) {
+			return "receives: \"" + ((BroadcastScript) script).getBroadcastMessage() + "\"";
+		} else if (script instanceof WhenConditionScript) {
+			Formula condition = ((WhenConditionScript) script).getFormulaMap().get(Brick.BrickField.IF_CONDITION);
+			if (condition != null) {
+				String condStr = condition.getFormulaInlineString();
+				if (!condStr.isEmpty()) return "when: " + condStr;
+			}
+			return "when condition";
+		} else if (script instanceof WhenBounceOffScript) {
+			return "bounces off: " + ((WhenBounceOffScript) script).getSpriteToBounceOffName();
+		} else if (script instanceof WhenScript) {
+			return "when tapped";
+		} else if (script instanceof WhenTouchDownScript) {
+			return "when screen touched";
+		} else if (script instanceof WhenClonedScript) {
+			return "when cloned";
+		}
+		return "";
+	}
+
+	private static String getBrickVariableName(Brick brick) {
+		if (brick instanceof UserVariableBrickWithFormula) {
+			UserVariable v = ((UserVariableBrickWithFormula) brick).getUserVariable();
+			if (v != null) return v.getName();
+		}
+		return null;
+	}
+
+	private static String getBrickBroadcastMessage(Brick brick) {
+		if (brick instanceof BroadcastBrick) {
+			return ((BroadcastBrick) brick).getBroadcastMessage();
+		}
+		return null;
 	}
 
 	@VisibleForTesting
