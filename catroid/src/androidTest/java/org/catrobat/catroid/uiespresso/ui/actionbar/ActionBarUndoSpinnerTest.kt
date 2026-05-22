@@ -22,10 +22,11 @@
  */
 package org.catrobat.catroid.uiespresso.ui.actionbar
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.WaitForConditionAction.Companion.waitFor
@@ -94,28 +95,28 @@ class ActionBarUndoSpinnerTest(
 
     @Test
     fun testUndoSpinnerActionVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo)).check(ViewAssertions.doesNotExist())
+        onView(withId(R.id.menu_undo)).check(doesNotExist())
         BrickDataInteractionWrapper.onBrickAtPosition(brickPosition).onSpinner(brickSpinnerViewId)
             .performSelectNameable(secondItem)
 
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo))
-            .perform(waitFor(ViewMatchers.isDisplayed(), waitThreshold))
+        onView(withId(R.id.menu_undo))
+            .perform(waitFor(isDisplayed(), waitThreshold))
 
         BrickDataInteractionWrapper.onBrickAtPosition(brickPosition).onSpinner(brickSpinnerViewId)
             .performSelectNameable(firstItem)
 
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo))
-            .perform(waitFor(ViewMatchers.isDisplayed(), waitThreshold))
+        onView(withId(R.id.menu_undo))
+            .perform(waitFor(isDisplayed(), waitThreshold))
     }
 
     @Test
     fun testUndoSpinnerAction() {
         BrickDataInteractionWrapper.onBrickAtPosition(brickPosition).onSpinner(brickSpinnerViewId)
             .performSelectNameable(secondItem)
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo))
-            .perform(waitFor(ViewMatchers.isDisplayed(), waitThreshold))
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.menu_undo)).check(ViewAssertions.doesNotExist())
+        onView(withId(R.id.menu_undo))
+            .perform(waitFor(isDisplayed(), waitThreshold))
+        onView(withId(R.id.menu_undo)).perform(click())
+        onView(withId(R.id.menu_undo)).check(doesNotExist())
     }
 
     @Test
@@ -124,8 +125,8 @@ class ActionBarUndoSpinnerTest(
             val newItem = "new"
             BrickDataInteractionWrapper.onBrickAtPosition(brickPosition)
                 .onVariableSpinner(brickSpinnerViewId).performNewVariable(newItem)
-            Espresso.onView(ViewMatchers.withId(R.id.menu_undo))
-                .check(ViewAssertions.doesNotExist())
+            onView(withId(R.id.menu_undo))
+                .check(doesNotExist())
         }
     }
 
