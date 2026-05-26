@@ -26,9 +26,10 @@ package org.catrobat.catroid
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import android.os.StrictMode
 import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.analytics.GoogleAnalytics
 import com.google.android.gms.analytics.Tracker
 import com.huawei.agconnect.AGConnectInstance
@@ -42,13 +43,12 @@ import java.util.Locale
 open class CatroidApplication : Application() {
 
     @SuppressLint("VisibleForTests")
-    @RequiresApi(TARGET_API_VERSION)
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "CatroidApplication onCreate")
         Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO)
 
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             StrictMode.setVmPolicy(
                 StrictMode.VmPolicy.Builder()
                     .detectNonSdkApiUsage()
@@ -78,18 +78,14 @@ open class CatroidApplication : Application() {
     }
 
     @get:Synchronized
-    val defaultTracker: Tracker?
+    val defaultTracker: Tracker
         @SuppressLint("VisibleForTests")
         get() {
-            if (googleTracker == null) {
-                googleTracker = googleAnalytics.newTracker(R.xml.global_tracker)
-            }
-
+            googleTracker = googleAnalytics.newTracker(R.xml.global_tracker)
             return googleTracker
         }
 
     companion object {
-        const val TARGET_API_VERSION = 31
         private val TAG = CatroidApplication::class.java.simpleName
         private var appContext: Context? = null
         @JvmField
@@ -97,8 +93,9 @@ open class CatroidApplication : Application() {
         @SuppressLint("VisibleForTests")
         private lateinit var googleAnalytics: GoogleAnalytics
         @SuppressLint("VisibleForTests")
-        private var googleTracker: Tracker? = null
+        private lateinit var googleTracker: Tracker
 
+        @VisibleForTesting
         @JvmStatic
         fun setAppContextForTesting(context: Context) {
             appContext = context
