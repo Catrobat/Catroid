@@ -21,41 +21,53 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_script"
     android:layout_width="match_parent"
     android:layout_height="0dip"
-    android:layout_weight="1"
-    android:orientation="vertical" >
+    android:layout_weight="1">
 
-    <org.catrobat.catroid.ui.ScriptFinder
-        android:id="@+id/findview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-
-    <org.catrobat.catroid.ui.dragndrop.BrickListView
-        android:id="@android:id/list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="false"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/script_spacing" >
-    </org.catrobat.catroid.ui.dragndrop.BrickListView>
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/fragment_script_text_description"
+        <org.catrobat.catroid.ui.ScriptFinder
+            android:id="@+id/findview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/fragment_script_text_description"
-            android:textSize="?attr/x_large" />
-    </RelativeLayout>
+            android:visibility="gone"/>
 
-</LinearLayout>
+        <org.catrobat.catroid.ui.dragndrop.BrickListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="@dimen/script_spacing" >
+        </org.catrobat.catroid.ui.dragndrop.BrickListView>
+
+        <RelativeLayout
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/fragment_script_text_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/fragment_script_text_description"
+                android:textSize="?attr/x_large" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_ai_tutor_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</FrameLayout>

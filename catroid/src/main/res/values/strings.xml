@@ -2336,4 +2336,5 @@ needs read and write access to it. You can always change permissions through you
     <string name="ai_assist_format_json_sprite">Current sprite (JSON)</string>
     <string name="ai_assist_format_xml_sprite">Current sprite (XML)</string>
     <string name="ai_assist_format_summary">Project summary</string>
+    <string name="ai_tutor_invalid_xml">Invalid XML: the AI\'s response could not be read as a PocketCode sprite.</string>
 </resources>
