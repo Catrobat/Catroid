@@ -645,56 +645,71 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAiAssistButton(View view) {
-		String[] options = {
-				getString(R.string.ai_assist_format_tree),
-				getString(R.string.ai_assist_format_json),
-				getString(R.string.ai_assist_format_xml),
-				getString(R.string.ai_assist_format_tree_sprite),
-				getString(R.string.ai_assist_format_json_sprite),
-				getString(R.string.ai_assist_format_xml_sprite),
-				getString(R.string.ai_assist_format_summary)
-		};
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.ai_assist_choose_format)
-				.setItems(options, (dialog, which) -> {
-					Project project = projectManager.getCurrentProject();
-					Sprite sprite = projectManager.getCurrentSprite();
-					String structure;
-					switch (which) {
-						case 0:
-							structure = ProjectManager.getAllList(project);
-							break;
-						case 1:
-							structure = ProjectManager.getAllListAsJsonString(project);
-							break;
-						case 2:
-							structure = XstreamSerializer.getInstance().getXmlAsStringFromProject(project);
-							break;
-						case 3:
-							structure = ProjectManager.getAllListForSprite(sprite);
-							break;
-						case 4:
-							structure = ProjectManager.getAllListAsJsonStringForSprite(sprite);
-							break;
-						case 5:
-							structure = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
-							break;
-						default:
-							structure = ProjectManager.getProjectSummary(project);
-							break;
-					}
-					Bundle bundle = new Bundle();
-					bundle.putString("structure", structure);
-					AiAssistFragment aiAssistFragment = new AiAssistFragment();
-					aiAssistFragment.setArguments(bundle);
-					getSupportFragmentManager()
-							.beginTransaction()
-							.replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.Companion.getTAG())
-							.addToBackStack(AiAssistFragment.Companion.getTAG())
-							.commit();
-				})
-				.setNegativeButton(R.string.cancel, null)
-				.show();
+		// Format selection dialog commented out — AI Tutor now always receives the current sprite XML directly.
+		// The dialog code is preserved below for reference.
+//		String[] options = {
+//				getString(R.string.ai_assist_format_tree),
+//				getString(R.string.ai_assist_format_json),
+//				getString(R.string.ai_assist_format_xml),
+//				getString(R.string.ai_assist_format_tree_sprite),
+//				getString(R.string.ai_assist_format_json_sprite),
+//				getString(R.string.ai_assist_format_xml_sprite),
+//				getString(R.string.ai_assist_format_summary)
+//		};
+//		new AlertDialog.Builder(this)
+//				.setTitle(R.string.ai_assist_choose_format)
+//				.setItems(options, (dialog, which) -> {
+//					Project project = projectManager.getCurrentProject();
+//					Sprite sprite = projectManager.getCurrentSprite();
+//					String structure;
+//					switch (which) {
+//						case 0:
+//							structure = ProjectManager.getAllList(project);
+//							break;
+//						case 1:
+//							structure = ProjectManager.getAllListAsJsonString(project);
+//							break;
+//						case 2:
+//							structure = XstreamSerializer.getInstance().getXmlAsStringFromProject(project);
+//							break;
+//						case 3:
+//							structure = ProjectManager.getAllListForSprite(sprite);
+//							break;
+//						case 4:
+//							structure = ProjectManager.getAllListAsJsonStringForSprite(sprite);
+//							break;
+//						case 5:
+//							structure = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
+//							break;
+//						default:
+//							structure = ProjectManager.getProjectSummary(project);
+//							break;
+//					}
+//					Bundle bundle = new Bundle();
+//					bundle.putString("structure", structure);
+//					AiAssistFragment aiAssistFragment = new AiAssistFragment();
+//					aiAssistFragment.setArguments(bundle);
+//					getSupportFragmentManager()
+//							.beginTransaction()
+//							.replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.Companion.getTAG())
+//							.addToBackStack(AiAssistFragment.Companion.getTAG())
+//							.commit();
+//				})
+//				.setNegativeButton(R.string.cancel, null)
+//				.show();
+
+		Sprite sprite = projectManager.getCurrentSprite();
+		String spriteXml = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("structure", spriteXml);
+		AiAssistFragment aiAssistFragment = new AiAssistFragment();
+		aiAssistFragment.setArguments(bundle);
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.Companion.getTAG())
+				.addToBackStack(AiAssistFragment.Companion.getTAG())
+				.commit();
 	}
 
 	public void handleAddButton(View view) {
