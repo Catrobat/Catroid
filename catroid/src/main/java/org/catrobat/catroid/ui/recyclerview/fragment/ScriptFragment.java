@@ -67,6 +67,8 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.aiassist.AiAssistFragment;
+import org.catrobat.catroid.ui.aiassist.AiTutorPreviewHelper;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -100,6 +102,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.ui.platform.ComposeView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
@@ -179,6 +182,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private List<UserList> savedUserLists;
 	private transient List<UserVariable> savedLocalUserVariables;
 	private transient List<UserList> savedLocalLists;
+
+	private enum LoadSource {UNDO, AI_TUTOR}
+
+	private LoadSource pendingLoadSource = null;
+	private ComposeView composeAiTutorPreview;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -268,6 +276,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
+		composeAiTutorPreview = view.findViewById(R.id.compose_ai_tutor_preview);
 		int bottomListPadding;
 		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
 			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
@@ -341,11 +350,25 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (scriptFinder.isOpen() && activity != null) {
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		}
+		composeAiTutorPreview = null;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			getParentFragmentManager().setFragmentResultListener(
+					AiAssistFragment.AI_TUTOR_RESULT_KEY,
+					this,
+					(requestKey, result) -> {
+						String spriteXml = result.getString(AiAssistFragment.AI_TUTOR_XML_KEY);
+						if (spriteXml != null) {
+							showAiTutorPreview(spriteXml);
+						}
+					}
+			);
+		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
@@ -403,6 +426,15 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		scrollToFocusItem();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
+
+		// Restore undo button visibility if a snapshot still exists (e.g., after returning from play).
+		Project resumeProject = ProjectManager.getInstance().getCurrentProject();
+		if (resumeProject != null && getActivity() != null) {
+			File undoFile = new File(resumeProject.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+			if (undoFile.exists()) {
+				((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
+			}
+		}
 	}
 
 	@Override
@@ -926,7 +958,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 					spriteActivity.setUndoMenuItemVisibility(false);
 					spriteActivity.showUndo(false);
 				}
-				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
+				pendingLoadSource = LoadSource.UNDO;
+				reloadProjectFromDisk();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				ToastUtil.showError(context, R.string.error_load_project);
@@ -939,6 +972,60 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 	}
 
+	private void reloadProjectFromDisk() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Context context = getContext();
+		if (!isAdded() || context == null) {
+			return;
+		}
+		new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
+	}
+
+	private void showAiTutorPreview(String newSpriteXml) {
+		if (composeAiTutorPreview == null) {
+			return;
+		}
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		composeAiTutorPreview.setVisibility(View.VISIBLE);
+		AiTutorPreviewHelper.showPreview(
+				composeAiTutorPreview,
+				currentSprite,
+				newSpriteXml,
+				() -> {
+					composeAiTutorPreview.setVisibility(View.GONE);
+					applyProjectFromAiTutor(newSpriteXml);
+				},
+				() -> composeAiTutorPreview.setVisibility(View.GONE)
+		);
+	}
+
+	public void applyProjectFromAiTutor(String spriteXml) {
+		if (!copyProjectForUndoOption()) {
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			return;
+		}
+		showUndo(true);
+
+		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
+		if (newSprite == null) {
+			ToastUtil.showError(getContext(), R.string.ai_tutor_invalid_xml);
+			return;
+		}
+
+		ProjectManager pm = ProjectManager.getInstance();
+		Scene currentScene = pm.getCurrentlyEditedScene();
+		Sprite currentSprite = pm.getCurrentSprite();
+		int index = currentScene.getSpriteList().indexOf(currentSprite);
+		if (index >= 0) {
+			currentScene.getSpriteList().set(index, newSprite);
+			pm.setCurrentSprite(newSprite);
+		}
+
+		XstreamSerializer.getInstance().saveProject(pm.getCurrentProject());
+
+		pendingLoadSource = LoadSource.AI_TUTOR;
+		reloadProjectFromDisk();
+	}
 
 	@Override
 	public void onLoadFinished(boolean success) {
@@ -963,20 +1050,33 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		loadVariables();
 
-		if (spriteActivity != null) {
-			spriteActivity.setUndoMenuItemVisibility(false);
-			spriteActivity.showUndo(false);
-		}
+		boolean isAiTutorLoad = (pendingLoadSource == LoadSource.AI_TUTOR);
+		pendingLoadSource = null;
 
-		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
-		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
-			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
+		if (!isAiTutorLoad) {
+			if (spriteActivity != null) {
+				spriteActivity.setUndoMenuItemVisibility(false);
+				spriteActivity.showUndo(false);
+			}
+			File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+			if (undoCodeFile.exists() && !undoCodeFile.delete()) {
+				Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
+			}
 		}
 
 		if (getView() == null || listView == null) {
 			return;
 		}
 		refreshFragmentAfterUndo();
+
+		// For AI Tutor apply: set visibility AFTER refreshFragmentAfterUndo() because the detach/attach
+		// inside that method fires onPause(), which resets isUndoMenuItemVisible to false.
+		// onResume() (during reattach) already restored the flag via undo_code.xml; call showUndo(true)
+		// directly here since invalidateOptionsMenu() won't fire during a fragment reattach.
+		if (isAiTutorLoad && spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(true);
+			spriteActivity.showUndo(true);
+		}
 	}
 
 	private void saveVariables() {
@@ -997,7 +1097,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = projectManager.getCurrentProject();
 
 		return (project != null && hasProjectVariablesChanged(project))
-			|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
+				|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
 	}
 
 	private boolean hasProjectVariablesChanged(Project project) {
