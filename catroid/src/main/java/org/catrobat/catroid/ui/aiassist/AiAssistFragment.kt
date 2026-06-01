@@ -34,7 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import org.catrobat.aitutor.ui.`public`.AiTutorView
+import org.catrobat.catroid.R
 import org.catrobat.catroid.databinding.FragmentAiAssistBinding
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.utils.ToastUtil
 
 class AiAssistFragment : Fragment() {
 
@@ -53,7 +56,7 @@ class AiAssistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val structure = arguments?.getString("structure")
-        binding.textAiAssist.text = structure ?: ""
+//        binding.textAiAssist.text = structure ?: ""
 
         binding.composeAiTutor.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
@@ -63,6 +66,19 @@ class AiAssistFragment : Fragment() {
                     show = show,
                     onDismissRequest = { show = false },
                     codeContext = structure,
+                    onClipboardPaste = { pastedText ->
+                        val sprite = XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
+                        if (sprite == null) {
+                            ToastUtil.showError(requireContext(), R.string.ai_tutor_invalid_xml)
+                        } else {
+                            parentFragmentManager.setFragmentResult(
+                                AI_TUTOR_RESULT_KEY,
+                                Bundle().apply { putString(AI_TUTOR_XML_KEY, pastedText) }
+                            )
+                            show = false
+                            parentFragmentManager.popBackStack()
+                        }
+                    }
                 )
             }
         }
@@ -75,5 +91,7 @@ class AiAssistFragment : Fragment() {
 
     companion object {
         val TAG: String = AiAssistFragment::class.java.simpleName
+        const val AI_TUTOR_RESULT_KEY = "ai_tutor_result"
+        const val AI_TUTOR_XML_KEY = "spriteXml"
     }
 }
