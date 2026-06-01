@@ -116,7 +116,7 @@ class ProjectActivity : BaseCastActivity() {
         showLegoSensorConfigInfo()
         binding.bottomBar.apply {
             buttonAiAssist.setOnClickListener {
-                handleAiAssistButton()
+//                handleAiAssistButton()
             }
             buttonAdd.setOnClickListener {
                 handleAddButton()
