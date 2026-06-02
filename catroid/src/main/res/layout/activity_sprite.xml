@@ -22,26 +22,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/activity_sprite">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/activity_sprite">
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <include layout="@layout/toolbar" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/bottom_bar"
-            layout="@layout/list_action_buttons" />
-    </RelativeLayout>
-</LinearLayout>
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include
+                android:id="@+id/bottom_bar"
+                layout="@layout/list_action_buttons" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Full-screen overlay (covers toolbar, tabs and FAB) that hosts the AI Tutor flow:
+         the library's AiTutorView, the diff preview, and the validation-error screen. -->
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_ai_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>
