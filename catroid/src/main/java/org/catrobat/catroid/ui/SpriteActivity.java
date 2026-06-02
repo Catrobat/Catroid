@@ -59,7 +59,8 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
-import org.catrobat.catroid.ui.aiassist.AiAssistFragment;
+import org.catrobat.catroid.ui.aiassist.AiAssistOverlayCallbacks;
+import org.catrobat.catroid.ui.aiassist.AiAssistOverlayHelper;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
@@ -85,6 +86,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.compose.ui.platform.ComposeView;
 import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
@@ -163,6 +165,8 @@ public class SpriteActivity extends BaseActivity {
 
 	private boolean isUndoMenuItemVisible = false;
 
+	private ComposeView aiOverlay;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
@@ -180,6 +184,7 @@ public class SpriteActivity extends BaseActivity {
 		currentScene = projectManager.getCurrentlyEditedScene();
 
 		setContentView(R.layout.activity_sprite);
+		aiOverlay = findViewById(R.id.compose_ai_overlay);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
@@ -248,11 +253,7 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (getCurrentFragment() instanceof AiAssistFragment) {
-			for (int i = 0; i < menu.size(); i++) {
-				menu.getItem(i).setVisible(false);
-			}
-		} else if (getCurrentFragment() instanceof ScriptFragment) {
+		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
 			showUndo(isUndoMenuItemVisible);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
@@ -301,6 +302,11 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (isAiOverlayVisible()) {
+			hideAiOverlay();
+			return;
+		}
+
 		saveProject();
 
 		Fragment currentFragment = getCurrentFragment();
@@ -645,71 +651,38 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAiAssistButton(View view) {
-		// Format selection dialog commented out — AI Tutor now always receives the current sprite XML directly.
-		// The dialog code is preserved below for reference.
-//		String[] options = {
-//				getString(R.string.ai_assist_format_tree),
-//				getString(R.string.ai_assist_format_json),
-//				getString(R.string.ai_assist_format_xml),
-//				getString(R.string.ai_assist_format_tree_sprite),
-//				getString(R.string.ai_assist_format_json_sprite),
-//				getString(R.string.ai_assist_format_xml_sprite),
-//				getString(R.string.ai_assist_format_summary)
-//		};
-//		new AlertDialog.Builder(this)
-//				.setTitle(R.string.ai_assist_choose_format)
-//				.setItems(options, (dialog, which) -> {
-//					Project project = projectManager.getCurrentProject();
-//					Sprite sprite = projectManager.getCurrentSprite();
-//					String structure;
-//					switch (which) {
-//						case 0:
-//							structure = ProjectManager.getAllList(project);
-//							break;
-//						case 1:
-//							structure = ProjectManager.getAllListAsJsonString(project);
-//							break;
-//						case 2:
-//							structure = XstreamSerializer.getInstance().getXmlAsStringFromProject(project);
-//							break;
-//						case 3:
-//							structure = ProjectManager.getAllListForSprite(sprite);
-//							break;
-//						case 4:
-//							structure = ProjectManager.getAllListAsJsonStringForSprite(sprite);
-//							break;
-//						case 5:
-//							structure = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
-//							break;
-//						default:
-//							structure = ProjectManager.getProjectSummary(project);
-//							break;
-//					}
-//					Bundle bundle = new Bundle();
-//					bundle.putString("structure", structure);
-//					AiAssistFragment aiAssistFragment = new AiAssistFragment();
-//					aiAssistFragment.setArguments(bundle);
-//					getSupportFragmentManager()
-//							.beginTransaction()
-//							.replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.Companion.getTAG())
-//							.addToBackStack(AiAssistFragment.Companion.getTAG())
-//							.commit();
-//				})
-//				.setNegativeButton(R.string.cancel, null)
-//				.show();
-
+		if (aiOverlay == null) {
+			return;
+		}
 		Sprite sprite = projectManager.getCurrentSprite();
 		String spriteXml = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
 
-		Bundle bundle = new Bundle();
-		bundle.putString("structure", spriteXml);
-		AiAssistFragment aiAssistFragment = new AiAssistFragment();
-		aiAssistFragment.setArguments(bundle);
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.fragment_container, aiAssistFragment, AiAssistFragment.Companion.getTAG())
-				.addToBackStack(AiAssistFragment.Companion.getTAG())
-				.commit();
+		aiOverlay.setVisibility(View.VISIBLE);
+		AiAssistOverlayHelper.show(aiOverlay, spriteXml, sprite, new AiAssistOverlayCallbacks() {
+			@Override
+			public void applySprite(String newSpriteXml) {
+				Fragment current = getCurrentFragment();
+				if (current instanceof ScriptFragment) {
+					((ScriptFragment) current).applyProjectFromAiTutor(newSpriteXml);
+				}
+			}
+
+			@Override
+			public void close() {
+				hideAiOverlay();
+			}
+		});
+	}
+
+	public boolean isAiOverlayVisible() {
+		return aiOverlay != null && aiOverlay.getVisibility() == View.VISIBLE;
+	}
+
+	public void hideAiOverlay() {
+		if (aiOverlay != null) {
+			aiOverlay.setVisibility(View.GONE);
+			aiOverlay.disposeComposition();
+		}
 	}
 
 	public void handleAddButton(View view) {

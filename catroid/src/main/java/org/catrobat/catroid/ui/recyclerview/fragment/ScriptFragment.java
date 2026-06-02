@@ -67,8 +67,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.aiassist.AiAssistFragment;
-import org.catrobat.catroid.ui.aiassist.AiTutorPreviewHelper;
+import org.catrobat.catroid.ui.aiassist.AiTutorSpriteValidator;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -102,7 +101,6 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.compose.ui.platform.ComposeView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
@@ -186,7 +184,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private enum LoadSource {UNDO, AI_TUTOR}
 
 	private LoadSource pendingLoadSource = null;
-	private ComposeView composeAiTutorPreview;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -276,7 +273,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
-		composeAiTutorPreview = view.findViewById(R.id.compose_ai_tutor_preview);
 		int bottomListPadding;
 		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
 			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
@@ -350,25 +346,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (scriptFinder.isOpen() && activity != null) {
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		}
-		composeAiTutorPreview = null;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
-			getParentFragmentManager().setFragmentResultListener(
-					AiAssistFragment.AI_TUTOR_RESULT_KEY,
-					this,
-					(requestKey, result) -> {
-						String spriteXml = result.getString(AiAssistFragment.AI_TUTOR_XML_KEY);
-						if (spriteXml != null) {
-							showAiTutorPreview(spriteXml);
-						}
-					}
-			);
-		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
@@ -981,24 +963,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 	}
 
-	private void showAiTutorPreview(String newSpriteXml) {
-		if (composeAiTutorPreview == null) {
-			return;
-		}
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		composeAiTutorPreview.setVisibility(View.VISIBLE);
-		AiTutorPreviewHelper.showPreview(
-				composeAiTutorPreview,
-				currentSprite,
-				newSpriteXml,
-				() -> {
-					composeAiTutorPreview.setVisibility(View.GONE);
-					applyProjectFromAiTutor(newSpriteXml);
-				},
-				() -> composeAiTutorPreview.setVisibility(View.GONE)
-		);
-	}
-
 	public void applyProjectFromAiTutor(String spriteXml) {
 		if (!copyProjectForUndoOption()) {
 			ToastUtil.showError(getContext(), R.string.error_load_project);
@@ -1008,6 +972,16 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
 		if (newSprite == null) {
+			ToastUtil.showError(getContext(), R.string.ai_tutor_invalid_xml);
+			return;
+		}
+
+		// Defensive fail-safe: the heavy validation already ran at paste time, but re-validate here on a
+		// separately parsed instance so no caller can ever apply an unrenderable sprite. Runs on the main
+		// thread (Accept callback), as the render dry-run requires.
+		Sprite spriteToValidate = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
+		if (spriteToValidate == null
+				|| AiTutorSpriteValidator.validate(spriteToValidate, getContext()) instanceof AiTutorSpriteValidator.Result.Invalid) {
 			ToastUtil.showError(getContext(), R.string.ai_tutor_invalid_xml);
 			return;
 		}
