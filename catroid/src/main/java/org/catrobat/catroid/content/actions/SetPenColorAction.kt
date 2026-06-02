@@ -46,15 +46,23 @@ class SetPenColorAction : TemporalAction() {
             val color = Color()
             // Using manual ARGB to Color conversion to avoid android.graphics.Color dependency in unit tests.
             // android.graphics.Color.argb(0xFF, newRed, newGreen, newBlue) returns (0xFF shl 24) | (R shl 16) | (G shl 8) | B
-            val argb = (0xFF shl 24) or
-                    ((newRed and 0xFF) shl 16) or
-                    ((newGreen and 0xFF) shl 8) or
-                    (newBlue and 0xFF)
+            val argb = (ALPHA_OPAQUE shl ALPHA_SHIFT) or
+                ((newRed and COLOR_MASK) shl RED_SHIFT) or
+                ((newGreen and COLOR_MASK) shl GREEN_SHIFT) or
+                (newBlue and COLOR_MASK)
 
             Color.argb8888ToColor(color, argb)
             currentScope.sprite.penConfiguration.setPenColor(PenColor(color.r, color.g, color.b, color.a))
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)
         }
+    }
+
+    companion object {
+        private const val ALPHA_OPAQUE = 0xFF
+        private const val COLOR_MASK = 0xFF
+        private const val ALPHA_SHIFT = 24
+        private const val RED_SHIFT = 16
+        private const val GREEN_SHIFT = 8
     }
 }
