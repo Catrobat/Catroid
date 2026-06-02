@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.ui.aiassist
 
-import org.catrobat.catroid.content.bricks.Brick
+/**
+ * Callbacks from the AI Assist overlay back to the host activity.
+ * Implemented in Java (`SpriteActivity`).
+ */
+interface AiAssistOverlayCallbacks {
+    /** Apply the validated AI sprite XML to the project. */
+    fun applySprite(spriteXml: String)
 
-data class BrickDiff(
-    val oldBrick: Brick?,
-    val newBrick: Brick?,
-    val status: DiffStatus
-)
-
-enum class DiffStatus { ADDED, REMOVED, MODIFIED, UNCHANGED }
+    /** Hide the overlay (e.g. user cancelled, rejected, or finished applying). */
+    fun close()
+}
