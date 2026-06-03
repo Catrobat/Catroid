@@ -24,8 +24,11 @@
 package org.catrobat.catroid.content.actions
 
 import android.util.Log
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import com.badlogic.gdx.utils.Array as GdxArray
 import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -37,6 +40,7 @@ class ShowTextColorSizeAlignmentAction : TemporalAction() {
 
     companion object {
         val TAG: String = ShowTextColorSizeAlignmentAction::class.java.simpleName
+        private const val PERCENTAGE_FACTOR = 100f
     }
 
     private var xPosition: Formula? = null
@@ -49,31 +53,46 @@ class ShowTextColorSizeAlignmentAction : TemporalAction() {
     private var actor: ShowTextActor? = null
     private var androidStringProvider: AndroidStringProvider? = null
 
+    private fun removeMatchingActors(
+        stageActors: GdxArray<Actor>,
+        relativeTextSizeVal: Float,
+        colorStr: String,
+        sprite: Sprite,
+        variableToShowName: String
+    ) {
+        val dummyActor = ShowTextActor(
+            UserVariable("dummyActor"), 0, 0,
+            relativeTextSizeVal, colorStr, sprite, alignment, androidStringProvider
+        )
+        for (stageActor in stageActors) {
+            val showTextActor = stageActor as? ShowTextActor ?: continue
+            if (showTextActor.javaClass == dummyActor.javaClass &&
+                showTextActor.variableNameToCompare == variableToShowName &&
+                showTextActor.sprite == sprite
+            ) {
+                stageActor.remove()
+            }
+        }
+    }
+
     override fun begin() {
         try {
             val scopeLocal = scope ?: return
             val variableToShowLocal = variableToShow ?: return
             val xPos = xPosition?.interpretInteger(scopeLocal) ?: 0
             val yPos = yPosition?.interpretInteger(scopeLocal) ?: 0
-            val relativeTextSizeVal = (relativeTextSize?.interpretFloat(scopeLocal) ?: 0f) / 100f
+            val relativeTextSizeVal = (relativeTextSize?.interpretFloat(scopeLocal) ?: 0f) / PERCENTAGE_FACTOR
             val colorStr = color?.interpretString(scopeLocal) ?: ""
-            
-            if (StageActivity.stageListener != null) {
-                val stageActors = StageActivity.stageListener.stage.actors
-                val dummyActor = ShowTextActor(
-                    UserVariable("dummyActor"), 0,
-                    0, relativeTextSizeVal, colorStr, scopeLocal.sprite, alignment, androidStringProvider
+
+            val listener = StageActivity.stageListener
+            if (listener != null) {
+                removeMatchingActors(
+                    listener.stage.actors,
+                    relativeTextSizeVal,
+                    colorStr,
+                    scopeLocal.sprite,
+                    variableToShowLocal.name
                 )
-                for (stageActor in stageActors) {
-                    if (stageActor.javaClass == dummyActor.javaClass) {
-                        val showTextActor = stageActor as ShowTextActor
-                        if (showTextActor.variableNameToCompare == variableToShowLocal.name &&
-                            showTextActor.sprite == scopeLocal.sprite
-                        ) {
-                            stageActor.remove()
-                        }
-                    }
-                }
                 actor = ShowTextActor(
                     variableToShowLocal, xPos, yPos, relativeTextSizeVal,
                     colorStr, scopeLocal.sprite, alignment, androidStringProvider
@@ -86,7 +105,7 @@ class ShowTextColorSizeAlignmentAction : TemporalAction() {
                 variableToShowLocal.visible = true
             }
         } catch (e: InterpretationException) {
-            Log.d(TAG, "InterpretationException: $e")
+            Log.d(TAG, "InterpretationException", e)
         }
     }
 
@@ -101,7 +120,7 @@ class ShowTextColorSizeAlignmentAction : TemporalAction() {
                 setPositionY(yPos)
             }
         } catch (e: InterpretationException) {
-            Log.d(TAG, "InterpretationException")
+            Log.d(TAG, "InterpretationException", e)
         }
     }
 
