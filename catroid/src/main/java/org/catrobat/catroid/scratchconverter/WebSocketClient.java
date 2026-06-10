@@ -104,7 +104,8 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 		Preconditions.checkState(asyncHttpClient != null);
 
 		final WebSocketClient client = this;
-		asyncHttpClient.websocket(Constants.SCRATCH_CONVERTER_WEB_SOCKET, null, new
+		//TODO: remove deprecated code for scratch-converter
+		/*asyncHttpClient.websocket(Constants.SCRATCH_CONVERTER_WEB_SOCKET, null, new
 				AsyncHttpClient.WebSocketConnectCallback() {
 					@Override
 					public void onCompleted(Exception ex, final WebSocket newWebSocket) {
@@ -124,7 +125,7 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 						webSocket.setClosedCallback(client);
 						connectCallback.onSuccess();
 					}
-				});
+				});*/
 	}
 
 	@Override

@@ -52,13 +52,13 @@ ext {
     manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"
-    gdxVersion = "1.13.0"
+    gdxVersion = "1.13.1"
     mockitoVersion = '5.14.2'
     mockkVersion = "1.14.7"
-    espressoVersion = '3.6.1'
+    espressoVersion = '3.7.0'
     playServicesVersion = '18.1.1'
     cameraXVersion = '1.4.0'
-    room_version = "2.6.1"
+    room_version = "2.8.4"
     coroutines_version = '1.9.0'
     work_manager_version = '2.9.1'
 }
@@ -401,7 +401,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     // Room
@@ -412,7 +412,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
 
     // Encrypted shared preferences
-    implementation("androidx.security:security-crypto:1.0.0")
+    implementation("androidx.security:security-crypto:1.1.0")
 
     // CAST
     implementation "com.google.android.gms:play-services-cast:17.0.0"
@@ -420,10 +420,10 @@ dependencies {
     // Analytics
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
 
-    implementation 'com.google.guava:guava:28.2-android'
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.guava:guava:33.5.0-android'
+    implementation 'com.google.code.gson:gson:2.13.2'
 
-    implementation 'com.koushikdutta.async:androidasync:2.2.1'
+    implementation 'com.koushikdutta.async:androidasync:3.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ar.com.hjg:pngj:2.1.0'
 
@@ -432,7 +432,7 @@ dependencies {
     }
 
     // WebView
-    implementation "androidx.webkit:webkit:1.2.0"
+    implementation "androidx.webkit:webkit:1.15.0"
 
     // Pocket Music
     implementation 'com.github.pdrogfer:MidiDroid:1.3'

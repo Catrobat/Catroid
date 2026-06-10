@@ -47,7 +47,7 @@ import org.koin.java.KoinJavaComponent.get
 
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
-    private val lifecycle = LifecycleRegistry(this)
+    private val lifecycleRegistry = LifecycleRegistry(this)
     val previewView = PreviewView(stageActivity).apply {
         visibility = View.INVISIBLE
     }
@@ -90,14 +90,14 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
             CameraSelector.DEFAULT_BACK_CAMERA
         }
         currentCameraSelector = defaultCameraSelector
-        lifecycle.currentState = Lifecycle.State.CREATED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
     val isCameraFacingFront: Boolean
         get() = currentCameraSelector == CameraSelector.DEFAULT_FRONT_CAMERA
 
     val isCameraActive: Boolean
-        get() = lifecycle.currentState in listOf(Lifecycle.State.STARTED, Lifecycle.State.RESUMED) &&
+        get() = lifecycleRegistry.currentState in listOf(Lifecycle.State.STARTED, Lifecycle.State.RESUMED) &&
             (cameraProvider.isBound(previewUseCase) || cameraProvider.isBound(analysisUseCase))
 
     @Synchronized
@@ -111,17 +111,17 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     @Synchronized
     fun destroy() {
-        lifecycle.currentState = Lifecycle.State.DESTROYED
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
     @Synchronized
     fun pause() {
-        lifecycle.currentState = Lifecycle.State.CREATED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
     @Synchronized
     fun resume() {
-        lifecycle.currentState = Lifecycle.State.RESUMED
+        lifecycleRegistry.currentState = Lifecycle.State.RESUMED
         currentCamera?.cameraControl?.enableTorch(flashOn)
     }
 
@@ -255,7 +255,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
                 useCase
             )
             currentCamera?.cameraControl?.enableTorch(flashOn)
-            lifecycle.currentState = Lifecycle.State.STARTED
+            lifecycleRegistry.currentState = Lifecycle.State.STARTED
             true
         } catch (exception: IllegalStateException) {
             Log.e(TAG, "Could not bind use case.", exception)
@@ -282,5 +282,6 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         destroy()
     }
 
-    override fun getLifecycle() = lifecycle
+    override val lifecycle: Lifecycle
+        get() = lifecycleRegistry
 }
