@@ -925,18 +925,12 @@ public final class XstreamSerializer {
 	}
 
 	public Sprite getSpriteFromXmlString(String xml) {
-		try {
-			return getSpriteFromXmlStringOrThrow(xml);
-		} catch (Exception e) {
-			Log.e(TAG, "Failed to parse sprite XML from string.", e);
-			return null;
-		}
-	}
-
-	public Sprite getSpriteFromXmlStringOrThrow(String xml) {
 		loadSaveLock.lock();
 		try {
 			return (Sprite) xstream.fromXML(xml);
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to parse sprite XML from string.", e);
+			return null;
 		} finally {
 			loadSaveLock.unlock();
 		}
