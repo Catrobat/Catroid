@@ -189,13 +189,32 @@ fun AiTutorDiffScreen(
                 contentPadding = PaddingValues(vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item { SummaryAndLegend(added, removed, modified, white, accent) }
+                item {
+                    SummaryAndLegend(
+                        added = added,
+                        removed = removed,
+                        modified = modified,
+                        white = white,
+                        accent = accent
+                    )
+                }
                 itemsIndexed(rows) { _, row ->
                     if (isScriptHeaderRow(row)) {
-                        Spacer(Modifier.height(8.dp))
-                        ScriptHeaderRow(row, context, accent)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        ScriptHeaderRow(
+                            row = row,
+                            context = context,
+                            accent = accent,
+                            onClick = { selected = row }
+                        )
                     } else {
-                        BrickDiffRow(row, context, white, accent) { selected = row }
+                        BrickDiffRow(
+                            row = row,
+                            context = context,
+                            white = white,
+                            accent = accent,
+                            onClick = { selected = row }
+                        )
                     }
                 }
             }
@@ -203,7 +222,13 @@ fun AiTutorDiffScreen(
     }
 
     selected?.let { row ->
-        BrickDiffDialog(row, context, white, accent, actionColor) { selected = null }
+        BrickDiffDialog(
+            row = row,
+            white = white,
+            accent = accent,
+            actionColor = actionColor,
+            onDismiss = { selected = null }
+        )
     }
 }
 
@@ -284,20 +309,21 @@ private fun LegendChip(status: DiffStatus, textColor: Color) {
 }
 
 @Composable
-private fun ScriptHeaderRow(row: DiffRow, context: Context, accent: Color) {
+private fun ScriptHeaderRow(row: DiffRow, context: Context, accent: Color, onClick: () -> Unit) {
     val brick = row.new ?: row.old
     val title = brick?.let { scriptHeaderTitle(it, context) } ?: "Script"
     val tint = statusColor(row.status)
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(6.dp))
-            .background(colorResource(R.color.button_background))
+            .clip(RoundedCornerShape(size = 6.dp))
+            .clickable(onClick = onClick)
+            .background(colorResource(id = R.color.button_background))
             .then(
                 if (tint != null) Modifier.border(
                     2.dp,
                     tint,
-                    RoundedCornerShape(6.dp)
+                    RoundedCornerShape(size = 6.dp)
                 ) else Modifier
             )
             .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -326,21 +352,37 @@ private fun BrickDiffRow(
     onClick: () -> Unit
 ) {
     when (row.status) {
-        DiffStatus.UNCHANGED -> UnchangedDiffRow(row, context, white, accent, onClick)
+        DiffStatus.UNCHANGED -> UnchangedDiffRow(
+            row = row,
+            context = context,
+            white = white,
+            accent = accent,
+            onClick = onClick
+        )
         DiffStatus.MODIFIED -> statusColor(row.status)?.let {
-            ModifiedDiffRow(row, context, it, white, accent, onClick)
+            ModifiedDiffRow(
+                row = row,
+                context = context,
+                tint = it,
+                white = white,
+                accent = accent,
+                onClick = onClick
+            )
         }
         // ADDED / REMOVED
         else -> statusColor(row.status)?.let {
-            SingleDiffRow(row, context, it, white, accent, onClick)
+            SingleDiffRow(
+                row = row,
+                context = context,
+                tint = it,
+                white = white,
+                accent = accent,
+                onClick = onClick
+            )
         }
     }
 }
 
-/**
- * GitHub-style row: a 10% status tint over the page + a solid left stripe + a leading status icon,
- * shared by every changed row.
- */
 @Composable
 private fun StatusContainer(
     tint: Color,
@@ -392,8 +434,19 @@ private fun SingleDiffRow(
     onClick: () -> Unit
 ) {
     val brick = row.new ?: row.old ?: return
-    StatusContainer(tint, statusIcon(row.status), statusLabel(row.status), onClick) {
-        BrickContent(brick, context, white, accent, Modifier.weight(1f))
+    StatusContainer(
+        tint = tint,
+        iconRes = statusIcon(row.status),
+        iconDesc = statusLabel(row.status),
+        onClick = onClick
+    ) {
+        BrickContent(
+            brick = brick,
+            context = context,
+            labelColor = white,
+            valueColor = accent,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
@@ -407,7 +460,12 @@ private fun ModifiedDiffRow(
     onClick: () -> Unit
 ) {
     val newBrick = row.new ?: return
-    StatusContainer(tint, statusIcon(row.status), statusLabel(row.status), onClick) {
+    StatusContainer(
+        tint = tint,
+        iconRes = statusIcon(row.status),
+        iconDesc = statusLabel(row.status),
+        onClick = onClick
+    ) {
         Column(
             modifier = Modifier
                 .weight(1f)
