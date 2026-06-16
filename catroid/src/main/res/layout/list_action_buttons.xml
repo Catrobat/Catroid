@@ -36,9 +36,9 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/material_design_spacing_large"
-        android:visibility="gone"
         android:src="@drawable/ic_assistant"
         android:tint="@color/solid_white"
+        android:visibility="gone"
         app:backgroundTint="@color/action_button"
         app:elevation="10dp"
         android:onClick="handleAiAssistButton" />
