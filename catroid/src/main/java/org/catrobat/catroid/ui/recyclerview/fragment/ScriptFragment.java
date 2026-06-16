@@ -67,7 +67,6 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.aiassist.AiTutorSpriteValidator;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -971,21 +970,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		showUndo(true);
 
 		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
-		if (newSprite == null) {
-			ToastUtil.showError(getContext(), R.string.ai_tutor_invalid_xml);
-			return;
-		}
-
-		// Defensive fail-safe: the heavy validation already ran at paste time, but re-validate here on a
-		// separately parsed instance so no caller can ever apply an unrenderable sprite. Runs on the main
-		// thread (Accept callback), as the render dry-run requires.
-		Sprite spriteToValidate = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
-		if (spriteToValidate == null
-				|| AiTutorSpriteValidator.validate(spriteToValidate, getContext()) instanceof AiTutorSpriteValidator.Result.Invalid) {
-			ToastUtil.showError(getContext(), R.string.ai_tutor_invalid_xml);
-			return;
-		}
-
 		ProjectManager pm = ProjectManager.getInstance();
 		Scene currentScene = pm.getCurrentlyEditedScene();
 		Sprite currentSprite = pm.getCurrentSprite();
@@ -1043,10 +1027,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 		refreshFragmentAfterUndo();
 
-		// For AI Tutor apply: set visibility AFTER refreshFragmentAfterUndo() because the detach/attach
-		// inside that method fires onPause(), which resets isUndoMenuItemVisible to false.
-		// onResume() (during reattach) already restored the flag via undo_code.xml; call showUndo(true)
-		// directly here since invalidateOptionsMenu() won't fire during a fragment reattach.
 		if (isAiTutorLoad && spriteActivity != null) {
 			spriteActivity.setUndoMenuItemVisibility(true);
 			spriteActivity.showUndo(true);
@@ -1071,7 +1051,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Project project = projectManager.getCurrentProject();
 
 		return (project != null && hasProjectVariablesChanged(project))
-				|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
+			|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
 	}
 
 	private boolean hasProjectVariablesChanged(Project project) {

@@ -59,8 +59,8 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
-import org.catrobat.catroid.ui.aiassist.AiAssistOverlayCallbacks;
-import org.catrobat.catroid.ui.aiassist.AiAssistOverlayHelper;
+import org.catrobat.catroid.ui.aiassist.overlay.AiAssistOverlayCallbacks;
+import org.catrobat.catroid.ui.aiassist.overlay.AiAssistOverlayHelper;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
@@ -662,8 +662,8 @@ public class SpriteActivity extends BaseActivity {
 			@Override
 			public void applySprite(String newSpriteXml) {
 				Fragment current = getCurrentFragment();
-				if (current instanceof ScriptFragment) {
-					((ScriptFragment) current).applyProjectFromAiTutor(newSpriteXml);
+				if (current instanceof ScriptFragment scriptfragment) {
+					scriptfragment.applyProjectFromAiTutor(newSpriteXml);
 				}
 			}
 
