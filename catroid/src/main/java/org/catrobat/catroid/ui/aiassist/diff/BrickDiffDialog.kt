@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.ui.aiassist.diff
 
-import android.content.Context
-import androidx.compose.foundation.background
+import android.util.Log
+import android.widget.TextView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,7 +41,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -49,6 +48,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.Brick
@@ -56,7 +56,6 @@ import org.catrobat.catroid.content.bricks.Brick
 @Composable
 internal fun BrickDiffDialog(
     row: DiffRow,
-    context: Context,
     white: Color,
     accent: Color,
     actionColor: Color,
@@ -69,9 +68,11 @@ internal fun BrickDiffDialog(
             shape = RoundedCornerShape(12.dp),
             color = colorResource(R.color.button_background)
         ) {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            ) {
                 Text(
                     text = humanizeBrickName(brick.javaClass.simpleName),
                     color = white,
@@ -87,13 +88,10 @@ internal fun BrickDiffDialog(
                 Spacer(Modifier.height(16.dp))
 
                 DialogSection(
-                    "Before",
-                    row.old,
-                    null,
-                    "Not in the original",
-                    context,
-                    white,
-                    accent
+                    label = "Before",
+                    brick = row.old,
+                    emptyText = "Not in the original",
+                    white = white
                 )
                 Box(
                     modifier = Modifier
@@ -110,9 +108,14 @@ internal fun BrickDiffDialog(
                             .rotate(90f)
                     )
                 }
-                DialogSection("After", row.new, row.old, "Removed", context, white, accent)
+                DialogSection(
+                    label = "After",
+                    brick = row.new,
+                    emptyText = "Removed",
+                    white = white
+                )
 
-                Spacer(Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth(),
@@ -120,7 +123,7 @@ internal fun BrickDiffDialog(
                         containerColor = actionColor,
                         contentColor = white
                     )
-                ) { Text("Close", fontWeight = FontWeight.Bold) }
+                ) { Text(text = "Close", fontWeight = FontWeight.Bold) }
             }
         }
     }
@@ -130,39 +133,35 @@ internal fun BrickDiffDialog(
 private fun DialogSection(
     label: String,
     brick: Brick?,
-    oldForDiff: Brick?,
     emptyText: String,
-    context: Context,
-    white: Color,
-    accent: Color
+    white: Color
 ) {
     Text(label, color = white.copy(alpha = 0.6f), fontSize = 12.sp, fontWeight = FontWeight.Medium)
     Spacer(Modifier.height(4.dp))
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(colorResource(R.color.app_background))
-            .padding(12.dp)
-    ) {
-        if (brick == null) {
-            Text(emptyText, color = white.copy(alpha = 0.5f), fontSize = 14.sp)
-        } else {
-            Text(
-                text = humanizeBrickName(brick.javaClass.simpleName),
-                color = white,
-                fontWeight = FontWeight.Medium,
-                fontSize = 15.sp
-            )
-            for (token in brickValueTokens(brick, context, oldForDiff)) {
-                Text(
-                    text = token.text,
-                    color = accent,
-                    fontWeight = if (token.changed) FontWeight.Bold else FontWeight.Normal,
-                    fontSize = 13.sp,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
+    if (brick == null) {
+        Text(
+            text = emptyText,
+            color = white.copy(alpha = 0.5f),
+            fontSize = 14.sp,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+    } else {
+        AndroidView(
+            modifier = Modifier.fillMaxWidth(),
+            factory = { context ->
+                try {
+                    brick.getPrototypeView(context)
+                } catch (e: Exception) {
+                    Log.e(
+                        "BrickDiffDialog",
+                        "Couldn't create prototype view for brick ${brick.javaClass.simpleName}",
+                        e
+                    )
+                    TextView(context).apply {
+                        text = humanizeBrickName(brick.javaClass.simpleName)
+                    }
+                }
             }
-        }
+        )
     }
 }
