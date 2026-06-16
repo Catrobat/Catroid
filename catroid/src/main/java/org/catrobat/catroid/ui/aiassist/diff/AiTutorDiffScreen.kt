@@ -21,17 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.aiassist
+package org.catrobat.catroid.ui.aiassist.diff
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,18 +49,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -65,17 +74,7 @@ import androidx.compose.ui.unit.sp
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.FormulaBrick
-import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.io.XstreamSerializer
-
-enum class DiffStatus { ADDED, REMOVED, MODIFIED, UNCHANGED }
-
-private data class DiffRow(val old: Brick?, val new: Brick?, val status: DiffStatus)
-
-object AiTutorDiffScreen {
-    const val TAG = "AiTutorDiffScreen"
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,6 +99,8 @@ fun AiTutorDiffScreen(
         if (newSprite == null) emptyList() else buildDiffRows(currentSprite, newSprite, context)
     }
 
+    var selected by remember { mutableStateOf<DiffRow?>(null) }
+
     val added = rows.count { it.status == DiffStatus.ADDED }
     val removed = rows.count { it.status == DiffStatus.REMOVED }
     val modified = rows.count { it.status == DiffStatus.MODIFIED }
@@ -108,7 +109,13 @@ fun AiTutorDiffScreen(
         containerColor = background,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Review AI changes", color = white, fontWeight = FontWeight.SemiBold) },
+                title = {
+                    Text(
+                        "Review AI changes",
+                        color = white,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = barColor,
                     titleContentColor = white
@@ -161,20 +168,24 @@ fun AiTutorDiffScreen(
                     .fillMaxSize()
                     .padding(padding)
                     .padding(horizontal = 12.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 12.dp),
+                contentPadding = PaddingValues(vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 item { SummaryAndLegend(added, removed, modified, white, accent) }
-                item { ColumnHeader(white) }
+                item { Spacer(Modifier.height(0.dp)) }
                 itemsIndexed(rows) { _, row ->
                     if (isScriptHeaderRow(row)) {
-                        ScriptHeaderRow(row, accent)
+                        ScriptHeaderRow(row, context, accent)
                     } else {
-                        BrickDiffRow(row, context, white, accent)
+                        BrickDiffRow(row, context, white, accent) { selected = row }
                     }
                 }
             }
         }
+    }
+
+    selected?.let { row ->
+        BrickDiffDialog(row, context, white, accent, actionColor) { selected = null }
     }
 }
 
@@ -229,32 +240,9 @@ private fun LegendChip(label: String, color: Color, textColor: Color) {
 }
 
 @Composable
-private fun ColumnHeader(white: Color) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp)
-    ) {
-        Text(
-            "Before",
-            color = white.copy(alpha = 0.6f),
-            fontSize = 12.sp,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(Modifier.width(8.dp))
-        Text(
-            "After",
-            color = white.copy(alpha = 0.6f),
-            fontSize = 12.sp,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-private fun ScriptHeaderRow(row: DiffRow, accent: Color) {
+private fun ScriptHeaderRow(row: DiffRow, context: Context, accent: Color) {
     val brick = row.new ?: row.old
-    val title = brick?.let { humanizeBrickName(it.javaClass.simpleName) } ?: "Script"
+    val title = brick?.let { scriptHeaderTitle(it, context) } ?: "Script"
     val tint = statusColor(row.status)
     Box(
         modifier = Modifier
@@ -270,43 +258,191 @@ private fun ScriptHeaderRow(row: DiffRow, accent: Color) {
             )
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        Text(title, color = accent, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            statusIcon(row.status)?.let { iconRes ->
+                Icon(
+                    painter = painterResource(iconRes),
+                    contentDescription = statusLabel(row.status),
+                    tint = tint ?: accent,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+            }
+            Text(title, color = accent, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+        }
     }
 }
 
 @Composable
-private fun BrickDiffRow(row: DiffRow, context: Context, white: Color, accent: Color) {
-    val tint = statusColor(row.status)
+private fun BrickDiffRow(
+    row: DiffRow,
+    context: Context,
+    white: Color,
+    accent: Color,
+    onClick: () -> Unit
+) {
+    when (row.status) {
+        DiffStatus.UNCHANGED -> UnchangedDiffRow(row, context, white, accent, onClick)
+        DiffStatus.MODIFIED -> statusColor(row.status)?.let {
+            ModifiedDiffRow(row, context, it, white, accent, onClick)
+        }
+        // ADDED / REMOVED: a single full-width block, like a natural script line.
+        else -> statusColor(row.status)?.let {
+            SingleDiffRow(row, context, it, white, accent, onClick)
+        }
+    }
+}
+
+/**
+ * GitHub-style row: a 10% status tint over the page + a solid left stripe + a leading status icon,
+ * shared by every changed row.
+ */
+@Composable
+private fun StatusContainer(
+    tint: Color,
+    iconRes: Int?,
+    iconDesc: String?,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(6.dp))
-            .background(tint?.copy(alpha = 0.28f) ?: Color.Transparent)
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .clickable(onClick = onClick)
+            .background(tint.copy(alpha = ROW_TINT_ALPHA)) // 10% status tint, GitHub diff style
+            .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        BrickCell(row.old, context, white, accent, Modifier.weight(1f))
+        // Solid status stripe, flush to the rounded-left edge.
+        Box(
+            modifier = Modifier
+                .width(STRIPE_WIDTH)
+                .fillMaxHeight()
+                .background(tint)
+        )
         Spacer(Modifier.width(8.dp))
-        BrickCell(row.new, context, white, accent, Modifier.weight(1f))
+        if (iconRes != null) {
+            Box(modifier = Modifier.size(18.dp), contentAlignment = Alignment.Center) {
+                Icon(
+                    painter = painterResource(iconRes),
+                    contentDescription = iconDesc,
+                    tint = tint,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+            Spacer(Modifier.width(6.dp))
+        }
+        content()
+        Spacer(Modifier.width(8.dp))
     }
 }
 
 @Composable
-private fun BrickCell(
-    brick: Brick?,
+private fun SingleDiffRow(
+    row: DiffRow,
+    context: Context,
+    tint: Color,
+    white: Color,
+    accent: Color,
+    onClick: () -> Unit
+) {
+    val brick = row.new ?: row.old ?: return
+    StatusContainer(tint, statusIcon(row.status), statusLabel(row.status), onClick) {
+        BrickContent(brick, context, white, accent, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun ModifiedDiffRow(
+    row: DiffRow,
+    context: Context,
+    tint: Color,
+    white: Color,
+    accent: Color,
+    onClick: () -> Unit
+) {
+    val newBrick = row.new ?: return
+    StatusContainer(tint, statusIcon(row.status), statusLabel(row.status), onClick) {
+        Column(modifier = Modifier
+            .weight(1f)
+            .padding(vertical = 8.dp)) {
+            Text(
+                text = humanizeBrickName(newBrick.javaClass.simpleName),
+                color = white,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            val newSubtitle = brickSubtitle(newBrick, context)
+            if (newSubtitle != null) {
+                // Old → New values flow naturally (weight fill = false) for breathing room.
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = (row.old?.let { brickSubtitle(it, context) }).orEmpty(),
+                        color = white.copy(alpha = 0.45f), // faded old value
+                        fontSize = 12.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_arrow_forward_vector),
+                        contentDescription = null,
+                        tint = white.copy(alpha = 0.5f),
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .size(14.dp)
+                    )
+                    Text(
+                        text = changedSubtitleAnnotated(row.old, newBrick, context),
+                        color = accent, // crisp new value, changed token bold
+                        fontSize = 12.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun UnchangedDiffRow(
+    row: DiffRow,
     context: Context,
     white: Color,
     accent: Color,
+    onClick: () -> Unit
+) {
+    val brick = row.new ?: row.old ?: return
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(6.dp))
+            .clickable(onClick = onClick)
+            .padding(start = CONTENT_INDENT, top = 4.dp, bottom = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BrickContent(brick, context, white, accent, Modifier.weight(1f))
+    }
+}
+
+/** Label + optional value subtitle, the standard light-text Pocket Code cell. */
+@Composable
+private fun BrickContent(
+    brick: Brick,
+    context: Context,
+    labelColor: Color,
+    valueColor: Color,
     modifier: Modifier
 ) {
-    if (brick == null) {
-        Text("—", color = white.copy(alpha = 0.35f), modifier = modifier)
-        return
-    }
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(vertical = 8.dp)) {
         Text(
             text = humanizeBrickName(brick.javaClass.simpleName),
-            color = white,
+            color = labelColor,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
             maxLines = 2,
@@ -316,7 +452,7 @@ private fun BrickCell(
         if (subtitle != null) {
             Text(
                 text = subtitle,
-                color = accent,
+                color = valueColor,
                 fontSize = 12.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -324,180 +460,3 @@ private fun BrickCell(
         }
     }
 }
-
-@Composable
-private fun statusColor(status: DiffStatus): Color? = when (status) {
-    DiffStatus.ADDED -> colorResource(R.color.brick_color_green)
-    DiffStatus.REMOVED -> colorResource(R.color.brick_color_red)
-    DiffStatus.MODIFIED -> colorResource(R.color.brick_color_yellow)
-    DiffStatus.UNCHANGED -> null
-}
-
-private fun isScriptHeaderRow(row: DiffRow): Boolean =
-    (row.new ?: row.old) is ScriptBrick
-
-/**
- * Flattens both sprites to a single ordered brick list each (script heads, nested bricks, else/end
- * markers — exactly what the editor shows), aligns them with an LCS so unchanged bricks line up on the
- * same row, then merges a removed-then-added pair of the same brick type into a single MODIFIED row.
- */
-private fun buildDiffRows(oldSprite: Sprite, newSprite: Sprite, context: Context): List<DiffRow> {
-    val oldFlat = flatten(oldSprite)
-    val newFlat = flatten(newSprite)
-    val signaturesOld = oldFlat.map { brickSignature(it, context) }
-    val signaturesNew = newFlat.map { brickSignature(it, context) }
-
-    val n = oldFlat.size
-    val m = newFlat.size
-    val lcs = Array(n + 1) { IntArray(m + 1) }
-    for (i in n - 1 downTo 0) {
-        for (j in m - 1 downTo 0) {
-            lcs[i][j] = if (signaturesOld[i] == signaturesNew[j]) {
-                lcs[i + 1][j + 1] + 1
-            } else {
-                maxOf(lcs[i + 1][j], lcs[i][j + 1])
-            }
-        }
-    }
-
-    val aligned = mutableListOf<DiffRow>()
-    var i = 0
-    var j = 0
-    while (i < n && j < m) {
-        when {
-            signaturesOld[i] == signaturesNew[j] -> {
-                aligned.add(DiffRow(oldFlat[i], newFlat[j], DiffStatus.UNCHANGED)); i++; j++
-            }
-
-            lcs[i + 1][j] >= lcs[i][j + 1] -> {
-                aligned.add(DiffRow(oldFlat[i], null, DiffStatus.REMOVED)); i++
-            }
-
-            else -> {
-                aligned.add(DiffRow(null, newFlat[j], DiffStatus.ADDED)); j++
-            }
-        }
-    }
-    while (i < n) aligned.add(DiffRow(oldFlat[i++], null, DiffStatus.REMOVED))
-    while (j < m) aligned.add(DiffRow(null, newFlat[j++], DiffStatus.ADDED))
-
-    return reconcileChangeBlocks(aligned)
-}
-
-/**
- * Pairs in-place edits as MODIFIED. The LCS emits all removes of a change region before all adds, so a
- * removed brick and its matching added brick (same class, changed value) are usually not adjacent. We
- * therefore reconcile per **change block** — a maximal run of consecutive non-UNCHANGED rows (UNCHANGED
- * rows are anchors that also keep script boundaries intact) — pairing each removed brick with the first
- * unused added brick of the same class.
- */
-private fun reconcileChangeBlocks(rows: List<DiffRow>): List<DiffRow> {
-    val out = mutableListOf<DiffRow>()
-    var k = 0
-    while (k < rows.size) {
-        if (rows[k].status == DiffStatus.UNCHANGED) {
-            out.add(rows[k])
-            k++
-            continue
-        }
-        val block = mutableListOf<DiffRow>()
-        while (k < rows.size && rows[k].status != DiffStatus.UNCHANGED) {
-            block.add(rows[k])
-            k++
-        }
-        out.addAll(reconcileBlock(block))
-    }
-    return out
-}
-
-private fun reconcileBlock(block: List<DiffRow>): List<DiffRow> {
-    val removed = block.filter { it.status == DiffStatus.REMOVED }
-    val added = block.filter { it.status == DiffStatus.ADDED }
-    val usedAdded = BooleanArray(added.size)
-    val result = mutableListOf<DiffRow>()
-
-    // Removed bricks first (in original order): MODIFIED if a same-class added brick is still available.
-    for (r in removed) {
-        val matchIdx = added.indices.firstOrNull { a ->
-            !usedAdded[a] && added[a].new?.javaClass == r.old?.javaClass
-        }
-        if (matchIdx != null) {
-            usedAdded[matchIdx] = true
-            result.add(DiffRow(r.old, added[matchIdx].new, DiffStatus.MODIFIED))
-        } else {
-            result.add(r)
-        }
-    }
-    // Leftover purely-added bricks, in original order.
-    for (a in added.indices) {
-        if (!usedAdded[a]) {
-            result.add(added[a])
-        }
-    }
-    return result
-}
-
-private fun flatten(sprite: Sprite): List<Brick> {
-    val list = mutableListOf<Brick>()
-    for (script in sprite.scriptList) {
-        try {
-            script.addToFlatList(list)
-        } catch (e: Exception) {
-            Log.e(
-                AiTutorDiffScreen.TAG,
-                "Error flattening script ${script.javaClass.simpleName} in sprite ${sprite.name}: ${e.message}",
-                e
-            )
-            // Defensive: a malformed script shouldn't crash the preview.
-        }
-    }
-    return list
-}
-
-private fun brickSignature(brick: Brick, context: Context): String {
-    val sb = StringBuilder(brick.javaClass.simpleName)
-    if (brick is FormulaBrick) {
-        val map = brick.formulaMap
-        for (field in map.keys.sortedBy { it.toString() }) {
-            sb.append('|').append(field.toString()).append('=')
-                .append(formulaText(brick, field, context))
-        }
-    }
-    return sb.toString()
-}
-
-private fun brickSubtitle(brick: Brick, context: Context): String? {
-    if (brick !is FormulaBrick) return null
-    val map = brick.formulaMap
-    val parts = map.keys.sortedBy { it.toString() }.mapNotNull { field ->
-        val value = formulaText(brick, field, context)
-        if (value.isBlank()) null else "${humanizeField(field.toString())}: $value"
-    }
-    return if (parts.isEmpty()) null else parts.joinToString(", ")
-}
-
-private fun formulaText(brick: FormulaBrick, field: Brick.FormulaField, context: Context): String =
-    try {
-        brick.formulaMap[field]?.getTrimmedFormulaString(context).orEmpty()
-    } catch (e: Exception) {
-        Log.e(
-            AiTutorDiffScreen.TAG,
-            "Error getting formula text for ${brick.javaClass.simpleName} field $field",
-            e
-        )
-        "<error>"
-    }
-
-private fun humanizeBrickName(simpleName: String): String {
-    val base = simpleName.removeSuffix("Brick")
-    if (base.isEmpty()) return simpleName
-    return base
-        .replace(Regex("([a-z0-9])([A-Z])"), "$1 $2")
-        .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1 $2")
-        .trim()
-}
-
-private fun humanizeField(fieldName: String): String =
-    fieldName.split('_').joinToString(" ") { part ->
-        part.lowercase().replaceFirstChar { it.uppercase() }
-    }
