@@ -21,12 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.aiassist
+package org.catrobat.catroid.ui.aiassist.error
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -53,6 +54,7 @@ fun AiTutorErrorDialog(
     val actionButtonColor = colorResource(R.color.action_button)
 
     AlertDialog(
+        shape = RoundedCornerShape(12.dp),
         onDismissRequest = onBack,
         containerColor = buttonBackgroundColor,
         titleContentColor = white,

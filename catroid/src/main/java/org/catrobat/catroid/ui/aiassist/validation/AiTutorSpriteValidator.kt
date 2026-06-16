@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.aiassist
+package org.catrobat.catroid.ui.aiassist.validation
 
 import android.content.Context
 import android.util.Log

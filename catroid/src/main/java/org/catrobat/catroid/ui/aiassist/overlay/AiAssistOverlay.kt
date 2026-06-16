@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.aiassist
+package org.catrobat.catroid.ui.aiassist.overlay
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +34,9 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import org.catrobat.aitutor.ui.public.AiTutorView
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ui.aiassist.diff.AiTutorDiffScreen
+import org.catrobat.catroid.ui.aiassist.error.AiTutorErrorDialog
+import org.catrobat.catroid.ui.aiassist.validation.AiTutorSpriteValidator
 
 private sealed class Stage {
     /** Showing the library's AiTutorView. [outputContext] carries a prior error to feed back to the AI. */
@@ -77,7 +80,7 @@ private fun AiAssistFlow(
         outputContext = tutorStage?.outputContext,
         onClipboardPaste = { pastedText ->
             val result = try {
-                val sprite = XstreamSerializer.getInstance().getSpriteFromXmlStringOrThrow(pastedText)
+                val sprite = XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
                 if (sprite == null) {
                     AiTutorSpriteValidator.Result.Invalid("The pasted text is not a valid Pocket Code sprite.")
                 } else {

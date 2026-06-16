@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.aiassist
+package org.catrobat.catroid.ui.aiassist.overlay
 
 /**
  * Callbacks from the AI Assist overlay back to the host activity.
