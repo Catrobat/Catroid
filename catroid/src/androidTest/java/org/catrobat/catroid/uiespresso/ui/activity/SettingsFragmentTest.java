@@ -64,6 +64,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_AI_TUTOR_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE;
@@ -123,7 +124,7 @@ public class SettingsFragmentTest {
 			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
 			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS));
+			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, SETTINGS_AI_TUTOR_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
@@ -194,6 +195,7 @@ public class SettingsFragmentTest {
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
 		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 		checkPreference(R.string.preference_title_multiplayer_variables_enabled, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
+		checkPreference(R.string.preference_title_ai_tutor, SETTINGS_AI_TUTOR_ENABLED);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})

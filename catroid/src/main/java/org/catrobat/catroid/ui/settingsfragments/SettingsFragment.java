@@ -94,6 +94,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS = "setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recognition";
 	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS = "setting_ai_object_detection";
+	public static final String SETTINGS_AI_TUTOR_ENABLED = "setting_ai_tutor";
 
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
@@ -194,6 +195,13 @@ public class SettingsFragment extends PreferenceFragment {
 			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
+		}
+
+		if (!BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+			CheckBoxPreference aiTutorPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_AI_TUTOR_ENABLED);
+			aiTutorPreference.setEnabled(false);
+			screen.removePreference(aiTutorPreference);
 		}
 
 		if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
@@ -398,6 +406,10 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS, value)
 				.apply();
+	}
+
+	public static boolean isAiTutorSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_AI_TUTOR_ENABLED, context);
 	}
 
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {

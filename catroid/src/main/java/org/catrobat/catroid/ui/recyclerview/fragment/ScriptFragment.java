@@ -273,7 +273,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 		int bottomListPadding;
-		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED
+				&& SettingsFragment.isAiTutorSharedPreferenceEnabled(getContext())) {
 			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
 		} else {
 			bottomListPadding = ScreenValues.currentScreenResolution.getHeight() / 3;
@@ -395,7 +396,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 
-		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED
+				&& SettingsFragment.isAiTutorSharedPreferenceEnabled(getContext())) {
 			BottomBar.showAiAssistButton(getActivity());
 		}
 
