@@ -407,15 +407,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		scrollToFocusItem();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
-
-		// Restore undo button visibility if a snapshot still exists (e.g., after returning from play).
-		Project resumeProject = ProjectManager.getInstance().getCurrentProject();
-		if (resumeProject != null && getActivity() != null) {
-			File undoFile = new File(resumeProject.getDirectory(), UNDO_CODE_XML_FILE_NAME);
-			if (undoFile.exists()) {
-				((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
-			}
-		}
 	}
 
 	@Override
