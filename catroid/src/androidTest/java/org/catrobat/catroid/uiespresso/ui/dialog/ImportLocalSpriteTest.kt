@@ -24,9 +24,12 @@
 package org.catrobat.catroid.uiespresso.ui.dialog
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.PerformException
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.swipeLeft
@@ -36,6 +39,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.util.HumanReadables
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -51,7 +55,7 @@ import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
-import org.catrobat.catroid.uiespresso.util.idlingresources.ViewVisibilityIdlingResource
+import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -59,6 +63,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
+import java.util.concurrent.TimeoutException
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
@@ -82,12 +87,9 @@ class ImportLocalSpriteTest {
         ProjectListActivity::class.java, true, false
     )
 
-    private val progressIdlingResource = ViewVisibilityIdlingResource(R.id.progress_bar, View.GONE)
-
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        IdlingRegistry.getInstance().register(progressIdlingResource)
         createTestProjects()
         activityTestRule.launchActivity(null)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
@@ -96,7 +98,6 @@ class ImportLocalSpriteTest {
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        IdlingRegistry.getInstance().unregister(progressIdlingResource)
         TestUtils.deleteProjects(projectToImportFrom.name)
         TestUtils.deleteProjects(projectWithSameGlobals.name)
         TestUtils.deleteProjects(projectWithConflicts.name)
@@ -105,6 +106,9 @@ class ImportLocalSpriteTest {
 
     @Test
     fun importObjectAndMergeGlobals() {
+        onView(isRoot()).perform(waitForView(withText(projectWithSameGlobals.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
+
         onView(withText(projectWithSameGlobals.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
 
@@ -120,22 +124,22 @@ class ImportLocalSpriteTest {
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
 
         onView(withText(projectToImportTo.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Thread.sleep(1000)
-        onView(withId(R.id.button_add)).check(matches(isDisplayed()))
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
+
         onView(withId(R.id.button_add)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
         onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
         onView(withId(R.id.dialog_new_look_from_local)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText(projectWithSameGlobals.name)))
+
         onView(withText(projectWithSameGlobals.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.place_visually_sprite_switch)))
 
         onView(withText(R.string.new_sprite_dialog_place_visually)).check(matches(isDisplayed()))
         onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(R.string.ok)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText("doggo")))
 
         assertAddedSprite(doggo)
 
@@ -154,33 +158,39 @@ class ImportLocalSpriteTest {
 
     @Test
     fun abortImportWithConflicts() {
+        onView(isRoot()).perform(waitForView(withText(projectWithConflicts.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
+
         onView(withText(projectWithConflicts.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
 
         val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
         onView(withText(projectToImportTo.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Thread.sleep(1000)
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
 
-        onView(withId(R.id.button_add)).check(matches(isDisplayed()))
         onView(withId(R.id.button_add)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
         onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
         onView(withId(R.id.dialog_new_look_from_local)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText(projectWithConflicts.name)))
+
         onView(withText(projectWithConflicts.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
 
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, originalSpriteSize)
     }
 
     @Test
     fun importActorOrObjectTest() {
+        onView(isRoot()).perform(waitForView(withText(projectToImportFrom.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
+
         onView(withText(projectToImportFrom.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
         onView(withText(projectToImportFrom.name)).perform(click())
-        Thread.sleep(1000)
+        onView(isRoot()).perform(waitForView(withText("cat")))
 
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList[1], cat)
@@ -189,12 +199,11 @@ class ImportLocalSpriteTest {
         onView(withText("dog")).check(doesNotExist())
 
         onView(isRoot()).perform(pressBack())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
 
         onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
         onView(withText(projectToImportTo.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Thread.sleep(1000)
+        onView(isRoot()).perform(waitForView(withText("dog")))
 
         onView(withText("dog")).check(matches(isDisplayed()))
         onView(withText("cat")).check(doesNotExist())
@@ -203,17 +212,20 @@ class ImportLocalSpriteTest {
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
 
         onView(withId(R.id.button_add)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
         onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
         onView(withId(R.id.dialog_new_look_from_local)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText(projectToImportFrom.name)))
+
         onView(withText(projectToImportFrom.name)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withId(R.id.place_visually_sprite_switch)))
+
         onView(withText(R.string.new_sprite_dialog_place_visually)).check(matches(isDisplayed()))
         onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         onView(withText(R.string.ok)).perform(click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(waitForView(withText("cat")))
+
         onView(withText("cat")).check(matches(isDisplayed()))
         onView(withText("dog")).check(matches(isDisplayed()))
 
@@ -300,6 +312,47 @@ class ImportLocalSpriteTest {
                 return true
             }
             prev = it
+        }
+        return false
+    }
+
+    private fun waitForView(viewMatcher: Matcher<View>, timeout: Long = 5000): ViewAction =
+        object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+
+            override fun getDescription(): String =
+                "wait for a view matching $viewMatcher to be displayed within $timeout milliseconds"
+
+            override fun perform(uiController: UiController, view: View) {
+                uiController.loopMainThreadUntilIdle()
+                val startTime = System.currentTimeMillis()
+                val endTime = startTime + timeout
+
+                while (System.currentTimeMillis() < endTime) {
+                    if (findView(view, viewMatcher)) {
+                        return
+                    }
+                    uiController.loopMainThreadForAtLeast(50)
+                }
+                throw PerformException.Builder()
+                    .withActionDescription(this.description)
+                    .withViewDescription(HumanReadables.describe(view))
+                    .withCause(TimeoutException("Timeout waiting for view matching $viewMatcher"))
+                    .build()
+            }
+        }
+
+    private fun findView(view: View, matcher: Matcher<View>): Boolean {
+        if (matcher.matches(view)) {
+            return true
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                if (findView(child, matcher)) {
+                    return true
+                }
+            }
         }
         return false
     }
