@@ -33,6 +33,8 @@ import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.scale
+import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.catrobat.catroid.R
@@ -141,7 +143,7 @@ object ShortcutHelper {
 
     private fun scaleBitmap(source: Bitmap): Bitmap {
         if (source.width <= ICON_SIZE && source.height <= ICON_SIZE) return source
-        val scaled = Bitmap.createScaledBitmap(source, ICON_SIZE, ICON_SIZE, true)
+        val scaled = source.scale(ICON_SIZE, ICON_SIZE, true)
         if (scaled !== source) source.recycle()
         return scaled
     }
@@ -425,7 +427,7 @@ object ShortcutHelper {
     private fun openStandardAppSettings(context: Context) {
         try {
             val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = android.net.Uri.parse("package:${context.packageName}")
+                data = "package:${context.packageName}".toUri()
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
             context.startActivity(intent)

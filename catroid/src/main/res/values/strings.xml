@@ -2331,9 +2331,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
     <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
     <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
-    <string formatted="false" name="miui_shortcut_permission_warning">Xiaomi devices (MIUI) require manual permission to add shortcuts.</string>
     <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
-    <string formatted="false" name="shortcut_limit_reached">Maximum number of pinned projects reached. Please remove one from your home screen first.</string>
     <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
