@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.aiassist.diff
 
 import android.content.Context
-import android.util.Log
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.FormulaBrick
@@ -44,39 +43,51 @@ internal fun buildDiffRows(oldSprite: Sprite, newSprite: Sprite, context: Contex
     val signaturesOld = oldFlat.map { brickSignature(it, context) }
     val signaturesNew = newFlat.map { brickSignature(it, context) }
 
-    val n = oldFlat.size
-    val m = newFlat.size
-    val lcs = Array(n + 1) { IntArray(m + 1) }
-    for (i in n - 1 downTo 0) {
-        for (j in m - 1 downTo 0) {
-            lcs[i][j] = if (signaturesOld[i] == signaturesNew[j]) {
-                lcs[i + 1][j + 1] + 1
-            } else {
-                maxOf(lcs[i + 1][j], lcs[i][j + 1])
-            }
+    // lcsLengths[oldIndex][newIndex] = length of the longest common run of signatures starting at
+    // those positions. Filled bottom-up so the forward walk below can read matches ahead of it.
+    val oldCount = oldFlat.size
+    val newCount = newFlat.size
+    val lcsLengths = Array(oldCount + 1) { IntArray(newCount + 1) }
+    for (oldIndex in oldCount - 1 downTo 0) {
+        for (newIndex in newCount - 1 downTo 0) {
+            lcsLengths[oldIndex][newIndex] =
+                if (signaturesOld[oldIndex] == signaturesNew[newIndex]) {
+                    lcsLengths[oldIndex + 1][newIndex + 1] + 1
+                } else {
+                    maxOf(lcsLengths[oldIndex + 1][newIndex], lcsLengths[oldIndex][newIndex + 1])
+                }
         }
     }
 
+    // Walk both lists in order: matching signatures pair up as UNCHANGED; otherwise advance the side
+    // whose skip keeps the most matches, emitting REMOVED (old) or ADDED (new).
     val aligned = mutableListOf<DiffRow>()
-    var i = 0
-    var j = 0
-    while (i < n && j < m) {
+    var oldIndex = 0
+    var newIndex = 0
+    while (oldIndex < oldCount && newIndex < newCount) {
+        val droppingOldKeepsMoreMatches =
+            lcsLengths[oldIndex + 1][newIndex] >= lcsLengths[oldIndex][newIndex + 1]
         when {
-            signaturesOld[i] == signaturesNew[j] -> {
-                aligned.add(DiffRow(oldFlat[i], newFlat[j], DiffStatus.UNCHANGED)); i++; j++
+            signaturesOld[oldIndex] == signaturesNew[newIndex] -> {
+                aligned.add(DiffRow(oldFlat[oldIndex], newFlat[newIndex], DiffStatus.UNCHANGED))
+                oldIndex++
+                newIndex++
             }
 
-            lcs[i + 1][j] >= lcs[i][j + 1] -> {
-                aligned.add(DiffRow(oldFlat[i], null, DiffStatus.REMOVED)); i++
+            droppingOldKeepsMoreMatches -> {
+                aligned.add(DiffRow(oldFlat[oldIndex], null, DiffStatus.REMOVED))
+                oldIndex++
             }
 
             else -> {
-                aligned.add(DiffRow(null, newFlat[j], DiffStatus.ADDED)); j++
+                aligned.add(DiffRow(null, newFlat[newIndex], DiffStatus.ADDED))
+                newIndex++
             }
         }
     }
-    while (i < n) aligned.add(DiffRow(oldFlat[i++], null, DiffStatus.REMOVED))
-    while (j < m) aligned.add(DiffRow(null, newFlat[j++], DiffStatus.ADDED))
+    // Leftover tail on either side: all removals or all additions.
+    while (oldIndex < oldCount) aligned.add(DiffRow(oldFlat[oldIndex++], null, DiffStatus.REMOVED))
+    while (newIndex < newCount) aligned.add(DiffRow(null, newFlat[newIndex++], DiffStatus.ADDED))
 
     return reconcileChangeBlocks(aligned)
 }
@@ -107,6 +118,10 @@ private fun reconcileChangeBlocks(rows: List<DiffRow>): List<DiffRow> {
     return out
 }
 
+/**
+ * Within one change block, pairs each removed brick with the first unused added brick of the same
+ * class into a MODIFIED row (in original order); unmatched removes and the leftover adds stay as-is.
+ */
 private fun reconcileBlock(block: List<DiffRow>): List<DiffRow> {
     val removed = block.filter { it.status == DiffStatus.REMOVED }
     val added = block.filter { it.status == DiffStatus.ADDED }
@@ -137,20 +152,15 @@ private fun reconcileBlock(block: List<DiffRow>): List<DiffRow> {
 private fun flatten(sprite: Sprite): List<Brick> {
     val list = mutableListOf<Brick>()
     for (script in sprite.scriptList) {
-        try {
-            script.addToFlatList(list)
-        } catch (e: Exception) {
-            Log.e(
-                DIFF_TAG,
-                "Error flattening script ${script.javaClass.simpleName} in sprite ${sprite.name}: ${e.message}",
-                e
-            )
-            // Defensive: a malformed script shouldn't crash the preview.
-        }
+        script.addToFlatList(list)
     }
     return list
 }
 
+/**
+ * A brick's equality key for the LCS: its class name plus the selected data names and each formula
+ * field's text, so two bricks compare equal only when they would look identical in the editor.
+ */
 private fun brickSignature(brick: Brick, context: Context): String {
     val sb = StringBuilder(brick.javaClass.simpleName)
     // Include the selected variable/list names so changing only the data selection is a real change.

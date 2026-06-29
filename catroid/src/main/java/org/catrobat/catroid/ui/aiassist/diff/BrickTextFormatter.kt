@@ -37,13 +37,64 @@ import org.catrobat.catroid.content.bricks.UserDataBrick
 import org.catrobat.catroid.content.bricks.UserListBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
 
-/** Names of the variables/lists a brick selects (stored outside the formula map). */
-internal fun dataNames(brick: Brick): List<String> {
-    val names = mutableListOf<String>()
-    (brick as? UserVariableBrickInterface)?.userVariable?.name?.let(names::add)
-    (brick as? UserListBrick)?.userList?.name?.let(names::add)
-    (brick as? UserDataBrick)?.userDataMap?.values?.forEach { it?.name?.let(names::add) }
-    return names.filter { it.isNotBlank() }
+// ── Brick titles ──
+
+/** Human-readable title from the class name, e.g. "SetXBrick" -> "Set X". */
+internal fun humanizeBrickName(simpleName: String): String {
+    val base = simpleName.removeSuffix("Brick")
+    if (base.isEmpty()) return simpleName
+    return base
+        .replace(Regex("([a-z0-9])([A-Z])"), "$1 $2")
+        .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1 $2")
+        .trim()
+}
+
+/**
+ * The editor label for a script-header brick (e.g. "When scene starts", "When tapped").
+ * A brick's layout resource name matches its label string resource name, so we resolve the layout
+ * via [BrickBaseType.getViewResource] and look up the same-named string. Falls back to the
+ * humanized class name for anything unrecognized.
+ */
+internal fun scriptHeaderTitle(brick: Brick, context: Context): String = try {
+    val layoutId = (brick as? BrickBaseType)?.getViewResource()
+        ?: return humanizeBrickName(brick.javaClass.simpleName)
+    val entryName = context.resources.getResourceEntryName(layoutId)
+    val stringId = context.resources.getIdentifier(entryName, "string", context.packageName)
+    if (stringId != 0) context.getString(stringId) else humanizeBrickName(brick.javaClass.simpleName)
+} catch (e: Exception) {
+    Log.e(
+        DIFF_TAG,
+        "Error resolving script header title for ${brick.javaClass.simpleName}",
+        e
+    )
+    humanizeBrickName(brick.javaClass.simpleName)
+}
+
+// ── Brick value text ──
+
+/** The brick's value chunks joined into one plain-text subtitle, or null when it has no values. */
+internal fun brickSubtitle(brick: Brick, context: Context): String? {
+    val tokens = brickValueTokens(brick, context, null)
+    return if (tokens.isEmpty()) null else tokens.joinToString(", ") { it.text }
+}
+
+/**
+ * The new brick's value subtitle as an [AnnotatedString], with each [DiffToken] that changed from
+ * [oldBrick] rendered in bold (the highlighted token).
+ */
+internal fun changedSubtitleAnnotated(
+    oldBrick: Brick?,
+    newBrick: Brick,
+    context: Context
+): AnnotatedString = buildAnnotatedString {
+    brickValueTokens(newBrick, context, oldBrick).forEachIndexed { index, token ->
+        if (index > 0) append(", ")
+        if (token.changed) {
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(token.text) }
+        } else {
+            append(token.text)
+        }
+    }
 }
 
 /**
@@ -90,30 +141,18 @@ internal fun brickValueTokens(brick: Brick, context: Context, oldBrick: Brick?):
     return tokens
 }
 
-internal fun brickSubtitle(brick: Brick, context: Context): String? {
-    val tokens = brickValueTokens(brick, context, null)
-    return if (tokens.isEmpty()) null else tokens.joinToString(", ") { it.text }
+// ── Helpers ──
+
+/** Names of the variables/lists a brick selects (stored outside the formula map). */
+internal fun dataNames(brick: Brick): List<String> {
+    val names = mutableListOf<String>()
+    (brick as? UserVariableBrickInterface)?.userVariable?.name?.let(names::add)
+    (brick as? UserListBrick)?.userList?.name?.let(names::add)
+    (brick as? UserDataBrick)?.userDataMap?.values?.forEach { it?.name?.let(names::add) }
+    return names.filter { it.isNotBlank() }
 }
 
-/**
- * The new brick's value subtitle as an [AnnotatedString], with each [DiffToken] that changed from
- * [oldBrick] rendered in bold (the highlighted token).
- */
-internal fun changedSubtitleAnnotated(
-    oldBrick: Brick?,
-    newBrick: Brick,
-    context: Context
-): AnnotatedString = buildAnnotatedString {
-    brickValueTokens(newBrick, context, oldBrick).forEachIndexed { index, token ->
-        if (index > 0) append(", ")
-        if (token.changed) {
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(token.text) }
-        } else {
-            append(token.text)
-        }
-    }
-}
-
+/** The editor's trimmed formula string for [field], or "<error>" if it cannot be read. */
 internal fun formulaText(brick: FormulaBrick, field: Brick.FormulaField, context: Context): String =
     try {
         brick.formulaMap[field]?.getTrimmedFormulaString(context).orEmpty()
@@ -126,36 +165,7 @@ internal fun formulaText(brick: FormulaBrick, field: Brick.FormulaField, context
         "<error>"
     }
 
-internal fun humanizeBrickName(simpleName: String): String {
-    val base = simpleName.removeSuffix("Brick")
-    if (base.isEmpty()) return simpleName
-    return base
-        .replace(Regex("([a-z0-9])([A-Z])"), "$1 $2")
-        .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1 $2")
-        .trim()
-}
-
-/**
- * The real editor label for a script-header brick (e.g. "When scene starts", "When tapped").
- * A brick's layout resource name matches its label string resource name, so we resolve the layout
- * via [BrickBaseType.getViewResource] and look up the same-named string. Falls back to the
- * humanized class name for anything unrecognized.
- */
-internal fun scriptHeaderTitle(brick: Brick, context: Context): String = try {
-    val layoutId = (brick as? BrickBaseType)?.getViewResource()
-        ?: return humanizeBrickName(brick.javaClass.simpleName)
-    val entryName = context.resources.getResourceEntryName(layoutId)
-    val stringId = context.resources.getIdentifier(entryName, "string", context.packageName)
-    if (stringId != 0) context.getString(stringId) else humanizeBrickName(brick.javaClass.simpleName)
-} catch (e: Exception) {
-    Log.e(
-        DIFF_TAG,
-        "Error resolving script header title for ${brick.javaClass.simpleName}",
-        e
-    )
-    humanizeBrickName(brick.javaClass.simpleName)
-}
-
+/** Turns a formula-field enum name into a readable label, e.g. "X_POSITION" -> "X Position". */
 private fun humanizeField(fieldName: String): String =
     fieldName.split('_').joinToString(" ") { part ->
         part.lowercase().replaceFirstChar { it.uppercase() }
