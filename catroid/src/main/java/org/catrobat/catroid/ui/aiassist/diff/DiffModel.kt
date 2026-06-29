@@ -29,7 +29,14 @@ enum class DiffStatus { ADDED, REMOVED, MODIFIED, UNCHANGED }
 
 internal data class DiffRow(val old: Brick?, val new: Brick?, val status: DiffStatus)
 
-/** A single value chunk shown for a brick (e.g. "playerY: 0"), flagged if it changed vs the old brick. */
-internal data class DiffToken(val text: String, val changed: Boolean)
+/**
+ * A single chunk of a brick's editor phrase. [dynamic] marks a value/spinner-selection chunk (styled
+ * like an input field) as opposed to a static label word; [changed] flags it differing from the old brick.
+ */
+internal data class DiffToken(
+    val text: String,
+    val changed: Boolean,
+    val dynamic: Boolean = false
+)
 
 internal const val DIFF_TAG = "AiTutorDiffScreen"

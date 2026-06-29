@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,6 +64,7 @@ internal fun BrickDiffDialog(
 ) {
     val brick = row.new ?: row.old ?: return
     val tint = statusColor(row.status)
+    val context = LocalContext.current
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -74,7 +76,7 @@ internal fun BrickDiffDialog(
                     .padding(20.dp)
             ) {
                 Text(
-                    text = humanizeBrickName(brick.javaClass.simpleName),
+                    text = brickEditorLabel(brick, context),
                     color = white,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
