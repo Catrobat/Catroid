@@ -40,6 +40,7 @@ import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toDrawable
+import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,6 +72,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
@@ -110,6 +112,7 @@ class ProjectListFragment(
             }
             actionModeType = IMPORT_LOCAL
         }
+        showUndo(hasDeletedProjectUndo())
     }
 
     private fun onImportProjectFinished(success: Boolean) {
@@ -185,6 +188,7 @@ class ProjectListFragment(
             showPinShortcutDialog(projectName, icon)
         }
 
+        showUndo(hasDeletedProjectUndo())
         BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
@@ -211,11 +215,16 @@ class ProjectListFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.menu_undo -> restoreDeletedProject()
             R.id.import_project -> showImportChooser()
             R.id.sort_projects -> sortProjects()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun showUndo(visible: Boolean) {
+        (activity as? ProjectListActivity)?.showUndo(visible)
     }
 
     private fun sortProjects() {
@@ -387,6 +396,15 @@ class ProjectListFragment(
     @PluralsRes
     override fun getDeleteAlertTitleId(): Int = R.plurals.delete_projects
 
+    override fun showDeleteAlert(selectedItems: MutableList<ProjectData?>?) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getQuantityString(getDeleteAlertTitleId(), selectedItems?.size ?: 0))
+            .setPositiveButton(R.string.delete) { _, _ -> deleteItems(selectedItems) }
+            .setNegativeButton(R.string.cancel, null)
+            .setCancelable(false)
+            .show()
+    }
+
     override fun deleteItems(selectedItems: MutableList<ProjectData?>?) {
         setShowProgressBar(true)
         var deletedItemCount = 0
@@ -394,31 +412,135 @@ class ProjectListFragment(
         selectedItems ?: return
         for (item in selectedItems) {
             item ?: continue
+            if (!copyProjectForUndoOption(item)) {
+                ToastUtil.showError(requireContext(), R.string.error_copy_project)
+                continue
+            }
             try {
                 projectManager.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
                 items.remove(item)
                 deletedProjectNames.add(item.name)
+                adapter.remove(item)
+                deletedItemCount++
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
+                clearDeletedProjectUndo()
             }
-            adapter.remove(item)
-            deletedItemCount++
         }
         if (deletedProjectNames.isNotEmpty()) {
             ShortcutHelper.removeShortcutsForProjects(requireContext(), deletedProjectNames)
         }
-        ToastUtil.showSuccess(
-            requireContext(), resources.getQuantityString(
-                R.plurals.deleted_projects,
-                deletedItemCount,
-                deletedItemCount
+        if (deletedItemCount > 0) {
+            ToastUtil.showSuccess(
+                requireContext(), resources.getQuantityString(
+                    R.plurals.deleted_projects,
+                    deletedItemCount,
+                    deletedItemCount
+                )
             )
-        )
+        }
+        showUndo(deletedItemCount > 0 && hasDeletedProjectUndo())
         finishActionMode()
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
     }
+
+    private fun restoreDeletedProject() {
+        setShowProgressBar(true)
+        coroutineScope.launch {
+            val restored = restoreDeletedProjectFromUndo()
+            withContext(mainDispatcher) {
+                if (restored) {
+                    ToastUtil.showSuccess(requireContext(), R.string.restored_project)
+                    showUndo(false)
+                    getLocalProjectListAsync(object: LoadProjectsListener {
+                        override fun onProjectsLoaded() {
+                            setAdapterItems(adapter.projectsSorted)
+                            setShowProgressBar(false)
+                            checkForEmptyList()
+                        }
+                    })
+                } else {
+                    ToastUtil.showError(requireContext(), R.string.error_load_project)
+                    showUndo(hasDeletedProjectUndo())
+                    setShowProgressBar(false)
+                }
+            }
+        }
+    }
+
+    private fun restoreDeletedProjectFromUndo(): Boolean {
+        val backupProjectDir = deletedProjectBackupDirectory
+        val backupCodeFile = File(backupProjectDir, Constants.CODE_XML_FILE_NAME)
+        if (!backupCodeFile.exists()) {
+            return false
+        }
+
+        return try {
+            val restoredProjectData = ProjectMetaDataParser(backupCodeFile).projectMetaData
+            val destinationName = uniqueNameProvider.getUniqueNameInNameables(
+                restoredProjectData.name,
+                items
+            )
+            val destinationDir = File(
+                FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+                FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
+            )
+            StorageOperations.copyDir(backupProjectDir, destinationDir)
+            if (destinationName != restoredProjectData.name) {
+                XstreamSerializer.renameProject(
+                    File(destinationDir, Constants.CODE_XML_FILE_NAME),
+                    destinationName
+                )
+            }
+            projectManager.addNewDownloadedProject(destinationName)
+            deleteDeletedProjectUndoDirectory()
+            true
+        } catch (e: IOException) {
+            Log.e(TAG, "Cannot restore deleted project.", e)
+            false
+        }
+    }
+
+    private fun copyProjectForUndoOption(projectData: ProjectData): Boolean {
+        return try {
+            clearDeletedProjectUndo()
+            if (!deletedProjectUndoDirectory.mkdirs() && !deletedProjectUndoDirectory.isDirectory) {
+                return false
+            }
+            StorageOperations.copyDir(projectData.directory, deletedProjectBackupDirectory)
+            true
+        } catch (e: IOException) {
+            Log.e(TAG, "Cannot copy project ${projectData.name} for undo.", e)
+            clearDeletedProjectUndo()
+            false
+        }
+    }
+
+    fun clearDeletedProjectUndo() {
+        deleteDeletedProjectUndoDirectory()
+        showUndo(false)
+    }
+
+    private fun deleteDeletedProjectUndoDirectory() {
+        try {
+            if (deletedProjectUndoDirectory.exists()) {
+                StorageOperations.deleteDir(deletedProjectUndoDirectory)
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, "Cannot clear deleted project undo.", e)
+        }
+    }
+
+    private fun hasDeletedProjectUndo(): Boolean =
+        File(deletedProjectBackupDirectory, Constants.CODE_XML_FILE_NAME).exists()
+
+    private val deletedProjectUndoDirectory: File
+        get() = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_DELETION_UNDO_DIRECTORY)
+
+    private val deletedProjectBackupDirectory: File
+        get() = File(deletedProjectUndoDirectory, PROJECT_DELETION_BACKUP_DIRECTORY)
 
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
@@ -460,6 +582,7 @@ class ProjectListFragment(
 
     override fun onLoadFinished(success: Boolean) {
         if (success) {
+            clearDeletedProjectUndo()
             val intent = Intent(requireContext(), ProjectActivity::class.java)
             intent.putExtra(
                 ProjectActivity.EXTRA_FRAGMENT_POSITION,
@@ -620,6 +743,8 @@ class ProjectListFragment(
         val TAG: String = ProjectListFragment::class.java.simpleName
         private const val PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801
         private const val REQUEST_IMPORT_PROJECT = 7
+        private const val PROJECT_DELETION_UNDO_DIRECTORY = ".projectDeletionUndo"
+        private const val PROJECT_DELETION_BACKUP_DIRECTORY = "project"
 
         @JvmStatic
         fun getLocalProjectList(items: MutableList<ProjectData>) {

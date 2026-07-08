@@ -53,7 +53,6 @@ import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExporter
-import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
@@ -109,7 +108,7 @@ class ProjectOptionsFragment : Fragment() {
             addTextChangedListener(object : NewProjectNameTextWatcher<Nameable>() {
                 override fun afterTextChanged(s: Editable?) {
                     val error = if (s.toString() != project!!.name) {
-                        validateInput(s.toString(), getContext())
+                        validateInput(s.toString(), context)
                     } else {
                         null
                     }
@@ -190,7 +189,6 @@ class ProjectOptionsFragment : Fragment() {
         )
         AlertDialog.Builder(requireContext())
             .setTitle(resources.getQuantityString(R.plurals.delete_projects, 1))
-            .setMessage(R.string.dialog_confirm_delete)
             .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
                 deleteProject(
                     projectData
