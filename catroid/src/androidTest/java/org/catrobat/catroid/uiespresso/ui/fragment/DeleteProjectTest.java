@@ -52,6 +52,7 @@ import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -64,10 +65,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class DeleteProjectTest {
 
 	@Rule
-	public BaseActivityTestRule<ProjectListActivity> baseActivityTestRule = new
-			BaseActivityTestRule<>(ProjectListActivity.class, true, false);
+	public BaseActivityTestRule<ProjectListActivity> baseActivityTestRule = new BaseActivityTestRule<>(ProjectListActivity.class, true, false);
 
-	private String projectToDelete = "firstProject";
+	private final String projectToDelete = "firstProject";
 
 	@Before
 	public void setUp() throws Exception {
@@ -91,17 +91,11 @@ public class DeleteProjectTest {
 				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
-				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel))).check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
-				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete))).perform(click());
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-				.perform(click());
-
-		onView(withText(projectToDelete))
-				.check(doesNotExist());
+		onView(withText(projectToDelete)).check(doesNotExist());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -112,9 +106,7 @@ public class DeleteProjectTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(projectToDelete))
-				.check(doesNotExist());
-
+		onView(withText(projectToDelete)).check(doesNotExist());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -139,8 +131,7 @@ public class DeleteProjectTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(1)
-				.performCheckItemClick();
+		onRecyclerView().atPosition(1).performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -148,17 +139,64 @@ public class DeleteProjectTest {
 				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
-				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete))).check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
-				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel))).perform(click());
 
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
-				.perform(click());
+		onView(withText(projectToDelete)).check(matches(isDisplayed()));
+	}
 
-		onView(withText(projectToDelete))
-				.check(matches(isDisplayed()));
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void deleteProjectShowUndoButtonTest() {
+		baseActivityTestRule.launchActivity(null);
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(projectToDelete)).check(doesNotExist());
+		onView(withId(R.id.menu_undo)).check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void undoDeletedProjectTest() throws InterruptedException {
+		baseActivityTestRule.launchActivity(null);
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(projectToDelete)).check(doesNotExist());
+		onView(withId(R.id.menu_undo)).check(matches(isDisplayed()));
+
+		onView(withId(R.id.menu_undo)).perform(click());
+		Thread.sleep(1000);
+
+		onView(withText(projectToDelete)).check(matches(isDisplayed()));
+		onView(withId(R.id.menu_undo)).check(doesNotExist());
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void undoOptionNotVisibleAfterActivityChangeTest() throws InterruptedException {
+		String secondProject = "secondProject";
+		createProject(secondProject);
+		baseActivityTestRule.launchActivity(null);
+
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(1).performCheckItemClick();
+
+		onView(withId(R.id.confirm)).perform(click());
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete))).perform(click());
+
+		onView(withText(secondProject)).perform(click());
+		Thread.sleep(1000);
+		pressBack();
+
+		onView(withId(R.id.menu_undo)).check(doesNotExist());
+		onView(withText(projectToDelete)).check(doesNotExist());
 	}
 
 	private void createProject(String projectName) {
