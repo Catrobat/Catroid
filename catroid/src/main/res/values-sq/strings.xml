@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Të lutem prit</string>
     <string formatted="false" name="search_hint">Kërko</string>
     <string formatted="false" name="backpack_add">Shto në çantë</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projekti që shkarkove dëgjon zërin tënd në sfond dhe dërgon gjithashtu të dhëna në internet. Kjo mund të jetë e padëmshme dhe e nevojshme për funksionimin e tij. Megjithatë, sigurohu që ajo që thua ndërsa projekti po ekzekutohet është e sigurt. Në rast dyshimi, fshije projektin e shkarkuar. Nëse je i sigurt që projekti është i dëmshëm, mund ta raportosh edhe në faqen e tij në platformën e komunitetit Catrobat.</string>
     <!-- Replace Api dialog -->

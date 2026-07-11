@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Te rog să aștepți</string>
     <string formatted="false" name="search_hint">Caută</string>
     <string formatted="false" name="backpack_add">Pune în rucsac</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Proiectul pe care l-ai descărcat îți ascultă vocea în fundal și trimite date pe internet. Acest lucru poate fi inofensiv și necesar pentru funcționarea lui. Totuși, asigură-te că ceea ce spui cât timp rulează proiectul este sigur. Dacă ai îndoieli, șterge proiectul descărcat. Poți, de asemenea, să raportezi proiectul pe pagina lui de pe platforma comunității Catrobat, dacă ești sigur că este dăunător.</string>
     <!-- Replace Api dialog -->

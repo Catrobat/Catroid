@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Attendi</string>
     <string formatted="false" name="search_hint">Cerca</string>
     <string formatted="false" name="backpack_add">Aggiungi allo zaino</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Il progetto che hai scaricato ascolta la tua voce in background e invia anche dati a Internet. Questo può essere innocuo e necessario per il suo funzionamento. Tuttavia, assicurati che ciò che dici mentre il progetto è in esecuzione non sia rischioso. In caso di dubbi, elimina il progetto scaricato. Se sei sicuro che sia dannoso, puoi anche segnalare il progetto sulla sua pagina nella piattaforma della comunità di Catrobat.</string>
     <!-- Replace Api dialog -->

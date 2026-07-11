@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Wag asseblief</string>
     <string formatted="false" name="search_hint">Soek</string>
     <string formatted="false" name="backpack_add">Voeg by rugsak</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Die projek wat jy afgelaai het, luister in die agtergrond na jou stem en stuur ook data na die internet. Dit kan onskadelik wees en nodig om te werk soos bedoel. Maak egter seker dat wat jy sê terwyl die projek loop, veilig is. As jy twyfel, vee asseblief die afgelaaide projek uit. As jy seker is dat dit skadelik is, kan jy die projek ook op sy bladsy op die Catrobat-gemeenskapsplatform rapporteer.</string>
     <!-- Replace Api dialog -->

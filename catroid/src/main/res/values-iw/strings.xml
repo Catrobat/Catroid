@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">נא להמתין</string>
     <string formatted="false" name="search_hint">חיפוש…</string>
     <string formatted="false" name="backpack_add">הוספה לתרמיל</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">המיזם שהורדת מאזין לקול שלך ברקע וגם שולח נתונים לאינטרנט. ייתכן שזה לא מזיק ונחוץ לפעולה המתוכננת שלו. עם זאת, כדאי לוודא שמה שנאמר בזמן שהמיזם פועל הוא בטוח. במקרה של ספק, מומלץ למחוק את המיזם שהורד. אם ברור לך שהמיזם מזיק, אפשר גם לדווח עליו בעמוד שלו בפלטפורמת הקהילה של Catrobat.</string>
     <!-- Replace Api dialog -->

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">કૃપા કરીને રાહ જુઓ</string>
     <string formatted="false" name="search_hint">શોધો</string>
     <string formatted="false" name="backpack_add">બૅકપૅકમાં ઉમેરો</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">તમે ડાઉનલોડ કરેલો પ્રોજેક્ટ પૃષ્ઠભૂમિમાં તમારો અવાજ સાંભળે છે અને ઇન્ટરનેટ પર ડેટા પણ મોકલે છે. આ હાનિકારક ન પણ હોય અને તેના હેતુસરના કામ માટે જરૂરી હોઈ શકે. તેમ છતાં, કૃપા કરીને ખાતરી કરો કે પ્રોજેક્ટ ચાલતો હોય ત્યારે તમે જે બોલો છો તે સુરક્ષિત છે. શંકા હોય તો, કૃપા કરીને ડાઉનલોડ કરેલો પ્રોજેક્ટ કાઢી નાખો. જો તમને ખાતરી હોય કે તે હાનિકારક છે, તો તમે Catrobat સમુદાય પ્લૅટફૉર્મ પર તેના પેજ પર પ્રોજેક્ટની જાણ પણ કરી શકો છો.</string>
     <!-- Replace Api dialog -->

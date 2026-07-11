@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.ui
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
@@ -38,8 +42,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.google.common.base.Charsets
 import com.google.common.io.Files
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -54,18 +58,17 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.transfers.CheckTokenTask
-import org.catrobat.catroid.transfers.CheckTokenTask.TokenCheckListener
-import org.catrobat.catroid.transfers.GetTagsTask
-import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
+import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.web.LoginRepository
+import org.catrobat.catroid.transfers.project.ProjectUploadService
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
 import org.catrobat.catroid.ui.controller.ProjectUploadController
 import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
+import org.catrobat.catroid.utils.DispatcherProvider
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
-import org.catrobat.catroid.web.ServerAuthenticationConstants
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileOutputStream
@@ -87,6 +90,9 @@ private const val LICENSE_TO_PLAY_URL =
 private const val PROGRAM_NAME_START_TAG = "<programName>"
 private const val PROGRAM_NAME_END_TAG = "</programName>"
 private const val THUMBNAIL_SIZE = 100
+private const val COMPLETE_PERCENT = 100
+private const val BYTES_PER_MB = 1024 * 1024
+private const val UPLOAD_RATING_THRESHOLD = 2
 private val TAG = ProjectUploadActivity::class.java.simpleName
 
 const val PROJECT_DIR = "projectDir"
@@ -95,10 +101,12 @@ const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
 
 open class ProjectUploadActivity : BaseActivity(),
     ProjectLoadListener,
-    TokenCheckListener,
-    TagResponseListener,
     ResultReceiverWrapperInterface,
     ProjectUploadInterface {
+
+    private val loginRepository: LoginRepository by inject()
+    private val webService: WebService by inject()
+    private val dispatcherProvider: DispatcherProvider by inject()
 
     private lateinit var project: Project
     private lateinit var xmlFile: File
@@ -108,6 +116,7 @@ open class ProjectUploadActivity : BaseActivity(),
     private lateinit var apiMatcher: Matcher
 
     private var uploadProgressDialog: AlertDialog? = null
+    private var verifyTokenJob: Job? = null
     private val uploadResultReceiver = ResultReceiverWrapper(this, Handler())
 
     private val nameInputTextWatcher = NameInputTextWatcher()
@@ -159,7 +168,7 @@ open class ProjectUploadActivity : BaseActivity(),
         verifyUserIdentity()
     }
 
-    private fun onCreateView() {
+    protected open fun onCreateView() {
         val thumbnailSize = THUMBNAIL_SIZE
         val screenshotLoader = ProjectAndSceneScreenshotLoader(
             thumbnailSize,
@@ -173,8 +182,22 @@ open class ProjectUploadActivity : BaseActivity(),
             findViewById(R.id.project_image_view)
         )
 
+        val projectSizeBytes = FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(project.directory)
         binding.projectSizeView.text =
             FileMetaDataExtractor.getSizeAsString(project.directory, this)
+
+        if (projectSizeBytes > Constants.UPLOAD_MAX_SIZE_BYTES) {
+            val maxSizeMb = Constants.UPLOAD_MAX_SIZE_BYTES / BYTES_PER_MB
+            binding.projectSizeView.text = getString(
+                R.string.error_project_too_large_for_upload,
+                FileMetaDataExtractor.getSizeAsString(project.directory, this),
+                maxSizeMb.toString()
+            )
+            binding.projectSizeView.setTextColor(getColor(android.R.color.holo_red_dark))
+            setShowProgressBar(false)
+            setNextButtonEnabled(false)
+            return
+        }
 
         if (!projectManager.isChangedProject(project)) {
             showUploadIsUnchangedDialog()
@@ -215,6 +238,7 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     override fun onDestroy() {
+        verifyTokenJob?.cancel()
         if (uploadProgressDialog?.isShowing == true) {
             uploadProgressDialog?.dismiss()
         }
@@ -291,7 +315,7 @@ open class ProjectUploadActivity : BaseActivity(),
         xmlFile = File(project.directory, Constants.CODE_XML_FILE_NAME)
 
         try {
-            xml = Files.asCharSource(xmlFile, Charsets.UTF_8).read()
+            xml = Files.asCharSource(xmlFile, StandardCharsets.UTF_8).read()
             backUpXml = xml
         } catch (exception: IOException) {
             Log.e(TAG, Log.getStackTraceString(exception))
@@ -478,11 +502,9 @@ open class ProjectUploadActivity : BaseActivity(),
                 loadBackup()
                 projectManager.resetChangedFlag(project)
             }
-            .setNegativeButton(R.string.done) { _, _ ->
+            .setNegativeButton(R.string.cancel) { _, _ ->
                 loadBackup()
                 projectManager.resetChangedFlag(project)
-                MainMenuActivity.surveyCampaign?.showSurvey(this)
-
                 finish()
             }
             .setCancelable(false)
@@ -500,19 +522,47 @@ open class ProjectUploadActivity : BaseActivity(),
         startService(intent)
     }
 
-    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+    private fun handleUploadProgress(progress: Int) {
+        val dialog = uploadProgressDialog ?: return
+        val progressBar = dialog.findViewById<android.widget.ProgressBar>(R.id.dialog_upload_progress_progressbar)
+        val percentView = dialog.findViewById<android.widget.TextView>(R.id.dialog_upload_progress_percent)
+        progressBar?.isIndeterminate = false
+        progressBar?.progress = progress
+        percentView?.text = getString(R.string.upload_progress_percent, progress)
+        if (progress >= COMPLETE_PERCENT) {
+            progressBar?.visibility = View.GONE
+            percentView?.visibility = View.GONE
+            dialog.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.VISIBLE
+        }
+    }
 
-        if (resultCode != Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || uploadProgressDialog?.isShowing == false) {
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
-                View.GONE
-            uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_message_failed)?.visibility =
-                View.VISIBLE
-            val image =
-                uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
-            image?.setImageResource(R.drawable.ic_upload_failed)
-            image?.visibility = View.VISIBLE
+    private fun handleUploadFailure(errorCode: Int) {
+        val dialog = uploadProgressDialog ?: return
+        dialog.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility = View.GONE
+        dialog.findViewById<View>(R.id.dialog_upload_progress_percent)?.visibility = View.GONE
+        dialog.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.GONE
+        val failedMessage = dialog.findViewById<TextView>(R.id.dialog_upload_message_failed)
+        failedMessage?.visibility = View.VISIBLE
+        if (errorCode == Constants.ERROR_TOO_MANY_REQUESTS) {
+            failedMessage?.setText(R.string.error_project_upload_rate_limit)
+        }
+        val image = dialog.findViewById<ImageView>(R.id.dialog_upload_progress_image)
+        image?.setImageResource(R.drawable.ic_upload_failed)
+        image?.visibility = View.VISIBLE
+    }
+
+    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+        if (resultCode == Constants.UPLOAD_PROGRESS_RESULT_CODE && resultData != null) {
+            handleUploadProgress(resultData.getInt(Constants.EXTRA_UPLOAD_PROGRESS, 0))
             return
         }
+
+        if (resultCode != Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || uploadProgressDialog?.isShowing == false) {
+            handleUploadFailure(resultData?.getInt(ProjectUploadService.EXTRA_ERROR_CODE, 0) ?: 0)
+            return
+        }
+
+        uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.GONE
 
         val projectId = resultData.getString(Constants.EXTRA_PROJECT_ID)
         val positiveButton = uploadProgressDialog?.getButton(DialogInterface.BUTTON_POSITIVE)
@@ -528,6 +578,16 @@ open class ProjectUploadActivity : BaseActivity(),
         }
 
         positiveButton?.isEnabled = true
+
+        val negativeButton = uploadProgressDialog?.getButton(DialogInterface.BUTTON_NEGATIVE)
+        negativeButton?.setText(R.string.done)
+        negativeButton?.setOnClickListener {
+            loadBackup()
+            projectManager.resetChangedFlag(project)
+            MainMenuActivity.surveyCampaign?.showSurvey(this)
+            finish()
+        }
+
         uploadProgressDialog?.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility =
             View.GONE
 
@@ -541,7 +601,7 @@ open class ProjectUploadActivity : BaseActivity(),
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
             .apply()
 
-        if (numberOfUploadedProjects != 2) {
+        if (numberOfUploadedProjects != UPLOAD_RATING_THRESHOLD) {
             return
         }
 
@@ -578,34 +638,21 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     protected open fun verifyUserIdentity() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME)
-        val isTokenSetInPreferences =
-            token != Constants.NO_TOKEN && token?.length == ServerAuthenticationConstants.TOKEN_LENGTH && token != ServerAuthenticationConstants.TOKEN_CODE_INVALID
-        if (isTokenSetInPreferences) {
-            CheckTokenTask(this)
-                .execute(token, username)
-        } else {
-            startSignInWorkflow()
-        }
-    }
-
-    override fun onTokenCheckComplete(tokenValid: Boolean, connectionFailed: Boolean) {
-        if (connectionFailed) {
-            if (!tokenValid) {
-                ToastUtil.showError(this, R.string.error_session_expired)
-                Utils.logoutUser(this)
-                startSignInWorkflow()
-            } else {
-                ToastUtil.showError(this, R.string.error_internet_connection)
-                return
-            }
-        } else if (!tokenValid) {
+        if (!loginRepository.isLoggedIn()) {
             startSignInWorkflow()
             return
         }
-        onCreateView()
+        verifyTokenJob = CoroutineScope(dispatcherProvider.io).launch {
+            val isValid = loginRepository.validateToken()
+            withContext(dispatcherProvider.main) {
+                if (isValid) {
+                    onCreateView()
+                } else {
+                    loginRepository.clearLocalSession()
+                    startSignInWorkflow()
+                }
+            }
+        }
     }
 
     fun startSignInWorkflow() {
@@ -625,13 +672,17 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun getTags() {
-        val getTagsTask = GetTagsTask()
-        getTagsTask.setOnTagsResponseListener(this)
-        getTagsTask.execute()
-    }
-
-    override fun onTagsReceived(tags: List<String>) {
-        this.tags = tags
+        CoroutineScope(dispatcherProvider.io).launch {
+            try {
+                val response = webService.getProjectTags().execute()
+                if (response.isSuccessful) {
+                    val tagNames = response.body()?.data?.map { it.text } ?: emptyList()
+                    withContext(dispatcherProvider.main) { this@ProjectUploadActivity.tags = tagNames }
+                }
+            } catch (_: Exception) {
+                // Tags are optional
+            }
+        }
     }
 
     inner class NameInputTextWatcher : TextWatcher {
@@ -652,7 +703,9 @@ open class ProjectUploadActivity : BaseActivity(),
                     .contains(name)
             ) {
                 getString(R.string.name_already_exists)
-            } else null
+            } else {
+                null
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit

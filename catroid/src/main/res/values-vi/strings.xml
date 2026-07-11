@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Vui lòng đợi</string>
     <string formatted="false" name="search_hint">Tìm kiếm</string>
     <string formatted="false" name="backpack_add">Thêm vào ba lô</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Dự án bạn vừa tải xuống sẽ nghe giọng nói của bạn khi chạy ngầm và còn gửi dữ liệu lên internet. Điều này có thể vô hại và cần thiết để dự án hoạt động đúng như dự định. Tuy nhiên, hãy chắc chắn rằng những gì bạn nói trong lúc dự án đang chạy là an toàn. Nếu còn nghi ngờ, hãy xóa dự án đã tải xuống. Nếu bạn chắc chắn rằng dự án có hại, bạn cũng có thể báo cáo dự án trên trang của nó tại nền tảng cộng đồng Catrobat.</string>
     <!-- Replace Api dialog -->

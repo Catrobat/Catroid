@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">しばらくお待ちください</string>
     <string formatted="false" name="search_hint">検索</string>
     <string formatted="false" name="backpack_add">バックパックに追加</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ダウンロードしたプロジェクトは、バックグラウンドであなたの声を聞き、インターネットにデータを送信します。これは問題のない動作で、プロジェクトに必要なものかもしれません。ただし、プロジェクトの実行中に話す内容が知られても安全であることを確認してください。疑わしい場合は、ダウンロードしたプロジェクトを削除してください。有害であることが確かな場合は、Catrobat コミュニティプラットフォームのプロジェクトページで報告することもできます。</string>
     <!-- Replace Api dialog -->

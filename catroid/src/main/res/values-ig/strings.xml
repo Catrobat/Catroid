@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Biko chere</string>
     <string formatted="false" name="search_hint">Chọọ</string>
     <string formatted="false" name="backpack_add">Tinye n\'akpa azụ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ọrụ ị budatara na-ege olu gị n\'azụ ma na-ezigakwa data n\'ịntanetị. Nke a nwere ike ịbụ ihe na-adịghị njọ, nke dị mkpa maka ihe ọ na-eme. Otú ọ dị, biko hụ na ihe ị na-ekwu mgbe ọrụ ahụ na-agba dị mma. Ọ bụrụ na obi abụọ dị gị, biko hichapụ ọrụ ị budatara. Ị nwekwara ike ịkọ banyere ọrụ ahụ na peeji ya n\'ikpo okwu obodo Catrobat ma ọ bụrụ na o doro gị anya na ọ na-emerụ ahụ.</string>
     <!-- Replace Api dialog -->

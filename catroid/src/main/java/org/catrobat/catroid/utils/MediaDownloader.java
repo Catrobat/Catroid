@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -52,7 +53,6 @@ public final class MediaDownloader {
 		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG, new DownloadMediaReceiver(new Handler()));
 		downloadIntent.putExtra(MediaDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(MediaDownloadService.MEDIA_FILE_PATH, filePath);
-		webViewActivity.createProgressDialog(mediaName);
 		webViewActivity.setResultIntent(webViewActivity.getResultIntent()
 				.putExtra(WebViewActivity.MEDIA_FILE_PATH, filePath));
 		activity.startService(downloadIntent);
@@ -75,13 +75,12 @@ public final class MediaDownloader {
 			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
 				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
 				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
-				if (endOfFileReached) {
-					progress = 100;
+				if (endOfFileReached || progress == 100) {
+					webViewActivity.setResult(WebViewActivity.RESULT_OK, webViewActivity.getResultIntent());
+					ToastUtil.showSuccess(webViewActivity, R.string.notification_download_finished);
 				}
-
-				webViewActivity.updateProgressDialog(progress);
 			} else if (resultCode == Constants.UPDATE_DOWNLOAD_ERROR) {
-				webViewActivity.dismissProgressDialog();
+				ToastUtil.showError(webViewActivity, R.string.error_internet_connection);
 			}
 		}
 	}

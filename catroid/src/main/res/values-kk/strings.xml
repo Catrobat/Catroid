@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Күте тұрыңыз</string>
     <string formatted="false" name="search_hint">Іздеу</string>
     <string formatted="false" name="backpack_add">Рюкзакқа салу</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Сіз жүктеп алған жоба фондық режимде дауысыңызды тыңдайды және интернетке деректер жібереді. Бұл зиянсыз болуы және жобаның мақсатына қажет болуы мүмкін. Дегенмен жоба жұмыс істеп тұрғанда айтып жатқан сөздеріңіздің қауіпсіз екеніне көз жеткізіңіз. Күмәніңіз болса, жүктеп алынған жобаны жойыңыз. Егер жобаның зиянды екеніне сенімді болсаңыз, ол туралы Catrobat қауымдастығы платформасындағы жоба бетінде хабарлай аласыз.</string>
     <!-- Replace Api dialog -->

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ</string>
     <string formatted="false" name="search_hint">ಹುಡುಕಿ</string>
     <string formatted="false" name="backpack_add">ಬ್ಯಾಕ್‌ಪ್ಯಾಕ್‌ಗೆ ಸೇರಿಸಿ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ನೀವು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ಪ್ರಾಜೆಕ್ಟ್ ಹಿನ್ನೆಲೆಯಲ್ಲಿ ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ಆಲಿಸುತ್ತದೆ ಮತ್ತು ಇಂಟರ್ನೆಟ್‌ಗೆ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುತ್ತದೆ. ಇದು ಹಾನಿಕರವಲ್ಲದಿರಬಹುದು ಮತ್ತು ಅದರ ಉದ್ದೇಶಿತ ಕೆಲಸಕ್ಕೆ ಅಗತ್ಯವಾಗಿರಬಹುದು. ಆದರೂ, ಪ್ರಾಜೆಕ್ಟ್ ಚಾಲನೆಯಲ್ಲಿರುವಾಗ ನೀವು ಹೇಳುವುದು ಸುರಕ್ಷಿತವಾಗಿದೆಯೇ ಎಂದು ದಯವಿಟ್ಟು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. ಸಂದೇಹವಿದ್ದರೆ, ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು ಅಳಿಸಿ. ಅದು ಹಾನಿಕರ ಎಂದು ನಿಮಗೆ ಖಚಿತವಾಗಿದ್ದರೆ, Catrobat ಸಮುದಾಯ ವೇದಿಕೆಯಲ್ಲಿರುವ ಅದರ ಪುಟದಲ್ಲಿ ಪ್ರಾಜೆಕ್ಟ್ ಬಗ್ಗೆ ವರದಿ ಮಾಡಬಹುದು.</string>
     <!-- Replace Api dialog -->

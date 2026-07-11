@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Моля, изчакай</string>
     <string formatted="false" name="search_hint">Търсене</string>
     <string formatted="false" name="backpack_add">Сложи в раницата</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проектът, който изтегли, слуша гласа ти във фонов режим и изпраща данни в интернет. Това може да е безобидно и необходимо, за да работи проектът както е замислен. Все пак внимавай какво казваш, докато проектът работи. Ако се съмняваш, изтрий изтегления проект. Ако си сигурен, че проектът е вреден, можеш да го докладваш на страницата му в общността на Catrobat.</string>
     <!-- Replace Api dialog -->

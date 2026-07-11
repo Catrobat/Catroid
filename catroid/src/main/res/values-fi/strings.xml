@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Odota hetki</string>
     <string formatted="false" name="search_hint">Hae</string>
     <string formatted="false" name="backpack_add">Lisää reppuun</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Lataamasi projekti kuuntelee ääntäsi taustalla ja lähettää tietoja myös internetiin. Tämä voi olla vaaratonta ja tarpeellista projektin toiminnan kannalta. Varmista kuitenkin, että se, mitä sanot projektin ollessa käynnissä, on turvallista. Jos olet epävarma, poista ladattu projekti. Jos olet varma, että projekti on haitallinen, voit myös ilmoittaa siitä projektin sivulla Catrobat-yhteisöalustalla.</string>
     <!-- Replace Api dialog -->

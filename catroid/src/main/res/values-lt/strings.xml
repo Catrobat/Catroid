@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Palauk</string>
     <string formatted="false" name="search_hint">Ieškoti</string>
     <string formatted="false" name="backpack_add">Įdėti į kuprinę</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projektas, kurį atsisiuntei, fone klausosi tavo balso ir siunčia duomenis į internetą. Tai gali būti nekenksminga ir reikalinga, kad projektas veiktų taip, kaip numatyta. Vis dėlto pasirūpink, kad tai, ką sakai, kol projektas veikia, būtų saugu. Jei abejoji, ištrink atsisiųstą projektą. Jei neabejoji, kad projektas kenksmingas, gali apie jį pranešti jo puslapyje Catrobat bendruomenės platformoje.</string>
     <!-- Replace Api dialog -->

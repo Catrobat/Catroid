@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,11 +45,22 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import okhttp3.OkHttpClient
+import okhttp3.mockwebserver.Dispatcher
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
 import org.catrobat.catroid.db.AppDatabase
+import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofittesting.MockResponseFileReader
+import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
+import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.test.utils.TestUtils
@@ -69,13 +80,35 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
+import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.net.HttpURLConnection
 
 @RunWith(AndroidJUnit4::class)
 class MainMenuFragmentTest : KoinTest {
+
+    companion object {
+        private const val FEATURED_PROJECTS_FIXTURE = "featured_projects_success_response.json"
+        private const val PROJECTS_CATEGORIES_FIXTURE = "projects_categories_response.json"
+    }
+
     private var privacyPreferenceSetting: Int = 0
     private lateinit var applicationContext: Context
+    private lateinit var mockWebServer: MockWebServer
+    private val testKoinModule = module {
+        single<WebService>(override = true) { buildCleartextWebService() }
+        single<FeaturedProjectsSync>(override = true) {
+            DefaultFeaturedProjectSync(get(), get(), get())
+        }
+        single<ProjectsCategoriesSync>(override = true) {
+            DefaultProjectsCategoriesSync(get(), get(), get())
+        }
+    }
 
     private val connectionMonitor: NetworkConnectionMonitor by inject()
     private val appDatabase: AppDatabase by inject()
@@ -105,11 +138,16 @@ class MainMenuFragmentTest : KoinTest {
                 CATROBAT_TERMS_OF_USE_ACCEPTED
             ).commit()
 
+        startMockServer()
+        loadKoinModules(testKoinModule)
+
         createProject()
     }
 
     @After
     fun tearDown() {
+        unloadKoinModules(testKoinModule)
+        mockWebServer.shutdown()
         TestUtils.deleteProjects(javaClass.simpleName)
         PreferenceManager.getDefaultSharedPreferences(applicationContext)
             .edit()
@@ -130,15 +168,15 @@ class MainMenuFragmentTest : KoinTest {
     @Test
     fun testCatrobatCommunitySectionIsDisplayed() {
         syncBeforeLaunch()
-        onView(withId(R.id.featuredProjectsTextView))
+        onView(withId(R.id.exploreShareTextView))
             .check(matches(isDisplayed()))
             .check(matches(isClickable()))
+
+        assumeTrue("no featured projects available", featuredProjectsAdapter.itemCount > 0)
 
         onView(withId(R.id.featuredProjectsRecyclerView))
             .perform(scrollTo())
             .check(matches(isDisplayed()))
-
-        assumeTrue("seems there is no internet connection", featuredProjectsAdapter.itemCount > 0)
     }
 
     @Test
@@ -225,9 +263,42 @@ class MainMenuFragmentTest : KoinTest {
 
     private fun syncBeforeLaunch(triggerSync: Boolean = true) {
         if (triggerSync) {
+            connectionMonitor.setValueTo(true)
             featuredProjectsSync.sync(true)
             projectsCategoriesSync.sync(true)
         }
         baseActivityTestRule.launchActivity(null)
     }
+
+    private fun startMockServer() {
+        mockWebServer = MockWebServer()
+        mockWebServer.dispatcher = object : Dispatcher() {
+            override fun dispatch(request: RecordedRequest): MockResponse {
+                val path = request.path.orEmpty()
+                return when {
+                    path.startsWith("/projects/featured") ->
+                        okResponse(FEATURED_PROJECTS_FIXTURE)
+                    path.startsWith("/projects/categories") ->
+                        okResponse(PROJECTS_CATEGORIES_FIXTURE)
+                    else -> MockResponse().setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
+                }
+            }
+        }
+        mockWebServer.start()
+    }
+
+    private fun okResponse(fixtureFile: String): MockResponse {
+        val instrumentationContext = InstrumentationRegistry.getInstrumentation().context
+        return MockResponse()
+            .setResponseCode(HttpURLConnection.HTTP_OK)
+            .setBody(MockResponseFileReader(instrumentationContext, fixtureFile).content)
+    }
+
+    private fun buildCleartextWebService(): WebService =
+        Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/").toString())
+            .client(OkHttpClient.Builder().build())
+            .addConverterFactory(MoshiConverterFactory.create(CatroidWebServer.moshi))
+            .build()
+            .create(WebService::class.java)
 }

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Sila tunggu</string>
     <string formatted="false" name="search_hint">Cari</string>
     <string formatted="false" name="backpack_add">Tambah ke beg galas</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projek yang anda muat turun mendengar suara anda di latar belakang dan juga menghantar data ke internet. Ini mungkin tidak berbahaya dan diperlukan untuk fungsinya. Walau bagaimanapun, pastikan apa yang anda katakan semasa projek berjalan adalah selamat. Jika ragu-ragu, sila padamkan projek yang dimuat turun. Anda juga boleh melaporkan projek itu di halamannya pada platform komuniti Catrobat jika anda pasti bahawa ia berbahaya.</string>
     <!-- Replace Api dialog -->
