@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@ public class ReplaceExistingProjectDialogTest {
 
 	String[] projectNames = {"Project1", "Project2", "Project3"};
 
-	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+	private static final String URL = "https://share.catrobat.org/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
 
 	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
 

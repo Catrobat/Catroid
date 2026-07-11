@@ -120,7 +120,7 @@ class MainMenuFragment : Fragment(),
         binding.myProjectsTextView.setOnClickListener(this)
         binding.projectImageView.setOnClickListener(this)
         binding.playProject.setOnClickListener(this)
-        binding.featuredProjectsTextView.setOnClickListener(this)
+        binding.exploreShareTextView.setOnClickListener(this)
 
         setFragment(this)
 
@@ -155,6 +155,7 @@ class MainMenuFragment : Fragment(),
                 binding.categoriesRecyclerView.setVisibleOrGone(!showNoInternetLayout)
 
                 featuredProjectsAdapter.setItems(featuredProjectsList)
+                binding.featuredProjectsRecyclerView.setVisibleOrGone(featuredProjectsList.isNotEmpty())
                 binding.featuredProjectsRecyclerView.itemsCount = featuredProjectsList.size
 
                 categoriesAdapter.setItems(projectsCategoriesList)
@@ -318,9 +319,9 @@ class MainMenuFragment : Fragment(),
                 startActivity(Intent(activity, ProjectListActivity::class.java))
             }
 
-            R.id.featuredProjectsTextView -> {
+            R.id.exploreShareTextView -> {
                 viewModel.setIsLoading(true)
-                startActivity(Intent(activity, WebViewActivity::class.java))
+                openWebView(Constants.MAIN_URL_HTTPS)
             }
         }
     }

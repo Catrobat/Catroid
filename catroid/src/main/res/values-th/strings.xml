@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026  The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">โปรดรอสักครู่</string>
     <string formatted="false" name="search_hint">ค้นหา…</string>
     <string formatted="false" name="backpack_add">จัดเก็บชุดคำสั่ง</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">โครงการที่คุณดาวน์โหลดไว้ฟังเสียงของคุณ
          อยู่เบื้องหลังและส่งข้อมูลไปยังอินเทอร์เน็ต สิ่งนี้อาจไม่เป็นอันตรายและจำเป็น
