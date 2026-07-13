@@ -172,6 +172,9 @@
     <string formatted="false" name="preference_title_ai_object_recognition">Object recognition</string>
     <string formatted="false" name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
 
+    <string formatted="false" name="preference_title_ai_tutor">AI Tutor extension</string>
+    <string formatted="false" name="preference_description_ai_tutor">Enable the AI Tutor assistant in the script editor</string>
+
     <string formatted="false" name="preference_title_accessibility">Accessibility</string>
     <string formatted="false" name="preference_description_accessibility">Change the app\'s appearance</string>
     <string formatted="false" name="preference_title_accessibility_profiles">Accessibility profiles</string>
