@@ -454,7 +454,7 @@ class ProjectListFragment(
                 if (restored) {
                     ToastUtil.showSuccess(requireContext(), R.string.restored_project)
                     showUndo(false)
-                    getLocalProjectListAsync(object: LoadProjectsListener {
+                    getLocalProjectListAsync(object : LoadProjectsListener {
                         override fun onProjectsLoaded() {
                             setAdapterItems(adapter.projectsSorted)
                             setShowProgressBar(false)
