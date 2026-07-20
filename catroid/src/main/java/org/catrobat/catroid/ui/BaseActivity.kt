@@ -55,7 +55,6 @@ internal const val RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH"
 abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     lateinit var optionsMenu: Menu
     private val permissionRequestActivityExtension = PermissionRequestActivityExtension()
-    protected var savedInstanceStateExpected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,9 +93,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     }
 
     private fun checkIfProcessRecreatedAndFinishActivity(savedInstanceState: Bundle?) {
-        if (savedInstanceStateExpected || savedInstanceState == null || this is MainMenuActivity) {
-            savedInstanceStateExpected = true
-        } else {
+        if (savedInstanceState != null && this !is MainMenuActivity) {
             val activityName = javaClass.simpleName
             Log.e(
                 activityName,
