@@ -91,6 +91,7 @@ class CategoryListItems {
         addAll(getPoseSensorItems(activity))
         addAll(getTextSensorItems(activity))
         addAll(getObjectDetectionSensorItems(activity))
+        addAll(getFaceRecognitionSensorItems(activity))
         addAll(getDeviceSensorItems(activity))
         addAll(getTouchDetectionSensorItems(activity))
         addAll(getDateTimeSensorItems(activity))
@@ -370,6 +371,19 @@ class CategoryListItems {
             addHeader(
                 toCategoryListItems(activity, SENSORS_OBJECT_DETECTION),
                 activity.getString(R.string.formula_editor_device_object_recognition)
+            )
+        } else {
+            emptyList()
+        }
+    }
+    private fun getFaceRecognitionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+        return if (SettingsFragment.isAIFaeRecognitionSharedPreferenceEnabled(
+                activity.applicationContext
+            )
+        ) {
+            addHeader(
+                toCategoryListItems(activity, SENSORS_AI_FACE_DETECTION),
+                activity.getString(R.string.formula_editor_device_face_recognition)
             )
         } else {
             emptyList()
@@ -839,6 +853,9 @@ class CategoryListItems {
         private val SENSORS_OBJECT_DETECTION = listOf(
             R.string.formula_editor_function_get_id_of_detected_object,
             R.string.formula_editor_function_object_with_id_visible
+        )
+        private val SENSORS_AI_FACE_DETECTION = listOf(
+            R.string.formula_editor_sensor_on_device_face_detected
         )
         private val SENSORS_DATE_TIME = listOf(
             R.string.formula_editor_sensor_timer,

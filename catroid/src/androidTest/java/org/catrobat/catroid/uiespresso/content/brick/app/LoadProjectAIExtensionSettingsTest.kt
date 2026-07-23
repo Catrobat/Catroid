@@ -124,6 +124,7 @@ import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
@@ -698,6 +699,7 @@ class LoadProjectAIExtensionSettingsTest(
         SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
         SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
         SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+        SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS,
         SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
     )

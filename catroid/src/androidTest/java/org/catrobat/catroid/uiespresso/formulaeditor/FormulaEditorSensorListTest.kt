@@ -824,8 +824,10 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+
         )
     }
 }

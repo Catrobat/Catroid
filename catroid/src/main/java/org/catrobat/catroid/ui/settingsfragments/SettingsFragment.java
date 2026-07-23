@@ -94,7 +94,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS = "setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recognition";
 	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS = "setting_ai_object_detection";
-
+	public static final String SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS = "setting_ai_on_device_face_detection";
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
@@ -359,7 +359,15 @@ public class SettingsFragment extends PreferenceFragment {
 				.putBoolean(SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, value)
 				.apply();
 	}
+	public static boolean isAIFaeRecognitionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS, context);
+	}
 
+	public static void setAIFaceRecognitionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS, value)
+				.apply();
+	}
 	public static boolean isAIPoseDetectionSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS, context);
 	}

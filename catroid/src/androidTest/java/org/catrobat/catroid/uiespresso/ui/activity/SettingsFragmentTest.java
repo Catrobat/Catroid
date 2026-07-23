@@ -72,6 +72,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MULTIPLAYER_VARIABLES_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
@@ -123,6 +124,7 @@ public class SettingsFragmentTest {
 			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
 			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
+			SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
@@ -270,6 +272,8 @@ public class SettingsFragmentTest {
 				SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS);
 		checkPreference(R.string.preference_title_ai_face_detection,
 				SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS);
+		checkPreference(R.string.preference_title_ai_face_recognition,
+				SETTINGS_SHOW_AI_FACE_RECOGNITION_SENSORS);
 		checkPreference(R.string.preference_title_ai_pose_detection,
 				SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS);
 		checkPreference(R.string.preference_title_ai_text_recognition,

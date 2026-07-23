@@ -143,7 +143,7 @@
     <string formatted="false" name="preference_title">Settings</string>
     <string formatted="false" name="preference_title_language">Language</string>
     <string formatted="false" name="preference_description_language">Set the app\'s language</string>
-
+ <string name="formula_editor_sensor_on_device_object_detected" formatted="false">on-device object name detection</string>
     <string formatted="false" name="preference_title_web_access">Web access</string>
     <string formatted="false" name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string formatted="false" name="preference_screen_web_access_title">Edit trusted domains</string>
@@ -160,6 +160,11 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
         detection</string>
+        <string formatted="false" name="preference_title_ai_face_recognition">Face name
+        recognition</string>
+     <string formatted="false" name="preference_description_ai_face_recognition">Enable
+        face name recognition bricks and sensors</string>
+
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
@@ -2008,6 +2013,10 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+     <string formatted="false" name="formula_editor_device_face_recognition">Face name
+         recognition</string>
+    <string name="formula_editor_sensor_on_device_face_detected" formatted="false">Face name
+        recognizer</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
