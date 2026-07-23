@@ -91,6 +91,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS = "setting_ai_speech_recognition";
 	public static final String SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS = "setting_ai_speech_synthetization";
 	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS = "setting_ai_face_detection";
+	public static final String SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS =
+			"setting_ai_face_name_detection";
 	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS = "setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recognition";
 	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS = "setting_ai_object_detection";
@@ -357,6 +359,16 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setAIFaceDetectionPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, value)
+				.apply();
+	}
+	public static boolean isAIFaceNameDetectionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+				context);
+	}
+
+	public static void setAIFaceNameDetectionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS, value)
 				.apply();
 	}
 

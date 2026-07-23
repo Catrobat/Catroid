@@ -88,6 +88,7 @@ class CategoryListItems {
         addAll(getCastGamepadSensorItems(activity))
         addAll(getSpeechRecognitionItems(activity))
         addAll(getFaceSensorItems(activity))
+        addAll(getFaceNameSensorItems(activity))
         addAll(getPoseSensorItems(activity))
         addAll(getTextSensorItems(activity))
         addAll(getObjectDetectionSensorItems(activity))
@@ -315,6 +316,21 @@ class CategoryListItems {
                 toCategoryListItems(
                     activity, SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS
                 ), activity.getString(R.string.formula_editor_device_face_detection)
+            )
+        } else {
+            emptyList()
+        }
+    }
+    private fun getFaceNameSensorItems(activity: Activity): List<CategoryListRVAdapter
+        .CategoryListItem> {
+        return if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(
+                activity.applicationContext
+            )
+        ) {
+            addHeader(
+                toCategoryListItems(
+                    activity, SENSORS_FACE_NAME_DETECTION, SENSORS_FACE_NAME_DETECTION_PARAMS
+                ), activity.getString(R.string.formula_editor_device_face_name_detection)
             )
         } else {
             emptyList()
@@ -620,6 +636,13 @@ class CategoryListItems {
             R.string.formula_editor_function_no_parameter,
             R.string.formula_editor_function_no_parameter,
             R.string.formula_editor_function_no_parameter,
+            R.string.formula_editor_function_no_parameter
+        )
+        private val SENSORS_FACE_NAME_DETECTION = listOf(
+            R.string.formula_editor_sensor_face_name_detected
+
+        )
+        private val SENSORS_FACE_NAME_DETECTION_PARAMS = listOf(
             R.string.formula_editor_function_no_parameter
         )
         private val SENSORS_POSE_DETECTION = listOf(
