@@ -245,6 +245,7 @@
         <activity
             android:name=".visualplacement.VisualPlacementActivity"/>
 
+
         <activity
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"

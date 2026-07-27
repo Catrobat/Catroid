@@ -80,6 +80,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.FaceNameTrain
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -767,6 +768,7 @@ open class CategoryBricksFactory {
             deviceBrickList.add(ChooseCameraBrick())
             deviceBrickList.add(FlashBrick())
         }
+        deviceBrickList.add(FaceNameTrain())
         deviceBrickList.add(WriteVariableOnDeviceBrick())
         deviceBrickList.add(ReadVariableFromDeviceBrick())
         deviceBrickList.add(WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))

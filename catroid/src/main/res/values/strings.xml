@@ -143,7 +143,7 @@
     <string formatted="false" name="preference_title">Settings</string>
     <string formatted="false" name="preference_title_language">Language</string>
     <string formatted="false" name="preference_description_language">Set the app\'s language</string>
-
+    <string name="brick_face_name" formatted="false">Add Face Sample and Train</string>
     <string formatted="false" name="preference_title_web_access">Web access</string>
     <string formatted="false" name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string formatted="false" name="preference_screen_web_access_title">Edit trusted domains</string>
@@ -166,6 +166,8 @@
         face detection bricks and sensors</string>
         <string formatted="false" name="preference_description_ai_face_name_detection">Enable
         face name detection bricks and sensors</string>
+       <string name="formula_editor_sensor_on_device_face_detected" formatted="false">Face
+           name detection</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -890,6 +892,8 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+      <string formatted="false" name="prestage_no_face_name_detection_available">\u2022
+          AI face name detection\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -1884,7 +1888,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_index_of_last_finger">last stage touch index</string>
     <string formatted="false" name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string formatted="false" name="formula_editor_function_index_of_current_touch">index of current touch</string>
-    <string formatted="false" name="formula_editor_function_no_parameter"></string>
+       <string name="formula_editor_function_no_parameter" formatted="false"></string>
     <string formatted="false" name="formula_editor_function_touch_parameter">(1)</string>
     <string formatted="false" name="formula_editor_function_list_item">item</string>
     <string formatted="false" name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
@@ -2333,4 +2337,30 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <!-- Face Train -->
+    <string name="face_train_title">Add Photos</string>
+    <string name="face_train_add_new_name">Add new name</string>
+    <string name="face_train_no_names">No names yet.</string>
+
+    <string name="face_train_new_name_title">Add new name</string>
+    <string name="face_train_name_hint">Enter a name</string>
+    <string name="face_train_name_subtitle">Type the name, then choose photos of that person</string>
+    <string name="face_train_name_required">Name required</string>
+    <string name="face_train_next">Next</string>
+    <string name="face_train_cancel">Cancel</string>
+
+    <string name="face_train_delete_title">Delete name?</string>
+    <string name="face_train_delete_message">Delete \"%1$s\" and all of its photos?</string>
+    <string name="face_train_yes">Yes</string>
+    <string name="face_train_no">No</string>
+
+    <string name="face_train_progress_title">Training</string>
+    <string name="face_train_progress_photo">Photo %1$d of %2$d</string>
+    <string name="face_train_success">Trained successfully</string>
+    <string name="face_train_no_face">No face found in the selected photos</string>
+    <string name="face_train_error">Training failed: %1$s</string>
+    <string name="face_train_no_photos">No photos selected</string>
+
+    <string name="face_train_ok">OK</string>
+
 </resources>

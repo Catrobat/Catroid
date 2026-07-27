@@ -63,6 +63,8 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FaceNameDetectAction;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
@@ -257,7 +259,14 @@ public class ActionFactory extends Actions {
 		action.setDelay(delay);
 		return action;
 	}
-
+	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
+		FaceNameTrainAction action = new FaceNameTrainAction();
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		return action;
+	}
+	public Action faceNameDetectAction(Sprite sprite, SequenceAction sequence) {
+		return new FaceNameDetectAction();
+	}
 	public Action createWaitForSoundAction(Sprite sprite, SequenceAction sequence, Formula delay,
 			String soundFilePath) {
 		WaitForSoundAction action = action(WaitForSoundAction.class);

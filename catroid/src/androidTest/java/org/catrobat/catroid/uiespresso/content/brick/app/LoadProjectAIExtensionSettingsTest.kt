@@ -163,12 +163,13 @@ class LoadProjectAIExtensionSettingsTest(
             *speechRecognitionList,
             *speechSynthetizationList,
             *faceDetectionList,
+            *facenamedetectionList,
             *poseDetectionList,
             *textRecognitionList
         )
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
-
+        private var on_Device_Face_Recognition = FormulaElement(SENSOR, Sensors.On_Device_Face_Recognition.name, null)
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
         private var faceXPosition = FormulaElement(SENSOR, FACE_X.name, null)
@@ -286,7 +287,12 @@ class LoadProjectAIExtensionSettingsTest(
                 SpeakAndWaitBrick()
             )
         )
-
+        private val facenamedetectionList = arrayOf(
+            arrayOf(
+                "Face Detection faceDetected", SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(on_Device_Face_Recognition))
+            )
+        )
         private val faceDetectionList = arrayOf(
             arrayOf(
                 "Face Detection faceDetected", SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,

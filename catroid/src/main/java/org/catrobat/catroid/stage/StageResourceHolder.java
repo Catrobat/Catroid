@@ -36,6 +36,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
+import org.catrobat.catroid.FaceRecognizer.FaceDetector;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -74,7 +75,7 @@ import static org.koin.java.KoinJavaComponent.get;
 
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
-
+	private static final int REQUEST_FACE_NAME_RECOG = 4242;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int REQUEST_GPS = 1;
 
@@ -98,6 +99,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initResources() {
+		FaceDetector.resetForNewRun();
 		failedResources = new HashSet<>();
 		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
@@ -238,6 +240,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
+		if (requiredResourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
+			resourceInitialized();
+		}
 
 		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {
 			if (getCameraManager().startDetection()) {
@@ -341,6 +346,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initFinishedRunStage() {
+		FaceDetector.setScriptRunning(true);      // add as the first line
+		try {
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
 		try {
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 		} catch (MindstormsException e) {
@@ -450,6 +461,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_face_detection_available));
 					break;
+				case Brick.FACE_NAME_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_face_name_detection_available));
+					break;
 				case Brick.OBJECT_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_object_detection_available));
@@ -482,6 +497,16 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (org.catrobat.catroid.content.actions.FaceNameTrainAction
+				.ownsRequestCode(requestCode)) {
+			org.catrobat.catroid.content.actions.FaceNameTrainAction action =
+					org.catrobat.catroid.content.actions.FaceNameTrainAction
+							.getCurrentInstance();
+			if (action != null) {
+				action.handleResult(requestCode, resultCode, data);
+			}
+			return;
+		}
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
@@ -501,6 +526,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					resourceFailed(Brick.SENSOR_GPS);
 				}
 				break;
+
 			default:
 				endStageActivity();
 				break;

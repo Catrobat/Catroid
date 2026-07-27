@@ -54,6 +54,7 @@ object FormulaElementResources {
             Sensors.TEXT_BLOCK_Y,
             Sensors.TEXT_BLOCK_SIZE,
             Sensors.TEXT_BLOCK_FROM_CAMERA,
+            Sensors.On_Device_Face_Recognition-> Brick.FACE_NAME_DETECTION
             Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA -> Brick.TEXT_DETECTION
 
             Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
