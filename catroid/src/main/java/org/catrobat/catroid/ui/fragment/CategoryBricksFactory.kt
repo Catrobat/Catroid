@@ -27,6 +27,7 @@ import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.BrickValues
+import org.catrobat.catroid.common.BrickValues.GLIDE_SECONDS
 import org.catrobat.catroid.content.BroadcastScript
 import org.catrobat.catroid.content.RaspiInterruptScript
 import org.catrobat.catroid.content.WhenBounceOffScript
@@ -87,6 +88,7 @@ import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
+import org.catrobat.catroid.content.bricks.GlideToPositionBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.GoThroughBrick
@@ -477,9 +479,9 @@ open class CategoryBricksFactory {
             GlideToBrick(
                 BrickValues.X_POSITION,
                 BrickValues.Y_POSITION,
-                BrickValues.GLIDE_SECONDS
-            )
+                GLIDE_SECONDS)
         )
+        motionBrickList.add(GlideToPositionBrick(GLIDE_SECONDS))
         if (!isBackgroundSprite) {
             motionBrickList.add(GoNStepsBackBrick(BrickValues.GO_BACK))
             motionBrickList.add(ComeToFrontBrick())
