@@ -157,6 +157,8 @@ public final class Constants {
 
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;
+	public static final int ERROR_UNAUTHORIZED = 401;
+	public static final int ERROR_FORBIDDEN = 403;
 	public static final int ERROR_TOO_MANY_REQUESTS = 429;
 	public static final int ERROR_SERVER_ERROR = 500;
 	public static final int ERROR_TIMEOUT = 504;
