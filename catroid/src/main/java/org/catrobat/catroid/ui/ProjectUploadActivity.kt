@@ -95,6 +95,12 @@ private const val BYTES_PER_MB = 1024 * 1024
 private const val UPLOAD_RATING_THRESHOLD = 2
 private val TAG = ProjectUploadActivity::class.java.simpleName
 
+// Markers of the account-state errors the API returns with HTTP 403
+private const val API_ERROR_VERIFICATION = "verification"
+private const val API_ERROR_SUSPENDED = "suspended"
+private const val API_ERROR_CONSENT = "consent"
+private const val API_ERROR_REGISTRATION = "registration"
+
 const val PROJECT_DIR = "projectDir"
 const val SIGN_IN_CODE = 42
 const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
@@ -536,19 +542,44 @@ open class ProjectUploadActivity : BaseActivity(),
         }
     }
 
-    private fun handleUploadFailure(errorCode: Int) {
+    private fun handleUploadFailure(errorCode: Int, errorMessage: String?) {
         val dialog = uploadProgressDialog ?: return
         dialog.findViewById<View>(R.id.dialog_upload_progress_progressbar)?.visibility = View.GONE
         dialog.findViewById<View>(R.id.dialog_upload_progress_percent)?.visibility = View.GONE
         dialog.findViewById<View>(R.id.dialog_upload_processing_container)?.visibility = View.GONE
         val failedMessage = dialog.findViewById<TextView>(R.id.dialog_upload_message_failed)
         failedMessage?.visibility = View.VISIBLE
-        if (errorCode == Constants.ERROR_TOO_MANY_REQUESTS) {
-            failedMessage?.setText(R.string.error_project_upload_rate_limit)
-        }
+        failedMessage?.text = uploadFailureText(errorCode, errorMessage)
         val image = dialog.findViewById<ImageView>(R.id.dialog_upload_progress_image)
         image?.setImageResource(R.drawable.ic_upload_failed)
         image?.visibility = View.VISIBLE
+    }
+
+    /**
+     * The API rejects writes for accounts that are not usable yet (unverified e-mail, missing
+     * parental consent, suspension). Those are not outages, so they must not be reported as
+     * "try again later" -- the user has to act on them.
+     */
+    private fun uploadFailureText(errorCode: Int, errorMessage: String?): CharSequence = when {
+        errorCode == Constants.ERROR_TOO_MANY_REQUESTS ->
+            getString(R.string.error_project_upload_rate_limit)
+        errorCode == Constants.ERROR_UNAUTHORIZED ->
+            getString(R.string.error_project_upload_login_required)
+        errorCode == Constants.ERROR_FORBIDDEN && errorMessage != null ->
+            getString(accountStateMessageId(errorMessage))
+        else -> getString(R.string.progress_upload_dialog_failed)
+    }
+
+    private fun accountStateMessageId(errorMessage: String): Int = when {
+        errorMessage.contains(API_ERROR_VERIFICATION, ignoreCase = true) ->
+            R.string.error_project_upload_verify_email
+        errorMessage.contains(API_ERROR_SUSPENDED, ignoreCase = true) ->
+            R.string.error_project_upload_account_suspended
+        errorMessage.contains(API_ERROR_CONSENT, ignoreCase = true) ->
+            R.string.error_project_upload_parental_consent
+        errorMessage.contains(API_ERROR_REGISTRATION, ignoreCase = true) ->
+            R.string.error_project_upload_complete_registration
+        else -> R.string.progress_upload_dialog_failed
     }
 
     override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
@@ -558,7 +589,10 @@ open class ProjectUploadActivity : BaseActivity(),
         }
 
         if (resultCode != Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || uploadProgressDialog?.isShowing == false) {
-            handleUploadFailure(resultData?.getInt(ProjectUploadService.EXTRA_ERROR_CODE, 0) ?: 0)
+            handleUploadFailure(
+                resultData?.getInt(ProjectUploadService.EXTRA_ERROR_CODE, 0) ?: 0,
+                resultData?.getString(ProjectUploadService.EXTRA_ERROR_MESSAGE)
+            )
             return
         }
 

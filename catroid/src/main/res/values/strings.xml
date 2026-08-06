@@ -1458,6 +1458,11 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
     <string formatted="false" name="error_project_upload_rate_limit">Too many uploads. Please wait a few minutes and try again.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Please confirm your e-mail address before sharing a project. We sent you a confirmation link.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Your account has been suspended, so you cannot share projects at the moment.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Your parents still have to confirm your account before you can share projects.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Please complete your registration before sharing a project.</string>
+    <string formatted="false" name="error_project_upload_login_required">Your session has expired. Please log in again and retry the upload.</string>
     <string formatted="false" name="error_project_too_large_for_upload">Project size %1$s exceeds the %2$s MB upload limit. Please reduce the project size before sharing.</string>
     <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>

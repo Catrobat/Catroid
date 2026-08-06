@@ -125,7 +125,10 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
                 StatusBarNotificationManager(applicationContext)
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
-                val errorResult = Bundle().apply { putInt(EXTRA_ERROR_CODE, errorCode) }
+                val errorResult = Bundle().apply {
+                    putInt(EXTRA_ERROR_CODE, errorCode)
+                    putString(EXTRA_ERROR_MESSAGE, errorMessage)
+                }
                 resultReceiver.send(0, errorResult)
             }
         )
@@ -182,5 +185,6 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
     companion object {
         private val TAG = ProjectUploadService::class.java.simpleName
         const val EXTRA_ERROR_CODE = "errorCode"
+        const val EXTRA_ERROR_MESSAGE = "errorMessage"
     }
 }

@@ -24,9 +24,11 @@
 package org.catrobat.catroid.transfers.project
 
 import android.util.Log
+import com.squareup.moshi.JsonDataException
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
@@ -34,7 +36,9 @@ import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_WIDTH
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.models.ApiErrorResponse
 import org.catrobat.catroid.utils.ImageEditing
 import org.catrobat.catroid.utils.ProjectIdUtils
 import org.catrobat.catroid.utils.Utils
@@ -97,12 +101,28 @@ class ProjectUpload(
                     Log.w(TAG, "Failed to delete project archive: ${projectArchive.absolutePath}")
                 }
             } else {
-                val errorBody = response.errorBody()?.string() ?: UPLOAD_FAILED_MESSAGE
-                errorCallback(response.code(), errorBody)
+                errorCallback(response.code(), extractErrorMessage(response.errorBody()))
             }
         } catch (e: IOException) {
             Log.e(TAG, UPLOAD_FAILED_MESSAGE, e)
             errorCallback(UPLOAD_NETWORK_ERROR, e.message ?: UPLOAD_FAILED_MESSAGE)
+        }
+    }
+
+    private fun extractErrorMessage(errorBody: ResponseBody?): String {
+        val raw = errorBody?.string()
+        if (raw.isNullOrBlank()) {
+            return UPLOAD_FAILED_MESSAGE
+        }
+        return try {
+            CatroidWebServer.moshi.adapter(ApiErrorResponse::class.java)
+                .fromJson(raw)?.error?.message ?: UPLOAD_FAILED_MESSAGE
+        } catch (e: IOException) {
+            Log.w(TAG, "Could not parse upload error body", e)
+            UPLOAD_FAILED_MESSAGE
+        } catch (e: JsonDataException) {
+            Log.w(TAG, "Unexpected upload error body", e)
+            UPLOAD_FAILED_MESSAGE
         }
     }
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2026  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -146,6 +146,8 @@ class MainMenuFragmentTest : KoinTest {
 
     @After
     fun tearDown() {
+        // The monitor is a singleton, so a test that goes offline must not leak that to the next.
+        connectionMonitor.setValueTo(true)
         unloadKoinModules(testKoinModule)
         mockWebServer.shutdown()
         TestUtils.deleteProjects(javaClass.simpleName)
@@ -205,23 +207,23 @@ class MainMenuFragmentTest : KoinTest {
     fun testShowNoInternetMsg() {
         appDatabase.featuredProjectDao().deleteAll()
         appDatabase.projectCategoryDao().nukeAll()
-        syncBeforeLaunch(false)
+        // The offline state has to be in place before the fragment subscribes to it, otherwise the
+        // assertions race the observer that hides the community sections.
         connectionMonitor.setValueTo(false)
+        syncBeforeLaunch(false)
+
+        onView(withId(R.id.noInternetLayout))
+            .perform(scrollTo())
+            .check(matches(isDisplayed()))
+
+        onView(withText(R.string.no_internet_connection))
+            .check(matches(isDisplayed()))
 
         onView(withId(R.id.featuredProjectsRecyclerView))
             .check(matches(not(isDisplayed())))
 
         onView(withId(R.id.categoriesRecyclerView))
             .check(matches(not(isDisplayed())))
-
-        onView(withId(R.id.noInternetLayout))
-            .perform(scrollTo(), CustomActions.wait(900))
-            .check(matches(isDisplayed()))
-
-        onView(withText(R.string.no_internet_connection))
-            .check(matches(isDisplayed()))
-
-        connectionMonitor.setValueTo(true)
     }
 
     @Test
@@ -229,7 +231,9 @@ class MainMenuFragmentTest : KoinTest {
         syncBeforeLaunch(false)
         onView(withId(R.id.playProject))
             .perform(ViewActions.click())
+        waitFor()
         pressBack()
+        waitFor()
         pressBack()
         onView(withId(R.id.projectImageView))
             .check(matches(isDisplayed()))

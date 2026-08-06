@@ -23,13 +23,15 @@
 
 package org.catrobat.catroid.transfers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.api.ApiException;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -48,6 +50,8 @@ import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGI
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class GoogleLoginHandler {
+
+	private static final String TAG = GoogleLoginHandler.class.getSimpleName();
 
 	private AppCompatActivity activity;
 	public static final int REQUEST_CODE_GOOGLE_SIGNIN = 100;
@@ -72,17 +76,24 @@ public class GoogleLoginHandler {
 
 	@SuppressWarnings("RestrictedApi")
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE_GOOGLE_SIGNIN) {
-			Task<GoogleSignInAccount> task = getSignedInAccountFromIntent(data);
-			if (task.isSuccessful()) {
-				onGoogleLogInComplete(task.getResult());
-			} else {
-				String errorMsg = task.getException() != null && task.getException().getLocalizedMessage() != null
-						? task.getException().getLocalizedMessage().replace(":", "")
-						: "Unknown error";
-				ToastUtil.showError(activity,
-						String.format(activity.getString(R.string.error_google_plus_sign_in), errorMsg));
-			}
+		if (requestCode != REQUEST_CODE_GOOGLE_SIGNIN) {
+			return;
+		}
+
+		if (resultCode == Activity.RESULT_CANCELED) {
+			Log.i(TAG, "Google sign-in was cancelled by the user");
+			return;
+		}
+
+		try {
+			onGoogleLogInComplete(getSignedInAccountFromIntent(data).getResult(ApiException.class));
+		} catch (ApiException exception) {
+			// The localized message is often null, so always report the status code: it is the
+			// only way to tell a misconfigured OAuth client (10) from a network failure (7).
+			Log.e(TAG, "Google sign-in failed with status " + exception.getStatusCode(), exception);
+			ToastUtil.showError(activity,
+					String.format(activity.getString(R.string.error_google_plus_sign_in),
+							String.valueOf(exception.getStatusCode())));
 		}
 	}
 

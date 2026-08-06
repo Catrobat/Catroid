@@ -311,21 +311,22 @@ public class WebViewActivity extends AppCompatActivity {
 			syncLoginStateFromCookies(url);
 		}
 
+		/**
+		 * Adopts a BEARER token the web session established while browsing. The absence of the
+		 * cookie must never log the app out: the server marks BEARER as HttpOnly and
+		 * {@link CookieManager#getCookie(String)} does not return HttpOnly cookies, so a missing
+		 * value carries no information about the web session.
+		 */
 		private void syncLoginStateFromCookies(String url) {
-			if (url == null || !url.contains(MAIN_URL_HTTPS)) {
+			if (url == null || !url.contains(MAIN_URL_HTTPS) || tokenStore.isLoggedIn()) {
 				return;
 			}
 
-			String cookies = CookieManager.getInstance().getCookie(url);
-			String bearerToken = extractBearerFromCookies(cookies);
+			String bearerToken = extractBearerFromCookies(CookieManager.getInstance().getCookie(url));
 
 			if (bearerToken != null && !bearerToken.isEmpty()
 					&& org.catrobat.catroid.web.JwtTokenStore.Companion.isValidJwtFormat(bearerToken)) {
-				if (!tokenStore.isLoggedIn()) {
-					tokenStore.setAccessTokenOnly(bearerToken);
-				}
-			} else if ((bearerToken == null || bearerToken.isEmpty()) && tokenStore.isLoggedIn()) {
-				tokenStore.clearTokens();
+				tokenStore.setAccessTokenOnly(bearerToken);
 			}
 		}
 
@@ -372,9 +373,21 @@ public class WebViewActivity extends AppCompatActivity {
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
+			// Relative targets belong to the page currently loaded, and handing them to a browser
+			// would make it resolve them as a host name instead. Let the WebView resolve them.
+			if (!isAbsoluteWebUrl(url)) {
+				return false;
+			}
 			// help URL has to be opened in an external browser
 			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
 					&& !url.contains(LIBRARY_BASE_URL);
+		}
+
+		private boolean isAbsoluteWebUrl(String url) {
+			Uri uri = Uri.parse(url);
+			String scheme = uri.getScheme();
+			return ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))
+					&& uri.getHost() != null && !uri.getHost().isEmpty();
 		}
 	}
 
