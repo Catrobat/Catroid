@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,51 +33,20 @@ open class SetThreadColorAction : TemporalAction() {
     private var scope: Scope? = null
     private var color: Formula? = null
     private var sprite: Sprite? = null
+
     override fun update(delta: Float) {
-        var colorStringInterpretation = "#ff0000"
-        var red: String = ""
-        var green: String = ""
-        var blue: String = ""
-        var redInt: Int = 0
-        var blueInt: Int = 0
-        var greenInt: Int = 0
-
-        if (color != null) {
-            colorStringInterpretation = color?.interpretString(scope).toString()
-        }
-
         try {
-            red = "0x" + colorStringInterpretation.substring(SUBSTRING_POS_FIRST, SUBSTRING_POS_THIRD)
-            green = "0x" + colorStringInterpretation.substring(SUBSTRING_POS_THIRD, SUBSTRING_POS_FIFTH)
-            blue = "0x" + colorStringInterpretation.substring(SUBSTRING_POS_FIFTH, SUBSTRING_POS_SEVENTH)
-        } catch (exception: StringIndexOutOfBoundsException) {
+            val colorString = color?.interpretString(scope) ?: "#ff0000"
+
+            sprite?.embroideryThreadColor = Color.valueOf(colorString)
+        } catch (exception: RuntimeException) {
             Log.d(
                 javaClass.simpleName,
                 "Formula interpretation for this specific Brick failed.",
                 exception
             )
-            return
         }
-        try {
-            redInt = Integer.decode(red)
-            greenInt = Integer.decode(green)
-            blueInt = Integer.decode(blue)
-        } catch (exception: NumberFormatException) {
-            Log.d(
-                javaClass.simpleName,
-                "Formula interpretation for this specific Brick failed.",
-                exception
-            )
-            return
-        }
-            val colorInterpretation = Color()
-            val colorValue = argbToInt(redInt, greenInt, blueInt)
-            Color.argb8888ToColor(colorInterpretation, colorValue)
-            sprite?.embroideryThreadColor = colorInterpretation
     }
-
-    open fun argbToInt(redInt: Int, greenInt: Int, blueInt: Int) =
-        android.graphics.Color.argb(COLOR_ALPHA, redInt, greenInt, blueInt)
 
     fun setScope(scope: Scope?) {
         this.scope = scope
@@ -89,13 +58,5 @@ open class SetThreadColorAction : TemporalAction() {
 
     fun setColor(color: Formula?) {
         this.color = color
-    }
-
-    companion object {
-        private const val COLOR_ALPHA = 0xFF
-        private const val SUBSTRING_POS_FIRST = 1
-        private const val SUBSTRING_POS_THIRD = 3
-        private const val SUBSTRING_POS_FIFTH = 5
-        private const val SUBSTRING_POS_SEVENTH = 7
     }
 }

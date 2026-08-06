@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2023 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,13 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import junit.framework.Assert.assertEquals
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.SetThreadColorAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,80 +41,64 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class SetThreadColorActionTest {
 
-    private var sprite: Sprite? = null
+    private lateinit var sprite: Sprite
+
     @Before
-    @Throws(Exception::class)
     fun setUp() {
         initializeStaticSingletonMethods()
+
         sprite = Sprite("testSprite")
+        sprite.embroideryThreadColor = INITIAL_COLOR
     }
 
     @Test
-    fun testNormalBehaviorColorChangeWhite() {
-        createTestableSetThreadColorAction(
-            sprite, SequenceAction(),
-            Formula(COLOR_TEST_VALUE_WHITE)
-        )?.act(1.0f)
-        assertEquals(Color.WHITE, sprite?.embroideryThreadColor)
+    fun testColorChangeWhite() {
+        createAction(Formula("#ffffff")).act(1f)
+
+        assertEquals(Color.WHITE, sprite.embroideryThreadColor)
     }
 
     @Test
-    fun testNormalBehaviorColorChangeBlue() {
-        createTestableSetThreadColorAction(
-            sprite, SequenceAction(),
-            Formula(COLOR_TEST_VALUE_BLUE)
-        )?.act(1.0f)
-        assertEquals(Color.BLUE, sprite?.embroideryThreadColor)
+    fun testColorChangeBlue() {
+        createAction(Formula("#0000ff")).act(1f)
+
+        assertEquals(Color.BLUE, sprite.embroideryThreadColor)
     }
 
     @Test
-    fun testNullFormula() {
-        createTestableSetThreadColorAction(sprite, SequenceAction(), null)?.act(1.0f)
-        assertEquals(COLOR_DEFAULT_VALUE, sprite?.embroideryThreadColor)
+    fun testNullFormulaUsesDefaultColor() {
+        createAction(null).act(1f)
+
+        assertEquals(DEFAULT_COLOR, sprite.embroideryThreadColor)
     }
 
     @Test
-    fun testTooShortFormula() {
-        createTestableSetThreadColorAction(
-            sprite,
-            SequenceAction(), Formula("#000")
-        )?.act(1.0f)
-        assertEquals(COLOR_INITIALIZED_VALUE, sprite?.embroideryThreadColor)
+    fun testTooShortFormulaDoesNotChangeColor() {
+        createAction(Formula("#000")).act(1f)
+
+        assertEquals(INITIAL_COLOR, sprite.embroideryThreadColor)
     }
 
     @Test
-    fun testInvalidColorCode() {
-        createTestableSetThreadColorAction(
-            sprite,
-            SequenceAction(), Formula(TEST_INVALID_VALUE)
-        )?.act(1.0f)
-        assertEquals(COLOR_INITIALIZED_VALUE, sprite?.embroideryThreadColor)
+    fun testInvalidColorCodeDoesNotChangeColor() {
+        createAction(Formula("#XXXXXX")).act(1f)
+
+        assertEquals(INITIAL_COLOR, sprite.embroideryThreadColor)
     }
 
-    private fun createTestableSetThreadColorAction(sprite: Sprite?, sequence: SequenceAction?, color: Formula?): Action? {
-        val action = Actions.action(
-            TestableSetThreadColorAction::class.java
-        )
-        val scope = sprite?.let {
-            Scope(ProjectManager.getInstance().currentProject, it, sequence)
-        }
+    private fun createAction(formula: Formula?): Action {
+        val action = Actions.action(SetThreadColorAction::class.java)
+        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
+
         action.setSprite(sprite)
         action.setScope(scope)
-        action.setColor(color)
+        action.setColor(formula)
+
         return action
     }
 
-    class TestableSetThreadColorAction : SetThreadColorAction() {
-        override fun argbToInt(redInt: Int, greenInt: Int, blueInt: Int) =
-            COLOR_ALPHA and 0xff shl 24 or (redInt and 0xff shl 16) or (greenInt and 0xff shl 8) or (blueInt and 0xff)
-    }
-
     companion object {
-        private val COLOR_INITIALIZED_VALUE = Color(0x000000ff)
-        private val COLOR_DEFAULT_VALUE = Color.RED
-        private const val COLOR_TEST_VALUE_WHITE = "#ffffff"
-        private const val COLOR_TEST_VALUE_BLUE = "#0000ff"
-        private const val TEST_INVALID_VALUE = "#XXXXXX"
-        private const val COLOR_ALPHA = 0xFF
+        private val INITIAL_COLOR = Color(0x000000ff)
+        private val DEFAULT_COLOR = Color.RED
     }
 }
