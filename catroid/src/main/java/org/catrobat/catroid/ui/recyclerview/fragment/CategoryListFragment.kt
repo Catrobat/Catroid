@@ -127,7 +127,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 regularExpressionAssistantActivityOnButtonClick()
             } else {
                 getFormulaEditorFragment()?.setChosenCategoryItem(item)
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -206,7 +206,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
         if (lastUserList != null) {
             formulaEditorFragment.addUserListToActiveFormula(lastUserList.name)
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -267,7 +267,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         } else {
             addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem())
         }
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
         openRegularExpressionAssistant()
     }
 
@@ -304,7 +304,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 }
 
                 override fun onNegativeButton() {
-                    activity.onBackPressed()
+                    activity.onBackPressedDispatcher.onBackPressed()
                 }
             })
     }
@@ -344,7 +344,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             } finally {
                 sensorPorts.recycle()
             }
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }.show()
     }
 
@@ -369,7 +369,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 getFormulaEditorFragment()?.addCollideFormulaToActiveFormula(
                     selectedSprite.name
                 )
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }.show()
     }
 

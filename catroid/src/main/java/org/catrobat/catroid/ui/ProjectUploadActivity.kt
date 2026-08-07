@@ -38,6 +38,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import com.google.common.base.Charsets
 import com.google.common.io.Files
@@ -137,6 +138,16 @@ open class ProjectUploadActivity : BaseActivity(),
         setShowProgressBar(true)
 
         loadProjectActivity()
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (notesAndCreditsScreen) {
+                setScreen(notesAndCreditsScreen)
+                notesAndCreditsScreen = false
+            } else {
+                loadBackup()
+                finish()
+            }
+        }
     }
 
     protected open fun createProjectUploadController(): ProjectUploadController? =
@@ -229,16 +240,6 @@ open class ProjectUploadActivity : BaseActivity(),
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.next).isEnabled = enableNextButton
         return true
-    }
-
-    override fun onBackPressed() {
-        if (notesAndCreditsScreen) {
-            setScreen(notesAndCreditsScreen)
-            notesAndCreditsScreen = false
-        } else {
-            loadBackup()
-            super.onBackPressed()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

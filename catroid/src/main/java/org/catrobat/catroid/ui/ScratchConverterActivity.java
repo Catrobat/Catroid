@@ -50,6 +50,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -144,6 +145,16 @@ public class ScratchConverterActivity extends BaseActivity implements
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, searchResultsFragment)
 				.commit();
+
+		OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(false) {
+			@Override
+			public void handleOnBackPressed() {
+				getSupportFragmentManager().popBackStack();
+			}
+		};
+		getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+		getSupportFragmentManager().addOnBackStackChangedListener(() ->
+				onBackPressedCallback.setEnabled(getSupportFragmentManager().getBackStackEntryCount() > 0));
 	}
 
 	private void switchToFragment(@FragmentPosition int fragmentPosition) {
@@ -167,15 +178,6 @@ public class ScratchConverterActivity extends BaseActivity implements
 		}
 
 		fragmentTransaction.commit();
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-			getSupportFragmentManager().popBackStack();
-		} else {
-			super.onBackPressed();
-		}
 	}
 
 	@Override

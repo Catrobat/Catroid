@@ -367,7 +367,7 @@ class ProjectOptionsFragment : Fragment() {
         )
         project = null
         projectManager.currentProject = project
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     companion object {

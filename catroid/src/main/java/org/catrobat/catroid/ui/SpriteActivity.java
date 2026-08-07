@@ -81,6 +81,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -200,6 +201,13 @@ public class SpriteActivity extends BaseActivity {
 			loadFragment(this, fragmentPosition);
 		}
 		addTabLayout(this, fragmentPosition);
+
+		getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				handleBackEvent();
+			}
+		});
 	}
 
 	public String createActionBarTitle() {
@@ -293,8 +301,7 @@ public class SpriteActivity extends BaseActivity {
 		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
 	}
 
-	@Override
-	public void onBackPressed() {
+	private void handleBackEvent() {
 		saveProject();
 
 		Fragment currentFragment = getCurrentFragment();
@@ -326,7 +333,7 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 			return;
 		}
-		super.onBackPressed();
+		finish();
 	}
 
 	private void saveProject() {
