@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
@@ -62,6 +63,13 @@ class ProjectListActivity : BaseCastActivity() {
         }
 
         loadFragment(projectListFragment)
+
+        val onBackPressedCallback = onBackPressedDispatcher.addCallback(this, false) {
+            supportFragmentManager.popBackStack()
+        }
+        supportFragmentManager.addOnBackStackChangedListener {
+            onBackPressedCallback.isEnabled = supportFragmentManager.backStackEntryCount > 0
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -74,14 +82,6 @@ class ProjectListActivity : BaseCastActivity() {
         menuInflater.inflate(R.menu.menu_projects_activity, menu)
         menu.findItem(R.id.merge).isVisible = BuildConfig.FEATURE_MERGE_ENABLED
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
     }
 
     @Suppress("UNUSED_PARAMETER")

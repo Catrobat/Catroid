@@ -95,6 +95,7 @@
     <application
         android:name=".CatroidApplication"
         android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
         android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Catroid"

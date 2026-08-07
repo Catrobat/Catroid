@@ -144,7 +144,7 @@ class ProjectDetailsFragment : Fragment() {
     private fun onExceptionThrown(e: Exception) {
         ToastUtil.showError(requireContext(), R.string.error_load_project)
         Log.e(TAG, Log.getStackTraceString(e))
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun handleDescriptionPressed() {

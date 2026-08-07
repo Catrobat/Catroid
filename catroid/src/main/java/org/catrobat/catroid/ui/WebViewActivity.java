@@ -59,14 +59,15 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_DOWNLOAD_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
-import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_DOWNLOAD_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -86,6 +87,7 @@ public class WebViewActivity extends AppCompatActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private OnBackPressedCallback onBackPressedCallback;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,15 @@ public class WebViewActivity extends AppCompatActivity {
 		String buildType = BuildConfig.FLAVOR.equals("pocketCodeBeta") ? "debug" : BuildConfig.BUILD_TYPE;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + buildType);
+
+		onBackPressedCallback = new OnBackPressedCallback(false) {
+			@Override
+			public void handleOnBackPressed() {
+				allowGoBack = false;
+				webView.goBack();
+			}
+		};
+		getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
 		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
 		webView.loadUrl(url);
@@ -148,16 +159,6 @@ public class WebViewActivity extends AppCompatActivity {
 		});
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			allowGoBack = false;
-			webView.goBack();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
@@ -170,7 +171,7 @@ public class WebViewActivity extends AppCompatActivity {
 			} else if (allowGoBack && (urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
 					|| urlClient.equals(Constants.BASE_APP_URL_HTTPS))) {
 				allowGoBack = false;
-				onBackPressed();
+				getOnBackPressedDispatcher().onBackPressed();
 			}
 		}
 
@@ -223,6 +224,12 @@ public class WebViewActivity extends AppCompatActivity {
 			} else {
 				Log.e(TAG, "couldn't connect to the server! info: " + description + " : " + errorCode);
 			}
+		}
+
+		@Override
+		public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+			super.doUpdateVisitedHistory(view, url, isReload);
+			onBackPressedCallback.setEnabled(view.canGoBack());
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
