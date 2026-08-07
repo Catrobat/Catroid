@@ -106,7 +106,7 @@ def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     namespace = 'org.catrobat.catroid'
 
@@ -117,7 +117,7 @@ android {
 
     defaultConfig {
         minSdkVersion 28
-        targetSdkVersion 35
+        targetSdkVersion 36
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
