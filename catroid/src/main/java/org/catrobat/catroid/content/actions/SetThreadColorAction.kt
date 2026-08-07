@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,55 +20,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import android.util.Log
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+open class SetThreadColorAction : TemporalAction() {
+    private var scope: Scope? = null
+    private var color: Formula? = null
+    private var sprite: Sprite? = null
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
+    override fun update(delta: Float) {
+        try {
+            val colorString = color?.interpretString(scope) ?: "#ff0000"
 
-public class SetThreadColorAction extends TemporalAction {
+            sprite?.embroideryThreadColor = Color.valueOf(colorString)
+        } catch (exception: RuntimeException) {
+            Log.d(
+                javaClass.simpleName,
+                "Formula interpretation for this specific Brick failed.",
+                exception
+            )
+        }
+    }
 
-	private Scope scope;
-	private Formula color;
-	private Sprite sprite;
+    fun setScope(scope: Scope?) {
+        this.scope = scope
+    }
 
-	@Override
-	protected void update(float delta) {
-		try {
-			String colorStringInterpretation = "0xff0000";
-			if (color != null) {
-				colorStringInterpretation = color.interpretString(scope);
-			}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 
-			String red = "0x" + colorStringInterpretation.substring(1, 3);
-			String green = "0x" + colorStringInterpretation.substring(3, 5);
-			String blue = "0x" + colorStringInterpretation.substring(5, 7);
-			int redInt = Integer.decode(red);
-			int greenInt = Integer.decode(green);
-			int blueInt = Integer.decode(blue);
-
-			Color colorInterpretation = new Color();
-			Color.argb8888ToColor(colorInterpretation, android.graphics.Color.argb(0xFF, redInt, greenInt, blueInt));
-			sprite.setEmbroideryThreadColor(colorInterpretation);
-		} catch (Exception exception) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", exception);
-		}
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setColor(Formula color) {
-		this.color = color;
-	}
+    fun setColor(color: Formula?) {
+        this.color = color
+    }
 }
