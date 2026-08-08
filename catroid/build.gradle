@@ -51,6 +51,9 @@ ext {
     manifestAppName = '@string/app_name'
     manifestAppIcon = '@mipmap/ic_launcher'
 
+    defaultGoogleServerClientId =
+            '427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com'
+
     projectVersion = "0.9"
     gdxVersion = "1.13.0"
     mockitoVersion = '5.14.2'
@@ -134,6 +137,13 @@ android {
         buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
         buildConfigField "boolean", "WEB_TEST_FLAG", (project.hasProperty('webTestUrl') ? 'true' :
                 'false')
+
+        // Audience of the Google ID token. It has to match the GOOGLE_ID the share platform
+        // verifies against, so testing against an own server needs an own OAuth client here:
+        // -PgoogleServerClientId=<client id>
+        buildConfigField "String", "GOOGLE_SERVER_CLIENT_ID", "\"" + (project.hasProperty('googleServerClientId')
+                ? project.getProperties().get('googleServerClientId')
+                : defaultGoogleServerClientId) + "\""
 
         buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""

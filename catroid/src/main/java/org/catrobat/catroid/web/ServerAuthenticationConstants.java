@@ -23,9 +23,11 @@
 
 package org.catrobat.catroid.web;
 
+import org.catrobat.catroid.BuildConfig;
+
 public final class ServerAuthenticationConstants {
-	public static final String GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID = "427226922034"
-			+ "-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
+	public static final String GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID =
+			BuildConfig.GOOGLE_SERVER_CLIENT_ID;
 
 	private ServerAuthenticationConstants() {
 		throw new AssertionError("No.");
