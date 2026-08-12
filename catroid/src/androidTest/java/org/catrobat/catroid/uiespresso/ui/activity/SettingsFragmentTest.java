@@ -93,6 +93,7 @@ import static org.hamcrest.core.Is.is;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -116,7 +117,7 @@ public class SettingsFragmentTest {
 			SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS,
 			SETTINGS_CRASH_REPORTS, SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_PLOT_BRICKS,
 			SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS,
@@ -208,6 +209,22 @@ public class SettingsFragmentTest {
 
 		onView(allOf(withId(R.id.radio_button), withParent(withId(R.id.argus))))
 				.perform(click());
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void backFromAccessibilitySettingsTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_accessibility))
+				.perform(click());
+
+		onData(PreferenceMatchers.withTitle(
+				R.string.preference_title_accessibility_predefined_profile_headline))
+				.check(matches(isDisplayed()));
+
+		pressBack();
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_accessibility))
+				.check(matches(isDisplayed()));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
