@@ -87,6 +87,16 @@ class SetThreadColorActionTest {
         assertEquals(INITIAL_COLOR, sprite.embroideryThreadColor)
     }
 
+    @Test
+    fun testNullSpriteDoesNotThrowException() {
+        val action = Actions.action(SetThreadColorAction::class.java)
+
+        action.setSprite(null)
+        action.setColor(Formula("#ffffff"))
+
+        action.act(1f)
+    }
+
     private fun createAction(formula: Formula?): Action {
         val action = Actions.action(SetThreadColorAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())

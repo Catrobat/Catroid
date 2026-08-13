@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.InterpretationException
 
 open class SetThreadColorAction : TemporalAction() {
     private var scope: Scope? = null
@@ -35,14 +36,33 @@ open class SetThreadColorAction : TemporalAction() {
     private var sprite: Sprite? = null
 
     override fun update(delta: Float) {
-        try {
-            val colorString = color?.interpretString(scope) ?: "#ff0000"
+        if (sprite == null) {
+            Log.w(javaClass.simpleName, "Cannot set thread color because sprite is null.")
+            return
+        }
 
-            sprite?.embroideryThreadColor = Color.valueOf(colorString)
-        } catch (exception: RuntimeException) {
+        val colorString = try {
+            color?.interpretString(scope) ?: DEFAULT_COLOR
+        } catch (exception: InterpretationException) {
             Log.d(
                 javaClass.simpleName,
                 "Formula interpretation for this specific Brick failed.",
+                exception
+            )
+        }
+
+        try {
+            sprite?.embroideryThreadColor = Color.valueOf(colorString as String)
+        } catch (exception: NumberFormatException) {
+            Log.d(
+                javaClass.simpleName,
+                "Invalid color format: $colorString",
+                exception
+            )
+        } catch (exception: StringIndexOutOfBoundsException) {
+            Log.d(
+                javaClass.simpleName,
+                "Invalid color format: $colorString",
                 exception
             )
         }
@@ -58,5 +78,9 @@ open class SetThreadColorAction : TemporalAction() {
 
     fun setColor(color: Formula?) {
         this.color = color
+    }
+
+    companion object {
+        private const val DEFAULT_COLOR = "#ff0000"
     }
 }
