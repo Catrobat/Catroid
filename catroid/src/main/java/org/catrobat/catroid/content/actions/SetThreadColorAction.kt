@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
-open class SetThreadColorAction : TemporalAction() {
+class SetThreadColorAction : TemporalAction() {
     private var scope: Scope? = null
     private var color: Formula? = null
     private var sprite: Sprite? = null
@@ -49,10 +49,11 @@ open class SetThreadColorAction : TemporalAction() {
                 "Formula interpretation for this specific Brick failed.",
                 exception
             )
+            return
         }
 
         try {
-            sprite?.embroideryThreadColor = Color.valueOf(colorString as String)
+            sprite?.embroideryThreadColor = Color.valueOf(colorString)
         } catch (exception: NumberFormatException) {
             Log.d(
                 javaClass.simpleName,
