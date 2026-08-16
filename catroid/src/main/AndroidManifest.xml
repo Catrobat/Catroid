@@ -105,6 +105,10 @@
         tools:replace="android:label,android:allowBackup,android:name,android:theme"
         android:usesCleartextTraffic="true">
 
+        <property
+            android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"
+            android:value="true" />
+
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
