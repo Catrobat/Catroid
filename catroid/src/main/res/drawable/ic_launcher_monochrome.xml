@@ -1,0 +1,35 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2026 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportHeight="108"
+    android:viewportWidth="108">
+  <path
+      android:fillColor="#ffffff"
+      android:pathData="M46.27,24.1C45.16,24.08 44.15,24.87 43.91,25.99L40.73,40.87L29.75,40.87L29.75,40.88L29.75,40.88C29.75,40.88 31.69,73.22 32.96,74.92C34.25,76.61 51.27,83.92 54,83.91C56.73,83.89 73.6,76.09 75.04,74.55C76.48,73.01 78.25,40.87 78.23,40.87L72.66,40.87L74.44,32.51C74.73,31.21 73.9,29.95 72.6,29.66L46.75,24.15C46.59,24.12 46.43,24.1 46.27,24.1zM47.13,31.36L69.31,36.09L68.29,40.87L45.1,40.87L47.13,31.36zM32.24,43.01L38.06,43.01L38.06,44.92L34.28,44.92C34.32,45.76 34.41,47.08 34.52,48.7L32.61,48.83C32.42,45.97 32.3,44.03 32.3,44.03L32.24,43.01zM42.78,43.02L51.63,43.02L51.63,44.94L42.78,44.94L42.78,43.02zM56.37,43.02L65.22,43.02L65.22,44.94L56.37,44.94L56.37,43.02zM69.94,43.02L75.76,43.02L75.7,44.04C75.7,44.03 75.6,45.96 75.42,48.83L73.5,48.71C73.6,47.1 73.68,45.78 73.72,44.94L69.94,44.94L69.94,43.02zM54,47.43C61.28,47.43 67.16,53.33 67.18,60.59C67.18,67.85 61.28,73.75 54,73.75C46.74,73.75 40.84,67.87 40.84,60.59C40.84,53.33 46.72,47.43 54,47.43zM34.85,53.37C35.08,56.77 35.32,59.78 35.55,62.36L33.65,62.52C33.42,59.95 33.18,56.91 32.93,53.51L34.85,53.37zM73.17,53.51L75.09,53.64C74.86,57.04 74.64,60.08 74.4,62.66L72.48,62.49C72.71,59.93 72.95,56.91 73.17,53.51zM36.04,67.12C36.46,70.92 36.72,71.88 36.81,72.11C36.91,72.21 37.44,72.65 39.41,73.69L38.48,75.4C35.74,73.95 35.38,73.45 35.23,73.25C35.01,72.96 34.68,72.51 34.13,67.33L36.04,67.12zM72,67.24L73.92,67.45C73.35,72.56 72.98,72.96 72.69,73.26C72.56,73.44 72.14,73.89 69.32,75.37L68.42,73.66C70.47,72.59 71.09,72.14 71.24,72C71.33,71.78 71.6,70.83 72,67.24zM64.15,75.81L64.98,77.54C61.73,79.07 58.58,80.42 56.58,81.12L55.93,79.31C57.88,78.62 60.96,77.32 64.15,75.81zM43.65,75.84C46.77,77.29 49.84,78.58 51.89,79.28L51.27,81.09C49.16,80.37 46,79.04 42.84,77.57L43.65,75.84z" />
+  <path
+      android:fillColor="#ffffff"
+      android:pathData="M53.96,51.6C49,51.6 44.97,55.63 44.97,60.59C44.97,65.56 48.98,69.58 53.96,69.58C58.91,69.58 62.94,65.55 62.94,60.59C62.94,55.63 58.91,51.6 53.96,51.6zM51.42,54.82L58.39,60.59L51.42,66.36L51.42,54.82z" />
+</vector>
