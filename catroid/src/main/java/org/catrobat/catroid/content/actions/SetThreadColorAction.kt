@@ -54,7 +54,7 @@ class SetThreadColorAction : TemporalAction() {
 
         try {
             sprite?.embroideryThreadColor = Color.valueOf(colorString)
-        } catch (exception: NumberFormatException) {
+        } catch (exception: IllegalArgumentException) {
             Log.d(
                 javaClass.simpleName,
                 "Invalid color format: $colorString",
