@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,8 +45,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -69,17 +68,13 @@ public class StageResourceFailedTest {
 	public void testResourceFailedDialog() {
 		baseActivityTestRule.launchActivity(null);
 
-		onView(isRoot()).perform(CustomActions.wait(5000));
-
 		onView(withText(R.string.prestage_resource_not_available_title))
-				.check(matches(isDisplayed()));
+				.inRoot(isDialog()).check(matches(isDisplayed()));
 
-		String failedResourceMessage =
-				UiTestUtils.getResourcesString(R.string.prestage_resource_not_available_text)
-						+ UiTestUtils.getResourcesString(R.string.prestage_no_acceleration_sensor_available);
+		String failedResourceMessage = UiTestUtils.getResourcesString(R.string.prestage_resource_not_available_text)
+				+ UiTestUtils.getResourcesString(R.string.prestage_no_acceleration_sensor_available);
 
-		onView(withText(failedResourceMessage))
-				.check(matches(isDisplayed()));
+		onView(withText(failedResourceMessage)).inRoot(isDialog()).check(matches(isDisplayed()));
 	}
 
 	public void createProject(String projectName) {
