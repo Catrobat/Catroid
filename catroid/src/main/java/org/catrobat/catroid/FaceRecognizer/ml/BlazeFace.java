@@ -33,7 +33,10 @@ public class BlazeFace {
     private static final int NUM_COORDS = 16;
     private static final int BYTE_SIZE_OF_FLOAT = 4;
 
-    private static final float MIN_SCORE_THRESH = 0.95f;
+    /* 0.95 rejected valid faces after sunlight/contrast changed detector confidence.
+       Identity acceptance is still controlled separately by FaceNet similarity and
+       inter-person margin, so this only makes face localisation more tolerant. */
+    private static final float MIN_SCORE_THRESH = 0.75f;
 
     private static final int[] strides = {8, 16, 16, 16};
 

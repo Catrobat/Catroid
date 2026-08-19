@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
@@ -29,10 +31,17 @@ public class Recognizer {
     public static final String TAG = "Recognizer";
 
     /** Photos are downscaled to this longest side before detection, to bound memory. */
-    private static final int MAX_ENROL_SIDE = 1280;
+    /* FaceNet finally consumes only 160x160. 960 keeps ample face detail while
+       cutting gallery bitmap/rotation memory by about 44% versus 1280. */
+    private static final int MAX_ENROL_SIDE = 960;
+
+    /** Reject pathological panoramas/broken metadata before allocating a bitmap. */
+    private static final long MAX_SOURCE_PIXELS = 120_000_000L;
 
     /** Below this many photos, recognition is unreliable. */
     public static final int RECOMMENDED_PHOTOS = 5;
+    /** A lone usable bracket frame must be exceptionally clear to identify anyone. */
+    private static final float SINGLE_FRAME_MIN_SIMILARITY = 0.75f;
 
     public static class Result {
         public final int index;
@@ -47,6 +56,8 @@ public class Recognizer {
     }
 
     private static Recognizer instance;
+    /** Prevent two Select presses from leaving concurrent dataset jobs alive. */
+    private static volatile EnrolTask activeEnrolmentTask;
 
     private FaceEmbedder embedder;
     private final FaceDatabase database = new FaceDatabase();
@@ -115,6 +126,129 @@ public class Recognizer {
         public final List<String> report = new ArrayList<>();
     }
 
+    /** Result callback for non-blocking gallery enrolment. Runs on the main thread. */
+    public interface EnrolCallback {
+        void onFinished(EnrolResult result);
+    }
+
+    /** Handle retained by the Activity so onStop() can terminate gallery work. */
+    public static final class EnrolTask {
+        private volatile boolean cancelled;
+        private Thread worker;
+
+        public void cancel() {
+            cancelled = true;
+            Thread t = worker;
+            if (t != null) {
+                t.interrupt();
+            }
+        }
+
+        public boolean isCancelled() {
+            return cancelled;
+        }
+    }
+
+    /**
+     * Gallery training without blocking Android's UI thread. Progress and completion
+     * are delivered on the main thread. Keep the returned task and cancel it from
+     * Activity/Fragment onStop().
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public EnrolTask extractEmbeddingsAsync(ContentResolver resolver, List<Uri> uris,
+            ProgressListener listener, EnrolCallback callback) {
+        final EnrolTask task = new EnrolTask();
+        final Handler main = new Handler(Looper.getMainLooper());
+        final List<Uri> safeUris = (uris == null)
+                ? new ArrayList<>() : new ArrayList<>(uris);
+        task.worker = new Thread(() -> {
+            ProgressListener safeProgress = (done, total) -> {
+                if (listener != null && !task.cancelled) {
+                    main.post(() -> {
+                        if (!task.cancelled) {
+                            listener.onPhoto(done, total);
+                        }
+                    });
+                }
+            };
+            EnrolResult result;
+            try {
+                result = extractEmbeddings(resolver, safeUris, safeProgress);
+            } catch (Throwable t) {
+                Log.e(TAG, "Background enrolment failed", t);
+                result = new EnrolResult();
+                result.report.add("Training failed: " + t.getClass().getSimpleName());
+            }
+            final EnrolResult deliveredResult = result;
+            if (callback != null && !task.cancelled) {
+                main.post(() -> {
+                    if (!task.cancelled) {
+                        callback.onFinished(deliveredResult);
+                    }
+                });
+            }
+        }, "face_enrolment");
+        task.worker.start();
+        return task;
+    }
+
+    /**
+     * Cold-start-safe enrolment. Unlike calling getInstance() from an Activity
+     * first, this loads BlazeFace, FaceNet and the database on the worker thread.
+     * Use this method for the first and all later gallery training operations.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static EnrolTask startEnrolmentAsync(Context context,
+            ContentResolver resolver, List<Uri> uris,
+            ProgressListener listener, EnrolCallback callback) {
+        final EnrolTask task = new EnrolTask();
+        EnrolTask previous = activeEnrolmentTask;
+        if (previous != null) {
+            previous.cancel();
+        }
+        activeEnrolmentTask = task;
+        final Handler main = new Handler(Looper.getMainLooper());
+        final Context appContext = context == null ? null : context.getApplicationContext();
+        final List<Uri> safeUris = uris == null
+                ? new ArrayList<>() : new ArrayList<>(uris);
+        task.worker = new Thread(() -> {
+            EnrolResult result;
+            try {
+                if (appContext == null) {
+                    throw new IllegalArgumentException("Context is null");
+                }
+                Recognizer recognizer = Recognizer.getInstance(appContext);
+                ProgressListener safeProgress = (done, total) -> {
+                    if (listener != null && !task.cancelled) {
+                        main.post(() -> {
+                            if (!task.cancelled) {
+                                listener.onPhoto(done, total);
+                            }
+                        });
+                    }
+                };
+                result = recognizer.extractEmbeddings(resolver, safeUris, safeProgress);
+            } catch (Throwable t) {
+                Log.e(TAG, "Cold-start background enrolment failed", t);
+                result = new EnrolResult();
+                result.report.add("Training failed: " + t.getClass().getSimpleName());
+            }
+            final EnrolResult delivered = result;
+            if (activeEnrolmentTask == task) {
+                activeEnrolmentTask = null;
+            }
+            if (callback != null && !task.cancelled) {
+                main.post(() -> {
+                    if (!task.cancelled) {
+                        callback.onFinished(delivered);
+                    }
+                });
+            }
+        }, "face_enrolment_cold_start");
+        task.worker.start();
+        return task;
+    }
+
     /**
      * Reads the picked photos and returns one embedding per photo that contained a
      * usable face, plus a line per photo explaining what happened.
@@ -134,6 +268,10 @@ public class Recognizer {
 
         int photo = 0;
         for (Uri uri : uris) {
+            if (Thread.currentThread().isInterrupted()) {
+                result.report.add("Training cancelled");
+                break;
+            }
             photo++;
             if (listener != null) {
                 listener.onPhoto(photo, uris.size());
@@ -289,6 +427,24 @@ public class Recognizer {
             Log.i(TAG, "Frame " + session.framesTried + ": " + embedder.lastProblem);
             return false;
         }
+        // Reject tiny/background detections.
+        int shortestSide = Math.min(face.frame.getWidth(), face.frame.getHeight());
+        float faceFraction = (float) Math.min(face.box.width(), face.box.height())
+                / (float) shortestSide;
+
+        if (faceFraction < 0.12f) {
+            Log.i(TAG, "Frame " + session.framesTried
+                    + " rejected: detected face is too small, fraction=" + faceFraction);
+            face.release(frame);
+            return false;
+        }
+
+        String qualityProblem = faceQualityProblem(face.frame, face.box);
+        if (qualityProblem != null) {
+            Log.i(TAG, "Frame " + session.framesTried + " rejected: " + qualityProblem);
+            face.release(frame);
+            return false;
+        }
 
         float[] bestScores;
         int variantCount;
@@ -328,12 +484,60 @@ public class Recognizer {
         return true;
     }
 
+    /** Rejects silhouette/clipped crops before they can collapse to a false identity. */
+    private static String faceQualityProblem(Bitmap bitmap, Rect box) {
+        if (bitmap == null || box == null || box.width() <= 0 || box.height() <= 0) {
+            return "invalid face crop";
+        }
+        int step = Math.max(1, Math.min(box.width(), box.height()) / 80);
+        long sum = 0L;
+        long sumSquares = 0L;
+        int dark = 0;
+        int bright = 0;
+        int count = 0;
+        for (int y = box.top; y < box.bottom; y += step) {
+            for (int x = box.left; x < box.right; x += step) {
+                int p = bitmap.getPixel(x, y);
+                int r = (p >> 16) & 0xff;
+                int g = (p >> 8) & 0xff;
+                int b = p & 0xff;
+                int luma = (77 * r + 150 * g + 29 * b) >> 8;
+                sum += luma;
+                sumSquares += (long) luma * luma;
+                if (luma < 20) dark++;
+                if (luma > 245) bright++;
+                count++;
+            }
+        }
+        if (count == 0) return "empty face crop";
+        float mean = (float) sum / count;
+        float variance = Math.max(0f, (float) sumSquares / count - mean * mean);
+        float deviation = (float) Math.sqrt(variance);
+        float darkRatio = (float) dark / count;
+        float brightRatio = (float) bright / count;
+        if (mean < 30f || darkRatio > 0.65f) {
+            return String.format(java.util.Locale.US,
+                    "face is a dark silhouette (mean %.1f, dark %.0f%%)",
+                    mean, darkRatio * 100f);
+        }
+        if (mean > 230f || brightRatio > 0.60f) {
+            return String.format(java.util.Locale.US,
+                    "face highlights are clipped (mean %.1f, bright %.0f%%)",
+                    mean, brightRatio * 100f);
+        }
+        if (deviation < 18f) {
+            return String.format(java.util.Locale.US,
+                    "face has too little visible detail (contrast %.1f)", deviation);
+        }
+        return null;
+    }
+
     /**
      * Reads the session so far without ending it. Lets a capture stop early when
      * the first frame is already a clear match, which usually halves the time.
      */
     public synchronized Result peekSession(Session session) {
-        if (session == null || session.getFramesWithFace() == 0) {
+        if (session == null || session.getFramesWithFace() == 2) {
             return null;
         }
         return finishSession(session);
@@ -360,6 +564,20 @@ public class Recognizer {
         }
         Log.i(TAG, "Session average over " + session.framesWithFace + " frame(s): "
                 + database.describeScoreArray(average));
+
+        if (session.framesWithFace == 1) {
+            float bestSingle = -1f;
+            for (float score : average) {
+                bestSingle = Math.max(bestSingle, score);
+            }
+            if (bestSingle < SINGLE_FRAME_MIN_SIMILARITY) {
+                lastSummary = String.format(java.util.Locale.US,
+                        "REJECTED: only one usable lighting frame, best %.3f; need %.2f",
+                        bestSingle, SINGLE_FRAME_MIN_SIMILARITY);
+                Log.i(TAG, lastSummary);
+                return null;
+            }
+        }
 
         lastSummary = database.describeScoreArray(average)
                 + "\nfrom " + session.framesWithFace + " frame(s)"
@@ -454,6 +672,7 @@ public class Recognizer {
         BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
 
+        Bitmap decoded = null;
         try (ParcelFileDescriptor pfd = resolver.openFileDescriptor(uri, "r")) {
             if (pfd == null) {
                 lastDecodeProblem = "file descriptor was null";
@@ -466,28 +685,74 @@ public class Recognizer {
             lastDecodeProblem = "no permission to read this photo (SecurityException)";
             Log.e(TAG, "Lost URI permission for " + uri, e);
             return null;
-        } catch (Exception e) {
+        } catch (OutOfMemoryError oom) {
+            lastDecodeProblem = "not enough memory to inspect this photo";
+            Log.e(TAG, "Out of memory reading image bounds " + uri, oom);
+            return null;
+        } catch (Throwable e) {
             lastDecodeProblem = "could not open: " + e.getClass().getSimpleName();
             Log.e(TAG, "Could not read bounds of " + uri, e);
             return null;
         }
 
+        if (bounds.outWidth <= 0 || bounds.outHeight <= 0) {
+            lastDecodeProblem = "unsupported, cloud-only, or damaged image";
+            return null;
+        }
+        long sourcePixels = (long) bounds.outWidth * bounds.outHeight;
+        if (sourcePixels > MAX_SOURCE_PIXELS) {
+            lastDecodeProblem = "image dimensions are too large: "
+                    + bounds.outWidth + "x" + bounds.outHeight;
+            return null;
+        }
+
         int sample = 1;
         int longest = Math.max(bounds.outWidth, bounds.outHeight);
-        while (longest / sample > maxSide) {
+        /* Power-of-two sampling is supported consistently by older BitmapFactory. */
+        while ((long) longest / sample > maxSide && sample <= 1024) {
             sample *= 2;
         }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sample;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inScaled = false;
+        options.inDither = false;
 
         try (ParcelFileDescriptor pfd = resolver.openFileDescriptor(uri, "r")) {
             if (pfd == null) {
                 return null;
             }
-            return BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor(), null, options);
-        } catch (Exception e) {
+            decoded = BitmapFactory.decodeFileDescriptor(
+                    pfd.getFileDescriptor(), null, options);
+            if (decoded == null) {
+                lastDecodeProblem = "decoder returned no bitmap";
+                return null;
+            }
+            /* Some vendor decoders ignore inSampleSize for uncommon formats. */
+            int decodedLongest = Math.max(decoded.getWidth(), decoded.getHeight());
+            if (decodedLongest > maxSide * 2) {
+                float scale = (float) maxSide / decodedLongest;
+                int width = Math.max(1, Math.round(decoded.getWidth() * scale));
+                int height = Math.max(1, Math.round(decoded.getHeight() * scale));
+                Bitmap reduced = Bitmap.createScaledBitmap(decoded, width, height, true);
+                if (reduced != decoded) {
+                    decoded.recycle();
+                }
+                decoded = reduced;
+            }
+            return decoded;
+        } catch (OutOfMemoryError oom) {
+            if (decoded != null && !decoded.isRecycled()) {
+                decoded.recycle();
+            }
+            lastDecodeProblem = "image skipped: not enough memory";
+            Log.e(TAG, "Out of memory decoding " + uri, oom);
+            return null;
+        } catch (Throwable e) {
+            if (decoded != null && !decoded.isRecycled()) {
+                decoded.recycle();
+            }
             lastDecodeProblem = "could not decode: " + e.getClass().getSimpleName();
             Log.e(TAG, "Could not decode " + uri, e);
             return null;

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -21,6 +22,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
+import android.util.Range;
+import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
@@ -73,8 +76,12 @@ public final class FaceDetector {
 	/** Longest JPEG side. A bigger face crop makes a sharper network input. */
 	private static final int TARGET_JPEG_SIDE = 1280;
 
-	private static final long FIRST_SHOT_DELAY_MS = 700;
-	private static final long BETWEEN_SHOTS_DELAY_MS = 250;
+	/* Give Camera2 real preview frames so AE/AF/AWB can settle before JPEG #1. */
+	private static final long FIRST_SHOT_DELAY_MS = 1200;
+	private static final long BETWEEN_SHOTS_DELAY_MS = 350;
+
+	/* Exposure bracket in EV. 0 works indoors; -1 and -2 protect outdoor faces. */
+	private static final float[] EXPOSURE_BRACKET_EV = {0f, -1f, -2f};
 
 	/** Nothing may leave the camera open, or a program waiting, longer than this. */
 	private static final long WATCHDOG_MS = 20000;
@@ -345,6 +352,9 @@ public final class FaceDetector {
 		private CameraCaptureSession captureSession;
 		private ImageReader imageReader;
 		private CaptureRequest.Builder stillBuilder;
+		private SurfaceTexture previewTexture;
+		private Surface previewSurface;
+		private int[] exposureBracket = {0, 0, 0};
 		private String cameraId;
 
 		private int shotsRequested = 0;
@@ -402,6 +412,7 @@ public final class FaceDetector {
 				}
 
 				Size jpeg = pickJpegSize(manager, cameraId);
+				exposureBracket = buildExposureBracket(manager, cameraId);
 				Log.i(TAG, "Capturing " + jpeg.getWidth() + "x" + jpeg.getHeight()
 						+ " on camera " + cameraId);
 
@@ -439,22 +450,32 @@ public final class FaceDetector {
 		private void createSession() {
 			try {
 				final Surface target = imageReader.getSurface();
-				cameraDevice.createCaptureSession(Arrays.asList(target),
+				/*
+				 * A delay after opening a camera does not converge 3A unless requests are
+				 * actually flowing.  Use a headless SurfaceTexture as a preview target;
+				 * this class still needs no Activity or visible preview.
+				 */
+				/* Detached SurfaceTexture: no OpenGL context or Activity is required. */
+				previewTexture = new SurfaceTexture(false);
+				previewTexture.setDefaultBufferSize(640, 480);
+				previewSurface = new Surface(previewTexture);
+				cameraDevice.createCaptureSession(Arrays.asList(previewSurface, target),
 						new CameraCaptureSession.StateCallback() {
 							@Override public void onConfigured(@NonNull CameraCaptureSession s) {
 								captureSession = s;
 								try {
+									CaptureRequest.Builder previewBuilder =
+											cameraDevice.createCaptureRequest(
+													CameraDevice.TEMPLATE_PREVIEW);
+									previewBuilder.addTarget(previewSurface);
+									configure3A(previewBuilder);
+									captureSession.setRepeatingRequest(
+											previewBuilder.build(), null, handler);
+
 									stillBuilder = cameraDevice.createCaptureRequest(
 											CameraDevice.TEMPLATE_STILL_CAPTURE);
 									stillBuilder.addTarget(target);
-									stillBuilder.set(CaptureRequest.CONTROL_MODE,
-											CaptureRequest.CONTROL_MODE_AUTO);
-									stillBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-											CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-									stillBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-											CaptureRequest.CONTROL_AE_MODE_ON);
-									stillBuilder.set(CaptureRequest.CONTROL_SCENE_MODE,
-											CaptureRequest.CONTROL_SCENE_MODE_FACE_PRIORITY);
+									configure3A(stillBuilder);
 									stillBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 95);
 
 									handler.postDelayed(Session.this::takeShot,
@@ -484,14 +505,25 @@ public final class FaceDetector {
 				decide();
 				return;
 			}
+			int bracketIndex = shotsRequested;
 			shotsRequested++;
 			try {
+				stillBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION,
+						exposureBracket[Math.min(bracketIndex, exposureBracket.length - 1)]);
 				captureSession.capture(stillBuilder.build(),
 						new CameraCaptureSession.CaptureCallback() { }, handler);
 			} catch (Exception e) {
 				Log.e(TAG, "Capture " + shotsRequested + " failed", e);
 				decide();
 			}
+		}
+
+		private void configure3A(CaptureRequest.Builder builder) {
+			builder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+			builder.set(CaptureRequest.CONTROL_AF_MODE,
+					CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+			builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+			builder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
 		}
 
 		private final ImageReader.OnImageAvailableListener onImageAvailable = reader -> {
@@ -517,7 +549,12 @@ public final class FaceDetector {
 				}
 
 				upright = rotateToSensorUpright(decoded);
-				recognizer.addFrame(scores, upright, isFrontCamera());
+				if (isSeverelyOverexposed(upright)) {
+					Log.i(TAG, "Frame " + shotsRequested
+							+ " rejected: highlights are clipped");
+				} else {
+					recognizer.addFrame(scores, upright, isFrontCamera());
+				}
 
 				Recognizer.Result early = recognizer.peekSession(scores);
 				if (early != null
@@ -557,6 +594,45 @@ public final class FaceDetector {
 			} else {
 				handler.postDelayed(this::takeShot, BETWEEN_SHOTS_DELAY_MS);
 			}
+		}
+
+		/**
+		 * Clipped white pixels contain no recoverable facial texture.  Do not let an
+		 * overexposed 0-EV frame lower the session average; the following -1/-2 EV
+		 * bracket frames will retain the eyes, nose and skin texture.
+		 */
+		private boolean isSeverelyOverexposed(Bitmap bitmap) {
+			if (bitmap == null || bitmap.isRecycled()) {
+				return true;
+			}
+			int left = bitmap.getWidth() / 4;
+			int top = bitmap.getHeight() / 4;
+			int right = bitmap.getWidth() * 3 / 4;
+			int bottom = bitmap.getHeight() * 3 / 4;
+			int sampled = 0;
+			int clipped = 0;
+			long luminanceSum = 0L;
+			int step = Math.max(1, Math.min(bitmap.getWidth(), bitmap.getHeight()) / 120);
+			for (int y = top; y < bottom; y += step) {
+				for (int x = left; x < right; x += step) {
+					int p = bitmap.getPixel(x, y);
+					int r = (p >> 16) & 0xff;
+					int g = (p >> 8) & 0xff;
+					int b = p & 0xff;
+					int luma = (77 * r + 150 * g + 29 * b) >> 8;
+					luminanceSum += luma;
+					if (r >= 250 && g >= 250 && b >= 250) {
+						clipped++;
+					}
+					sampled++;
+				}
+			}
+			if (sampled == 0) {
+				return false;
+			}
+			float clippedRatio = (float) clipped / sampled;
+			float meanLuma = (float) luminanceSum / sampled;
+			return clippedRatio > 0.45f || meanLuma > 238f;
 		}
 
 		private void decide() {
@@ -599,6 +675,14 @@ public final class FaceDetector {
 				if (imageReader != null) {
 					imageReader.close();
 					imageReader = null;
+				}
+				if (previewSurface != null) {
+					previewSurface.release();
+					previewSurface = null;
+				}
+				if (previewTexture != null) {
+					previewTexture.release();
+					previewTexture = null;
 				}
 				stillBuilder = null;
 			} catch (Exception ignored) {
@@ -696,6 +780,28 @@ public final class FaceDetector {
 				}
 			}
 			return (bestUnder != null) ? bestUnder : smallest;
+		}
+
+		/** Converts desired EV values to this phone's Camera2 compensation indices. */
+		private int[] buildExposureBracket(CameraManager manager, String id)
+				throws CameraAccessException {
+			CameraCharacteristics c = manager.getCameraCharacteristics(id);
+			Range<Integer> range = c.get(
+					CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE);
+			Rational step = c.get(
+					CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP);
+			int[] values = new int[EXPOSURE_BRACKET_EV.length];
+			if (range == null || step == null || step.floatValue() <= 0f) {
+				return values; // Device does not expose exposure compensation.
+			}
+			float evPerIndex = step.floatValue();
+			for (int i = 0; i < values.length; i++) {
+				int index = Math.round(EXPOSURE_BRACKET_EV[i] / evPerIndex);
+				values[i] = Math.max(range.getLower(), Math.min(range.getUpper(), index));
+			}
+			Log.i(TAG, "AE bracket indices " + Arrays.toString(values)
+					+ ", step " + evPerIndex + " EV");
+			return values;
 		}
 	}
 }

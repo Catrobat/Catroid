@@ -69,7 +69,7 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
                 activeDetectors.add(ObjectDetector)
             }
             if (isAIFaceNameDetectionSharedPreferenceEnabled(it)) {
-                activeDetectors.add(ObjectDetector)
+                activeDetectors.add(FaceDetector)
             }
         }
     }

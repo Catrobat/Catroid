@@ -38,6 +38,8 @@ public class FaceDatabase {
 	 * putting the wrong person's name on a face.
 	 */
 	public static float minMargin = 0.05f;
+	/** Never accept collapsed/no-detail embeddings even if an old model saved 0.50. */
+	private static final float ABSOLUTE_SAFETY_FLOOR = 0.60f;
 
 	/**
 	 * Nearest neighbour. A person is scored against their single closest training
@@ -521,10 +523,11 @@ public class FaceDatabase {
 			return null;
 		}
 		float margin = (second == NO_SCORE) ? 1f : best - second;
-		if (best < minSimilarity || margin < minMargin) {
+		float requiredSimilarity = Math.max(minSimilarity, ABSOLUTE_SAFETY_FLOOR);
+		if (best < requiredSimilarity || margin < minMargin) {
 			Log.i(TAG, String.format(Locale.US,
 					"Rejected: best=%.3f margin=%.3f (need %.2f / %.2f)",
-					best, margin, minSimilarity, minMargin));
+					best, margin, requiredSimilarity, minMargin));
 			return null;
 		}
 		return new Match(bestIndex, names.get(bestIndex), best, margin);
@@ -569,10 +572,11 @@ public class FaceDatabase {
 		}
 
 		float margin = (second == NO_SCORE) ? 1f : best - second;
-		if (best < minSimilarity || margin < minMargin) {
+		float requiredSimilarity = Math.max(minSimilarity, ABSOLUTE_SAFETY_FLOOR);
+		if (best < requiredSimilarity || margin < minMargin) {
 			Log.i(TAG, String.format(Locale.US,
 					"Rejected: best=%.3f margin=%.3f (need %.2f / %.2f)",
-					best, margin, minSimilarity, minMargin));
+					best, margin, requiredSimilarity, minMargin));
 			return null;
 		}
 		return new Match(bestIndex, names.get(bestIndex), best, margin);

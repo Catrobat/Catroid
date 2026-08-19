@@ -200,12 +200,7 @@ android {
             excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
         }
     }
-    externalNativeBuild {
-        cmake {
-            path 'src/main/jni/CMakeLists.txt'
-            buildStagingDirectory = "${System.getenv('TEMP')}/android-build/${project.name}"
-        }
-    }
+
 
     signingConfigs {
         signedRelease {
