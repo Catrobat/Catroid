@@ -62,6 +62,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoTakingPictureBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.NoteBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/NoteBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PublishMqttMessageBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PublishMqttMessageBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenMqttMessageReceivedBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenMqttMessageReceivedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/InsertItemIntoUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneFlipBrick",

@@ -883,6 +883,7 @@
     <string formatted="false" name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
     <string formatted="false" name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
     <string formatted="false" name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
+    <string formatted="false" name="prestage_no_mqtt_connection_available">\u2022 MQTT broker connection\n</string>
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
@@ -1274,6 +1275,17 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">with</string>
 
+    <string formatted="false" name="brick_publish_mqtt_message">Publish via MQTT the message</string>
+    <string formatted="false" name="brick_publish_mqtt_on_topic">on topic</string>
+    <string formatted="false" name="brick_publish_mqtt_qos">Quality of service</string>
+    <string formatted="false" name="brick_publish_mqtt_retained">Keep last message on broker</string>
+    <string formatted="false" name="brick_publish_mqtt_default_message">Hello</string>
+    <string formatted="false" name="brick_publish_mqtt_default_topic">catrobat/home/light1/set</string>
+    <string formatted="false" name="brick_when_mqtt_message_received">When MQTT message received on</string>
+    <string formatted="false" name="brick_when_mqtt_default_topic">catrobat/home/light1/state</string>
+    <string formatted="false" name="brick_when_mqtt_store_payload_in">store message in</string>
+    <string formatted="false" name="brick_when_mqtt_store_topic_in">store topic in</string>
+    <string formatted="false" name="brick_when_mqtt_variable_unset">not set</string>
     <string formatted="false" name="brick_web_request">Send web request to</string>
     <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string formatted="false" name="brick_web_request_result">and store answer in</string>
@@ -1546,6 +1558,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="preference_title_mqtt_password">Password</string>
     <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
     <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <string formatted="false" name="preference_mqtt_host_invalid">Enter the broker address only, without a scheme or a path</string>
     <string name="default_mqtt_host" translatable="false">192.168.0.1</string>
     <!--  -->
 

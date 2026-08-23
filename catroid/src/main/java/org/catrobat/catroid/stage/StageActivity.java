@@ -61,6 +61,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mqtt.MqttManager;
+import org.catrobat.catroid.devices.mqtt.MqttMultiplayerTransport;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
@@ -274,6 +276,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 
 		RaspberryPiService.getInstance().disconnect();
+
+		get(MqttMultiplayerTransport.class).stop();
+		get(MqttManager.class).disconnect();
 	}
 
 	public static CameraManager getActiveCameraManager() {

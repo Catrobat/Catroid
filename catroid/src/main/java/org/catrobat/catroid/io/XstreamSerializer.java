@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
+import org.catrobat.catroid.content.MqttScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Scene;
@@ -181,6 +182,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
+import org.catrobat.catroid.content.bricks.PublishMqttMessageBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
@@ -277,6 +279,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.WhenMqttMessageReceivedBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -418,6 +421,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", WhenConditionScript.class);
 		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
+		xstream.alias("script", MqttScript.class);
 		xstream.alias("script", RaspiInterruptScript.class);
 		xstream.alias("script", WhenTouchDownScript.class);
 		xstream.alias("script", WhenBackgroundChangesScript.class);
@@ -553,6 +557,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WriteVariableToFileBrick.class);
 		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
+		xstream.alias("brick", PublishMqttMessageBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
 		xstream.alias("brick", ResetTimerBrick.class);
@@ -631,6 +636,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
+		xstream.alias("brick", WhenMqttMessageReceivedBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 		xstream.alias("brick", WhenTouchDownBrick.class);
 

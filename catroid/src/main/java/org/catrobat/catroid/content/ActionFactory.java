@@ -106,6 +106,7 @@ import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PlaySoundAtAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
+import org.catrobat.catroid.content.actions.PublishMqttMessageAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
@@ -1676,6 +1677,18 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public Action createPublishMqttMessageAction(Sprite sprite, SequenceAction sequence,
+			Formula topicFormula, Formula messageFormula, int qos, boolean retained) {
+		PublishMqttMessageAction action = action(PublishMqttMessageAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setTopicFormula(topicFormula);
+		action.setMessageFormula(messageFormula);
+		action.setQos(qos);
+		action.setRetained(retained);
 		return action;
 	}
 

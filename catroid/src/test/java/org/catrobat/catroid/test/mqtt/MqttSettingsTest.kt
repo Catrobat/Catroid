@@ -68,8 +68,6 @@ class MqttSettingsTest {
         stopKoin()
     }
 
-    // --- Default value tests ---
-
     @Test
     fun testMqttEnabledDefaultIsFalse() {
         assertFalse(SettingsFragment.isMqttSharedPreferenceEnabled(context))
@@ -106,8 +104,6 @@ class MqttSettingsTest {
     fun testMqttClientIdDefaultIsEmpty() {
         assertEquals("", SettingsFragment.getMqttClientId(context))
     }
-
-    // --- Persistence tests ---
 
     @Test
     fun testMqttEnabledPersistsAfterWrite() {
@@ -166,8 +162,6 @@ class MqttSettingsTest {
         assertEquals("device-001", SettingsFragment.getMqttClientId(context))
     }
 
-    // --- getMqttPort fallback tests ---
-
     @Test
     fun testMqttPortFallbackOnNonIntegerValue() {
         PreferenceManager.getDefaultSharedPreferences(context)
@@ -188,8 +182,6 @@ class MqttSettingsTest {
             .edit().putString(SettingsFragment.MQTT_PORT, "1883.5").commit()
         assertEquals(1883, SettingsFragment.getMqttPort(context))
     }
-
-    // --- Port validation: boundary tests ---
 
     @Test
     fun testPortValidationRejectsZero() {
@@ -220,8 +212,6 @@ class MqttSettingsTest {
     fun testPortValidationAcceptsMaxBoundary() {
         assertTrue(MqttSettingsFragment.isValidPort("65535"))
     }
-
-    // --- Port validation: non-numeric input ---
 
     @Test
     fun testPortValidationRejectsAlphabeticString() {

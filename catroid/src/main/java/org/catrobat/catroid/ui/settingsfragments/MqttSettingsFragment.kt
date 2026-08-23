@@ -66,7 +66,17 @@ class MqttSettingsFragment : PreferenceFragment() {
             true
         }
 
-        bindSummaryToValue(findPreference(MQTT_HOST) as EditTextPreference)
+        val hostPreference = findPreference(MQTT_HOST) as EditTextPreference
+        hostPreference.summary = hostPreference.text
+        hostPreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+            if (!isValidHost(newValue.toString())) {
+                Toast.makeText(activity, R.string.preference_mqtt_host_invalid, Toast.LENGTH_SHORT).show()
+                return@OnPreferenceChangeListener false
+            }
+            hostPreference.summary = newValue.toString()
+            true
+        }
+
         bindSummaryToValue(findPreference(MQTT_USERNAME) as EditTextPreference)
         bindSummaryToValue(findPreference(MQTT_CLIENT_ID) as EditTextPreference)
 
@@ -109,6 +119,24 @@ class MqttSettingsFragment : PreferenceFragment() {
         fun isValidPort(value: String): Boolean {
             val port = value.toIntOrNull() ?: return false
             return port in MIN_PORT..MAX_PORT
+        }
+
+        /**
+         * Rejects anything the Paho client cannot turn into a broker URI.
+         *
+         * The address is pasted in by hand, and a scheme or a path in it makes the
+         * MqttClient constructor throw IllegalArgumentException rather than an
+         * MqttException, which would otherwise reach the user as a crash instead of
+         * a failed connection.
+         */
+        @VisibleForTesting
+        @JvmStatic
+        fun isValidHost(value: String): Boolean {
+            val host = value.trim()
+            return host.isNotEmpty() &&
+                host.none { it.isWhitespace() } &&
+                !host.contains("://") &&
+                !host.contains('/')
         }
     }
 }

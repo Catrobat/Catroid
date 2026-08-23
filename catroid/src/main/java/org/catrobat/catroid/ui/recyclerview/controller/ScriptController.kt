@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.controller
 import android.util.Log
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.cast.CastManager
+import org.catrobat.catroid.content.MqttScript
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Scope
@@ -43,6 +44,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.content.bricks.UserListBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
+import org.catrobat.catroid.content.bricks.WhenMqttMessageReceivedBrick
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_LIST
@@ -120,7 +122,19 @@ class ScriptController {
                     updateUserData(brick, destinationProject, destinationSprite)
             }
         }
+        // Bindings live on the script, not the brick, so no branch above catches them.
+        (script as? MqttScript)?.let { updateMqttScriptVariables(it, destinationProject, destinationSprite) }
         return script
+    }
+
+    private fun updateMqttScriptVariables(
+        script: MqttScript,
+        destinationProject: Project?,
+        destinationSprite: Sprite?
+    ) {
+        val scope = destinationSprite?.let { sprite -> Scope(destinationProject, sprite, null) }
+        script.payloadVariable = UserDataWrapper.getUserVariable(script.payloadVariable?.name, scope)
+        script.topicVariable = UserDataWrapper.getUserVariable(script.topicVariable?.name, scope)
     }
 
     @Throws(CloneNotSupportedException::class)
@@ -175,6 +189,8 @@ class ScriptController {
         val userDataNameList = ArrayList<String>()
 
         when {
+            brick is WhenMqttMessageReceivedBrick && type == USER_VARIABLE ->
+                userDataNameList.addAll(brick.boundVariableNames)
             brick is UserVariableBrickInterface && type == USER_VARIABLE -> userDataNameList.add(brick.userVariable.name)
             brick is UserListBrick && type == USER_LIST -> userDataNameList.add(brick.userList.name)
             brick is FormulaBrick ->
@@ -188,13 +204,19 @@ class ScriptController {
     private fun getUserVariables(sprite: Sprite, brick: Brick): List<UserVariable> {
         val userVariableList = ArrayList<UserVariable>()
 
-        if (brick is FormulaBrick && formulaBrickContainsUserData(brick, USER_VARIABLE)) {
-            val userVariableNameList = getUserDataNamesForBrick(brick, USER_VARIABLE)
-            userVariableList.addAll(getUserDataFromNames(userVariableNameList, projectManager.currentProject.userVariables))
-            userVariableList.addAll(getUserDataFromNames(userVariableNameList, projectManager.currentProject.multiplayerVariables))
-            userVariableList.addAll(getUserDataFromNames(userVariableNameList, sprite.userVariables))
-        } else if (brick is UserVariableBrickInterface) {
-            userVariableList.add(brick.userVariable)
+        when {
+            brick is FormulaBrick && formulaBrickContainsUserData(brick, USER_VARIABLE) -> {
+                val userVariableNameList = getUserDataNamesForBrick(brick, USER_VARIABLE)
+                userVariableList.addAll(getUserDataFromNames(userVariableNameList, projectManager.currentProject.userVariables))
+                userVariableList.addAll(getUserDataFromNames(userVariableNameList, projectManager.currentProject.multiplayerVariables))
+                userVariableList.addAll(getUserDataFromNames(userVariableNameList, sprite.userVariables))
+            }
+            brick is WhenMqttMessageReceivedBrick -> {
+                userVariableList.addAll(getUserDataFromNames(brick.boundVariableNames, projectManager.currentProject.userVariables))
+                userVariableList.addAll(getUserDataFromNames(brick.boundVariableNames, projectManager.currentProject.multiplayerVariables))
+                userVariableList.addAll(getUserDataFromNames(brick.boundVariableNames, sprite.userVariables))
+            }
+            brick is UserVariableBrickInterface -> userVariableList.add(brick.userVariable)
         }
 
         return userVariableList

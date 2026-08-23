@@ -65,6 +65,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
+import org.catrobat.catroid.devices.mqtt.MqttManager;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -180,8 +181,11 @@ public class StageListener implements ApplicationListener {
 		webConnectionHolder = new WebConnectionHolder();
 	}
 
+	private MqttManager mqttManager;
+
 	@Override
 	public void create() {
+		mqttManager = get(MqttManager.class);
 		deltaActionTimeDivisor = 10f;
 
 		shapeRenderer = new ShapeRenderer();
@@ -582,6 +586,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (!paused) {
+			mqttManager.dispatchPendingMessages();
+
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;

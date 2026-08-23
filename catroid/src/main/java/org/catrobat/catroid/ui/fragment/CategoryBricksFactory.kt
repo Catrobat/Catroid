@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.BrickValues
 import org.catrobat.catroid.content.BroadcastScript
+import org.catrobat.catroid.content.MqttScript
 import org.catrobat.catroid.content.RaspiInterruptScript
 import org.catrobat.catroid.content.WhenBounceOffScript
 import org.catrobat.catroid.content.WhenConditionScript
@@ -143,6 +144,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
 import org.catrobat.catroid.content.bricks.PreviousLookBrick
+import org.catrobat.catroid.content.bricks.PublishMqttMessageBrick
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick
@@ -236,6 +238,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick
 import org.catrobat.catroid.content.bricks.WhenClonedBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenMqttMessageReceivedBrick
 import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
@@ -353,6 +356,13 @@ open class CategoryBricksFactory {
         eventBrickList.add(DeleteThisCloneBrick())
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             eventBrickList.add(WhenNfcBrick())
+        }
+        if (SettingsFragment.isMqttSharedPreferenceEnabled(context)) {
+            eventBrickList.add(
+                WhenMqttMessageReceivedBrick(
+                    MqttScript(context.getString(R.string.brick_when_mqtt_default_topic))
+                )
+            )
         }
         return eventBrickList
     }
@@ -704,6 +714,14 @@ open class CategoryBricksFactory {
             )
         )
         dataBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
+        if (SettingsFragment.isMqttSharedPreferenceEnabled(context)) {
+            dataBrickList.add(
+                PublishMqttMessageBrick(
+                    context.getString(R.string.brick_publish_mqtt_default_message),
+                    context.getString(R.string.brick_publish_mqtt_default_topic)
+                )
+            )
+        }
         when {
             !isBackgroundSprite -> dataBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
             ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(

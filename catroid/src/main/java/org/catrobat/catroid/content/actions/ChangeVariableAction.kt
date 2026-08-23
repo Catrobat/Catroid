@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.CatroidService
 import org.catrobat.catroid.common.ServiceProvider
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.devices.multiplayer.MultiplayerInterface
+import org.catrobat.catroid.devices.mqtt.MqttMultiplayerTransport
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 
@@ -55,6 +56,7 @@ class ChangeVariableAction : Action() {
         multiplayerVariable?.let {
             val multiplayerDevice = getMultiplayerDevice()
             multiplayerDevice?.sendChangedMultiplayerVariables(userVariable)
+            MqttMultiplayerTransport.activeOrNull()?.sendVariable(userVariable)
         }
     }
 

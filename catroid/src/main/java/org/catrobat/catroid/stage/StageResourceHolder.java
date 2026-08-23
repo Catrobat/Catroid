@@ -48,9 +48,14 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+import org.catrobat.catroid.devices.mqtt.MqttConnectionConfig;
+import org.catrobat.catroid.devices.mqtt.MqttManager;
+import org.catrobat.catroid.devices.mqtt.MqttMultiplayerTransport;
+import org.catrobat.catroid.devices.mqtt.MqttScriptRegistrar;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -65,6 +70,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import kotlin.Unit;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -303,6 +310,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
+		if (requiredResourcesSet.contains(Brick.MQTT_CONNECTION)) {
+			connectMqttBroker();
+		}
+
 		if (requiredResourcesSet.contains(Brick.SOCKET_RASPI)) {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
@@ -422,6 +433,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_gps_sensor_available));
 					break;
+				case Brick.MQTT_CONNECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_mqtt_connection_available));
+					break;
 				case Brick.TEXT_TO_SPEECH:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_text_to_speech_error));
@@ -515,6 +530,45 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
 		}
+	}
+
+	private void connectMqttBroker() {
+		MqttConnectionConfig config = MqttConnectionConfig.Companion.fromContext(stageActivity);
+		// Paho's connect blocks until the broker answers or times out, so it must not
+		// run on the UI thread.
+		new Thread(() -> {
+			MqttManager mqttManager = get(MqttManager.class);
+			boolean connected = mqttManager.connect(config);
+			if (connected) {
+				Project project = ProjectManager.getInstance().getCurrentProject();
+				new MqttScriptRegistrar(mqttManager, config).registerScriptsOf(project);
+				startMqttMultiplayer(project, config);
+			}
+			stageActivity.runOnUiThread(() -> {
+				if (connected) {
+					resourceInitialized();
+				} else {
+					resourceFailed(Brick.MQTT_CONNECTION);
+				}
+			});
+		}, "MqttConnect").start();
+	}
+
+	private void startMqttMultiplayer(Project project, MqttConnectionConfig config) {
+		if (project.getMultiplayerVariables().isEmpty()) {
+			return;
+		}
+		String room = MqttMultiplayerTransport.roomIdFor(project.getName());
+		String sender = config.getClientId().isEmpty()
+				? Build.MODEL + "-" + android.os.Process.myPid() : config.getClientId();
+
+		get(MqttMultiplayerTransport.class).start(config, room, sender, (name, value) -> {
+			UserVariable variable = project.getMultiplayerVariable(name);
+			if (variable != null) {
+				variable.setValue(value);
+			}
+			return Unit.INSTANCE;
+		});
 	}
 
 	private void connectRaspberrySocket() {

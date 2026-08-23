@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.ServiceProvider
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.devices.multiplayer.MultiplayerInterface
+import org.catrobat.catroid.devices.mqtt.MqttMultiplayerTransport
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -73,6 +74,7 @@ class SetVariableAction : TemporalAction() {
     private fun handleMultiplayerVariable() {
         ProjectManager.getInstance().currentProject.getMultiplayerVariable(userVariable?.name) ?: return
         multiplayerDevice?.sendChangedMultiplayerVariables(userVariable)
+        MqttMultiplayerTransport.activeOrNull()?.sendVariable(userVariable)
     }
     private fun checkValueForDoubleConversion(value: Any?): Boolean =
         value is String && convertArgumentToDouble(value) != null
