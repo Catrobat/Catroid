@@ -27,6 +27,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 
@@ -42,4 +43,10 @@ abstract class FeaturedProjectDao {
 
     @Query("DELETE FROM featured_project")
     abstract fun deleteAll()
+
+    @Transaction
+    open fun replaceAll(projects: List<FeaturedProject>) {
+        deleteAll()
+        insertFeaturedProjects(projects)
+    }
 }
