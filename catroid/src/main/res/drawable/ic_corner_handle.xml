@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,25 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/reset"
-        android:icon="@drawable/icon_undo"
-        android:title="@string/reset"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/rotate_90"
-        android:icon="@drawable/ic_rotate_90"
-        android:title="@string/rotate_90"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/confirm"
-        android:icon="@drawable/ic_done"
-        android:title="@string/confirm"
-        app:showAsAction="always" />
-</menu>
+    <!-- Curved resize/rotate arrow pointing outward from center -->
+    <path
+        android:pathData="M8,2 C8,2 2,2 2,8"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:fillColor="@android:color/transparent"
+        android:strokeLineCap="round" />
+    <!-- Arrowhead -->
+    <path
+        android:pathData="M2,2 L8,2 L8,2 M2,2 L2,8"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:fillColor="@android:color/transparent"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

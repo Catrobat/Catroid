@@ -29,6 +29,8 @@
     <string formatted="false" name="settings">Settings</string>
     <string formatted="false" name="redo">Redo</string>
     <string formatted="false" name="undo">Undo</string>
+    <string formatted="false" name="reset">Reset</string>
+    <string formatted="false" name="rotate_90">Rotate 90°</string>
 
     <string formatted="false" name="new_option">new…</string>
     <string formatted="false" name="edit_option">edit…</string>
