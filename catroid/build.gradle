@@ -106,7 +106,7 @@ def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     namespace = 'org.catrobat.catroid'
 
@@ -117,7 +117,7 @@ android {
 
     defaultConfig {
         minSdkVersion 28
-        targetSdkVersion 35
+        targetSdkVersion 36
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -361,6 +361,7 @@ dependencies {
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     implementation "androidx.work:work-runtime:$work_manager_version"
+    testImplementation "androidx.work:work-testing:$work_manager_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -379,6 +380,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'androidx.core:core-ktx:1.3.2'
+    implementation "androidx.activity:activity-ktx:1.6.0"
 
     implementation "org.mockito:mockito-core:$mockitoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"

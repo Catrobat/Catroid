@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -121,6 +122,10 @@ class ProjectActivity : BaseCastActivity() {
             }
         }
         projectManager.currentProject.checkIfSpriteNameEqualBackground(this)
+
+        onBackPressedDispatcher.addCallback(this, true) {
+            handleBackEvent()
+        }
     }
 
     private fun loadFragment(fragmentPosition: Int) {
@@ -171,7 +176,7 @@ class ProjectActivity : BaseCastActivity() {
         saveProject(projectManager.currentProject)
     }
 
-    override fun onBackPressed() {
+    private fun handleBackEvent() {
         val currentProject = projectManager.currentProject
         if (currentProject == null) {
             finish()
@@ -194,7 +199,7 @@ class ProjectActivity : BaseCastActivity() {
                 .replace(R.id.fragment_container, SceneListFragment(), SceneListFragment.TAG)
                 .commit()
         } else {
-            super.onBackPressed()
+            finish()
         }
     }
 

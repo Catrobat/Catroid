@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -43,7 +42,10 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FormulaEditorIntroDialog extends Dialog implements View.OnClickListener {
+import androidx.activity.ComponentDialog;
+import androidx.activity.OnBackPressedCallback;
+
+public class FormulaEditorIntroDialog extends ComponentDialog implements View.OnClickListener {
 
 	private TextView introTitle;
 	private TextView introSummary;
@@ -78,6 +80,13 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 		(findViewById(R.id.intro_dialog_skip_button)).setOnClickListener(this);
 		(findViewById(R.id.intro_dialog_next_button)).setOnClickListener(this);
 
+		getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				closeIntro();
+			}
+		});
+
 		nextSlide();
 	}
 
@@ -85,7 +94,7 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.intro_dialog_skip_button:
-				onBackPressed();
+				closeIntro();
 				break;
 			case R.id.intro_dialog_next_button:
 				nextSlide();
@@ -97,17 +106,16 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 
 	private void nextSlide() {
 		if (introSlides.isEmpty()) {
-			onBackPressed();
+			closeIntro();
 		} else {
 			introSlides.remove().applySlide();
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
+	public void closeIntro() {
 		SnackbarUtil.setHintShown(formulaEditorFragment.getActivity(),
 				formulaEditorFragment.getActivity().getResources().getResourceName(R.string.formula_editor_intro_title_formula_editor));
-		super.onBackPressed();
+		cancel();
 	}
 
 	private static final int NONE = -1;

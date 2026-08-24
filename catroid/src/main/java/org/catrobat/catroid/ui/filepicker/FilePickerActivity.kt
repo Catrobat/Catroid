@@ -22,29 +22,28 @@
  */
 package org.catrobat.catroid.ui.filepicker
 
-import org.catrobat.catroid.ui.BaseCastActivity
-import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask.OnListProjectFilesListener
-import org.catrobat.catroid.ui.filepicker.SelectActionModeCallback.ActionModeClickListener
-import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment.ProjectImportFinishedListener
-import androidx.recyclerview.widget.RecyclerView
-import android.os.Bundle
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.R
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import android.Manifest.permission
 import android.annotation.SuppressLint
-import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
-import org.catrobat.catroid.utils.ToastUtil
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.ActionMode
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import org.catrobat.catroid.R
+import org.catrobat.catroid.ui.BaseCastActivity
+import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask.OnListProjectFilesListener
+import org.catrobat.catroid.ui.filepicker.SelectActionModeCallback.ActionModeClickListener
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment.ProjectImportFinishedListener
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
-import java.util.ArrayList
 
 class FilePickerActivity : BaseCastActivity(), OnListProjectFilesListener, ActionModeClickListener,
     ProjectImportFinishedListener {
@@ -180,14 +179,6 @@ class FilePickerActivity : BaseCastActivity(), OnListProjectFilesListener, Actio
             setResult(RESULT_CANCELED)
         }
         finish()
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
     }
 
     companion object {
