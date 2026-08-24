@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.Functions.ARCTAN2
 import org.catrobat.catroid.formulaeditor.Functions.MAX
 import org.catrobat.catroid.formulaeditor.Functions.MIN
 import org.catrobat.catroid.formulaeditor.Functions.MOD
+import org.catrobat.catroid.formulaeditor.Functions.POWER
 import org.catrobat.catroid.formulaeditor.Functions.RAND
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
@@ -46,6 +47,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.lang.Math.max
 import java.lang.Math.min
+import java.lang.Math.pow
 import java.lang.Math.toDegrees
 import kotlin.math.atan2
 
@@ -65,11 +67,50 @@ class TwoParametersFunctionParserTest(
         @Parameterized.Parameters(name = "{0}")
         fun data(): Iterable<Array<Any>> {
             return listOf(
-                arrayOf("MOD", MOD, AssociatedFunction { firPar, secPar -> firPar % secPar }, 9.0, 2.0),
+                arrayOf(
+                    "MOD",
+                    MOD,
+                    AssociatedFunction { firPar, secPar -> firPar % secPar },
+                    9.0,
+                    2.0
+                ),
                 arrayOf("RAND", RAND, AssociatedFunction { _, _ -> 0.0 }, 0.0, 0.0),
-                arrayOf("ARCTAN2", ARCTAN2, AssociatedFunction { firPar, secPar -> toDegrees(atan2(firPar, secPar)) }, 9.0, 3.0),
-                arrayOf("MAX", MAX, AssociatedFunction { firPar, secPar -> max(firPar, secPar) }, 9.0, 3.0),
-                arrayOf("MIN", MIN, AssociatedFunction { firPar, secPar -> min(firPar, secPar) }, 9.0, 3.0))
+                arrayOf(
+                    "ARCTAN2",
+                    ARCTAN2,
+                    AssociatedFunction { firPar, secPar ->
+                        toDegrees(
+                            atan2(
+                                firPar,
+                                secPar
+                            )
+                        )
+                    },
+                    9.0,
+                    3.0
+                ),
+                arrayOf(
+                    "MAX",
+                    MAX,
+                    AssociatedFunction { firPar, secPar -> max(firPar, secPar) },
+                    9.0,
+                    3.0
+                ),
+                arrayOf(
+                    "MIN",
+                    MIN,
+                    AssociatedFunction { firPar, secPar -> min(firPar, secPar) },
+                    9.0,
+                    3.0
+                ),
+                arrayOf(
+                    "POWER",
+                    POWER,
+                    AssociatedFunction { firPar, secPar -> pow(firPar, secPar) },
+                    2.0,
+                    5.0
+                )
+            )
         }
     }
 
@@ -79,8 +120,7 @@ class TwoParametersFunctionParserTest(
     @Before
     fun setUp() {
         val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
+            MockUtil.mockContextForProject(), "Project"
         )
         sprite = Sprite("sprite")
         scope = Scope(project, sprite!!, SequenceAction())
@@ -90,16 +130,20 @@ class TwoParametersFunctionParserTest(
 
     @Test
     fun testNumberParameters() {
-        val firstParameter = listOf(InternToken(InternTokenType.NUMBER, firstParameterValue.toString()))
-        val secondParameter = listOf(InternToken(InternTokenType.NUMBER, secondParameterValue.toString()))
+        val firstParameter =
+            listOf(InternToken(InternTokenType.NUMBER, firstParameterValue.toString()))
+        val secondParameter =
+            listOf(InternToken(InternTokenType.NUMBER, secondParameterValue.toString()))
         val expectedValue = associatedFunction.function(firstParameterValue, secondParameterValue)
         testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
     fun testStringParameters() {
-        val firstParameter = listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
-        val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
+        val firstParameter =
+            listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
+        val secondParameter =
+            listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = associatedFunction.function(firstParameterValue, secondParameterValue)
         testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
@@ -115,14 +159,16 @@ class TwoParametersFunctionParserTest(
     @Test
     fun testEmptyFirstParameter() {
         val firstParameter = listOf(InternToken(InternTokenType.STRING, ""))
-        val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
+        val secondParameter =
+            listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = 0.0
         testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
     fun testEmptySecondParameter() {
-        val firstParameter = listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
+        val firstParameter =
+            listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, ""))
         val expectedValue = 0.0
         testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
@@ -139,11 +185,14 @@ class TwoParametersFunctionParserTest(
     @Test
     fun testInvalidFormulaParameter() {
         val firstParameter = FormulaEditorTestUtil.buildBinaryOperator(
-            InternTokenType.NUMBER, "15.0",
+            InternTokenType.NUMBER,
+            "15.0",
             Operators.PLUS,
-            InternTokenType.STRING, NOT_NUMERICAL_STRING
+            InternTokenType.STRING,
+            NOT_NUMERICAL_STRING
         )
-        val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
+        val secondParameter =
+            listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = Double.NaN
         testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
