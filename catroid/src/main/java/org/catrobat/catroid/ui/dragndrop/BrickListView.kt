@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,6 +53,11 @@ private const val LOWER_SCROLL_BOUND_MULTIPLIER = 0.85
 private const val Y_TRANSLATION_CONSTANT = 10
 
 class BrickListView : ListView {
+
+    fun interface OnMoveCommittedListener {
+        fun onMoveCommitted()
+    }
+
     private var upperScrollBound = 0
     private var lowerScrollBound = 0
     private var hoveringDrawable: BitmapDrawable? = null
@@ -67,6 +72,11 @@ class BrickListView : ListView {
     private val translucentBlack = Color.argb(TRANSLUCENT_BLACK_ALPHA, 0, 0, 0)
     private var scrollRunnable: Runnable? = null
     private var isScrollRunnableRunning = false
+    private var onMoveCommittedListener: OnMoveCommittedListener? = null
+
+    fun setOnMoveCommittedListener(listener: OnMoveCommittedListener?) {
+        onMoveCommittedListener = listener
+    }
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attributes: AttributeSet?) : super(context, attributes)
@@ -146,6 +156,7 @@ class BrickListView : ListView {
     fun stopMoving() {
         removeCallbacks(scrollRunnable)
         isScrollRunnableRunning = false
+        onMoveCommittedListener?.onMoveCommitted()
         brickAdapterInterface?.moveItemTo(currentPositionOfHoveringBrick, brickToMove)
         cancelMove()
     }

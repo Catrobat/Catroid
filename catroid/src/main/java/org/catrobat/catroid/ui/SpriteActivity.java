@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectUndoManager;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -108,8 +109,19 @@ import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COO
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
 public class SpriteActivity extends BaseActivity {
+	private ProjectUndoManager undoManager;
 
 	public static final String TAG = SpriteActivity.class.getSimpleName();
+
+	public ProjectUndoManager getUndoManager() {
+		if (undoManager == null) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			if (project != null) {
+				undoManager = new ProjectUndoManager(project.getDirectory());
+			}
+		}
+		return undoManager;
+	}
 
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
@@ -203,7 +215,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public String createActionBarTitle() {
-		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
+		if (currentProject != null && currentProject.getSceneList() != null
+				&& currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
 			return currentScene.getName() + ": " + currentSprite.getName();
@@ -221,18 +234,28 @@ public class SpriteActivity extends BaseActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public void showUndo(boolean visible) {
+	public void showUndo(boolean enabled) {
 		if (optionsMenu != null) {
-			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
-			if (visible) {
+			MenuItem undoItem = optionsMenu.findItem(R.id.menu_undo);
+			undoItem.setEnabled(enabled);
+			undoItem.setIcon(enabled ? R.drawable.icon_undo : R.drawable.icon_undo_disabled);
+			if (enabled) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			}
 		}
 	}
 
+	public void showRedo(boolean enabled) {
+		if (optionsMenu != null) {
+			MenuItem redoItem = optionsMenu.findItem(R.id.menu_redo);
+			redoItem.setEnabled(enabled);
+			redoItem.setIcon(enabled ? R.drawable.icon_redo : R.drawable.icon_redo_disabled);
+		}
+	}
+
 	public void checkForChange() {
 		if (optionsMenu != null) {
-			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
+			if (optionsMenu.findItem(R.id.menu_undo).isEnabled()) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			} else {
 				ProjectManager.getInstance().resetChangedFlag(currentProject);
@@ -248,32 +271,53 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
-			showUndo(isUndoMenuItemVisible);
+			menu.findItem(R.id.menu_undo).setVisible(true);
+			menu.findItem(R.id.menu_redo).setVisible(true);
+			boolean canUndo = getUndoManager() != null && getUndoManager().canUndo();
+			boolean canRedo = getUndoManager() != null && getUndoManager().canRedo();
+			showUndo(isUndoMenuItemVisible || canUndo);
+			showRedo(canRedo);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
+			menu.findItem(R.id.comment_in_out).setVisible(false);
+			menu.findItem(R.id.menu_undo).setVisible(isUndoMenuItemVisible);
+			menu.findItem(R.id.menu_redo).setVisible(false);
 			showUndo(isUndoMenuItemVisible);
+		} else {
+			menu.findItem(R.id.comment_in_out).setVisible(false);
+			menu.findItem(R.id.menu_undo).setVisible(false);
+			menu.findItem(R.id.menu_redo).setVisible(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof ScriptFragment
-				&& ((ScriptFragment) getCurrentFragment()).isCurrentlyMoving();
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof ScriptFragment scriptFragment
+				&& scriptFragment.isCurrentlyMoving();
 
 		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
 			((ScriptFragment) getCurrentFragment()).highlightMovingItem();
 			return true;
 		}
 
-		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
-			setUndoMenuItemVisibility(false);
-			showUndo(isUndoMenuItemVisible);
-			Fragment fragment = getCurrentFragment();
-			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
-				((LookListFragment) fragment).deleteItem(currentLookData);
-				currentLookData.dispose();
-				currentLookData = null;
+		if (item.getItemId() == R.id.menu_undo) {
+			if (getCurrentFragment() instanceof ScriptFragment scriptFragment) {
+				scriptFragment.loadProjectAfterUndoOption();
+				return true;
+			} else if (getCurrentFragment() instanceof LookListFragment lookListFragment) {
+				setUndoMenuItemVisibility(false);
+				showUndo(isUndoMenuItemVisible);
+				if (!lookListFragment.undo() && currentLookData != null) {
+					lookListFragment.deleteItem(currentLookData);
+					currentLookData.dispose();
+					currentLookData = null;
+				}
+				return true;
 			}
+		}
+
+		if (item.getItemId() == R.id.menu_redo && getCurrentFragment() instanceof ScriptFragment scriptFragment) {
+			scriptFragment.loadProjectAfterRedoOption();
 			return true;
 		}
 
@@ -291,6 +335,12 @@ public class SpriteActivity extends BaseActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		undoManager = null;
 	}
 
 	@Override
@@ -833,9 +883,11 @@ public class SpriteActivity extends BaseActivity {
 
 		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher(variables);
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-		UniqueNameProvider uniqueVariableNameProvider = builder.createUniqueNameProvider(R.string.default_variable_name);
+		UniqueNameProvider uniqueVariableNameProvider = builder
+				.createUniqueNameProvider(R.string.default_variable_name);
 		UniqueNameProvider uniqueListNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
-		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name), null);
+		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
+				null);
 		builder.setTextWatcher(textWatcher)
 				.setText(generatedVariableName)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
@@ -889,9 +941,9 @@ public class SpriteActivity extends BaseActivity {
 				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
 				textWatcher.setOriginalScope(variables);
 				if (currentName.equals(generatedVariableName)) {
-					generatedVariableName =
-							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-									null);
+					generatedVariableName = uniqueVariableNameProvider.getUniqueName(
+							getString(R.string.default_variable_name),
+							null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -966,7 +1018,8 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+		if (isFragmentWithTablayout(fragment)
+				&& (!(fragment instanceof ScriptFragment scriptFragment) || !scriptFragment.isFinderOpen())) {
 			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);
