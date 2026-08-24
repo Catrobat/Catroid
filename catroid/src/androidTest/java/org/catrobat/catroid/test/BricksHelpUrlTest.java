@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.test.utils.ParameterizedTestData;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -510,7 +511,10 @@ public class BricksHelpUrlTest {
 			parameters.add(new Object[] {brickClazz.getName(), brickClazz});
 		}
 
-		return parameters;
+		return ParameterizedTestData.requireNonEmpty(
+				parameters,
+				BricksHelpUrlTest.class,
+				"Brick classes discovered via DexFile");
 	}
 
 	@Parameterized.Parameter
