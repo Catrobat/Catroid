@@ -20,8 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.bricks;
+
+import android.content.Context;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -40,22 +42,21 @@ import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.test.PowerMockUtil;
+import org.catrobat.catroid.test.StaticSingletonInitializer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+import org.mockito.MockedStatic;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 
-@RunWith(PowerMockRunner.class)
-@PowerMockRunnerDelegate(Parameterized.class)
-@PrepareForTest({CatroidApplication.class})
+@RunWith(Parameterized.class)
 public class CompositeBrickCollisionUpdateTest {
 
 	private FormulaBrick formulaBrick;
@@ -65,6 +66,8 @@ public class CompositeBrickCollisionUpdateTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
+
+	private MockedStatic<CatroidApplication> catroidApplicationMock;
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -84,7 +87,10 @@ public class CompositeBrickCollisionUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
+		catroidApplicationMock = mockStatic(CatroidApplication.class);
+		Context context = mock(Context.class);
+		catroidApplicationMock.when(CatroidApplication::getAppContext).thenReturn(context);
+		StaticSingletonInitializer.initializeStaticSingletonMethodsWith(context);
 
 		Project project = new Project();
 		Scene scene = new Scene();
@@ -103,21 +109,22 @@ public class CompositeBrickCollisionUpdateTest {
 		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
 	}
 
+	@After
+	public void tearDown() {
+		catroidApplicationMock.close();
+	}
+
 	@Test
 	public void testRenameSprite() {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				VARIABLE_NAME, null));
 		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(REPLACED_VARIABLE,
+				v.getTrimmedFormulaString(CatroidApplication.getAppContext())));
 	}
 
 	@Test
@@ -132,9 +139,8 @@ public class CompositeBrickCollisionUpdateTest {
 		sprite.rename(NEW_VARIABLE_NAME);
 
 		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
+			assertEquals(NO_CHANGE_VARIABLE,
+					v.getTrimmedFormulaString(CatroidApplication.getAppContext()));
 		});
 	}
 }
-*/

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.R;
@@ -29,7 +29,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.AddUserListDialog;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +48,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import static java.util.Arrays.asList;
 
-@RunWith(Parameterized.class)
-@PrepareForTest(AddUserListDialog.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AddUserListToActiveFormulaTest {
 
 	@Parameterized.Parameters(name = "{0}")
@@ -84,12 +81,11 @@ public class AddUserListToActiveFormulaTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		uniqueNameProviderMock = PowerMockito.mock(UniqueNameProvider.class);
-		PowerMockito.when(uniqueNameProviderMock.isUnique(any())).thenReturn(true);
-		builderMock = PowerMockito.mock(TextInputDialog.Builder.class, Mockito.RETURNS_DEEP_STUBS);
-		PowerMockito.when(builderMock.setHint(any())).thenReturn(builderMock);
-		PowerMockito.when(builderMock.getContext().getString(R.string.default_list_name)).thenReturn("List");
-		PowerMockito.when(builderMock.createUniqueNameProvider(R.string.default_list_name)).thenReturn(uniqueNameProviderMock);
+		uniqueNameProviderMock = Mockito.mock(UniqueNameProvider.class);
+		builderMock = Mockito.mock(TextInputDialog.Builder.class, Mockito.RETURNS_DEEP_STUBS);
+		Mockito.when(builderMock.setHint(any())).thenReturn(builderMock);
+		Mockito.when(builderMock.getContext().getString(R.string.default_list_name)).thenReturn("List");
+		Mockito.when(builderMock.createUniqueNameProvider(R.string.default_list_name)).thenReturn(uniqueNameProviderMock);
 	}
 
 	@Test
@@ -101,4 +97,3 @@ public class AddUserListToActiveFormulaTest {
 		Mockito.verify(builderMock).show();
 	}
 }
-*/

@@ -20,10 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.bricks
 
-import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.common.BrickValues
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
@@ -42,7 +41,6 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.NextLookBrick
-import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
@@ -68,13 +66,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
-import org.powermock.modules.junit4.PowerMockRunnerDelegate
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class, ParameterizedBrick::class)
-@PowerMockRunnerDelegate(Parameterized::class)
+@RunWith(Parameterized::class)
 internal class LoopDelayBricksTest(private val brick: Brick?) {
 
     private val REPEAT_TIMES = 3
@@ -170,4 +163,3 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
         assert(LoopUtil.checkLoopBrickForLoopDelay(repeatBrickInner, script))
     }
 }
-*/

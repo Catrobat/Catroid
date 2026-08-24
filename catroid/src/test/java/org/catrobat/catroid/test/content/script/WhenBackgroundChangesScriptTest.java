@@ -20,13 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.script;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -38,22 +37,19 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.mockito.Mockito.when;
-
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GdxNativesLoader.class)
+@RunWith(MockitoJUnitRunner.class)
 public class WhenBackgroundChangesScriptTest {
 	private Sprite sprite;
 	private WhenBackgroundChangesScript whenBgChangesScript;
@@ -61,9 +57,11 @@ public class WhenBackgroundChangesScriptTest {
 	private LookData bg1;
 	private LookData bg2;
 
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
+
 	@Before
 	public void setUp() {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
+		gdxNativesLoaderMock = Mockito.mockStatic(GdxNativesLoader.class);
 
 		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -76,11 +74,17 @@ public class WhenBackgroundChangesScriptTest {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 	}
 
+	@After
+	public void tearDown() {
+		if (gdxNativesLoaderMock != null) {
+			gdxNativesLoaderMock.close();
+		}
+	}
+
 	private void initBackground(Scene scene) {
 		initLookData();
 		Sprite background = scene.getBackgroundSprite();
 		background.look = Mockito.spy(background.look);
-		when(background.look.getZIndex()).thenReturn(Constants.Z_INDEX_BACKGROUND);
 		background.getLookList().add(bg1);
 		background.getLookList().add(bg2);
 		scene.getSpriteList().set(0, background);
@@ -151,4 +155,3 @@ public class WhenBackgroundChangesScriptTest {
 		assertEquals((float) position, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }
-*/

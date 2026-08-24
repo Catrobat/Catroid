@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.note;
 
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
@@ -29,25 +29,29 @@ import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedConstruction;
 
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({MidiNotePlayer.class, MidiPlayer.class})
+import static org.mockito.Mockito.mockConstruction;
+
 public class MidiPlayerTest {
 
+	MockedConstruction<MidiNotePlayer> midiNotePlayerMock;
+
 	@Before
-	public void setUp() throws Exception {
-		PowerMockito.whenNew(MidiNotePlayer.class).withAnyArguments().thenReturn(Mockito.mock(MidiNotePlayer.class));
+	public void setUp() {
+		midiNotePlayerMock = mockConstruction(MidiNotePlayer.class);
+	}
+
+	@After
+	public void tearDown() {
+		midiNotePlayerMock.close();
 	}
 
 	@Test
@@ -99,4 +103,3 @@ public class MidiPlayerTest {
 		assertEquals(track.size(), player.getPlayRunnables().size());
 	}
 }
-*/
