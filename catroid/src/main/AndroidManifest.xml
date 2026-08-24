@@ -263,6 +263,13 @@
         <activity
             android:name=".ui.filepicker.FilePickerActivity" />
 
+        <activity
+            android:name=".ui.shortcut.ShortcutTrampolineActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <service
             android:name=".transfers.project.ProjectUploadService"
             android:foregroundServiceType="dataSync" />

@@ -2343,4 +2343,13 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
