@@ -27,6 +27,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -40,6 +41,7 @@ import org.catrobat.catroid.content.bricks.SetInstrumentBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
@@ -53,6 +55,12 @@ import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.getContextMenuItems
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
+
+import org.catrobat.catroid.content.bricks.HideBrick
+import org.catrobat.catroid.content.bricks.ShowBrick
+import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.catrobat.catroid.content.bricks.WaitBrick
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -99,7 +107,15 @@ class BrickContextMenuTest(
             arrayOf(WhenGamepadButtonBrick(), false, false),
             arrayOf(WhenNfcBrick(), false, false),
             arrayOf(WhenRaspiPinChangedBrick(), false, false),
-            arrayOf(WhenTouchDownBrick(), false, false)
+            arrayOf(WhenTouchDownBrick(), false, false),
+            arrayOf(SetYBrick(), true, false),
+            arrayOf(HideBrick(), false, false),
+            arrayOf(ShowBrick(), false, false),
+            arrayOf(WaitBrick(), true, false),
+            arrayOf(SetXBrick(), true, false),
+            arrayOf(TurnLeftBrick(), true, false),
+            arrayOf(TurnRightBrick(), true, false),
+
             )
     }
 
