@@ -54,6 +54,8 @@ public abstract class BrickBaseType implements Brick {
 
 	protected boolean commentedOut;
 
+	protected transient boolean collapsed;
+
 	protected UUID brickId = UUID.randomUUID();
 
 	@Override
@@ -64,6 +66,14 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
+	}
+
+	public boolean isCollapsed() {
+		return collapsed;
+	}
+
+	public void setCollapsed(boolean collapsed) {
+		this.collapsed = collapsed;
 	}
 
 	@Nullable
@@ -79,6 +89,7 @@ public abstract class BrickBaseType implements Brick {
 		clone.checkbox = null;
 		clone.parent = null;
 		clone.commentedOut = commentedOut;
+		clone.collapsed = false;
 		clone.brickId = UUID.randomUUID();
 		return clone;
 	}
