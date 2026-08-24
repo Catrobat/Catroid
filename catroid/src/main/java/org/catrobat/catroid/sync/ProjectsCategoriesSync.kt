@@ -28,17 +28,16 @@ import androidx.annotation.WorkerThread
 import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.awaitSuccessfulResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
-import org.catrobat.catroid.web.WebConnectionException
-import retrofit2.awaitResponse
-import java.io.IOException
 
 interface ProjectsCategoriesSync {
 
     // after language change from settings call it with force = true
     suspend fun sync(force: Boolean = false)
+
     // blocking bridge for Java callers that already run on a background thread
     @WorkerThread
     fun syncBlocking(force: Boolean) = runBlocking { sync(force) }
@@ -53,16 +52,8 @@ class DefaultProjectsCategoriesSync(
     @WorkerThread
     override suspend fun sync(force: Boolean) {
         val localHashVersion = localHashVersionRepository.getProjectsCategoriesHashVersion()
-        val response = try {
-            webService.getProjectCategories().awaitResponse()
-        } catch (ioException: IOException) {
-            Log.e(javaClass.simpleName, Log.getStackTraceString(ioException))
-            throw WebConnectionException(WebConnectionException.ERROR_NETWORK, "I/O Exception")
-        }
-
-        if (!response.isSuccessful) {
-            throw WebConnectionException(response.code(), response.message())
-        }
+        val response =
+            webService.getProjectCategories().awaitSuccessfulResponse(javaClass.simpleName)
 
         val serverHashVersion = response.headers().get("x-response-hash")
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
