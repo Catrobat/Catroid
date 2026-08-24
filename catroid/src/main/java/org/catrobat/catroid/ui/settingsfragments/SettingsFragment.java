@@ -607,7 +607,7 @@ public class SettingsFragment extends PreferenceFragment {
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
 			getActivity().finishAffinity();
-			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
+			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().syncBlocking(true));
 			return true;
 		});
 	}
