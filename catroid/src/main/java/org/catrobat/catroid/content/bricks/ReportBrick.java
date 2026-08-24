@@ -44,7 +44,7 @@ public class ReportBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createReportAction(sprite, new SequenceAction(), sequence.getScript(),
+				.createReportAction(sprite, sequence, sequence.getScript(),
 						getFormulaWithBrickField(BrickField.REPORT_BRICK)));
 	}
 }

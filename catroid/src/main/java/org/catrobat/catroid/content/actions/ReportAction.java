@@ -35,6 +35,7 @@ public class ReportAction extends Action {
 	private Script currentScript;
 	private Formula reportFormula;
 	private Scope scope;
+	private long callId = -1;
 
 	public void setScope(Scope scope) {
 		this.scope = scope;
@@ -48,6 +49,10 @@ public class ReportAction extends Action {
 		this.reportFormula = reportFormula;
 	}
 
+	public void setCallId(long callId) {
+		this.callId = callId;
+	}
+
 	public Formula getReportFormula() {
 		return this.reportFormula;
 	}
@@ -58,8 +63,12 @@ public class ReportAction extends Action {
 
 	@Override
 	public boolean act(float delta) {
-		if (actor instanceof Look) {
-			((Look) actor).stopThreadWithScript(currentScript);
+		if (callId != -1) {
+			Object value = reportFormula.interpretObject(scope);
+			org.catrobat.catroid.formulaeditor.FunctionCallManager.getInstance().setResult(callId, value);
+		}
+		if (actor instanceof org.catrobat.catroid.content.Look) {
+			((org.catrobat.catroid.content.Look) actor).stopThreadWithScript(currentScript);
 		}
 		return true;
 	}

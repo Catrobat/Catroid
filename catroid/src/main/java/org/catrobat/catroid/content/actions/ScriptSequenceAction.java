@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 
 public class ScriptSequenceAction extends SequenceAction {
 	protected final Script script;
+	public long callId = -1;
 
 	public ScriptSequenceAction(@NonNull Script script) {
 		this.script = script;

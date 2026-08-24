@@ -251,6 +251,10 @@ public class InternFormulaParser {
 				currentElement.replaceElement(collision());
 				break;
 
+			case USER_DEFINED_FUNCTION:
+				currentElement.replaceElement(userDefinedFunction(scope));
+				break;
+
 			default:
 				throw new InternFormulaParserException("Parse Error");
 		}
@@ -331,6 +335,20 @@ public class InternFormulaParser {
 		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
 		getNextToken();
 
+		parseParameters(functionTree, scope);
+		return functionTree;
+	}
+
+	private FormulaElement userDefinedFunction(Scope scope) throws InternFormulaParserException {
+		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.USER_DEFINED_FUNCTION,
+				currentToken.getTokenStringValue(), null);
+		getNextToken();
+
+		parseParameters(functionTree, scope);
+		return functionTree;
+	}
+
+	private void parseParameters(FormulaElement functionTree, Scope scope) throws InternFormulaParserException {
 		if (currentToken.isFunctionParameterBracketOpen()) {
 			getNextToken();
 			functionTree.setLeftChild(termList(scope));
@@ -347,7 +365,6 @@ public class InternFormulaParser {
 			}
 			getNextToken();
 		}
-		return functionTree;
 	}
 
 	private String number() throws InternFormulaParserException {
