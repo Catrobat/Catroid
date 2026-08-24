@@ -45,6 +45,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
@@ -225,8 +226,10 @@ class MainMenuFragmentTest : KoinTest {
 
     private fun syncBeforeLaunch(triggerSync: Boolean = true) {
         if (triggerSync) {
-            featuredProjectsSync.sync(true)
-            projectsCategoriesSync.sync(true)
+            runBlocking {
+                featuredProjectsSync.sync(true)
+                projectsCategoriesSync.sync(true)
+            }
         }
         baseActivityTestRule.launchActivity(null)
     }
