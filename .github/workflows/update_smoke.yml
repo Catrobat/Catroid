@@ -1,0 +1,134 @@
+name: Catroid Update Smoke Test
+
+on:
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+  workflow_dispatch:
+    inputs:
+      BASE_REF:
+        description: "Play Store baseline branch or commit to install before updating"
+        required: false
+        type: string
+        default: "main"
+
+env:
+  BASELINE_JAVA_VERSION: 21
+  PR_JAVA_VERSION: 21
+  PACKAGE_NAME: org.catrobat.catroid
+  BASELINE_REF: ${{ github.event.inputs.BASE_REF || 'main' }}
+
+concurrency:
+  group: update-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-smoke:
+    name: Update Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          path: pr
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Checkout baseline
+        uses: actions/checkout@v4
+        with:
+          path: baseline
+          ref: ${{ env.BASELINE_REF }}
+
+      - name: Resolve baseline commit
+        id: baseline-ref
+        working-directory: baseline
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup baseline JDK ${{ env.BASELINE_JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.BASELINE_JAVA_VERSION }}
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Restore baseline APK cache
+        id: baseline-cache
+        uses: actions/cache@v4
+        with:
+          path: baseline-apk
+          key: update-smoke-baseline-${{ steps.baseline-ref.outputs.sha }}-${{ hashFiles('baseline/**/*.gradle*', 'baseline/gradle/**') }}
+          restore-keys: |
+            update-smoke-baseline-${{ steps.baseline-ref.outputs.sha }}-
+
+      - name: Build baseline APK
+        if: steps.baseline-cache.outputs.cache-hit != 'true'
+        working-directory: baseline
+        run: |
+          ./gradlew :catroid:copyAndroidNatives :catroid:assembleCatroidRelease --stacktrace
+
+          mkdir -p ../baseline-apk
+          baseline_apk="$(find catroid/build/outputs/apk/catroid/release -name '*.apk' -print -quit)"
+          test -n "$baseline_apk"
+          cp "$baseline_apk" ../baseline-apk/catroid-update-baseline.apk
+          cp catroid/build/outputs/apk/catroid/release/output-metadata.json ../baseline-apk/output-metadata.json
+
+      - name: Resolve PR version code
+        id: pr-version
+        run: |
+          baseline_version_code="$(python3 -c 'import json; print(json.load(open("baseline-apk/output-metadata.json", encoding="utf-8"))["elements"][0]["versionCode"])')"
+          echo "version-code=$((baseline_version_code + 1))" >> "$GITHUB_OUTPUT"
+
+      - name: Setup PR JDK ${{ env.PR_JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.PR_JAVA_VERSION }}
+
+      - name: Build PR APK
+        working-directory: pr
+        run: |
+          ./gradlew :catroid:copyAndroidNatives :catroid:assembleCatroidUpdateTest \
+            -PversionCodeOverride=${{ steps.pr-version.outputs.version-code }} \
+            --stacktrace
+
+          pr_apk="$(find catroid/build/outputs/apk/catroid/updateTest -name '*.apk' -print -quit)"
+          test -n "$pr_apk"
+          echo "$pr_apk" > ../pr-apk-path.txt
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run update smoke test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          force-avd-creation: true
+          emulator-boot-timeout: 900
+          emulator-options: >
+            -no-window
+            -no-boot-anim
+          script: |
+            bash pr/automationScripts/update-smoke/run-update-smoke.sh "$(pwd)/baseline-apk/catroid-update-baseline.apk" "$(pwd)/pr/$(cat pr-apk-path.txt)" "${{ env.PACKAGE_NAME }}"
+
+      - name: Upload update smoke artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: update-smoke-artifacts
+          path: pr/build/update-smoke/**
