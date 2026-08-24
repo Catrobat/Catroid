@@ -469,6 +469,11 @@ public final class CastManager {
 				@Override
 				public void onRemoteDisplaySessionEnded(CastRemoteDisplayLocalService castRemoteDisplayLocalService) {
 				}
+
+				// needed for new version of play-services-cast
+				@Override
+				public void onRemoteDisplayMuteStateChanged(boolean isMuted) {
+				}
 			};
 
 			CastRemoteDisplayLocalService.startService(activity, CastService.class,
