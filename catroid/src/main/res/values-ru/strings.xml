@@ -1110,6 +1110,9 @@
     <string formatted="false" name="brick_reset_timer">Сбросить таймер</string>
     <string formatted="false" name="brick_open">Открыть </string>
     <string formatted="false" name="brick_in_browser">в браузере</string>
+    <string formatted="false" name="brick_show_toast">Показать сообщение</string>
+    <string formatted="false" name="brick_show_toast_default_value">Привет Мир!</string>
+
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">При запуске сцены</string>
     <string formatted="false" name="brick_when">При нажатии</string>
