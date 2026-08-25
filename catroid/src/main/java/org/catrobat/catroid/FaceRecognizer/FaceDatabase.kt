@@ -657,7 +657,7 @@ class FaceDatabase {
     }
 
     private fun personScore(index: Int, query: FloatArray): Float {
-        val personSamples = samples[index]
+        val personSamples = samples.get(index)
         val centroid = centroids[index]
 
         if (personSamples.isEmpty()) {
