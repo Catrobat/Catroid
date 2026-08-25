@@ -261,7 +261,6 @@ public class ActionFactory extends Actions {
 	}
 	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
 		FaceNameTrainAction action = new FaceNameTrainAction();
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		return action;
 	}
 	public Action faceNameDetectAction(Sprite sprite, SequenceAction sequence) {

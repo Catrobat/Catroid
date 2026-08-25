@@ -37,8 +37,8 @@ class BlazeFace private constructor() {
     private lateinit var anchors: MutableList<Anchor>
 
     private class Anchor {
-        var x_center = 0f
-        var y_center = 0f
+        var xaCenter = 0f
+        var yaCenter = 0f
         var h = 0f
         var w = 0f
     }
@@ -107,23 +107,23 @@ class BlazeFace private constructor() {
 
             if (score <= MIN_SCORE_THRESH) continue
 
-            var x_center: Float = outputBoxes[i * NUM_COORDS]
-            var y_center: Float = outputBoxes[i * NUM_COORDS + 1]
+            var xaCenter: Float = outputBoxes[i * NUM_COORDS]
+            var yaCenter: Float = outputBoxes[i * NUM_COORDS + 1]
             var w: Float = outputBoxes[i * NUM_COORDS + 2]
             var h: Float = outputBoxes[i * NUM_COORDS + 3]
 
-            x_center =
-                x_center / X_SCALE * anchors[i].w + anchors[i].x_center
-            y_center =
-                y_center / Y_SCALE * anchors[i].h + anchors[i].y_center
+            xaCenter =
+                xaCenter / X_SCALE * anchors[i].w + anchors[i].xaCenter
+            yaCenter =
+                yaCenter / Y_SCALE * anchors[i].h + anchors[i].yaCenter
 
             h = h / H_SCALE * anchors[i].h
             w = w / W_SCALE * anchors[i].w
 
-            val ymin = y_center - h / 2f
-            val xmin = x_center - w / 2f
-            val ymax = y_center + h / 2f
-            val xmax = x_center + w / 2f
+            val ymin = yaCenter - h / 2f
+            val xmin = xaCenter - w / 2f
+            val ymax = yaCenter + h / 2f
+            val xmax = xaCenter + w / 2f
 
             // The remaining 12 coordinates are the six landmarks. The original code
             // decoded only the box and discarded these, which is why faces were never
@@ -133,10 +133,10 @@ class BlazeFace private constructor() {
                 val kx: Float = outputBoxes[i * NUM_COORDS + 4 + k * 2]
                 val ky: Float = outputBoxes[i * NUM_COORDS + 5 + k * 2]
                 keypoints[k * 2] =
-                    ((kx / X_SCALE * anchors[i].w + anchors[i].x_center)
+                    ((kx / X_SCALE * anchors[i].w + anchors[i].xaCenter)
                         * INPUT_SIZE_WIDTH)
                 keypoints[k * 2 + 1] =
-                    ((ky / Y_SCALE * anchors[i].h + anchors[i].y_center)
+                    ((ky / Y_SCALE * anchors[i].h + anchors[i].yaCenter)
                         * INPUT_SIZE_HEIGHT)
             }
 
@@ -151,13 +151,13 @@ class BlazeFace private constructor() {
             return ArrayList<RectF>()
         }
 
-        val indexed_scores: MutableList<IndexedScore> = ArrayList<IndexedScore>()
+        val indexedScores: MutableList<IndexedScore> = ArrayList<IndexedScore>()
         for (index in detections.indices) {
-            indexed_scores.add(
+            indexedScores.add(
                 IndexedScore(index, detections[index].score)
             )
         }
-        indexed_scores.sortWith(
+        indexedScores.sortWith(
             Comparator { o1, o2 ->
                 o2.score.compareTo(o1.score)
             }
@@ -165,7 +165,7 @@ class BlazeFace private constructor() {
 
         val retained: List<FaceBox> =
             WeightedNonMaxSuppression(
-                indexed_scores,
+                indexedScores,
                 detections
             ).toList()
 
@@ -190,18 +190,18 @@ class BlazeFace private constructor() {
     }
 
     private fun WeightedNonMaxSuppression(
-        indexed_scores: MutableList<IndexedScore>,
+        indexedScores: MutableList<IndexedScore>,
         detections: List<Detection>
     ): MutableList<FaceBox> {
-        val remained_indexed_scores: MutableList<IndexedScore> =
-            ArrayList<IndexedScore>(indexed_scores)
+        val remainedIndexedScores: MutableList<IndexedScore> =
+            ArrayList<IndexedScore>(indexedScores)
 
         val remained: MutableList<IndexedScore> = ArrayList<IndexedScore>()
         val candidates: MutableList<IndexedScore> = ArrayList<IndexedScore>()
-        val output_locations: MutableList<FaceBox> = ArrayList<FaceBox>()
+        val outputLocations: MutableList<FaceBox> = ArrayList<FaceBox>()
 
-        while (remained_indexed_scores.isNotEmpty()) {
-            val detection = detections[remained_indexed_scores[0].index]
+        while (remainedIndexedScores.isNotEmpty()) {
+            val detection = detections[remainedIndexedScores[0].index]
             if (detection.score.toInt() < -1f) {
                 break
             }
@@ -210,45 +210,45 @@ class BlazeFace private constructor() {
             candidates.clear()
             val location = RectF(detection.location)
             // This includes the first box.
-            for (indexed_score in remained_indexed_scores) {
-                val rest_location = RectF(detections[indexed_score.index].location)
+            for (indexed_score in remainedIndexedScores) {
+                val restLocation = RectF(detections[indexed_score.index].location)
                 val similarity =
-                    OverlapSimilarity(rest_location, location)
+                    OverlapSimilarity(restLocation, location)
                 if (similarity > MIN_SUPPRESSION_THRESHOLD) {
                     candidates.add(indexed_score)
                 } else {
                     remained.add(indexed_score)
                 }
             }
-            val weighted_location = RectF(detection.location)
+            val weightedLocation = RectF(detection.location)
             if (candidates.isNotEmpty()) {
-                var w_xmin = 0.0f
-                var w_ymin = 0.0f
-                var w_xmax = 0.0f
-                var w_ymax = 0.0f
-                var total_score = 0.0f
+                var wxmin = 0.0f
+                var wymin = 0.0f
+                var wxmax = 0.0f
+                var wymax = 0.0f
+                var totalScore = 0.0f
                 for (candidate in candidates) {
-                    total_score += candidate.score
+                    totalScore += candidate.score
                     val bbox =
                         detections[candidate.index].location
-                    w_xmin += bbox.left * candidate.score
-                    w_ymin += bbox.top * candidate.score
-                    w_xmax += bbox.right * candidate.score
-                    w_ymax += bbox.bottom * candidate.score
+                    wxmin += bbox.left * candidate.score
+                    wymin += bbox.top * candidate.score
+                    wxmax += bbox.right * candidate.score
+                    wymax += bbox.bottom * candidate.score
                 }
-                weighted_location.left = w_xmin / total_score * INPUT_SIZE_WIDTH
-                weighted_location.top = w_ymin / total_score * INPUT_SIZE_HEIGHT
-                weighted_location.right = w_xmax / total_score * INPUT_SIZE_WIDTH
-                weighted_location.bottom = w_ymax / total_score * INPUT_SIZE_HEIGHT
+                weightedLocation.left = wxmin / totalScore * INPUT_SIZE_WIDTH
+                weightedLocation.top = wymin / totalScore * INPUT_SIZE_HEIGHT
+                weightedLocation.right = wxmax / totalScore * INPUT_SIZE_WIDTH
+                weightedLocation.bottom = wymax / totalScore * INPUT_SIZE_HEIGHT
             }
-            remained_indexed_scores.clear()
-            remained_indexed_scores.addAll(remained)
+            remainedIndexedScores.clear()
+            remainedIndexedScores.addAll(remained)
             // Landmarks come from the seed, which is the highest scoring detection
             // in this cluster. Averaging them adds nothing and blurs the eyes.
-            output_locations.add(FaceBox(weighted_location, detection.keypoints))
+            outputLocations.add(FaceBox(weightedLocation, detection.keypoints))
         }
 
-        return output_locations
+        return outputLocations
     }
 
     // Computes an overlap similarity between two rectangles. Similarity measure is
@@ -258,11 +258,11 @@ class BlazeFace private constructor() {
         val intersection = RectF()
         intersection.setIntersect(rect1, rect2)
 
-        val intersection_area = intersection.height() * intersection.width()
+        val intersectionArea = intersection.height() * intersection.width()
         val normalization = (rect1.height() * rect1.width()
-            + rect2.height() * rect2.width() - intersection_area)
+            + rect2.height() * rect2.width() - intersectionArea)
 
-        return if (normalization > 0.0f) intersection_area / normalization else 0.0f
+        return if (normalization > 0.0f) intersectionArea / normalization else 0.0f
     }
 
     fun close() {
@@ -403,8 +403,8 @@ class BlazeFace private constructor() {
             repeat(anchorCount) {
                 anchors.add(
                     Anchor().apply {
-                        x_center = xCenter
-                        y_center = yCenter
+                        xaCenter = xCenter
+                        yaCenter = yCenter
                         w = 1.0f
                         h = 1.0f
                     }
