@@ -156,67 +156,130 @@ class FaceDatabase {
 
     private fun loadModel(): Boolean {
         val lines = readLines(FileUtils.MODEL_FILE)
+
         if (lines.isEmpty()) {
             return false
         }
-        val header = lines[0].split(" ").filter { it.isNotEmpty() }
-        if (header.size < 3 || header[0] != "v" + VERSION) {
+
+        val header = splitLine(lines.first())
+
+        if (!isValidHeader(header)) {
             Log.w(TAG, "Unknown model format, rebuilding from data")
             return false
         }
-        try {
-            if (header[1]!!.toInt() != FaceNet.EMBEDDING_SIZE
-                || header[2]!!.toInt() != names.size
-            ) {
-                Log.w(TAG, "Model does not match label file, rebuilding from data")
-                return false
-            }
-            if (header.size >= 5) {
-                minSimilarity = header[3]!!.toFloat()
-                minMargin = header[4]!!.toFloat()
-                Log.i(TAG, "Thresholds from model: " + minSimilarity + " / " + minMargin)
-            }
 
-            var storedPipeline = 1
-            if (header.size >= 6 && header[5]!!.startsWith("p")) {
-                storedPipeline = header[5]!!.substring(1).toInt()
-            }
-            if (storedPipeline != PIPELINE_VERSION) {
-                staleEmbeddings = true
-                Log.e(
-                    TAG, ("STORED PHOTOS ARE OUT OF DATE. They were made by face "
-                        + "pipeline v" + storedPipeline + ", this build uses v"
-                        + PIPELINE_VERSION + ". They cannot match a new capture at "
-                        + "any threshold. Delete each person and add their photos "
-                        + "again.")
-                )
-            }
-        } catch (e: NumberFormatException) {
+        if (!loadModelMetadata(header)) {
             return false
         }
 
-        var read = 0
-        for (i in 1..<lines.size) {
-            val parts = lines[i].split(" ").filter { it.isNotEmpty() }
-            if (parts.size != FaceNet.EMBEDDING_SIZE + 2) {
-                continue
+        return loadCentroids(lines) > 0
+    }
+
+    private fun splitLine(line: String): List<String> =
+        line.split(" ").filter { it.isNotEmpty() }
+
+    private fun isValidHeader(header: List<String>): Boolean =
+        header.size >= 3 && header[0] == "v$VERSION"
+
+    private fun loadModelMetadata(header: List<String>): Boolean {
+        return try {
+            if (!modelMatchesLabels(header)) {
+                Log.w(TAG, "Model does not match label file, rebuilding from data")
+                false
+            } else {
+                loadThresholds(header)
+                checkPipelineVersion(header)
+                true
             }
-            try {
-                val index = parts[0].toInt()
-                if (index < 0 || index >= names.size) {
-                    continue
-                }
-                val c = FloatArray(FaceNet.EMBEDDING_SIZE)
-                for (j in c.indices) {
-                    c[j] = parts[j + 2].toFloat()
-                }
-                centroids.set(index, c)
-                read++
-            } catch (ignored: NumberFormatException) {
-                // skip malformed line
+        } catch (e: NumberFormatException) {
+            Log.w(TAG, "Invalid numeric value in model header", e)
+            false
+        }
+    }
+
+    private fun modelMatchesLabels(header: List<String>): Boolean =
+        header[1].toInt() == FaceNet.EMBEDDING_SIZE &&
+            header[2].toInt() == names.size
+
+    private fun loadThresholds(header: List<String>) {
+        if (header.size < 5) {
+            return
+        }
+
+        minSimilarity = header[3].toFloat()
+        minMargin = header[4].toFloat()
+
+        Log.i(TAG, "Thresholds from model: $minSimilarity / $minMargin")
+    }
+
+    private fun checkPipelineVersion(header: List<String>) {
+        val storedPipeline = readPipelineVersion(header)
+
+        if (storedPipeline == PIPELINE_VERSION) {
+            return
+        }
+
+        staleEmbeddings = true
+
+        Log.e(
+            TAG,
+            "STORED PHOTOS ARE OUT OF DATE. They were made by face " +
+                "pipeline v$storedPipeline, this build uses v$PIPELINE_VERSION. " +
+                "They cannot match a new capture at any threshold. Delete each " +
+                "person and add their photos again."
+        )
+    }
+
+    private fun readPipelineVersion(header: List<String>): Int {
+        val pipelineValue = header.getOrNull(5) ?: return 1
+
+        return if (pipelineValue.startsWith("p")) {
+            pipelineValue.substring(1).toInt()
+        } else {
+            1
+        }
+    }
+
+    private fun loadCentroids(lines: List<String>): Int {
+        var readCount = 0
+
+        for (i in 1 until lines.size) {
+            if (loadCentroid(lines[i])) {
+                readCount++
             }
         }
-        return read > 0
+
+        return readCount
+    }
+
+    private fun loadCentroid(line: String): Boolean {
+        val parts = splitLine(line)
+
+        if (parts.size != FaceNet.EMBEDDING_SIZE + 2) {
+            return false
+        }
+
+        return try {
+            storeCentroid(parts)
+        } catch (e: NumberFormatException) {
+            // Ignore malformed model lines.
+            false
+        }
+    }
+
+    private fun storeCentroid(parts: List<String>): Boolean {
+        val index = parts[0].toInt()
+
+        if (index !in names.indices) {
+            return false
+        }
+
+        val centroid = FloatArray(FaceNet.EMBEDDING_SIZE) { position ->
+            parts[position + 2].toFloat()
+        }
+
+        centroids[index] = centroid
+        return true
     }
 
     private fun rebuildCentroids() {
