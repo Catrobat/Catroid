@@ -2026,7 +2026,7 @@ class Recognizer private constructor() {
                 deviation
             )
         }
-        
+
 
         @JvmStatic
         @Synchronized

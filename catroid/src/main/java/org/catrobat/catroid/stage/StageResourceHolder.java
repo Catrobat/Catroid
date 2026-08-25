@@ -348,12 +348,16 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	public void initFinishedRunStage() {
 		FaceDetector.setScriptRunning(true);      // add as the first line
 		try {
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
-		} catch (MindstormsException e) {
-			Log.e(TAG, e.getMessage());
-		}
-		try {
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+			final var bluetoothService = ServiceProvider.getService(
+					CatroidService.BLUETOOTH_DEVICE_SERVICE
+			);
+
+			if (bluetoothService == null) {
+				Log.e(TAG, "Bluetooth device service is unavailable");
+				return;
+			}
+
+			bluetoothService.initialise();
 		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
