@@ -100,17 +100,17 @@ class BlazeFace private constructor() {
 
         val detections: MutableList<Detection> = ArrayList<Detection>()
         for (i in 0..<NUM_BOXES) {
-            var score = outputScores.get(i)
+            var score = outputScores[i]
             score = if (score < -100.0f) -100.0f else score
             score = if (score > 100.0f) 100.0f else score
             score = 1.0f / (1.0f + exp(-score.toDouble()).toFloat())
 
             if (score <= MIN_SCORE_THRESH) continue
 
-            var x_center: Float = outputBoxes.get(i * NUM_COORDS)
-            var y_center: Float = outputBoxes.get(i * NUM_COORDS + 1)
-            var w: Float = outputBoxes.get(i * NUM_COORDS + 2)
-            var h: Float = outputBoxes.get(i * NUM_COORDS + 3)
+            var x_center: Float = outputBoxes[i * NUM_COORDS]
+            var y_center: Float = outputBoxes[i * NUM_COORDS + 1]
+            var w: Float = outputBoxes[i * NUM_COORDS + 2]
+            var h: Float = outputBoxes[i * NUM_COORDS + 3]
 
             x_center =
                 x_center / X_SCALE * anchors[i].w + anchors[i].x_center
@@ -130,8 +130,8 @@ class BlazeFace private constructor() {
             // aligned before being handed to FaceNet.
             val keypoints = FloatArray(12)
             for (k in 0..5) {
-                val kx: Float = outputBoxes.get(i * NUM_COORDS + 4 + k * 2)
-                val ky: Float = outputBoxes.get(i * NUM_COORDS + 5 + k * 2)
+                val kx: Float = outputBoxes[i * NUM_COORDS + 4 + k * 2]
+                val ky: Float = outputBoxes[i * NUM_COORDS + 5 + k * 2]
                 keypoints[k * 2] =
                     ((kx / X_SCALE * anchors[i].w + anchors[i].x_center)
                         * INPUT_SIZE_WIDTH)
@@ -154,7 +154,7 @@ class BlazeFace private constructor() {
         val indexed_scores: MutableList<IndexedScore> = ArrayList<IndexedScore>()
         for (index in detections.indices) {
             indexed_scores.add(
-                IndexedScore(index, detections.get(index).score)
+                IndexedScore(index, detections[index].score)
             )
         }
         indexed_scores.sortWith(
@@ -196,8 +196,8 @@ class BlazeFace private constructor() {
         val candidates: MutableList<IndexedScore> = ArrayList<IndexedScore>()
         val output_locations: MutableList<FaceBox> = ArrayList<FaceBox>()
 
-        while (!remained_indexed_scores.isEmpty()) {
-            val detection = detections.get(remained_indexed_scores.get(0).index)
+        while (remained_indexed_scores.isNotEmpty()) {
+            val detection = detections[remained_indexed_scores[0].index]
             if (detection.score.toInt() < -1f) {
                 break
             }
@@ -207,7 +207,7 @@ class BlazeFace private constructor() {
             val location = RectF(detection.location)
             // This includes the first box.
             for (indexed_score in remained_indexed_scores) {
-                val rest_location = RectF(detections.get(indexed_score.index).location)
+                val rest_location = RectF(detections[indexed_score.index].location)
                 val similarity =
                     OverlapSimilarity(rest_location, location)
                 if (similarity > MIN_SUPPRESSION_THRESHOLD) {
@@ -217,7 +217,7 @@ class BlazeFace private constructor() {
                 }
             }
             val weighted_location = RectF(detection.location)
-            if (!candidates.isEmpty()) {
+            if (candidates.isNotEmpty()) {
                 var w_xmin = 0.0f
                 var w_ymin = 0.0f
                 var w_xmax = 0.0f
@@ -226,7 +226,7 @@ class BlazeFace private constructor() {
                 for (candidate in candidates) {
                     total_score += candidate.score
                     val bbox =
-                        detections.get(candidate.index).location
+                        detections[candidate.index].location
                     w_xmin += bbox.left * candidate.score
                     w_ymin += bbox.top * candidate.score
                     w_xmax += bbox.right * candidate.score
@@ -312,13 +312,13 @@ class BlazeFace private constructor() {
             }
         }
 
-        private fun CalculateScale(
-            min_scale: Float, max_scale: Float, stride_index: Int,
-            num_strides: Int
-        ): Float {
-            return min_scale +
-                (max_scale - min_scale) * 1.0f * stride_index / (num_strides - 1.0f)
-        }
+//        private fun CalculateScale(
+//            min_scale: Float, max_scale: Float, stride_index: Int,
+//            num_strides: Int
+//        ): Float {
+//            return min_scale +
+//                (max_scale - min_scale) * 1.0f * stride_index / (num_strides - 1.0f)
+//        }
 
         private data class AnchorLayerInfo(
             val nextLayerId: Int,

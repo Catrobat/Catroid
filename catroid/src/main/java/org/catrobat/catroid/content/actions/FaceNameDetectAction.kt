@@ -116,28 +116,19 @@ class FaceNameDetectAction : Action() {
 
         FaceDetector.resetForNewRun()
 
-        val callback =
-            object : FaceDetector.Callback {
+        val callback = FaceDetector.Callback { name, confidence ->
+            detectedName = name
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() }
+                ?: FaceDetector.UNKNOWN
 
-                override fun onFinished(
-                    name: String?,
-                    confidence: Float
-                ) {
-                    detectedName =
-                        name
-                            ?.trim()
-                            ?.takeIf { it.isNotEmpty() }
-                            ?: FaceDetector.UNKNOWN
+            Log.i(
+                TAG,
+                "Detected '$detectedName' with confidence $confidence"
+            )
 
-                    Log.i(
-                        TAG,
-                        "Detected '$detectedName' " +
-                            "with confidence $confidence"
-                    )
-
-                    resultReady = true
-                }
-            }
+            resultReady = true
+        }
 
         val started =
             FaceDetector.detectNow(

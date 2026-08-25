@@ -829,7 +829,7 @@ class FaceEmbedder private constructor(
         fun mirrorRect(box: Rect, frameWidth: Int): Rect {
             return Rect(frameWidth - box.right, box.top, frameWidth - box.left, box.bottom)
         }
-        
+
 
         /** Unit length, so a dot product between two embeddings is the cosine similarity.  */
         private fun normalize(v: FloatArray): FloatArray? {

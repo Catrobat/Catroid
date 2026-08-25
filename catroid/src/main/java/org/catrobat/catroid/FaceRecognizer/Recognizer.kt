@@ -189,7 +189,7 @@ class Recognizer private constructor() {
 
     private fun extractEmbeddingsSafely(
         resolver: ContentResolver?,
-        uris: MutableList<Uri>,
+        uris: List<Uri>,
         progressListener: Recognizer.ProgressListener
     ): EnrolResult? {
         return try {
@@ -236,7 +236,7 @@ class Recognizer private constructor() {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Synchronized
-    fun extractEmbeddings(resolver: ContentResolver?, uris: MutableList<Uri>?): EnrolResult {
+    fun extractEmbeddings(resolver: ContentResolver?, uris: List<Uri>?): EnrolResult {
         return extractEmbeddings(resolver, uris, listener = null)
     }
     @RequiresApi(Build.VERSION_CODES.N)

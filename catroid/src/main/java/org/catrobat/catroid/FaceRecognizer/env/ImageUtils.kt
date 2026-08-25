@@ -115,74 +115,74 @@ object ImageUtils {
         return -0x1000000 or ((r shl 6) and 0xff0000) or ((g shr 2) and 0xff00) or ((b shr 10) and 0xff)
     }
 
-    fun convertYUV420ToARGB8888(
-        yData: ByteArray,
-        uData: ByteArray,
-        vData: ByteArray,
-        width: Int,
-        height: Int,
-        yRowStride: Int,
-        uvRowStride: Int,
-        uvPixelStride: Int,
-        out: IntArray
-    ) {
-        if (useNativeConversion) {
-            try {
-                convertYUV420ToARGB8888(
-                    yData,
-                    uData,
-                    vData,
-                    out,
-                    width,
-                    height,
-                    yRowStride,
-                    uvRowStride,
-                    uvPixelStride,
-                    false
-                )
-                return
-            } catch (e: UnsatisfiedLinkError) {
-                Log.w(
-                    "ImageUtils",
-                    String.format("Native YUV420 -> RGB implementation not found, falling back to Java implementation")
-                )
-                useNativeConversion = false
-            }
-        }
-
-        var yp = 0
-        for (j in 0..<height) {
-            val pY = yRowStride * j
-            val pUV = uvRowStride * (j shr 1)
-
-            for (i in 0..<width) {
-                val uv_offset = pUV + (i shr 1) * uvPixelStride
-
-                out[yp++] = YUV2RGB(
-                    0xff and yData[pY + i].toInt(),
-                    0xff and uData[uv_offset].toInt(),
-                    0xff and vData[uv_offset].toInt()
-                )
-            }
-        }
-    }
+//    fun convertYUV420ToARGB8888(
+//        yData: ByteArray,
+//        uData: ByteArray,
+//        vData: ByteArray,
+//        width: Int,
+//        height: Int,
+//        yRowStride: Int,
+//        uvRowStride: Int,
+//        uvPixelStride: Int,
+//        out: IntArray
+//    ) {
+//        if (useNativeConversion) {
+//            try {
+//                convertYUV420ToARGB8888(
+//                    yData,
+//                    uData,
+//                    vData,
+//                    out,
+//                    width,
+//                    height,
+//                    yRowStride,
+//                    uvRowStride,
+//                    uvPixelStride,
+//                    false
+//                )
+//                return
+//            } catch (e: UnsatisfiedLinkError) {
+//                Log.w(
+//                    "ImageUtils",
+//                    String.format("Native YUV420 -> RGB implementation not found, falling back to Java implementation")
+//                )
+//                useNativeConversion = false
+//            }
+//        }
+//
+//        var yp = 0
+//        for (j in 0..<height) {
+//            val pY = yRowStride * j
+//            val pUV = uvRowStride * (j shr 1)
+//
+//            for (i in 0..<width) {
+//                val uv_offset = pUV + (i shr 1) * uvPixelStride
+//
+//                out[yp++] = YUV2RGB(
+//                    0xff and yData[pY + i].toInt(),
+//                    0xff and uData[uv_offset].toInt(),
+//                    0xff and vData[uv_offset].toInt()
+//                )
+//            }
+//        }
+//    }
 
     private external fun convertYUV420SPToARGB8888(
         input: ByteArray?, output: IntArray?, width: Int, height: Int, halfSize: Boolean
     )
 
-    private external fun convertYUV420ToARGB8888(
-        y: ByteArray?,
-        u: ByteArray?,
-        v: ByteArray?,
-        output: IntArray?,
-        width: Int,
-        height: Int,
-        yRowStride: Int,
-        uvRowStride: Int,
-        uvPixelStride: Int,
-        halfSize: Boolean
-    )
+//    private external fun convertYUV420ToARGB8888(
+//        y: ByteArray?,
+//        u: ByteArray?,
+//        v: ByteArray?,
+//        output: IntArray?,
+//        width: Int,
+//        height: Int,
+//        yRowStride: Int,
+//        uvRowStride: Int,
+//        uvPixelStride: Int,
+//        halfSize: Boolean
+//    )
 
     private external fun convertYUV420SPToRGB565(
         input: ByteArray?, output: ByteArray?, width: Int, height: Int
