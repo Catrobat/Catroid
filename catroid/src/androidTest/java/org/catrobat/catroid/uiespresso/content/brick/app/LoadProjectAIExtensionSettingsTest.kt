@@ -169,7 +169,7 @@ class LoadProjectAIExtensionSettingsTest(
         )
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
-        private var on_Device_Face_Recognition = FormulaElement(SENSOR, Sensors.On_Device_Face_Recognition.name, null)
+        private var on_Device_Face_Recognition = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
         private var faceXPosition = FormulaElement(SENSOR, FACE_X.name, null)
