@@ -245,7 +245,7 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_loudness:
 				return buildSensor(Sensors.LOUDNESS);
 			case R.string.formula_editor_sensor_face_name_detected:
-				return buildSensor(Sensors.On_Device_Face_Recognition);
+				return buildSensor(Sensors.ON_DEVICE_FACE_RECOGNITION);
 			case R.string.formula_editor_sensor_face_detected:
 				return buildSensor(Sensors.FACE_DETECTED);
 			case R.string.formula_editor_sensor_face_size:

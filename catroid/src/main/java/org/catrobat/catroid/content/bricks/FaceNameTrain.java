@@ -32,6 +32,7 @@ public class FaceNameTrain extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public FaceNameTrain() {
+		// This brick has no configurable state; inherited initialization is sufficient.
 	}
 
 	@Override

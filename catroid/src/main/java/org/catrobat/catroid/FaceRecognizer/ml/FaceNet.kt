@@ -78,6 +78,13 @@ class FaceNet private constructor() {
 
         private const val BYTE_SIZE_OF_FLOAT = 4
 
+        private const val RGB_CHANNEL_COUNT = 3
+        private const val LOW_PERCENTILE = 0.02f
+        private const val HIGH_PERCENTILE = 0.98f
+        private const val MIN_INTENSITY_RANGE = 16
+        private const val MAX_INTENSITY = 255f
+        private const val MIN_VALID_CHANNEL_MEAN = 1f
+
         /**
          * Bilinear filtering when the face crop is scaled into the 160x160 input.
          * Without this the draw is nearest neighbour, which aliases badly on any
@@ -135,76 +142,144 @@ class FaceNet private constructor() {
          * Pass 1, grey world: scale each channel so all three have the same mean.
          * Pass 2, contrast stretch: map the 2nd and 98th percentile to 0 and 255.
          */
+
+        private data class ChannelMeans(
+            val red: Float,
+            val green: Float,
+            val blue: Float
+        ) {
+            val grey: Float
+                get() = (red + green + blue) / RGB_CHANNEL_COUNT
+        }
+
         private fun normalizeIllumination(rgb: FloatArray) {
-            val pixels = rgb.size / 3
-            if (pixels <= 0) {
+            val pixelCount = rgb.size / RGB_CHANNEL_COUNT
+            if (pixelCount <= 0) {
                 return
             }
 
-            var sumR = 0.0
-            var sumG = 0.0
-            var sumB = 0.0
-            for (i in 0..<pixels) {
-                sumR += rgb[i * 3].toDouble()
-                sumG += rgb[i * 3 + 1].toDouble()
-                sumB += rgb[i * 3 + 2].toDouble()
-            }
-            val meanR = (sumR / pixels).toFloat()
-            val meanG = (sumG / pixels).toFloat()
-            val meanB = (sumB / pixels).toFloat()
-            val grey = (meanR + meanG + meanB) / 3f
+            applyGreyWorldBalance(rgb, pixelCount)
 
-            if (meanR > 1f && meanG > 1f && meanB > 1f) {
-                val gainR = grey / meanR
-                val gainG = grey / meanG
-                val gainB = grey / meanB
-                for (i in 0..<pixels) {
-                    rgb[i * 3] *= gainR
-                    rgb[i * 3 + 1] *= gainG
-                    rgb[i * 3 + 2] *= gainB
-                }
+            val histogram = createHistogram(rgb)
+            val low = findPercentileBin(
+                histogram,
+                (rgb.size * LOW_PERCENTILE).toInt()
+            )
+            val high = findPercentileBin(
+                histogram,
+                (rgb.size * HIGH_PERCENTILE).toInt()
+            )
+
+            if (high - low < MIN_INTENSITY_RANGE) {
+                return
             }
 
-            // Percentiles from a 256 bin histogram. Cheap and accurate enough here.
+            stretchIntensityRange(rgb, low, high)
+        }
+
+        private fun applyGreyWorldBalance(
+            rgb: FloatArray,
+            pixelCount: Int
+        ) {
+            val means = calculateChannelMeans(rgb, pixelCount)
+
+            if (!hasValidChannelMeans(means)) {
+                return
+            }
+
+            applyChannelGains(
+                rgb = rgb,
+                pixelCount = pixelCount,
+                redGain = means.grey / means.red,
+                greenGain = means.grey / means.green,
+                blueGain = means.grey / means.blue
+            )
+        }
+
+        private fun calculateChannelMeans(
+            rgb: FloatArray,
+            pixelCount: Int
+        ): ChannelMeans {
+            var redSum = 0.0
+            var greenSum = 0.0
+            var blueSum = 0.0
+
+            for (pixelIndex in 0 until pixelCount) {
+                val offset = pixelIndex * RGB_CHANNEL_COUNT
+                redSum += rgb[offset].toDouble()
+                greenSum += rgb[offset + 1].toDouble()
+                blueSum += rgb[offset + 2].toDouble()
+            }
+
+            return ChannelMeans(
+                red = (redSum / pixelCount).toFloat(),
+                green = (greenSum / pixelCount).toFloat(),
+                blue = (blueSum / pixelCount).toFloat()
+            )
+        }
+
+        private fun hasValidChannelMeans(
+            means: ChannelMeans
+        ): Boolean {
+            return means.red > MIN_VALID_CHANNEL_MEAN &&
+                means.green > MIN_VALID_CHANNEL_MEAN &&
+                means.blue > MIN_VALID_CHANNEL_MEAN
+        }
+
+        private fun applyChannelGains(
+            rgb: FloatArray,
+            pixelCount: Int,
+            redGain: Float,
+            greenGain: Float,
+            blueGain: Float
+        ) {
+            for (pixelIndex in 0 until pixelCount) {
+                val offset = pixelIndex * RGB_CHANNEL_COUNT
+                rgb[offset] *= redGain
+                rgb[offset + 1] *= greenGain
+                rgb[offset + 2] *= blueGain
+            }
+        }
+
+        private fun createHistogram(
+            rgb: FloatArray
+        ): IntArray {
             val histogram = IntArray(256)
-            for (v in rgb) {
-                var bin = v.toInt()
-                if (bin < 0) {
-                    bin = 0
-                } else if (bin > 255) {
-                    bin = 255
-                }
-                histogram[bin]++
+
+            for (value in rgb) {
+                histogram[value.toInt().coerceIn(0, 255)]++
             }
 
-            val lowTarget = (rgb.size * 0.02f).toInt()
-            val highTarget = (rgb.size * 0.98f).toInt()
-            var low = 0
-            var high = 255
-            var running = 0
-            for (i in 0..255) {
-                running += histogram[i]
-                if (running >= lowTarget) {
-                    low = i
-                    break
-                }
-            }
-            running = 0
-            for (i in 0..255) {
-                running += histogram[i]
-                if (running >= highTarget) {
-                    high = i
-                    break
+            return histogram
+        }
+
+        private fun findPercentileBin(
+            histogram: IntArray,
+            target: Int
+        ): Int {
+            var runningTotal = 0
+
+            for (bin in histogram.indices) {
+                runningTotal += histogram[bin]
+
+                if (runningTotal >= target) {
+                    return bin
                 }
             }
 
-            if (high - low < 16) {
-                return
-            }
-            val scale = 255f / (high - low)
-            for (i in rgb.indices) {
-                val v = (rgb[i] - low) * scale
-                rgb[i] = if (v < 0f) 0f else (if (v > 255f) 255f else v)
+            return histogram.lastIndex
+        }
+
+        private fun stretchIntensityRange(
+            rgb: FloatArray,
+            low: Int,
+            high: Int
+        ) {
+            val scale = MAX_INTENSITY / (high - low).toFloat()
+
+            for (index in rgb.indices) {
+                rgb[index] = ((rgb[index] - low) * scale)
+                    .coerceIn(0f, MAX_INTENSITY)
             }
         }
     }

@@ -40,6 +40,7 @@ public class FaceNameDetect extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public FaceNameDetect() {
+		// No additional initialization is required for this brick.
 	}
 
 	@Override

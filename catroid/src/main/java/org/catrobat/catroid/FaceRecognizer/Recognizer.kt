@@ -1124,96 +1124,225 @@ class Recognizer private constructor() {
      * - a person scores low, or matches the wrong name -> the embeddings written to
      * "data" are not the embeddings being read back, and the problem is storage
      */
+    private data class SelfTestSummary(
+        val measured: Boolean,
+        val worstNearest: Float
+    )
+
     @Synchronized
     fun selfTest(): String {
         database.ensureFresh()
+
         val names = database.getNames()
 
-        val sb = StringBuilder()
         if (names.isEmpty()) {
             return "Nothing trained yet."
         }
 
-        sb.append("SAME PERSON\n")
-        var worstNearest = 2f
+        val report = StringBuilder("SAME PERSON\n")
+        val summary = appendSamePersonResults(report, names)
+
+        appendDifferentPeopleResults(report, names)
+
+        report.append("\n")
+        report.append(
+            createSelfTestConclusion(
+                measured = summary.measured,
+                worstNearest = summary.worstNearest
+            )
+        )
+
+        return report.toString()
+    }
+
+    private fun appendSamePersonResults(
+        report: StringBuilder,
+        names: List<String>
+    ): SelfTestSummary {
         var measured = false
-        for (i in names.indices) {
-            val n = database.getEmbeddingCount(i)
-            val avg = database.internalConsistency(i)
-            val aff = database.photoAffinities(i)
+        var worstNearest = 2f
 
-            if (aff == null || aff.size < 2) {
-                sb.append("  ").append(names.get(i))
-                    .append(": needs 2+ photos (has ").append(n).append(")\n")
-                continue
+        for (index in names.indices) {
+            val result = appendPersonResult(
+                report = report,
+                name = names[index],
+                personIndex = index
+            )
+
+            if (result != null) {
+                measured = true
+                worstNearest = min(
+                    worstNearest,
+                    result
+                )
             }
-            measured = true
+        }
 
-            var strays = 0
-            var nearestAvg = 0f
-            for (a in aff) {
-                nearestAvg += a
-                if (a < 0.35f) {
-                    strays++
-                }
+        return SelfTestSummary(
+            measured = measured,
+            worstNearest = worstNearest
+        )
+    }
+
+    private fun appendPersonResult(
+        report: StringBuilder,
+        name: String,
+        personIndex: Int
+    ): Float? {
+        val embeddingCount =
+            database.getEmbeddingCount(personIndex)
+
+        val affinities =
+            database.photoAffinities(personIndex)
+
+        if (affinities == null || affinities.size < 2) {
+            appendInsufficientPhotos(
+                report = report,
+                name = name,
+                photoCount = embeddingCount
+            )
+            return null
+        }
+
+        val nearestAverage =
+            affinities.average().toFloat()
+
+        val strayCount =
+            affinities.count { affinity ->
+                affinity < 0.35f
             }
-            nearestAvg /= aff.size.toFloat()
-            worstNearest = min(worstNearest, nearestAvg)
 
-            sb.append(
+        appendPersonMeasurements(
+            report = report,
+            name = name,
+            photoCount = embeddingCount,
+            nearestAverage = nearestAverage,
+            consistency = database.internalConsistency(personIndex)
+        )
+
+        appendStrayWarning(
+            report = report,
+            strayCount = strayCount
+        )
+
+        return nearestAverage
+    }
+
+    private fun appendInsufficientPhotos(
+        report: StringBuilder,
+        name: String,
+        photoCount: Int
+    ) {
+        report.append("  ")
+            .append(name)
+            .append(": needs 2+ photos (has ")
+            .append(photoCount)
+            .append(")\n")
+    }
+
+    private fun appendPersonMeasurements(
+        report: StringBuilder,
+        name: String,
+        photoCount: Int,
+        nearestAverage: Float,
+        consistency: Float
+    ) {
+        report.append(
+            String.format(
+                Locale.US,
+                "  %s: %d photos\n" +
+                    "    nearest match %.3f  (want 0.60+)\n" +
+                    "    all pairs %.3f\n",
+                name,
+                photoCount,
+                nearestAverage,
+                consistency
+            )
+        )
+    }
+
+    private fun appendStrayWarning(
+        report: StringBuilder,
+        strayCount: Int
+    ) {
+        if (strayCount <= 0) {
+            return
+        }
+
+        report.append("    ")
+            .append(strayCount)
+            .append(
+                " photo(s) match nothing. " +
+                    "Tap Clean photos.\n"
+            )
+    }
+
+    private fun appendDifferentPeopleResults(
+        report: StringBuilder,
+        names: List<String>
+    ) {
+        if (names.size <= 1) {
+            return
+        }
+
+        report.append("\nDIFFERENT PEOPLE similarity\n")
+        report.append("(healthy is below 0.40)\n")
+
+        for (firstIndex in names.indices) {
+            appendPersonComparisons(
+                report = report,
+                names = names,
+                firstIndex = firstIndex
+            )
+        }
+    }
+
+    private fun appendPersonComparisons(
+        report: StringBuilder,
+        names: List<String>,
+        firstIndex: Int
+    ) {
+        for (secondIndex in firstIndex + 1 until names.size) {
+            report.append(
                 String.format(
                     Locale.US,
-                    "  %s: %d photos\n    nearest match %.3f  (want 0.60+)\n"
-                        + "    all pairs %.3f\n",
-                    names.get(i), n, nearestAvg, avg
+                    "  %s vs %s: %.3f\n",
+                    names[firstIndex],
+                    names[secondIndex],
+                    database.crossSimilarity(
+                        firstIndex,
+                        secondIndex
+                    )
                 )
             )
-            if (strays > 0) {
-                sb.append("    ").append(strays)
-                    .append(" photo(s) match nothing. Tap Clean photos.\n")
-            }
         }
+    }
 
-        if (names.size > 1) {
-            sb.append("\nDIFFERENT PEOPLE similarity\n")
-            sb.append("(healthy is below 0.40)\n")
-            for (i in names.indices) {
-                for (j in i + 1..<names.size) {
-                    sb.append(
-                        String.format(
-                            Locale.US, "  %s vs %s: %.3f\n",
-                            names.get(i), names.get(j), database.crossSimilarity(i, j)
-                        )
-                    )
-                }
-            }
-        }
+    private fun createSelfTestConclusion(
+        measured: Boolean,
+        worstNearest: Float
+    ): String {
+        return when {
+            !measured ->
+                "Add at least 2 photos per person, then run this again."
 
-        sb.append("\n")
-        if (!measured) {
-            sb.append("Add at least 2 photos per person, then run this again.")
-        } else if (worstNearest < 0.35f) {
-            sb.append(
-                ("BROKEN. One person's own photos do not even resemble each "
-                    + "other. The embeddings carry no identity information, so no "
-                    + "threshold will help. The problem is in the face crop or the "
-                    + "FaceNet input, not in the matching.")
-            )
-        } else if (worstNearest < 0.60f) {
-            sb.append(
-                ("WEAK. Matching now uses the single closest photo, so photos "
-                    + "from different ages are fine. What is missing is a photo "
-                    + "close to how the person looks right now, taken with this "
-                    + "phone camera. Add 4 or 5 of those.")
-            )
-        } else {
-            sb.append(
-                ("GOOD. Stored embeddings are healthy. If the camera still "
-                    + "says Unknown, the gap is between your saved photos and the "
-                    + "live capture, not in the storage.")
-            )
+            worstNearest < 0.35f ->
+                "BROKEN. One person's own photos do not even resemble each " +
+                    "other. The embeddings carry no identity information, so no " +
+                    "threshold will help. The problem is in the face crop or the " +
+                    "FaceNet input, not in the matching."
+
+            worstNearest < 0.60f ->
+                "WEAK. Matching now uses the single closest photo, so photos " +
+                    "from different ages are fine. What is missing is a photo " +
+                    "close to how the person looks right now, taken with this " +
+                    "phone camera. Add 4 or 5 of those."
+
+            else ->
+                "GOOD. Stored embeddings are healthy. If the camera still " +
+                    "says Unknown, the gap is between your saved photos and the " +
+                    "live capture, not in the storage."
         }
-        return sb.toString()
     }
 
     /** Human readable dump of what is actually on disk. Shown by the training dialog.  */
@@ -1322,55 +1451,194 @@ class Recognizer private constructor() {
          * first, this loads BlazeFace, FaceNet and the database on the worker thread.
          * Use this method for the first and all later gallery training operations.
          */
-        @RequiresApi(api = Build.VERSION_CODES.N)
+        @RequiresApi(Build.VERSION_CODES.N)
         fun startEnrolmentAsync(
             context: Context?,
-            resolver: ContentResolver?, uris: MutableList<Uri?>?,
-            listener: ProgressListener?, callback: EnrolCallback?
+            resolver: ContentResolver?,
+            uris: MutableList<Uri?>?,
+            listener: ProgressListener?,
+            callback: EnrolCallback?
         ): EnrolTask {
             val task = EnrolTask()
-            val previous: EnrolTask? = activeEnrolmentTask
-            if (previous != null) {
-                previous.cancel()
-            }
-            activeEnrolmentTask = task
-            val main = Handler(Looper.getMainLooper())
-            val appContext = requireNotNull(context) { "Context is null" }.applicationContext
-            val safeUris: MutableList<Uri> = uris?.filterNotNull()?.toMutableList()
+
+            replaceActiveEnrolmentTask(task)
+
+            val mainHandler = Handler(Looper.getMainLooper())
+            val appContext = requireNotNull(context) {
+                "Context is null"
+            }.applicationContext
+
+            val safeUris = uris
+                ?.filterNotNull()
+                ?.toMutableList()
                 ?: mutableListOf()
-            task.worker = Thread(Runnable {
-                var result: EnrolResult?
-                try {
-                    val recognizer: Recognizer = getInstance(appContext)
-                    val safeProgress = Recognizer.ProgressListener { done: Int, total: Int ->
-                        if (listener != null && !task.isCancelled) {
-                            main.post(Runnable {
-                                if (!task.isCancelled) {
-                                    listener.onPhoto(done, total)
-                                }
-                            })
-                        }
-                    }
-                    result = recognizer.extractEmbeddings(resolver, safeUris, safeProgress)
-                } catch (t: Throwable) {
-                    Log.e(TAG, "Cold-start background enrolment failed", t)
-                    result = EnrolResult()
-                    result.report.add("Training failed: " + t.javaClass.getSimpleName())
-                }
-                val delivered: EnrolResult? = result
-                if (activeEnrolmentTask == task) {
-                    activeEnrolmentTask = null
-                }
-                if (callback != null && !task.isCancelled) {
-                    main.post(Runnable {
-                        if (!task.isCancelled) {
-                            callback.onFinished(delivered)
-                        }
-                    })
-                }
-            }, "face_enrolment_cold_start")
-            task.worker!!.start()
+
+            val worker = Thread(
+                createEnrolmentWorker(
+                    task = task,
+                    context = appContext,
+                    resolver = resolver,
+                    uris = safeUris,
+                    listener = listener,
+                    callback = callback,
+                    mainHandler = mainHandler
+                ),
+                "face_enrolment_cold_start"
+            )
+
+            task.worker = worker
+            worker.start()
+
             return task
+        }
+
+        private fun replaceActiveEnrolmentTask(
+            newTask: EnrolTask
+        ) {
+            activeEnrolmentTask?.cancel()
+            activeEnrolmentTask = newTask
+        }
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        private fun createEnrolmentWorker(
+            task: EnrolTask,
+            context: Context,
+            resolver: ContentResolver?,
+            uris: MutableList<Uri>,
+            listener: ProgressListener?,
+            callback: EnrolCallback?,
+            mainHandler: Handler
+        ): Runnable {
+            return Runnable {
+                val result = performEnrolment(
+                    context = context,
+                    resolver = resolver,
+                    uris = uris,
+                    task = task,
+                    listener = listener,
+                    mainHandler = mainHandler
+                )
+
+                clearActiveTask(task)
+
+                postEnrolmentResult(
+                    task = task,
+                    result = result,
+                    callback = callback,
+                    mainHandler = mainHandler
+                )
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        private fun performEnrolment(
+            context: Context,
+            resolver: ContentResolver?,
+            uris: MutableList<Uri>,
+            task: EnrolTask,
+            listener: ProgressListener?,
+            mainHandler: Handler
+        ): EnrolResult {
+            return try {
+                val recognizer = getInstance(context)
+
+                val safeProgress = createSafeProgressListener(
+                    task = task,
+                    listener = listener,
+                    mainHandler = mainHandler
+                )
+
+                recognizer.extractEmbeddings(
+                    resolver = resolver,
+                    uris = uris,
+                    listener = safeProgress
+                )
+            } catch (error: Throwable) {
+                createFailedEnrolmentResult(error)
+            }
+        }
+
+        private fun createSafeProgressListener(
+            task: EnrolTask,
+            listener: ProgressListener?,
+            mainHandler: Handler
+        ): Recognizer.ProgressListener {
+            return Recognizer.ProgressListener { done, total ->
+                if (listener != null && !task.isCancelled) {
+                    mainHandler.post {
+                        deliverProgress(
+                            task = task,
+                            listener = listener,
+                            done = done,
+                            total = total
+                        )
+                    }
+                }
+            }
+        }
+
+        private fun deliverProgress(
+            task: EnrolTask,
+            listener: ProgressListener,
+            done: Int,
+            total: Int
+        ) {
+            if (!task.isCancelled) {
+                listener.onPhoto(done, total)
+            }
+        }
+
+        private fun createFailedEnrolmentResult(
+            error: Throwable
+        ): EnrolResult {
+            Log.e(
+                TAG,
+                "Cold-start background enrolment failed",
+                error
+            )
+
+            return EnrolResult().apply {
+                report.add(
+                    "Training failed: ${error.javaClass.simpleName}"
+                )
+            }
+        }
+
+        private fun clearActiveTask(
+            completedTask: EnrolTask
+        ) {
+            if (activeEnrolmentTask === completedTask) {
+                activeEnrolmentTask = null
+            }
+        }
+
+        private fun postEnrolmentResult(
+            task: EnrolTask,
+            result: EnrolResult,
+            callback: EnrolCallback?,
+            mainHandler: Handler
+        ) {
+            if (callback == null || task.isCancelled) {
+                return
+            }
+
+            mainHandler.post {
+                deliverEnrolmentResult(
+                    task = task,
+                    result = result,
+                    callback = callback
+                )
+            }
+        }
+
+        private fun deliverEnrolmentResult(
+            task: EnrolTask,
+            result: EnrolResult,
+            callback: EnrolCallback
+        ) {
+            if (!task.isCancelled) {
+                callback.onFinished(result)
+            }
         }
 
         private const val DUPLICATE_THRESHOLD = 0.995f
@@ -1394,61 +1662,175 @@ class Recognizer private constructor() {
         }
 
         /** Rejects silhouette/clipped crops before they can collapse to a false identity.  */
-        private fun faceQualityProblem(bitmap: Bitmap?, box: Rect?): String? {
-            if (bitmap == null || box == null || box.width() <= 0 || box.height() <= 0) {
+        private data class FaceQualityStats(
+            val count: Int,
+            val sum: Long,
+            val sumSquares: Long,
+            val darkCount: Int,
+            val brightCount: Int
+        )
+
+        private fun faceQualityProblem(
+            bitmap: Bitmap?,
+            box: Rect?
+        ): String? {
+            if (!isValidFaceCrop(bitmap, box)) {
                 return "invalid face crop"
             }
-            val step = max(1, min(box.width(), box.height()) / 80)
+
+            val validBitmap = requireNotNull(bitmap)
+            val validBox = requireNotNull(box)
+            val stats = collectFaceQualityStats(validBitmap, validBox)
+
+            if (stats.count == 0) {
+                return "empty face crop"
+            }
+
+            return evaluateFaceQuality(stats)
+        }
+
+        private fun isValidFaceCrop(
+            bitmap: Bitmap?,
+            box: Rect?
+        ): Boolean {
+            return bitmap != null &&
+                !bitmap.isRecycled &&
+                box != null &&
+                box.width() > 0 &&
+                box.height() > 0 &&
+                box.left >= 0 &&
+                box.top >= 0 &&
+                box.right <= bitmap.width &&
+                box.bottom <= bitmap.height
+        }
+
+        private fun collectFaceQualityStats(
+            bitmap: Bitmap,
+            box: Rect
+        ): FaceQualityStats {
+            val step = max(
+                1,
+                min(box.width(), box.height()) / 80
+            )
+
             var sum = 0L
             var sumSquares = 0L
-            var dark = 0
-            var bright = 0
+            var darkCount = 0
+            var brightCount = 0
             var count = 0
             var y = box.top
+
             while (y < box.bottom) {
                 var x = box.left
+
                 while (x < box.right) {
-                    val p = bitmap.getPixel(x, y)
-                    val r = (p shr 16) and 0xff
-                    val g = (p shr 8) and 0xff
-                    val b = p and 0xff
-                    val luma = (77 * r + 150 * g + 29 * b) shr 8
-                    sum += luma.toLong()
-                    sumSquares += luma.toLong() * luma
-                    if (luma < 20) dark++
-                    if (luma > 245) bright++
+                    val luma = calculateLuma(
+                        bitmap.getPixel(x, y)
+                    )
+
+                    sum += luma
+                    sumSquares += luma * luma
+                    darkCount += countIf(luma < 20)
+                    brightCount += countIf(luma > 245)
                     count++
+
                     x += step
                 }
+
                 y += step
             }
-            if (count == 0) return "empty face crop"
-            val mean = sum.toFloat() / count
-            val variance = max(0f, sumSquares.toFloat() / count - mean * mean)
-            val deviation = sqrt(variance.toDouble()).toFloat()
-            val darkRatio = dark.toFloat() / count
-            val brightRatio = bright.toFloat() / count
-            if (mean < 30f || darkRatio > 0.65f) {
-                return String.format(
-                    Locale.US,
-                    "face is a dark silhouette (mean %.1f, dark %.0f%%)",
-                    mean, darkRatio * 100f
-                )
+
+            return FaceQualityStats(
+                count = count,
+                sum = sum,
+                sumSquares = sumSquares,
+                darkCount = darkCount,
+                brightCount = brightCount
+            )
+        }
+
+        private fun calculateLuma(
+            pixel: Int
+        ): Long {
+            val red = (pixel shr 16) and 0xff
+            val green = (pixel shr 8) and 0xff
+            val blue = pixel and 0xff
+
+            return ((77 * red + 150 * green + 29 * blue) shr 8)
+                .toLong()
+        }
+
+        private fun countIf(
+            condition: Boolean
+        ): Int {
+            return if (condition) 1 else 0
+        }
+
+        private fun evaluateFaceQuality(
+            stats: FaceQualityStats
+        ): String? {
+            val mean = stats.sum.toFloat() / stats.count
+
+            val variance = max(
+                0f,
+                stats.sumSquares.toFloat() / stats.count - mean * mean
+            )
+
+            val deviation =
+                sqrt(variance.toDouble()).toFloat()
+
+            val darkRatio =
+                stats.darkCount.toFloat() / stats.count
+
+            val brightRatio =
+                stats.brightCount.toFloat() / stats.count
+
+            return when {
+                mean < 30f || darkRatio > 0.65f ->
+                    formatDarkFaceProblem(mean, darkRatio)
+
+                mean > 230f || brightRatio > 0.60f ->
+                    formatBrightFaceProblem(mean, brightRatio)
+
+                deviation < 18f ->
+                    formatLowContrastProblem(deviation)
+
+                else -> null
             }
-            if (mean > 230f || brightRatio > 0.60f) {
-                return String.format(
-                    Locale.US,
-                    "face highlights are clipped (mean %.1f, bright %.0f%%)",
-                    mean, brightRatio * 100f
-                )
-            }
-            if (deviation < 18f) {
-                return String.format(
-                    Locale.US,
-                    "face has too little visible detail (contrast %.1f)", deviation
-                )
-            }
-            return null
+        }
+
+        private fun formatDarkFaceProblem(
+            mean: Float,
+            darkRatio: Float
+        ): String {
+            return String.format(
+                Locale.US,
+                "face is a dark silhouette (mean %.1f, dark %.0f%%)",
+                mean,
+                darkRatio * 100f
+            )
+        }
+
+        private fun formatBrightFaceProblem(
+            mean: Float,
+            brightRatio: Float
+        ): String {
+            return String.format(
+                Locale.US,
+                "face highlights are clipped (mean %.1f, bright %.0f%%)",
+                mean,
+                brightRatio * 100f
+            )
+        }
+
+        private fun formatLowContrastProblem(
+            deviation: Float
+        ): String {
+            return String.format(
+                Locale.US,
+                "face has too little visible detail (contrast %.1f)",
+                deviation
+            )
         }
 
         private fun higherOf(a: FloatArray?, b: FloatArray?): FloatArray? {

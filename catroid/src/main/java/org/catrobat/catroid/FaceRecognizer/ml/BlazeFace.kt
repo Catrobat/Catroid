@@ -320,73 +320,99 @@ class BlazeFace private constructor() {
                 (max_scale - min_scale) * 1.0f * stride_index / (num_strides - 1.0f)
         }
 
+        private data class AnchorLayerInfo(
+            val nextLayerId: Int,
+            val anchorCount: Int
+        )
+
         private fun GenerateAnchors(): MutableList<Anchor> {
-            val anchors: MutableList<Anchor> = ArrayList<Anchor>()
-            var layer_id = 0
+            val anchors = mutableListOf<Anchor>()
+            var layerId = 0
 
-            while (layer_id < strides.size) {
-                val anchor_height: MutableList<Float> = ArrayList<Float>()
-                val anchor_width: MutableList<Float> = ArrayList<Float>()
-                val aspect_ratios: MutableList<Float> = ArrayList<Float>()
-                val scales: MutableList<Float> = ArrayList<Float>()
+            while (layerId < strides.size) {
+                val layerInfo = calculateAnchorLayerInfo(layerId)
 
-                // For same strides, we merge the anchors in the same order.
-                var last_same_stride_layer = layer_id
-                while (last_same_stride_layer < strides.size &&
-                    strides[last_same_stride_layer] == strides[layer_id]
-                ) {
-                    val scale: Float = CalculateScale(
-                        MIN_SCALE, MAX_SCALE,
-                        last_same_stride_layer, strides.size
-                    )
-                    for (aspect_ratio_id in 0..<ASPECT_RATIOS_SIZE) {
-                        aspect_ratios.add(1.0f)
-                        scales.add(scale)
-                    }
-                    val scale_next =
-                        if (last_same_stride_layer == strides.size - 1)
-                            1.0f
-                        else
-                            CalculateScale(
-                                MIN_SCALE, MAX_SCALE,
-                                last_same_stride_layer + 1,
-                                strides.size
-                            )
-                    scales.add(sqrt((scale * scale_next).toDouble()).toFloat())
-                    aspect_ratios.add(1.0f)
-                    last_same_stride_layer++
-                }
+                addLayerAnchors(
+                    anchors = anchors,
+                    stride = strides[layerId],
+                    anchorCount = layerInfo.anchorCount
+                )
 
-                for (i in aspect_ratios.indices) {
-                    val ratio_sqrts = sqrt(aspect_ratios[i].toDouble()).toFloat()
-                    anchor_height.add(scales[i] / ratio_sqrts)
-                    anchor_width.add(scales[i] * ratio_sqrts)
-                }
-
-                val stride: Int = strides[layer_id]
-                val feature_map_height =
-                    ceil((1.0f * INPUT_SIZE_HEIGHT / stride).toDouble()).toInt()
-                val feature_map_width = ceil((1.0f * INPUT_SIZE_WIDTH / stride).toDouble()).toInt()
-
-                for (y in 0..<feature_map_height) {
-                    for (x in 0..<feature_map_width) {
-                        for (anchor_id in anchor_height.indices) {
-                            val x_center: Float = (x + ANCHOR_OFFSET_X) * 1.0f / feature_map_width
-                            val y_center: Float = (y + ANCHOR_OFFSET_Y) * 1.0f / feature_map_height
-
-                            val new_anchor = Anchor()
-                            new_anchor.x_center = x_center
-                            new_anchor.y_center = y_center
-                            new_anchor.w = 1.0f
-                            new_anchor.h = 1.0f
-
-                            anchors.add(new_anchor)
-                        }
-                    }
-                }
-                layer_id = last_same_stride_layer
+                layerId = layerInfo.nextLayerId
             }
+
             return anchors
+        }
+
+        private fun calculateAnchorLayerInfo(
+            layerId: Int
+        ): AnchorLayerInfo {
+            var currentLayerId = layerId
+            var anchorCount = 0
+
+            while (
+                currentLayerId < strides.size &&
+                strides[currentLayerId] == strides[layerId]
+            ) {
+                /*
+                 * Each aspect ratio produces one anchor, and an additional
+                 * interpolated-scale anchor is generated for every layer.
+                 */
+                anchorCount += ASPECT_RATIOS_SIZE + 1
+                currentLayerId++
+            }
+
+            return AnchorLayerInfo(
+                nextLayerId = currentLayerId,
+                anchorCount = anchorCount
+            )
+        }
+
+        private fun addLayerAnchors(
+            anchors: MutableList<Anchor>,
+            stride: Int,
+            anchorCount: Int
+        ) {
+            val featureMapHeight =
+                ceil(INPUT_SIZE_HEIGHT.toDouble() / stride).toInt()
+
+            val featureMapWidth =
+                ceil(INPUT_SIZE_WIDTH.toDouble() / stride).toInt()
+
+            for (y in 0 until featureMapHeight) {
+                val yCenter =
+                    (y + ANCHOR_OFFSET_Y) / featureMapHeight.toFloat()
+
+                for (x in 0 until featureMapWidth) {
+                    val xCenter =
+                        (x + ANCHOR_OFFSET_X) / featureMapWidth.toFloat()
+
+                    addAnchorsAtPosition(
+                        anchors = anchors,
+                        anchorCount = anchorCount,
+                        xCenter = xCenter,
+                        yCenter = yCenter
+                    )
+                }
+            }
+        }
+
+        private fun addAnchorsAtPosition(
+            anchors: MutableList<Anchor>,
+            anchorCount: Int,
+            xCenter: Float,
+            yCenter: Float
+        ) {
+            repeat(anchorCount) {
+                anchors.add(
+                    Anchor().apply {
+                        x_center = xCenter
+                        y_center = yCenter
+                        w = 1.0f
+                        h = 1.0f
+                    }
+                )
+            }
         }
 
         @JvmStatic

@@ -403,24 +403,36 @@ class FaceDatabase {
 
     /** Average similarity between two different people's photos. Should be low.  */
     @Synchronized
-    fun crossSimilarity(a: Int, b: Int): Float {
-        if (a < 0 || b < 0 || a >= samples.size || b >= samples.size) {
+    fun crossSimilarity(
+        a: Int,
+        b: Int
+    ): Float {
+        if (a !in samples.indices || b !in samples.indices) {
             return NO_SCORE
         }
-        val la = samples[a]
-        val lb = samples[b]
+
+        val la: List<FloatArray> = samples[a].toList()
+        val lb: List<FloatArray> = samples[b].toList()
+
         if (la.isEmpty() || lb.isEmpty()) {
             return NO_SCORE
         }
+
         var sum = 0f
         var pairs = 0
+
         for (va in la) {
             for (vb in lb) {
                 sum += dot(va, vb)
                 pairs++
             }
         }
-        return if (pairs == 0) NO_SCORE else sum / pairs
+
+        return if (pairs == 0) {
+            NO_SCORE
+        } else {
+            sum / pairs
+        }
     }
 
     /** First stored embedding for a person, or null. Used by the self test.  */
