@@ -97,6 +97,7 @@ class FaceNameTrainAction : Action() {
         private var progressBar: ProgressBar? = null
         private var progressLabel: TextView? = null
         private var progressShownAt = 0L
+        private var progressRetryScheduled = false
 
         private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -122,6 +123,7 @@ class FaceNameTrainAction : Action() {
             progressBar = null
             progressLabel = null
             progressShownAt = 0L
+            progressRetryScheduled = false
             currentInstance = null
             testActivity = null
         }
@@ -542,10 +544,30 @@ class FaceNameTrainAction : Action() {
      * Does nothing if it is already up or if there is no window yet.
      */
     private fun showProgressDialog() {
-        if (progressDialog != null) {
-            return
+        progressDialog?.let { existing ->
+            val owner = existing.context as? Activity
+            if (existing.isShowing && owner != null && !owner.isFinishing && !owner.isDestroyed) {
+                return
+            }
+            try {
+                existing.dismiss()
+            } catch (_: Throwable) {
+                // Its window may already have been destroyed.
+            }
+            progressDialog = null
+            progressBar = null
+            progressLabel = null
         }
         val activity = liveActivity() ?: return
+
+        // onActivityResult is delivered before the picker has fully released the
+        // StageActivity window on some devices. Trying to attach a dialog during
+        // that interval causes a rapid show/fail/retry loop (visible as flashing).
+        val decor = activity.window?.decorView
+        if (decor == null || !decor.isAttachedToWindow || !activity.hasWindowFocus()) {
+            scheduleProgressRetry()
+            return
+        }
 
         val root = LinearLayout(activity)
         root.orientation = LinearLayout.VERTICAL
@@ -584,16 +606,26 @@ class FaceNameTrainAction : Action() {
             progressBar = bar
             progressLabel = label
             progressShownAt = System.currentTimeMillis()
+            progressRetryScheduled = false
             Log.i(TAG, "Progress dialog shown, $progressDone of $progressTotal")
         } catch (t: Throwable) {
             Log.w(TAG, "Window not ready for progress, will retry")
             progressDialog = null
             progressBar = null
             progressLabel = null
-            if (trainingInProgress) {
-                mainHandler.postDelayed({ showProgressDialog() }, 200L)
-            }
+            scheduleProgressRetry()
         }
+    }
+
+    private fun scheduleProgressRetry() {
+        if (!trainingInProgress || progressRetryScheduled) return
+        progressRetryScheduled = true
+        mainHandler.postDelayed({
+                                    progressRetryScheduled = false
+                                    if (trainingInProgress && progressDialog == null) {
+                                        showProgressDialog()
+                                    }
+                                }, 300L)
     }
 
     private fun updateProgress(done: Int, total: Int) {
@@ -621,6 +653,7 @@ class FaceNameTrainAction : Action() {
         progressDialog = null
         progressBar = null
         progressLabel = null
+        progressRetryScheduled = false
         if (d == null) {
             return
         }

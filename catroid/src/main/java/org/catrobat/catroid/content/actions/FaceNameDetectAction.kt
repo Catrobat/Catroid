@@ -1,147 +1,201 @@
 package org.catrobat.catroid.content.actions
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.FaceRecognizer.FaceDetector
 
 /**
- * Detect the face, then let the next block run.
- *
- *     Ask "What's your name?" and store in rr
- *     Recognise Face                            <- blocks here
- *     Set variable rr to (face name detection)  <- fresh value
- *     Show variable rr
- *
- * act() returns false while the camera works, which is how a libGDX action says
- * "not finished, call me again next frame". Ask holds the sequence until it is
- * answered, so this cannot run before it.
- *
- * The state machine matters. Catroid may reuse this action object when the
- * Restart button is pressed rather than building a new one, so "already
- * finished" cannot be a permanent flag. Once DONE has been reported, any further
- * call means the sequence has come back round, and that is a new detection.
+ * Opens face recognition and pauses the script until detection finishes.
  */
 class FaceNameDetectAction : Action() {
 
-    companion object {
-        private const val TAG = "FaceNameDetectAction"
-
-        /** Never hang a child's program, whatever goes wrong. */
-        private const val TIMEOUT_SECONDS = 30f
-    }
-
     private enum class State {
-        IDLE,       // not started, or finished and reported
-        WAITING,    // camera is working
-        DONE        // result in, true already returned
+        IDLE,
+        WAITING,
+        DONE
     }
 
-    private var state = State.IDLE
-    private var elapsed = 0f
+    private var state: State = State.IDLE
+    private var elapsed: Float = 0f
 
     @Volatile
-    private var resultReady = false
+    private var resultReady: Boolean = false
 
-    /** The name this pass produced. Also written to the face name sensor. */
     var detectedName: String = FaceDetector.UNKNOWN
         private set
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun act(delta: Float): Boolean {
         if (state == State.DONE) {
-            // We already returned true. Being called again means the sequence
-            // came back to this brick, so start a fresh detection.
-            Log.i(TAG, "Brick reached again, resetting for a new detection")
-            state = State.IDLE
+            Log.i(
+                TAG,
+                "Brick reached again; resetting detection"
+            )
+
+            clearState()
         }
 
         if (state == State.IDLE) {
-            Log.i(TAG, "Brick reached, opening the camera")
+            Log.i(
+                TAG,
+                "Brick reached; starting face detection"
+            )
+
             state = State.WAITING
             elapsed = 0f
             resultReady = false
             detectedName = FaceDetector.UNKNOWN
 
-            if (begin()) {
+            if (beginDetection()) {
                 state = State.DONE
                 return true
             }
+
             return false
         }
 
-        // WAITING
         if (resultReady) {
             state = State.DONE
-            Log.i(TAG, "Detection finished with '$detectedName', continuing the script")
+
+            Log.i(
+                TAG,
+                "Detection finished with '$detectedName'"
+            )
+
             return true
         }
 
         elapsed += delta
 
-        // The capture ended without calling us, which happens when another one
-        // was already in flight when we started.
-        if (!FaceDetector.isRunning()) {
-            detectedName = FaceDetector.getLastName()
+        if (!FaceDetector.isRunning) {
+            detectedName =
+                FaceDetector.lastName.ifBlank {
+                    FaceDetector.UNKNOWN
+                }
+
             state = State.DONE
             return true
         }
 
         if (elapsed > TIMEOUT_SECONDS) {
-            Log.w(TAG, "Detection timed out, continuing with Unknown")
+            Log.w(
+                TAG,
+                "Detection timed out; continuing with Unknown"
+            )
+
             detectedName = FaceDetector.UNKNOWN
             state = State.DONE
+
             return true
         }
+
         return false
     }
 
-    /** Returns true when the work is already over, false while waiting. */
-    private fun begin(): Boolean {
-        val context: Context? = try {
-            CatroidApplication.getAppContext()
-        } catch (t: Throwable) {
-            null
-        }
+    /**
+     * Returns true when detection has already ended;
+     * false when the action must continue waiting.
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun beginDetection(): Boolean {
+        val context = applicationContext()
 
         if (context == null) {
-            Log.e(TAG, "No application context")
+            Log.e(
+                TAG,
+                "Application context is unavailable"
+            )
+
             detectedName = FaceDetector.UNKNOWN
             return true
         }
 
-        // A brick means "look now". Never reuse a name from an earlier run, and
-        // do not depend on anything else having called reset.
         FaceDetector.resetForNewRun()
 
-        val started = FaceDetector.detectNow(context) { name, confidence ->
-            Log.i(TAG, "Got '$name' at $confidence")
-            detectedName = name
-            resultReady = true
-        }
+        val callback =
+            object : FaceDetector.Callback {
 
-        if (!started && !FaceDetector.isRunning()) {
-            // Refused and nothing is in flight, so no callback is coming.
-            detectedName = FaceDetector.getLastName()
+                override fun onFinished(
+                    name: String?,
+                    confidence: Float
+                ) {
+                    detectedName =
+                        name
+                            ?.trim()
+                            ?.takeIf { it.isNotEmpty() }
+                            ?: FaceDetector.UNKNOWN
+
+                    Log.i(
+                        TAG,
+                        "Detected '$detectedName' " +
+                            "with confidence $confidence"
+                    )
+
+                    resultReady = true
+                }
+            }
+
+        val started =
+            FaceDetector.detectNow(
+                context,
+                callback
+            )
+
+        if (
+            !started &&
+            !FaceDetector.isRunning
+        ) {
+            detectedName =
+                FaceDetector.lastName.ifBlank {
+                    FaceDetector.UNKNOWN
+                }
+
             return true
         }
+
         return false
     }
 
-    /** Called when a loop comes back to this brick. */
+    private fun applicationContext(): Context? {
+        return try {
+            CatroidApplication.getAppContext()
+        } catch (error: Throwable) {
+            Log.e(
+                TAG,
+                "Could not obtain application context",
+                error
+            )
+
+            null
+        }
+    }
+
     override fun restart() {
         super.restart()
-        clear()
+        clearState()
     }
 
     override fun reset() {
-        clear()
+        super.reset()
+        clearState()
     }
 
-    private fun clear() {
+    private fun clearState() {
         state = State.IDLE
         elapsed = 0f
         resultReady = false
         detectedName = FaceDetector.UNKNOWN
+    }
+
+    companion object {
+        private const val TAG =
+            "FaceNameDetectAction"
+
+        private const val TIMEOUT_SECONDS =
+            30f
     }
 }
