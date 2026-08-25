@@ -213,11 +213,11 @@ object ImageUtils {
             sum += input[i].toDouble().pow(2.0)
         }
         val std = sqrt(sum / input.size)
-        val std_adj = max(std, 1.0 / sqrt(input.size.toDouble()))
+        val stdAdjust = max(std, 1.0 / sqrt(input.size.toDouble()))
 
         output.clear()
         for (value in input) {
-            output.put((value / std_adj).toFloat())
+            output.put((value / stdAdjust).toFloat())
         }
         output.rewind()
     }
