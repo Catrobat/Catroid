@@ -1016,101 +1016,295 @@ class Recognizer private constructor() {
     /** Why the last decode failed. Surfaced in the per photo report.  */
     private var lastDecodeProblem = ""
 
-    private fun decodeScaled(resolver: ContentResolver, uri: Uri, maxSide: Int): Bitmap? {
+    private fun decodeScaled(
+        resolver: ContentResolver,
+        uri: Uri,
+        maxSide: Int
+    ): Bitmap? {
         lastDecodeProblem = ""
-        val bounds = BitmapFactory.Options()
-        bounds.inJustDecodeBounds = true
 
-        var decoded: Bitmap? = null
-        try {
-            resolver.openFileDescriptor(uri, "r").use { pfd ->
-                if (pfd == null) {
+        val bounds = readImageBounds(
+            resolver = resolver,
+            uri = uri
+        ) ?: return null
+
+        if (!validateImageBounds(bounds)) {
+            return null
+        }
+
+        val options = createDecodeOptions(
+            bounds = bounds,
+            maxSide = maxSide
+        )
+
+        return decodeSampledBitmap(
+            resolver = resolver,
+            uri = uri,
+            options = options,
+            maxSide = maxSide
+        )
+    }
+
+    private fun readImageBounds(
+        resolver: ContentResolver,
+        uri: Uri
+    ): BitmapFactory.Options? {
+        val bounds = BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+        }
+
+        return try {
+            resolver.openFileDescriptor(uri, "r").use { descriptor ->
+                if (descriptor == null) {
                     lastDecodeProblem = "file descriptor was null"
                     return null
                 }
-                BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor(), null, bounds)
+
+                BitmapFactory.decodeFileDescriptor(
+                    descriptor.fileDescriptor,
+                    null,
+                    bounds
+                )
             }
-        } catch (e: SecurityException) {
-            // Happens when the activity that opened the picker was destroyed and the
-            // read grant went with it.
-            lastDecodeProblem = "no permission to read this photo (SecurityException)"
-            Log.e(TAG, "Lost URI permission for " + uri, e)
-            return null
-        } catch (oom: OutOfMemoryError) {
-            lastDecodeProblem = "not enough memory to inspect this photo"
-            Log.e(TAG, "Out of memory reading image bounds " + uri, oom)
-            return null
-        } catch (e: Throwable) {
-            lastDecodeProblem = "could not open: " + e.javaClass.getSimpleName()
-            Log.e(TAG, "Could not read bounds of " + uri, e)
-            return null
-        }
 
+            bounds
+        } catch (error: SecurityException) {
+            handleBoundsSecurityError(uri, error)
+            null
+        } catch (error: OutOfMemoryError) {
+            handleBoundsMemoryError(uri, error)
+            null
+        } catch (error: Throwable) {
+            handleBoundsReadError(uri, error)
+            null
+        }
+    }
+
+    private fun handleBoundsSecurityError(
+        uri: Uri,
+        error: SecurityException
+    ) {
+        /*
+         * This can happen when the activity that opened the picker is
+         * destroyed and its temporary URI permission is lost.
+         */
+        lastDecodeProblem =
+            "no permission to read this photo (SecurityException)"
+
+        Log.e(
+            TAG,
+            "Lost URI permission for $uri",
+            error
+        )
+    }
+
+    private fun handleBoundsMemoryError(
+        uri: Uri,
+        error: OutOfMemoryError
+    ) {
+        lastDecodeProblem =
+            "not enough memory to inspect this photo"
+
+        Log.e(
+            TAG,
+            "Out of memory reading image bounds $uri",
+            error
+        )
+    }
+
+    private fun handleBoundsReadError(
+        uri: Uri,
+        error: Throwable
+    ) {
+        lastDecodeProblem =
+            "could not open: ${error.javaClass.simpleName}"
+
+        Log.e(
+            TAG,
+            "Could not read bounds of $uri",
+            error
+        )
+    }
+
+    private fun validateImageBounds(
+        bounds: BitmapFactory.Options
+    ): Boolean {
         if (bounds.outWidth <= 0 || bounds.outHeight <= 0) {
-            lastDecodeProblem = "unsupported, cloud-only, or damaged image"
-            return null
+            lastDecodeProblem =
+                "unsupported, cloud-only, or damaged image"
+            return false
         }
-        val sourcePixels = bounds.outWidth.toLong() * bounds.outHeight
+
+        val sourcePixels =
+            bounds.outWidth.toLong() * bounds.outHeight.toLong()
+
         if (sourcePixels > MAX_SOURCE_PIXELS) {
-            lastDecodeProblem = ("image dimensions are too large: "
-                + bounds.outWidth + "x" + bounds.outHeight)
-            return null
+            lastDecodeProblem =
+                "image dimensions are too large: " +
+                    "${bounds.outWidth}x${bounds.outHeight}"
+            return false
         }
 
-        var sample = 1
-        val longest = max(bounds.outWidth, bounds.outHeight)
-        /* Power-of-two sampling is supported consistently by older BitmapFactory. */
-        while (longest.toLong() / sample > maxSide && sample <= 1024) {
-            sample *= 2
+        return true
+    }
+
+    private fun createDecodeOptions(
+        bounds: BitmapFactory.Options,
+        maxSide: Int
+    ): BitmapFactory.Options {
+        return BitmapFactory.Options().apply {
+            inSampleSize = calculateSampleSize(
+                width = bounds.outWidth,
+                height = bounds.outHeight,
+                maxSide = maxSide
+            )
+            inPreferredConfig = Bitmap.Config.ARGB_8888
+            inScaled = false
+            inDither = false
+        }
+    }
+
+    private fun calculateSampleSize(
+        width: Int,
+        height: Int,
+        maxSide: Int
+    ): Int {
+        var sampleSize = 1
+        val longestSide = max(width, height)
+
+        /*
+         * Power-of-two sampling works consistently with older
+         * BitmapFactory implementations.
+         */
+        while (
+            longestSide.toLong() / sampleSize > maxSide &&
+            sampleSize <= 1024
+        ) {
+            sampleSize *= 2
         }
 
-        val options = BitmapFactory.Options()
-        options.inSampleSize = sample
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888
-        options.inScaled = false
-        options.inDither = false
+        return sampleSize
+    }
 
-        try {
-            resolver.openFileDescriptor(uri, "r").use { pfd ->
-                if (pfd == null) {
+    private fun decodeSampledBitmap(
+        resolver: ContentResolver,
+        uri: Uri,
+        options: BitmapFactory.Options,
+        maxSide: Int
+    ): Bitmap? {
+        var decoded: Bitmap? = null
+
+        return try {
+            resolver.openFileDescriptor(uri, "r").use { descriptor ->
+                if (descriptor == null) {
+                    lastDecodeProblem = "file descriptor was null"
                     return null
                 }
+
                 decoded = BitmapFactory.decodeFileDescriptor(
-                    pfd.getFileDescriptor(), null, options
+                    descriptor.fileDescriptor,
+                    null,
+                    options
                 )
+
                 if (decoded == null) {
                     lastDecodeProblem = "decoder returned no bitmap"
                     return null
                 }
-                /* Some vendor decoders ignore inSampleSize for uncommon formats. */
-                val decodedLongest = max(decoded.getWidth(), decoded.getHeight())
-                if (decodedLongest > maxSide * 2) {
-                    val scale = maxSide.toFloat() / decodedLongest
-                    val width = max(1, Math.round(decoded.getWidth() * scale))
-                    val height = max(1, Math.round(decoded.getHeight() * scale))
-                    val reduced = Bitmap.createScaledBitmap(decoded, width, height, true)
-                    if (reduced != decoded) {
-                        decoded.recycle()
-                    }
-                    decoded = reduced
-                }
-                return decoded
+
+                decoded = reduceOversizedBitmap(
+                    bitmap = requireNotNull(decoded),
+                    maxSide = maxSide
+                )
+
+                decoded
             }
-        } catch (oom: OutOfMemoryError) {
-            if (decoded != null && !decoded.isRecycled()) {
-                decoded.recycle()
-            }
-            lastDecodeProblem = "image skipped: not enough memory"
-            Log.e(TAG, "Out of memory decoding " + uri, oom)
-            return null
-        } catch (e: Throwable) {
-            if (decoded != null && !decoded.isRecycled()) {
-                decoded.recycle()
-            }
-            lastDecodeProblem = "could not decode: " + e.javaClass.getSimpleName()
-            Log.e(TAG, "Could not decode " + uri, e)
-            return null
+        } catch (error: OutOfMemoryError) {
+            recycleSafely(decoded)
+            handleDecodeMemoryError(uri, error)
+            null
+        } catch (error: Throwable) {
+            recycleSafely(decoded)
+            handleDecodeError(uri, error)
+            null
         }
+    }
+
+    private fun reduceOversizedBitmap(
+        bitmap: Bitmap,
+        maxSide: Int
+    ): Bitmap {
+        val longestSide =
+            max(bitmap.width, bitmap.height)
+
+        /*
+         * Some vendor decoders ignore inSampleSize for uncommon formats.
+         */
+        if (longestSide <= maxSide * 2) {
+            return bitmap
+        }
+
+        val scale =
+            maxSide.toFloat() / longestSide.toFloat()
+
+        val targetWidth = max(
+            1,
+            Math.round(bitmap.width * scale)
+        )
+
+        val targetHeight = max(
+            1,
+            Math.round(bitmap.height * scale)
+        )
+
+        val reduced = Bitmap.createScaledBitmap(
+            bitmap,
+            targetWidth,
+            targetHeight,
+            true
+        )
+
+        if (reduced !== bitmap) {
+            bitmap.recycle()
+        }
+
+        return reduced
+    }
+
+    private fun recycleSafely(
+        bitmap: Bitmap?
+    ) {
+        if (bitmap != null && !bitmap.isRecycled) {
+            bitmap.recycle()
+        }
+    }
+
+    private fun handleDecodeMemoryError(
+        uri: Uri,
+        error: OutOfMemoryError
+    ) {
+        lastDecodeProblem =
+            "image skipped: not enough memory"
+
+        Log.e(
+            TAG,
+            "Out of memory decoding $uri",
+            error
+        )
+    }
+
+    private fun handleDecodeError(
+        uri: Uri,
+        error: Throwable
+    ) {
+        lastDecodeProblem =
+            "could not decode: ${error.javaClass.simpleName}"
+
+        Log.e(
+            TAG,
+            "Could not decode $uri",
+            error
+        )
     }
 
     /**
