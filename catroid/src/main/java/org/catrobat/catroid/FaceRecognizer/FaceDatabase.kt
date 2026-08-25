@@ -79,7 +79,7 @@ class FaceDatabase {
                 for (i in v.indices) {
                     v[i] = parts[i + 1].toFloat()
                 }
-                samples.get(index).add(v)
+                samples[index].add(v)
                 loaded++
             } catch (e: NumberFormatException) {
                 skipped++
@@ -90,7 +90,7 @@ class FaceDatabase {
         if (!loadModel()) {
             rebuildCentroids()
             // No readable model file, so the pipeline that made the data is unknown.
-            if (!samples.isEmpty() && !readLines(FileUtils.DATA_FILE).isEmpty()) {
+            if (samples.isNotEmpty() && readLines(FileUtils.DATA_FILE).isNotEmpty()) {
                 staleEmbeddings = true
                 Log.w(
                     TAG, "No model header, cannot tell which pipeline made these "
@@ -121,7 +121,7 @@ class FaceDatabase {
 
         val dataLines: MutableList<String> = ArrayList<String>()
         for (index in samples.indices) {
-            for (v in samples.get(index)) {
+            for (v in samples[index]) {
                 dataLines.add(vectorLine(index, v, -1))
             }
         }
@@ -136,9 +136,9 @@ class FaceDatabase {
         )
         staleEmbeddings = false
         for (index in centroids.indices) {
-            val c = centroids.get(index)
+            val c = centroids[index]
             if (c != null) {
-                modelLines.add(vectorLine(index, c, samples.get(index).size))
+                modelLines.add(vectorLine(index, c, samples[index].size))
             }
         }
 
@@ -325,7 +325,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size) {
             return 0
         }
-        return samples.get(index).size
+        return samples[index].size
     }
 
     /**
@@ -345,7 +345,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size) {
             return null
         }
-        val list = samples.get(index)
+        val list = samples[index]
         val out = FloatArray(list.size)
         for (i in list.indices) {
             var best: Float = NO_SCORE
@@ -367,7 +367,7 @@ class FaceDatabase {
         if (affinities == null || affinities.size < 3) {
             return 0
         }
-        val list = samples.get(index)
+        val list = samples[index]
         var removed = 0
         for (i in affinities.indices.reversed()) {
             if (affinities[i] < minAffinity) {
@@ -386,7 +386,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size) {
             return NO_SCORE
         }
-        val list = samples.get(index)
+        val list = samples[index]
         if (list.size < 2) {
             return NO_SCORE
         }
@@ -407,8 +407,8 @@ class FaceDatabase {
         if (a < 0 || b < 0 || a >= samples.size || b >= samples.size) {
             return NO_SCORE
         }
-        val la = samples.get(a)
-        val lb = samples.get(b)
+        val la = samples[a]
+        val lb = samples[b]
         if (la.isEmpty() || lb.isEmpty()) {
             return NO_SCORE
         }
@@ -426,16 +426,16 @@ class FaceDatabase {
     /** First stored embedding for a person, or null. Used by the self test.  */
     @Synchronized
     fun getFirstEmbedding(index: Int): FloatArray? {
-        if (index < 0 || index >= samples.size || samples.get(index).isEmpty()) {
+        if (index < 0 || index >= samples.size || samples[index].isEmpty()) {
             return null
         }
-        return samples.get(index).get(0).clone()
+        return samples[index].get(0).clone()
     }
 
     @Synchronized
     fun indexOf(name: String?): Int {
         for (i in names.indices) {
-            if (names.get(i).equals(name, ignoreCase = true)) {
+            if (names[i].equals(name, ignoreCase = true)) {
                 return i
             }
         }
@@ -457,7 +457,7 @@ class FaceDatabase {
         }
         for (v in list) {
             if (v.size == FaceNet.EMBEDDING_SIZE) {
-                samples.get(index).add(v)
+                samples[index].add(v)
             }
         }
     }
@@ -493,28 +493,38 @@ class FaceDatabase {
      */
     @Synchronized
     fun scoreAllVariants(queries: List<FloatArray>?): FloatArray? {
-        if (queries == null || queries.isEmpty()) {
+        if (queries.isNullOrEmpty()) {
             return null
         }
+
         var best: FloatArray? = null
-        for (q in queries) {
-            val s = scoreAll(q)
-            if (s == null) {
-                continue
-            }
-            if (best == null) {
-                best = s
-            } else {
-                var i = 0
-                while (i < best.size && i < s.size) {
-                    if (s[i] > best[i]) {
-                        best[i] = s[i]
-                    }
-                    i++
-                }
-            }
+
+        for (query in queries) {
+            val scores = scoreAll(query) ?: continue
+            best = mergeBestScores(best, scores)
         }
+
         return best
+    }
+
+    private fun mergeBestScores(
+        currentBest: FloatArray?,
+        newScores: FloatArray
+    ): FloatArray {
+        if (currentBest == null) {
+            return newScores
+        }
+
+        val comparableSize = minOf(currentBest.size, newScores.size)
+
+        for (index in 0 until comparableSize) {
+            currentBest[index] = maxOf(
+                currentBest[index],
+                newScores[index]
+            )
+        }
+
+        return currentBest
     }
 
     /** Applies the two thresholds to an already combined score array.  */
@@ -556,7 +566,7 @@ class FaceDatabase {
             )
             return null
         }
-        return Match(bestIndex, names.get(bestIndex), best, margin)
+        return Match(bestIndex, names[bestIndex], best, margin)
     }
 
     @Synchronized
@@ -567,7 +577,7 @@ class FaceDatabase {
         val sb = StringBuilder()
         var i = 0
         while (i < names.size && i < scores.size) {
-            sb.append(String.format(Locale.US, "%s=%.3f ", names.get(i), scores[i]))
+            sb.append(String.format(Locale.US, "%s=%.3f ", names[i], scores[i]))
             i++
         }
         return sb.toString().trim { it <= ' ' }
@@ -613,7 +623,7 @@ class FaceDatabase {
             )
             return null
         }
-        return Match(bestIndex, names.get(bestIndex), best, margin)
+        return Match(bestIndex, names[bestIndex], best, margin)
     }
 
     /** One line of every person's score. Use this to tune the two thresholds.  */
@@ -627,7 +637,7 @@ class FaceDatabase {
             sb.append(
                 String.format(
                     Locale.US, "%s=%.3f(%d photos) ",
-                    names.get(i), personScore(i, query), samples.get(i).size
+                    names[i], personScore(i, query), samples[i].size
                 )
             )
         }
@@ -635,8 +645,8 @@ class FaceDatabase {
     }
 
     private fun personScore(index: Int, query: FloatArray): Float {
-        val list = samples.get(index)
-        val centroid = centroids.get(index)
+        val list = samples[index]
+        val centroid = centroids[index]
 
         if (list.isEmpty() && centroid == null) {
             return NO_SCORE
