@@ -253,8 +253,9 @@ object FaceDetector {
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N)
     fun requestDetection(context: Context?, callback: Callback?): Boolean {
-        val safeCallback = if (callback != null) callback else object : Callback {
+        val safeCallback = callback ?: object : Callback {
             override fun onFinished(name: String?, confidence: Float) {
+                // Intentionally empty: no result handling is required when no callback is supplied.
             }
         }
 

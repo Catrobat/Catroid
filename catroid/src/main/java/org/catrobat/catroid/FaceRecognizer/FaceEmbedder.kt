@@ -61,49 +61,80 @@ class FaceEmbedder private constructor(
      * missing EXIF orientation still work. Returns null when no usable face is found.
      * The caller must call face.release(sourceBitmap) when done.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.N)
     @Synchronized
     fun findBestFace(source: Bitmap?): Face? {
         lastProblem = ""
-        if (source == null || source.isRecycled()) {
+
+        if (source == null || source.isRecycled) {
             lastProblem = "no bitmap"
             return null
         }
 
-        // Upright first, and the FIRST rotation that finds a face wins.
-        // Picking the largest box across all four rotations was wrong: a sideways
-        // or false detection with a bigger box could beat the real upright face,
-        // and gallery photos and camera frames would then land on different
-        // rotations, producing crops that could never match each other.
-        for (rotation in ROTATIONS) {
-            val frame: Bitmap?
-            try {
-                frame = if (rotation == 0) source else rotate(source, rotation)
-            } catch (oom: OutOfMemoryError) {
-                Log.w(TAG, "Out of memory rotating to " + rotation)
-                lastProblem = "out of memory while searching rotations"
-                return null
-            }
-            if (frame == null) {
-                continue
-            }
+        val face = findFaceAcrossRotations(source)
 
-            val box = largestFaceRect(frame)
-            if (box != null) {
-                if (rotation != 0) {
-                    Log.i(TAG, "Face found only after rotating " + rotation + " degrees")
-                }
-                return Face(frame, box, rotation, lastLeftEye, lastRightEye)
-            }
-            if (frame != source) {
-                frame.recycle()
-            }
-        }
-
-        if (lastProblem.isEmpty()) {
+        if (face == null && lastProblem.isEmpty()) {
             lastProblem = "no face detected at any rotation"
         }
+
+        return face
+    }
+
+    private fun findFaceAcrossRotations(source: Bitmap): Face? {
+        // Upright is checked first. The first rotation containing a face wins,
+        // ensuring gallery photos and camera frames use consistent face crops.
+        for (rotation in ROTATIONS) {
+            val frame = createRotatedFrame(source, rotation) ?: return null
+            val box = largestFaceRect(frame)
+
+            if (box != null) {
+                logAppliedRotation(rotation)
+
+                return Face(
+                    frame,
+                    box,
+                    rotation,
+                    lastLeftEye,
+                    lastRightEye
+                )
+            }
+
+            recycleRotatedFrame(frame, source)
+        }
+
         return null
+    }
+
+    private fun createRotatedFrame(
+        source: Bitmap,
+        rotation: Int
+    ): Bitmap? {
+        return try {
+            if (rotation == 0) {
+                source
+            } else {
+                rotate(source, rotation)
+            }
+        } catch (error: OutOfMemoryError) {
+            Log.w(TAG, "Out of memory rotating to $rotation", error)
+            lastProblem = "out of memory while searching rotations"
+            null
+        }
+    }
+
+    private fun logAppliedRotation(rotation: Int) {
+        if (rotation != 0) {
+            Log.i(TAG, "Face found only after rotating $rotation degrees")
+        }
+    }
+
+    private fun recycleRotatedFrame(
+        frame: Bitmap,
+        source: Bitmap
+    ) {
+        if (frame !== source && !frame.isRecycled) {
+            frame.recycle()
+        }
     }
 
     /** Embeds a known box. Returns a normalised float[EMBEDDING_SIZE] or null.  */
@@ -179,75 +210,167 @@ class FaceEmbedder private constructor(
 
     @Synchronized
     fun embedVariants(
-        frame: Bitmap?, box: Rect?,
-        includeMirror: Boolean, leftEye: FloatArray?, rightEye: FloatArray?
+        frame: Bitmap?,
+        box: Rect?,
+        includeMirror: Boolean,
+        leftEye: FloatArray?,
+        rightEye: FloatArray?
     ): MutableList<FloatArray> {
-        val out = mutableListOf<FloatArray>()
-        if (frame == null || frame.isRecycled() || box == null) {
-            return out
+        val embeddings = mutableListOf<FloatArray>()
+
+        if (!isValidInput(frame, box)) {
+            return embeddings
         }
 
-        // Aligned path. Rotating the face so the eyes are level, and placing them at
-        // a fixed spot, removes head tilt, scale and position as sources of
-        // variation. FaceNet was trained on aligned faces, and doing this on both
-        // the gallery side and the camera side is what makes them comparable.
+        frame ?: return embeddings
+        box ?: return embeddings
+
+        addAlignedVariants(
+            embeddings,
+            frame,
+            includeMirror,
+            leftEye,
+            rightEye
+        )
+
+        if (embeddings.isNotEmpty()) {
+            return embeddings
+        }
+
+        logAlignmentFallback(leftEye, rightEye)
+        addCropVariants(embeddings, frame, box, includeMirror)
+
+        return embeddings
+    }
+
+    private fun isValidInput(
+        frame: Bitmap?,
+        box: Rect?
+    ): Boolean =
+        frame != null && !frame.isRecycled && box != null
+
+    private fun addAlignedVariants(
+        embeddings: MutableList<FloatArray>,
+        frame: Bitmap,
+        includeMirror: Boolean,
+        leftEye: FloatArray?,
+        rightEye: FloatArray?
+    ) {
+        if (leftEye == null || rightEye == null) {
+            return
+        }
+
+        for (eyeDistance in EYE_DISTANCES) {
+            addAlignedVariant(
+                embeddings,
+                frame,
+                leftEye,
+                rightEye,
+                eyeDistance,
+                mirror = false
+            )
+
+            if (includeMirror) {
+                addAlignedVariant(
+                    embeddings,
+                    frame,
+                    leftEye,
+                    rightEye,
+                    eyeDistance,
+                    mirror = true
+                )
+            }
+        }
+    }
+
+    private fun addAlignedVariant(
+        embeddings: MutableList<FloatArray>,
+        frame: Bitmap,
+        leftEye: FloatArray,
+        rightEye: FloatArray,
+        eyeDistance: Float,
+        mirror: Boolean
+    ) {
+        val aligned = alignFace(
+            frame,
+            leftEye,
+            rightEye,
+            eyeDistance,
+            mirror
+        ) ?: return
+
+        try {
+            embedAligned(aligned)?.let(embeddings::add)
+        } finally {
+            recycleSafely(aligned)
+        }
+    }
+
+    private fun logAlignmentFallback(
+        leftEye: FloatArray?,
+        rightEye: FloatArray?
+    ) {
         if (leftEye != null && rightEye != null) {
-            for (eyeDistance in EYE_DISTANCES) {
-                val aligned = alignFace(frame, leftEye, rightEye, eyeDistance, false)
-                if (aligned != null) {
-                    val e = embedAligned(aligned)
-                    aligned.recycle()
-                    if (e != null) {
-                        out.add(e)
-                    }
-                }
-                if (!includeMirror) {
-                    continue
-                }
-                val mirroredAligned =
-                    alignFace(frame, leftEye, rightEye, eyeDistance, true)
-                if (mirroredAligned != null) {
-                    val m = embedAligned(mirroredAligned)
-                    mirroredAligned.recycle()
-                    if (m != null) {
-                        out.add(m)
-                    }
-                }
-            }
-            if (!out.isEmpty()) {
-                return out
-            }
-            Log.w(TAG, "Alignment produced nothing, falling back to plain crop")
+            Log.w(
+                TAG,
+                "Alignment produced nothing, falling back to plain crop"
+            )
         }
+    }
 
+    private fun addCropVariants(
+        embeddings: MutableList<FloatArray>,
+        frame: Bitmap,
+        box: Rect,
+        includeMirror: Boolean
+    ) {
         for (scale in CROP_SCALES) {
-            val scaled: Rect? = scaleBox(box, scale, frame.getWidth(), frame.getHeight())
-            if (scaled == null) {
-                continue
-            }
-            val e = embed(frame, scaled)
-            if (e != null) {
-                out.add(e)
-            }
-            if (!includeMirror) {
-                continue
-            }
-            var mirrored: Bitmap? = null
-            try {
-                mirrored = mirror(frame)
-                val m = embed(mirrored, mirrorRect(scaled, frame.getWidth()))
-                if (m != null) {
-                    out.add(m)
-                }
-            } catch (t: Throwable) {
-                Log.w(TAG, "Mirror variant failed", t)
-            } finally {
-                if (mirrored != null && !mirrored.isRecycled()) {
-                    mirrored.recycle()
-                }
+            val scaledBox = scaleBox(
+                box,
+                scale,
+                frame.width,
+                frame.height
+            ) ?: continue
+
+            embed(frame, scaledBox)?.let(embeddings::add)
+
+            if (includeMirror) {
+                addMirroredCropVariant(
+                    embeddings,
+                    frame,
+                    scaledBox
+                )
             }
         }
-        return out
+    }
+
+    private fun addMirroredCropVariant(
+        embeddings: MutableList<FloatArray>,
+        frame: Bitmap,
+        scaledBox: Rect
+    ) {
+        var mirroredFrame: Bitmap? = null
+
+        try {
+            mirroredFrame = mirror(frame)
+
+            val mirroredBox = mirrorRect(
+                scaledBox,
+                frame.width
+            )
+
+            embed(mirroredFrame, mirroredBox)?.let(embeddings::add)
+        } catch (error: Throwable) {
+            Log.w(TAG, "Mirror variant failed", error)
+        } finally {
+            recycleSafely(mirroredFrame)
+        }
+    }
+
+    private fun recycleSafely(bitmap: Bitmap?) {
+        if (bitmap != null && !bitmap.isRecycled) {
+            bitmap.recycle()
+        }
     }
 
     /** Locates the face, then returns every variant of it.  */

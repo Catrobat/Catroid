@@ -112,44 +112,122 @@ class Recognizer private constructor() {
      * are delivered on the main thread. Keep the returned task and cancel it from
      * Activity/Fragment onStop().
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.N)
     fun extractEmbeddingsAsync(
-        resolver: ContentResolver?, uris: MutableList<Uri?>?,
-        listener: ProgressListener?, callback: EnrolCallback?
+        resolver: ContentResolver?,
+        uris: MutableList<Uri?>?,
+        listener: ProgressListener?,
+        callback: EnrolCallback?
     ): EnrolTask {
         val task = EnrolTask()
-        val main = Handler(Looper.getMainLooper())
-        val safeUris: MutableList<Uri> = uris?.filterNotNull()?.toMutableList()
-            ?: mutableListOf()
-        task.worker = Thread(Runnable {
-            val safeProgress = Recognizer.ProgressListener { done: Int, total: Int ->
-                if (listener != null && !task.isCancelled) {
-                    main.post(Runnable {
-                        if (!task.isCancelled) {
-                            listener.onPhoto(done, total)
-                        }
-                    })
-                }
-            }
-            var result: EnrolResult?
-            try {
-                result = extractEmbeddings(resolver, safeUris, safeProgress)
-            } catch (t: Throwable) {
-                Log.e(TAG, "Background enrolment failed", t)
-                result = EnrolResult()
-                result.report.add("Training failed: " + t.javaClass.getSimpleName())
-            }
-            val deliveredResult: EnrolResult? = result
-            if (callback != null && !task.isCancelled) {
-                main.post(Runnable {
-                    if (!task.isCancelled) {
-                        callback.onFinished(deliveredResult)
-                    }
-                })
-            }
-        }, "face_enrolment")
-        task.worker!!.start()
+        val mainHandler = Handler(Looper.getMainLooper())
+        val safeUris = uris.orEmpty().filterNotNull().toMutableList()
+
+        val worker = Thread(
+            {
+                val progressListener = createProgressListener(
+                    task,
+                    mainHandler,
+                    listener
+                )
+
+                val result = extractEmbeddingsSafely(
+                    resolver,
+                    safeUris,
+                    progressListener
+                )
+
+                deliverResult(
+                    task,
+                    mainHandler,
+                    callback,
+                    result
+                )
+            },
+            "face_enrolment"
+        )
+
+        task.worker = worker
+        worker.start()
+
         return task
+    }
+
+    private fun createProgressListener(
+        task: EnrolTask,
+        mainHandler: Handler,
+        listener: ProgressListener?
+    ): Recognizer.ProgressListener {
+        return Recognizer.ProgressListener { done, total ->
+            postProgress(
+                task,
+                mainHandler,
+                listener,
+                done,
+                total
+            )
+        }
+    }
+
+    private fun postProgress(
+        task: EnrolTask,
+        mainHandler: Handler,
+        listener: ProgressListener?,
+        done: Int,
+        total: Int
+    ) {
+        if (listener == null || task.isCancelled) {
+            return
+        }
+
+        mainHandler.post {
+            if (!task.isCancelled) {
+                listener.onPhoto(done, total)
+            }
+        }
+    }
+
+    private fun extractEmbeddingsSafely(
+        resolver: ContentResolver?,
+        uris: MutableList<Uri>,
+        progressListener: Recognizer.ProgressListener
+    ): EnrolResult? {
+        return try {
+            extractEmbeddings(
+                resolver,
+                uris,
+                progressListener
+            )
+        } catch (error: Throwable) {
+            createFailureResult(error)
+        }
+    }
+
+    private fun createFailureResult(error: Throwable): EnrolResult {
+        Log.e(TAG, "Background enrolment failed", error)
+
+        return EnrolResult().apply {
+            report.add(
+                "Training failed: ${error.javaClass.simpleName}"
+            )
+        }
+    }
+
+    private fun deliverResult(
+        task: EnrolTask,
+        mainHandler: Handler,
+        callback: EnrolCallback?,
+        result: EnrolResult?
+    ) {
+        if (callback == null || task.isCancelled) {
+            return
+        }
+
+        mainHandler.post {
+            if (!task.isCancelled) {
+                callback.onFinished(result)
+            }
+        }
     }
 
     /**
@@ -161,7 +239,6 @@ class Recognizer private constructor() {
     fun extractEmbeddings(resolver: ContentResolver?, uris: MutableList<Uri>?): EnrolResult {
         return extractEmbeddings(resolver, uris, null)
     }
-
     @RequiresApi(Build.VERSION_CODES.N)
     @Synchronized
     fun extractEmbeddings(
@@ -176,156 +253,24 @@ class Recognizer private constructor() {
         }
 
         val activeEmbedder = embedder
-
-        if (activeEmbedder == null) {
-            result.report.add(
+            ?: return result.withReport(
                 "Training failed: face embedder is not initialized"
             )
 
-            return result
-        }
-
         for ((index, uri) in uris.withIndex()) {
-            if (Thread.currentThread().isInterrupted) {
-                result.report.add("Training cancelled")
+            if (isTrainingCancelled(result)) {
                 break
             }
 
-            val photoNumber = index + 1
-
-            listener?.onPhoto(
-                photoNumber,
-                uris.size
+            processEnrolmentPhoto(
+                resolver = resolver,
+                uri = uri,
+                photoNumber = index + 1,
+                totalPhotos = uris.size,
+                activeEmbedder = activeEmbedder,
+                listener = listener,
+                result = result
             )
-
-            val bitmap =
-                decodeScaled(
-                    resolver = resolver,
-                    uri = uri,
-                    maxSide = MAX_ENROL_SIDE
-                )
-
-            if (bitmap == null) {
-                result.report.add(
-                    "$photoNumber: $lastDecodeProblem"
-                )
-
-                Log.w(
-                    TAG,
-                    "Could not decode $uri"
-                )
-
-                continue
-            }
-
-            try {
-                val face =
-                    activeEmbedder.findBestFace(bitmap)
-
-                if (face == null) {
-                    result.report.add(
-                        "$photoNumber: " +
-                            activeEmbedder.lastProblem +
-                            " (${bitmap.width}x${bitmap.height})"
-                    )
-
-                    continue
-                }
-
-                val faceFrame = face.frame
-                val faceBox = face.box
-
-                /*
-                 * Automatically converted Face class-এ frame ও box nullable থাকতে পারে।
-                 * Mandatory face data না থাকলে safely reject করা হবে।
-                 */
-                if (
-                    faceFrame == null ||
-                    faceFrame.isRecycled ||
-                    faceBox == null ||
-                    faceBox.width() <= 0 ||
-                    faceBox.height() <= 0
-                ) {
-                    result.report.add(
-                        "$photoNumber: invalid detected face"
-                    )
-
-                    face.release(bitmap)
-                    continue
-                }
-
-                val faceWidth = faceBox.width()
-                val faceHeight = faceBox.height()
-
-                val variants: List<FloatArray>
-
-                try {
-                    variants =
-                        activeEmbedder.embedVariants(
-                            frame = faceFrame,
-                            box = faceBox,
-                            includeMirror = true,
-                            leftEye = face.leftEye,
-                            rightEye = face.rightEye
-                        )
-                } finally {
-                    face.release(bitmap)
-                }
-
-                if (variants.isEmpty()) {
-                    result.report.add(
-                        "$photoNumber: " +
-                            activeEmbedder.lastProblem
-                    )
-
-                    continue
-                }
-
-                var keptCount = 0
-
-                for (candidate in variants) {
-                    if (
-                        !tooSimilarToStored(
-                            stored = result.embeddings,
-                            candidate = candidate
-                        )
-                    ) {
-                        result.embeddings.add(candidate)
-                        keptCount++
-                    }
-                }
-
-                result.report.add(
-                    "$photoNumber: OK, face " +
-                        "${faceWidth}x${faceHeight} px, " +
-                        "$keptCount new views"
-                )
-            } catch (error: OutOfMemoryError) {
-                Log.e(
-                    TAG,
-                    "Photo $photoNumber failed: insufficient memory",
-                    error
-                )
-
-                result.report.add(
-                    "$photoNumber: insufficient memory"
-                )
-            } catch (error: Exception) {
-                Log.e(
-                    TAG,
-                    "Photo $photoNumber failed",
-                    error
-                )
-
-                result.report.add(
-                    "$photoNumber: " +
-                        error.javaClass.simpleName
-                )
-            } finally {
-                if (!bitmap.isRecycled) {
-                    bitmap.recycle()
-                }
-            }
         }
 
         Log.i(
@@ -334,6 +279,220 @@ class Recognizer private constructor() {
         )
 
         return result
+    }
+
+    private fun EnrolResult.withReport(
+        message: String
+    ): EnrolResult {
+        report.add(message)
+        return this
+    }
+
+    private fun isTrainingCancelled(
+        result: EnrolResult
+    ): Boolean {
+        if (!Thread.currentThread().isInterrupted) {
+            return false
+        }
+
+        result.report.add("Training cancelled")
+        return true
+    }
+    private fun processEnrolmentPhoto(
+        resolver: ContentResolver,
+        uri: Uri,
+        photoNumber: Int,
+        totalPhotos: Int,
+        activeEmbedder: FaceEmbedder,
+        listener: ProgressListener?,
+        result: EnrolResult
+    ) {
+        listener?.onPhoto(
+            photoNumber,
+            totalPhotos
+        )
+
+        val bitmap = decodeEnrolmentBitmap(
+            resolver = resolver,
+            uri = uri,
+            photoNumber = photoNumber,
+            result = result
+        ) ?: return
+
+        try {
+            processDecodedBitmap(
+                bitmap = bitmap,
+                photoNumber = photoNumber,
+                activeEmbedder = activeEmbedder,
+                result = result
+            )
+        } catch (error: OutOfMemoryError) {
+            reportOutOfMemory(
+                photoNumber = photoNumber,
+                error = error,
+                result = result
+            )
+        } catch (error: Exception) {
+            reportPhotoError(
+                photoNumber = photoNumber,
+                error = error,
+                result = result
+            )
+        } finally {
+            recycleSafely(bitmap)
+        }
+    }
+
+    private fun decodeEnrolmentBitmap(
+        resolver: ContentResolver,
+        uri: Uri,
+        photoNumber: Int,
+        result: EnrolResult
+    ): Bitmap? {
+        val bitmap = decodeScaled(
+            resolver = resolver,
+            uri = uri,
+            maxSide = MAX_ENROL_SIDE
+        )
+
+        if (bitmap == null) {
+            result.report.add(
+                "$photoNumber: $lastDecodeProblem"
+            )
+
+            Log.w(
+                TAG,
+                "Could not decode $uri"
+            )
+        }
+
+        return bitmap
+    }
+
+    private fun processDecodedBitmap(
+        bitmap: Bitmap,
+        photoNumber: Int,
+        activeEmbedder: FaceEmbedder,
+        result: EnrolResult
+    ) {
+        val face = activeEmbedder.findBestFace(bitmap)
+
+        if (face == null) {
+            result.report.add(
+                "$photoNumber: ${activeEmbedder.lastProblem} " +
+                    "(${bitmap.width}x${bitmap.height})"
+            )
+            return
+        }
+
+        val faceFrame = face.frame
+        val faceBox = face.box
+
+        if (
+            faceFrame == null ||
+            faceFrame.isRecycled ||
+            faceBox == null ||
+            faceBox.width() <= 0 ||
+            faceBox.height() <= 0
+        ) {
+            result.report.add(
+                "$photoNumber: invalid detected face"
+            )
+
+            face.release(bitmap)
+            return
+        }
+
+        val faceWidth = faceBox.width()
+        val faceHeight = faceBox.height()
+
+        val variants = try {
+            activeEmbedder.embedVariants(
+                frame = faceFrame,
+                box = faceBox,
+                includeMirror = true,
+                leftEye = face.leftEye,
+                rightEye = face.rightEye
+            )
+        } finally {
+            face.release(bitmap)
+        }
+
+        if (variants.isEmpty()) {
+            result.report.add(
+                "$photoNumber: ${activeEmbedder.lastProblem}"
+            )
+            return
+        }
+
+        val keptCount = addUniqueEmbeddings(
+            storedEmbeddings = result.embeddings,
+            candidates = variants
+        )
+
+        result.report.add(
+            "$photoNumber: OK, face " +
+                "${faceWidth}x${faceHeight} px, " +
+                "$keptCount new views"
+        )
+    }
+
+    private fun addUniqueEmbeddings(
+        storedEmbeddings: MutableList<FloatArray>,
+        candidates: List<FloatArray>
+    ): Int {
+        var keptCount = 0
+
+        for (candidate in candidates) {
+            if (tooSimilarToStored(storedEmbeddings, candidate)) {
+                continue
+            }
+
+            storedEmbeddings.add(candidate)
+            keptCount++
+        }
+
+        return keptCount
+    }
+
+    private fun reportOutOfMemory(
+        photoNumber: Int,
+        error: OutOfMemoryError,
+        result: EnrolResult
+    ) {
+        Log.e(
+            TAG,
+            "Photo $photoNumber failed: insufficient memory",
+            error
+        )
+
+        result.report.add(
+            "$photoNumber: insufficient memory"
+        )
+    }
+
+    private fun reportPhotoError(
+        photoNumber: Int,
+        error: Exception,
+        result: EnrolResult
+    ) {
+        Log.e(
+            TAG,
+            "Photo $photoNumber failed",
+            error
+        )
+
+        result.report.add(
+            "$photoNumber: ${error.javaClass.simpleName}"
+        )
+    }
+
+    private fun recycleSafely(
+        bitmap: Bitmap
+    ) {
+        if (!bitmap.isRecycled) {
+            bitmap.recycle()
+        }
     }
     /**
      * Embeds the largest face in a live camera frame, for camera based enrolment.
