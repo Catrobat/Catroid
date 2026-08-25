@@ -371,7 +371,6 @@ class BlazeFace private constructor() {
                 for (y in 0..<feature_map_height) {
                     for (x in 0..<feature_map_width) {
                         for (anchor_id in anchor_height.indices) {
-                            // TODO: Support specifying anchor_offset_x, anchor_offset_y.
                             val x_center: Float = (x + ANCHOR_OFFSET_X) * 1.0f / feature_map_width
                             val y_center: Float = (y + ANCHOR_OFFSET_Y) * 1.0f / feature_map_height
 

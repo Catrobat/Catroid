@@ -353,7 +353,7 @@ class FaceDatabase {
                 if (i == j) {
                     continue
                 }
-                best = max(best, dot(list.get(i), list.get(j)))
+                best = max(best, dot(list[i], list[j]))
             }
             out[i] = best
         }
@@ -394,7 +394,7 @@ class FaceDatabase {
         var pairs = 0
         for (i in list.indices) {
             for (j in i + 1..<list.size) {
-                sum += dot(list.get(i), list.get(j))
+                sum += dot(list[i], list[j])
                 pairs++
             }
         }
@@ -429,7 +429,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size || samples[index].isEmpty()) {
             return null
         }
-        return samples[index].get(0).clone()
+        return samples[index][0].clone()
     }
 
     @Synchronized
@@ -645,45 +645,87 @@ class FaceDatabase {
     }
 
     private fun personScore(index: Int, query: FloatArray): Float {
-        val list = samples[index]
+        val personSamples = samples[index]
         val centroid = centroids[index]
 
-        if (list.isEmpty() && centroid == null) {
-            return NO_SCORE
-        }
-        if (list.isEmpty()) {
-            return Companion.dot(centroid!!, query)
+        if (personSamples.isEmpty()) {
+            return centroid?.let { dot(it, query) } ?: NO_SCORE
         }
 
-        val top = FloatArray(TOP_K)
-        Arrays.fill(top, NO_SCORE)
-        for (v in list) {
-            val s: Float = dot(v, query)
-            for (i in 0..<TOP_K) {
-                if (s > top[i]) {
-                    for (j in TOP_K - 1 downTo i + 1) {
-                        top[j] = top[j - 1]
-                    }
-                    top[i] = s
-                    break
-                }
+        val sampleScore = calculateTopKAverage(personSamples, query)
+
+        return combineScores(sampleScore, centroid, query)
+    }
+
+    private fun calculateTopKAverage(
+        personSamples: List<FloatArray>,
+        query: FloatArray
+    ): Float {
+        val topScores = FloatArray(TOP_K) { NO_SCORE }
+
+        for (sample in personSamples) {
+            insertIntoTopScores(
+                topScores,
+                dot(sample, query)
+            )
+        }
+
+        return averageValidScores(topScores)
+    }
+
+    private fun insertIntoTopScores(
+        topScores: FloatArray,
+        score: Float
+    ) {
+        for (index in topScores.indices) {
+            if (score > topScores[index]) {
+                shiftScoresRight(topScores, index)
+                topScores[index] = score
+                return
             }
         }
+    }
 
+    private fun shiftScoresRight(
+        topScores: FloatArray,
+        insertionIndex: Int
+    ) {
+        for (index in topScores.lastIndex downTo insertionIndex + 1) {
+            topScores[index] = topScores[index - 1]
+        }
+    }
+
+    private fun averageValidScores(topScores: FloatArray): Float {
         var sum = 0f
         var count = 0
-        for (t in top) {
-            if (t != NO_SCORE) {
-                sum += t
+
+        for (score in topScores) {
+            if (score != NO_SCORE) {
+                sum += score
                 count++
             }
         }
-        val sampleScore = sum / count
 
+        return if (count > 0) {
+            sum / count
+        } else {
+            NO_SCORE
+        }
+    }
+
+    private fun combineScores(
+        sampleScore: Float,
+        centroid: FloatArray?,
+        query: FloatArray
+    ): Float {
         if (centroid == null) {
             return sampleScore
         }
-        return SAMPLE_WEIGHT * sampleScore + (1f - SAMPLE_WEIGHT) * dot(centroid, query)
+
+        val centroidScore = dot(centroid, query)
+
+        return SAMPLE_WEIGHT * sampleScore +
+            (1f - SAMPLE_WEIGHT) * centroidScore
     }
 
     companion object {
