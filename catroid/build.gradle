@@ -106,7 +106,13 @@ def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
 
 def faceTestArchive = file('src/androidTest/assets/faces.zip')
-def generatedFaceTestAssetsDir = file("$buildDir/generated/faceTestAssets")
+// Unzipped straight into the conventional androidTest assets directory: AGP
+// already scans 'src/androidTest/assets' as an asset source by default, so
+// anything landing here is picked up with no extra sourceSet wiring. A
+// FileCollection.builtBy() srcDir hookup for a $buildDir output was tried and
+// does not get honoured by the asset merge task, so that indirection is
+// avoided entirely.
+def unpackedFaceTestAssetsDir = file('src/androidTest/assets/faces')
 
 tasks.register('unpackFaceTestAssets', Sync) {
     group = 'verification'
@@ -114,7 +120,7 @@ tasks.register('unpackFaceTestAssets', Sync) {
             'Unpacks face-recognition fixtures for instrumented tests.'
 
     inputs.file(faceTestArchive)
-    outputs.dir(generatedFaceTestAssetsDir)
+    outputs.dir(unpackedFaceTestAssetsDir)
 
     doFirst {
         if (!faceTestArchive.isFile()) {
@@ -127,10 +133,7 @@ tasks.register('unpackFaceTestAssets', Sync) {
         zipTree(faceTestArchive)
     }
 
-    into new File(
-            generatedFaceTestAssetsDir,
-            'faces'
-    )
+    into unpackedFaceTestAssetsDir
 }
 
 android {

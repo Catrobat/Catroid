@@ -38,6 +38,9 @@ bin/
 gen/
 jniLibs/
 
+# unzipped by :catroid:unpackFaceTestAssets from faces.zip, do not commit
+catroid/src/androidTest/assets/faces/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
