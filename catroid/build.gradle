@@ -105,6 +105,34 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
 def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
 
+def faceTestArchive = file('src/androidTest/assets/faces.zip')
+def generatedFaceTestAssetsDir = file("$buildDir/generated/faceTestAssets")
+
+tasks.register('unpackFaceTestAssets', Sync) {
+    group = 'verification'
+    description =
+            'Unpacks face-recognition fixtures for instrumented tests.'
+
+    inputs.file(faceTestArchive)
+    outputs.dir(generatedFaceTestAssetsDir)
+
+    doFirst {
+        if (!faceTestArchive.isFile()) {
+            throw new GradleException(
+                    "Required face test archive is missing: $faceTestArchive"
+            )
+        }
+    }
+    from {
+        zipTree(faceTestArchive)
+    }
+
+    into new File(
+            generatedFaceTestAssetsDir,
+            'faces'
+    )
+}
+
 android {
     compileSdk = 35
 
@@ -562,6 +590,10 @@ tasks.register('copyAndroidNatives') {
 tasks.configureEach { packageTask ->
     if (packageTask.name.contains("package")) {
         packageTask.dependsOn 'copyAndroidNatives'
+    }
+    if (packageTask.name.startsWith('merge')
+            && packageTask.name.endsWith('AndroidTestAssets')) {
+        packageTask.dependsOn 'unpackFaceTestAssets'
     }
 }
 
