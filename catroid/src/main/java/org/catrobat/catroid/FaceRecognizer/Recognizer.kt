@@ -237,7 +237,7 @@ class Recognizer private constructor() {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Synchronized
     fun extractEmbeddings(resolver: ContentResolver?, uris: MutableList<Uri>?): EnrolResult {
-        return extractEmbeddings(resolver, uris, null)
+        return extractEmbeddings(resolver, uris, listener = null)
     }
     @RequiresApi(Build.VERSION_CODES.N)
     @Synchronized
@@ -406,14 +406,14 @@ class Recognizer private constructor() {
         val faceWidth = faceBox.width()
         val faceHeight = faceBox.height()
 
-        val variants = try {
+        val variants: List<FloatArray> = try {
             activeEmbedder.embedVariants(
                 frame = faceFrame,
                 box = faceBox,
                 includeMirror = true,
                 leftEye = face.leftEye,
                 rightEye = face.rightEye
-            )
+            ).toList()
         } finally {
             face.release(bitmap)
         }
@@ -672,7 +672,7 @@ class Recognizer private constructor() {
                 includeMirror = mirrorToo,
                 leftEye = face.leftEye,
                 rightEye = face.rightEye
-            )
+            ).toList()
 
             variantCount = variants.size
 
@@ -1327,7 +1327,7 @@ class Recognizer private constructor() {
     fun selfTest(): String {
         database.ensureFresh()
 
-        val names = database.getNames()
+        val names: List<String> = database.getNames().toList()
 
         if (names.isEmpty()) {
             return "Nothing trained yet."
@@ -1550,7 +1550,7 @@ class Recognizer private constructor() {
         for (i in names.indices) {
             val removed = database.removeStrayPhotos(i, 0.35f)
             total += removed
-            sb.append("  ").append(names.get(i)).append(": removed ")
+            sb.append("  ").append(names[i]).append(": removed ")
                 .append(removed).append(", kept ")
                 .append(database.getEmbeddingCount(i)).append("\n")
         }
@@ -1595,7 +1595,7 @@ class Recognizer private constructor() {
             val names = database.getNames()
             sb.append("People: ").append(names.size).append("\n")
             for (i in names.indices) {
-                sb.append("  ").append(i).append(". ").append(names.get(i))
+                sb.append("  ").append(i).append(". ").append(names[i])
                     .append("  ").append(database.getEmbeddingCount(i)).append(" photos\n")
             }
             if (names.isEmpty()) {
@@ -1838,7 +1838,7 @@ class Recognizer private constructor() {
         private const val DUPLICATE_THRESHOLD = 0.995f
 
         private fun tooSimilarToStored(
-            stored: MutableList<FloatArray>,
+            stored: List<FloatArray>,
             candidate: FloatArray
         ): Boolean {
             for (existing in stored) {
@@ -2026,21 +2026,7 @@ class Recognizer private constructor() {
                 deviation
             )
         }
-
-        private fun higherOf(a: FloatArray?, b: FloatArray?): FloatArray? {
-            if (a == null) {
-                return b
-            }
-            if (b == null || b.size != a.size) {
-                return a
-            }
-            for (i in a.indices) {
-                if (b[i] > a[i]) {
-                    a[i] = b[i]
-                }
-            }
-            return a
-        }
+        
 
         @JvmStatic
         @Synchronized
