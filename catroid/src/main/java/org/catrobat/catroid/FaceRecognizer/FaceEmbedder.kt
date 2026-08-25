@@ -164,7 +164,6 @@ class FaceEmbedder private constructor(
                     + frame.getWidth() + "x" + frame.getHeight())
             )
 
-//            val buffer = faceNet.getEmbeddings(frame, box)
 
             val buffer = try {
                 faceNet.getEmbeddings(frame, box)
@@ -192,7 +191,10 @@ class FaceEmbedder private constructor(
             }
 
             val embedding = FloatArray(FaceNet.EMBEDDING_SIZE)
-            buffer.get(embedding)
+
+            for (index in embedding.indices) {
+                embedding[index] = buffer[index]
+            }
 
             val normalized: FloatArray? = normalize(embedding)
             if (normalized == null) {
@@ -449,16 +451,18 @@ class FaceEmbedder private constructor(
     /** Embeds an already aligned 160x160 bitmap.  */
     private fun embedAligned(aligned: Bitmap): FloatArray? {
         try {
-            val buffer = faceNet.getEmbeddings(aligned, FULL_NET_RECT)
-            if (buffer == null) {
-                return null
-            }
+            val buffer = faceNet.getEmbeddings(
+                aligned,
+                FULL_NET_RECT
+            )
             buffer.clear()
             if (buffer.remaining() < FaceNet.EMBEDDING_SIZE) {
                 return null
             }
             val embedding = FloatArray(FaceNet.EMBEDDING_SIZE)
-            buffer.get(embedding)
+            for (index in embedding.indices) {
+                embedding[index] = buffer[index]
+            }
             return normalize(embedding)
         } catch (e: Exception) {
             Log.e(TAG, "Aligned embedding failed", e)
@@ -549,7 +553,7 @@ class FaceEmbedder private constructor(
 
             blazeFace
                 .detectWithLandmarks(scaledBitmap)
-                ?.takeIf { it.isNotEmpty() }
+                .takeIf { it.isNotEmpty() }
         } catch (error: Exception) {
             Log.e(
                 TAG,
@@ -603,7 +607,6 @@ class FaceEmbedder private constructor(
         scaleY: Float
     ) {
         val keypoints = face.keypoints
-            ?: return
 
         if (keypoints.size < 4) {
             return
@@ -826,10 +829,7 @@ class FaceEmbedder private constructor(
         fun mirrorRect(box: Rect, frameWidth: Int): Rect {
             return Rect(frameWidth - box.right, box.top, frameWidth - box.left, box.bottom)
         }
-
-        private fun area(r: Rect): Long {
-            return r.width().toLong() * r.height().toLong()
-        }
+        
 
         /** Unit length, so a dot product between two embeddings is the cosine similarity.  */
         private fun normalize(v: FloatArray): FloatArray? {

@@ -184,11 +184,10 @@ object FaceDetector {
         }
 
         val latch = CountDownLatch(1)
-        val started = requestDetection(context, object : Callback {
-            override fun onFinished(name: String?, confidence: Float) {
-                latch.countDown()
-            }
-        })
+        val started = requestDetection(context) { _, _ ->
+            latch.countDown()
+        }
+
 
         if (!started && !isRunning) {
             return lastName
@@ -253,11 +252,7 @@ object FaceDetector {
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N)
     fun requestDetection(context: Context?, callback: Callback?): Boolean {
-        val safeCallback = callback ?: object : Callback {
-            override fun onFinished(name: String?, confidence: Float) {
-                // Intentionally empty: no result handling is required when no callback is supplied.
-            }
-        }
+        val safeCallback: Callback = callback ?: Callback { _, _ -> }
 
         if (context == null) {
             Log.e(TAG, "No context")

@@ -487,13 +487,7 @@ class Recognizer private constructor() {
         )
     }
 
-    private fun recycleSafely(
-        bitmap: Bitmap
-    ) {
-        if (!bitmap.isRecycled) {
-            bitmap.recycle()
-        }
-    }
+
     /**
      * Embeds the largest face in a live camera frame, for camera based enrolment.
      * Uses exactly the same crop and normalisation as detection, which is the whole
