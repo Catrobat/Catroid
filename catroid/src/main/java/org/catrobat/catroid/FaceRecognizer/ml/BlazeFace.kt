@@ -163,7 +163,11 @@ class BlazeFace private constructor() {
             }
         )
 
-        val retained = WeightedNonMaxSuppression(indexed_scores, detections)
+        val retained: List<FaceBox> =
+            WeightedNonMaxSuppression(
+                indexed_scores,
+                detections
+            ).toList()
 
         Trace.endSection() // "detect"
 
@@ -176,18 +180,18 @@ class BlazeFace private constructor() {
     }
 
     /** Faces from the most recent detect() call, with landmarks.  */
-    private var lastFaces: MutableList<FaceBox> = ArrayList<FaceBox>()
+    private var lastFaces: List<FaceBox> = ArrayList<FaceBox>()
 
     /** Runs detection and returns the boxes together with their landmarks.  */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    fun detectWithLandmarks(bitmap: Bitmap): MutableList<FaceBox> {
+    fun detectWithLandmarks(bitmap: Bitmap): List<FaceBox> {
         detect(bitmap)
         return lastFaces
     }
 
     private fun WeightedNonMaxSuppression(
         indexed_scores: MutableList<IndexedScore>,
-        detections: MutableList<Detection>
+        detections: List<Detection>
     ): MutableList<FaceBox> {
         val remained_indexed_scores: MutableList<IndexedScore> =
             ArrayList<IndexedScore>(indexed_scores)
@@ -312,13 +316,6 @@ class BlazeFace private constructor() {
             }
         }
 
-//        private fun CalculateScale(
-//            min_scale: Float, max_scale: Float, stride_index: Int,
-//            num_strides: Int
-//        ): Float {
-//            return min_scale +
-//                (max_scale - min_scale) * 1.0f * stride_index / (num_strides - 1.0f)
-//        }
 
         private data class AnchorLayerInfo(
             val nextLayerId: Int,
