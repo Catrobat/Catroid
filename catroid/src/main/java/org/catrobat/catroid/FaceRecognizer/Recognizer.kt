@@ -795,48 +795,29 @@ class Recognizer private constructor() {
         frame: Bitmap?,
         mirrorToo: Boolean
     ): Result? {
-        if (
-            frame == null ||
-            frame.isRecycled
-        ) {
+        if (!isUsableBitmap(frame)) {
             return null
         }
 
-        val activeEmbedder = embedder
-
-        if (activeEmbedder == null) {
-            Log.e(
-                TAG,
-                "Recognition failed: embedder is not initialized"
-            )
-
-            return null
-        }
+        val activeEmbedder = getActiveEmbedder()
+            ?: return null
 
         database.ensureFresh()
 
-        val face =
-            activeEmbedder.findBestFace(frame)
+        val face = activeEmbedder.findBestFace(frame)
 
         if (face == null) {
             Log.i(
                 TAG,
                 "No face in frame: ${activeEmbedder.lastProblem}"
             )
-
             return null
         }
 
         val faceFrame = face.frame
         val faceBox = face.box
 
-        if (
-            faceFrame == null ||
-            faceFrame.isRecycled ||
-            faceBox == null ||
-            faceBox.width() <= 0 ||
-            faceBox.height() <= 0
-        ) {
+        if (!isValidDetectedFace(faceFrame, faceBox)) {
             Log.i(
                 TAG,
                 "Recognition rejected: invalid detected face"
@@ -846,88 +827,176 @@ class Recognizer private constructor() {
             return null
         }
 
-        var bestMatch: FaceDatabase.Match? = null
-
-        try {
-            val embedding =
-                activeEmbedder.embed(
-                    frame = faceFrame,
-                    box = faceBox
-                )
-
-            if (embedding != null) {
-                Log.d(
-                    TAG,
-                    "Scores: ${database.describeScores(embedding)}"
-                )
-
-                bestMatch =
-                    database.match(embedding)
-            }
-
-            if (mirrorToo) {
-                var mirroredBitmap: Bitmap? = null
-
-                try {
-                    mirroredBitmap =
-                        FaceEmbedder.mirror(faceFrame)
-
-                    val mirroredBox =
-                        FaceEmbedder.mirrorRect(
-                            box = faceBox,
-                            frameWidth = faceFrame.width
-                        )
-
-                    val mirroredEmbedding =
-                        activeEmbedder.embed(
-                            frame = mirroredBitmap,
-                            box = mirroredBox
-                        )
-
-                    if (mirroredEmbedding != null) {
-                        val mirroredMatch =
-                            database.match(mirroredEmbedding)
-
-                        if (
-                            mirroredMatch != null &&
-                            (
-                                bestMatch == null ||
-                                    mirroredMatch.similarity >
-                                    bestMatch.similarity
-                                )
-                        ) {
-                            bestMatch = mirroredMatch
-                        }
-                    }
-                } catch (error: Exception) {
-                    Log.w(
-                        TAG,
-                        "Mirrored recognition failed",
-                        error
-                    )
-                } finally {
-                    if (
-                        mirroredBitmap != null &&
-                        !mirroredBitmap.isRecycled
-                    ) {
-                        mirroredBitmap.recycle()
-                    }
-                }
-            }
+        val match = try {
+            findBestRecognitionMatch(
+                activeEmbedder = activeEmbedder,
+                faceFrame = requireNotNull(faceFrame),
+                faceBox = requireNotNull(faceBox),
+                mirrorToo = mirrorToo
+            )
         } catch (error: Exception) {
             Log.e(
                 TAG,
                 "Face recognition failed",
                 error
             )
-
-            return null
+            null
         } finally {
             face.release(frame)
         }
 
-        val match = bestMatch ?: return null
-        val matchedName = match.name ?: return null
+        return createRecognitionResult(match)
+    }
+    private fun isUsableBitmap(
+        bitmap: Bitmap?
+    ): Boolean {
+        return bitmap != null && !bitmap.isRecycled
+    }
+
+    private fun getActiveEmbedder(): FaceEmbedder? {
+        val activeEmbedder = embedder
+
+        if (activeEmbedder == null) {
+            Log.e(
+                TAG,
+                "Recognition failed: embedder is not initialized"
+            )
+        }
+
+        return activeEmbedder
+    }
+
+    private fun isValidDetectedFace(
+        faceFrame: Bitmap?,
+        faceBox: Rect?
+    ): Boolean {
+        return faceFrame != null &&
+            !faceFrame.isRecycled &&
+            faceBox != null &&
+            faceBox.width() > 0 &&
+            faceBox.height() > 0
+    }
+
+    private fun findBestRecognitionMatch(
+        activeEmbedder: FaceEmbedder,
+        faceFrame: Bitmap,
+        faceBox: Rect,
+        mirrorToo: Boolean
+    ): FaceDatabase.Match? {
+        val normalMatch = findNormalMatch(
+            activeEmbedder = activeEmbedder,
+            faceFrame = faceFrame,
+            faceBox = faceBox
+        )
+
+        if (!mirrorToo) {
+            return normalMatch
+        }
+
+        val mirroredMatch = findMirroredMatch(
+            activeEmbedder = activeEmbedder,
+            faceFrame = faceFrame,
+            faceBox = faceBox
+        )
+
+        return selectBetterMatch(
+            first = normalMatch,
+            second = mirroredMatch
+        )
+    }
+
+    private fun findNormalMatch(
+        activeEmbedder: FaceEmbedder,
+        faceFrame: Bitmap,
+        faceBox: Rect
+    ): FaceDatabase.Match? {
+        val embedding = activeEmbedder.embed(
+            frame = faceFrame,
+            box = faceBox
+        ) ?: return null
+
+        Log.d(
+            TAG,
+            "Scores: ${database.describeScores(embedding)}"
+        )
+
+        return database.match(embedding)
+    }
+
+    private fun findMirroredMatch(
+        activeEmbedder: FaceEmbedder,
+        faceFrame: Bitmap,
+        faceBox: Rect
+    ): FaceDatabase.Match? {
+        var mirroredBitmap: Bitmap? = null
+
+        return try {
+            mirroredBitmap = FaceEmbedder.mirror(faceFrame)
+
+            val mirroredBox = FaceEmbedder.mirrorRect(
+                box = faceBox,
+                frameWidth = faceFrame.width
+            )
+
+            val mirroredEmbedding = activeEmbedder.embed(
+                frame = mirroredBitmap,
+                box = mirroredBox
+            ) ?: return null
+
+            database.match(mirroredEmbedding)
+        } catch (error: Exception) {
+            Log.w(
+                TAG,
+                "Mirrored recognition failed",
+                error
+            )
+            null
+        } finally {
+            recycleMirroredBitmap(
+                mirroredBitmap = mirroredBitmap,
+                originalBitmap = faceFrame
+            )
+        }
+    }
+    private fun recycleMirroredBitmap(
+        mirroredBitmap: Bitmap?,
+        originalBitmap: Bitmap
+    ) {
+        if (
+            mirroredBitmap != null &&
+            mirroredBitmap !== originalBitmap &&
+            !mirroredBitmap.isRecycled
+        ) {
+            mirroredBitmap.recycle()
+        }
+    }
+
+    private fun selectBetterMatch(
+        first: FaceDatabase.Match?,
+        second: FaceDatabase.Match?
+    ): FaceDatabase.Match? {
+        if (first == null) {
+            return second
+        }
+
+        if (second == null) {
+            return first
+        }
+
+        return if (second.similarity > first.similarity) {
+            second
+        } else {
+            first
+        }
+    }
+
+    private fun createRecognitionResult(
+        match: FaceDatabase.Match?
+    ): Result? {
+        match ?: return null
+
+        val matchedName = match.name
+            ?: return null
 
         Log.i(
             TAG,

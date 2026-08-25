@@ -469,103 +469,252 @@ class FaceEmbedder private constructor(
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private fun largestFaceRect(frame: Bitmap): Rect? {
-        lastLeftEye = null
-        lastRightEye = null
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun largestFaceRect(
+        frame: Bitmap
+    ): Rect? {
+        resetEyeLandmarks()
 
-        var small: Bitmap? = null
-        var faces: MutableList<FaceBox>?
-        try {
-            small = Bitmap.createScaledBitmap(
-                frame,
-                BlazeFace.INPUT_SIZE_WIDTH, BlazeFace.INPUT_SIZE_HEIGHT, true
-            )
-            faces = blazeFace.detectWithLandmarks(small)
-        } catch (e: Exception) {
-            Log.e(TAG, "Detection failed", e)
-            return null
-        } finally {
-            if (small != null && small != frame && !small.isRecycled()) {
-                small.recycle()
-            }
-        }
+        val faces = detectFaces(frame)
+            ?: return null
 
-        if (faces == null || faces.isEmpty()) {
-            return null
-        }
+        val biggest = findLargestFace(faces)
+            ?: return null
 
-        var biggest: FaceBox? = null
-        var biggestArea = 0f
-        for (f in faces) {
-            val a = f.location!!.width() * f.location.height()
-            if (a > biggestArea) {
-                biggestArea = a
-                biggest = f
-            }
-        }
-        if (biggest == null) {
-            return null
-        }
+        val location = biggest.location
+            ?: return null
 
-        val scaleX = frame.getWidth().toFloat() / BlazeFace.INPUT_SIZE_WIDTH
-        val scaleY = frame.getHeight().toFloat() / BlazeFace.INPUT_SIZE_HEIGHT
+        val scaleX =
+            frame.width.toFloat() / BlazeFace.INPUT_SIZE_WIDTH
 
-        if (biggest.keypoints != null && biggest.keypoints.size >= 4) {
-            val a = floatArrayOf(biggest.keypoints[0] * scaleX, biggest.keypoints[1] * scaleY)
-            val b = floatArrayOf(biggest.keypoints[2] * scaleX, biggest.keypoints[3] * scaleY)
-            // Order by x so left and right are consistent whatever the model returns.
-            lastLeftEye = if (a[0] <= b[0]) a else b
-            lastRightEye = if (a[0] <= b[0]) b else a
-        }
+        val scaleY =
+            frame.height.toFloat() / BlazeFace.INPUT_SIZE_HEIGHT
 
-        val scaled = RectF(
-            biggest.location!!.left * scaleX,
-            biggest.location.top * scaleY,
-            biggest.location.right * scaleX,
-            biggest.location.bottom * scaleY
+        updateEyeLandmarks(
+            face = biggest,
+            scaleX = scaleX,
+            scaleY = scaleY
         )
 
-        scaled.inset(-scaled.width() * BOX_MARGIN, -scaled.height() * BOX_MARGIN)
+        val faceRect = createScaledFaceRect(
+            location = location,
+            scaleX = scaleX,
+            scaleY = scaleY
+        )
 
-        // Make the crop square around the same centre. FaceNet takes a 160x160
-        // input, so a rectangular crop gets stretched, and how much it stretches
-        // depends on the box shape. That alone makes a portrait photo and a
-        // landscape capture of one face produce embeddings that do not match.
-        val cx = scaled.centerX()
-        val cy = scaled.centerY()
-        var half = max(scaled.width(), scaled.height()) / 2f
-        half = min(half, min(frame.getWidth(), frame.getHeight()) / 2f)
-        scaled.set(cx - half, cy - half, cx + half, cy + half)
+        val squareRect = createSquareRect(
+            source = faceRect,
+            frameWidth = frame.width,
+            frameHeight = frame.height
+        )
 
-        // Slide the square back inside the frame instead of clipping it, which
-        // would make it rectangular again.
-        if (scaled.left < 0) {
-            scaled.offset(-scaled.left, 0f)
+        val box = roundAndClamp(
+            rect = squareRect,
+            frameWidth = frame.width,
+            frameHeight = frame.height
+        )
+
+        return validateFaceSize(box)
+    }
+
+    private fun resetEyeLandmarks() {
+        lastLeftEye = null
+        lastRightEye = null
+    }
+
+    private fun detectFaces(
+        frame: Bitmap
+    ): List<FaceBox>? {
+        var scaledBitmap: Bitmap? = null
+
+        return try {
+            scaledBitmap = Bitmap.createScaledBitmap(
+                frame,
+                BlazeFace.INPUT_SIZE_WIDTH,
+                BlazeFace.INPUT_SIZE_HEIGHT,
+                true
+            )
+
+            blazeFace
+                .detectWithLandmarks(scaledBitmap)
+                ?.takeIf { it.isNotEmpty() }
+        } catch (error: Exception) {
+            Log.e(
+                TAG,
+                "Detection failed",
+                error
+            )
+
+            null
+        } finally {
+            recycleDetectionBitmap(
+                scaledBitmap = scaledBitmap,
+                originalBitmap = frame
+            )
         }
-        if (scaled.top < 0) {
-            scaled.offset(0f, -scaled.top)
+    }
+
+    private fun recycleDetectionBitmap(
+        scaledBitmap: Bitmap?,
+        originalBitmap: Bitmap
+    ) {
+        if (
+            scaledBitmap != null &&
+            scaledBitmap !== originalBitmap &&
+            !scaledBitmap.isRecycled
+        ) {
+            scaledBitmap.recycle()
         }
-        if (scaled.right > frame.getWidth()) {
-            scaled.offset(frame.getWidth() - scaled.right, 0f)
-        }
-        if (scaled.bottom > frame.getHeight()) {
-            scaled.offset(0f, frame.getHeight() - scaled.bottom)
+    }
+
+    private fun findLargestFace(
+        faces: List<FaceBox>
+    ): FaceBox? {
+        return faces
+            .filter { face ->
+                val location = face.location
+
+                location != null &&
+                    location.width() > 0f &&
+                    location.height() > 0f
+            }
+            .maxByOrNull { face ->
+                val location = requireNotNull(face.location)
+
+                location.width() * location.height()
+            }
+    }
+
+    private fun updateEyeLandmarks(
+        face: FaceBox,
+        scaleX: Float,
+        scaleY: Float
+    ) {
+        val keypoints = face.keypoints
+            ?: return
+
+        if (keypoints.size < 4) {
+            return
         }
 
-        val box = Rect()
-        scaled.round(box)
-        box.left = max(0, box.left)
-        box.top = max(0, box.top)
-        box.right = min(frame.getWidth(), box.right)
-        box.bottom = min(frame.getHeight(), box.bottom)
+        val firstEye = floatArrayOf(
+            keypoints[0] * scaleX,
+            keypoints[1] * scaleY
+        )
 
-        if (box.width() < MIN_FACE_PX || box.height() < MIN_FACE_PX) {
-            lastProblem = ("face too small: " + box.width() + "x" + box.height()
-                + " px, need " + MIN_FACE_PX)
-            return null
+        val secondEye = floatArrayOf(
+            keypoints[2] * scaleX,
+            keypoints[3] * scaleY
+        )
+
+        assignEyesByHorizontalPosition(
+            firstEye = firstEye,
+            secondEye = secondEye
+        )
+    }
+
+    private fun assignEyesByHorizontalPosition(
+        firstEye: FloatArray,
+        secondEye: FloatArray
+    ) {
+        val firstEyeIsLeft = firstEye[0] <= secondEye[0]
+
+        lastLeftEye =
+            if (firstEyeIsLeft) firstEye else secondEye
+
+        lastRightEye =
+            if (firstEyeIsLeft) secondEye else firstEye
+    }
+    private fun createScaledFaceRect(
+        location: RectF,
+        scaleX: Float,
+        scaleY: Float
+    ): RectF {
+        return RectF(
+            location.left * scaleX,
+            location.top * scaleY,
+            location.right * scaleX,
+            location.bottom * scaleY
+        ).apply {
+            inset(
+                -width() * BOX_MARGIN,
+                -height() * BOX_MARGIN
+            )
         }
-        return box
+    }
+    private fun createSquareRect(
+        source: RectF,
+        frameWidth: Int,
+        frameHeight: Int
+    ): RectF {
+        val maximumHalfSize =
+            min(frameWidth, frameHeight) / 2f
+
+        val halfSize =
+            (max(source.width(), source.height()) / 2f)
+                .coerceAtMost(maximumHalfSize)
+
+        val centerX = source.centerX().coerceIn(
+            minimumValue = halfSize,
+            maximumValue = frameWidth - halfSize
+        )
+
+        val centerY = source.centerY().coerceIn(
+            minimumValue = halfSize,
+            maximumValue = frameHeight - halfSize
+        )
+
+        return RectF(
+            centerX - halfSize,
+            centerY - halfSize,
+            centerX + halfSize,
+            centerY + halfSize
+        )
+    }
+    private fun roundAndClamp(
+        rect: RectF,
+        frameWidth: Int,
+        frameHeight: Int
+    ): Rect {
+        return Rect().also { box ->
+            rect.round(box)
+
+            box.left = box.left.coerceIn(
+                minimumValue = 0,
+                maximumValue = frameWidth
+            )
+
+            box.top = box.top.coerceIn(
+                minimumValue = 0,
+                maximumValue = frameHeight
+            )
+
+            box.right = box.right.coerceIn(
+                minimumValue = 0,
+                maximumValue = frameWidth
+            )
+
+            box.bottom = box.bottom.coerceIn(
+                minimumValue = 0,
+                maximumValue = frameHeight
+            )
+        }
+    }
+    private fun validateFaceSize(
+        box: Rect
+    ): Rect? {
+        if (
+            box.width() >= MIN_FACE_PX &&
+            box.height() >= MIN_FACE_PX
+        ) {
+            return box
+        }
+
+        lastProblem =
+            "face too small: ${box.width()}x${box.height()} px, " +
+                "need $MIN_FACE_PX"
+
+        return null
     }
 
     fun close() {
