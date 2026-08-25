@@ -281,7 +281,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
 		if (sensor == Sensors.ON_DEVICE_FACE_RECOGNITION) {
-			return FaceDetector.detectBlocking(CatroidApplication.getAppContext());
+			FaceDetector.detectBlocking(CatroidApplication.getAppContext());
+			return faceNameRecognitionResult;
 		}
 		if (instance.sensorManager == null) {
 			return 0d;

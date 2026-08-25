@@ -594,8 +594,8 @@ tasks.configureEach { packageTask ->
     if (packageTask.name.contains("package")) {
         packageTask.dependsOn 'copyAndroidNatives'
     }
-    if (packageTask.name.startsWith('merge')
-            && packageTask.name.endsWith('AndroidTestAssets')) {
+    if ((packageTask.name.startsWith('merge') && packageTask.name.endsWith('AndroidTestAssets'))
+            || (packageTask.name.startsWith('process') && packageTask.name.endsWith('AndroidTestJavaRes'))) {
         packageTask.dependsOn 'unpackFaceTestAssets'
     }
 }
