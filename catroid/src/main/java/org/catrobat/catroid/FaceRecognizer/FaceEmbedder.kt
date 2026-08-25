@@ -164,11 +164,23 @@ class FaceEmbedder private constructor(
                     + frame.getWidth() + "x" + frame.getHeight())
             )
 
-            val buffer = faceNet.getEmbeddings(frame, box)
-            if (buffer == null) {
-                lastProblem = "FaceNet returned nothing"
+//            val buffer = faceNet.getEmbeddings(frame, box)
+
+            val buffer = try {
+                faceNet.getEmbeddings(frame, box)
+            } catch (error: Exception) {
+                lastProblem =
+                    "FaceNet failed: ${error.javaClass.simpleName}"
+
+                Log.e(
+                    TAG,
+                    "Could not generate face embedding",
+                    error
+                )
+
                 return null
             }
+
 
             // Do NOT rely on the buffer position or limit. Depending on the TFLite
             // build, run() may or may not advance the position, and the flip() inside

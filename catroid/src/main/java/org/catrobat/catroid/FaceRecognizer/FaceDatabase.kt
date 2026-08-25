@@ -657,7 +657,7 @@ class FaceDatabase {
     }
 
     private fun personScore(index: Int, query: FloatArray): Float {
-        val personSamples = samples.get(index)
+        val personSamples: List<FloatArray> = samples[index].toList()
         val centroid = centroids[index]
 
         if (personSamples.isEmpty()) {
@@ -811,8 +811,8 @@ class FaceDatabase {
             return sb.toString()
         }
 
-        private fun meanUnit(list: MutableList<FloatArray>?): FloatArray? {
-            if (list == null || list.isEmpty()) {
+        private fun meanUnit(list: List<FloatArray>?): FloatArray? {
+            if (list.isNullOrEmpty()) {
                 return null
             }
             val mean = FloatArray(FaceNet.EMBEDDING_SIZE)

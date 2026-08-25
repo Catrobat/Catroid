@@ -324,8 +324,11 @@ object FaceDetector {
     }
 
     /** Called once when a detection ends, whatever the outcome.  */
-    interface Callback {
-        fun onFinished(name: String?, confidence: Float)
+    fun interface Callback {
+        fun onFinished(
+            name: String?,
+            confidence: Float
+        )
     }
 
     // ---------------- One capture ----------------
