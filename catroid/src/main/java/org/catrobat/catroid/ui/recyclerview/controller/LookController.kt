@@ -42,7 +42,8 @@ class LookController {
             uniqueNameProvider.getUniqueNameInNameables(lookToCopy?.name, dstSprite?.lookList)
         val dstDir = dstScene?.let { getImageDir(it) }
         val file = StorageOperations.copyFileToDir(lookToCopy?.file, dstDir)
-        return LookData(name, file)
+        val newLookData = LookData(name, file)
+        return newLookData
     }
 
     @Throws(IOException::class)

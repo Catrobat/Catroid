@@ -32,6 +32,7 @@ import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.stage.StageActivity
 import java.io.IOException
@@ -66,6 +67,14 @@ class EditLookAction : PocketPaintAction() {
         }
     }
 
+    override fun restart() {
+        val stageActivity = StageActivity.activeStageActivity.get()
+        if (stageActivity != null && scope?.sprite?.isClone == true) {
+            protectOriginalLookData()
+        }
+        super.restart()
+    }
+
     override fun onIntentResult(resultCode: Int, data: Intent?) {
         val stageActivity = StageActivity.activeStageActivity.get()
         if (resultCode == Activity.RESULT_OK && stageActivity != null) {
@@ -73,28 +82,54 @@ class EditLookAction : PocketPaintAction() {
         }
         LookRequester.anyAsked = false
         responseReceived = true
-        stageActivity?.onResume()
+    }
+
+    @VisibleForTesting
+    fun protectOriginalLookData() {
+        val sprite = scope?.sprite ?: return
+        val oldLookData = sprite.look?.lookData ?: return
+        val lookDataName = oldLookData.name ?: return
+        val oldLookDataFile = sprite.look?.lookData?.file ?: return
+
+        try {
+            val newLookDataFile = StorageOperations.duplicateFile(oldLookDataFile)
+            val newLookData = LookData(lookDataName, newLookDataFile)
+            sprite.lookList.remove(oldLookData)
+            sprite.lookList.add(newLookData)
+            sprite.look.lookData = newLookData
+        } catch (e: IOException) {
+            Log.e(TAG, Log.getStackTraceString(e))
+        }
     }
 
     @VisibleForTesting
     fun setLookData() {
         val sprite = scope?.sprite ?: return
-        val lookData = sprite?.look?.lookData ?: return
-        val lookDataName = lookData.name ?: return
-        val lookDataOldFile = sprite.look?.lookData?.file ?: return
+        val tempLookData = sprite.look?.lookData ?: return
+        val lookDataName = tempLookData.name ?: return
 
         try {
-            val lookDataNewFile = StorageOperations.duplicateFile(lookDataOldFile)
-            val lookData = LookData(lookDataName, lookDataNewFile)
-            val lookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
-            sprite.look.lookListIndexBeforeLookRequest = lookDataIndex
-            sprite.lookList.removeAt(lookDataIndex)
-            sprite.lookList.add(lookDataIndex, lookData)
-            lookDataOldFile.delete()
-            lookData.collisionInformation.calculate()
+            val newLookData = createDuplicateToGetOriginalFileName(sprite, lookDataName)
+            sprite.lookList.remove(tempLookData)
+            sprite.look.lookListIndexBeforeLookRequest = sprite.lookList.size
+            sprite.lookList.add(newLookData)
+            newLookData?.collisionInformation?.calculate()
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
         xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+    }
+
+    private fun createDuplicateToGetOriginalFileName(sprite: Sprite, lookDataName: String):
+        LookData? {
+        var tempLookDataFile = sprite.look?.lookData?.file ?: return null
+        var newLookDataFile = StorageOperations.duplicateFile(tempLookDataFile)
+        if (!sprite.isClone) {
+            tempLookDataFile.delete()
+            tempLookDataFile = StorageOperations.duplicateFile(newLookDataFile)
+            newLookDataFile.delete()
+            newLookDataFile = tempLookDataFile
+        }
+        return LookData(lookDataName, newLookDataFile)
     }
 }
