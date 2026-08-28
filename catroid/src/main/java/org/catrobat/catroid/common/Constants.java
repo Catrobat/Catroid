@@ -284,7 +284,7 @@ public final class Constants {
 
 	public static final int Z_INDEX_BACKGROUND = 0;
 
-	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 2;
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 3;
 
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
