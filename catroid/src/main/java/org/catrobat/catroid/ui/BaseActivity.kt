@@ -125,7 +125,8 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         surveyCampaign?.startAppTime(this)
     }
 
-    protected fun googleAnalyticsTrackScreenResume() {
+    @SuppressLint("VisibleForTests")
+    private fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
         googleTracker.setScreenName(this.javaClass.name)
         googleTracker.send(ScreenViewBuilder().build())
@@ -164,6 +165,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionRequestActivityExtension.onRequestPermissionsResult(
             this,
             requestCode,
