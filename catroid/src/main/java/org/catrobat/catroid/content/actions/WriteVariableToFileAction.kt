@@ -44,7 +44,6 @@ import org.catrobat.catroid.stage.StageActivity.IntentListener
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 class WriteVariableToFileAction : Action(), IntentListener {
     var scope: Scope? = null
@@ -61,7 +60,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
 
     @VisibleForTesting
     fun createAndWriteToFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
             writeUsingSystemFilePicker()
         } else {
             writeUsingLegacyExternalStorage()
@@ -101,12 +100,22 @@ class WriteVariableToFileAction : Action(), IntentListener {
 
     private fun getFileName(): String {
         var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
-        if (!fileName.endsWith(Constants.TEXT_FILE_EXTENSION)) {
+        val extensionIndex = fileName.lastIndexOf(".")
+        if (extensionIndex == -1) {
             fileName += Constants.TEXT_FILE_EXTENSION
+        } else {
+            val extension: String = fileName.substring(extensionIndex + 1)
+            if (extension.length <= 0) {
+                if (extensionIndex == fileName.length - 1) {
+                    fileName = fileName.substring(0, fileName.length - 1)
+                    fileName += Constants.TEXT_FILE_EXTENSION
+                } else {
+                    fileName += Constants.TEXT_FILE_EXTENSION
+                }
+            }
         }
         return fileName
     }
-
     private fun showSuccessMessage(fileName: String) {
         val context = CatroidApplication.getAppContext()
         val message = context.getString(R.string.brick_write_variable_to_file_success, fileName)
@@ -139,7 +148,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
         }
         return Intent.createChooser(intent, title)
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onIntentResult(resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             data?.data?.let {

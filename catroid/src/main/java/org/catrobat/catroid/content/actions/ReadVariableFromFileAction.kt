@@ -62,7 +62,7 @@ class ReadVariableFromFileAction : Action(), IntentListener {
 
     @VisibleForTesting
     fun readVariableFromFile(fileName: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
             readUsingSystemFilePicker()
         } else {
             readUsingLegacyExternalStorage(fileName)
@@ -143,7 +143,7 @@ class ReadVariableFromFileAction : Action(), IntentListener {
         }
         return Intent.createChooser(intent, title)
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onIntentResult(resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             data?.data?.let {
