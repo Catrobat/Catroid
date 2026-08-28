@@ -37,6 +37,15 @@ class CatrobatTestRunnerTest {
     val exception: ExpectedException = ExpectedException.none()
 
     @Test
+    fun runSingleGoBackNLayer() {
+        testAsset(
+            "testGoBackNLayer.catrobat",
+            "catrobatTests/bricks/motion"
+        )
+    }
+
+
+    @Test
     @Throws(Exception::class)
     fun testDoubleEqual() {
         testAsset("testSuccessDoubleEqual.catrobat", "catrobatTestRunnerTests/success")
