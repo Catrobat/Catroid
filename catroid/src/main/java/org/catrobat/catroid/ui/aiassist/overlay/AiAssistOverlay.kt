@@ -31,7 +31,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import org.catrobat.aitutor.domain.prompt.PromptVersion
 import org.catrobat.aitutor.ui.public.AiTutorView
+import org.catrobat.catroid.BuildConfig
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.aiassist.diff.AiTutorDiffScreen
@@ -67,8 +70,13 @@ private fun AiAssistFlow(
 
     val tutorStage = stage as? Stage.Tutor
     AiTutorView(
-        show =  tutorStage != null,
+        show = tutorStage != null,
         onDismissRequest = { if (stage is Stage.Tutor) callbacks.close() },
+        promptVersion = if (BuildConfig.FLAVOR == Constants.FLAVOR_EMBROIDERY_DESIGNER) {
+            PromptVersion.EMBROIDERY_DESIGNER_TUTOR
+        } else {
+            PromptVersion.POCKET_CODE_SPRITE_EDITOR
+        },
         codeContext = if (tutorStage?.modifiedSpriteXml != null) {
             "The AI previously suggested the following sprite, but it couldn't be applied: " +
                 "\n\n${tutorStage.modifiedSpriteXml}\n\n" +
