@@ -21,19 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.app
+package org.catrobat.catroid.test.content.bricks
 
 import android.content.Context
 import android.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
-import org.catrobat.catroid.R
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
@@ -122,13 +120,15 @@ import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_X
 import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.test.utils.KtTestUtils
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
-import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Before
@@ -136,10 +136,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import java.io.File
 
 @RunWith(Parameterized::class)
 class LoadProjectAIExtensionSettingsTest(
-    private val name: String,
     private val setting: String,
     private val brick: Brick
 ) {
@@ -148,7 +148,12 @@ class LoadProjectAIExtensionSettingsTest(
     var bufferedPrivacyPolicyPreferenceSetting = 0
 
     private lateinit var script: Script
+
+    private var project: Project? = null
+
     private val projectName = "projectName"
+
+    private var file: File = File("")
 
     @get:Rule
     var baseActivityTestRule: BaseActivityTestRule<MainMenuActivity> = BaseActivityTestRule(
@@ -639,25 +644,25 @@ class LoadProjectAIExtensionSettingsTest(
 
         allAIExtensionSettings.forEach { setting -> setSettingToBoolean(setting, false) }
 
-        script = UiTestUtils.createProjectAndGetStartScript(projectName)
-        baseActivityTestRule.launchActivity(null)
+        val triple = KtTestUtils.createProjectAndGetStartScriptandFile(projectName)
+        script = triple.first
+        file = triple.second
+        project = triple.third
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
         restoreInitialSettings()
+        TestUtils.deleteProjects(projectName)
     }
 
     @Test
     fun testSettingsBeforeAndAfterLoadProject() {
         script.addBrick(brick)
-
+        XstreamSerializer.getInstance().saveProject(project)
         assertFalse(getSetting(setting))
-        onView(ViewMatchers.withText(applicationContext.getString(R.string.main_menu_programs))).perform(
-            click()
-        )
-        onView(ViewMatchers.withText(projectName)).perform(click())
+        ProjectManager.getInstance().loadProject(file)
         assertTrue(getSetting(setting))
     }
 
