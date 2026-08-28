@@ -214,7 +214,7 @@ public interface Brick extends Serializable, Cloneable {
 
 	boolean hasHelpPage();
 
-	String getHelpUrl(String category);
+	String getHelpUrl(int category, String language);
 
 	UUID getBrickID();
 
