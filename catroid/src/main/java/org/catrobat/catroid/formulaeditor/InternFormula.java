@@ -1190,4 +1190,8 @@ public class InternFormula {
 	public List<InternToken> getInternTokenFormulaList() {
 		return internTokenFormulaList;
 	}
+
+	public void setInternFormulaTokenSelection(InternFormulaTokenSelection internFormulaTokenSelection) {
+		this.internFormulaTokenSelection = internFormulaTokenSelection;
+	}
 }
