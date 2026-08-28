@@ -83,6 +83,7 @@ object FormulaElementOperations {
             } catch (_: NumberFormatException) {
                 Double.NaN
             }
+            is Boolean -> if(obj) 1.0 else 0.0
             else -> obj as Double
         }
     }
@@ -92,7 +93,7 @@ object FormulaElementOperations {
         return when (value) {
             is String,
             is Char -> value
-            is Boolean -> Conversions.booleanToDouble(value)
+            is Boolean -> value
             is Int -> value.toDouble()
             is Double -> when (value) {
                 Double.NEGATIVE_INFINITY -> -Double.MAX_VALUE

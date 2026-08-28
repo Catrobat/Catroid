@@ -28,6 +28,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
 import org.catrobat.catroid.formulaeditor.Functions.FALSE
 import org.catrobat.catroid.formulaeditor.Functions.TRUE
+import org.catrobat.catroid.formulaeditor.common.Conversions
 
 class AssertEqualsAction : AssertAction() {
     var actualFormula: Formula? = null
@@ -48,6 +49,12 @@ class AssertEqualsAction : AssertAction() {
 
         actualValue = actualFormula!!.interpretObject(scope)
         expectedValue = expectedFormula!!.interpretObject(scope)
+        if (actualValue == true || actualValue == false){
+            actualValue = Conversions.booleanToDouble(actualValue as Boolean)
+        }
+        if (expectedValue == true || expectedValue == false){
+            expectedValue = Conversions.booleanToDouble(expectedValue as Boolean)
+        }
         if (!equalValues(actualValue.toString(), expectedValue.toString())) {
             convertValuesToBooleanString()
             failWith(formattedAssertEqualsError(actualValue, expectedValue))
