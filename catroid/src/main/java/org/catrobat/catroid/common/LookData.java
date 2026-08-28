@@ -29,12 +29,10 @@ import android.util.Log;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -45,6 +43,7 @@ import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import pl.droidsonroids.gif.GifDrawable;
 
 public class LookData implements Cloneable, Nameable, Serializable {
 
@@ -68,6 +67,9 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	protected transient Pixmap pixmap = null;
 	transient TextureRegion textureRegion = null;
+
+	private transient GifDrawable drawable = null;
+	private transient long lastGifFrameTime = 0;
 
 	private transient CollisionInformation collisionInformation = null;
 
@@ -117,12 +119,6 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		fileName = file.getName();
 	}
 
-	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
-	}
-
-	public void draw(Batch batch, float alpha) {
-	}
-
 	public void dispose() {
 		if (pixmap != null) {
 			pixmap.dispose();
@@ -168,7 +164,7 @@ public class LookData implements Cloneable, Nameable, Serializable {
 	}
 
 	public TextureRegion getTextureRegion() {
-		if (textureRegion == null) {
+		if (textureRegion == null || isGif()) {
 			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
 		return textureRegion;
@@ -179,7 +175,34 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		this.textureRegion = textureRegion;
 	}
 
+	private void extractPixmapFromGif() {
+		try {
+			if (drawable == null) {
+				drawable = new GifDrawable(file);
+				lastGifFrameTime = System.currentTimeMillis();
+			}
+			int nrOfFrames = drawable.getNumberOfFrames();
+			if (nrOfFrames > 1) {
+				long currentTime = System.currentTimeMillis();
+				int timeDiff = (int) (currentTime - lastGifFrameTime);
+				int duration = timeDiff % drawable.getDuration();
+				Bitmap bitmap = drawable.seekToPositionAndGet(duration);
+				if (pixmap == null) {
+					pixmap = new Pixmap(bitmap.getWidth(), bitmap.getHeight(), Pixmap.Format.RGBA8888);
+				}
+				bitmap.copyPixelsToBuffer(pixmap.getPixels());
+				pixmap.getPixels().position(0);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			pixmap = null;
+		}
+	}
+
 	public Pixmap getPixmap() {
+		if (isGif()) {
+			extractPixmapFromGif();
+		}
 		if (pixmap == null) {
 			try {
 				pixmap = new Pixmap(Gdx.files.absolute(file.getAbsolutePath()));
@@ -241,6 +264,10 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(pathName, options);
 		return options.outMimeType;
+	}
+
+	public boolean isGif() {
+		return "image/gif".equals(getImageMimeType());
 	}
 
 	public boolean isValid() {
