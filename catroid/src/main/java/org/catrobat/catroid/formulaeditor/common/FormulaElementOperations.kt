@@ -66,8 +66,10 @@ object FormulaElementOperations {
 
     @JvmStatic
     fun interpretOperatorEqual(left: Any, right: Any): Boolean {
-        val leftString = left.toString()
-        val rightString = right.toString()
+        val leftNormalized = normalizeDegeneratedDoubleValues(left)
+        val rightNormalized = normalizeDegeneratedDoubleValues(right)
+        val leftString = leftNormalized.toString()
+        val rightString = rightNormalized.toString()
         return try {
             equalsDoubleIEEE754(leftString.toDouble(), rightString.toDouble())
         } catch (_: NumberFormatException) {
@@ -206,10 +208,14 @@ object FormulaElementOperations {
     }
 
     private fun booleanToLocalizedString(value: Boolean): String {
+        val context = CatroidApplication.getAppContext()
+        if (context == null) {
+            return if (value) "TRUE" else "FALSE"
+        }
         return if (value) {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_true)
+            context.getString(R.string.formula_editor_true)
         } else {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_false)
+            context.getString(R.string.formula_editor_false)
         }
     }
 
