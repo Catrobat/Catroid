@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 
 @Composable
@@ -68,8 +69,10 @@ fun AiTutorErrorDialog(
                     "A brick in the AI's response is missing or malformed, so it can't be added to " +
                         "your project. You can ask the AI to fix it and paste the corrected sprite again."
                 )
-                Spacer(Modifier.height(12.dp))
-                Text("Details: $technicalReason", color = errorColor)
+                if (BuildConfig.DEBUG) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Details: $technicalReason", color = errorColor)
+                }
             }
         },
         confirmButton = {

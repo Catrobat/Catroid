@@ -69,14 +69,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -359,6 +364,7 @@ private fun BrickDiffRow(
             accent = accent,
             onClick = onClick
         )
+
         DiffStatus.MODIFIED -> statusColor(row.status)?.let {
             ModifiedDiffRow(
                 row = row,
@@ -460,6 +466,7 @@ private fun ModifiedDiffRow(
     onClick: () -> Unit
 ) {
     val newBrick = row.new ?: return
+    val inspectionMode = LocalInspectionMode.current
     StatusContainer(
         tint = tint,
         iconRes = statusIcon(row.status),
@@ -471,25 +478,44 @@ private fun ModifiedDiffRow(
                 .weight(1f)
                 .padding(vertical = 8.dp)
         ) {
-            Text(
-                text = humanizeBrickName(newBrick.javaClass.simpleName),
-                color = white,
-                fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+            ModifiedValues(
+                oldText = row.old?.let { brickEditorLabel(it, context, inspectionMode) }.orEmpty(),
+                newText = phraseAnnotated(
+                    brickPhraseTokens(newBrick, context, row.old, inspectionMode),
+                    staticColor = white,
+                    dynamicColor = accent
+                ),
+                oldColor = white.copy(alpha = 0.45f),
+                newColor = accent,
+                arrowColor = white.copy(alpha = 0.5f)
             )
-            val newSubtitle = brickSubtitle(newBrick, context)
-            if (newSubtitle != null) {
-                ModifiedValues(
-                    oldText = row.old?.let { brickSubtitle(it, context) }.orEmpty(),
-                    newText = changedSubtitleAnnotated(row.old, newBrick, context),
-                    oldColor = white.copy(alpha = 0.45f), // faded old value
-                    newColor = accent, // crisp new value, changed token bold
-                    arrowColor = white.copy(alpha = 0.5f)
-                )
-            }
         }
+    }
+}
+
+/**
+ * Renders a brick's [brickPhraseTokens] as an [AnnotatedString]: static words in [staticColor], each
+ * dynamic chunk (value / spinner selection) in [dynamicColor] — medium weight normally, bold + underlined
+ * when it changed from the old brick — so the data reads like the editor's input fields.
+ */
+private fun phraseAnnotated(
+    tokens: List<DiffToken>,
+    staticColor: Color,
+    dynamicColor: Color
+): AnnotatedString = buildAnnotatedString {
+    tokens.forEachIndexed { index, token ->
+        if (index > 0) append(" ")
+        val style = when {
+            !token.dynamic -> SpanStyle(color = staticColor)
+            token.changed -> SpanStyle(
+                color = dynamicColor,
+                fontWeight = FontWeight.Bold,
+                textDecoration = TextDecoration.Underline
+            )
+
+            else -> SpanStyle(color = dynamicColor, fontWeight = FontWeight.Medium)
+        }
+        withStyle(style) { append(token.text) }
     }
 }
 
@@ -610,25 +636,18 @@ private fun BrickContent(
     valueColor: Color,
     modifier: Modifier
 ) {
+    val inspectionMode = LocalInspectionMode.current
     Column(modifier = modifier.padding(vertical = 8.dp)) {
         Text(
-            text = humanizeBrickName(brick.javaClass.simpleName),
-            color = labelColor,
-            fontWeight = FontWeight.Medium,
+            text = phraseAnnotated(
+                brickPhraseTokens(brick, context, null, inspectionMode),
+                staticColor = labelColor,
+                dynamicColor = valueColor
+            ),
             fontSize = 14.sp,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        val subtitle = brickSubtitle(brick, context)
-        if (subtitle != null) {
-            Text(
-                text = subtitle,
-                color = valueColor,
-                fontSize = 12.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
     }
 }
 
