@@ -33,12 +33,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
@@ -54,7 +57,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
@@ -477,8 +482,24 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected void showBackpackModeChooser() {
-		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(requireContext()).setTitle(R.string.backpack_title).setItems(items, (dialog, which) -> {
+		List<Integer> options = new ArrayList<>();
+		options.add(R.string.pack);
+		options.add(R.string.unpack);
+		List<String> names = new ArrayList<>();
+		for (Integer option : options) {
+			names.add(getString(option));
+		}
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names, requireContext(), requireActivity());
+
+		View customDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_backpack_custom_alert, null);
+		((TextView) customDialogView.findViewById(R.id.backpack_dialog_title)).setText(R.string.backpack_title);
+		ListView listView = customDialogView.findViewById(R.id.backpack_item_list);
+		listView.setAdapter(arrayAdapter);
+
+		AlertDialog dialog = new AlertDialog.Builder(requireContext()).setView(customDialogView).create();
+		Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.backpack_background_round);
+
+		listView.setOnItemClickListener((parent, view, which, id) -> {
 			switch (which) {
 				case 0:
 					if (adapter.getItemCount() == itemCountThreshold) {
@@ -490,7 +511,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				case 1:
 					switchToBackpack();
 			}
-		}).show();
+
+			dialog.dismiss();
+		});
+
+		dialog.show();
 	}
 
 	protected abstract void packItems(List<T> selectedItems);

@@ -42,6 +42,7 @@
     <color name="advertising_button_background">#00ACC1</color>
     <color name="button_bottom_bar">#00475E</color>
     <color name="button_border_top">#4D7F8F</color>
+    <color name="backpack_background">#424242</color>
 
     <!-- Accent Colors -->
     <color name="accent">#A8DFF4</color>
