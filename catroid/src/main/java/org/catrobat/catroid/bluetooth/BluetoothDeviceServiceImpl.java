@@ -25,14 +25,19 @@ package org.catrobat.catroid.bluetooth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.RequiresApi;
 
 public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 
@@ -49,10 +54,17 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 			return ConnectDeviceResult.ALREADY_CONNECTED;
 		}
 
-		Intent intent = createStartIntent(deviceToConnect, activity);
-		activity.startActivityForResult(intent, requestCode);
-
-		return ConnectDeviceResult.CONNECTION_REQUESTED;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+			Intent intent = createStartIntent(deviceToConnect, activity);
+			activity.startActivityForResult(intent, requestCode);
+			return ConnectDeviceResult.CONNECTION_REQUESTED;
+		} else {
+			ToastUtil.showError(
+					activity.getApplicationContext(),
+					R.string.notification_blueth_err_api_lvl
+			);
+			return ConnectDeviceResult.CANNOT_CONNECT;
+		}
 	}
 
 	@Override
@@ -63,10 +75,14 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 			return ConnectDeviceResult.ALREADY_CONNECTED;
 		}
 
-		Intent intent = createStartIntent(deviceToConnect, context);
-		context.startActivity(intent);
-
-		return ConnectDeviceResult.CONNECTION_REQUESTED;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+			Intent intent = createStartIntent(deviceToConnect, context);
+			context.startActivity(intent);
+			return ConnectDeviceResult.CONNECTION_REQUESTED;
+		} else {
+			ToastUtil.showError(context, R.string.notification_blueth_err_api_lvl);
+			return ConnectDeviceResult.CANNOT_CONNECT;
+		}
 	}
 
 	private synchronized boolean isDeviceConnectedAndAlive(Class<? extends BluetoothDevice> deviceToConnect) {
@@ -110,6 +126,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 		return null;
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.S)
 	protected Intent createStartIntent(Class<? extends BluetoothDevice> deviceToConnect,
 			Context context) {
 		Intent intent = new Intent(context, ConnectBluetoothDeviceActivity.class);

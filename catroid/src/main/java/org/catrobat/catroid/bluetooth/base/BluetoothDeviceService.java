@@ -33,7 +33,8 @@ public interface BluetoothDeviceService extends CatroidService, StageResourceInt
 
 	enum ConnectDeviceResult {
 		ALREADY_CONNECTED,
-		CONNECTION_REQUESTED
+		CONNECTION_REQUESTED,
+		CANNOT_CONNECT
 	}
 
 	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceType,
