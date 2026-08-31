@@ -926,19 +926,15 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null) {
-					spriteActivity.setUndoMenuItemVisibility(false);
-					spriteActivity.showUndo(false);
-				}
+				setUndoControlsVisible(spriteActivity, false);
 				pendingLoadSource = LoadSource.UNDO;
 				reloadProjectFromDisk();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				ToastUtil.showError(context, R.string.error_load_project);
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null && undoCodeFile.exists()) {
-					spriteActivity.setUndoMenuItemVisibility(true);
-					spriteActivity.showUndo(true);
+				if (undoCodeFile.exists()) {
+					setUndoControlsVisible(spriteActivity, true);
 				}
 			}
 		}
@@ -986,10 +982,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (!success) {
 			Log.e(TAG, "Loading project after undo failed.");
 			ToastUtil.showError(getContext(), R.string.error_load_project);
-			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(true);
-				spriteActivity.showUndo(true);
-			}
+			setUndoControlsVisible(spriteActivity, true);
 			return;
 		}
 
@@ -1003,14 +996,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		pendingLoadSource = null;
 
 		if (!isAiTutorLoad) {
-			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(false);
-				spriteActivity.showUndo(false);
-			}
-			File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
-			if (undoCodeFile.exists() && !undoCodeFile.delete()) {
-				Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
-			}
+			setUndoControlsVisible(spriteActivity, false);
+			deleteUndoCodeFile();
 		}
 
 		if (getView() == null || listView == null) {
@@ -1018,9 +1005,22 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 		refreshFragmentAfterUndo();
 
-		if (isAiTutorLoad && spriteActivity != null) {
-			spriteActivity.setUndoMenuItemVisibility(true);
-			spriteActivity.showUndo(true);
+		if (isAiTutorLoad) {
+			setUndoControlsVisible(spriteActivity, true);
+		}
+	}
+
+	private void setUndoControlsVisible(SpriteActivity spriteActivity, boolean visible) {
+		if (spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(visible);
+			spriteActivity.showUndo(visible);
+		}
+	}
+
+	private void deleteUndoCodeFile() {
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
+			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
 		}
 	}
 
