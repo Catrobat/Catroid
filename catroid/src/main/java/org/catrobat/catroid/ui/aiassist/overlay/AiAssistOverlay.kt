@@ -32,9 +32,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import org.catrobat.aitutor.domain.prompt.PromptVersion
+import androidx.compose.ui.res.colorResource
 import org.catrobat.aitutor.ui.public.AiTutorView
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.common.Constants
+import org.catrobat.aitutor.ui.theme.AiTutorColors
+import org.catrobat.aitutor.ui.theme.AiTutorTheme
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.aiassist.diff.AiTutorDiffScreen
@@ -69,43 +73,54 @@ private fun AiAssistFlow(
     var stage by remember { mutableStateOf<Stage>(Stage.Tutor(null)) }
 
     val tutorStage = stage as? Stage.Tutor
-    AiTutorView(
-        show = tutorStage != null,
-        onDismissRequest = { if (stage is Stage.Tutor) callbacks.close() },
-        promptVersion = if (BuildConfig.FLAVOR == Constants.FLAVOR_EMBROIDERY_DESIGNER) {
-            PromptVersion.EMBROIDERY_DESIGNER_TUTOR
-        } else {
-            PromptVersion.POCKET_CODE_SPRITE_EDITOR
-        },
-        codeContext = if (tutorStage?.modifiedSpriteXml != null) {
-            "The AI previously suggested the following sprite, but it couldn't be applied: " +
-                "\n\n${tutorStage.modifiedSpriteXml}\n\n" +
-                "The original sprite before modification was:\n\n$spriteXml\n\n" +
-                "Please fix the issues and return only a valid sprite XML."
-        } else {
-            spriteXml
-        },
-        outputContext = tutorStage?.outputContext,
-        onClipboardPaste = { pastedText ->
-            val result = try {
-                val sprite = XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
-                if (sprite == null) {
-                    AiTutorSpriteValidator.Result.Invalid("The pasted text is not a valid Pocket Code sprite.")
-                } else {
-                    AiTutorSpriteValidator.validate(sprite, context)
-                }
-            } catch (e: Exception) {
-                AiTutorSpriteValidator.Result.Invalid(
-                    "Couldn't read the sprite XML: ${e.message ?: e.javaClass.simpleName}"
-                )
-            }
-            stage = if (result is AiTutorSpriteValidator.Result.Invalid) {
-                Stage.Error(pastedText, result.reason)
-            } else {
-                Stage.Diff(pastedText)
-            }
-        }
+    val tutorColors = AiTutorColors.default().copy(
+        primary = colorResource(R.color.action_button),
+        onPrimary = colorResource(R.color.solid_white),
+        surface = colorResource(R.color.app_background),
+        onSurface = colorResource(R.color.solid_white),
+        onSurfaceVariant = colorResource(R.color.accent),
+        secondaryContainer = colorResource(R.color.button_background),
+        onSecondaryContainer = colorResource(R.color.solid_white),
     )
+    AiTutorTheme(colors = tutorColors) {
+        AiTutorView(
+            show = tutorStage != null,
+            onDismissRequest = { if (stage is Stage.Tutor) callbacks.close() },
+            promptVersion = if (BuildConfig.FLAVOR == Constants.FLAVOR_EMBROIDERY_DESIGNER) {
+                PromptVersion.EMBROIDERY_DESIGNER_TUTOR
+            } else {
+                PromptVersion.POCKET_CODE_SPRITE_EDITOR
+            },
+            codeContext = if (tutorStage?.modifiedSpriteXml != null) {
+                "The AI previously suggested the following sprite, but it couldn't be applied: " +
+                    "\n\n${tutorStage.modifiedSpriteXml}\n\n" +
+                    "The original sprite before modification was:\n\n$spriteXml\n\n" +
+                    "Please fix the issues and return only a valid sprite XML."
+            } else {
+                spriteXml
+            },
+            outputContext = tutorStage?.outputContext,
+            onClipboardPaste = { pastedText ->
+                val result = try {
+                    val sprite = XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
+                    if (sprite == null) {
+                        AiTutorSpriteValidator.Result.Invalid("The pasted text is not a valid Pocket Code sprite.")
+                    } else {
+                        AiTutorSpriteValidator.validate(sprite, context)
+                    }
+                } catch (e: Exception) {
+                    AiTutorSpriteValidator.Result.Invalid(
+                        "Couldn't read the sprite XML: ${e.message ?: e.javaClass.simpleName}"
+                    )
+                }
+                stage = if (result is AiTutorSpriteValidator.Result.Invalid) {
+                    Stage.Error(pastedText, result.reason)
+                } else {
+                    Stage.Diff(pastedText)
+                }
+            }
+        )
+    }
 
     when (val current = stage) {
         is Stage.Tutor -> Unit // already handled by AiTutorView's show parameter
