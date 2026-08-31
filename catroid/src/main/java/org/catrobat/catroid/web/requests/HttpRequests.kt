@@ -25,6 +25,7 @@ package org.catrobat.catroid.web.requests
 
 import android.util.Log
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -41,7 +42,7 @@ private const val PROJECT_DESCRIPTION_TAG = "projectDescription"
 private const val PROJECT_CHECKSUM_TAG = "fileChecksum"
 private const val USER_EMAIL = "userEmail"
 private const val DEVICE_LANGUAGE = "deviceLanguage"
-private val MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip")
+private val MEDIA_TYPE_ZIPFILE = "application/zip".toMediaTypeOrNull()
 private const val FILE_UPLOAD_URL = FlavoredConstants.BASE_UPLOAD_URL + "api/upload/upload.json"
 
 fun createUploadRequest(

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,26 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.retrofit
+package org.catrobat.catroid.ui.aiassist.overlay
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import okhttp3.ResponseBody
+/**
+ * Callbacks from the AI Assist overlay back to the host activity.
+ * Implemented in Java (`SpriteActivity`).
+ */
+interface AiAssistOverlayCallbacks {
+    /** Apply the validated AI sprite XML to the project. */
+    fun applySprite(spriteXml: String)
 
-class ErrorInterceptor : Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
-
-        if (response.isSuccessful.not() and response.isRedirect.not()) {
-            val contentType = response.body?.contentType()
-            val body = response.body?.toString() ?: ""
-
-            return response.newBuilder()
-                .body(ResponseBody.create(contentType, body))
-                .code(response.code)
-                .build()
-        }
-        return response
-    }
+    /** Hide the overlay (e.g. user cancelled, rejected, or finished applying). */
+    fun close()
 }

@@ -53,11 +53,14 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
+import org.catrobat.catroid.ui.aiassist.overlay.AiAssistOverlayCallbacks;
+import org.catrobat.catroid.ui.aiassist.overlay.AiAssistOverlayHelper;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
@@ -83,6 +86,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.compose.ui.platform.ComposeView;
 import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
@@ -161,6 +165,8 @@ public class SpriteActivity extends BaseActivity {
 
 	private boolean isUndoMenuItemVisible = false;
 
+	private ComposeView aiOverlay;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
@@ -178,6 +184,7 @@ public class SpriteActivity extends BaseActivity {
 		currentScene = projectManager.getCurrentlyEditedScene();
 
 		setContentView(R.layout.activity_sprite);
+		aiOverlay = findViewById(R.id.compose_ai_overlay);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
@@ -295,6 +302,11 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (isAiOverlayVisible()) {
+			hideAiOverlay();
+			return;
+		}
+
 		saveProject();
 
 		Fragment currentFragment = getCurrentFragment();
@@ -639,7 +651,38 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAiAssistButton(View view) {
-		Log.d(TAG, "Here a Flutter module will be called in the future.");
+		if (aiOverlay == null) {
+			return;
+		}
+		Sprite sprite = projectManager.getCurrentSprite();
+		String spriteXml = XstreamSerializer.getInstance().getXmlAsStringFromSprite(sprite);
+
+		aiOverlay.setVisibility(View.VISIBLE);
+		AiAssistOverlayHelper.show(aiOverlay, spriteXml, sprite, new AiAssistOverlayCallbacks() {
+			@Override
+			public void applySprite(String newSpriteXml) {
+				Fragment current = getCurrentFragment();
+				if (current instanceof ScriptFragment scriptfragment) {
+					scriptfragment.applyProjectFromAiTutor(newSpriteXml);
+				}
+			}
+
+			@Override
+			public void close() {
+				hideAiOverlay();
+			}
+		});
+	}
+
+	public boolean isAiOverlayVisible() {
+		return aiOverlay != null && aiOverlay.getVisibility() == View.VISIBLE;
+	}
+
+	public void hideAiOverlay() {
+		if (aiOverlay != null) {
+			aiOverlay.setVisibility(View.GONE);
+			aiOverlay.disposeComposition();
+		}
 	}
 
 	public void handleAddButton(View view) {

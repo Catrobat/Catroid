@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment
+import org.catrobat.catroid.BuildConfig
 import kotlin.reflect.KFunction1
 
 @SuppressWarnings("EmptyFunctionBlock")
@@ -82,16 +83,26 @@ fun SpriteActivity.loadFragment(fragmentPosition: Int) {
 
     when (fragmentPosition) {
         FRAGMENT_SCRIPTS -> showScripts(fragmentTransaction)
-        FRAGMENT_LOOKS -> fragmentTransaction.replace(
-            R.id.fragment_container,
-            LookListFragment(),
-            LookListFragment.TAG
-        )
-        FRAGMENT_SOUNDS -> fragmentTransaction.replace(
-            R.id.fragment_container,
-            SoundListFragment(),
-            SoundListFragment.TAG
-        )
+        FRAGMENT_LOOKS -> {
+            if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+                BottomBar.hideAiAssistButton(this)
+            }
+            fragmentTransaction.replace(
+                R.id.fragment_container,
+                LookListFragment(),
+                LookListFragment.TAG
+            )
+        }
+        FRAGMENT_SOUNDS -> {
+            if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+                BottomBar.hideAiAssistButton(this)
+            }
+            fragmentTransaction.replace(
+                R.id.fragment_container,
+                SoundListFragment(),
+                SoundListFragment.TAG
+            )
+        }
         else -> throw IllegalArgumentException("Invalid fragmentPosition in Activity.")
     }
 

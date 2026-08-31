@@ -31,6 +31,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
+import okio.buffer
+import okio.sink
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
@@ -232,7 +234,7 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
                 val originalResponse =
                     chain.proceed(chain.request())
                 val body = ProgressResponseBody(
-                    originalResponse.body(),
+                    originalResponse.body,
                     progressCallback
                 )
                 originalResponse.newBuilder().body(body).build()
@@ -248,13 +250,13 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         try {
             val response = httpClient.newCall(request).execute()
             if (response.isSuccessful) {
-                val bufferedSink = Okio.buffer(Okio.sink(destination))
-                response.body()?.let { bufferedSink.writeAll(it.source()) }
+                val bufferedSink = destination.sink().buffer()
+                response.body?.let { bufferedSink.writeAll(it.source()) }
                 bufferedSink.close()
                 successCallback.onSuccess()
             } else {
                 Log.v(tag, "Download not successful")
-                errorCallback.onError(response.code(), "Download failed! HTTP Status code was " + response.code())
+                errorCallback.onError(response.code, "Download failed! HTTP Status code was " + response.code)
             }
         } catch (ioException: IOException) {
             Log.e(tag, Log.getStackTraceString(ioException))

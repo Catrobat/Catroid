@@ -111,7 +111,7 @@ open class LookRequestAction : WebAction() {
     }
 
     override fun onRequestSuccess(httpResponse: Response) {
-        response = httpResponse.body()?.byteStream()
+        response = httpResponse.body?.byteStream()
         val fileName = Utils.getFileNameFromHttpResponse(httpResponse) ?: Utils.getFileNameFromURL(url)
         fileName.split('.', limit = 2).let { name ->
             lookName = name[0]
