@@ -28,7 +28,6 @@ env:
 jobs:
 
   repo-check:
-    if: ${{ github.repository == 'Catrobat/Catroid' }}
     # set --env GITHUB_REPOSITORY=Catrobat/Catroid for local runs in act since env.ACT is not accessible here
     name: Repo Check
     runs-on: ubuntu-latest
@@ -113,6 +112,10 @@ jobs:
     needs: repo-check
     name: Code Analysis
     runs-on: ubuntu-latest
+    # 👇 PERMISSÕES DE SEGURANÇA ADICIONADAS AQUI 👇
+    permissions:
+      security-events: write
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -144,7 +147,8 @@ jobs:
           esac
 
       - name: Upload ${{ matrix.tool.name }} SARIF Report
-        uses: github/codeql-action/upload-sarif@v3
+        # 👇 ATUALIZADO PARA v4 PARA REMOVER O AVISO 👇
+        uses: github/codeql-action/upload-sarif@v4
         if: ${{ matrix.tool.sarif && (success() || failure()) }}
         with:
           sarif_file: catroid/build/reports/${{ matrix.tool.name }}.sarif
@@ -159,6 +163,11 @@ jobs:
             catroid/build/reports/html/${{ matrix.tool.name }}.html
 
   instrumented-unit-tests:
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      repository-projects: write
     needs: repo-check
     name: Instrumented Unit Tests
     uses: ./.github/workflows/emulated_tests.yml
@@ -170,6 +179,11 @@ jobs:
     needs: repo-check
     name: Testrunner Tests
     uses: ./.github/workflows/emulated_tests.yml
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      repository-projects: write
     with:
       gradle-test-config: org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner
       calling-job: testrunner-tests
@@ -178,6 +192,11 @@ jobs:
     needs: repo-check
     name: Quarantined Tests
     uses: ./.github/workflows/emulated_tests.yml
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      repository-projects: write
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite
       calling-job: quarantined-tests
@@ -186,6 +205,11 @@ jobs:
     needs: repo-check
     name: RTL Tests
     uses: ./.github/workflows/emulated_tests.yml
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      repository-projects: write
     with:
       gradle-test-config: org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite
       calling-job: rtl-tests
