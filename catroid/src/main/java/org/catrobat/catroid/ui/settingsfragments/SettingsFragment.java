@@ -49,6 +49,7 @@ import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment.Companion.Extension;
+import org.catrobat.catroid.ui.recyclerview.repository.MqttPasswordRepository;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -125,11 +126,21 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
 
-
 	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
 	public static final String RASPI_HOST = "setting_raspi_host_preference";
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
+
+	public static final String MQTT_SCREEN_KEY = "settings_mqtt_screen";
+	public static final String SETTINGS_SHOW_MQTT_BRICKS = "setting_mqtt_bricks";
+	public static final String MQTT_CONNECTION_SETTINGS_CATEGORY = "setting_mqtt_category";
+	public static final String MQTT_HOST = "setting_mqtt_host";
+	public static final String MQTT_PORT = "setting_mqtt_port";
+	public static final String MQTT_TLS = "setting_mqtt_tls";
+	public static final String MQTT_USERNAME = "setting_mqtt_username";
+	public static final String MQTT_PASSWORD = "setting_mqtt_password";
+	public static final String MQTT_CLIENT_ID = "setting_mqtt_client_id";
+	public static final String MQTT_ENCRYPTED_PREFS = "mqtt_encrypted_prefs";
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 	public static final String TAG = SettingsFragment.class.getSimpleName();
@@ -210,6 +221,12 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(testPreference);
 		}
 
+		if (!BuildConfig.FEATURE_MQTT_ENABLED) {
+			PreferenceScreen mqttPreference = (PreferenceScreen) findPreference(MQTT_SCREEN_KEY);
+			mqttPreference.setEnabled(false);
+			screen.removePreference(mqttPreference);
+		}
+
 		setCorrectPreferenceViewForEmbroidery();
 		setCorrectPreferenceViewForPhiro();
 	}
@@ -260,6 +277,12 @@ public class SettingsFragment extends PreferenceFragment {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new RaspberryPiSettingsFragment(), RaspberryPiSettingsFragment.TAG)
 						.addToBackStack(RaspberryPiSettingsFragment.TAG)
+						.commit();
+				break;
+			case MQTT_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new MqttSettingsFragment(), MqttSettingsFragment.TAG)
+						.addToBackStack(MqttSettingsFragment.TAG)
 						.commit();
 				break;
 		}
@@ -406,6 +429,38 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
+	}
+
+	public static boolean isMqttSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_MQTT_BRICKS, context);
+	}
+
+	public static String getMqttHost(Context context) {
+		return getSharedPreferences(context).getString(MQTT_HOST, context.getString(R.string.default_mqtt_host));
+	}
+
+	public static int getMqttPort(Context context) {
+		try {
+			return Integer.parseInt(getSharedPreferences(context).getString(MQTT_PORT, "1883"));
+		} catch (NumberFormatException e) {
+			return 1883;
+		}
+	}
+
+	public static boolean isMqttTlsEnabled(Context context) {
+		return getBooleanSharedPreference(false, MQTT_TLS, context);
+	}
+
+	public static String getMqttUsername(Context context) {
+		return getSharedPreferences(context).getString(MQTT_USERNAME, "");
+	}
+
+	public static String getMqttPassword() {
+		return inject(MqttPasswordRepository.class).getValue().getPassword();
+	}
+
+	public static String getMqttClientId(Context context) {
+		return getSharedPreferences(context).getString(MQTT_CLIENT_ID, "");
 	}
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {

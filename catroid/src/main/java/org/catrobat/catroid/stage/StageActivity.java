@@ -96,6 +96,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public static StageListener stageListener;
 
 	public static final int REQUEST_START_STAGE = 101;
+	public static final String EXTRA_IS_FROM_SHORTCUT = "is_from_shortcut";
 
 	public static final int REGISTER_INTENT = 0;
 	private static final int PERFORM_INTENT = 1;
@@ -125,10 +126,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
+	private boolean isFromShortcut;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		isFromShortcut = getIntent().getBooleanExtra(EXTRA_IS_FROM_SHORTCUT, false);
 		StageLifeCycleController.stageCreate(this);
 		activeStageActivity = new WeakReference<>(this);
 	}
@@ -240,6 +243,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onBackPressed() {
+		if (isFromShortcut) {
+			manageLoadAndFinish();
+			finish();
+			return;
+		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (service != null) {

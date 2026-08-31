@@ -1531,6 +1531,24 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_connecting_to">Error: Could not connect to %s : %d</string>
     <!--  -->
 
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Username</string>
+    <string formatted="false" name="preference_title_mqtt_password">Password</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <string name="default_mqtt_host" translatable="false">192.168.0.1</string>
+    <!--  -->
+
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Set NXT motor</string>
     <string formatted="false" name="nxt_motor_speed_to">to</string>
@@ -2325,4 +2343,13 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>

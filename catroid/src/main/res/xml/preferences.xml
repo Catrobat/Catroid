@@ -104,6 +104,11 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks" />
 
+    <PreferenceScreen
+        android:key="settings_mqtt_screen"
+        android:summary="@string/preference_description_mqtt_bricks"
+        android:title="@string/preference_title_enable_mqtt_bricks" />
+
     <Preference
         android:key="setting_enable_phiro_bricks_preference"
         android:summary="@string/preference_description_phiro_bricks"

@@ -85,6 +85,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PLOT_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_MQTT_BRICKS;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
@@ -123,7 +124,7 @@ public class SettingsFragmentTest {
 			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
 			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS));
+			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, SETTINGS_SHOW_MQTT_BRICKS));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
@@ -256,6 +257,15 @@ public class SettingsFragmentTest {
 				.perform(click());
 
 		checkPreference(R.string.preference_title_enable_raspi_bricks, SETTINGS_SHOW_RASPI_BRICKS);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void mqttSettingsTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mqtt_bricks))
+				.perform(click());
+
+		checkPreference(R.string.preference_title_mqtt_enabled, SETTINGS_SHOW_MQTT_BRICKS);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
