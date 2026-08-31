@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.aiassist.overlay
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,7 +65,7 @@ private sealed class Stage {
  * either the full-screen diff preview or a compact error dialog.
  */
 @Composable
-private fun AiAssistFlow(
+private fun AiAssistOverlay(
     spriteXml: String?,
     currentSprite: Sprite,
     callbacks: AiAssistOverlayCallbacks
@@ -100,25 +101,7 @@ private fun AiAssistFlow(
                 spriteXml
             },
             outputContext = tutorStage?.outputContext,
-            onClipboardPaste = { pastedText ->
-                val result = try {
-                    val sprite = XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
-                    if (sprite == null) {
-                        AiTutorSpriteValidator.Result.Invalid("The pasted text is not a valid Pocket Code sprite.")
-                    } else {
-                        AiTutorSpriteValidator.validate(sprite, context)
-                    }
-                } catch (e: Exception) {
-                    AiTutorSpriteValidator.Result.Invalid(
-                        "Couldn't read the sprite XML: ${e.message ?: e.javaClass.simpleName}"
-                    )
-                }
-                stage = if (result is AiTutorSpriteValidator.Result.Invalid) {
-                    Stage.Error(pastedText, result.reason)
-                } else {
-                    Stage.Diff(pastedText)
-                }
-            }
+            onClipboardPaste = { stage = classifyPastedSprite(it, context) },
         )
     }
 
@@ -154,6 +137,23 @@ private fun AiAssistFlow(
     }
 }
 
+private fun classifyPastedSprite(pastedText: String, context: Context): Stage {
+    val result = try {
+        XstreamSerializer.getInstance().getSpriteFromXmlString(pastedText)
+            ?.let { AiTutorSpriteValidator.validate(it, context) }
+            ?: AiTutorSpriteValidator.Result.Invalid("The pasted text is not a valid Pocket Code sprite.")
+    } catch (e: Exception) {
+        AiTutorSpriteValidator.Result.Invalid(
+            "Couldn't read the sprite XML: ${e.message ?: e.javaClass.simpleName}"
+        )
+    }
+    return if (result is AiTutorSpriteValidator.Result.Invalid) {
+        Stage.Error(pastedText, result.reason)
+    } else {
+        Stage.Diff(pastedText)
+    }
+}
+
 /** Java-facing bridge so `SpriteActivity` can drive the Compose overlay. */
 object AiAssistOverlayHelper {
     @JvmStatic
@@ -165,7 +165,7 @@ object AiAssistOverlayHelper {
     ) {
         composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         composeView.setContent {
-            AiAssistFlow(spriteXml, currentSprite, callbacks)
+            AiAssistOverlay(spriteXml, currentSprite, callbacks)
         }
     }
 }

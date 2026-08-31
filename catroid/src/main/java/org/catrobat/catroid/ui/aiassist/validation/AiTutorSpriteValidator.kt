@@ -52,14 +52,7 @@ object AiTutorSpriteValidator {
     @JvmStatic
     fun validate(sprite: Sprite, context: Context): Result {
         // 1. Reconstruct parent references exactly like ProjectManager.initializeScripts() does.
-        try {
-            for (script in sprite.scriptList) {
-                script.setParents()
-            }
-        } catch (t: Throwable) {
-            Log.e(TAG, "Error setting parent references for sprite ${sprite.name}: ${t.message}", t)
-            return Result.Invalid("setParents failed: ${t.message}")
-        }
+        reconstructParents(sprite)?.let { return it }
 
         for (script in sprite.scriptList) {
             val flat = mutableListOf<Brick>()
@@ -74,38 +67,54 @@ object AiTutorSpriteValidator {
                 return Result.Invalid("Malformed script structure: ${t.message}")
             }
 
-            // 2. Explicit formula-completeness check — the dominant crash cause, with a specific
-            // reason.
-            // FormulaBrick.getView() iterates brickFieldToTextViewIdMap and looks each field up in
-            // formulaMap; a field present in the former but missing from the latter throws at render time.
-            for (brick in flat) {
-                if (brick is FormulaBrick) {
-                    for (field in brick.brickFieldToTextViewIdMap.keys) {
-                        if (brick.formulaMap[field] == null) {
-                            return Result.Invalid(
-                                "${brick.javaClass.simpleName} is missing a required value ($field)"
-                            )
-                        }
-                    }
-                }
-            }
+            // 2. Explicit formula-completeness check, with a specific reason.
+            checkFormulaCompleteness(flat)?.let { return it }
 
-            // 3. Render dry-run — catch-all safety net. Mirrors BrickAdapter: getView() on every
-            // brick.
-            for (brick in flat) {
-                try {
-                    brick.getView(context)
-                } catch (t: Throwable) {
-                    Log.e(
-                        TAG,
-                        "Error rendering brick ${brick.javaClass.simpleName} in sprite ${sprite.name}: ${t.message}",
-                        t
-                    )
-                    return Result.Invalid("${brick.javaClass.simpleName} failed to render: ${t.message}")
-                }
-            }
+            // 3. Render dry-run, catch-all safety net. Mirrors BrickAdapter: getView() on every brick.
+            renderDryRun(flat, sprite.name, context)?.let { return it }
         }
 
         return Result.Valid
+    }
+
+    private fun reconstructParents(sprite: Sprite): Result.Invalid? = try {
+        sprite.scriptList.forEach { it.setParents() }
+        null
+    } catch (t: Throwable) {
+        Log.e(TAG, "Error setting parent references for sprite ${sprite.name}: ${t.message}", t)
+        Result.Invalid("setParents failed: ${t.message}")
+    }
+
+    private fun checkFormulaCompleteness(flat: List<Brick>): Result.Invalid? {
+        flat.filterIsInstance<FormulaBrick>().forEach { brick ->
+            val missingField = brick.brickFieldToTextViewIdMap.keys
+                .firstOrNull { brick.formulaMap[it] == null }
+            if (missingField != null) {
+                return Result.Invalid(
+                    "${brick.javaClass.simpleName} is missing a required value ($missingField)"
+                )
+            }
+        }
+        return null
+    }
+
+    private fun renderDryRun(
+        flat: List<Brick>,
+        spriteName: String,
+        context: Context
+    ): Result.Invalid? {
+        flat.forEach { brick ->
+            try {
+                brick.getView(context)
+            } catch (t: Throwable) {
+                Log.e(
+                    TAG,
+                    "Error rendering brick ${brick.javaClass.simpleName} in sprite $spriteName: ${t.message}",
+                    t
+                )
+                return Result.Invalid("${brick.javaClass.simpleName} failed to render: ${t.message}")
+            }
+        }
+        return null
     }
 }
