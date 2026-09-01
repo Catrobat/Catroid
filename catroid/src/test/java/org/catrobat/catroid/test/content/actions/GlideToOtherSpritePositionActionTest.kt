@@ -31,12 +31,16 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.GlideToOtherSpritePositionAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 
 @RunWith(JUnit4::class)
 class GlideToOtherSpritePositionActionTest {
@@ -54,10 +58,22 @@ class GlideToOtherSpritePositionActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        stopKoin()
         val mockContext = org.mockito.Mockito.mock(android.content.Context::class.java)
         projectManager = ProjectManager(mockContext)
         val project = Project()
         projectManager.currentProject = project
+        startKoin {
+            modules(module {
+                single { projectManager }
+                single {
+                    org.mockito.Mockito.mock(
+                        org.catrobat.catroid.utils
+                            .MobileServiceAvailability::class.java
+                    )
+                }
+            })
+        }
         val scene = Scene()
         project.addScene(scene)
         projectManager.currentlyPlayingScene = scene
@@ -70,6 +86,11 @@ class GlideToOtherSpritePositionActionTest {
             sprite, destinationSprite,
             SequenceAction(), Formula(2.0F), BrickValues.GLIDE_TO_OTHER_SPRITE_POSITION
         ) as GlideToOtherSpritePositionAction
+    }
+
+    @After
+    fun tearDown(){
+        stopKoin()
     }
 
     @Test

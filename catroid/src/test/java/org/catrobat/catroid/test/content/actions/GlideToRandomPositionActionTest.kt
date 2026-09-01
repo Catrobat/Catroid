@@ -33,13 +33,17 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.GlideToRandomPositionAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.core.scope.Scope
+import org.koin.dsl.module
 import org.koin.ext.scope
 
 import kotlin.getValue
@@ -58,10 +62,21 @@ class GlideToRandomPositionActionTest {
     @Before
     @Throws(Exception::class)
     fun SetUp() {
+        stopKoin()
         val mockContext = org.mockito.Mockito.mock(android.content.Context::class.java)
         projectManager = ProjectManager(mockContext)
         val project = Project()
         projectManager.currentProject = project
+        startKoin {
+            modules(module {
+                single { projectManager }
+                single {
+                    org.mockito.Mockito.mock(
+                        org.catrobat.catroid.utils
+                            .MobileServiceAvailability::class.java
+                    )
+                }
+            })}
         val scene = Scene()
         project.addScene(scene)
         projectManager.currentlyPlayingScene = scene
@@ -75,9 +90,13 @@ class GlideToRandomPositionActionTest {
         )
             as GlideToRandomPositionAction
     }
+    @After
+    fun tearDown(){
+        stopKoin()
+    }
 
     @Test
-    public fun testGlideToRandomPositionDestination() {
+    fun testGlideToRandomPositionDestination() {
 
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
@@ -92,7 +111,7 @@ class GlideToRandomPositionActionTest {
     }
 
     @Test
-    public fun testGlideToBehavior(){
+    fun testGlideToBehavior(){
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
 
