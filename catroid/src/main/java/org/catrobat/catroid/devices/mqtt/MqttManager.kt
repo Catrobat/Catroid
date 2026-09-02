@@ -40,6 +40,9 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
     val isConnected: Boolean
         get() = mqttClient?.isConnected == true
 
+    private val subscriptions = mutableMapOf<String, Int>()
+    internal val activeSubscriptions: Set<String> get() = subscriptions.keys.toSet()
+
     companion object {
         private val TAG = MqttManager::class.simpleName
         private const val TCP_SCHEME = "tcp"
@@ -88,6 +91,98 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
         }
     }
 
+    fun publishFromContext(context: Context, topic: String, payload: String, qos: Int = 0, retained: Boolean = false) =
+        publish(MqttConnectionConfig.fromContext(context), topic, payload, qos, retained)
+
+    fun publish(config: MqttConnectionConfig, topic: String, payload: String, qos: Int = 0, retained: Boolean = false): Boolean {
+        if (topic.isBlank()) {
+            Log.e(TAG, "Cannot publish: topic is blank")
+            return false
+        }
+        if (topic.contains('#') || topic.contains('+')) {
+            Log.e(TAG, "Cannot publish: topic contains wildcard characters")
+            return false
+        }
+        if (qos !in 0..2) {
+            Log.e(TAG, "Cannot publish: invalid QoS value $qos")
+            return false
+        }
+        if (!isConnected && !connect(config)) {
+            Log.e(TAG, "Cannot publish: connection failed")
+            return false
+        }
+        val client = mqttClient ?: return false
+        return try {
+            client.publish(topic, buildMessage(payload, qos, retained))
+            Log.d(TAG, "Published message to '$topic'")
+            true
+        } catch (e: MqttException) {
+            Log.e(TAG, "Failed to publish to '$topic'", e)
+            false
+        }
+    }
+
+    fun subscribeFromContext(context: Context, topic: String, qos: Int = 0) =
+        subscribe(MqttConnectionConfig.fromContext(context), topic, qos)
+
+    fun subscribe(config: MqttConnectionConfig, topic: String, qos: Int = 0): Boolean {
+        if (topic.isBlank()) {
+            Log.e(TAG, "Cannot subscribe: topic is blank")
+            return false
+        }
+        if (qos !in 0..2) {
+            Log.e(TAG, "Cannot subscribe: invalid QoS value $qos")
+            return false
+        }
+        val existingQos = subscriptions[topic]
+        if (existingQos != null) {
+            Log.d(TAG, "Already subscribed to '$topic' with QoS $existingQos, ignoring duplicate")
+            return true
+        }
+        // Wildcards (#, +) are valid for MQTT subscriptions unlike publish.
+        if (!isConnected && !connect(config)) {
+            Log.e(TAG, "Cannot subscribe: connection failed")
+            return false
+        }
+        val client = mqttClient ?: run {
+            Log.e(TAG, "Cannot subscribe: client is null")
+            return false
+        }
+        return try {
+            client.subscribe(topic, qos)
+            subscriptions[topic] = qos
+            Log.d(TAG, "Subscribed to '$topic' with QoS $qos")
+            true
+        } catch (e: MqttException) {
+            Log.e(TAG, "Failed to subscribe to '$topic'", e)
+            false
+        }
+    }
+
+    fun unsubscribe(topic: String): Boolean {
+        if (topic.isBlank()) {
+            Log.e(TAG, "Cannot unsubscribe: topic is blank")
+            return false
+        }
+        if (!subscriptions.containsKey(topic)) {
+            Log.d(TAG, "Not subscribed to '$topic', ignoring")
+            return true
+        }
+        val client = mqttClient ?: run {
+            Log.e(TAG, "Cannot unsubscribe: client is null")
+            return false
+        }
+        return try {
+            client.unsubscribe(topic)
+            val qos = subscriptions.remove(topic)
+            Log.d(TAG, "Unsubscribed from '$topic' (was QoS $qos)")
+            true
+        } catch (e: MqttException) {
+            Log.e(TAG, "Failed to unsubscribe from '$topic'", e)
+            false
+        }
+    }
+
     fun disconnect() {
         synchronized(this) {
             if (mqttClient == null) return
@@ -98,6 +193,7 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
             } catch (e: MqttException) {
                 Log.e(TAG, "Error during disconnect", e)
             } finally {
+                subscriptions.clear()
                 mqttClient = null
             }
         }
@@ -117,13 +213,16 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
         }
     }
 
+    internal fun buildMessage(payload: String, qos: Int, retained: Boolean) = MqttMessage(payload.toByteArray()).apply {
+        this.qos = qos
+        isRetained = retained
+    }
+
     private val callback = object : MqttCallback {
         override fun connectionLost(cause: Throwable?) {
-            Log.e(TAG, "Connection lost: ${cause?.message}")
+            Log.e(TAG, "Connection lost", cause)
         }
-        // Message handling is implemented in a later ticket.
         override fun messageArrived(topic: String, message: MqttMessage) = Unit
-        // Delivery tokens are not used until publish is implemented in a later ticket.
         override fun deliveryComplete(token: IMqttDeliveryToken?) = Unit
     }
 }
