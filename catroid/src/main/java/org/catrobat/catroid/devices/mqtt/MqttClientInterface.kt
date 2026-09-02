@@ -25,6 +25,7 @@ package org.catrobat.catroid.devices.mqtt
 
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
 
 interface MqttClientInterface {
     val isConnected: Boolean
@@ -32,4 +33,5 @@ interface MqttClientInterface {
     fun disconnect()
     fun close()
     fun setCallback(callback: MqttCallback)
+    fun publish(topic: String, message: MqttMessage)
 }

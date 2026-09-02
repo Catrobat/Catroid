@@ -26,6 +26,7 @@ package org.catrobat.catroid.devices.mqtt
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 
 class PahoMqttClient(brokerUrl: String, clientId: String) : MqttClientInterface {
@@ -35,4 +36,5 @@ class PahoMqttClient(brokerUrl: String, clientId: String) : MqttClientInterface 
     override fun disconnect() = client.disconnect()
     override fun close() = client.close()
     override fun setCallback(callback: MqttCallback) = client.setCallback(callback)
+    override fun publish(topic: String, message: MqttMessage) = client.publish(topic, message)
 }

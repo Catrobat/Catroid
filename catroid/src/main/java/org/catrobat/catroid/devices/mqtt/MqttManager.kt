@@ -88,6 +88,36 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
         }
     }
 
+    fun publishFromContext(context: Context, topic: String, payload: String, qos: Int = 0, retained: Boolean = false) =
+        publish(MqttConnectionConfig.fromContext(context), topic, payload, qos, retained)
+
+    fun publish(config: MqttConnectionConfig, topic: String, payload: String, qos: Int = 0, retained: Boolean = false): Boolean {
+        if (topic.isBlank()) {
+            Log.e(TAG, "Cannot publish: topic is blank")
+            return false
+        }
+        if (topic.contains('#') || topic.contains('+')) {
+            Log.e(TAG, "Cannot publish: topic contains wildcard characters")
+            return false
+        }
+        if (qos !in 0..2) {
+            Log.e(TAG, "Cannot publish: invalid QoS value $qos")
+            return false
+        }
+        if (!isConnected && !connect(config)) {
+            Log.e(TAG, "Cannot publish: connection failed")
+            return false
+        }
+        val client = mqttClient ?: return false
+        return try {
+            client.publish(topic, buildMessage(payload, qos, retained))
+            true
+        } catch (e: MqttException) {
+            Log.e(TAG, "Failed to publish to '$topic'", e)
+            false
+        }
+    }
+
     fun disconnect() {
         synchronized(this) {
             if (mqttClient == null) return
@@ -117,13 +147,16 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
         }
     }
 
+    internal fun buildMessage(payload: String, qos: Int, retained: Boolean) = MqttMessage(payload.toByteArray()).apply {
+        this.qos = qos
+        isRetained = retained
+    }
+
     private val callback = object : MqttCallback {
         override fun connectionLost(cause: Throwable?) {
-            Log.e(TAG, "Connection lost: ${cause?.message}")
+            Log.e(TAG, "Connection lost", cause)
         }
-        // Message handling is implemented in a later ticket.
         override fun messageArrived(topic: String, message: MqttMessage) = Unit
-        // Delivery tokens are not used until publish is implemented in a later ticket.
         override fun deliveryComplete(token: IMqttDeliveryToken?) = Unit
     }
 }
