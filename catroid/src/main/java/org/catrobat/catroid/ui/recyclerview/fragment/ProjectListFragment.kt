@@ -277,6 +277,7 @@ class ProjectListFragment(
         }.execute(requireActivity())
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
@@ -407,11 +408,15 @@ class ProjectListFragment(
 
     override fun deleteItems(selectedItems: MutableList<ProjectData?>?) {
         setShowProgressBar(true)
+        val projectsToDelete = selectedItems.orEmpty().filterNotNull()
+        if (projectsToDelete.isEmpty()) {
+            setShowProgressBar(false)
+            return
+        }
+
         var deletedItemCount = 0
         val deletedProjectNames = mutableListOf<String>()
-        selectedItems ?: return
-        for (item in selectedItems) {
-            item ?: continue
+        for (item in projectsToDelete) {
             if (!copyProjectForUndoOption(item)) {
                 ToastUtil.showError(requireContext(), R.string.error_copy_project)
                 continue
@@ -440,8 +445,8 @@ class ProjectListFragment(
                 )
             )
         }
-        showUndo(deletedItemCount > 0 && hasDeletedProjectUndo())
         finishActionMode()
+        showUndo(deletedItemCount > 0 && hasDeletedProjectUndo())
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
     }
@@ -544,6 +549,9 @@ class ProjectListFragment(
 
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
+            if (hasDeletedProjectUndo()) {
+                return
+            }
             setShowProgressBar(true)
             if (projectManager.initializeDefaultProject()) {
                 setAdapterItems(adapter.projectsSorted)
@@ -802,7 +810,7 @@ class ProjectListFragment(
         val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
         val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
         val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
+        val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
 
         if (icon != null) {
             iconView.setImageBitmap(icon)
@@ -810,8 +818,8 @@ class ProjectListFragment(
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
         nameView.text = projectName
-        miuiContainer.visibility = android.view.View.GONE
-        pinButton.visibility = android.view.View.VISIBLE
+        miuiContainer.visibility = View.GONE
+        pinButton.visibility = View.VISIBLE
 
         val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
             .setView(dialogView)
@@ -842,7 +850,7 @@ class ProjectListFragment(
         val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
         val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
         val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
+        val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
         val settingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
         val miuiCancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_cancel_button)
 
@@ -852,9 +860,9 @@ class ProjectListFragment(
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
         nameView.text = projectName
-        miuiContainer.visibility = android.view.View.VISIBLE
-        pinButton.visibility = android.view.View.GONE
-        cancelButton.visibility = android.view.View.GONE
+        miuiContainer.visibility = View.VISIBLE
+        pinButton.visibility = View.GONE
+        cancelButton.visibility = View.GONE
 
         val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
             .setView(dialogView)

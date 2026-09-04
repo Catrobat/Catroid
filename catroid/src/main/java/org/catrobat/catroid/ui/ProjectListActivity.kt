@@ -75,18 +75,26 @@ class ProjectListActivity : BaseCastActivity() {
             .commit()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_undo).isVisible = isUndoMenuItemVisible
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_projects_activity, menu)
         menu.findItem(R.id.merge).isVisible = BuildConfig.FEATURE_MERGE_ENABLED
-        menu.findItem(R.id.menu_undo).isVisible = isUndoMenuItemVisible
         return super.onCreateOptionsMenu(menu)
     }
 
     fun showUndo(visible: Boolean) {
         isUndoMenuItemVisible = visible
-        try {
-            optionsMenu.findItem(R.id.menu_undo).isVisible = visible
-        } catch (_: UninitializedPropertyAccessException) {
+        if (::binding.isInitialized) {
+            val menuItem = binding.toolbar.toolbar.menu.findItem(R.id.menu_undo)
+            menuItem?.isVisible = visible
+
+            binding.toolbar.toolbar.invalidate()
+            binding.toolbar.toolbar.requestLayout()
+        } else {
             invalidateOptionsMenu()
         }
     }
