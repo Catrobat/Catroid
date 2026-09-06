@@ -54,13 +54,6 @@ class JwtTokenStore(context: Context) {
         }
     }
 
-    fun setAccessTokenOnly(accessToken: String) {
-        if (!isValidJwtFormat(accessToken)) return
-        prefs.edit {
-            putString(KEY_ACCESS_TOKEN, accessToken)
-        }
-    }
-
     fun setUsername(username: String) {
         prefs.edit {
             putString(KEY_USERNAME, username)
@@ -82,12 +75,5 @@ class JwtTokenStore(context: Context) {
         private const val KEY_ACCESS_TOKEN = "jwt_access_token"
         private const val KEY_REFRESH_TOKEN = "jwt_refresh_token"
         private const val KEY_USERNAME = "jwt_username"
-        private const val JWT_PARTS = 3
-
-        fun isValidJwtFormat(token: String?): Boolean {
-            if (token.isNullOrEmpty()) return false
-            val parts = token.split(".")
-            return parts.size == JWT_PARTS && parts.all { it.isNotEmpty() }
-        }
     }
 }
