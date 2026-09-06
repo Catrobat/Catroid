@@ -47,6 +47,10 @@ class DefaultProjectsCategoriesSync(
     override fun sync(force: Boolean) {
         val localHashVersion = localHashVersionRepository.getProjectsCategoriesHashVersion()
         val response = webService.getProjectCategories().execute()
+        if (!response.isSuccessful) {
+            Log.e(javaClass.simpleName, "sync failed with HTTP ${response.code()}")
+            return
+        }
         val serverHashVersion = response.headers().get("x-response-hash")
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")

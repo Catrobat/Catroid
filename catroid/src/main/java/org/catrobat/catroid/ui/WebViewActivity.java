@@ -61,9 +61,12 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.Cookie;
 import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
+import org.catrobat.catroid.web.LoginHelper;
 import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
@@ -97,6 +100,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 	private WebView webView;
 	private org.catrobat.catroid.web.JwtTokenStore tokenStore;
+	private org.catrobat.catroid.web.LoginRepository loginRepository;
 	private boolean allowGoBack = false;
 	private boolean forceOpenInApp = false;
 	private ProgressDialog webViewLoadingDialog;
@@ -162,6 +166,7 @@ public class WebViewActivity extends AppCompatActivity {
 		configureUserAgent();
 
 		tokenStore = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class).getValue();
+		loginRepository = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.LoginRepository.class).getValue();
 		setLoginCookies(url, CookieManager.getInstance(), tokenStore.getAccessToken());
 		webView.loadUrl(url);
 
@@ -287,6 +292,12 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
+			if (isLogoutUrl(urlClient)) {
+				// The web session ends here. The app's own JWT has to go with it: it is injected
+				// as BEARER cookie on every WebView visit, so without this the next visit
+				// silently signs the user back in.
+				LoginHelper.performLogout(loginRepository, () -> Utils.logoutUser(WebViewActivity.this));
+			}
 			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 				webViewLoadingDialog.setCancelable(true);
@@ -307,26 +318,6 @@ public class WebViewActivity extends AppCompatActivity {
 			if (webViewLoadingDialog != null) {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
-			}
-			syncLoginStateFromCookies(url);
-		}
-
-		/**
-		 * Adopts a BEARER token the web session established while browsing. The absence of the
-		 * cookie must never log the app out: the server marks BEARER as HttpOnly and
-		 * {@link CookieManager#getCookie(String)} does not return HttpOnly cookies, so a missing
-		 * value carries no information about the web session.
-		 */
-		private void syncLoginStateFromCookies(String url) {
-			if (url == null || !url.contains(MAIN_URL_HTTPS) || tokenStore.isLoggedIn()) {
-				return;
-			}
-
-			String bearerToken = extractBearerFromCookies(CookieManager.getInstance().getCookie(url));
-
-			if (bearerToken != null && !bearerToken.isEmpty()
-					&& org.catrobat.catroid.web.JwtTokenStore.Companion.isValidJwtFormat(bearerToken)) {
-				tokenStore.setAccessTokenOnly(bearerToken);
 			}
 		}
 
@@ -458,18 +449,27 @@ public class WebViewActivity extends AppCompatActivity {
 		CookieManager.getInstance().flush();
 	}
 
+	/**
+	 * True for the share site's logout route, which is themed
+	 * ({@code https://share.catrobat.org/pocketcode/logout}) and is where the web session ends.
+	 */
 	@VisibleForTesting
-	public static String extractBearerFromCookies(String cookies) {
-		if (cookies == null) {
-			return null;
+	public static boolean isLogoutUrl(String url) {
+		if (url == null || !url.startsWith(MAIN_URL_HTTPS)) {
+			return false;
 		}
-		for (String cookie : cookies.split(";")) {
-			String trimmed = cookie.trim();
-			if (trimmed.startsWith("BEARER=")) {
-				return trimmed.substring("BEARER=".length());
+		try {
+			String path = new URI(url).getPath();
+			if (path == null) {
+				return false;
 			}
+			if (path.endsWith("/")) {
+				path = path.substring(0, path.length() - 1);
+			}
+			return path.endsWith("/logout");
+		} catch (URISyntaxException e) {
+			return false;
 		}
-		return null;
 	}
 
 	private boolean isWhatsappInstalled() {
@@ -484,6 +484,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
+		LoginHelper.cancel();
 		webView.setDownloadListener(null);
 		webView.destroy();
 

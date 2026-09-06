@@ -25,14 +25,15 @@ package org.catrobat.catroid.test.transfers;
 
 import android.webkit.CookieManager;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -70,19 +71,17 @@ public class WebViewActivityLoginCookieTest {
 	}
 
 	@Test
-	public void testExtractBearerFromCookies() {
-		String cookies = "session=abc; BEARER=my-jwt-token; other=value";
-		assertEquals("my-jwt-token", WebViewActivity.extractBearerFromCookies(cookies));
+	public void testIsLogoutUrlForThemedShareLogoutRoute() {
+		assertTrue(WebViewActivity.isLogoutUrl(Constants.MAIN_URL_HTTPS + "/pocketcode/logout"));
+		assertTrue(WebViewActivity.isLogoutUrl(Constants.MAIN_URL_HTTPS + "/luna/logout/"));
+		assertTrue(WebViewActivity.isLogoutUrl(Constants.MAIN_URL_HTTPS + "/app/logout?next=%2F"));
 	}
 
 	@Test
-	public void testExtractBearerFromCookiesNoBearerPresent() {
-		String cookies = "session=abc; other=value";
-		assertNull(WebViewActivity.extractBearerFromCookies(cookies));
-	}
-
-	@Test
-	public void testExtractBearerFromNullCookies() {
-		assertNull(WebViewActivity.extractBearerFromCookies(null));
+	public void testIsLogoutUrlIgnoresOtherPagesAndHosts() {
+		assertFalse(WebViewActivity.isLogoutUrl(Constants.MAIN_URL_HTTPS + "/pocketcode/logout-help"));
+		assertFalse(WebViewActivity.isLogoutUrl(Constants.MAIN_URL_HTTPS + "/app/login"));
+		assertFalse(WebViewActivity.isLogoutUrl("https://example.org/pocketcode/logout"));
+		assertFalse(WebViewActivity.isLogoutUrl(null));
 	}
 }
