@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -698,12 +698,10 @@ public final class ProjectManager {
 	public void loadDownloadedProjects() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 		Gson gson = new Gson();
-		String json = null;
 		if (sharedPreferences != null) {
-			json = sharedPreferences.getString(downloadedProjectsName, null);
+			String json = sharedPreferences.getString(downloadedProjectsName, null);
 			if (json != null) {
-				Type type = new TypeToken<HashMap<String, Boolean>>() {
-				}.getType();
+				Type type = new TypeToken<HashMap<String, Boolean>>() { }.getType();
 				downloadedProjects = gson.fromJson(json, type);
 			} else {
 				downloadedProjects = new HashMap<>();

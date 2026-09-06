@@ -20,117 +20,112 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
 package org.catrobat.catroid.test.transfers;
 
 import android.content.Context;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ProjectDownloader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectDownloader.class, ReplaceExistingProjectDialogFragment.class, ToastUtil.class, URLDecoder.class})
+@RunWith(JUnit4.class)
 public class ProjectDownloaderTest {
 
-	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+	private static final String LEGACY_URL =
+			"https://share.catrobat.org/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+	private static final String PROJECT_UUID = "63768cf1-5f07-11ea-a2ae-000c292a0f49";
+	private static final String API_URL =
+			"https://share.catrobat.org/api/projects/" + PROJECT_UUID + "/catrobat";
 	private static final String PROJECT_NAME = "Pet Simulator";
+	private static final String RESOLVED_NAME = "Resolved Name";
 
-	private ProjectDownloader downloaderSpy = null;
-	private AppCompatActivity activityMock;
-	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
+	private ProjectDownloader.ProjectDownloadQueue queueMock;
+	private Context contextMock;
 
 	@Before
 	public void setUp() {
 		queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
-		downloaderSpy = PowerMockito.spy(new ProjectDownloader(queueMock, URL, null));
-		activityMock = Mockito.mock(AppCompatActivity.class);
+		contextMock = Mockito.mock(Context.class);
 	}
 
 	@Test
-	public void testShowNotificationIfDecodeProjectNameFailed() throws UnsupportedEncodingException {
-		PowerMockito.mockStatic(ToastUtil.class);
-		PowerMockito.mockStatic(URLDecoder.class);
-		PowerMockito.when(URLDecoder.decode(anyString(), anyString())).thenThrow(new UnsupportedEncodingException());
-		downloaderSpy.download(activityMock);
-
-		PowerMockito.verifyStatic(ToastUtil.class, times(1));
-		ToastUtil.showError(eq(activityMock), eq(R.string.error_could_not_decode_project_name_from_url));
-		verifyNoMoreInteractions(queueMock);
-		verify(downloaderSpy, never()).startService(anyString(), any(Context.class));
+	public void testProjectNameFromLegacyDownloadUrl() {
+		assertEquals(PROJECT_NAME, ProjectDownloader.Companion.getProjectNameFromUrl(LEGACY_URL));
 	}
+
 	@Test
-	public void testShowDialogIfProjectAlreadyExists() {
-		PowerMockito.mockStatic(ReplaceExistingProjectDialogFragment.class);
-		ReplaceExistingProjectDialogFragment dialog = Mockito.mock(ReplaceExistingProjectDialogFragment.class);
-		when(ReplaceExistingProjectDialogFragment.newInstance(eq(PROJECT_NAME), any(ProjectDownloader.class))).thenReturn(dialog);
-		PowerMockito.mockStatic(ProjectDownloader.Companion.getClass());
-		PowerMockito.when(ReplaceExistingProjectDialogFragment.projectExistsInDirectory(PROJECT_NAME)).thenReturn(true);
-		FragmentManager transaction = Mockito.mock(FragmentManager.class);
-		Mockito.when(activityMock.getSupportFragmentManager()).thenReturn(transaction);
+	public void testProjectIdFromApiDownloadUrl() {
+		assertEquals(PROJECT_UUID, ProjectDownloader.Companion.getProjectNameFromUrl(API_URL));
+	}
 
-		downloaderSpy.download(activityMock);
+	@Test
+	public void testProjectNameFromUnknownUrlIsNull() {
+		assertNull(ProjectDownloader.Companion.getProjectNameFromUrl("https://share.catrobat.org/pocketcode/"));
+	}
 
-		verify(dialog, Mockito.times(1)).show(eq(transaction), anyString());
-		Mockito.verify(downloaderSpy, Mockito.never())
-				.downloadOverwriteExistingProject(any(Context.class), anyString());
-		Mockito.verify(downloaderSpy, Mockito.never())
-				.startService(anyString(), any(Context.class));
+	@Test
+	public void testResolvedProjectNameIsUsedForDownload() {
+		ProjectDownloader downloader =
+				Mockito.spy(new ProjectDownloader(queueMock, API_URL, null, RESOLVED_NAME));
+		doNothing().when(downloader).startService(anyString(), any(Context.class));
+
+		downloader.downloadOverwriteExistingProject(contextMock, RESOLVED_NAME);
+
+		verify(downloader, times(1)).startService(eq(RESOLVED_NAME), eq(contextMock));
+		verify(queueMock, times(1)).enqueue(eq(RESOLVED_NAME));
 	}
 
 	@Test
 	public void testDownloadOverwriteExistingProjectProjectNotInDownloadQueue() {
-		PowerMockito.doNothing().when(downloaderSpy).startService(eq(PROJECT_NAME), any(Context.class));
+		ProjectDownloader downloader =
+				Mockito.spy(new ProjectDownloader(queueMock, LEGACY_URL, null));
+		doNothing().when(downloader).startService(anyString(), any(Context.class));
 
-		downloaderSpy.downloadOverwriteExistingProject(activityMock, PROJECT_NAME);
+		downloader.downloadOverwriteExistingProject(contextMock, PROJECT_NAME);
 
-		verify(downloaderSpy, times(1)).startService(eq(PROJECT_NAME), eq(activityMock));
-		verify(queueMock, times(1)).enqueue(eq(PROJECT_NAME));
+		verify(downloader, times(1)).startService(eq(PROJECT_NAME), eq(contextMock));
 		verify(queueMock, times(1)).alreadyInQueue(eq(PROJECT_NAME));
-
+		verify(queueMock, times(1)).enqueue(eq(PROJECT_NAME));
 		verifyNoMoreInteractions(queueMock);
 	}
 
 	@Test
 	public void testDownloadOverwriteExistingProjectProjectInDownloadQueue() {
-		PowerMockito.mockStatic(ToastUtil.class);
-
-		PowerMockito.doNothing().when(downloaderSpy).startService(eq(PROJECT_NAME), any(Context.class));
+		ProjectDownloader downloader =
+				Mockito.spy(new ProjectDownloader(queueMock, LEGACY_URL, null));
+		doNothing().when(downloader).startService(anyString(), any(Context.class));
 		when(queueMock.alreadyInQueue(eq(PROJECT_NAME))).thenReturn(true);
 
 		String errorMessage = "test error";
-		when(activityMock.getString(eq(R.string.error_project_already_in_queue), anyString())).thenReturn(errorMessage);
+		when(contextMock.getString(eq(R.string.error_project_already_in_queue), anyString()))
+				.thenReturn(errorMessage);
 
-		downloaderSpy.downloadOverwriteExistingProject(activityMock, PROJECT_NAME);
+		try (MockedStatic<ToastUtil> toastUtil = Mockito.mockStatic(ToastUtil.class)) {
+			downloader.downloadOverwriteExistingProject(contextMock, PROJECT_NAME);
+
+			toastUtil.verify(() -> ToastUtil.showError(contextMock, errorMessage), times(1));
+		}
 
 		verify(queueMock, times(1)).alreadyInQueue(eq(PROJECT_NAME));
-
-		PowerMockito.verifyStatic(ToastUtil.class, times(1));
-		ToastUtil.showError(eq(activityMock), eq(errorMessage));
+		verify(downloader, never()).startService(anyString(), any(Context.class));
 		verifyNoMoreInteractions(queueMock);
 	}
 }
-*/

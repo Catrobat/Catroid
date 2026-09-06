@@ -36,7 +36,6 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.catrobat.catroid.common.Constants
@@ -47,6 +46,7 @@ import org.catrobat.catroid.sync.FeaturedProjectSyncWorker
 import org.catrobat.catroid.sync.ProjectsCategoriesSyncWorker
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
+import org.catrobat.catroid.utils.DispatcherProvider
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.combineWith
 import java.io.File
@@ -57,11 +57,11 @@ class MainFragmentViewModel(
     private val workManager: WorkManager,
     private val featuredProjectsRepository: FeaturedProjectsRepository,
     private val projectCategoriesRepository: ProjectCategoriesRepository,
-    private val connectionMonitor: NetworkConnectionMonitor
+    private val connectionMonitor: NetworkConnectionMonitor,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
     private val projectList = MutableLiveData<List<ProjectData>>()
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(dispatcherProvider.io)
 
     fun getProjects(): LiveData<List<ProjectData>> = projectList
 
@@ -69,7 +69,7 @@ class MainFragmentViewModel(
         coroutineScope.launch {
             val projectData = getProjectData()
 
-            withContext(Dispatchers.Main) {
+            withContext(dispatcherProvider.main) {
                 callback.onProjectLoaded(projectData)
             }
         }
@@ -96,7 +96,7 @@ class MainFragmentViewModel(
     }
 
     fun forceUpdate() {
-        getProjectDataAsync(object: Callback {
+        getProjectDataAsync(object : Callback {
             override fun onProjectLoaded(projectData: List<ProjectData>?) {
                 projectList.postValue(projectData)
             }
