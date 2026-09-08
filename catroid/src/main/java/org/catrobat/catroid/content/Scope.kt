@@ -27,6 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 
 data class Scope(
     val project: Project?,
-    val sprite: Sprite,
+    var sprite: Sprite,
     val sequence: SequenceAction?
 )
