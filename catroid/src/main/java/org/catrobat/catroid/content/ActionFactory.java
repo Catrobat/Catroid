@@ -1586,7 +1586,7 @@ public class ActionFactory extends Actions {
 		action.setPosition(position);
 
 		return action;
-gitz	}
+	}
 
 	public Action createParameterizedAssertAction(Sprite sprite, SequenceAction sequence, Formula actual, UserList expected,
 			ParameterizedData data, String position) {
