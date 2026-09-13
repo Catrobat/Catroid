@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1427,6 +1427,22 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="raspi_settings_gpio_version">Wersja GPIO</string>
     <string formatted="false" name="error_connecting_to">Błąd: Nie można połączyć się %s : %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Nazwa użytkownika</string>
+    <string formatted="false" name="preference_title_mqtt_password">Hasło</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Ustawienia silnika NXT</string>
     <string formatted="false" name="nxt_motor_speed_to">do</string>
@@ -1588,16 +1604,14 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="sound_insect">Owad</string>
     <string formatted="false" name="sound_monster">Potwór</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">w lewo</string>
     <string formatted="false" name="direction_right">w prawo</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">przez</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">przez</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1722,8 +1736,10 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_function_join3_parameter">(\'witaj\',\'świecie\',\'!\')</string>
     <string formatted="false" name="formula_editor_function_regex">wyrażenie regularne</string>
     <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string formatted="false" name="formula_editor_function_regex_assistant">Asystent wyrażenia regularnego</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Asystent wyrażenia regularnego</string>
+    <string formatted="false" name="formula_editor_function_regex_assistant">Asystent wyrażenia regularnego
+</string>
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Asystent wyrażenia regularnego
+</string>
     <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">Nie znaleziono słowa kluczowego.</string>
     <string formatted="false" name="formula_editor_function_regex_json_extractor_title">Rozpakowywanie JSON</string>
     <string formatted="false" name="formula_editor_function_arduino_read_pin_value_digital">arduino cyfrowe wyjście</string>
@@ -1902,7 +1918,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="formula_editor_discard_changes_dialog_title">Zapisać zmiany?</string>
     <string formatted="false" name="formula_editor_new_string_name">Nowy tekst</string>
     <string formatted="false" name="formula_editor_dialog_change_text">Zmień tekst</string>
-    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Zmień wyrażenie regularne</string>
+    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Zmień wyrażenie regularne
+</string>
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktualne składniki</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Zrób z tego listę</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">pierwsza twarz jest widoczna</string>
@@ -2042,7 +2059,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="brick_choose_camera">Użyj aparatu</string>
     <string formatted="false" name="choose_camera_front">z przodu</string>
     <string formatted="false" name="choose_camera_back">z tyłu</string>
-    <string formatted="false" name="camera_error_generic">        Coś poszło nie tak podczas próby użycia aparatu.
+    <string formatted="false" name="camera_error_generic">
+        Coś poszło nie tak podczas próby użycia aparatu.
     </string>
     <string formatted="false" name="camera_error_face_detection">        Wystąpił problem z wykrywaniem twarzy. Niektóre komponenty nadal mogą być pobierane w
         tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.</string>
@@ -2137,4 +2155,12 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="undo_sort">Cofnij sortowanie</string>
     <string formatted="false" name="sort">Sortuj</string>
     <string formatted="false" name="checkbox">pole wyboru</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
