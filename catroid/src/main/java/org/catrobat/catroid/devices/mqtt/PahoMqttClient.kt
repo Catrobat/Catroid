@@ -36,5 +36,11 @@ class PahoMqttClient(brokerUrl: String, clientId: String) : MqttClientInterface 
     override fun disconnect() = client.disconnect()
     override fun close() = client.close()
     override fun setCallback(callback: MqttCallback) = client.setCallback(callback)
-    override fun publish(topic: String, message: MqttMessage) = client.publish(topic, message)
+    override fun publish(topic: String, payload: ByteArray, qos: Int, retained: Boolean) {
+        val message = MqttMessage(payload).apply {
+            this.qos = qos
+            isRetained = retained
+        }
+        client.publish(topic, message)
+    }
 }

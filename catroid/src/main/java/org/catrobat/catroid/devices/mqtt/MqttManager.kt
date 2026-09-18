@@ -41,6 +41,7 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
         get() = mqttClient?.isConnected == true
 
     companion object {
+        private const val NULL_CHARACTER = '\u0000'
         private val TAG = MqttManager::class.simpleName
         private const val TCP_SCHEME = "tcp"
         private const val SSL_SCHEME = "ssl"
@@ -100,6 +101,10 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
             Log.e(TAG, "Cannot publish: topic contains wildcard characters")
             return false
         }
+        if (topic.contains(NULL_CHARACTER)) {
+            Log.e(TAG, "Cannot publish: topic contains a null character")
+            return false
+        }
         if (qos !in 0..2) {
             Log.e(TAG, "Cannot publish: invalid QoS value $qos")
             return false
@@ -108,12 +113,19 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
             Log.e(TAG, "Cannot publish: connection failed")
             return false
         }
-        val client = mqttClient ?: return false
+        val client = mqttClient ?: run {
+            Log.e(TAG, "Cannot publish: no client available")
+            return false
+        }
         return try {
-            client.publish(topic, buildMessage(payload, qos, retained))
+            client.publish(topic, payload.toByteArray(), qos, retained)
             true
         } catch (e: MqttException) {
             Log.e(TAG, "Failed to publish to '$topic'", e)
+            false
+        } catch (e: IllegalArgumentException) {
+            // Paho validates the topic itself and throws this, e.g. when it exceeds 65535 bytes.
+            Log.e(TAG, "Broker rejected the topic '$topic'", e)
             false
         }
     }
@@ -145,11 +157,6 @@ class MqttManager(private val clientFactory: MqttClientFactory = DefaultMqttClie
             this.userName = username
             this.password = password.toCharArray()
         }
-    }
-
-    internal fun buildMessage(payload: String, qos: Int, retained: Boolean) = MqttMessage(payload.toByteArray()).apply {
-        this.qos = qos
-        isRetained = retained
     }
 
     private val callback = object : MqttCallback {
