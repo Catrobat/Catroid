@@ -256,6 +256,162 @@ class MqttManagerTest {
         // no exception = pass
     }
 
+    // --- publish() ---
+
+    @Test
+    fun testPublishReturnsTrueWhenConnectedAndTopicValid() {
+        manager.connect(defaultConfig)
+        assertTrue(manager.publish(defaultConfig, "home/temp", "22"))
+    }
+
+    @Test
+    fun testPublishCallsClientPublish() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "home/temp", "22")
+        assertTrue(fakeClient.publishCalled)
+    }
+
+    @Test
+    fun testPublishSendsCorrectTopicAndPayload() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "home/temp", "42")
+        assertEquals("home/temp", fakeClient.lastTopic)
+        assertEquals("42", fakeClient.lastPayload)
+    }
+
+    @Test
+    fun testPublishSetsQosAndRetained() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "home/temp", "on", qos = 2, retained = true)
+        assertEquals(2, fakeClient.lastQos)
+        assertTrue(fakeClient.lastRetained)
+    }
+
+    @Test
+    fun testPublishTriggersLazyConnectWhenDisconnected() {
+        fakeClient.connected = false
+        manager.publish(defaultConfig, "home/temp", "22")
+        assertTrue(fakeClient.connectCalled)
+    }
+
+    @Test
+    fun testPublishReturnsTrueAfterLazyConnect() {
+        fakeClient.connected = false
+        assertTrue(manager.publish(defaultConfig, "home/temp", "22"))
+    }
+
+    @Test
+    fun testPublishReturnsFalseWhenLazyConnectFails() {
+        fakeClient.connected = false
+        fakeClient.throwOnConnect = true
+        assertFalse(manager.publish(defaultConfig, "home/temp", "22"))
+    }
+
+    @Test
+    fun testPublishReturnsFalseForBlankTopic() {
+        manager.connect(defaultConfig)
+        assertFalse(manager.publish(defaultConfig, "   ", "22"))
+    }
+
+    @Test
+    fun testPublishDoesNotCallClientForBlankTopic() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "   ", "22")
+        assertFalse(fakeClient.publishCalled)
+    }
+
+    @Test
+    fun testPublishReturnsFalseForTopicWithHashWildcard() {
+        manager.connect(defaultConfig)
+        assertFalse(manager.publish(defaultConfig, "home/#", "22"))
+    }
+
+    @Test
+    fun testPublishReturnsFalseForTopicWithPlusWildcard() {
+        manager.connect(defaultConfig)
+        assertFalse(manager.publish(defaultConfig, "home/+/temp", "22"))
+    }
+
+    @Test
+    fun testPublishReturnsFalseForTopicWithNullCharacter() {
+        manager.connect(defaultConfig)
+        assertFalse(manager.publish(defaultConfig, "home/" + 0.toChar() + "temp", "22"))
+    }
+
+    @Test
+    fun testPublishDoesNotCallClientForTopicWithNullCharacter() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "home/" + 0.toChar() + "temp", "22")
+        assertFalse(fakeClient.publishCalled)
+    }
+
+    @Test
+    fun testPublishReturnsFalseWhenClientThrowsIllegalArgument() {
+        manager.connect(defaultConfig)
+        fakeClient.throwIllegalArgumentOnPublish = true
+        assertFalse(manager.publish(defaultConfig, "home/temp", "22"))
+    }
+
+    @Test
+    fun testPublishReturnsFalseForInvalidQos() {
+        manager.connect(defaultConfig)
+        assertFalse(manager.publish(defaultConfig, "home/temp", "22", qos = 3))
+    }
+
+    @Test
+    fun testPublishReturnsFalseWhenClientThrows() {
+        manager.connect(defaultConfig)
+        fakeClient.throwOnPublish = true
+        assertFalse(manager.publish(defaultConfig, "home/temp", "22"))
+    }
+
+    @Test
+    fun testPublishWithEmptyPayloadReturnsTrue() {
+        manager.connect(defaultConfig)
+        assertTrue(manager.publish(defaultConfig, "home/temp", ""))
+    }
+
+    @Test
+    fun testPublishWithQosZeroReturnsTrue() {
+        manager.connect(defaultConfig)
+        assertTrue(manager.publish(defaultConfig, "home/temp", "22", qos = 0))
+    }
+
+    @Test
+    fun testPublishWithQosOneReturnsTrue() {
+        manager.connect(defaultConfig)
+        assertTrue(manager.publish(defaultConfig, "home/temp", "22", qos = 1))
+    }
+
+    @Test
+    fun testPublishWithQosTwoReturnsTrue() {
+        manager.connect(defaultConfig)
+        assertTrue(manager.publish(defaultConfig, "home/temp", "22", qos = 2))
+    }
+
+    @Test
+    fun testPublishWithRetainedFalseSetsRetainedFalse() {
+        manager.connect(defaultConfig)
+        manager.publish(defaultConfig, "home/temp", "22", retained = false)
+        assertFalse(fakeClient.lastRetained)
+    }
+
+    @Test
+    fun testPublishWhenAlreadyConnectedDoesNotReconnect() {
+        manager.connect(defaultConfig)
+        fakeClient.connectCalled = false
+        manager.publish(defaultConfig, "home/temp", "22")
+        assertFalse(fakeClient.connectCalled)
+    }
+
+    @Test
+    fun testPublishDoesNotCallClientWhenLazyConnectFails() {
+        fakeClient.connected = false
+        fakeClient.throwOnConnect = true
+        manager.publish(defaultConfig, "home/temp", "22")
+        assertFalse(fakeClient.publishCalled)
+    }
+
     // --- FakeMqttClientFactory ---
 
     private class FakeMqttClientFactory(private val client: FakeMqttClient) : MqttClientFactory {
@@ -275,6 +431,13 @@ class MqttManagerTest {
         var closeCalled = false
         var callbackSet = false
         var throwOnConnect = false
+        var throwOnPublish = false
+        var throwIllegalArgumentOnPublish = false
+        var publishCalled = false
+        var lastTopic: String? = null
+        var lastPayload: String? = null
+        var lastQos: Int = -1
+        var lastRetained: Boolean = false
         var lastConnectOptions: MqttConnectOptions? = null
 
         override val isConnected get() = connected
@@ -297,6 +460,16 @@ class MqttManagerTest {
 
         override fun setCallback(callback: MqttCallback) {
             callbackSet = true
+        }
+
+        override fun publish(topic: String, payload: ByteArray, qos: Int, retained: Boolean) {
+            if (throwOnPublish) throw org.eclipse.paho.client.mqttv3.MqttException(0)
+            if (throwIllegalArgumentOnPublish) throw IllegalArgumentException("Invalid topic")
+            publishCalled = true
+            lastTopic = topic
+            lastPayload = String(payload)
+            lastQos = qos
+            lastRetained = retained
         }
     }
 }
