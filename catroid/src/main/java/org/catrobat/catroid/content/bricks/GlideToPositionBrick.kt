@@ -45,7 +45,6 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
         addAllowedBrickField(
             BrickField.DURATION_IN_SECONDS,
             R.id.brick_glide_to_position_edit_text_duration
-
         )
     }
 
@@ -78,15 +77,10 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
             view, items
         )
         spinner.setOnItemSelectedListener(this)
-
-        if (spinnerSelection == BrickValues.GLIDE_TO_RANDOM_POSITION) {
-            spinner.setSelection(0)
-        }
-        if (spinnerSelection == BrickValues.GLIDE_TO_TOUCH_POSITION) {
-            spinner.setSelection(1)
-        }
-        if (spinnerSelection == BrickValues.GLIDE_TO_OTHER_SPRITE_POSITION) {
-            spinner.setSelection(destinationSprite)
+        when (spinnerSelection) {
+            BrickValues.GLIDE_TO_OTHER_SPRITE_POSITION -> spinner.setSelection(0)
+            BrickValues.GLIDE_TO_RANDOM_POSITION -> spinner.setSelection(1)
+            BrickValues.GLIDE_TO_TOUCH_POSITION -> spinner.setSelection(destinationSprite)
         }
         return view
     }
@@ -102,14 +96,16 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
     override fun onStringOptionSelected(spinnerId: Int?, string: String) {
         val context = view.context
 
-        if (string == context.getString(R.string.brick_glide_to_touch_position)) {
-            spinnerSelection = BrickValues.GLIDE_TO_TOUCH_POSITION
-            destinationSprite = null
-        }
+        when (string) {
+            context.getString(R.string.brick_glide_to_touch_position) -> {
+                spinnerSelection = BrickValues.GLIDE_TO_TOUCH_POSITION
+                destinationSprite = null
+            }
 
-        if (string == context.getString(R.string.brick_glide_to_random_position)) {
-            spinnerSelection = BrickValues.GLIDE_TO_RANDOM_POSITION
-            destinationSprite = null
+            context.getString(R.string.brick_glide_to_random_position) -> {
+                spinnerSelection = BrickValues.GLIDE_TO_RANDOM_POSITION
+                destinationSprite = null
+            }
         }
     }
 

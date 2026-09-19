@@ -45,9 +45,9 @@ class GlideToTouchPositionAction : TemporalAction() {
     }
 
     override fun act(delta: Float): Boolean {
-        if (!touchFound){
+        if (!touchFound) {
             touchIndex = TouchUtil.getLastTouchIndex()
-            if(touchIndex > 0 && TouchUtil.isFingerTouching(touchIndex)){
+            if (touchIndex > 0 && TouchUtil.isFingerTouching(touchIndex)) {
                 touchFound = true
                 touchXPosition = TouchUtil.getX(touchIndex)
                 touchYPosition = TouchUtil.getY(touchIndex)
@@ -57,13 +57,14 @@ class GlideToTouchPositionAction : TemporalAction() {
         }
         return super.act(delta)
     }
-    override fun update(percent: Float) {
 
-        currentXPosition = startXPosition + (touchXPosition-startXPosition)*percent
-        currentYPosition = startYPosition + (touchYPosition-startYPosition)*percent
-        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition,currentYPosition)
+    override fun update(percent: Float) {
+        currentXPosition = startXPosition + (touchXPosition - startXPosition) * percent
+        currentYPosition = startYPosition + (touchYPosition - startYPosition) * percent
+        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
     }
-    override fun end(){
+
+    override fun end() {
         super.end()
         scope.sprite.isGliding = false
     }

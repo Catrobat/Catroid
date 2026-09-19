@@ -38,8 +38,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.utils.TouchUtil
 import org.koin.java.KoinJavaComponent
 
@@ -48,14 +47,13 @@ class GlideToTouchPositionActionTest {
 
     private lateinit var sprite: Sprite
     private lateinit var action: GlideToTouchPositionAction
-    private  val EXPECTED_X_POSITION =20f;
-    private  val EXPECTED_Y_POSITION =40f;
+    private val EXPECTED_X_POSITION = 20f
+    private val EXPECTED_Y_POSITION = 40f
     private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
 
     @Before
     @Throws(Exception::class)
-    fun SetUp() {
-
+    fun setUp() {
 
         val project = Project()
         projectManager.currentProject = project
@@ -73,7 +71,7 @@ class GlideToTouchPositionActionTest {
     }
 
     @Test
-    public fun testGlideToTouchPositionDestination() {
+    fun testGlideToTouchPositionDestination() {
 
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
@@ -90,7 +88,7 @@ class GlideToTouchPositionActionTest {
     }
 
     @Test
-    public fun testGlideToBehavior(){
+    fun testGlideToBehavior() {
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
 

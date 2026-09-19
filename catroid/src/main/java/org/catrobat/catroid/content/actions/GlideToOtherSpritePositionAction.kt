@@ -36,7 +36,6 @@ class GlideToOtherSpritePositionAction : TemporalAction() {
     var currentXPosition: Float = 0f
     var currentYPosition: Float = 0f
 
-
     override fun begin() {
         super.begin()
         scope.sprite.isGliding = true
@@ -46,19 +45,19 @@ class GlideToOtherSpritePositionAction : TemporalAction() {
 
     override fun act(delta: Float): Boolean {
         return super.act(delta)
-
     }
+
     override fun update(percent: Float) {
-        val destinationLook = destinationSprite?.look?:return
+        val destinationLook = destinationSprite?.look ?: return
         destinationXPosition = destinationLook.xInUserInterfaceDimensionUnit
         destinationYPosition = destinationLook.yInUserInterfaceDimensionUnit
-        currentXPosition = startXPosition + (destinationXPosition-startXPosition)*percent
-        currentYPosition = startYPosition + (destinationYPosition-startYPosition)*percent
-        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition,currentYPosition)
+        currentXPosition = startXPosition + (destinationXPosition - startXPosition) * percent
+        currentYPosition = startYPosition + (destinationYPosition - startYPosition) * percent
+        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
     }
-    override fun end(){
+
+    override fun end() {
         super.end()
         scope.sprite.isGliding = false
     }
-
 }

@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.content.Scope
 
-
 class GlideToRandomPositionAction : TemporalAction() {
     lateinit var scope: Scope
     private var startXPosition: Float = 0f
@@ -35,7 +34,6 @@ class GlideToRandomPositionAction : TemporalAction() {
     var randomYPosition: Float = 0f
     var currentXPosition: Float = 0f
     var currentYPosition: Float = 0f
-
 
     override fun begin() {
         super.begin()
@@ -49,14 +47,13 @@ class GlideToRandomPositionAction : TemporalAction() {
     }
 
     override fun update(percent: Float) {
-
-        currentXPosition = startXPosition + (randomXPosition-startXPosition)*percent
-        currentYPosition = startYPosition + (randomYPosition-startYPosition)*percent
-       scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition,currentYPosition)
+        currentXPosition = startXPosition + (randomXPosition-startXPosition) * percent
+        currentYPosition = startYPosition + (randomYPosition-startYPosition) * percent
+        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition,currentYPosition)
     }
+
     override fun end(){
         super.end()
         scope.sprite.isGliding = false
     }
-
 }
