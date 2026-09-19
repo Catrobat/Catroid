@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,8 @@
         意図した動作のためには必要なことかもしれません。しかし、プロジェクトの実行中にあなたが話していることが安全であることを確認してください。
         プロジェクトが実行されている間のあなたの発言が安全であることを確認してください。疑わしい場合には、ダウンロードしたプロジェクトを削除してください。
         また、このプロジェクトが有害であることが確実な場合には、Catrobat コミュニティ・プラットフォームのプロジェクト・ページで報告することもできます。
-        有害であると確信している場合は、Catrobat コミュニティ・プラットフォームのプロジェクト・ページで報告することもできます。</string>
+        有害であると確信している場合は、Catrobat コミュニティ・プラットフォームのプロジェクト・ページで報告することもできます。
+</string>
     <!-- Replace Api dialog -->
     <string formatted="false" name="api_replacement_dialog_neutral">変更せずにアップロード</string>
     <string formatted="false" name="api_replacement_dialog_accept">アップロードにキーを置き換えました</string>
@@ -1096,7 +1097,8 @@
         悪意のある他者や公衆に公開される可能性があります。詳しくは
         &lt;a href=%1s&gt;ウィキ &lt;/a&gt; の詳細はこちらをご覧ください。
         は非常に危険です。
-    </string>
+    
+</string>
     <string formatted="false" name="web_request_trust_domain_warning_title">常にウェブアクセスを許可しますか？</string>
     <string formatted="false" name="web_request_trust_domain_warning_message">常にアクセスを許可することで、
         このドメインのWebアドレスを確認するように再度要求されることはありません。
@@ -1316,6 +1318,22 @@
     <string formatted="false" name="raspi_settings_gpio_version">GPIO バージョン</string>
     <string formatted="false" name="error_connecting_to">エラー: %s に接続できませんでした: %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">ユーザー名</string>
+    <string formatted="false" name="preference_title_mqtt_password">パスワード</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">NXT モーターを設定</string>
     <string formatted="false" name="nxt_motor_speed_to">先</string>
@@ -1477,16 +1495,14 @@
     <string formatted="false" name="sound_insect">昆虫（虫）</string>
     <string formatted="false" name="sound_monster">モンスター</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">左</string>
     <string formatted="false" name="direction_right">右</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">次の</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">次の</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1907,7 +1923,8 @@
     <string formatted="false" name="formula_editor_intro_summary_data">プログラムで使用される変数やリストをここで見つけることができます。\n数式にこれらを挿入したり、新しいものを追加することができます。</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">聞いている言語</string>
     <string formatted="false" name="formula_editor_speech_recognition">音声認識</string>
-    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_text_detection">
+        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">数式のようなテキストを入力しました。関数、センサー、変数などの数式要素を使用したい場合は
         関数、センサー、変数などの数式要素を使いたい場合は、数式エディターのボタンで選択してください。
@@ -1933,9 +1950,11 @@
     <string formatted="false" name="brick_choose_camera">使用カメラ</string>
     <string formatted="false" name="choose_camera_front">前面</string>
     <string formatted="false" name="choose_camera_back">背面へ</string>
-    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string formatted="false" name="camera_error_generic">
+        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_face_detection">
+        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
@@ -2034,4 +2053,12 @@
     <string formatted="false" name="undo_sort">並べ替えを取り消す</string>
     <string formatted="false" name="sort">並べ替え</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
