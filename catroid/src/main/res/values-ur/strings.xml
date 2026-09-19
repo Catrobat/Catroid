@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1343,6 +1343,22 @@
     <string formatted="false" name="raspi_settings_gpio_version">GPIO ورژن</string>
     <string formatted="false" name="error_connecting_to">خرابی:٪ %s سے منسلک نہیں کیا جا سکتا:٪ %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">صارف کا نام</string>
+    <string formatted="false" name="preference_title_mqtt_password">خفیہ کوڈ</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">NXT موٹر مقرر کریں</string>
     <string formatted="false" name="nxt_motor_speed_to">کرنا</string>
@@ -1504,16 +1520,14 @@
     <string formatted="false" name="sound_insect">کیڑے</string>
     <string formatted="false" name="sound_monster">مونسٹر</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">بائیں</string>
     <string formatted="false" name="direction_right">دائیں</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">کےلیے</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">کےلیے</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1907,7 +1921,8 @@
     <string formatted="false" name="formula_editor_function_text_block_from_camera">کیمرے سے ٹیکسٹ بلاک</string>
     <string formatted="false" name="formula_editor_function_text_block_language_from_camera">کیمرے سے ٹیکسٹ بلاک کی زبان</string>
     <string formatted="false" name="formula_editor_function_text_block_parameter">(1)</string>
-    <string formatted="false" name="formula_editor_function_get_id_of_detected_object">شناخت شدہ چیز کی ID</string>
+    <string formatted="false" name="formula_editor_function_get_id_of_detected_object">شناخت شدہ چیز کی ID
+</string>
     <string formatted="false" name="formula_editor_function_object_with_id_visible">ID کے ساتھ آبجیکٹ نظر آتا ہے۔</string>
     <string formatted="false" name="formula_editor_intro_title_formula_editor">فارمولہ ایڈیٹر
  </string>
@@ -1938,7 +1953,8 @@
     <string formatted="false" name="formula_editor_intro_summary_data">متغیرات اور فہرستیں جو آپ کے منصوبے میں استعمال ہوتے ہیں یہاں پایا جا سکتا ہے. \ آپ ان کو اپنی فارمولہ میں داخل کر سکتے ہیں، یا نئے شامل کریں.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">سننے کی زبان</string>
     <string formatted="false" name="formula_editor_speech_recognition">تقریر کی پہچان</string>
-    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_text_detection">
+        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز، 
         سینسرز، متغیرات اور دیگر فارمولہ عناصر استعمال کرنا چاہتے ہیں، تو براہ کرم فارمولا ایڈیٹر میں 
@@ -1964,7 +1980,8 @@
     <string formatted="false" name="brick_choose_camera">کیمرے کا استعمال کریں</string>
     <string formatted="false" name="choose_camera_front">سامنے</string>
     <string formatted="false" name="choose_camera_back">پیچھے</string>
-    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string formatted="false" name="camera_error_generic">
+        Something went wrong while trying to use the camera.
     </string>
     <string formatted="false" name="camera_error_face_detection">چہرہ شناخت کرنے میں مسئلہ تھا۔ کچھ اجزاء اب بھی پس منظر میں ڈاؤن لوڈ ہو سکتے ہیں۔
           براہ کرم یقینی بنائیں کہ آپ انٹرنیٹ سے منسلک ہیں اور بعد میں دوبارہ چیک کریں۔</string>
@@ -2051,4 +2068,12 @@
     <string formatted="false" name="undo_sort"> بلا ترتیب</string>
     <string formatted="false" name="sort">با ترتیب </string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -477,12 +477,14 @@
     </plurals>
     <plurals name="unpacked_scripts">
         <item quantity="one">अनपैक %d लिपि।</item>
-        <item quantity="other">अनपेक्षित %d स्क्रिप्ट।</item>
+        <item quantity="other">
+अनपेक्षित %d स्क्रिप्ट।</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
         <item quantity="one">%d दृश्य को कॉपी किया गया।</item>
-        <item quantity="other">%d दृश्यों को कॉपी किया गया।</item>
+        <item quantity="other">
+%d दृश्यों को कॉपी किया गया।</item>
     </plurals>
     <plurals name="copied_sprites">
         <item quantity="one">%d अभिनेता या वस्तु की प्रतिलिपि बनाई गई।</item>
@@ -779,7 +781,8 @@
     <string formatted="false" name="prestage_resource_not_available_title">घटक उपलब्ध नहीं है</string>
     <string formatted="false" name="prestage_resource_not_available_text">दुर्भाग्य से यह प्रोजेक्ट आपके डिवाइस पर काम नहीं करता है।
         निम्नलिखित घटक अनुपलब्ध हैं: \n\n</string>
-    <string formatted="false" name="prestage_no_vibration_available">\u2022 कंपन \n</string>
+    <string formatted="false" name="prestage_no_vibration_available">
+\u2022 कंपन \n</string>
     <string formatted="false" name="prestage_no_acceleration_sensor_available">\u2022 त्वरण संवेदक\n</string>
     <string formatted="false" name="prestage_no_inclination_sensor_available">\u2022 त्वरण संवेदक\n</string>
     <string formatted="false" name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
@@ -1367,6 +1370,22 @@
     <string formatted="false" name="raspi_settings_gpio_version">GPIO संस्करण</string>
     <string formatted="false" name="error_connecting_to">त्रुटि: %s : %d से कनेक्ट नहीं हो सका</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">उपयोगकर्ता नाम:</string>
+    <string formatted="false" name="preference_title_mqtt_password">पारण शब्द:</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">NXT मोटर सेट करें</string>
     <string formatted="false" name="nxt_motor_speed_to">को</string>
@@ -1534,16 +1553,14 @@
     <string formatted="false" name="sound_insect">कीट</string>
     <string formatted="false" name="sound_monster">राक्षस</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">बाएं</string>
     <string formatted="false" name="direction_right">सही</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">के लिये</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">के लिये</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1859,7 +1876,8 @@
     <string formatted="false" name="formula_editor_sensor_face_x_position">चेहरे की एक्स स्थिति</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">चेहरे की वाई स्थिति</string>
     <string formatted="false" name="formula_editor_sensor_second_face_detected">दूसरा चेहरा दिखाई दे रहा है</string>
-    <string formatted="false" name="formula_editor_sensor_second_face_size">दूसरा चेहरा आकार</string>
+    <string formatted="false" name="formula_editor_sensor_second_face_size">दूसरा चेहरा आकार
+</string>
     <string formatted="false" name="formula_editor_sensor_second_face_x_position">दूसरा चेहरा एक्स स्थिति</string>
     <string formatted="false" name="formula_editor_sensor_second_face_y_position">दूसरा चेहरा y स्थिति</string>
     <string formatted="false" name="formula_editor_sensor_head_top_x">सिर के ऊपर x</string>
@@ -1969,11 +1987,13 @@
     <string formatted="false" name="formula_editor_intro_summary_device">\"सेंसर\" में आप जानकारी प्राप्त कर सकते हैं कि आपकी
         डिवाइस रिकॉर्ड। \n उदाहरण के लिए, आपके डिवाइस का झुकाव, या आपके परिवेश का ज़ोर।</string>
     <string formatted="false" name="formula_editor_intro_title_data">डेटा</string>
-    <string formatted="false" name="formula_editor_intro_summary_data">चर और सूचियाँ जो आपके प्रोजेक्ट में उपयोग की जाती हैं, उन्हें यहाँ पाया जा सकता है।
+    <string formatted="false" name="formula_editor_intro_summary_data">
+चर और सूचियाँ जो आपके प्रोजेक्ट में उपयोग की जाती हैं, उन्हें यहाँ पाया जा सकता है।
         \n आप बस इन्हें अपने सूत्र में सम्मिलित कर सकते हैं, या नए जोड़ सकते हैं।</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">सुनने की भाषा</string>
     <string formatted="false" name="formula_editor_speech_recognition">वाक् पहचान</string>
-    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_text_detection">
+        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">आपने एक सूत्र की तरह दिखने वाला पाठ दर्ज किया है। यदि आप कार्यों का उपयोग करना चाहते हैं,
         सेंसर, चर और अन्य सूत्र तत्व, कृपया उनका उपयोग करने के बजाय उनका चयन करें
@@ -1999,9 +2019,11 @@
     <string formatted="false" name="brick_choose_camera">कैमरे का उपयोग करें</string>
     <string formatted="false" name="choose_camera_front">सामने</string>
     <string formatted="false" name="choose_camera_back">पीछे</string>
-    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string formatted="false" name="camera_error_generic">
+        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_face_detection">
+        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
@@ -2101,4 +2123,12 @@
     <string formatted="false" name="undo_sort">पूर्ववत क्रमबद्ध करें</string>
     <string formatted="false" name="sort">क्रमबद्ध</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
