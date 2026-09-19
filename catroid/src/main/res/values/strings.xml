@@ -1007,6 +1007,8 @@
     <string formatted="false" name="brick_go_to">Go to</string>
     <string formatted="false" name="brick_go_to_touch_position">touch position</string>
     <string formatted="false" name="brick_go_to_random_position">random position</string>
+    <string formatted="false" name="brick_glide_to_touch_position">touch position</string>
+    <string formatted="false" name="brick_glide_to_random_position">random position</string>
     <!--  -->
 
     <!-- Physics -->

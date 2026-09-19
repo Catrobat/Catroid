@@ -68,7 +68,10 @@ import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
+import org.catrobat.catroid.content.actions.GlideToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
+import org.catrobat.catroid.content.actions.GlideToRandomPositionAction;
+import org.catrobat.catroid.content.actions.GlideToTouchPositionAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoThroughAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -206,6 +209,7 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -373,6 +377,35 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
+	}
+
+	public Action createGlideToPositionAction(Sprite sprite,
+			Sprite destinationSprite, SequenceAction sequence,
+			Formula duration, int spinnerSelection) throws InterpretationException {
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		switch (spinnerSelection) {
+			case BrickValues.GLIDE_TO_RANDOM_POSITION:
+				GlideToRandomPositionAction randomAction =
+						action(GlideToRandomPositionAction.class);
+				randomAction.setScope(scope);
+				randomAction.setDuration(duration.interpretFloat(scope));
+				return randomAction;
+			case BrickValues.GLIDE_TO_TOUCH_POSITION:
+				GlideToTouchPositionAction touchAction =
+						action(GlideToTouchPositionAction.class);
+				touchAction.setScope(scope);
+				touchAction.setDuration(duration.interpretFloat(scope));
+				return touchAction;
+			case BrickValues.GLIDE_TO_OTHER_SPRITE_POSITION:
+				GlideToOtherSpritePositionAction otherSpritePositionAction =
+						action(GlideToOtherSpritePositionAction.class);
+				otherSpritePositionAction.setScope(scope);
+				otherSpritePositionAction.setDuration(duration.interpretFloat(scope));
+				otherSpritePositionAction.setDestinationSprite(destinationSprite);
+				return otherSpritePositionAction;
+			default:
+				return null;
+		}
 	}
 
 	public Action createPlaceAtAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y) {
@@ -608,7 +641,6 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		return action;
 	}
-
 
 	public Action createStartCutAction(Sprite sprite) {
 		StartCutAction action = Actions.action(StartCutAction.class);
@@ -1232,14 +1264,15 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+	public Action createSavePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName) {
 		SavePlotAction action = Actions.action(SavePlotAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(fileName);
 		return action;
 	}
-	public Action createSaveLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+
+	public Action createSaveLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName) {
 		SaveLaserAction action = Actions.action(SaveLaserAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -1247,14 +1280,15 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSharePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+	public Action createSharePlotAction(Sprite sprite, SequenceAction sequence, Formula fileName) {
 		SharePlotAction action = Actions.action(SharePlotAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(fileName);
 		return action;
 	}
-	public Action createShareLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName){
+
+	public Action createShareLaserAction(Sprite sprite, SequenceAction sequence, Formula fileName) {
 		ShareLaserAction action = Actions.action(ShareLaserAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -1540,7 +1574,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createRepeatParameterizedAction(Sprite sprite, ParameterizedData data,
-			List<? extends Pair<UserList, UserVariable>> parameters,
+			List<Pair<UserList, UserVariable>> parameters,
 			String position, Action repeatedAction, boolean isLoopDelay) {
 		RepeatParameterizedAction action = action(RepeatParameterizedAction.class);
 		action.setParameterizedData(data);
