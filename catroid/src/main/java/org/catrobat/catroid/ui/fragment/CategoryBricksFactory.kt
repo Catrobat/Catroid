@@ -479,7 +479,7 @@ open class CategoryBricksFactory {
             GlideToBrick(
                 BrickValues.X_POSITION,
                 BrickValues.Y_POSITION,
-                GLIDE_SECONDS)
+                BrickValues.GLIDE_SECONDS)
         )
         motionBrickList.add(GlideToPositionBrick(GLIDE_SECONDS))
         if (!isBackgroundSprite) {
