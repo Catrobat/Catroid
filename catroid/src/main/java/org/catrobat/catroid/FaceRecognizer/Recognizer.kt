@@ -44,7 +44,7 @@ class Recognizer private constructor() {
     }
 
     @get:Synchronized
-    val classNames: MutableList<String>
+    val classNames: List<String>
         get() {
             database.ensureFresh()
             return database.getNames()
@@ -115,13 +115,13 @@ class Recognizer private constructor() {
     @RequiresApi(Build.VERSION_CODES.N)
     fun extractEmbeddingsAsync(
         resolver: ContentResolver?,
-        uris: MutableList<Uri?>?,
+        uris: List<Uri?>?,
         listener: ProgressListener?,
         callback: EnrolCallback?
     ): EnrolTask {
         val task = EnrolTask()
         val mainHandler = Handler(Looper.getMainLooper())
-        val safeUris = uris.orEmpty().filterNotNull().toMutableList()
+        val safeUris = uris.orEmpty().filterNotNull()
 
         val worker = Thread(
             {
@@ -1195,19 +1195,21 @@ class Recognizer private constructor() {
                     return null
                 }
 
-                decoded = BitmapFactory.decodeFileDescriptor(
+                val bitmap = BitmapFactory.decodeFileDescriptor(
                     descriptor.fileDescriptor,
                     null,
                     options
                 )
 
-                if (decoded == null) {
+                if (bitmap == null) {
                     lastDecodeProblem = "decoder returned no bitmap"
                     return null
                 }
 
+                // Kept in decoded so the catch blocks can recycle it.
+                decoded = bitmap
                 decoded = reduceOversizedBitmap(
-                    bitmap = requireNotNull(decoded),
+                    bitmap = bitmap,
                     maxSide = maxSide
                 )
 
@@ -1321,7 +1323,7 @@ class Recognizer private constructor() {
     fun selfTest(): String {
         database.ensureFresh()
 
-        val names: List<String> = database.getNames().toList()
+        val names: List<String> = database.getNames()
 
         if (names.isEmpty()) {
             return "Nothing trained yet."

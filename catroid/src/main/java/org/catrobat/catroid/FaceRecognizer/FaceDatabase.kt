@@ -155,7 +155,7 @@ class FaceDatabase {
     }
 
     private fun loadModel(): Boolean {
-        val lines = readLines(FileUtils.MODEL_FILE)
+        val lines: List<String> = readLines(FileUtils.MODEL_FILE)
 
         if (lines.isEmpty()) {
             return false
@@ -312,8 +312,8 @@ class FaceDatabase {
     }
 
     @Synchronized
-    fun getNames(): MutableList<String> {
-        return ArrayList<String>(names)
+    fun getNames(): List<String> {
+        return names.toList()
     }
 
     @get:Synchronized
@@ -345,7 +345,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size) {
             return null
         }
-        val list = samples[index]
+        val list: List<FloatArray> = samples[index]
         val out = FloatArray(list.size)
         for (i in list.indices) {
             var best: Float = NO_SCORE
@@ -386,7 +386,7 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size) {
             return NO_SCORE
         }
-        val list = samples[index]
+        val list: List<FloatArray> = samples[index]
         if (list.size < 2) {
             return NO_SCORE
         }
