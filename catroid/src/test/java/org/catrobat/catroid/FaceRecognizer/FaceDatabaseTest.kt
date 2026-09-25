@@ -19,8 +19,16 @@ class FaceDatabaseTest {
 
     private lateinit var database: FaceDatabase
 
+    // The thresholds are process-wide statics. Remember them so this class does
+    // not leak its values into whichever test runs next in the same JVM.
+    private var savedMinSimilarity = 0f
+    private var savedMinMargin = 0f
+
     @Before
     fun setUp() {
+        savedMinSimilarity = FaceDatabase.minSimilarity
+        savedMinMargin = FaceDatabase.minMargin
+
         val context = ApplicationProvider.getApplicationContext<Context>()
         FileUtils.init(context)
         FileUtils.deleteAll()
@@ -32,6 +40,8 @@ class FaceDatabaseTest {
     @After
     fun tearDown() {
         FileUtils.deleteAll()
+        FaceDatabase.minSimilarity = savedMinSimilarity
+        FaceDatabase.minMargin = savedMinMargin
     }
 
     @Test

@@ -31,6 +31,7 @@ import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
+import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
 class FaceNameTrainAction : Action() {
@@ -107,11 +108,19 @@ class FaceNameTrainAction : Action() {
         // ---------------- Test surface ----------------
         // Everything above is private and static, which is what lets training
         // survive the stage being destroyed. That also makes it untestable from
-        // outside, so these few accessors exist purely for the unit tests.
+        // outside, so these few accessors exist for the tests. They are internal:
+        // visible to this module's test source sets, not part of the public API.
+
+        /**
+         * Window the dialogs attach to when there is no StageActivity (UI tests).
+         * Weak, so a test host can never be leaked by this static; set only by
+         * [openMenuForTest] and cleared by [resetStateForTest].
+         */
+        private var testHost: WeakReference<Activity>? = null
 
         @VisibleForTesting
         @JvmStatic
-        fun resetStateForTest(context: Context?) {
+        internal fun resetStateForTest(context: Context?) {
             appContext = context?.applicationContext
             pendingName = null
             trainingInProgress = false
@@ -125,37 +134,32 @@ class FaceNameTrainAction : Action() {
             progressShownAt = 0L
             progressRetryScheduled = false
             currentInstance = null
-            testActivity = null
+            testHost = null
         }
 
         @VisibleForTesting
         @JvmStatic
-        fun setPendingNameForTest(name: String?) {
+        internal fun setPendingNameForTest(name: String?) {
             pendingName = name
         }
 
         @VisibleForTesting
         @JvmStatic
-        fun getPendingNameForTest(): String? = pendingName
+        internal fun getPendingNameForTest(): String? = pendingName
 
         @VisibleForTesting
         @JvmStatic
-        fun setTrainingForTest(active: Boolean) {
+        internal fun setTrainingForTest(active: Boolean) {
             trainingInProgress = active
         }
 
         @VisibleForTesting
         @JvmStatic
-        fun isTrainingForTest(): Boolean = trainingInProgress
+        internal fun isTrainingForTest(): Boolean = trainingInProgress
 
         @VisibleForTesting
         @JvmStatic
-        fun getProgressForTest(): IntArray = intArrayOf(progressDone, progressTotal)
-
-        /** Host activity for UI tests. Null in production, always. */
-        @VisibleForTesting
-        @JvmStatic
-        var testActivity: Activity? = null
+        internal fun getProgressForTest(): IntArray = intArrayOf(progressDone, progressTotal)
     }
 
     private var recognizer: Recognizer? = null
@@ -235,7 +239,7 @@ class FaceNameTrainAction : Action() {
      * dialog to a window with no token throws.
      */
     private fun liveActivity(): Activity? {
-        testActivity?.let {
+        testHost?.get()?.let {
             return if (it.isFinishing || it.isDestroyed) null else it
         }
         val a = stageActivity() ?: return null
@@ -802,10 +806,11 @@ class FaceNameTrainAction : Action() {
         }
     }
 
-    /** Opens the main menu against whatever activity is current. Tests only. */
+    /** Opens the main menu on [host] instead of a StageActivity. Tests only. */
     @VisibleForTesting
-    fun openMenuForTest(context: Context) {
-        appContext = context.applicationContext
+    internal fun openMenuForTest(host: Activity) {
+        testHost = WeakReference(host)
+        appContext = host.applicationContext
         currentInstance = this
         if (initRecognizer()) {
             showCurrentScreen()

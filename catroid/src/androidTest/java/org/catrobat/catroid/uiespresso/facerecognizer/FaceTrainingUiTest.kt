@@ -7,7 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingPolicies
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -35,11 +39,11 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class FaceTrainingUiTest {
@@ -48,6 +52,7 @@ class FaceTrainingUiTest {
     private lateinit var testContext: Context
     private lateinit var scenario: ActivityScenario<TestHostActivity>
     private lateinit var action: FaceNameTrainAction
+    private val trainingIdle = TrainingIdlingResource()
 
     @Before
     fun setUp() {
@@ -58,18 +63,26 @@ class FaceTrainingUiTest {
         Recognizer.release()
         FaceNameTrainAction.resetStateForTest(appContext)
 
+        // Espresso waits for the background training through this resource
+        // instead of the test polling with Thread.sleep.
+        IdlingPolicies.setIdlingResourceTimeout(TRAINING_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        IdlingPolicies.setMasterPolicyTimeout(TRAINING_TIMEOUT_SECONDS * 2, TimeUnit.SECONDS)
+        IdlingRegistry.getInstance().register(trainingIdle)
+
         Intents.init()
         scenario = ActivityScenario.launch(TestHostActivity::class.java)
         scenario.onActivity { activity ->
-            FaceNameTrainAction.testActivity = activity
             action = FaceNameTrainAction()
             action.openMenuForTest(activity)
         }
-        waitForUi()
+        onIdle()
     }
 
     @After
     fun tearDown() {
+        IdlingRegistry.getInstance().unregister(trainingIdle)
+        IdlingPolicies.setIdlingResourceTimeout(DEFAULT_IDLING_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        IdlingPolicies.setMasterPolicyTimeout(DEFAULT_MASTER_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         FaceNameTrainAction.resetStateForTest(null)
         if (::scenario.isInitialized) scenario.close()
         Intents.release()
@@ -94,7 +107,7 @@ class FaceTrainingUiTest {
     fun emptyLabelIsRejectedAndPickerDoesNotOpen() {
         openNewLabelDialog()
         onView(withText(text(R.string.face_train_next))).inRoot(isDialog()).perform(click())
-        waitForUi()
+        onIdle()
 
         assertTrue(recognizer().classNames.isEmpty())
         onView(withText(text(R.string.face_train_new_name_title)))
@@ -126,7 +139,7 @@ class FaceTrainingUiTest {
         stubPicker(Activity.RESULT_CANCELED, null)
 
         onView(withText("Person A")).inRoot(isDialog()).perform(click())
-        waitForUi()
+        onIdle()
 
         intended(hasAction(Intent.ACTION_OPEN_DOCUMENT))
     }
@@ -186,6 +199,55 @@ class FaceTrainingUiTest {
         assertFalse(FaceNameTrainAction.isTrainingForTest())
     }
 
+    /**
+     * StageActivity and StageResourceHolder may both forward the same picker
+     * result. The first one must start training; a second one arriving while
+     * training runs must be ignored and must not start a second run.
+     *
+     * The first call is the positive control: a handleResult() that did nothing
+     * would never start training and fail the first assertion.
+     */
+    @Test
+    fun duplicatePickerResultDuringTrainingIsIgnored() {
+        recognizer().addPerson("Person A")
+        val onePhoto = Intent().setData(requiredAssetUri("faces/p01_train1.jpg"))
+        val twoPhotos = Intent().apply {
+            clipData = ClipData.newUri(
+                appContext.contentResolver, "face", requiredAssetUri("faces/p01_train2.jpg")
+            ).apply { addItem(ClipData.Item(requiredAssetUri("faces/p01_train3.jpg"))) }
+        }
+
+        scenario.onActivity {
+            FaceNameTrainAction.setPendingNameForTest("Person A")
+            action.handleResult(FaceNameTrainAction.REQUEST_FIRST, Activity.RESULT_OK, onePhoto)
+            assertTrue(
+                "The first picker result must start training",
+                FaceNameTrainAction.isTrainingForTest()
+            )
+            assertEquals(1, FaceNameTrainAction.getProgressForTest()[1])
+
+            // Re-arm the pending name so that only the in-progress guard can stop
+            // the duplicate from starting a second, two-photo run.
+            FaceNameTrainAction.setPendingNameForTest("Person A")
+            action.handleResult(FaceNameTrainAction.REQUEST_FIRST, Activity.RESULT_OK, twoPhotos)
+
+            assertEquals(
+                "A duplicate result must not replace the running training",
+                1,
+                FaceNameTrainAction.getProgressForTest()[1]
+            )
+            assertEquals("Person A", FaceNameTrainAction.getPendingNameForTest())
+        }
+        waitForTrainingToFinish()
+
+        assertEquals(listOf(1, 1), FaceNameTrainAction.getProgressForTest().toList())
+        assertEquals(listOf("Person A"), recognizer().classNames)
+        assertTrue(
+            "The first result produced no saved embeddings",
+            recognizer().getPhotoCount(0) > 0
+        )
+    }
+
     @Test
     fun deleteNoKeepsLabel() {
         recognizer().addPerson("Person A")
@@ -193,7 +255,7 @@ class FaceTrainingUiTest {
 
         onView(withText(DELETE_SYMBOL)).inRoot(isDialog()).perform(click())
         onView(withText(text(R.string.face_train_no))).inRoot(isDialog()).perform(click())
-        waitForUi()
+        onIdle()
 
         assertEquals(listOf("Person A"), recognizer().classNames)
     }
@@ -213,7 +275,7 @@ class FaceTrainingUiTest {
 
         onView(withText(DELETE_SYMBOL)).inRoot(isDialog()).perform(click())
         onView(withText(text(R.string.face_train_yes))).inRoot(isDialog()).perform(click())
-        waitForUi()
+        onIdle()
 
         assertTrue(recognizer().classNames.isEmpty())
         assertEquals(0, recognizer().getPhotoCount(0))
@@ -226,7 +288,7 @@ class FaceTrainingUiTest {
         onView(withText(text(R.string.face_train_add_new_name)))
             .inRoot(isDialog())
             .perform(click())
-        waitForUi()
+        onIdle()
     }
 
     private fun addLabelThroughUi(name: String) {
@@ -235,12 +297,12 @@ class FaceTrainingUiTest {
             .inRoot(isDialog())
             .perform(clearText(), typeText(name), closeSoftKeyboard())
         onView(withText(text(R.string.face_train_next))).inRoot(isDialog()).perform(click())
-        waitForUi()
+        onIdle()
     }
 
     private fun reopenMenu() {
         scenario.onActivity { action.openMenuForTest(it) }
-        waitForUi()
+        onIdle()
     }
 
     private fun stubPicker(resultCode: Int, data: Intent?) {
@@ -275,34 +337,42 @@ class FaceTrainingUiTest {
         throw AssertionError("Required test asset is missing: $assetPath", error)
     }
 
+    /**
+     * Espresso's onIdle() waits for the main looper and for [trainingIdle], so
+     * this returns once the picker result has been handled and any training it
+     * started has finished (or fails after TRAINING_TIMEOUT_SECONDS).
+     */
     private fun waitForTrainingToFinish() {
-        val startedDeadline = System.currentTimeMillis() + 10_000L
-        while (!FaceNameTrainAction.isTrainingForTest() &&
-            FaceNameTrainAction.getProgressForTest()[0] == 0 &&
-            System.currentTimeMillis() < startedDeadline
-        ) {
-            Thread.sleep(50L)
-        }
-
-        val finishedDeadline = System.currentTimeMillis() + 60_000L
-        while (FaceNameTrainAction.isTrainingForTest() &&
-            System.currentTimeMillis() < finishedDeadline
-        ) {
-            Thread.sleep(100L)
-        }
-        if (FaceNameTrainAction.isTrainingForTest()) {
-            fail("Face training did not finish within 60 seconds")
-        }
-        waitForUi()
+        onIdle()
+        assertFalse("Face training is still running", FaceNameTrainAction.isTrainingForTest())
     }
 
-    private fun waitForUi() {
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Thread.sleep(250L)
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+    /** Busy while FaceNameTrainAction reports a training run in progress. */
+    private class TrainingIdlingResource : IdlingResource {
+        @Volatile
+        private var callback: IdlingResource.ResourceCallback? = null
+
+        override fun getName(): String = "FaceNameTrainAction training"
+
+        override fun isIdleNow(): Boolean {
+            val idle = !FaceNameTrainAction.isTrainingForTest()
+            if (idle) {
+                callback?.onTransitionToIdle()
+            }
+            return idle
+        }
+
+        override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {
+            this.callback = callback
+        }
     }
 
     companion object {
         private const val DELETE_SYMBOL = "\u2715"
+        private const val TRAINING_TIMEOUT_SECONDS = 60L
+
+        /** Espresso's own defaults, restored so other test classes are unaffected. */
+        private const val DEFAULT_IDLING_TIMEOUT_SECONDS = 26L
+        private const val DEFAULT_MASTER_TIMEOUT_SECONDS = 60L
     }
 }

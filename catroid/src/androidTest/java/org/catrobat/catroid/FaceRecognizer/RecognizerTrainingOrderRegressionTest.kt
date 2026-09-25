@@ -1,16 +1,11 @@
 package org.catrobat.catroid.FaceRecognizer
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_A
+import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_B
+import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_C
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,97 +13,76 @@ import org.junit.runner.RunWith
 /**
  * Regression test for the historical "only the last-trained face is remembered" bug.
  *
- * The order is deliberately interleaved:
- * train A, train B, recognise A, train C, recognise B.
- * This must not be rewritten as "train everybody, then test everybody", because the
- * interleaving is the behaviour under test.
+ * The order is deliberately interleaved, and must not be rewritten as
+ * "train everybody, then test everybody", because the interleaving is the
+ * behaviour under test:
+ *
+ *   train A, train B
+ *   recognise A        -> A        (A checked while only two people exist)
+ *   recognise p03_test -> Unknown  (a real, untrained person is rejected)
+ *   train C            (C is the person in p03_*)
+ *   recognise B        -> B
+ *   recognise C        -> C        (the last-trained person is recognised)
+ *   recognise A        -> A        (the first-trained person is still recognised)
+ *   recognise no_face  -> null
+ *
+ * The sequence runs once through the stage's session path and once through
+ * recognize(), so a disagreement between the two paths is one red test rather
+ * than a silent pass. See [FaceRecognitionHarness] for what each path covers.
  */
 @RunWith(AndroidJUnit4::class)
 class RecognizerTrainingOrderRegressionTest {
 
-    private lateinit var appContext: Context
-    private lateinit var testContext: Context
-    private lateinit var recognizer: Recognizer
+    private val harness = FaceRecognitionHarness()
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        testContext = InstrumentationRegistry.getInstrumentation().context
-
-        FileUtils.init(appContext)
-        FileUtils.deleteAll()
-        Recognizer.release()
-        recognizer = Recognizer.getInstance(appContext)
+        harness.start()
     }
 
     @After
     fun tearDown() {
-        FileUtils.deleteAll()
-        Recognizer.release()
+        harness.stop()
     }
 
     @Test
-    fun earlierPeopleRemainRecognisableAfterLaterPeopleAreTrained() {
-        trainPerson("Person A", "p01")
-        trainPerson("Person B", "p02")
-
-        assertRecognisedAs("p01_test.jpg", "Person A")
-
-        trainPerson("Person C", "p03")
-
-        assertRecognisedAs("p02_test.jpg", "Person B")
-        assertEquals(listOf("Person A", "Person B", "Person C"), recognizer.classNames)
+    fun stagePathKeepsEveryPersonRecognisableWhilePeopleAreAdded() {
+        runSequence(harness.StagePath())
     }
 
-    private fun trainPerson(name: String, assetPrefix: String) {
-        val personIndex = recognizer.addPerson(name)
-        var storedCount = 0
-
-        for (photoNumber in 1..4) {
-            val fileName = "${assetPrefix}_train$photoNumber.jpg"
-            val bitmap = requiredBitmap(fileName)
-            try {
-                val embeddings = recognizer.embedFrame(bitmap)
-                assertFalse(
-                    "$fileName produced no face embedding; the fixture or pipeline is invalid",
-                    embeddings.isEmpty()
-                )
-                storedCount = recognizer.addEmbeddings(personIndex, embeddings)
-            } finally {
-                bitmap.recycle()
-            }
-        }
-
-        assertTrue("No embeddings were stored for $name", storedCount > 0)
+    @Test
+    fun recognizePathFollowsTheSameSequence() {
+        runSequence(harness.RecognizePath())
     }
 
-    private fun assertRecognisedAs(fileName: String, expectedName: String) {
-        val bitmap = requiredBitmap(fileName)
-        try {
-            val result = recognizer.recognize(bitmap, true)
-            assertNotNull("$fileName was returned as Unknown", result)
-            assertEquals(
-                "$fileName was confused after another person was trained",
-                expectedName,
-                result?.name
-            )
-        } finally {
-            bitmap.recycle()
-        }
+    @Test
+    fun stagePathStillRecognisesEveryoneAfterRecognizerRestart() {
+        harness.trainPerson(PERSON_A, "p01")
+        harness.trainPerson(PERSON_B, "p02")
+        harness.trainPerson(PERSON_C, "p03")
+
+        harness.restartRecognizer()
+
+        val stage = harness.StagePath()
+        assertEquals(listOf(PERSON_A, PERSON_B, PERSON_C), harness.recognizer.classNames)
+        stage.assertRecognisedAs("p01_test.jpg", PERSON_A)
+        stage.assertRecognisedAs("p02_test.jpg", PERSON_B)
+        stage.assertRecognisedAs("p03_test.jpg", PERSON_C)
     }
 
-    private fun requiredBitmap(fileName: String): Bitmap {
-        val assetPath = "faces/$fileName"
-        val bitmap = try {
-            testContext.assets.open(assetPath).use { input ->
-                BitmapFactory.decodeStream(input)
-            }
-        } catch (error: Exception) {
-            throw AssertionError("Required test asset is missing: $assetPath", error)
-        }
+    private fun runSequence(path: FaceRecognitionHarness.RecognitionPath) {
+        harness.trainPerson(PERSON_A, "p01")
+        harness.trainPerson(PERSON_B, "p02")
 
-        return requireNotNull(bitmap) {
-            "Required test asset could not be decoded: $assetPath"
-        }
+        path.assertRecognisedAs("p01_test.jpg", PERSON_A)
+        path.assertUnknown("p03_test.jpg")
+
+        harness.trainPerson(PERSON_C, "p03")
+        assertEquals(listOf(PERSON_A, PERSON_B, PERSON_C), harness.recognizer.classNames)
+
+        path.assertRecognisedAs("p02_test.jpg", PERSON_B)
+        path.assertRecognisedAs("p03_test.jpg", PERSON_C)
+        path.assertRecognisedAs("p01_test.jpg", PERSON_A)
+        path.assertUnknown("no_face.jpeg")
     }
 }

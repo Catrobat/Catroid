@@ -27,6 +27,7 @@ import android.util.Rational
 import android.util.Size
 import android.view.Surface
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
 import org.catrobat.catroid.formulaeditor.SensorHandler
@@ -292,8 +293,35 @@ object FaceDetector {
             return false
         }
 
-        Session(context.getApplicationContext(), safeCallback).start()
+        captureStarter.start(context.getApplicationContext()) { name, confidence ->
+            finish(name, confidence, safeCallback)
+        }
         return true
+    }
+
+    /**
+     * Runs one capture and reports the recognised name, or [UNKNOWN], exactly once.
+     *
+     * In the app this is always the camera [Session]. Tests replace it so the
+     * brick -> detector -> sensor chain can run without a camera; everything
+     * around it (permission check, run gate, [finish] writing the sensor) stays
+     * the production code.
+     */
+    fun interface CaptureStarter {
+        fun start(context: Context, onResult: Callback)
+    }
+
+    private val cameraCapture = CaptureStarter { context, onResult ->
+        Session(context, onResult).start()
+    }
+
+    @VisibleForTesting
+    @Volatile
+    internal var captureStarter: CaptureStarter = cameraCapture
+
+    @VisibleForTesting
+    internal fun useCameraCapture() {
+        captureStarter = cameraCapture
     }
 
     @Synchronized
@@ -682,7 +710,7 @@ object FaceDetector {
             }
             ended = true
             closeCamera()
-            finish(name, confidence, callback)
+            callback.onFinished(name, confidence)
             stopThread()
         }
 

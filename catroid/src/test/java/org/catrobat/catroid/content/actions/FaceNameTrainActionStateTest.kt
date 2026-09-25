@@ -1,11 +1,11 @@
 package org.catrobat.catroid.content.actions
 
 import android.content.Context
-import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -48,27 +48,23 @@ class FaceNameTrainActionStateTest {
         assertTrue(FaceNameTrainAction.isTrainingForTest())
     }
 
+    /**
+     * StageResourceHolder.onActivityResult hands the picker result to
+     * FaceNameTrainAction.currentInstance. Running the brick is what must
+     * register the action there, and the most recent brick run must win.
+     * (The duplicate-picker-result check moved to FaceTrainingUiTest, where a
+     * real training run gives it a positive control.)
+     */
     @Test
-    fun currentActionCanBeRecoveredAfterPickerReturns() {
-        val action = FaceNameTrainAction()
+    fun runningTheBrickRegistersTheActionForThePickerResult() {
+        assertNull(FaceNameTrainAction.currentInstance)
 
-        FaceNameTrainAction.currentInstance = action
+        val first = FaceNameTrainAction()
+        first.act(0f)
+        assertSame(first, FaceNameTrainAction.currentInstance)
 
-        assertSame(action, FaceNameTrainAction.currentInstance)
-    }
-
-    @Test
-    fun duplicatePickerResultIsIgnoredDuringTraining() {
-        FaceNameTrainAction.setPendingNameForTest("Person A")
-        FaceNameTrainAction.setTrainingForTest(true)
-
-        FaceNameTrainAction().handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
-            -1,
-            Intent().setData(android.net.Uri.parse("file:///duplicate.jpg"))
-        )
-
-        assertTrue(FaceNameTrainAction.isTrainingForTest())
-        assertEquals("Person A", FaceNameTrainAction.getPendingNameForTest())
+        val second = FaceNameTrainAction()
+        second.act(0f)
+        assertSame(second, FaceNameTrainAction.currentInstance)
     }
 }
