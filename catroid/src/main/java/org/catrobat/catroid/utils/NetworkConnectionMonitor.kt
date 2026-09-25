@@ -27,8 +27,6 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -41,6 +39,9 @@ class NetworkConnectionMonitor(private val context: Context) : LiveData<Boolean>
 
     lateinit var callback: ConnectionNetworkCallback
 
+    @Volatile
+    private var forcedValue: Boolean? = null
+
     fun unregisterDefaultNetworkCallback() {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE)
             as ConnectivityManager
@@ -50,16 +51,9 @@ class NetworkConnectionMonitor(private val context: Context) : LiveData<Boolean>
     fun registerDefaultNetworkCallback() {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE)
             as ConnectivityManager
-        postValue(checkConnection(connectivityManager))
+        postValue(forcedValue ?: checkConnection(connectivityManager))
         callback = ConnectionNetworkCallback()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(callback)
-        } else {
-            val request = NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                .build()
-            connectivityManager.registerNetworkCallback(request, callback)
-        }
+        connectivityManager.registerDefaultNetworkCallback(callback)
     }
 
     private fun checkConnection(connectivityManager: ConnectivityManager): Boolean {
@@ -74,19 +68,30 @@ class NetworkConnectionMonitor(private val context: Context) : LiveData<Boolean>
     inner class ConnectionNetworkCallback : NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            postValue(true)
+            postValue(forcedValue ?: true)
             Log.d(TAG, "onAvailable")
         }
 
         override fun onLost(network: Network) {
             super.onLost(network)
-            postValue(false)
+            postValue(forcedValue ?: false)
             Log.d(TAG, "onLost")
         }
     }
 
+    /**
+     * Pins the reported connection state. While a value is pinned the real connectivity
+     * callbacks are ignored, otherwise a test that goes "offline" is immediately put back
+     * online by the emulator's network as soon as the fragment registers its callback.
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun setValueTo(value: Boolean) {
+        forcedValue = value
         postValue(value)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun clearForcedValue() {
+        forcedValue = null
     }
 }

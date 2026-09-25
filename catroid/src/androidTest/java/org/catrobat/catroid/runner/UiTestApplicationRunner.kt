@@ -26,6 +26,7 @@ package org.catrobat.catroid.runner
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.os.StrictMode
 import androidx.test.runner.AndroidJUnitRunner
 import org.catrobat.catroid.UiTestCatroidApplication
@@ -35,6 +36,22 @@ class UiTestApplicationRunner : AndroidJUnitRunner() {
     override fun onCreate(arguments: Bundle) {
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
         super.onCreate(arguments)
+    }
+
+    override fun onStart() {
+        dismissImmersiveModeCling()
+        super.onStart()
+    }
+
+    /**
+     * The first time an app goes full screen, Android shows the "Viewing full screen" cling on
+     * top of it. It swallows the next back press, which makes tests that leave the stage fail on
+     * a device that has not seen the cling yet.
+     */
+    private fun dismissImmersiveModeCling() {
+        val command = "settings put secure immersive_mode_confirmations confirmed"
+        ParcelFileDescriptor.AutoCloseInputStream(uiAutomation.executeShellCommand(command))
+            .use { it.readBytes() }
     }
 
     @Throws(
