@@ -103,6 +103,7 @@ public class WebViewActivity extends AppCompatActivity {
 	private WebView webView;
 	private org.catrobat.catroid.web.JwtTokenStore tokenStore;
 	private org.catrobat.catroid.web.LoginRepository loginRepository;
+	private kotlinx.coroutines.Job logoutJob;
 	private boolean allowGoBack = false;
 	private boolean forceOpenInApp = false;
 	private ProgressDialog webViewLoadingDialog;
@@ -176,11 +177,9 @@ public class WebViewActivity extends AppCompatActivity {
 			if (downloadUrl != null && downloadUrl.startsWith("blob:")) {
 				return;
 			}
-			if (contentDisposition != null && getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
-				String projectName = extractProjectNameFromContentDisposition(contentDisposition);
-				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
-						ProjectDownloadUtil.INSTANCE, projectName).download(this);
-			} else if (downloadUrl.contains(CATROBAT_CONTENT_DOWNLOAD_URL)
+			// Media library files come first: a .catrobat object from the library is an object to
+			// import into the current project, not a project download.
+			if (downloadUrl.contains(CATROBAT_CONTENT_DOWNLOAD_URL)
 						|| downloadUrl.contains("/resources/media/")
 						|| downloadUrl.contains("/api/media/assets/")) {
 				String fileName = getFilenameFromContentDisposition(contentDisposition, downloadUrl, mimetype);
@@ -192,11 +191,13 @@ public class WebViewActivity extends AppCompatActivity {
 				}
 
 				File file = new File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName);
-				downloadedMediaPaths.add(file.getAbsolutePath());
-				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
-				resultIntent.putStringArrayListExtra(MEDIA_FILE_PATHS, downloadedMediaPaths);
 				new MediaDownloader(WebViewActivity.this)
 						.startDownload(WebViewActivity.this, downloadUrl, fileName, file.getAbsolutePath());
+			} else if (contentDisposition != null
+					&& getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+				String projectName = extractProjectNameFromContentDisposition(contentDisposition);
+				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
+						ProjectDownloadUtil.INSTANCE, projectName).download(this);
 			} else {
 				DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
 				String projectName = ProjectDownloader.Companion.getProjectNameFromUrl(downloadUrl);
@@ -262,11 +263,9 @@ public class WebViewActivity extends AppCompatActivity {
 					return null;
 				}
 
-				File tempFile = new File(Constants.CACHE_DIRECTORY,
-						Constants.TMP_DIRECTORY_NAME + "/down.catrobat");
-				if (tempFile.getParentFile() != null) {
-					tempFile.getParentFile().mkdirs();
-				}
+				File tempDirectory = new File(Constants.CACHE_DIRECTORY, Constants.TMP_DIRECTORY_NAME);
+				tempDirectory.mkdirs();
+				File tempFile = File.createTempFile("down", Constants.CATROBAT_EXTENSION, tempDirectory);
 				try (okio.BufferedSink sink = okio.Okio.buffer(okio.Okio.sink(tempFile))) {
 					sink.writeAll(httpResponse.body().source());
 				}
@@ -304,7 +303,8 @@ public class WebViewActivity extends AppCompatActivity {
 				// The web session ends here. The app's own JWT has to go with it: it is injected
 				// as BEARER cookie on every WebView visit, so without this the next visit
 				// silently signs the user back in.
-				LoginHelper.performLogout(loginRepository, () -> Utils.logoutUser(WebViewActivity.this));
+				LoginHelper.cancel(logoutJob);
+				logoutJob = LoginHelper.performLogout(loginRepository, () -> Utils.logoutUser(WebViewActivity.this));
 			}
 			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
@@ -388,6 +388,17 @@ public class WebViewActivity extends AppCompatActivity {
 			return ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))
 					&& uri.getHost() != null && !uri.getHost().isEmpty();
 		}
+	}
+
+	/**
+	 * Called once a media library file is completely on disk. Only such files are handed back to
+	 * the caller, so a failed or unfinished download is never imported.
+	 */
+	public void onMediaDownloaded(String filePath) {
+		downloadedMediaPaths.add(filePath);
+		resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
+		resultIntent.putStringArrayListExtra(MEDIA_FILE_PATHS, downloadedMediaPaths);
+		setResult(RESULT_OK, resultIntent);
 	}
 
 	public Intent getResultIntent() {
@@ -492,7 +503,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
-		LoginHelper.cancel();
+		LoginHelper.cancel(logoutJob);
 		webView.setDownloadListener(null);
 		webView.destroy();
 

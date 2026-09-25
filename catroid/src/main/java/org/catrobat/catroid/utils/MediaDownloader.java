@@ -28,11 +28,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.lang.ref.WeakReference;
 
@@ -50,37 +48,29 @@ public final class MediaDownloader {
 		}
 
 		Intent downloadIntent = new Intent(activity, MediaDownloadService.class);
-		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG, new DownloadMediaReceiver(new Handler()));
+		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG,
+				new DownloadMediaReceiver(new Handler(), filePath));
 		downloadIntent.putExtra(MediaDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(MediaDownloadService.MEDIA_FILE_PATH, filePath);
-		webViewActivity.setResultIntent(webViewActivity.getResultIntent()
-				.putExtra(WebViewActivity.MEDIA_FILE_PATH, filePath));
 		activity.startService(downloadIntent);
 	}
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadMediaReceiver extends ResultReceiver {
-		DownloadMediaReceiver(Handler handler) {
+		private final String filePath;
+
+		DownloadMediaReceiver(Handler handler, String filePath) {
 			super(handler);
+			this.filePath = filePath;
 		}
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			WebViewActivity webViewActivity = webViewActivityWeakReference.get();
-			if (webViewActivity == null) {
-				return;
-			}
-
-			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
-				if (endOfFileReached || progress == 100) {
-					webViewActivity.setResult(WebViewActivity.RESULT_OK, webViewActivity.getResultIntent());
-					ToastUtil.showSuccess(webViewActivity, R.string.notification_download_finished);
-				}
-			} else if (resultCode == Constants.UPDATE_DOWNLOAD_ERROR) {
-				ToastUtil.showError(webViewActivity, R.string.error_internet_connection);
+			// The service shows the success and error toasts; only a finished file is handed back
+			if (webViewActivity != null && resultCode == Constants.UPDATE_DOWNLOAD_SUCCESS) {
+				webViewActivity.onMediaDownloaded(filePath);
 			}
 		}
 	}

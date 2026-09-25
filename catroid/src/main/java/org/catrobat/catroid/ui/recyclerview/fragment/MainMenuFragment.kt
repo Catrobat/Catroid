@@ -321,7 +321,7 @@ class MainMenuFragment : Fragment(),
 
             R.id.exploreShareTextView -> {
                 viewModel.setIsLoading(true)
-                openWebView(Constants.MAIN_URL_HTTPS)
+                openWebView(Constants.BASE_APP_URL_HTTPS)
             }
         }
     }

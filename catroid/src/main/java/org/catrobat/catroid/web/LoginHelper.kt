@@ -31,10 +31,14 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
+/**
+ * Runs login calls for Java callers. Each call returns its [Job]; the caller owns it and cancels
+ * it when its screen goes away, so one screen never cancels another screen's login.
+ */
 object LoginHelper {
 
-    private var activeJob: Job? = null
     private var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 
@@ -44,56 +48,53 @@ object LoginHelper {
         username: String,
         password: String,
         onSuccess: Runnable,
-        onError: java.util.function.Consumer<String>
-    ) {
-        cancel()
-        activeJob = CoroutineScope(SupervisorJob() + ioDispatcher).launch {
+        onError: java.util.function.Consumer<String?>
+    ): Job =
+        CoroutineScope(SupervisorJob() + ioDispatcher).launch {
             val result = loginRepository.login(username, password)
             withContext(mainDispatcher) {
                 coroutineContext.ensureActive()
                 result.fold(
                     onSuccess = { onSuccess.run() },
-                    onFailure = { e -> onError.accept(e.message ?: "Login failed") }
+                    onFailure = { e -> onError.accept(userMessage(e, "Login failed")) }
                 )
             }
         }
-    }
 
     @JvmStatic
     fun performGoogleLogin(
         loginRepository: LoginRepository,
         idToken: String,
         onSuccess: Runnable,
-        onError: java.util.function.Consumer<String>
-    ) {
-        cancel()
-        activeJob = CoroutineScope(SupervisorJob() + ioDispatcher).launch {
+        onError: java.util.function.Consumer<String?>
+    ): Job =
+        CoroutineScope(SupervisorJob() + ioDispatcher).launch {
             val result = loginRepository.loginWithGoogle(idToken)
             withContext(mainDispatcher) {
                 coroutineContext.ensureActive()
                 result.fold(
                     onSuccess = { onSuccess.run() },
-                    onFailure = { e -> onError.accept(e.message ?: "Google login failed") }
+                    onFailure = { e -> onError.accept(userMessage(e, "Google login failed")) }
                 )
             }
         }
-    }
 
     @JvmStatic
-    fun performLogout(loginRepository: LoginRepository, onComplete: Runnable) {
-        cancel()
-        activeJob = CoroutineScope(SupervisorJob() + ioDispatcher).launch {
+    fun performLogout(loginRepository: LoginRepository, onComplete: Runnable): Job =
+        CoroutineScope(SupervisorJob() + ioDispatcher).launch {
             loginRepository.logout()
             withContext(mainDispatcher) {
                 coroutineContext.ensureActive()
                 onComplete.run()
             }
         }
-    }
+
+    /** Network errors map to null, so the caller shows its own connection message. */
+    private fun userMessage(e: Throwable, fallback: String): String? =
+        if (e is IOException) null else e.message ?: fallback
 
     @JvmStatic
-    fun cancel() {
-        activeJob?.cancel()
-        activeJob = null
+    fun cancel(job: Job?) {
+        job?.cancel()
     }
 }

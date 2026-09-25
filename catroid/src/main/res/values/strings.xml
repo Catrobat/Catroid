@@ -2271,7 +2271,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
     <string name="upload_progress_percent">%1$d%%</string>
-    <string name="upload_progress_initial">0%%</string>
+    <string name="upload_progress_initial">0%</string>
     <!--  -->
 
     <!-- unchanged upload dialog -->

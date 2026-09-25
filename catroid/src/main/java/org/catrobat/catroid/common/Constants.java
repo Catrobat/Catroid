@@ -47,7 +47,10 @@ public final class Constants {
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
 	public static final long PROGESSIVE_INPUT_DELAY = 400;
 	public static final long PROGESSIVE_INPUT_COUNTDOWN_INTERVALL = 500;
-	public static final long RETROFIT_WRITE_TIMEOUT = 300;
+	public static final long RETROFIT_WRITE_TIMEOUT = 15;
+	public static final long RETROFIT_READ_TIMEOUT = 15;
+	// A project upload sends up to 100 MB and the server processes it before answering
+	public static final long RETROFIT_UPLOAD_TIMEOUT = 300;
 	public static final long RETROFIT_CONNECT_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
@@ -129,6 +132,8 @@ public final class Constants {
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrobat.org";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
+	// Share links created before the domain change still point here; the host no longer serves them
+	public static final String LEGACY_SHARE_URL_HTTPS = "https://share.catrob.at";
 
 	public static final String API_BASE_URL = MAIN_URL_HTTPS + "/api/";
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/" + FlavoredConstants.FLAVOR_NAME + "/";
@@ -308,6 +313,7 @@ public final class Constants {
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
+	public static final int UPDATE_DOWNLOAD_SUCCESS = 106;
 	public static final int MAX_PERCENT = 100;
 
 	//Up-/Download Status Codes
