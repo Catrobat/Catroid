@@ -27,6 +27,8 @@ import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_CONNECT_TIMEOUT
+import org.catrobat.catroid.common.Constants.RETROFIT_READ_TIMEOUT
+import org.catrobat.catroid.common.Constants.RETROFIT_UPLOAD_TIMEOUT
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.CursorPaginatedResponse
@@ -140,9 +142,18 @@ class CatroidWebServer private constructor() {
         private fun baseHttpClientBuilder(): OkHttpClient.Builder =
             OkHttpClient.Builder()
                 .connectTimeout(RETROFIT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(RETROFIT_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
+                .addInterceptor { chain ->
+                    if (isProjectUpload(chain.request())) {
+                        chain.withWriteTimeout(RETROFIT_UPLOAD_TIMEOUT.toInt(), TimeUnit.SECONDS)
+                            .withReadTimeout(RETROFIT_UPLOAD_TIMEOUT.toInt(), TimeUnit.SECONDS)
+                            .proceed(chain.request())
+                    } else {
+                        chain.proceed(chain.request())
+                    }
+                }
                 .addInterceptor { chain ->
                     val lang = Locale.getDefault().language
                     val request = chain.request()
@@ -151,6 +162,9 @@ class CatroidWebServer private constructor() {
                         .build()
                     chain.proceed(request)
                 }
+
+        private fun isProjectUpload(request: okhttp3.Request): Boolean =
+            request.method() == "POST" && request.url().encodedPath().endsWith("/projects")
 
         @JvmStatic
         fun getWebService(

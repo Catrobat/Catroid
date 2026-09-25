@@ -115,7 +115,13 @@ public class GoogleLoginHandler {
 						((SignInCompleteListener) activity).onLoginSuccessful(bundle);
 					}
 				},
-				errorMsg -> ToastUtil.showError(activity, errorMsg)
+				errorMsg -> {
+					if (errorMsg != null) {
+						ToastUtil.showError(activity, errorMsg);
+					} else {
+						ToastUtil.showError(activity, R.string.error_internet_connection);
+					}
+				}
 		);
 	}
 }

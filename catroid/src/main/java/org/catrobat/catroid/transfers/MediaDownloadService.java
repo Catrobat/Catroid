@@ -89,6 +89,7 @@ public class MediaDownloadService extends IntentService {
 			return;
 		}
 
+		receiver.send(Constants.UPDATE_DOWNLOAD_SUCCESS, null);
 		showToast(R.string.notification_download_finished, false);
 	}
 

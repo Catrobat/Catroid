@@ -116,7 +116,7 @@ class ProjectUpload(
         }
         return try {
             CatroidWebServer.moshi.adapter(ApiErrorResponse::class.java)
-                .fromJson(raw)?.error?.message ?: UPLOAD_FAILED_MESSAGE
+                .fromJson(raw)?.errorMessage ?: UPLOAD_FAILED_MESSAGE
         } catch (e: IOException) {
             Log.w(TAG, "Could not parse upload error body", e)
             UPLOAD_FAILED_MESSAGE

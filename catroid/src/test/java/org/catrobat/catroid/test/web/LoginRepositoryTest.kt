@@ -28,6 +28,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.catrobat.catroid.retrofit.AuthService
 import org.catrobat.catroid.retrofit.models.AuthResponse
@@ -41,6 +42,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
@@ -110,6 +112,29 @@ class LoginRepositoryTest {
 
         verify { tokenStore.clearTokens() }
     }
+
+    @Test
+    fun `login failure shows the message of a flat JWT error body`() = runBlocking {
+        coEvery { authService.login(any()) } throws httpError(401, """{"code":401,"message":"Invalid credentials."}""")
+
+        val result = loginRepository.login("testuser", "wrong")
+
+        assertEquals("Invalid credentials.", result.exceptionOrNull()?.message)
+    }
+
+    @Test
+    fun `login failure shows the message of an error envelope`() = runBlocking {
+        coEvery { authService.login(any()) } throws
+            httpError(403, """{"error":{"code":403,"type":"forbidden","message":"Account suspended."}}""")
+
+        val result = loginRepository.login("testuser", "password")
+
+        assertEquals("Account suspended.", result.exceptionOrNull()?.message)
+    }
+
+    private fun httpError(code: Int, body: String) = HttpException(
+        Response.error<Any>(code, ResponseBody.create(MediaType.parse("application/json"), body))
+    )
 
     @Test
     fun `validateToken is true when the server accepts the token`() = runBlocking {

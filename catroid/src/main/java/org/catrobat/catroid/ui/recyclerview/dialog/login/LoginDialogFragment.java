@@ -59,6 +59,7 @@ public class LoginDialogFragment extends DialogFragment {
 	private EditText usernameEditText;
 	private EditText passwordEditText;
 	private AlertDialog alertDialog;
+	private kotlinx.coroutines.Job loginJob;
 
 	private SignInCompleteListener signInCompleteListener;
 
@@ -155,13 +156,13 @@ public class LoginDialogFragment extends DialogFragment {
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		LoginHelper.cancel();
+		LoginHelper.cancel(loginJob);
 		signInCompleteListener.onLoginCancel();
 	}
 
 	@Override
 	public void onDestroyView() {
-		LoginHelper.cancel();
+		LoginHelper.cancel(loginJob);
 		super.onDestroyView();
 	}
 
@@ -171,7 +172,8 @@ public class LoginDialogFragment extends DialogFragment {
 
 		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
-		LoginHelper.performLogin(
+		LoginHelper.cancel(loginJob);
+		loginJob = LoginHelper.performLogin(
 				loginRepository.getValue(),
 				username,
 				password,
@@ -182,7 +184,8 @@ public class LoginDialogFragment extends DialogFragment {
 					dismiss();
 				},
 				errorMsg -> {
-					passwordEditText.setError(errorMsg);
+					passwordEditText.setError(errorMsg != null ? errorMsg
+							: getString(R.string.error_internet_connection));
 					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 		);

@@ -125,6 +125,7 @@
                 <data android:scheme="${intentFilterScheme}"
                     android:host="${intentFilterHost}"
                     android:pathPattern="${intentFilterPathPattern}"/>
+                <data android:host="share.catrob.at" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />

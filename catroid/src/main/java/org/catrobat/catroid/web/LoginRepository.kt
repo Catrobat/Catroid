@@ -98,7 +98,7 @@ class LoginRepository(
         return try {
             val errorBody = e.response()?.errorBody()?.string() ?: return null
             val adapter = CatroidWebServer.moshi.adapter(ApiErrorResponse::class.java)
-            adapter.fromJson(errorBody)?.error?.message
+            adapter.fromJson(errorBody)?.errorMessage
         } catch (_: IOException) {
             null
         } catch (_: JsonDataException) {

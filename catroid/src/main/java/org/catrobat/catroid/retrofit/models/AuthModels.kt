@@ -45,9 +45,17 @@ data class AuthResponse(
     val username: String? = null
 )
 
+/**
+ * API errors come in two shapes: the `{"error": {...}}` envelope of the API controllers, and the
+ * flat `{"code": 401, "message": "..."}` the JWT login failure returns.
+ */
 data class ApiErrorResponse(
-    val error: ApiErrorDetail
-)
+    val error: ApiErrorDetail? = null,
+    @Json(name = "message") val flatMessage: String? = null
+) {
+    val errorMessage: String?
+        get() = error?.message ?: flatMessage
+}
 
 data class ApiErrorDetail(
     val code: Int,
