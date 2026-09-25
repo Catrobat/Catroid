@@ -113,8 +113,9 @@ class AuthInterceptor(
                     response
                 }
             } catch (e: IOException) {
+                // Offline or server unreachable: the refresh token may still be valid, so keep
+                // the session and let the next request try again.
                 Log.w(TAG, "Token refresh failed", e)
-                tokenStore.clearTokens()
                 response
             }
         }

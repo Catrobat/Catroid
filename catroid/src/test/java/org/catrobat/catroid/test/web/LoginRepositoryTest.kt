@@ -28,18 +28,21 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody
 import org.catrobat.catroid.retrofit.AuthService
 import org.catrobat.catroid.retrofit.models.AuthResponse
 import org.catrobat.catroid.web.JwtTokenStore
 import org.catrobat.catroid.web.LoginRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Response
+import java.io.IOException
 
 @RunWith(JUnit4::class)
 class LoginRepositoryTest {
@@ -106,6 +109,40 @@ class LoginRepositoryTest {
         loginRepository.logout()
 
         verify { tokenStore.clearTokens() }
+    }
+
+    @Test
+    fun `validateToken is true when the server accepts the token`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "token"
+        coEvery { authService.checkToken(any()) } returns Response.success(Unit)
+
+        assertEquals(true, loginRepository.validateToken())
+    }
+
+    @Test
+    fun `validateToken is false when the server rejects the token`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "token"
+        coEvery { authService.checkToken(any()) } returns
+            Response.error(401, ResponseBody.create(null, ""))
+
+        assertEquals(false, loginRepository.validateToken())
+    }
+
+    @Test
+    fun `validateToken is unknown when offline`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "token"
+        coEvery { authService.checkToken(any()) } throws IOException("offline")
+
+        assertNull(loginRepository.validateToken())
+    }
+
+    @Test
+    fun `validateToken is unknown on server error`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "token"
+        coEvery { authService.checkToken(any()) } returns
+            Response.error(503, ResponseBody.create(null, ""))
+
+        assertNull(loginRepository.validateToken())
     }
 
     @Test
