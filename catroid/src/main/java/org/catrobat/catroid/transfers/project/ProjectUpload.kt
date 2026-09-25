@@ -157,9 +157,11 @@ class ProjectUpload(
     private fun readProjectId(): String? {
         return try {
             val idFile = File(projectDirectory, SERVER_PROJECT_ID_FILE)
-            val id = idFile.readText().trim()
-            if (id.isNotBlank() && ProjectIdUtils.UUID_REGEX.matches(id)) {
-                return id
+            if (idFile.isFile) {
+                val id = idFile.readText().trim()
+                if (ProjectIdUtils.UUID_REGEX.matches(id)) {
+                    return id
+                }
             }
 
             val codeXml = File(projectDirectory, Constants.CODE_XML_FILE_NAME)

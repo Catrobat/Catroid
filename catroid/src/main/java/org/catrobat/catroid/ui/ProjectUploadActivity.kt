@@ -679,11 +679,16 @@ open class ProjectUploadActivity : BaseActivity(),
         verifyTokenJob = CoroutineScope(dispatcherProvider.io).launch {
             val isValid = loginRepository.validateToken()
             withContext(dispatcherProvider.main) {
-                if (isValid) {
-                    onCreateView()
-                } else {
-                    loginRepository.clearLocalSession()
-                    startSignInWorkflow()
+                when (isValid) {
+                    true -> onCreateView()
+                    false -> {
+                        loginRepository.clearLocalSession()
+                        startSignInWorkflow()
+                    }
+                    null -> {
+                        ToastUtil.showError(this@ProjectUploadActivity, R.string.error_internet_connection)
+                        finish()
+                    }
                 }
             }
         }

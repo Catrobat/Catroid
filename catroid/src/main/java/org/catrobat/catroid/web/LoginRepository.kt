@@ -30,7 +30,6 @@ import org.catrobat.catroid.retrofit.models.ApiErrorResponse
 import org.catrobat.catroid.retrofit.models.AuthResponse
 import org.catrobat.catroid.retrofit.models.LoginRequest
 import org.catrobat.catroid.retrofit.models.OAuthLoginRequest
-import org.catrobat.catroid.retrofit.models.RefreshRequest
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -71,14 +70,23 @@ class LoginRepository(
             }
         )
 
-    suspend fun validateToken(): Boolean {
+    /**
+     * Asks the server whether the stored session is still valid.
+     *
+     * @return true or false when the server answered, null when it could not be asked (offline,
+     * server error). Only a definite answer may end the session, a network blip must not.
+     */
+    suspend fun validateToken(): Boolean? {
         val token = tokenStore.getAccessToken() ?: return false
         return try {
-            authService.checkToken("Bearer $token").isSuccessful
+            val response = authService.checkToken("Bearer $token")
+            when {
+                response.isSuccessful -> true
+                response.code() == HTTP_UNAUTHORIZED -> false
+                else -> null
+            }
         } catch (_: IOException) {
-            false
-        } catch (_: HttpException) {
-            false
+            null
         }
     }
 
@@ -98,22 +106,6 @@ class LoginRepository(
         }
     }
 
-    suspend fun refreshToken(): Result<AuthResponse> {
-        val refreshToken = tokenStore.getRefreshToken()
-            ?: return Result.failure(IllegalStateException("No refresh token available"))
-        return try {
-            val response = authService.refreshToken(RefreshRequest(refreshToken))
-            tokenStore.setTokens(response.token, response.refreshToken)
-            Result.success(response)
-        } catch (e: IOException) {
-            tokenStore.clearTokens()
-            Result.failure(e)
-        } catch (e: HttpException) {
-            tokenStore.clearTokens()
-            Result.failure(e)
-        }
-    }
-
     suspend fun logout() {
         val token = tokenStore.getAccessToken()
         if (token != null) {
@@ -126,4 +118,8 @@ class LoginRepository(
     fun isLoggedIn(): Boolean = tokenStore.isLoggedIn()
 
     fun getUsername(): String? = tokenStore.getUsername()
+
+    private companion object {
+        const val HTTP_UNAUTHORIZED = 401
+    }
 }

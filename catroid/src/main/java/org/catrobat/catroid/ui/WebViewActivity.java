@@ -46,6 +46,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.Files;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -53,6 +54,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.MediaDownloader;
 import org.catrobat.catroid.utils.ProjectDownloadUtil;
@@ -235,55 +237,61 @@ public class WebViewActivity extends AppCompatActivity {
 		}
 
 		private WebResourceResponse interceptProjectDownload(String url) {
-			try {
-				okhttp3.Request httpRequest = new okhttp3.Request.Builder().url(url).build();
-				okhttp3.Response httpResponse = CatrobatWebClient.INSTANCE.getClient()
-						.newCall(httpRequest).execute();
-				if (httpResponse.isSuccessful() && httpResponse.body() != null) {
-					String projectName = extractProjectNameFromContentDisposition(
-							httpResponse.header("Content-Disposition"));
-					if (projectName == null) {
-						Matcher m = PROJECT_DOWNLOAD_PATTERN.matcher(url);
-						projectName = m.find() ? m.group(1) : "Project";
-					}
-
-					File tempFile = new File(Constants.CACHE_DIRECTORY,
-							Constants.TMP_DIRECTORY_NAME + "/down.catrobat");
-					if (tempFile.getParentFile() != null) {
-						tempFile.getParentFile().mkdirs();
-					}
-
-					okio.BufferedSink sink = okio.Okio.buffer(okio.Okio.sink(tempFile));
-					sink.writeAll(httpResponse.body().source());
-					sink.close();
-					httpResponse.close();
-
-					String safeName = FileMetaDataExtractor
-							.encodeSpecialCharsForFileSystem(projectName);
-					File projectDir = new File(
-							FlavoredConstants.DEFAULT_ROOT_DIRECTORY, safeName);
-					if (projectDir.exists()) {
-						org.catrobat.catroid.io.StorageOperations.deleteDir(projectDir);
-					}
-					new ZipArchiver().unzip(tempFile, projectDir);
-
-					if (!tempFile.delete()) {
-						Log.w(TAG, "Could not delete temp file: " + tempFile.getAbsolutePath());
-					}
-
-					final String finalName = projectName;
-					new Handler(Looper.getMainLooper()).post(() -> {
-						ProjectManager.getInstance()
-								.addNewDownloadedProject(finalName);
-						Intent mainMenuIntent = new Intent(WebViewActivity.this, MainMenuActivity.class);
-						mainMenuIntent.setAction(Intent.ACTION_MAIN);
-						mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						mainMenuIntent.putExtra(Constants.EXTRA_PROJECT_NAME, finalName);
-						startActivity(mainMenuIntent);
-						finish();
-					});
+			okhttp3.Request httpRequest = new okhttp3.Request.Builder().url(url).build();
+			try (okhttp3.Response httpResponse = CatrobatWebClient.INSTANCE.getClient()
+					.newCall(httpRequest).execute()) {
+				if (!httpResponse.isSuccessful() || httpResponse.body() == null) {
 					return null;
 				}
+				Matcher idMatcher = PROJECT_DOWNLOAD_PATTERN.matcher(url);
+				String serverProjectId = idMatcher.find() ? idMatcher.group(1) : null;
+				String projectName = extractProjectNameFromContentDisposition(
+						httpResponse.header("Content-Disposition"));
+				if (projectName == null) {
+					projectName = serverProjectId != null ? serverProjectId : "Project";
+				}
+				final String finalName = projectName;
+
+				// Never overwrite a local project silently: hand it to the regular download
+				// flow, which asks whether to replace it.
+				if (GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(finalName)
+						|| ReplaceExistingProjectDialogFragment.projectExistsInDirectory(finalName)) {
+					new Handler(Looper.getMainLooper()).post(() ->
+							new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), url,
+									ProjectDownloadUtil.INSTANCE, finalName).download(WebViewActivity.this));
+					return null;
+				}
+
+				File tempFile = new File(Constants.CACHE_DIRECTORY,
+						Constants.TMP_DIRECTORY_NAME + "/down.catrobat");
+				if (tempFile.getParentFile() != null) {
+					tempFile.getParentFile().mkdirs();
+				}
+				try (okio.BufferedSink sink = okio.Okio.buffer(okio.Okio.sink(tempFile))) {
+					sink.writeAll(httpResponse.body().source());
+				}
+
+				File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(finalName));
+				new ZipArchiver().unzip(tempFile, projectDir);
+				if (serverProjectId != null) {
+					// Lets a later upload update this project instead of creating a copy
+					Files.asCharSink(new File(projectDir, ".server_project_id"), StandardCharsets.UTF_8)
+							.write(serverProjectId);
+				}
+				if (!tempFile.delete()) {
+					Log.w(TAG, "Could not delete temp file: " + tempFile.getAbsolutePath());
+				}
+
+				new Handler(Looper.getMainLooper()).post(() -> {
+					ProjectManager.getInstance().addNewDownloadedProject(finalName);
+					Intent mainMenuIntent = new Intent(WebViewActivity.this, MainMenuActivity.class);
+					mainMenuIntent.setAction(Intent.ACTION_MAIN);
+					mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					mainMenuIntent.putExtra(Constants.EXTRA_PROJECT_NAME, finalName);
+					startActivity(mainMenuIntent);
+					finish();
+				});
 			} catch (Exception e) {
 				Log.e(TAG, "Project download interception failed", e);
 			}
