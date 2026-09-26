@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -560,7 +560,8 @@
     <string formatted="false" name="project_options_more_details">Más detalles</string>
     <string formatted="false" name="project_options_delete_project">Eliminar proyecto</string>
     <!-- ScriptListFragment -->
-    <string formatted="false" name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos</string>
+    <string formatted="false" name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos
+</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string formatted="false" name="fragment_sprite_text_description">Pulsa \"+\" para añadir actores u objetos</string>
@@ -1362,6 +1363,22 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="raspi_settings_gpio_version">Versión GPIO</string>
     <string formatted="false" name="error_connecting_to">Error: No se puede conectar a %s : %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Usuario</string>
+    <string formatted="false" name="preference_title_mqtt_password">Contraseña</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Establezaca el motor NXT</string>
     <string formatted="false" name="nxt_motor_speed_to">Para</string>
@@ -1523,16 +1540,14 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="sound_insect">Insecto</string>
     <string formatted="false" name="sound_monster">Monstruo</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">izquierda</string>
     <string formatted="false" name="direction_right">derecha</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">por</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">por</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1657,8 +1672,10 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_function_join3_parameter">(\'hola\',\' mundo\',\'!\')</string>
     <string formatted="false" name="formula_editor_function_regex">expresión regular</string>
     <string formatted="false" name="formula_editor_function_regex_parameter">(\' un? ([^ .]+)\',\'Soy un panda.\')</string>
-    <string formatted="false" name="formula_editor_function_regex_assistant">Asistente de expresión regular</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Asistente de expresión regular</string>
+    <string formatted="false" name="formula_editor_function_regex_assistant">Asistente de expresión regular
+</string>
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">Asistente de expresión regular
+</string>
     <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">No se pudo encontrar la palabra clave.</string>
     <string formatted="false" name="formula_editor_function_regex_json_extractor_title">Extractor JSON</string>
     <string formatted="false" name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digital</string>
@@ -1837,7 +1854,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_discard_changes_dialog_title">¿Desea guardar los cambios?</string>
     <string formatted="false" name="formula_editor_new_string_name">Nuevo texto</string>
     <string formatted="false" name="formula_editor_dialog_change_text">Cambiar texto</string>
-    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Cambiar expresión regular</string>
+    <string formatted="false" name="formula_editor_dialog_change_regular_expression">Cambiar expresión regular
+</string>
     <string formatted="false" name="formula_editor_fragment_data_current_items">elementos actuales</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Hazlo una lista</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">la primera cara es visible</string>
@@ -1951,7 +1969,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">idioma para escuchar</string>
     <string formatted="false" name="formula_editor_speech_recognition">Reconocimiento de voz</string>
-    <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_text_detection">
+        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
     <string formatted="false" name="warning_formula_recognized">Has introducido un texto que parece una fórmula. Si desea utilizar funciones
         sensores, variables y otros elementos de la fórmula, selecciónelos en su lugar utilizando los
@@ -1977,9 +1996,11 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="brick_choose_camera">Utilizar la cámara</string>
     <string formatted="false" name="choose_camera_front">frontal</string>
     <string formatted="false" name="choose_camera_back">trasero</string>
-    <string formatted="false" name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string formatted="false" name="camera_error_generic">
+        Something went wrong while trying to use the camera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+    <string formatted="false" name="camera_error_face_detection">
+        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
@@ -2076,4 +2097,12 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="undo_sort">Deshacer orden</string>
     <string formatted="false" name="sort">Ordenar</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>

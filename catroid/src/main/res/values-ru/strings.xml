@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -89,7 +89,7 @@
     <!-- Main Menu -->
     <string formatted="false" name="main_menu_continue">Продолжить проект</string>
     <string formatted="false" name="main_menu_new">Новый проект</string>
-    <string formatted="false" name="main_menu_programs">Проекты на устройстве</string>
+    <string formatted="false" name="main_menu_programs">Проекты</string>
     <string formatted="false" name="main_menu_help">Помощь</string>
     <string formatted="false" name="main_menu_web">Сообщество Catrobat</string>
     <string formatted="false" name="main_menu_upload">Выложить проект</string>
@@ -904,7 +904,7 @@
     <string formatted="false" name="category_looks">Образы</string>
     <string formatted="false" name="category_pen">Перо</string>
     <string formatted="false" name="category_plot">Работа с svg</string>
-    <string formatted="false" name="category_laser">Laser Cutter</string>
+    <string formatted="false" name="category_laser">Режущий Лазер</string>
     <string formatted="false" name="category_sound">Звук</string>
     <string formatted="false" name="category_control">Управление</string>
     <string formatted="false" name="category_event">Событие</string>
@@ -1080,17 +1080,17 @@
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Сохранить диаграмму как SVG</string>
-    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Сохранить диаграмму как SVG</string>
     <string formatted="false" name="brick_stop_plot">Перестать рисовать диаграмму</string>
     <string formatted="false" name="brick_start_plot">Начать рисовать диаграмму</string>
-    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
-    <string formatted="false" name="brick_start_cut">Start to cut</string>
-    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
-    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
-    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
+    <string formatted="false" name="brick_stop_cut">Остановить вырезание</string>
+    <string formatted="false" name="brick_start_cut">Начать резать</string>
+    <string formatted="false" name="brick_save_laser">Сохранить данные режущего лазерного в SVG</string>
+    <string formatted="false" name="brick_stop_engrave">Остановить гравировку</string>
+    <string formatted="false" name="brick_start_engrave">Начать гравировать</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <string formatted="false" name="brick_share">Поделиться</string>
-    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_share_laser">Сохранить данные режущего лазерного как SVG</string>
     <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Прикрепить</string>
@@ -1103,8 +1103,8 @@
     <string formatted="false" name="brick_default_embroidery_file">вышивка.dst</string>
     <string formatted="false" name="brick_sew_up">Шить</string>
     <string formatted="false" name="brick_thread_color">Задать цвет нити</string>
-    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
-    <string formatted="false" name="embroidery_through">Create arc going through</string>
+    <string formatted="false" name="embroider_arc_direction">Вязальная дуга вяжет</string>
+    <string formatted="false" name="embroidery_through">Создать дугу, проходящую через</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Сбросить таймер</string>
@@ -1460,6 +1460,22 @@
     <string formatted="false" name="raspi_settings_gpio_version">Версия GPIO</string>
     <string formatted="false" name="error_connecting_to">Ошибка: Не удалось подключиться к %s : %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Имя пользователя</string>
+    <string formatted="false" name="preference_title_mqtt_password">Пароль</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Задать мотор NXT</string>
     <string formatted="false" name="nxt_motor_speed_to">со значением</string>
@@ -1627,16 +1643,14 @@
     <string formatted="false" name="sound_insect">Насекомое</string>
     <string formatted="false" name="sound_monster">Монстр</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">влево</string>
     <string formatted="false" name="direction_right">вправо</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">в течении</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">с радиусом</string>
+    <string formatted="false" name="arc_for_degrees">в течении</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1798,7 +1812,8 @@
     <string formatted="false" name="formula_editor_function_collides_with_color">касается цвета</string>
     <string formatted="false" name="formula_editor_function_color_touches_color">цвет касается цвета</string>
     <string formatted="false" name="formula_editor_sensor_color_at_x_y">цвет по оси X и Y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">цвет равен цвету с допустимостью в %</string>
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">цвет равен цвету с допустимостью в %
+</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">ускорение по оси X</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">ускорение по оси Y</string>
     <string formatted="false" name="formula_editor_sensor_z_acceleration">ускорение по оси Z</string>
@@ -1931,8 +1946,8 @@
     <string formatted="false" name="formula_editor_operator_divide">÷</string>
     <string formatted="false" name="formula_editor_operator_power">^</string>
     <string formatted="false" name="formula_editor_image_button_description_delete">удалить</string>
-    <string formatted="false" name="formula_editor_image_button_description_calculate">calculate</string>
-    <string formatted="false" name="formula_editor_image_button_description_confirm">confirm</string>
+    <string formatted="false" name="formula_editor_image_button_description_calculate">вычислить</string>
+    <string formatted="false" name="formula_editor_image_button_description_confirm">подтвердить</string>
     <string formatted="false" name="formula_editor_image_button_description_color_picker">палитра</string>
     <string formatted="false" name="formula_editor_image_button_description_functions_toggle">переключить функции</string>
     <string formatted="false" name="formula_editor_variable_dialog_title">Новая переменная</string>
@@ -2194,4 +2209,12 @@
     <string formatted="false" name="undo_sort">Не сортировать</string>
     <string formatted="false" name="sort">Сортировать</string>
     <string formatted="false" name="checkbox">флажок</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
