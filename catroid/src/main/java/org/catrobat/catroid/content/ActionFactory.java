@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.actions.AssertUserListAction;
+import org.catrobat.catroid.content.actions.BaseGlideAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
@@ -383,29 +384,26 @@ public class ActionFactory extends Actions {
 			Sprite destinationSprite, SequenceAction sequence,
 			Formula duration, int spinnerSelection) throws InterpretationException {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		BaseGlideAction action;
 		switch (spinnerSelection) {
 			case BrickValues.GLIDE_TO_RANDOM_POSITION:
-				GlideToRandomPositionAction randomAction =
-						action(GlideToRandomPositionAction.class);
-				randomAction.setScope(scope);
-				randomAction.setDuration(duration.interpretFloat(scope));
-				return randomAction;
+				action = action(GlideToRandomPositionAction.class);
+				break;
 			case BrickValues.GLIDE_TO_TOUCH_POSITION:
-				GlideToTouchPositionAction touchAction =
-						action(GlideToTouchPositionAction.class);
-				touchAction.setScope(scope);
-				touchAction.setDuration(duration.interpretFloat(scope));
-				return touchAction;
+				action = action(GlideToTouchPositionAction.class);
+				break;
 			case BrickValues.GLIDE_TO_OTHER_SPRITE_POSITION:
 				GlideToOtherSpritePositionAction otherSpritePositionAction =
 						action(GlideToOtherSpritePositionAction.class);
-				otherSpritePositionAction.setScope(scope);
-				otherSpritePositionAction.setDuration(duration.interpretFloat(scope));
 				otherSpritePositionAction.setDestinationSprite(destinationSprite);
-				return otherSpritePositionAction;
+				action = otherSpritePositionAction;
+				break;
 			default:
 				return null;
 		}
+		action.setScope(scope);
+		action.setDuration(duration.interpretFloat(scope));
+		return action;
 	}
 
 	public Action createPlaceAtAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y) {

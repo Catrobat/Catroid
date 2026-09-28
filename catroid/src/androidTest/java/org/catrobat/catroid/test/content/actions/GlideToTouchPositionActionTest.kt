@@ -54,7 +54,6 @@ class GlideToTouchPositionActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-
         val project = Project()
         projectManager.currentProject = project
         val scene = Scene()

@@ -22,31 +22,25 @@
 */
 package org.catrobat.catroid.content.actions
 
-import org.catrobat.catroid.utils.TouchUtil
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Scope
 
-class GlideToTouchPositionAction : BaseGlideAction() {
-    var touchXPosition: Float = 0f
-    var touchYPosition: Float = 0f
-    var touchIndex: Int = 0
-    var touchFound = false
+abstract class BaseGlideAction : TemporalAction() {
+    lateinit var scope: Scope
+    protected var startXPosition: Float = 0f
+    protected var startYPosition: Float = 0f
+    var currentXPosition: Float = 0f
+    var currentYPosition: Float = 0f
 
-    override fun act(delta: Float): Boolean {
-        if (!touchFound) {
-            touchIndex = TouchUtil.getLastTouchIndex()
-            if (touchIndex > 0 && TouchUtil.isFingerTouching(touchIndex)) {
-                touchFound = true
-                touchXPosition = TouchUtil.getX(touchIndex)
-                touchYPosition = TouchUtil.getY(touchIndex)
-                return super.act(delta)
-            }
-            return false
-        }
-        return super.act(delta)
+    override fun begin() {
+        super.begin()
+        scope.sprite.isGliding = true
+        startXPosition = scope.sprite.look.xInUserInterfaceDimensionUnit
+        startYPosition = scope.sprite.look.yInUserInterfaceDimensionUnit
     }
 
-    override fun update(percent: Float) {
-        currentXPosition = startXPosition + (touchXPosition - startXPosition) * percent
-        currentYPosition = startYPosition + (touchYPosition - startYPosition) * percent
-        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
+    override fun end() {
+        super.end()
+        scope.sprite.isGliding = false
     }
 }

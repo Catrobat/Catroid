@@ -22,38 +22,22 @@
  */
 package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.common.ScreenValues
-import org.catrobat.catroid.content.Scope
 
-class GlideToRandomPositionAction : TemporalAction() {
-    lateinit var scope: Scope
-    private var startXPosition: Float = 0f
-    private var startYPosition: Float = 0f
+class GlideToRandomPositionAction : BaseGlideAction() {
     var randomXPosition: Float = 0f
     var randomYPosition: Float = 0f
-    var currentXPosition: Float = 0f
-    var currentYPosition: Float = 0f
 
     override fun begin() {
-        super.begin()
-        scope.sprite.isGliding = true
-        startXPosition = scope.sprite.look.xInUserInterfaceDimensionUnit
-        startYPosition = scope.sprite.look.yInUserInterfaceDimensionUnit
         randomXPosition = Math.random().toFloat() * (ScreenValues.currentScreenResolution.width +
             1) - (ScreenValues.currentScreenResolution.width / 2)
-        randomYPosition = Math.random().toFloat() * (ScreenValues.currentScreenResolution.height +
-            1) - (ScreenValues.currentScreenResolution.height / 2)
+        randomYPosition = (Math.random().toFloat() * (ScreenValues.currentScreenResolution.height +
+            1)) - (ScreenValues.currentScreenResolution.height / 2)
     }
 
     override fun update(percent: Float) {
-        currentXPosition = startXPosition + (randomXPosition-startXPosition) * percent
-        currentYPosition = startYPosition + (randomYPosition-startYPosition) * percent
-        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition,currentYPosition)
-    }
-
-    override fun end(){
-        super.end()
-        scope.sprite.isGliding = false
+        currentXPosition = startXPosition + (randomXPosition - startXPosition) * percent
+        currentYPosition = startYPosition + (randomYPosition - startYPosition) * percent
+        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
     }
 }

@@ -22,26 +22,12 @@
  */
 package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 
-class GlideToOtherSpritePositionAction : TemporalAction() {
-    lateinit var scope: Scope
+class GlideToOtherSpritePositionAction : BaseGlideAction() {
     var destinationSprite: Sprite? = null
-    private var startXPosition: Float = 0f
-    private var startYPosition: Float = 0f
     var destinationXPosition: Float = 0f
     var destinationYPosition: Float = 0f
-    var currentXPosition: Float = 0f
-    var currentYPosition: Float = 0f
-
-    override fun begin() {
-        super.begin()
-        scope.sprite.isGliding = true
-        startXPosition = scope.sprite.look.xInUserInterfaceDimensionUnit
-        startYPosition = scope.sprite.look.yInUserInterfaceDimensionUnit
-    }
 
     override fun act(delta: Float): Boolean {
         return super.act(delta)
@@ -54,10 +40,5 @@ class GlideToOtherSpritePositionAction : TemporalAction() {
         currentXPosition = startXPosition + (destinationXPosition - startXPosition) * percent
         currentYPosition = startYPosition + (destinationYPosition - startYPosition) * percent
         scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
-    }
-
-    override fun end() {
-        super.end()
-        scope.sprite.isGliding = false
     }
 }
