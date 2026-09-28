@@ -539,6 +539,18 @@ class FaceDatabase {
         return currentBest
     }
 
+    /**
+     * The similarity a match needs. With a second enrolled person to compare
+     * against, the margin rule also has to pass, so the normal threshold is
+     * enough. With nobody to compare against (one enrolled person, or everyone
+     * else without photos) the margin says nothing, so a stranger who only
+     * resembles that person must not get their name: the bar is higher.
+     */
+    private fun similarityNeeded(hasRival: Boolean): Float {
+        val floor = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
+        return if (hasRival) floor else max(floor, SINGLE_PERSON_MIN_SIMILARITY)
+    }
+
     /** Applies the two thresholds to an already combined score array.  */
     @Synchronized
     fun decide(scores: FloatArray?): Match? {
@@ -567,7 +579,7 @@ class FaceDatabase {
             return null
         }
         val margin = if (second == NO_SCORE) 1f else best - second
-        val requiredSimilarity: Float = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
+        val requiredSimilarity: Float = similarityNeeded(hasRival = second != NO_SCORE)
         if (best < requiredSimilarity || margin < minMargin) {
             Log.i(
                 TAG, String.format(
@@ -624,7 +636,7 @@ class FaceDatabase {
         }
 
         val margin = if (second == NO_SCORE) 1f else best - second
-        val requiredSimilarity: Float = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
+        val requiredSimilarity: Float = similarityNeeded(hasRival = second != NO_SCORE)
         if (best < requiredSimilarity || margin < minMargin) {
             Log.i(
                 TAG, String.format(
@@ -760,6 +772,13 @@ class FaceDatabase {
 
         /** Never accept collapsed/no-detail embeddings even if an old model saved 0.50.  */
         private const val ABSOLUTE_SAFETY_FLOOR = 0.60f
+
+        /**
+         * Needed when there is no second person to compare against. Measured on
+         * a Galaxy M53: a stranger against the only enrolled person scored up to
+         * 0.61, genuine matches 0.79-0.93.
+         */
+        internal const val SINGLE_PERSON_MIN_SIMILARITY = 0.70f
 
         /**
          * Nearest neighbour. A person is scored against their single closest training
