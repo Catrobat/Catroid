@@ -1061,6 +1061,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name">Add face samples and train</string>
     <string formatted="false" name="brick_face_name_detect">Detect face name</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
@@ -2361,4 +2362,24 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
     <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
+
+    <!-- Face Train -->
+    <string formatted="false" name="face_train_title">Face names</string>
+    <string formatted="false" name="face_train_choose_name">Tap a name to add photos</string>
+    <string formatted="false" name="face_train_add_new_name">Add new name</string>
+    <string formatted="false" name="face_train_no_names">No names yet.</string>
+    <string formatted="false" name="face_train_name_hint">Enter a name</string>
+    <string formatted="false" name="face_train_name_subtitle">Type the name, then choose photos of that person</string>
+    <string formatted="false" name="face_train_delete">Delete a name</string>
+    <string formatted="false" name="face_train_delete_choose_title">Delete which name?</string>
+    <string formatted="false" name="face_train_delete_title">Delete \"%1$s\"?</string>
+
+    <string formatted="false" name="face_train_progress_title">Training</string>
+    <string formatted="false" name="face_train_progress_photo">Photo %1$d of %2$d</string>
+    <string formatted="false" name="face_train_success">Trained successfully</string>
+    <string formatted="false" name="face_train_no_face">No face found in the selected photos</string>
+    <string formatted="false" name="face_train_error">Training failed: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">No photos selected</string>
+    <string formatted="false" name="face_train_not_available">Face recognition could not start</string>
+    <string formatted="false" name="face_train_name_missing">That name is no longer in the list</string>
 </resources>

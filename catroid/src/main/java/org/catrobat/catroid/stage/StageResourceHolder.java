@@ -501,6 +501,16 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (org.catrobat.catroid.content.actions.FaceNameTrainAction
+				.ownsRequestCode(requestCode)) {
+			org.catrobat.catroid.content.actions.FaceNameTrainAction action =
+					org.catrobat.catroid.content.actions.FaceNameTrainAction
+							.getCurrentInstance();
+			if (action != null) {
+				action.handleResult(requestCode, resultCode, data);
+			}
+			return;
+		}
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
