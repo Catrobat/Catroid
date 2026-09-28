@@ -80,6 +80,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.FaceNameDetect
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -767,6 +768,10 @@ open class CategoryBricksFactory {
             deviceBrickList.add(ChooseCameraBrick())
             deviceBrickList.add(FlashBrick())
         }
+        // Behind the same AI setting as the face name sensor, like the other AI bricks.
+        if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(context)) {
+            deviceBrickList.add(FaceNameDetect())
+        }
         deviceBrickList.add(WriteVariableOnDeviceBrick())
         deviceBrickList.add(ReadVariableFromDeviceBrick())
         deviceBrickList.add(WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))
@@ -1215,6 +1220,7 @@ open class CategoryBricksFactory {
         when (brick) {
             is AskBrick -> category = res.getString(R.string.category_looks)
             is AskSpeechBrick -> category = res.getString(R.string.category_sound)
+            is FaceNameDetect -> category = res.getString(R.string.category_device)
             is LookRequestBrick -> category = res.getString(R.string.category_looks)
             is BackgroundRequestBrick -> category = res.getString(R.string.category_looks)
             is WhenClonedBrick -> category = res.getString(R.string.category_control)

@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,6 +85,7 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.NFC_ADAPTER, List.of(NFC));
 		brickResourcesToPermissions.put(Brick.FACE_DETECTION, List.of(CAMERA));
 		brickResourcesToPermissions.put(Brick.OBJECT_DETECTION, List.of(CAMERA));
+		brickResourcesToPermissions.put(Brick.FACE_NAME_DETECTION, List.of(CAMERA));
 		brickResourcesToPermissions.put(Brick.POSE_DETECTION, List.of(CAMERA));
 		brickResourcesToPermissions.put(Brick.TEXT_DETECTION, List.of(CAMERA));
 		brickResourcesToPermissions.put(Brick.MICROPHONE, List.of(RECORD_AUDIO));

@@ -160,8 +160,12 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
         detection</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Face name
+        detection</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Enable
+        face name detection bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -886,6 +890,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Face name detection\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -1056,6 +1061,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name_detect">Detect face name</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Vibrate for</string>
@@ -2026,6 +2032,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Face name
+        detection</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
@@ -2071,6 +2079,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">current items</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">first face is visible</string>
+    <string formatted="false" name="formula_editor_sensor_face_name_detected">detected face name</string>
     <string formatted="false" name="formula_editor_sensor_face_size">first face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">first face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">first face y position</string>

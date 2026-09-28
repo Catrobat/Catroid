@@ -34,6 +34,7 @@ import android.widget.ImageButton;
 
 import com.badlogic.gdx.graphics.Color;
 
+import org.catrobat.catroid.FaceRecognizer.FaceDetector;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -211,6 +212,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
+		FaceDetector.setScriptRunning(false);
+		FaceDetector.resetForNewRun();
 		stageListener.reloadProject(this);
 		synchronized (this) {
 			try {
@@ -219,6 +222,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				Log.e(TAG, "Thread activated too early!", e);
 			}
 		}
+		FaceDetector.setScriptRunning(true);
 		StageLifeCycleController.stageResume(stageActivity);
 	}
 
