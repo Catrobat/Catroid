@@ -723,9 +723,15 @@ class Recognizer private constructor() {
         return true
     }
 
+    /**
+     * Reads the session so far without ending it, so a capture can stop early on
+     * a clear match. Null until at least one frame contained a usable face; from
+     * then on it applies the same rules as [finishSession], including the stricter
+     * threshold for a single frame.
+     */
     @Synchronized
     fun peekSession(session: Session?): Result? {
-        if (session == null || session.framesWithFace == 2) {
+        if (session == null || session.framesWithFace == 0) {
             return null
         }
         return finishSession(session)
