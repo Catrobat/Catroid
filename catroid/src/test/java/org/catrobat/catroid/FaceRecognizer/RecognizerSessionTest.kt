@@ -52,6 +52,17 @@ class RecognizerSessionTest {
         FaceDatabase.minMargin = savedMinMargin
     }
 
+    @Test
+    fun peekBeforeAnyUsableFrameDoesNotDecide() {
+        val session = session(framesWithFace = 0, totals = null, framesTried = 2)
+        val summaryBefore = recognizer.lastSummary
+
+        assertNull(recognizer.peekSession(session))
+        assertEquals(
+            "A peek without a usable frame must not finish the session",
+            summaryBefore, recognizer.lastSummary
+        )
+    }
 
     @Test
     fun peekAfterOneClearFrameDecides() {
@@ -68,7 +79,26 @@ class RecognizerSessionTest {
         assertNull(recognizer.peekSession(session(framesWithFace = 1, totals = floatArrayOf(0.70f, 0.10f))))
     }
 
+    @Test
+    fun peekAfterTwoFramesDecidesOnTheirAverage() {
+        // Frames scored A=0.95 and A=0.85: average 0.90. With the old
+        // "framesWithFace == 2" guard this peek returned null.
+        val result = recognizer.peekSession(session(framesWithFace = 2, totals = floatArrayOf(1.80f, 0.40f)))
 
+        assertNotNull("A peek after two usable frames must decide", result)
+        assertEquals(PERSON_A, result?.name)
+        assertEquals(0.90f, result!!.confidence, 0.0001f)
+    }
+
+    @Test
+    fun peekAfterTwoFramesUsesTheNormalThresholdNotTheSingleFrameOne() {
+        // Average 0.70: accepted with two frames, rejected with one.
+        val result = recognizer.peekSession(session(framesWithFace = 2, totals = floatArrayOf(1.40f, 0.20f)))
+
+        assertNotNull(result)
+        assertEquals(PERSON_A, result?.name)
+        assertEquals(0.70f, result!!.confidence, 0.0001f)
+    }
 
     @Test
     fun peekDoesNotEndOrChangeTheSession() {
