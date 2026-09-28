@@ -124,6 +124,7 @@ import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
@@ -162,12 +163,13 @@ class LoadProjectAIExtensionSettingsTest(
             *speechRecognitionList,
             *speechSynthetizationList,
             *faceDetectionList,
+            *facenamedetectionList,
             *poseDetectionList,
             *textRecognitionList
         )
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
-
+        private var on_Device_Face_Recognition = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
         private var faceXPosition = FormulaElement(SENSOR, FACE_X.name, null)
@@ -285,7 +287,12 @@ class LoadProjectAIExtensionSettingsTest(
                 SpeakAndWaitBrick()
             )
         )
-
+        private val facenamedetectionList = arrayOf(
+            arrayOf(
+                "Face Detection faceDetected", SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(on_Device_Face_Recognition))
+            )
+        )
         private val faceDetectionList = arrayOf(
             arrayOf(
                 "Face Detection faceDetected", SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
@@ -698,6 +705,7 @@ class LoadProjectAIExtensionSettingsTest(
         SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
         SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
         SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+        SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
     )
