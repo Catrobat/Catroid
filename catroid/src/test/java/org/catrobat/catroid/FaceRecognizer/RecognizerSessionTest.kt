@@ -123,8 +123,39 @@ class RecognizerSessionTest {
         assertNull(recognizer.peekSession(session(framesWithFace = 2, totals = floatArrayOf(1.60f, 1.60f))))
     }
 
+    /**
+     * Found on the phone: two people trained, one deleted, then the deleted
+     * person's face scored 0.609 against the one left over three frames and was
+     * given that name. With nobody else to compare against, the margin rule says
+     * nothing, so the single person needs SINGLE_PERSON_MIN_SIMILARITY.
+     */
+    @Test
+    fun afterDeletingTheOtherPersonAFaceJustAboveTheNormalThresholdIsUnknown() {
+        recognizer.deletePerson(0)
+        assertEquals(listOf(PERSON_B), recognizer.classNames)
 
+        // Frames 0.609, 0.610, 0.608 as logged on the phone.
+        assertNull(recognizer.finishSession(session(framesWithFace = 3, totals = floatArrayOf(1.827f))))
+    }
 
+    @Test
+    fun theOnlyEnrolledPersonIsStillRecognisedOnAClearMatch() {
+        recognizer.deletePerson(0)
+
+        // 0.787: the weakest genuine single-person match in the device tests.
+        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.574f)))
+
+        assertEquals(PERSON_B, result?.name)
+        assertEquals(0.787f, result!!.confidence, 0.0001f)
+    }
+
+    @Test
+    fun withTwoPeopleTheNormalThresholdStillApplies() {
+        // 0.65 is below the single-person bar but has a clear margin over B.
+        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.30f, 0.40f)))
+
+        assertEquals(PERSON_A, result?.name)
+    }
 
     @Test
     fun noBurstWhenNobodyIsTrained() {
