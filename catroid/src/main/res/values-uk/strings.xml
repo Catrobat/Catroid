@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,8 @@
     <string formatted="false" name="preference_title_ai">Розширення штучного інтелекту (ШІ)</string>
     <string formatted="false" name="preference_description_ai">Увімкнути блоки та датчики штучного інтелекту</string>
     <string formatted="false" name="preference_title_ai_speech_recognition">Розпізнавання
-        мовлення</string>
+        мовлення
+</string>
     <string formatted="false" name="preference_description_ai_speech_recognition">Увімкнути
         блоки та датчики розпізнавання мовлення</string>
     <string formatted="false" name="preference_title_ai_speech_synthetization">Синтез
@@ -1458,6 +1459,22 @@
     <string formatted="false" name="raspi_settings_gpio_version">Версія GPIO</string>
     <string formatted="false" name="error_connecting_to">Помилка: не вдалося під’єднатися до %s : %d</string>
     <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Імʼя користувача</string>
+    <string formatted="false" name="preference_title_mqtt_password">Пароль</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
+    <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Установити двигун NXT</string>
     <string formatted="false" name="nxt_motor_speed_to">на</string>
@@ -1625,16 +1642,14 @@
     <string formatted="false" name="sound_insect">Комаха</string>
     <string formatted="false" name="sound_monster">Монстр</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">уліво</string>
     <string formatted="false" name="direction_right">управо</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">протягом</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Go in arc</string>
+    <string formatted="false" name="go_through">Go through</string>
+    <string formatted="false" name="go_through_target">then to</string>
+    <string formatted="false" name="arc_with_radius">with radius</string>
+    <string formatted="false" name="arc_for_degrees">протягом</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1796,7 +1811,8 @@
     <string formatted="false" name="formula_editor_function_collides_with_color">торкається кольору</string>
     <string formatted="false" name="formula_editor_function_color_touches_color">колір торкається кольору</string>
     <string formatted="false" name="formula_editor_sensor_color_at_x_y">колір на осі X та Y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">колір дорівнює кольору з допуском у %</string>
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">колір дорівнює кольору з допуском у %
+</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">прискорення X</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">прискорення Y</string>
     <string formatted="false" name="formula_editor_sensor_z_acceleration">прискорення Z</string>
@@ -2090,7 +2106,8 @@
     <string formatted="false" name="brick_choose_camera">Використовувати камеру</string>
     <string formatted="false" name="choose_camera_front">передню</string>
     <string formatted="false" name="choose_camera_back">задню</string>
-    <string formatted="false" name="camera_error_generic">        Під час використання камери сталася помилка.
+    <string formatted="false" name="camera_error_generic">
+        Під час використання камери сталася помилка.
     </string>
     <string formatted="false" name="camera_error_face_detection">        Виникла проблема з розпізнаванням обличчя. Деякі компоненти все ще можуть завантажуватися
         у фоновому режимі. Переконайтеся, що ви підключені до Інтернету, і спробуйте пізніше.
@@ -2192,4 +2209,12 @@
     <string formatted="false" name="undo_sort">Відсортувати</string>
     <string formatted="false" name="sort">Сортувати</string>
     <string formatted="false" name="checkbox">прапорець</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>

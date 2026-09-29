@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025  The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -828,7 +828,7 @@ app
     <string formatted="false" name="category_looks">Aspetti</string>
     <string formatted="false" name="category_pen">Penna</string>
     <string formatted="false" name="category_plot">Disegno</string>
-    <string formatted="false" name="category_laser">Laser Cutter</string>
+    <string formatted="false" name="category_laser">Taglierina laser</string>
     <string formatted="false" name="category_sound">Suono</string>
     <string formatted="false" name="category_control">Controllo</string>
     <string formatted="false" name="category_event">Evento</string>
@@ -1000,17 +1000,17 @@ app
     <!--  -->
     <!-- Plot bricks -->
     <string formatted="false" name="brick_save_plot">Salva disegno come SVG</string>
-    <string formatted="false" name="brick_share_plot">Share plot as SVG</string>
+    <string formatted="false" name="brick_share_plot">Condividi il grafico come SVG</string>
     <string formatted="false" name="brick_stop_plot">Ferma il disegno</string>
     <string formatted="false" name="brick_start_plot">Inizia il disegno</string>
-    <string formatted="false" name="brick_stop_cut">Stop to cut</string>
-    <string formatted="false" name="brick_start_cut">Start to cut</string>
-    <string formatted="false" name="brick_save_laser">Save laser cutter data to SVG</string>
-    <string formatted="false" name="brick_stop_engrave">Stop to engrave</string>
-    <string formatted="false" name="brick_start_engrave">Start to engrave</string>
+    <string formatted="false" name="brick_stop_cut">Ferma il taglio</string>
+    <string formatted="false" name="brick_start_cut">Inizia il taglio</string>
+    <string formatted="false" name="brick_save_laser">Salva in SVG i dati della taglierina laser</string>
+    <string formatted="false" name="brick_stop_engrave">Ferma l\'incisione</string>
+    <string formatted="false" name="brick_start_engrave">Inizia l\'incisione</string>
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
     <string formatted="false" name="brick_share">Condividi</string>
-    <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
+    <string formatted="false" name="brick_share_laser">Condividi some SVG i dati della taglierina laser </string>
     <string formatted="false" name="brick_default_laser_file">laser.svg</string>
     <!-- Embroidery bricks -->
     <string formatted="false" name="brick_stitch">Stitch</string>
@@ -1023,8 +1023,8 @@ app
     <string formatted="false" name="brick_default_embroidery_file">ricamo.dst</string>
     <string formatted="false" name="brick_sew_up">Cucire</string>
     <string formatted="false" name="brick_thread_color">Imposta il colore della conversazione a</string>
-    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
-    <string formatted="false" name="embroidery_through">Create arc going through</string>
+    <string formatted="false" name="embroider_arc_direction">Cucitura ad arco</string>
+    <string formatted="false" name="embroidery_through">Crea arco che passa attraverso</string>
     <!--  -->
     <!-- Device bricks -->
     <string formatted="false" name="brick_reset_timer">Reimposta timer</string>
@@ -1215,7 +1215,7 @@ app
     <string formatted="false" name="default_variable_name">Variabile</string>
     <string formatted="false" name="default_scene_name">Scena</string>
     <string formatted="false" name="default_script_group_name">Gruppo di script</string>
-    <string formatted="false" name="default_broadcast_message_name">Messaggio</string>
+    <string formatted="false" name="default_broadcast_message_name">Messaggio	</string>
     <string formatted="false" name="default_list_name">Lista</string>
     <string formatted="false" name="default_project_background_name">Sfondo</string>
     <string formatted="false" name="default_project_cloud_name">Nuvole</string>
@@ -1370,6 +1370,22 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string formatted="false" name="raspi_settings_title_name">Impostazioni Raspberry Pi</string>
     <string formatted="false" name="raspi_settings_gpio_version">Versione GPIO</string>
     <string formatted="false" name="error_connecting_to">Errore: Impossibile connettersi a %s : %d</string>
+    <!--  -->
+    <!-- MQTT Settings -->
+    <string formatted="false" name="preference_title_enable_mqtt_bricks">MQTT extension</string>
+    <string formatted="false" name="preference_description_mqtt_bricks">Allow the app to connect to MQTT brokers</string>
+    <string formatted="false" name="preference_title_mqtt_enabled">Enable MQTT bricks</string>
+    <string formatted="false" name="preference_description_mqtt_enabled">Enable bricks and sensors for MQTT</string>
+    <string formatted="false" name="preference_title_mqtt_category">MQTT settings</string>
+    <string formatted="false" name="preference_title_mqtt_broker_host">Broker host</string>
+    <string formatted="false" name="preference_description_mqtt_broker_host">IP address or hostname of the MQTT broker</string>
+    <string formatted="false" name="preference_title_mqtt_broker_port">Broker port</string>
+    <string formatted="false" name="preference_description_mqtt_broker_port">Port number of the MQTT broker (1–65535)</string>
+    <string formatted="false" name="preference_title_mqtt_use_tls">Use TLS</string>
+    <string formatted="false" name="preference_title_mqtt_username">Nome utente</string>
+    <string formatted="false" name="preference_title_mqtt_password">Password</string>
+    <string formatted="false" name="preference_title_mqtt_client_id">Client ID</string>
+    <string formatted="false" name="preference_mqtt_port_invalid">Port must be a number between 1 and 65535</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Imposta motore NXT</string>
@@ -1532,16 +1548,14 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string formatted="false" name="sound_insect">Insetto</string>
     <string formatted="false" name="sound_monster">Mostro</string>
     <!--  -->
-    <!-- Plot Arc direction strings -->
+    <!-- Shared arc and go-through strings -->
     <string formatted="false" name="direction_left">sinistra</string>
     <string formatted="false" name="direction_right">destra</string>
-    <string formatted="false" name="plot_arc_direction">Plot arc going</string>
-    <string formatted="false" name="laser_arc_direction">Create arc going</string>
-    <string formatted="false" name="plot_with_radius">with radius</string>
-    <string formatted="false" name="plot_for_degrees">per</string>
-    <string formatted="false" name="plot_through">Plot arc going through</string>
-    <string formatted="false" name="laser_through">Create arc going through</string>
-    <string formatted="false" name="plot_through_target">going to</string>
+    <string formatted="false" name="arc_direction">Vai ad arco</string>
+    <string formatted="false" name="go_through">Passa attraverso</string>
+    <string formatted="false" name="go_through_target">Poi vai a</string>
+    <string formatted="false" name="arc_with_radius">con raggio</string>
+    <string formatted="false" name="arc_for_degrees">per</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1837,8 +1851,8 @@ con tolleranza %        </string>
     <string formatted="false" name="formula_editor_operator_divide">÷</string>
     <string formatted="false" name="formula_editor_operator_power">^</string>
     <string formatted="false" name="formula_editor_image_button_description_delete">elimina</string>
-    <string formatted="false" name="formula_editor_image_button_description_calculate">calculate</string>
-    <string formatted="false" name="formula_editor_image_button_description_confirm">confirm</string>
+    <string formatted="false" name="formula_editor_image_button_description_calculate">calcola</string>
+    <string formatted="false" name="formula_editor_image_button_description_confirm">conferma</string>
     <string formatted="false" name="formula_editor_image_button_description_color_picker">Selettore colori</string>
     <string formatted="false" name="formula_editor_image_button_description_functions_toggle">attiva/disattiva funzioni</string>
     <string formatted="false" name="formula_editor_variable_dialog_title">Nuova variabile</string>
@@ -1971,7 +1985,8 @@ con tolleranza %        </string>
     <string formatted="false" name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo        progetto possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">lingua di ascolto</string>
     <string formatted="false" name="formula_editor_speech_recognition">Riconoscimento vocale</string>
-    <string formatted="false" name="camera_error_text_detection">        Si è verificato un problema durante il riconoscimento del testo. Alcuni componenti potrebbero continuare il download
+    <string formatted="false" name="camera_error_text_detection">
+        Si è verificato un problema durante il riconoscimento del testo. Alcuni componenti potrebbero continuare il download
         in background. Assicurati di essere connesso ad internet e controlla più tardi.</string>
     <string formatted="false" name="warning_formula_recognized">Hai inserito un testo simile a una formula. Se desideri usare le funzioni,
         i sensori, le variabili e altri elementi della formula, sei pregato di selezionarli invece di usare i
@@ -1997,9 +2012,11 @@ con tolleranza %        </string>
     <string formatted="false" name="brick_choose_camera">Usa la videocamera</string>
     <string formatted="false" name="choose_camera_front">anteriore</string>
     <string formatted="false" name="choose_camera_back">posteriore</string>
-    <string formatted="false" name="camera_error_generic">        C\'è stato un errore durante il tentativo di usare la fotocamera.
+    <string formatted="false" name="camera_error_generic">
+        C\'è stato un errore durante il tentativo di usare la fotocamera.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        Si è verificato un problema durante il riconoscimento del viso. Alcuni componenti potrebbero continuare il download
+    <string formatted="false" name="camera_error_face_detection">
+        Si è verificato un problema durante il riconoscimento del viso. Alcuni componenti potrebbero continuare il download
         in background. Assicurati di essere connesso ad internet e ricontrolla più tardi.</string>
     <!-- -->
     <!-- Cast strings -->
@@ -2096,4 +2113,12 @@ con tolleranza %        </string>
     <string formatted="false" name="undo_sort">Annulla ordinamento</string>
     <string formatted="false" name="sort">Ordina</string>
     <string formatted="false" name="checkbox">casella di controllo</string>
+    <!-- Shortcut strings -->
+    <string formatted="false" name="pin_to_home_screen">Pin to Home Screen</string>
+    <string formatted="false" name="shortcut_not_supported">Shortcuts are not supported on this device</string>
+    <string formatted="false" name="project_busy_try_again">Project is busy, try again</string>
+    <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
+    <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
+    <string formatted="false" name="miui_open_settings">Open Settings</string>
+    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
 </resources>
