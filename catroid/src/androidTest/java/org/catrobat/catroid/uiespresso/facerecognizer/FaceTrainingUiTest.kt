@@ -29,6 +29,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasType
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -442,6 +443,11 @@ class FaceTrainingUiTest {
         } finally {
             IdlingRegistry.getInstance().unregister(dialogOpen)
         }
+        // The dialog counts as open when show() is called, but its window gets
+        // focus a moment later. A plain onView() in that gap picks the stage
+        // window, which never gets focus back while the dialog is open, and
+        // fails after 10 s. inRoot(isDialog()) waits for the dialog's focus.
+        onView(isRoot()).inRoot(isDialog()).check(matches(isDisplayed()))
     }
 
     /** The name list's title: a hint once names exist, "Face names" while it is empty. */
