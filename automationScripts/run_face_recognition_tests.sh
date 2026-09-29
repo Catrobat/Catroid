@@ -28,7 +28,10 @@ EVIDENCE="${EVIDENCE:-$ROOT/build/face_recognition_evidence}"
 mkdir -p "$EVIDENCE"
 EVIDENCE="$(cd "$EVIDENCE" && pwd)"
 
-BEFORE_ALIAS=cb7b185d4    # committed state before the FaceNameTrain/FaceNameDetect xstream aliases
+# The commit just before "[fix] XStream aliases for the face bricks" on this branch;
+# it differs from that fix commit only by the aliases.
+BEFORE_ALIAS=68eeae484
+ALIAS_FIX=30607b1f5
 RECOGNIZER=catroid/src/main/java/org/catrobat/catroid/FaceRecognizer/Recognizer.kt
 PEEK_FIXED='if (session == null || session.framesWithFace == 0) {'
 PEEK_OLD='if (session == null || session.framesWithFace == 2) {'
@@ -206,11 +209,21 @@ red_peek() {
 }
 
 red_alias() {
-  # The existing BricksXmlSerializerTest on the commit without the xstream aliases.
+  # The existing BricksXmlSerializerTest on the commit just before the alias fix.
+  [ "$(git rev-parse "$ALIAS_FIX^")" = "$(git rev-parse "$BEFORE_ALIAS")" ] ||
+    die "$BEFORE_ALIAS is not the parent of the alias fix $ALIAS_FIX."
+  git diff --name-only "$BEFORE_ALIAS" "$ALIAS_FIX" > "$EVIDENCE/red_before_alias_changed_files.txt"
+  [ "$(cat "$EVIDENCE/red_before_alias_changed_files.txt")" = "catroid/src/main/java/org/catrobat/catroid/io/XstreamSerializer.java" ] ||
+    die "The alias fix changes more than XstreamSerializer.java."
+  git diff --no-color "$BEFORE_ALIAS" "$ALIAS_FIX" > "$EVIDENCE/red_before_alias.diff"
+
   local before="$ROOT/../Catroid-before-alias"
   if [ ! -d "$before" ]; then
     git worktree add --detach "$before" "$BEFORE_ALIAS" || die "Could not create the worktree at $before."
   fi
+  # An existing worktree may be at another commit; move it to BEFORE_ALIAS.
+  git -C "$before" checkout -q --detach "$BEFORE_ALIAS" || die "Could not check out $BEFORE_ALIAS in $before."
+  [ "$(git -C "$before" rev-parse HEAD)" = "$(git rev-parse "$BEFORE_ALIAS")" ] || die "$before is not at $BEFORE_ALIAS."
   [ -f "$ROOT/local.properties" ] && cp "$ROOT/local.properties" "$before/local.properties"
   clear_results "$before"
   log_run red_before_alias "$before" ./gradlew :catroid:testCatroidDebugUnitTest \
