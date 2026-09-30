@@ -35,6 +35,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.catrobat.catroid.R
@@ -83,7 +84,10 @@ object ShortcutHelper {
      * First attempts full-resolution ARGB_8888. On OutOfMemoryError, retries at half-resolution
      * with RGB_565. If both fail, returns null.
      */
-    suspend fun loadProjectIcon(projectName: String): Bitmap? = withContext(Dispatchers.IO) {
+    suspend fun loadProjectIcon(
+        projectName: String,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Bitmap? = withContext(dispatcher) {
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, encodedName)
         val screenshotFile = findScreenshotFile(projectDir) ?: return@withContext null
@@ -370,7 +374,10 @@ object ShortcutHelper {
      * 3. Checks if the shortcut actually exists in the dynamic list.
      * 4. Cleans up the dummy shortcut.
      */
-    suspend fun probeIsShortcutCreationBlocked(context: Context): Boolean = withContext(Dispatchers.IO) {
+    suspend fun probeIsShortcutCreationBlocked(
+        context: Context,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Boolean = withContext(dispatcher) {
         if (!isShortcutSupported(context)) return@withContext true
 
         val probeId = "miui_probe_${System.currentTimeMillis()}"
@@ -408,7 +415,10 @@ object ShortcutHelper {
      * Tries reflection first, and gracefully falls back to the silent probe when
      * reflection is blocked on newer Android/HyperOS versions.
      */
-    suspend fun verifyShortcutPermission(context: Context): Boolean = withContext(Dispatchers.IO) {
+    suspend fun verifyShortcutPermission(
+        context: Context,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Boolean = withContext(dispatcher) {
         if (!isXiaomiDevice()) return@withContext true
 
         val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager

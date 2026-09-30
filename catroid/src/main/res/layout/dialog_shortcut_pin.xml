@@ -24,6 +24,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_shortcut_dialog"
@@ -76,15 +77,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/shortcut_dialog_name_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/shortcut_name_label"
                 android:textColor="#94A3B8"
-                android:textSize="10.5sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:letterSpacing="0.05"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:labelFor="@+id/shortcut_dialog_project_name_edit" />
 
             <EditText
                 android:id="@+id/shortcut_dialog_project_name_edit"
@@ -97,8 +100,11 @@
                 android:textSize="13.5sp"
                 android:singleLine="true"
                 android:maxLines="1"
+                android:hint="@string/shortcut_name_label"
+                android:importantForAutofill="no"
                 android:imeOptions="actionDone"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                tools:ignore="Autofill" />
 
             <TextView
                 android:id="@+id/shortcut_dialog_project_name"
@@ -201,7 +207,8 @@
         android:id="@+id/shortcut_dialog_button_container"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="ButtonBar">
 
         <Button
             android:id="@+id/shortcut_dialog_cancel_button"
@@ -214,7 +221,8 @@
             android:textAllCaps="true"
             android:textColor="@color/solid_white"
             android:textSize="13.5sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/shortcut_dialog_pin_button"
@@ -227,7 +235,8 @@
             android:textAllCaps="true"
             android:textColor="@color/solid_white"
             android:textSize="13.5sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

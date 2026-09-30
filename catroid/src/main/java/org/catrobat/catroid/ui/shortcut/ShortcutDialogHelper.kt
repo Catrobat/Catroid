@@ -35,6 +35,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +48,8 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
 
 object ShortcutDialogHelper {
+
+    var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 
     private fun applyDialogDimensions(dialog: AlertDialog, context: Context) {
         val displayMetrics = context.resources.displayMetrics
@@ -70,16 +73,59 @@ object ShortcutDialogHelper {
             return
         }
 
-        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+        createAndShowPinDialog(
+            context = context,
+            layoutInflater = layoutInflater,
+            projectName = projectName,
+            icon = icon,
+            onProjectRenamed = onProjectRenamed
+        )
+    }
 
+    private fun createAndShowPinDialog(
+        context: Context,
+        layoutInflater: LayoutInflater,
+        projectName: String,
+        icon: Bitmap?,
+        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
+    ) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+        val nameEdit = dialogView.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
+        val renameCheckbox = dialogView.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+        val pinButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_pin_button)
+        val cancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_cancel_button)
+
+        setupDialogViews(dialogView, projectName, icon, renameCheckbox)
+
+        val dialog = AlertDialog.Builder(context, R.style.ShortcutPinDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+
+        pinButton.setOnClickListener {
+            handlePinAction(context, dialog, projectName, icon, nameEdit, renameCheckbox, onProjectRenamed)
+        }
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        applyDialogDimensions(dialog, context)
+    }
+
+    private fun setupDialogViews(
+        dialogView: View,
+        projectName: String,
+        icon: Bitmap?,
+        renameCheckbox: CheckBox
+    ) {
         val iconView = dialogView.findViewById<ImageView>(R.id.shortcut_dialog_icon)
         val nameEdit = dialogView.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
         val renameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
-        val renameCheckbox = dialogView.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
         val renameLabel = dialogView.findViewById<TextView>(R.id.shortcut_dialog_rename_project_label)
         val buttonContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_button_container)
-        val pinButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_cancel_button)
         val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
 
         if (icon != null) {
@@ -90,70 +136,85 @@ object ShortcutDialogHelper {
         nameEdit.setText(projectName)
         nameEdit.setSelection(projectName.length)
         miuiContainer.visibility = View.GONE
-        buttonContainer?.visibility = View.VISIBLE
+        buttonContainer.visibility = View.VISIBLE
 
-        renameLabel?.setOnClickListener {
-            renameCheckbox?.isChecked = !(renameCheckbox?.isChecked ?: false)
+        val toggleCheckbox = View.OnClickListener {
+            renameCheckbox.isChecked = !renameCheckbox.isChecked
         }
-        renameContainer?.setOnClickListener {
-            renameCheckbox?.isChecked = !(renameCheckbox?.isChecked ?: false)
-        }
+        renameLabel.setOnClickListener(toggleCheckbox)
+        renameContainer.setOnClickListener(toggleCheckbox)
+    }
 
-        val dialog = AlertDialog.Builder(context, R.style.ShortcutPinDialog)
-            .setView(dialogView)
-            .create()
+    private fun handlePinAction(
+        context: Context,
+        dialog: AlertDialog,
+        projectName: String,
+        icon: Bitmap?,
+        nameEdit: EditText,
+        renameCheckbox: CheckBox,
+        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
+    ) {
+        val editedName = nameEdit.text?.toString()?.trim()
+        val labelToUse = if (!editedName.isNullOrBlank()) editedName else projectName
+        val shouldRenameProject = renameCheckbox.isChecked && labelToUse != projectName
 
-        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
-
-        pinButton.setOnClickListener {
-            val editedName = nameEdit.text?.toString()?.trim()
-            val labelToUse = if (!editedName.isNullOrBlank()) editedName else projectName
-            val shouldRenameProject = renameCheckbox?.isChecked == true && labelToUse != projectName
-
-            if (shouldRenameProject) {
-                val destinationDir = File(
-                    FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
-                    FileMetaDataExtractor.encodeSpecialCharsForFileSystem(labelToUse)
-                )
-                if (destinationDir.exists()) {
-                    ToastUtil.showError(context, R.string.name_already_exists)
-                    return@setOnClickListener
-                }
-
-                val projectDir = File(
-                    FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
-                    FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
-                )
-
-                dialog.dismiss()
-
-                ProjectRenamer(projectDir, labelToUse).renameProjectAsync({ success ->
-                    if (success) {
-                        val currentProject = ProjectManager.getInstance()?.currentProject
-                        if (currentProject != null && currentProject.name == projectName) {
-                            currentProject.name = labelToUse
-                        }
-                        ShortcutHelper.pinProject(context, labelToUse, icon, shortcutLabel = labelToUse)
-                        CoroutineScope(Dispatchers.Main).launch {
-                            ShortcutHelper.updateShortcutOnRename(context, projectName, labelToUse)
-                        }
-                        onProjectRenamed?.invoke(projectName, labelToUse)
-                    } else {
-                        ToastUtil.showError(context, R.string.error_rename_incompatible_project)
-                    }
-                })
-            } else {
-                dialog.dismiss()
-                ShortcutHelper.pinProject(context, projectName, icon, shortcutLabel = labelToUse)
-            }
-        }
-
-        cancelButton.setOnClickListener {
+        if (shouldRenameProject) {
+            renameProjectAndPin(context, dialog, projectName, labelToUse, icon, onProjectRenamed)
+        } else {
             dialog.dismiss()
+            ShortcutHelper.pinProject(context, projectName, icon, shortcutLabel = labelToUse)
+        }
+    }
+
+    private fun renameProjectAndPin(
+        context: Context,
+        dialog: AlertDialog,
+        projectName: String,
+        newName: String,
+        icon: Bitmap?,
+        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
+    ) {
+        val destinationDir = File(
+            FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
+        )
+        if (destinationDir.exists()) {
+            ToastUtil.showError(context, R.string.name_already_exists)
+            return
         }
 
-        dialog.show()
-        applyDialogDimensions(dialog, context)
+        val projectDir = File(
+            FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+        )
+
+        dialog.dismiss()
+
+        ProjectRenamer(projectDir, newName).renameProjectAsync({ success ->
+            if (success) {
+                onProjectRenameSuccess(context, projectName, newName, icon, onProjectRenamed)
+            } else {
+                ToastUtil.showError(context, R.string.error_rename_incompatible_project)
+            }
+        })
+    }
+
+    private fun onProjectRenameSuccess(
+        context: Context,
+        projectName: String,
+        newName: String,
+        icon: Bitmap?,
+        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
+    ) {
+        val currentProject = ProjectManager.getInstance()?.currentProject
+        if (currentProject != null && currentProject.name == projectName) {
+            currentProject.name = newName
+        }
+        ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
+        CoroutineScope(mainDispatcher).launch {
+            ShortcutHelper.updateShortcutOnRename(context, projectName, newName)
+        }
+        onProjectRenamed?.invoke(projectName, newName)
     }
 
     fun showShortcutPermissionDialog(
@@ -178,9 +239,9 @@ object ShortcutDialogHelper {
         } else {
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        nameContainer?.visibility = View.GONE
-        renameContainer?.visibility = View.GONE
-        buttonContainer?.visibility = View.GONE
+        nameContainer.visibility = View.GONE
+        renameContainer.visibility = View.GONE
+        buttonContainer.visibility = View.GONE
         miuiContainer.visibility = View.VISIBLE
 
         val dialog = AlertDialog.Builder(context, R.style.ShortcutPinDialog)

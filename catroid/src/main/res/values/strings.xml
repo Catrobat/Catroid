@@ -2355,6 +2355,5 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="create_shortcut">Create Shortcut</string>
     <string formatted="false" name="pin">PIN</string>
     <string formatted="false" name="shortcut_name_label">NAME</string>
-    <string formatted="false" name="shortcut_preview_title">Home Screen Preview</string>
     <string formatted="false" name="shortcut_also_rename_project">Also rename project in Pocket Code</string>
 </resources>
