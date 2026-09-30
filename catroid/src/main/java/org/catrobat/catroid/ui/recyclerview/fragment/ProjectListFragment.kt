@@ -679,10 +679,20 @@ class ProjectListFragment(
             layoutInflater,
             projectName,
             icon,
-            isPermissionGranted
-        ) {
-            pendingShortcutProjectName = projectName
-            pendingShortcutIcon = icon
-        }
+            isPermissionGranted,
+            onSettingsClicked = {
+                pendingShortcutProjectName = projectName
+                pendingShortcutIcon = icon
+            },
+            onProjectRenamed = { _, _ ->
+                getLocalProjectListAsync(object : LoadProjectsListener {
+                    override fun onProjectsLoaded() {
+                        if (isAdded && adapter != null) {
+                            setAdapterItems(adapter.projectsSorted)
+                        }
+                    }
+                })
+            }
+        )
     }
 }

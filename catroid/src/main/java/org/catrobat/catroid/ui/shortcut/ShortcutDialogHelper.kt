@@ -30,12 +30,31 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.io.asynctask.ProjectRenamer
+import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.ToastUtil
+import java.io.File
 
 object ShortcutDialogHelper {
+
+    private fun applyDialogDimensions(dialog: AlertDialog, context: Context) {
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+        val maxDialogWidth = (345 * displayMetrics.density).toInt()
+        val dialogWidth = (screenWidth * 0.86).toInt().coerceAtMost(maxDialogWidth)
+        dialog.window?.setLayout(dialogWidth, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
 
     fun showPinShortcutDialog(
         context: Context,
@@ -43,7 +62,8 @@ object ShortcutDialogHelper {
         projectName: String,
         icon: Bitmap?,
         isPermissionGranted: Boolean = ShortcutHelper.isShortcutPermissionGranted(context),
-        onSettingsClicked: (() -> Unit)? = null
+        onSettingsClicked: (() -> Unit)? = null,
+        onProjectRenamed: ((oldName: String, newName: String) -> Unit)? = null
     ) {
         if (ShortcutHelper.isXiaomiDevice() && !isPermissionGranted) {
             showShortcutPermissionDialog(context, layoutInflater, projectName, icon, onSettingsClicked)
@@ -53,7 +73,11 @@ object ShortcutDialogHelper {
         val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
 
         val iconView = dialogView.findViewById<ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<TextView>(R.id.shortcut_dialog_project_name)
+        val nameEdit = dialogView.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
+        val renameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
+        val renameCheckbox = dialogView.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+        val renameLabel = dialogView.findViewById<TextView>(R.id.shortcut_dialog_rename_project_label)
+        val buttonContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_button_container)
         val pinButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_pin_button)
         val cancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_cancel_button)
         val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
@@ -63,9 +87,17 @@ object ShortcutDialogHelper {
         } else {
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        nameView.text = projectName
+        nameEdit.setText(projectName)
+        nameEdit.setSelection(projectName.length)
         miuiContainer.visibility = View.GONE
-        pinButton.visibility = View.VISIBLE
+        buttonContainer?.visibility = View.VISIBLE
+
+        renameLabel?.setOnClickListener {
+            renameCheckbox?.isChecked = !(renameCheckbox?.isChecked ?: false)
+        }
+        renameContainer?.setOnClickListener {
+            renameCheckbox?.isChecked = !(renameCheckbox?.isChecked ?: false)
+        }
 
         val dialog = AlertDialog.Builder(context, R.style.ShortcutPinDialog)
             .setView(dialogView)
@@ -74,8 +106,46 @@ object ShortcutDialogHelper {
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
         pinButton.setOnClickListener {
-            dialog.dismiss()
-            ShortcutHelper.pinProject(context, projectName, icon)
+            val editedName = nameEdit.text?.toString()?.trim()
+            val labelToUse = if (!editedName.isNullOrBlank()) editedName else projectName
+            val shouldRenameProject = renameCheckbox?.isChecked == true && labelToUse != projectName
+
+            if (shouldRenameProject) {
+                val destinationDir = File(
+                    FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+                    FileMetaDataExtractor.encodeSpecialCharsForFileSystem(labelToUse)
+                )
+                if (destinationDir.exists()) {
+                    ToastUtil.showError(context, R.string.name_already_exists)
+                    return@setOnClickListener
+                }
+
+                val projectDir = File(
+                    FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+                    FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+                )
+
+                dialog.dismiss()
+
+                ProjectRenamer(projectDir, labelToUse).renameProjectAsync({ success ->
+                    if (success) {
+                        val currentProject = ProjectManager.getInstance()?.currentProject
+                        if (currentProject != null && currentProject.name == projectName) {
+                            currentProject.name = labelToUse
+                        }
+                        ShortcutHelper.pinProject(context, labelToUse, icon, shortcutLabel = labelToUse)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            ShortcutHelper.updateShortcutOnRename(context, projectName, labelToUse)
+                        }
+                        onProjectRenamed?.invoke(projectName, labelToUse)
+                    } else {
+                        ToastUtil.showError(context, R.string.error_rename_incompatible_project)
+                    }
+                })
+            } else {
+                dialog.dismiss()
+                ShortcutHelper.pinProject(context, projectName, icon, shortcutLabel = labelToUse)
+            }
         }
 
         cancelButton.setOnClickListener {
@@ -83,6 +153,7 @@ object ShortcutDialogHelper {
         }
 
         dialog.show()
+        applyDialogDimensions(dialog, context)
     }
 
     fun showShortcutPermissionDialog(
@@ -95,9 +166,9 @@ object ShortcutDialogHelper {
         val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
 
         val iconView = dialogView.findViewById<ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<TextView>(R.id.shortcut_dialog_project_name)
-        val pinButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_cancel_button)
+        val nameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_name_container)
+        val renameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
+        val buttonContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_button_container)
         val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
         val settingsButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_settings_button)
         val miuiCancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_cancel_button)
@@ -107,10 +178,10 @@ object ShortcutDialogHelper {
         } else {
             iconView.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        nameView.text = projectName
+        nameContainer?.visibility = View.GONE
+        renameContainer?.visibility = View.GONE
+        buttonContainer?.visibility = View.GONE
         miuiContainer.visibility = View.VISIBLE
-        pinButton.visibility = View.GONE
-        cancelButton.visibility = View.GONE
 
         val dialog = AlertDialog.Builder(context, R.style.ShortcutPinDialog)
             .setView(dialogView)
@@ -129,5 +200,6 @@ object ShortcutDialogHelper {
         }
 
         dialog.show()
+        applyDialogDimensions(dialog, context)
     }
 }

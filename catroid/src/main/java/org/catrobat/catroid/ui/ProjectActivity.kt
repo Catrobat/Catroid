@@ -196,7 +196,10 @@ class ProjectActivity : BaseCastActivity() {
                         layoutInflater,
                         projectName,
                         icon,
-                        isGranted
+                        isGranted,
+                        onProjectRenamed = { _, newName ->
+                            supportActionBar?.title = newName
+                        }
                     )
                 }
             }
@@ -223,11 +226,15 @@ class ProjectActivity : BaseCastActivity() {
                 layoutInflater,
                 projectName,
                 icon,
-                isGranted
-            ) {
-                pendingShortcutProjectName = projectName
-                pendingShortcutIcon = icon
-            }
+                isGranted,
+                onSettingsClicked = {
+                    pendingShortcutProjectName = projectName
+                    pendingShortcutIcon = icon
+                },
+                onProjectRenamed = { _, newName ->
+                    supportActionBar?.title = newName
+                }
+            )
         }
     }
 

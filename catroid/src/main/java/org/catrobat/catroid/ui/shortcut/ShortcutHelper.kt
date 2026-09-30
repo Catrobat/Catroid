@@ -162,8 +162,13 @@ object ShortcutHelper {
      *
      * Shortcut ID = encoded directory name at time of pinning.
      */
-    fun pinProject(context: Context, projectName: String, icon: Bitmap?): Boolean {
-        val shortcutInfo = buildShortcutInfo(context, projectName, icon)
+    fun pinProject(
+        context: Context,
+        projectName: String,
+        icon: Bitmap? = null,
+        shortcutLabel: String = projectName
+    ): Boolean {
+        val shortcutInfo = buildShortcutInfo(context, projectName, icon, shortcutLabel = shortcutLabel)
 
         val existingShortcuts = try {
             ShortcutManagerCompat.getDynamicShortcuts(context)
@@ -294,9 +299,11 @@ object ShortcutHelper {
         context: Context,
         projectName: String,
         icon: Bitmap?,
-        overrideId: String? = null
+        overrideId: String? = null,
+        shortcutLabel: String? = null
     ): ShortcutInfoCompat {
         val shortcutId = overrideId ?: encodeShortcutId(projectName)
+        val label = if (!shortcutLabel.isNullOrBlank()) shortcutLabel else projectName
 
         val trampolineIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
             action = Intent.ACTION_VIEW
@@ -310,8 +317,8 @@ object ShortcutHelper {
         }
 
         return ShortcutInfoCompat.Builder(context, shortcutId)
-            .setShortLabel(projectName)
-            .setLongLabel(projectName)
+            .setShortLabel(label)
+            .setLongLabel(label)
             .setLongLived(true)
             .setIcon(iconCompat)
             .setIntent(trampolineIntent)

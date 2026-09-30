@@ -153,6 +153,23 @@ class ShortcutHelperTest {
         assertEquals(expected, capturedShortcut.captured.id)
     }
 
+    @Test
+    fun `pinProject uses custom shortcut label when provided`() {
+        val projectName = "My Original Project"
+        val customLabel = "Custom Home Nickname"
+
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        val capturedShortcut = slot<ShortcutInfoCompat>()
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), capture(capturedShortcut)) } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(relaxed = true)
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
+
+        ShortcutHelper.pinProject(context, projectName, null, shortcutLabel = customLabel)
+
+        assertEquals(customLabel, capturedShortcut.captured.shortLabel)
+        assertEquals(FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName), capturedShortcut.captured.id)
+    }
+
     // Must: OOM full-res fallback — double OOM returns null
 
     @Test
