@@ -127,6 +127,37 @@ class ShortcutTrampolineActivityTest {
         verify { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
     }
 
+    @Test
+    fun `missing directory disables shortcut matching renamed project`() {
+        val originalId = "OriginalId_123"
+        val existingShortcut = io.mockk.mockk<androidx.core.content.pm.ShortcutInfoCompat> {
+            every { id } returns originalId
+            every { shortLabel } returns "RenamedProject_123"
+            every { intent } returns Intent().apply {
+                putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "RenamedProject_123")
+            }
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
+
+        val intent = Intent().apply {
+            putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "RenamedProject_123")
+        }
+        val controller = Robolectric.buildActivity(
+            ShortcutTrampolineActivity::class.java, intent
+        ).create()
+
+        repeat(5) {
+            shadowOf(android.os.Looper.getMainLooper()).idle()
+            Thread.sleep(50)
+        }
+        shadowOf(android.os.Looper.getMainLooper()).idle()
+
+        assertTrue(controller.get().isFinishing)
+        verify {
+            ShortcutManagerCompat.disableShortcuts(any(), match { it.contains(originalId) }, any())
+        }
+    }
+
     // -----------------------------------------------------------------------
     // Must: Valid project launches StageActivity
     // (Skipped — requires full ProjectManager init which is too heavy for

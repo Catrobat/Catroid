@@ -157,10 +157,21 @@ class ShortcutTrampolineActivity : Activity() {
 
     private fun disableShortcutAndFinish(projectName: String) {
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+        val dynamicShortcuts = try {
+            ShortcutManagerCompat.getDynamicShortcuts(this)
+        } catch (e: Exception) {
+            emptyList()
+        }
+        val targetIds = dynamicShortcuts.filter {
+            it.id == encodedName ||
+            it.shortLabel == projectName ||
+            it.intent?.getStringExtra(EXTRA_PROJECT_NAME) == projectName
+        }.map { it.id }.ifEmpty { listOf(encodedName) }
+
         try {
             ShortcutManagerCompat.disableShortcuts(
                 this,
-                listOf(encodedName),
+                targetIds,
                 getString(R.string.shortcut_project_not_found)
             )
         } catch (e: Exception) {
