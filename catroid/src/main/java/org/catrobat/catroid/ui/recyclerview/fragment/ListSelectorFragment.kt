@@ -279,7 +279,8 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
                 R.id.new_scene,
                 R.id.show_details,
                 R.id.project_options,
-                R.id.from_local
+                R.id.from_local,
+                R.id.pin_to_home_screen,
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
             .menu_project_activity, hiddenOptionMenuIds)

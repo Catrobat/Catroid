@@ -552,7 +552,8 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         itemList.add(item)
         val hiddenOptionsMenu = mutableListOf<Int>(
             R.id.copy, R.id.show_details, R.id.from_local, R.id.new_group,
-            R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
+            R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options,
+            R.id.pin_to_home_screen
         )
         if (item is UserVariable) {
             val popupMenu = UiUtils.createSettingsPopUpMenu(
