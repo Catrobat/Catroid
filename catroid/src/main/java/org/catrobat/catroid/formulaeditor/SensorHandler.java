@@ -37,7 +37,6 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.FaceRecognizer.FaceDetector;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
@@ -50,7 +49,6 @@ import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.nfc.NfcHandler;
-import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
@@ -281,7 +279,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
 		if (sensor == Sensors.ON_DEVICE_FACE_RECOGNITION) {
-			FaceDetector.detectBlocking(CatroidApplication.getAppContext());
 			return faceNameRecognitionResult;
 		}
 		if (instance.sensorManager == null) {

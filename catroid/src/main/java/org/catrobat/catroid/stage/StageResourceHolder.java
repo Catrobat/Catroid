@@ -346,7 +346,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initFinishedRunStage() {
-		FaceDetector.setScriptRunning(true);
 		try {
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 		} catch (MindstormsException e) {

@@ -20,7 +20,6 @@ import android.media.ImageReader
 import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.Looper
 import android.util.Log
 import android.util.Range
 import android.util.Rational
@@ -32,8 +31,6 @@ import androidx.core.content.ContextCompat
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import java.util.Arrays
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import kotlin.concurrent.Volatile
 import kotlin.math.max
 import kotlin.math.min
@@ -81,30 +78,6 @@ object FaceDetector {
     var lastConfidence: Float = 0f
         private set
 
-    /**
-     * The camera is only allowed to open while a script is actually running.
-     *
-     * A sensor is read from more places than a script: the brick view evaluates
-     * formulas to draw the block label, and the stage evaluates them while it is
-     * preparing. Those reads must report the last known name, never open a camera,
-     * or the camera fires before the script reaches the block that wants it.
-     *
-     * StageActivity turns this on when the program starts and off when it stops.
-     */
-    @Volatile
-    private var scriptRunning = false
-
-    @JvmStatic
-    fun setScriptRunning(running: Boolean) {
-        scriptRunning = running
-        Log.i(TAG, "Script running = " + running)
-    }
-
-    @JvmStatic
-    fun isScriptRunning(): Boolean {
-        return scriptRunning
-    }
-
     fun hasPermission(context: Context?): Boolean {
         return context != null && ContextCompat.checkSelfPermission(
             context, Manifest.permission.CAMERA
@@ -112,94 +85,10 @@ object FaceDetector {
     }
 
     /**
-     * How long a blocking read will wait. Kept well under any watchdog so the
-     * caller always gets an answer rather than being stuck.
-     */
-    private const val BLOCKING_WAIT_MS: Long = 12000
-
-    /**
-     * Detects and waits for the answer, then returns the name.
+     * Forces a fresh detection, ignoring an earlier result and the interval.
      *
-     * This is what makes
-     *
-     * Set variable rr to (detected face name)
-     *
-     * work on its own, with no separate detect block. The read pauses until the
-     * camera is finished, so the very next block sees the real name.
-     *
-     * Safe to call from a Catroid script, because scripts run on the libGDX
-     * thread, not the Android main thread, so pausing it cannot cause an ANR. It
-     * pauses the stage for about a second while the camera works.
-     *
-     * Called from the main thread it never blocks. It starts the capture and
-     * returns the previous name, because freezing the UI thread would be an ANR.
-     *
-     * Only the first read in a program run opens the camera. Later reads return
-     * the stored name immediately, so a script can use the sensor as often as it
-     * likes.
-     */
-    @JvmStatic
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    fun detectBlocking(context: Context?): String {
-        if (isDetectionDone) {
-            return lastName
-        }
-
-        // Rule one: only a running script may open the camera. Everything else
-        // gets the last known name. This is what stops the camera firing before
-        // the script reaches the block that asked for it.
-        if (!scriptRunning) {
-            Log.i(
-                TAG, ("Read outside a running script, reporting '" + lastName
-                    + "' without opening the camera")
-            )
-            return lastName
-        }
-
-        // Rule two: only the stage thread may open the camera. The UI thread
-        // reads sensors to draw brick labels.
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            Log.i(
-                TAG, ("Read on the main thread, reporting '" + lastName
-                    + "' without opening the camera")
-            )
-            return lastName
-        }
-
-        Log.i(
-            TAG, ("Blocking read from thread '"
-                + Thread.currentThread().getName() + "', opening the camera")
-        )
-        if (context == null) {
-            return lastName
-        }
-
-        val latch = CountDownLatch(1)
-        val started = requestDetection(context) { _, _ ->
-            latch.countDown()
-        }
-
-
-        if (!started && !isRunning) {
-            return lastName
-        }
-
-        try {
-            if (!latch.await(BLOCKING_WAIT_MS, TimeUnit.MILLISECONDS)) {
-                Log.w(TAG, "Blocking read timed out")
-            }
-        } catch (e: InterruptedException) {
-            Thread.currentThread().interrupt()
-        }
-        Log.i(TAG, "Blocking read returning '" + lastName + "'")
-        return lastName
-    }
-
-    /**
-     * Forces a fresh detection, ignoring the one per run latch and the interval.
-     *
-     * This is what a brick uses. A brick is an explicit instruction from the
-     * child, so unlike a sensor read it should always mean "look now".
+     * This is the only way a capture starts: the Detect face name brick calls
+     * it. Reading the "detected face name" sensor only returns the last result.
      */
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -222,7 +111,6 @@ object FaceDetector {
     @JvmStatic
     @Synchronized
     fun resetForNewRun() {
-        scriptRunning = false
         isDetectionDone = false
         isRunning = false
         lastDetectionStart = 0L

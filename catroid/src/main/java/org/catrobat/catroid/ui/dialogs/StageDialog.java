@@ -212,7 +212,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
-		FaceDetector.setScriptRunning(false);
 		FaceDetector.resetForNewRun();
 		stageListener.reloadProject(this);
 		synchronized (this) {
@@ -222,7 +221,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				Log.e(TAG, "Thread activated too early!", e);
 			}
 		}
-		FaceDetector.setScriptRunning(true);
 		StageLifeCycleController.stageResume(stageActivity);
 	}
 
