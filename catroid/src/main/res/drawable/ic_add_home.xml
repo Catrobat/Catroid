@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -20,13 +20,19 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="45dp"
-    android:height="45dp"
-    android:viewportWidth="24"
+    android:width="56dp"
+    android:height="24dp"
+    android:viewportWidth="56"
     android:viewportHeight="24">
-  <path
-      android:pathData="M4,8h4L8,4L4,4v4zM10,20h4v-4h-4v4zM4,20h4v-4L4,16v4zM4,14h4v-4L4,10v4zM10,14h4v-4h-4v4zM16,4v4h4L20,4h-4zM10,8h4L14,4h-4v4zM16,14h4v-4h-4v4zM16,20h4v-4h-4v4z"
-      android:fillColor="#FFFFFF"/>
+  <group>
+    <clip-path
+        android:pathData="M0,0h56v24h-56z"/>
+    <group android:translateX="16">
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillType="evenOdd"
+          android:pathData="M18,11c1.49,0 2.86,0.54 3.92,1.44L21,11.5L12,3L2,12h3v8h7.08c-0.05,-0.33 -0.08,-0.66 -0.08,-1 0,-3.31 2.69,-6 6,-6zM18,13c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5 -2.24,-5 -5,-5zM21,18.5h-2.5V21h-1v-2.5H15v-1h2.5V15h1v2.5H21v1z"/>
+    </group>
+  </group>
 </vector>
