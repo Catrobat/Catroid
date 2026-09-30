@@ -75,7 +75,7 @@ import static org.koin.java.KoinJavaComponent.get;
 
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
-	private static final int REQUEST_FACE_NAME_RECOG = 4242;
+
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int REQUEST_GPS = 1;
 
@@ -346,18 +346,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initFinishedRunStage() {
-		FaceDetector.setScriptRunning(true);      // add as the first line
+		FaceDetector.setScriptRunning(true);
 		try {
-			final var bluetoothService = ServiceProvider.getService(
-					CatroidService.BLUETOOTH_DEVICE_SERVICE
-			);
-
-			if (bluetoothService == null) {
-				Log.e(TAG, "Bluetooth device service is unavailable");
-				return;
-			}
-
-			bluetoothService.initialise();
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
