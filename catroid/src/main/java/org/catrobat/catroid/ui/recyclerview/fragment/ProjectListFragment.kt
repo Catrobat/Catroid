@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
@@ -182,7 +183,12 @@ class ProjectListFragment(
             val icon = pendingShortcutIcon
             pendingShortcutProjectName = null
             pendingShortcutIcon = null
-            showPinShortcutDialog(projectName, icon)
+            coroutineScope.launch {
+                val isGranted = context?.let { ShortcutHelper.verifyShortcutPermission(it) } ?: true
+                withContext(mainDispatcher) {
+                    showPinShortcutDialog(projectName, icon, isGranted)
+                }
+            }
         }
 
         BottomBar.showBottomBar(requireActivity())
@@ -655,99 +661,28 @@ class ProjectListFragment(
         val projectName = item.name
         coroutineScope.launch {
             val icon = ShortcutHelper.loadProjectIcon(projectName)
+            val isGranted = ShortcutHelper.verifyShortcutPermission(context)
             withContext(mainDispatcher) {
-                showPinShortcutDialog(projectName, icon)
+                showPinShortcutDialog(projectName, icon, isGranted)
             }
         }
     }
 
-    private fun showPinShortcutDialog(projectName: String, icon: android.graphics.Bitmap?) {
-        val context = context ?: return
-
-        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
-
-        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
-            showShortcutPermissionDialog(context, projectName, icon)
-            return
-        }
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
-
-        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
-        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
-
-        if (icon != null) {
-            iconView.setImageBitmap(icon)
-        } else {
-            iconView.setImageResource(R.drawable.ic_launcher_foreground)
-        }
-        nameView.text = projectName
-        miuiContainer.visibility = android.view.View.GONE
-        pinButton.visibility = android.view.View.VISIBLE
-
-        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
-
-        pinButton.setOnClickListener {
-            dialog.dismiss()
-            ShortcutHelper.pinProject(context, projectName, icon)
-        }
-
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun showShortcutPermissionDialog(
-        context: Context,
+    private fun showPinShortcutDialog(
         projectName: String,
-        icon: android.graphics.Bitmap?
+        icon: android.graphics.Bitmap?,
+        isPermissionGranted: Boolean = ShortcutHelper.isShortcutPermissionGranted(requireContext())
     ) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
-
-        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
-        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
-        val settingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
-        val miuiCancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_cancel_button)
-
-        if (icon != null) {
-            iconView.setImageBitmap(icon)
-        } else {
-            iconView.setImageResource(R.drawable.ic_launcher_foreground)
-        }
-        nameView.text = projectName
-        miuiContainer.visibility = android.view.View.VISIBLE
-        pinButton.visibility = android.view.View.GONE
-        cancelButton.visibility = android.view.View.GONE
-
-        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
-
-        settingsButton.setOnClickListener {
+        val context = context ?: return
+        ShortcutDialogHelper.showPinShortcutDialog(
+            context,
+            layoutInflater,
+            projectName,
+            icon,
+            isPermissionGranted
+        ) {
             pendingShortcutProjectName = projectName
             pendingShortcutIcon = icon
-            dialog.dismiss()
-            ShortcutHelper.openMiuiPermissionEditor(context)
         }
-
-        miuiCancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 }
