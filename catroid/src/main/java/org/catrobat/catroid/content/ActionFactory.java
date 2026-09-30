@@ -259,12 +259,15 @@ public class ActionFactory extends Actions {
 		action.setDelay(delay);
 		return action;
 	}
+
 	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
 		return new FaceNameTrainAction();
 	}
+
 	public Action faceNameDetectAction(Sprite sprite, SequenceAction sequence) {
 		return new FaceNameDetectAction();
 	}
+
 	public Action createWaitForSoundAction(Sprite sprite, SequenceAction sequence, Formula delay,
 			String soundFilePath) {
 		WaitForSoundAction action = action(WaitForSoundAction.class);

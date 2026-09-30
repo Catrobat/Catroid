@@ -488,7 +488,6 @@ class Recognizer private constructor() {
         )
     }
 
-
     /**
      * Embeds the largest face in a live camera frame, for camera based enrolment.
      * Uses exactly the same crop and normalisation as detection, which is the whole
@@ -2055,7 +2054,6 @@ class Recognizer private constructor() {
                 deviation
             )
         }
-
 
         @JvmStatic
         @Synchronized

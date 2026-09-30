@@ -321,6 +321,7 @@ class CategoryListItems {
             emptyList()
         }
     }
+
     private fun getFaceNameSensorItems(activity: Activity): List<CategoryListRVAdapter
         .CategoryListItem> {
         return if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(
@@ -640,7 +641,6 @@ class CategoryListItems {
         )
         private val SENSORS_FACE_NAME_DETECTION = listOf(
             R.string.formula_editor_sensor_face_name_detected
-
         )
         private val SENSORS_FACE_NAME_DETECTION_PARAMS = listOf(
             R.string.formula_editor_function_no_parameter

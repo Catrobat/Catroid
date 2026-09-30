@@ -164,7 +164,6 @@ class FaceEmbedder private constructor(
                     + frame.getWidth() + "x" + frame.getHeight())
             )
 
-
             val buffer = try {
                 faceNet.getEmbeddings(frame, box)
             } catch (error: Exception) {
@@ -179,7 +178,6 @@ class FaceEmbedder private constructor(
 
                 return null
             }
-
 
             // Do NOT rely on the buffer position or limit. Depending on the TFLite
             // build, run() may or may not advance the position, and the flip() inside
@@ -829,7 +827,6 @@ class FaceEmbedder private constructor(
         fun mirrorRect(box: Rect, frameWidth: Int): Rect {
             return Rect(frameWidth - box.right, box.top, frameWidth - box.left, box.bottom)
         }
-
 
         /** Unit length, so a dot product between two embeddings is the cosine similarity.  */
         private fun normalize(v: FloatArray): FloatArray? {

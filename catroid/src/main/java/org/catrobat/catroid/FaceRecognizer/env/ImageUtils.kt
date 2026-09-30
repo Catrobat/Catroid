@@ -115,11 +115,9 @@ object ImageUtils {
         return -0x1000000 or ((r shl 6) and 0xff0000) or ((g shr 2) and 0xff00) or ((b shr 10) and 0xff)
     }
 
-
     private external fun convertYUV420SPToARGB8888(
         input: ByteArray?, output: IntArray?, width: Int, height: Int, halfSize: Boolean
     )
-
 
     private external fun convertYUV420SPToRGB565(
         input: ByteArray?, output: ByteArray?, width: Int, height: Int

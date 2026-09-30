@@ -35,7 +35,6 @@ import kotlin.concurrent.Volatile
 import kotlin.math.max
 import kotlin.math.min
 
-
 object FaceDetector {
     private const val TAG = "FaceDetector"
 

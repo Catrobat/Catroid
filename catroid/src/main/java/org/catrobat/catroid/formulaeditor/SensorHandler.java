@@ -87,6 +87,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
 	private static String faceNameRecognitionResult = "Unknown";
+
 	private LocationManager locationManager;
 	private boolean isGpsConnected;
 	private final GpsStatusHandler gpsSensor;
@@ -155,10 +156,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private static boolean networkGpsAvailable() {
 		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
+
 	public static void setFaceNameRecognitionResult(String name) {
 		faceNameRecognitionResult =
 				(name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
 	}
+
 	private static double startWeekWithMonday() {
 		int weekdayOfAndroidCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		int convertedWeekday;

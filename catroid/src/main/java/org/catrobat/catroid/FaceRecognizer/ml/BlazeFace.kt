@@ -316,7 +316,6 @@ class BlazeFace private constructor() {
             }
         }
 
-
         private data class AnchorLayerInfo(
             val nextLayerId: Int,
             val anchorCount: Int

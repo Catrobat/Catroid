@@ -384,6 +384,7 @@ public class SettingsFragment extends PreferenceFragment {
 				.putBoolean(SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, value)
 				.apply();
 	}
+
 	public static boolean isAIFaceNameDetectionSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
 				context);

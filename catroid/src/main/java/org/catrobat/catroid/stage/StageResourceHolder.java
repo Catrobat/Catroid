@@ -520,7 +520,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					resourceFailed(Brick.SENSOR_GPS);
 				}
 				break;
-
 			default:
 				endStageActivity();
 				break;
