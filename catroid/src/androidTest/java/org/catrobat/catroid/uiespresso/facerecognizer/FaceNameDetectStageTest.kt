@@ -172,13 +172,35 @@ class FaceNameDetectStageTest {
         assertCameraNotOpened()
     }
 
-    private fun createProject() {
+    /**
+     * Reading "detected face name" is a sensor read like any other: it returns
+     * the last result straight away. Only the Detect face name brick starts a
+     * capture. The capture here never answers, so a read that started one would
+     * hold the stage until the read gives up.
+     */
+    @Test
+    fun readingTheSensorWithoutTheBrickNeitherCapturesNorWaits() {
+        val captures = AtomicInteger(0)
+        FaceDetector.captureStarter = FaceDetector.CaptureStarter { _, _ -> captures.incrementAndGet() }
+        createProject(withDetectBrick = false)
+
+        stageRule.launchActivity(null)
+
+        endOfScript.waitUntilEvaluated(SENSOR_READ_TIMEOUT_MS)
+        assertUserVariableEqualsWithTimeout(sa, FaceDetector.UNKNOWN, 1000)
+        assertEquals("Reading the sensor must not start a capture", 0, captures.get())
+        assertEquals("Reading the sensor must not open the camera", 0, cameraWatch.opened.get())
+    }
+
+    private fun createProject(withDetectBrick: Boolean = true) {
         val project = UiTestUtils.createDefaultTestProject("FaceNameDetectStageTest")
         sa = UserVariable("sa")
         project.addUserVariable(sa)
 
         val script = UiTestUtils.getDefaultTestScript(project)
-        script.addBrick(FaceNameDetect())
+        if (withDetectBrick) {
+            script.addBrick(FaceNameDetect())
+        }
         script.addBrick(SetVariableBrick(faceNameSensor(), sa))
         script.addBrick(
             ShowTextColorSizeAlignmentBrick(100, 200, 120.0, "#FF0000").apply { userVariable = sa }
@@ -267,6 +289,8 @@ class FaceNameDetectStageTest {
 
     private companion object {
         const val NO_CAMERA_TIMEOUT_MS = 10_000
+        /** Well under the 12 s a sensor read used to wait for a capture. */
+        const val SENSOR_READ_TIMEOUT_MS = 3_000
         const val FIXTURE_TIMEOUT_MS = 20_000
         /** FaceNameDetectAction gives up after 30 s; the Session watchdog fires after 20 s. */
         const val CAMERA_TIMEOUT_MS = 35_000
