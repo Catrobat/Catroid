@@ -368,6 +368,8 @@ public final class Constants {
 	public static final String FLAVOR_LUNA_AND_CAT = "lunaAndCat";
 	public static final String FLAVOR_CREATE_AT_SCHOOL = "createAtSchool";
 
+	public static final String STITCH_EDU_URL = "https://stitchedu.com/";
+
 	public static final String PREFERENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/developer?id=Catrobat";
 	public static final String PREFERENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
 	public static final String PREFERENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/developer?id=Catrobat";

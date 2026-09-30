@@ -697,6 +697,9 @@
     <string name="new_project_dialog_portrait">Portrait</string>
     <string name="new_project_dialog_landscape">Landscape</string>
     <string name="new_project_dialog_cast">Cast</string>
+    <string name="new_project_dialog_stitchedu">StitchEdu</string>
+    <string name="new_project_dialog_stitchedu_description">Draw embroidery designs on StitchEDU in your browser without coding.</string>
+    <string name="error_no_web_browser_found">No web browser found to open the link.</string>
     <!--  -->
 
     <!-- NewMergedProjectDialog -->
