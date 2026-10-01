@@ -42,6 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
@@ -100,6 +101,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	public void initResources() {
 		FaceDetector.resetForNewRun();
+		FaceNameDetector.reset();
 		failedResources = new HashSet<>();
 		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
@@ -241,7 +243,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 		if (requiredResourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
-			resourceInitialized();
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.FACE_NAME_DETECTION);
+			}
 		}
 
 		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {

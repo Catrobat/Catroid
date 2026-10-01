@@ -29,10 +29,12 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.camera.mlkitdetectors.Detector
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetector
 import org.catrobat.catroid.camera.mlkitdetectors.PoseDetector
 import org.catrobat.catroid.camera.mlkitdetectors.TextDetector
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
@@ -66,6 +68,9 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
             }
             if (isAIObjectDetectionSharedPreferenceEnabled(it)) {
                 activeDetectors.add(ObjectDetector)
+            }
+            if (isAIFaceNameDetectionSharedPreferenceEnabled(it)) {
+                activeDetectors.add(FaceNameDetector)
             }
         }
     }

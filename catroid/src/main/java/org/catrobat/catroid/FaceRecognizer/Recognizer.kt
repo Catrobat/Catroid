@@ -577,23 +577,59 @@ class Recognizer private constructor() {
             return false
         }
 
-        val activeEmbedder = embedder ?: run {
-            Log.e(TAG, "Face embedder is not initialized")
-            return false
+        session.framesTried++
+
+        val bestScores = scoreFrame(frame, mirrorToo) ?: return false
+
+        var totals = session.totals
+
+        if (
+            totals == null ||
+            totals.size != bestScores.size
+        ) {
+            totals = FloatArray(bestScores.size)
+            session.totals = totals
+            session.framesWithFace = 0
         }
 
-        session.framesTried++
+        for (index in bestScores.indices) {
+            totals[index] += bestScores[index]
+        }
+
+        session.framesWithFace++
+
+        return true
+    }
+
+    /**
+     * Scores the largest face in [frame] against every enrolled person: one
+     * score per person, in [classNames] order. Null when the frame has no
+     * usable face. The frame is not modified and is not recycled.
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    @Synchronized
+    fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? {
+        if (frame == null || frame.isRecycled) {
+            return null
+        }
+
+        val activeEmbedder = embedder ?: run {
+            Log.e(TAG, "Face embedder is not initialized")
+            return null
+        }
+
+        database.ensureFresh()
 
         val face = activeEmbedder.findBestFace(frame)
 
         if (face == null) {
             Log.i(
                 TAG,
-                "Frame ${session.framesTried}: " +
+                "No usable face: " +
                     activeEmbedder.lastProblem
             )
 
-            return false
+            return null
         }
 
         val faceFrame = face.frame
@@ -604,11 +640,11 @@ class Recognizer private constructor() {
         ) {
             Log.i(
                 TAG,
-                "Frame ${session.framesTried} rejected: invalid face bitmap"
+                "Frame rejected: invalid face bitmap"
             )
 
             face.release(frame)
-            return false
+            return null
         }
 
         val faceBox = face.box
@@ -620,11 +656,11 @@ class Recognizer private constructor() {
         ) {
             Log.i(
                 TAG,
-                "Frame ${session.framesTried} rejected: invalid face rectangle"
+                "Frame rejected: invalid face rectangle"
             )
 
             face.release(frame)
-            return false
+            return null
         }
 
         val faceWidth = faceBox.width()
@@ -637,7 +673,7 @@ class Recognizer private constructor() {
 
         if (shortestSide <= 0) {
             face.release(frame)
-            return false
+            return null
         }
 
         val faceFraction =
@@ -647,13 +683,13 @@ class Recognizer private constructor() {
         if (faceFraction < 0.12f) {
             Log.i(
                 TAG,
-                "Frame ${session.framesTried} rejected: " +
+                "Frame rejected: " +
                     "detected face is too small, " +
                     "fraction=$faceFraction"
             )
 
             face.release(frame)
-            return false
+            return null
         }
 
         val qualityProblem =
@@ -662,12 +698,12 @@ class Recognizer private constructor() {
         if (qualityProblem != null) {
             Log.i(
                 TAG,
-                "Frame ${session.framesTried} rejected: " +
+                "Frame rejected: " +
                     qualityProblem
             )
 
             face.release(frame)
-            return false
+            return null
         }
 
         val bestScores: FloatArray?
@@ -691,35 +727,18 @@ class Recognizer private constructor() {
         }
 
         if (bestScores == null) {
-            return false
+            return null
         }
 
         Log.i(
             TAG,
-            "Frame ${session.framesTried} face " +
+            "Frame face " +
                 "${faceWidth}x${faceHeight} px " +
                 "($variantCount views): " +
                 database.describeScoreArray(bestScores)
         )
 
-        var totals = session.totals
-
-        if (
-            totals == null ||
-            totals.size != bestScores.size
-        ) {
-            totals = FloatArray(bestScores.size)
-            session.totals = totals
-            session.framesWithFace = 0
-        }
-
-        for (index in bestScores.indices) {
-            totals[index] += bestScores[index]
-        }
-
-        session.framesWithFace++
-
-        return true
+        return bestScores
     }
 
     /**
