@@ -68,12 +68,18 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.setVisibleOrGone
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import org.koin.android.ext.android.inject
 import java.io.File
+import android.graphics.Bitmap
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class ProjectActivity : BaseCastActivity() {
 
@@ -93,6 +99,8 @@ class ProjectActivity : BaseCastActivity() {
 
     private lateinit var binding: ActivityRecyclerBinding
     private val projectManager: ProjectManager by inject()
+    private var pendingShortcutProjectName: String? = null
+    private var pendingShortcutIcon: Bitmap? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +159,9 @@ class ProjectActivity : BaseCastActivity() {
         menuInflater.inflate(R.menu.menu_project_activity, menu)
         menu.findItem(R.id.from_local).isVisible = false
         menu.findItem(R.id.edit).isVisible = false
+        if (!ShortcutHelper.isShortcutSupported(this)) {
+            menu.findItem(R.id.pin_to_home_screen)?.isVisible = false
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -161,9 +172,71 @@ class ProjectActivity : BaseCastActivity() {
                 R.id.fragment_container, ProjectOptionsFragment(), ProjectOptionsFragment.TAG
             ).addToBackStack(ProjectOptionsFragment.TAG).commit()
 
+            R.id.pin_to_home_screen -> {
+                pinCurrentProjectToHomeScreen()
+                return true
+            }
+
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (pendingShortcutProjectName != null) {
+            val projectName = pendingShortcutProjectName!!
+            val icon = pendingShortcutIcon
+            pendingShortcutProjectName = null
+            pendingShortcutIcon = null
+            lifecycleScope.launch {
+                val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
+                if (isGranted) {
+                    ShortcutDialogHelper.showPinShortcutDialog(
+                        this@ProjectActivity,
+                        layoutInflater,
+                        projectName,
+                        icon,
+                        isGranted,
+                        onProjectRenamed = { _, newName ->
+                            supportActionBar?.title = newName
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    private fun pinCurrentProjectToHomeScreen() {
+        val currentProject = projectManager.currentProject ?: return
+        if (!ShortcutHelper.isShortcutSupported(this)) {
+            Snackbar.make(
+                binding.root,
+                R.string.shortcut_not_supported,
+                Snackbar.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val projectName = currentProject.name
+        lifecycleScope.launch {
+            val icon = ShortcutHelper.loadProjectIcon(projectName)
+            val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
+            ShortcutDialogHelper.showPinShortcutDialog(
+                this@ProjectActivity,
+                layoutInflater,
+                projectName,
+                icon,
+                isGranted,
+                onSettingsClicked = {
+                    pendingShortcutProjectName = projectName
+                    pendingShortcutIcon = icon
+                },
+                onProjectRenamed = { _, newName ->
+                    supportActionBar?.title = newName
+                }
+            )
+        }
     }
 
     override fun onPause() {

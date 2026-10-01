@@ -144,13 +144,47 @@ class ShortcutHelperTest {
 
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
         val capturedShortcut = slot<ShortcutInfoCompat>()
-        every { ShortcutManagerCompat.pushDynamicShortcut(any(), capture(capturedShortcut)) } returns true
-        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(relaxed = true)
+        every {
+            ShortcutManagerCompat.pushDynamicShortcut(
+                any(),
+                capture(capturedShortcut)
+            )
+        } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
+        )
         every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
 
         ShortcutHelper.pinProject(context, projectName, null)
 
         assertEquals(expected, capturedShortcut.captured.id)
+    }
+
+    @Test
+    fun `pinProject uses custom shortcut label when provided`() {
+        val projectName = "My Original Project"
+        val customLabel = "Custom Home Nickname"
+
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        val capturedShortcut = slot<ShortcutInfoCompat>()
+        every {
+            ShortcutManagerCompat.pushDynamicShortcut(
+                any(),
+                capture(capturedShortcut)
+            )
+        } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
+        )
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
+
+        ShortcutHelper.pinProject(context, projectName, null, shortcutLabel = customLabel)
+
+        assertEquals(customLabel, capturedShortcut.captured.shortLabel)
+        assertEquals(
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName),
+            capturedShortcut.captured.id
+        )
     }
 
     // Must: OOM full-res fallback — double OOM returns null
@@ -199,7 +233,9 @@ class ShortcutHelperTest {
     fun `pinProject uses default drawable when icon is null`() {
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
         every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
-        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(relaxed = true)
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
+        )
         every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
 
         // Should not throw even with null icon
@@ -272,31 +308,66 @@ class ShortcutHelperTest {
 
     @Test
     fun `isShortcutSupported returns false on POCO devices`() {
-        ShadowBuild.setManufacturer("POCO")
+        ShadowBuild.setManufacturer("Xiaomi")
+        ShadowBuild.setBrand("POCO")
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
 
         val supported = ShortcutHelper.isShortcutSupported(context)
 
-        assertFalse("POCO devices should be excluded even if ShortcutManagerCompat says supported", supported)
+        assertFalse(
+            "POCO devices should be excluded even if ShortcutManagerCompat says supported",
+            supported
+        )
     }
 
     @Test
     fun `pin to home screen menu item is hidden on POCO devices`() {
-        ShadowBuild.setManufacturer("POCO")
+        ShadowBuild.setManufacturer("Xiaomi")
+        ShadowBuild.setBrand("POCO")
 
         // isPocoDevice() is called by ProjectListFragment.onSettingsClick() to hide the menu item.
         // The test verifies the underlying detection that drives that UI decision.
-        assertTrue("isPocoDevice() should return true for POCO manufacturer", ShortcutHelper.isPocoDevice())
+        assertTrue(
+            "isPocoDevice() should return true for POCO brand",
+            ShortcutHelper.isPocoDevice()
+        )
 
         // Also verify isShortcutSupported returns false (which is what the Fragment actually checks)
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
-        assertFalse("isShortcutSupported should return false on POCO devices", ShortcutHelper.isShortcutSupported(context))
+        assertFalse(
+            "isShortcutSupported should return false on POCO devices",
+            ShortcutHelper.isShortcutSupported(context)
+        )
     }
 
-    // Should: Duplicate pin guard
+    @Test
+    fun `isPocoDevice detects POCO by manufacturer brand or model`() {
+        ShadowBuild.reset()
+        ShadowBuild.setManufacturer("Xiaomi")
+        ShadowBuild.setBrand("POCO")
+        assertTrue(
+            "Should detect POCO when manufacturer is Xiaomi and brand is POCO",
+            ShortcutHelper.isPocoDevice()
+        )
+
+        ShadowBuild.reset()
+        ShadowBuild.setManufacturer("POCO")
+        assertTrue("Should detect POCO when manufacturer is POCO", ShortcutHelper.isPocoDevice())
+
+        ShadowBuild.reset()
+        ShadowBuild.setModel("POCO F5")
+        assertTrue("Should detect POCO when model contains POCO", ShortcutHelper.isPocoDevice())
+
+        ShadowBuild.reset()
+        ShadowBuild.setManufacturer("Samsung")
+        ShadowBuild.setBrand("Samsung")
+        assertFalse("Should return false for non-POCO device", ShortcutHelper.isPocoDevice())
+    }
+
+    // Should: Re-pin and duplicate handling
 
     @Test
-    fun `pinProject shows already pinned message when shortcut already exists`() {
+    fun `pinProject updates and re-requests pin when shortcut already exists`() {
         val projectName = "AlreadyPinnedProject"
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 
@@ -306,11 +377,126 @@ class ShortcutHelperTest {
         }
         every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
+        )
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
 
         val result = ShortcutHelper.pinProject(context, projectName, null)
 
-        assertFalse("pinProject should return false when shortcut already exists", result)
-        // pushDynamicShortcut should NOT be called — we bail out before reaching it
+        assertTrue(
+            "pinProject should return true and re-request pin when shortcut already exists",
+            result
+        )
         verify(exactly = 0) { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
+        verify { ShortcutManagerCompat.updateShortcuts(any(), any()) }
+        verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
+    }
+
+    @Test
+    fun `sequential renames preserve original shortcut ID`() = runTest {
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+
+        mockkObject(ShortcutHelper)
+        coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
+
+        val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Name1")
+        val existingShortcut = mockk<ShortcutInfoCompat> {
+            every { id } returns originalId
+            every { shortLabel } returns "Name2"
+            every { intent } returns android.content.Intent()
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
+
+        // Rename from Name2 to Name3 — it should still update the originalId
+        ShortcutHelper.updateShortcutOnRename(context, "Name2", "Name3")
+
+        verify {
+            ShortcutManagerCompat.updateShortcuts(any(), match { shortcuts ->
+                shortcuts.size == 1 && shortcuts[0].id == originalId && shortcuts[0].shortLabel == "Name3"
+            })
+        }
+    }
+
+    @Test
+    fun `verifyShortcutPermission falls back to probe when reflection fails`() = runTest {
+        ShadowBuild.setManufacturer("Xiaomi")
+        val mockContext = mockk<android.content.Context>()
+        val mockAppOps = mockk<android.app.AppOpsManager>()
+        every { mockContext.getSystemService(android.content.Context.APP_OPS_SERVICE) } returns mockAppOps
+        every { mockContext.packageName } returns "org.catrobat.catroid"
+
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns emptyList()
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
+
+        val granted = ShortcutHelper.verifyShortcutPermission(mockContext)
+        assertFalse(
+            "Should return false when reflection fails and probe detects blocked state",
+            granted
+        )
+    }
+
+    @Test
+    fun `removeShortcutsForProjects resolves and disables shortcuts by label and intent extra`() {
+        val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("OriginalName")
+        val existingShortcut = mockk<ShortcutInfoCompat> {
+            every { id } returns originalId
+            every { shortLabel } returns "RenamedName"
+            every { intent } returns android.content.Intent().apply {
+                putExtra(
+                    org.catrobat.catroid.ui.shortcut.ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
+                    "RenamedName"
+                )
+            }
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
+        every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) } just Runs
+
+        ShortcutHelper.removeShortcutsForProjects(context, listOf("RenamedName"))
+
+        verify {
+            ShortcutManagerCompat.removeDynamicShortcuts(any(), listOf(originalId))
+            ShortcutManagerCompat.disableShortcuts(any(), listOf(originalId), any())
+        }
+    }
+
+    @Test
+    fun `canAddMoreShortcuts reflects system limit`() {
+        every { ShortcutManagerCompat.getMaxShortcutCountPerActivity(any()) } returns 5
+        assertTrue(ShortcutHelper.canAddMoreShortcuts(context))
+
+        every { ShortcutManagerCompat.getMaxShortcutCountPerActivity(any()) } returns 0
+        assertFalse(ShortcutHelper.canAddMoreShortcuts(context))
+    }
+
+    @Test
+    fun `probeIsShortcutCreationBlocked returns false when probe exists in dynamic list`() =
+        runTest {
+            val slot = slot<ShortcutInfoCompat>()
+            every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+            every { ShortcutManagerCompat.pushDynamicShortcut(any(), capture(slot)) } answers {
+                every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(
+                    mockk { every { id } returns slot.captured.id }
+                )
+                true
+            }
+            every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
+
+            val blocked = ShortcutHelper.probeIsShortcutCreationBlocked(context)
+            assertFalse("Probe should report unblocked when dummy shortcut is found", blocked)
+        }
+
+    @Test
+    fun `verifyShortcutPermission returns true immediately for non-Xiaomi devices`() = runTest {
+        ShadowBuild.setManufacturer("Google")
+        ShadowBuild.setBrand("Pixel")
+
+        val result = ShortcutHelper.verifyShortcutPermission(context)
+        assertTrue("Non-Xiaomi devices should always return true for shortcut permission", result)
     }
 }

@@ -2352,4 +2352,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
     <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
+    <string formatted="false" name="create_shortcut">Create Shortcut</string>
+    <string formatted="false" name="pin">PIN</string>
+    <string formatted="false" name="shortcut_name_label">NAME</string>
+    <string formatted="false" name="shortcut_also_rename_project">Also rename project in Pocket Code</string>
 </resources>

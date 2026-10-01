@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2026 The Catrobat Team
@@ -21,9 +20,19 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#1E222B" />
-    <corners android:radius="20dp" />
-</shape>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="24dp"
+    android:viewportWidth="56"
+    android:viewportHeight="24">
+  <group>
+    <clip-path
+        android:pathData="M0,0h56v24h-56z"/>
+    <group android:translateX="16">
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillType="evenOdd"
+          android:pathData="M18,11c1.49,0 2.86,0.54 3.92,1.44L21,11.5L12,3L2,12h3v8h7.08c-0.05,-0.33 -0.08,-0.66 -0.08,-1 0,-3.31 2.69,-6 6,-6zM18,13c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5 -2.24,-5 -5,-5zM21,18.5h-2.5V21h-1v-2.5H15v-1h2.5V15h1v2.5H21v1z"/>
+    </group>
+  </group>
+</vector>
