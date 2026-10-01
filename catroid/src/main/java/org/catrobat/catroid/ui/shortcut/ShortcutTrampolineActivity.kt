@@ -168,8 +168,8 @@ class ShortcutTrampolineActivity : Activity() {
         }
         val targetIds = dynamicShortcuts.filter {
             it.id == encodedName ||
-            it.shortLabel == projectName ||
-            it.intent?.getStringExtra(EXTRA_PROJECT_NAME) == projectName
+                it.shortLabel == projectName ||
+                it.intent?.getStringExtra(EXTRA_PROJECT_NAME) == projectName
         }.map { it.id }.ifEmpty { listOf(encodedName) }
 
         try {

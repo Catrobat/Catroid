@@ -29,7 +29,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -72,8 +71,8 @@ object ShortcutHelper {
         val brand = android.os.Build.BRAND
         val model = android.os.Build.MODEL
         return manufacturer.contains("POCO", ignoreCase = true) ||
-                brand.contains("POCO", ignoreCase = true) ||
-                model.contains("POCO", ignoreCase = true)
+            brand.contains("POCO", ignoreCase = true) ||
+            model.contains("POCO", ignoreCase = true)
     }
 
     /**
@@ -172,7 +171,8 @@ object ShortcutHelper {
         icon: Bitmap? = null,
         shortcutLabel: String = projectName
     ): Boolean {
-        val shortcutInfo = buildShortcutInfo(context, projectName, icon, shortcutLabel = shortcutLabel)
+        val shortcutInfo =
+            buildShortcutInfo(context, projectName, icon, shortcutLabel = shortcutLabel)
 
         val existingShortcuts = try {
             ShortcutManagerCompat.getDynamicShortcuts(context)
@@ -204,7 +204,11 @@ object ShortcutHelper {
             callbackIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        return ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
+        return ShortcutManagerCompat.requestPinShortcut(
+            context,
+            shortcutInfo,
+            pendingIntent.intentSender
+        )
     }
 
     /**
@@ -225,8 +229,8 @@ object ShortcutHelper {
 
         val existing = dynamicShortcuts.firstOrNull {
             it.id == encodeShortcutId(oldName) ||
-            it.shortLabel == oldName ||
-            it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == oldName
+                it.shortLabel == oldName ||
+                it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == oldName
         }
 
         val shortcutId = existing?.id ?: encodeShortcutId(oldName)
@@ -237,7 +241,10 @@ object ShortcutHelper {
         try {
             ShortcutManagerCompat.updateShortcuts(context, listOf(updatedShortcut))
         } catch (e: Exception) {
-            Log.w(TAG, "Could not update shortcut for rename '$oldName' -> '$newName': ${e.message}")
+            Log.w(
+                TAG,
+                "Could not update shortcut for rename '$oldName' -> '$newName': ${e.message}"
+            )
         }
     }
 
@@ -263,8 +270,8 @@ object ShortcutHelper {
         val shortcutIds = projectNames.flatMap { name ->
             val matching = dynamicShortcuts.filter {
                 it.id == encodeShortcutId(name) ||
-                it.shortLabel == name ||
-                it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == name
+                    it.shortLabel == name ||
+                    it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == name
             }.map { it.id }
             if (matching.isNotEmpty()) matching else listOf(encodeShortcutId(name))
         }.distinct()
@@ -346,13 +353,13 @@ object ShortcutHelper {
         val manufacturer = android.os.Build.MANUFACTURER
         val brand = android.os.Build.BRAND
         return manufacturer.contains("Xiaomi", ignoreCase = true) ||
-                manufacturer.contains("Redmi", ignoreCase = true) ||
-                manufacturer.contains("POCO", ignoreCase = true) ||
-                manufacturer.contains("Blackshark", ignoreCase = true) ||
-                brand.contains("Xiaomi", ignoreCase = true) ||
-                brand.contains("Redmi", ignoreCase = true) ||
-                brand.contains("POCO", ignoreCase = true) ||
-                brand.contains("Blackshark", ignoreCase = true)
+            manufacturer.contains("Redmi", ignoreCase = true) ||
+            manufacturer.contains("POCO", ignoreCase = true) ||
+            manufacturer.contains("Blackshark", ignoreCase = true) ||
+            brand.contains("Xiaomi", ignoreCase = true) ||
+            brand.contains("Redmi", ignoreCase = true) ||
+            brand.contains("POCO", ignoreCase = true) ||
+            brand.contains("Blackshark", ignoreCase = true)
     }
 
     /**
@@ -421,8 +428,9 @@ object ShortcutHelper {
     ): Boolean = withContext(dispatcher) {
         if (!isXiaomiDevice()) return@withContext true
 
-        val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
-            ?: return@withContext true
+        val appOpsManager =
+            context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
+                ?: return@withContext true
 
         // Try checkOpNoThrow first (API 19+)
         try {
@@ -473,8 +481,9 @@ object ShortcutHelper {
     fun isShortcutPermissionGranted(context: Context): Boolean {
         if (!isXiaomiDevice()) return true
 
-        val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
-            ?: return true
+        val appOpsManager =
+            context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
+                ?: return true
 
         // Try checkOpNoThrow first (API 19+)
         try {
@@ -511,7 +520,11 @@ object ShortcutHelper {
             ) as Int
             result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(TAG, "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.", e)
+            Log.e(
+                TAG,
+                "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.",
+                e
+            )
             true
         }
     }
@@ -538,14 +551,14 @@ object ShortcutHelper {
 
     private fun openStandardAppSettings(context: Context) {
         try {
-            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = "package:${context.packageName}".toUri()
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+            val intent =
+                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = "package:${context.packageName}".toUri()
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
             context.startActivity(intent)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open even standard app settings", e)
         }
     }
 }
-

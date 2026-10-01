@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -39,7 +38,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -127,7 +125,7 @@ class ProjectListFragment(
             )
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 setAdapterItems(adapter.projectsSorted)
                 filesForUnzipAndImportTask?.clear()
@@ -146,7 +144,7 @@ class ProjectListFragment(
                 filesForUnzipAndImportTask?.clear()
             }
 
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -167,7 +165,7 @@ class ProjectListFragment(
             checkForEmptyList()
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 if (adapter != null) {
                     setAdapterItems(adapter.projectsSorted)
@@ -196,9 +194,10 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
-                sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
+                sharedPreferenceDetailsKey =
+                    SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
                 adapter = ProjectAdapter(items)
                 onAdapterReady()
             }
@@ -286,13 +285,18 @@ class ProjectListFragment(
             onImportError()
             return
         }
-        var uris: ArrayList<Uri> = ArrayList()
+        val uris: ArrayList<Uri> = ArrayList()
         if (data.data == null && !data.hasExtra(Intent.EXTRA_STREAM) && data.clipData == null) {
             onImportError()
             return
         }
         if (data.hasExtra(Intent.EXTRA_STREAM)) {
-            uris = data.extras?.get(Intent.EXTRA_STREAM) as ArrayList<Uri>
+            val streamExtra = data.extras?.get(Intent.EXTRA_STREAM)
+            if (streamExtra is ArrayList<*>) {
+                uris.addAll(streamExtra.filterIsInstance<Uri>())
+            } else if (streamExtra is Uri) {
+                uris.add(streamExtra)
+            }
         } else {
             extractAllUris(data, uris)
         }
@@ -383,7 +387,8 @@ class ProjectListFragment(
         val usedProjectNames = ArrayList(adapter.items)
         for (projectData in selectedItems) {
             projectData ?: continue
-            val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
+            val name =
+                uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
             usedProjectNames.add(ProjectData(name, null, 0.0, false))
             val projectCopier = ProjectCopier(projectData.directory, name)
             projectCopier.copyProjectAsync({ success: Boolean -> onCopyProjectComplete(success) })
@@ -480,7 +485,7 @@ class ProjectListFragment(
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -497,11 +502,13 @@ class ProjectListFragment(
                 super.onItemClick(item, null)
                 return
             }
+
             NONE -> {
                 setShowProgressBar(true)
                 val directoryFile = item?.directory ?: return
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
+
             IMPORT_LOCAL -> {
                 val intent = Intent()
                 intent.putExtra(
@@ -511,6 +518,7 @@ class ProjectListFragment(
                 requireActivity().setResult(RESULT_OK, intent)
                 requireActivity().finish()
             }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -585,7 +593,6 @@ class ProjectListFragment(
                     }
                 )
         }
-
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
@@ -603,7 +610,11 @@ class ProjectListFragment(
 
             lock.lock()
             getLocalProjectList(newItems)
-            newItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData -> project2.lastUsed.compareTo(project1.lastUsed) })
+            newItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
+                project2.lastUsed.compareTo(
+                    project1.lastUsed
+                )
+            })
             items = newItems
             lock.unlock()
 

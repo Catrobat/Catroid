@@ -69,7 +69,13 @@ object ShortcutDialogHelper {
         onProjectRenamed: ((oldName: String, newName: String) -> Unit)? = null
     ) {
         if (ShortcutHelper.isXiaomiDevice() && !isPermissionGranted) {
-            showShortcutPermissionDialog(context, layoutInflater, projectName, icon, onSettingsClicked)
+            showShortcutPermissionDialog(
+                context,
+                layoutInflater,
+                projectName,
+                icon,
+                onSettingsClicked
+            )
             return
         }
 
@@ -91,7 +97,8 @@ object ShortcutDialogHelper {
     ) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
         val nameEdit = dialogView.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
-        val renameCheckbox = dialogView.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+        val renameCheckbox =
+            dialogView.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
         val pinButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_pin_button)
         val cancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_cancel_button)
 
@@ -104,7 +111,15 @@ object ShortcutDialogHelper {
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
         pinButton.setOnClickListener {
-            handlePinAction(context, dialog, projectName, icon, nameEdit, renameCheckbox, onProjectRenamed)
+            handlePinAction(
+                context,
+                dialog,
+                projectName,
+                icon,
+                nameEdit,
+                renameCheckbox,
+                onProjectRenamed
+            )
         }
 
         cancelButton.setOnClickListener {
@@ -123,8 +138,10 @@ object ShortcutDialogHelper {
     ) {
         val iconView = dialogView.findViewById<ImageView>(R.id.shortcut_dialog_icon)
         val nameEdit = dialogView.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
-        val renameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
-        val renameLabel = dialogView.findViewById<TextView>(R.id.shortcut_dialog_rename_project_label)
+        val renameContainer =
+            dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
+        val renameLabel =
+            dialogView.findViewById<TextView>(R.id.shortcut_dialog_rename_project_label)
         val buttonContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_button_container)
         val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
 
@@ -192,9 +209,18 @@ object ShortcutDialogHelper {
 
         ProjectRenamer(projectDir, newName).renameProjectAsync({ success ->
             if (success) {
-                onProjectRenameSuccess(context, projectName, newName, icon, onProjectRenamed)
+                onProjectRenameSuccess(
+                    context,
+                    projectName,
+                    newName,
+                    icon,
+                    onProjectRenamed
+                )
             } else {
-                ToastUtil.showError(context, R.string.error_rename_incompatible_project)
+                ToastUtil.showError(
+                    context,
+                    R.string.error_rename_incompatible_project
+                )
             }
         })
     }
@@ -228,11 +254,14 @@ object ShortcutDialogHelper {
 
         val iconView = dialogView.findViewById<ImageView>(R.id.shortcut_dialog_icon)
         val nameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_name_container)
-        val renameContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
+        val renameContainer =
+            dialogView.findViewById<View>(R.id.shortcut_dialog_rename_project_container)
         val buttonContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_button_container)
         val miuiContainer = dialogView.findViewById<View>(R.id.shortcut_dialog_miui_container)
-        val settingsButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_settings_button)
-        val miuiCancelButton = dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_cancel_button)
+        val settingsButton =
+            dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_settings_button)
+        val miuiCancelButton =
+            dialogView.findViewById<Button>(R.id.shortcut_dialog_miui_cancel_button)
 
         if (icon != null) {
             iconView.setImageBitmap(icon)

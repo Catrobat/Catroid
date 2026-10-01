@@ -273,14 +273,14 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val itemList: MutableList<UserData<*>> = ArrayList()
         itemList.add(item)
         val hiddenOptionMenuIds = intArrayOf(
-                R.id.backpack,
-                R.id.copy,
-                R.id.new_group,
-                R.id.new_scene,
-                R.id.show_details,
-                R.id.project_options,
-                R.id.from_local,
-                R.id.pin_to_home_screen,
+            R.id.backpack,
+            R.id.copy,
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.from_local,
+            R.id.pin_to_home_screen,
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
             .menu_project_activity, hiddenOptionMenuIds)
