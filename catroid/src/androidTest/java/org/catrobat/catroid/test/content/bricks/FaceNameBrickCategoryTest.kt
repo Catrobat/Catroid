@@ -9,7 +9,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.FaceNameDetect
 import org.catrobat.catroid.content.bricks.FaceNameTrain
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
@@ -23,7 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * The face name bricks sit in the Device category behind the "Face name
+ * The face name train brick sits in the Device category behind the "Face name
  * detection" AI setting, like the other AI bricks and like the face name sensor.
  */
 @RunWith(AndroidJUnit4::class)
@@ -50,33 +49,31 @@ class FaceNameBrickCategoryTest {
     }
 
     @Test
-    fun faceNameBricksAreHiddenWhileTheSettingIsOff() {
+    fun faceNameTrainBrickIsHiddenWhileTheSettingIsOff() {
         val classes = deviceBrickClasses()
 
         assertFalse(FaceNameTrain::class.java in classes)
-        assertFalse(FaceNameDetect::class.java in classes)
     }
 
     @Test
-    fun faceNameBricksFollowTheCameraBricksWhenTheSettingIsOn() {
+    fun faceNameTrainBrickFollowsTheCameraBricksWhenTheSettingIsOn() {
         SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, true)
 
         val classes = deviceBrickClasses()
 
         val flash = classes.indexOf(FlashBrick::class.java)
         assertEquals(
-            listOf(FlashBrick::class.java, FaceNameTrain::class.java, FaceNameDetect::class.java),
-            classes.subList(flash, flash + 3)
+            listOf(FlashBrick::class.java, FaceNameTrain::class.java),
+            classes.subList(flash, flash + 2)
         )
     }
 
     @Test
-    fun bothFaceNameBricksBelongToDeviceEvenWithTheSettingOff() {
-        // A loaded project can contain the bricks while the setting is off.
+    fun faceNameTrainBrickBelongsToDeviceEvenWithTheSettingOff() {
+        // A loaded project can contain the brick while the setting is off.
         val device = context.getString(R.string.category_device)
 
         assertEquals(device, factory.getBrickCategory(FaceNameTrain(), false, context))
-        assertEquals(device, factory.getBrickCategory(FaceNameDetect(), false, context))
     }
 
     private fun deviceBrickClasses(): List<Class<*>> =

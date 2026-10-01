@@ -1062,7 +1062,6 @@
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
     <string formatted="false" name="brick_face_name">Add face samples and train</string>
-    <string formatted="false" name="brick_face_name_detect">Detect face name</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Vibrate for</string>

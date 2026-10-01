@@ -34,7 +34,6 @@ import android.widget.ImageButton;
 
 import com.badlogic.gdx.graphics.Color;
 
-import org.catrobat.catroid.FaceRecognizer.FaceDetector;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
@@ -213,7 +212,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
-		FaceDetector.resetForNewRun();
 		FaceNameDetector.reset();
 		stageListener.reloadProject(this);
 		synchronized (this) {

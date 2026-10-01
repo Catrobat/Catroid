@@ -63,7 +63,6 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
-import org.catrobat.catroid.content.actions.FaceNameDetectAction;
 import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
@@ -262,10 +261,6 @@ public class ActionFactory extends Actions {
 
 	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
 		return new FaceNameTrainAction();
-	}
-
-	public Action faceNameDetectAction(Sprite sprite, SequenceAction sequence) {
-		return new FaceNameDetectAction();
 	}
 
 	public Action createWaitForSoundAction(Sprite sprite, SequenceAction sequence, Formula delay,

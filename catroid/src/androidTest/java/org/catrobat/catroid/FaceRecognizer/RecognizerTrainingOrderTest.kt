@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
  *   recognise A        -> A        (the first-trained person is still recognised)
  *   recognise no_face  -> null
  *
- * The sequence runs once through FaceDetector's recognition loop ([FrameBurst],
+ * The sequence runs once through the face name sensor's decision ([FaceNameWindow],
  * the camera replaced by the fixture photo) and once through recognize(), so a
  * disagreement between the two paths is one red test rather than a silent pass.
  * See [FaceRecognitionHarness] for what each path covers.

@@ -20,11 +20,11 @@ import java.io.File
  *  - Training goes through [Recognizer.extractEmbeddings] with file URIs,
  *    followed by addPerson/addEmbeddings, as FaceNameTrainAction does after the
  *    photo picker returns.
- *  - [StagePath] recognises through [FrameBurst], the production recognition
- *    loop that FaceDetector runs for every camera capture (clipped-frame check,
- *    addFrame, peekSession early exit, finishSession with the stricter
+ *  - [StagePath] recognises through [FaceNameWindow], the decision behind the
+ *    "detected face name" sensor (clipped-frame check, scoreFrame, the average
+ *    of the last three usable frames with finishSession and its stricter
  *    single-frame threshold). Only the camera is replaced: the fixture photo is
- *    offered as every frame of the burst.
+ *    offered as three consecutive camera frames.
  *  - [RecognizePath] uses [Recognizer.recognize] (FaceDatabase.match()).
  */
 class FaceRecognitionHarness {
@@ -121,25 +121,26 @@ class FaceRecognitionHarness {
     }
 
     /**
-     * FaceDetector's recognition loop without the camera: the production
-     * [FrameBurst], offered the same decoded still as every frame, as a steady
-     * face in front of the camera would be.
+     * The sensor's decision without the camera: a fresh production
+     * [FaceNameWindow], offered the same decoded still as three consecutive
+     * analysed camera frames, as a steady face in front of the camera would be.
      */
     inner class StagePath : RecognitionPath() {
-        override val label = "stage session path"
-
-        /** Frames the last [recognise] call used; fewer than [FrameBurst.FRAMES] means an early exit. */
-        var lastFramesUsed = 0
-            private set
+        override val label = "stage sensor path"
 
         override fun recognise(bitmap: Bitmap): Recognizer.Result? {
-            // Null when nobody is trained; FaceDetector then ends as Unknown.
-            val burst = recognizer.newBurst() ?: return null
-            while (!burst.addFrame(bitmap, FRONT_CAMERA_MIRROR)) {
-                // FaceDetector captures the next frame here.
+            val window = FaceNameWindow()
+            var name = FaceNameWindow.UNKNOWN
+            for (frame in 0 until FaceNameWindow.FRAMES) {
+                name = window.addFrame(
+                    recognizer, bitmap, FRONT_CAMERA_MIRROR, frame * FaceNameWindow.FRAME_INTERVAL_MS
+                )
             }
-            lastFramesUsed = burst.framesSeen
-            return burst.result
+            if (name == FaceNameWindow.UNKNOWN) {
+                return null
+            }
+            // The window reports a name; the confidence is in the summary.
+            return Recognizer.Result(recognizer.classNames.indexOf(name), name, Float.NaN)
         }
 
         override fun describe(): String = "Summary: ${recognizer.lastSummary}"
@@ -204,7 +205,7 @@ class FaceRecognitionHarness {
         const val MIN_SIMILARITY = 0.60f
         const val MIN_MARGIN = 0.05f
 
-        /** FaceDetector passes isFrontCamera; the brick uses the front camera. */
+        /** FaceNameDetector passes mirrorToo while the front camera, the default, is in use. */
         const val FRONT_CAMERA_MIRROR = true
     }
 }

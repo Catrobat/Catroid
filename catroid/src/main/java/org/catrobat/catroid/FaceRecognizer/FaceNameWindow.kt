@@ -44,7 +44,7 @@ import kotlin.math.min
  * The window is also the throttle: [isFrameDue] lets one frame through every
  * [FRAME_INTERVAL_MS].
  *
- * Based on FrameBurst, the fixed three-frame burst of the one-shot capture.
+ * It replaces FrameBurst, the fixed three-frame burst of the removed one-shot capture.
  */
 class FaceNameWindow {
 

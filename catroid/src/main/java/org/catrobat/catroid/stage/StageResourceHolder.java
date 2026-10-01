@@ -36,7 +36,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
-import org.catrobat.catroid.FaceRecognizer.FaceDetector;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -100,7 +99,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initResources() {
-		FaceDetector.resetForNewRun();
 		FaceNameDetector.reset();
 		failedResources = new HashSet<>();
 		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();

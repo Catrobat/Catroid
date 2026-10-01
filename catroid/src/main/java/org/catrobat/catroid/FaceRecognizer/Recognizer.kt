@@ -545,63 +545,6 @@ class Recognizer private constructor() {
     }
 
     /**
-     * Starts the recognition loop for one capture, see [FrameBurst]. Returns null
-     * when nobody has been trained; the capture then ends as Unknown without
-     * opening the camera.
-     */
-    @Synchronized
-    fun newBurst(): FrameBurst? {
-        database.ensureFresh()
-        if (database.getNames().isEmpty()) {
-            return null
-        }
-        return FrameBurst(this)
-    }
-
-    /**
-     * Scores one frame into the session. Returns true if a face was found and used.
-     * The frame is not modified and is not recycled.
-     */
-    @RequiresApi(Build.VERSION_CODES.N)
-    @Synchronized
-    fun addFrame(
-        session: Session?,
-        frame: Bitmap?,
-        mirrorToo: Boolean
-    ): Boolean {
-        if (
-            session == null ||
-            frame == null ||
-            frame.isRecycled
-        ) {
-            return false
-        }
-
-        session.framesTried++
-
-        val bestScores = scoreFrame(frame, mirrorToo) ?: return false
-
-        var totals = session.totals
-
-        if (
-            totals == null ||
-            totals.size != bestScores.size
-        ) {
-            totals = FloatArray(bestScores.size)
-            session.totals = totals
-            session.framesWithFace = 0
-        }
-
-        for (index in bestScores.indices) {
-            totals[index] += bestScores[index]
-        }
-
-        session.framesWithFace++
-
-        return true
-    }
-
-    /**
      * Scores the largest face in [frame] against every enrolled person: one
      * score per person, in [classNames] order. Null when the frame has no
      * usable face. The frame is not modified and is not recycled.
@@ -739,20 +682,6 @@ class Recognizer private constructor() {
         )
 
         return bestScores
-    }
-
-    /**
-     * Reads the session so far without ending it, so a capture can stop early on
-     * a clear match. Null until at least one frame contained a usable face; from
-     * then on it applies the same rules as [finishSession], including the stricter
-     * threshold for a single frame.
-     */
-    @Synchronized
-    fun peekSession(session: Session?): Result? {
-        if (session == null || session.framesWithFace == 0) {
-            return null
-        }
-        return finishSession(session)
     }
 
     /** Averages the session and applies the thresholds once. Null means Unknown.  */
