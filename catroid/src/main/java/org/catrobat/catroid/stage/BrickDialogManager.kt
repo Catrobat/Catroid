@@ -315,7 +315,14 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             if (it) stageActivity.onBackPressed()
         }
 
-    override fun onDismiss(dialog: DialogInterface) {
+    override fun onDismiss(dialog: DialogInterface?) {
+        // Android passes the dialog through a weak reference, so it is null when
+        // the dialog was collected before this notice ran. Only a dialog that
+        // dismissAllDialogs() already let go of can be collected: there is
+        // nothing left to remove or resume.
+        if (dialog == null) {
+            return
+        }
         openDialogs.remove(dialog as Dialog)
         // Dismissed because the stage is closing: its listener may already be
         // gone, so resuming it (or opening the next step) would crash.
