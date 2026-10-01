@@ -210,6 +210,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                 super.onItemClick(item, null)
                 return
             }
+
             NONE -> {
                 projectManager.currentlyEditedScene = item
                 parentFragmentManager.beginTransaction()
@@ -217,6 +218,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                     .addToBackStack(SpriteListFragment.TAG)
                     .commit()
             }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -234,8 +236,10 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
             R.id.from_local,
             R.id.pin_to_home_screen,
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

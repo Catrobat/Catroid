@@ -455,8 +455,8 @@ class ProjectListFragment(
         if (name != item.name) {
             val oldName = item.name
             setShowProgressBar(true)
-            ProjectRenamer(item.directory, name)
-                .renameProjectAsync({ success: Boolean ->
+            ProjectRenamer(item.directory, name).renameProjectAsync(
+                onRenameProjectComplete = { success: Boolean ->
                     onRenameFinished(success)
                     if (success) {
                         coroutineScope.launch {
@@ -465,7 +465,8 @@ class ProjectListFragment(
                             )
                         }
                     }
-                })
+                }
+            )
         }
     }
 

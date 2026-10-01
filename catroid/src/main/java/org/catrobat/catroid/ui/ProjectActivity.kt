@@ -171,6 +171,7 @@ class ProjectActivity : BaseCastActivity() {
             R.id.project_options -> supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container, ProjectOptionsFragment(), ProjectOptionsFragment.TAG
             ).addToBackStack(ProjectOptionsFragment.TAG).commit()
+
             R.id.pin_to_home_screen -> {
                 pinCurrentProjectToHomeScreen()
                 return true

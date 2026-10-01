@@ -207,22 +207,24 @@ object ShortcutDialogHelper {
 
         dialog.dismiss()
 
-        ProjectRenamer(projectDir, newName).renameProjectAsync({ success ->
-            if (success) {
-                onProjectRenameSuccess(
-                    context,
-                    projectName,
-                    newName,
-                    icon,
-                    onProjectRenamed
-                )
-            } else {
-                ToastUtil.showError(
-                    context,
-                    R.string.error_rename_incompatible_project
-                )
+        ProjectRenamer(projectDir, newName).renameProjectAsync(
+            onRenameProjectComplete = { success ->
+                if (success) {
+                    onProjectRenameSuccess(
+                        context,
+                        projectName,
+                        newName,
+                        icon,
+                        onProjectRenamed
+                    )
+                } else {
+                    ToastUtil.showError(
+                        context,
+                        R.string.error_rename_incompatible_project
+                    )
+                }
             }
-        })
+        )
     }
 
     private fun onProjectRenameSuccess(
