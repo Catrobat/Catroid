@@ -74,6 +74,14 @@ object FaceNameDetector : Detector {
 
     private val busy = AtomicBoolean(false)
 
+    /**
+     * Set when the face models could not be loaded. Until the next program
+     * start no frame is analysed and the name stays Unknown, instead of the
+     * models being loaded again for every frame.
+     */
+    @Volatile
+    private var recognitionUnavailable = false
+
     /** Guards the window and the sensor against a frame recognised across a [reset]. */
     private val lock = Any()
     private var runId = 0
@@ -90,6 +98,9 @@ object FaceNameDetector : Detector {
         } catch (exception: RuntimeException) {
             Log.e(TAG, "Could not read the camera frame", exception)
             null
+        } catch (error: OutOfMemoryError) {
+            Log.e(TAG, "No memory for the camera frame; skipped", error)
+            null
         } finally {
             onCompleteListener.onComplete()
         }
@@ -104,6 +115,7 @@ object FaceNameDetector : Detector {
     fun reset() {
         synchronized(lock) {
             runId++
+            recognitionUnavailable = false
             window.clear()
             SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
@@ -111,7 +123,7 @@ object FaceNameDetector : Detector {
 
     /** The frame to recognise, or null when this one is skipped. */
     private fun takeFrame(mediaImage: Image, rotationDegrees: Int): Task? {
-        if (busy.get()) {
+        if (busy.get() || recognitionUnavailable) {
             return null
         }
         val now = clock()
@@ -130,8 +142,10 @@ object FaceNameDetector : Detector {
             recognitionExecutor.execute {
                 try {
                     recogniseNow(task)
-                } catch (exception: RuntimeException) {
+                } catch (exception: Exception) {
                     Log.e(TAG, "Face name recognition failed", exception)
+                } catch (error: OutOfMemoryError) {
+                    Log.e(TAG, "No memory to recognise the frame; skipped", error)
                 } finally {
                     task.frame?.recycle()
                     busy.set(false)
@@ -145,7 +159,7 @@ object FaceNameDetector : Detector {
     }
 
     private fun recogniseNow(task: Task) {
-        val recognizer = recognizerProvider() ?: return
+        val recognizer = loadRecognizer() ?: return
         val scores = FaceNameWindow.scoreOf(recognizer, task.frame, task.frontCamera)
         synchronized(lock) {
             if (task.runId != runId) {
@@ -154,6 +168,23 @@ object FaceNameDetector : Detector {
             val name = window.addScores(recognizer, scores, task.takenAt)
             SensorHandler.setFaceNameRecognitionResult(name)
         }
+    }
+
+    /** The recogniser, loading the face models on first use; null when they cannot be loaded. */
+    private fun loadRecognizer(): Recognizer? = try {
+        recognizerProvider()
+    } catch (exception: Exception) {
+        giveUp(exception)
+    } catch (error: LinkageError) {
+        giveUp(error)
+    } catch (error: OutOfMemoryError) {
+        giveUp(error)
+    }
+
+    private fun giveUp(cause: Throwable): Recognizer? {
+        recognitionUnavailable = true
+        Log.e(TAG, "The face models could not be loaded; detected face name stays Unknown", cause)
+        return null
     }
 
     private fun isFrontCamera(): Boolean = try {
