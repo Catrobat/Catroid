@@ -46,6 +46,7 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.content.actions.FaceNameTrainActionStateTest"
   --tests "org.catrobat.catroid.formulaeditor.SensorHandlerFaceNameTest"
   --tests "org.catrobat.catroid.formulaeditor.common.FormulaElementResourcesTest"
+  --tests "org.catrobat.catroid.stage.BrickDialogManagerTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
