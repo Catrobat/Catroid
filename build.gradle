@@ -49,5 +49,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url = "https://developer.huawei.com/repo/" }
+        maven { url = uri("https://repository.kotzilla.io/repository/Koin-Embedded/") }
     }
 }

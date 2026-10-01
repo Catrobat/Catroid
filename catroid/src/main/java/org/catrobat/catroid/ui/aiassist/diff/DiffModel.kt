@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,26 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.retrofit
+package org.catrobat.catroid.ui.aiassist.diff
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import okhttp3.ResponseBody
+import org.catrobat.catroid.content.bricks.Brick
 
-class ErrorInterceptor : Interceptor {
+enum class DiffStatus { ADDED, REMOVED, MODIFIED, UNCHANGED }
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
+internal data class DiffRow(val old: Brick?, val new: Brick?, val status: DiffStatus)
 
-        if (response.isSuccessful.not() and response.isRedirect.not()) {
-            val contentType = response.body?.contentType()
-            val body = response.body?.toString() ?: ""
+/**
+ * A single chunk of a brick's editor phrase. [dynamic] marks a value/spinner-selection chunk (styled
+ * like an input field) as opposed to a static label word; [changed] flags it differing from the old brick.
+ */
+internal data class DiffToken(
+    val text: String,
+    val changed: Boolean,
+    val dynamic: Boolean = false
+)
 
-            return response.newBuilder()
-                .body(ResponseBody.create(contentType, body))
-                .code(response.code)
-                .build()
-        }
-        return response
-    }
-}
+internal const val DIFF_TAG = "AiTutorDiffScreen"
