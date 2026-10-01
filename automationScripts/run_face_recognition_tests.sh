@@ -8,7 +8,7 @@
 #     export ANDROID_HOME=/path/to/android/sdk        # or sdk.dir in local.properties
 #     bash automationScripts/run_face_recognition_tests.sh            # everything
 #     bash automationScripts/run_face_recognition_tests.sh green      # current commit
-#     bash automationScripts/run_face_recognition_tests.sh red-peek   # old peekSession guard
+#     bash automationScripts/run_face_recognition_tests.sh red-sensor # sensor tests before FaceNameDetector
 #     bash automationScripts/run_face_recognition_tests.sh red-alias  # without xstream aliases
 #
 # Results go to build/face_recognition_evidence/ (override with EVIDENCE=...):
@@ -16,8 +16,8 @@
 # a *_summary.txt per run read from the JUnit XML. The instrumented task has
 # ignoreFailures = true, so its exit code says nothing about the tests.
 #
-# Nothing here edits a test. red-peek edits one line of Recognizer.kt for one
-# run and restores it with git checkout, also if the run is interrupted.
+# Nothing here edits a file. The red runs run the tests of an earlier commit of
+# this branch, checked out in a separate worktree next to this repository.
 # Needs: git, bash, python 3 (for the XML summary), JDK 21, Android SDK.
 
 set -u
@@ -32,15 +32,18 @@ EVIDENCE="$(cd "$EVIDENCE" && pwd)"
 # it differs from that fix commit only by the aliases.
 BEFORE_ALIAS=68eeae484
 ALIAS_FIX=30607b1f5
-RECOGNIZER=catroid/src/main/java/org/catrobat/catroid/FaceRecognizer/Recognizer.kt
-PEEK_FIXED='if (session == null || session.framesWithFace == 0) {'
-PEEK_OLD='if (session == null || session.framesWithFace == 2) {'
+# "[test] FaceNameSensorStageTest" and "[feature] Continuous face name detection":
+# the sensor stage tests on the commit that adds them, the parent of the feature.
+SENSOR_TESTS=5945c7c56
+SENSOR_FEATURE=0682ba62e
+SENSOR_TEST_CLASS=org.catrobat.catroid.uiespresso.facerecognizer.FaceNameSensorStageTest
 
 UNIT_TESTS=(
   --tests "org.catrobat.catroid.FaceRecognizer.FaceDatabaseTest"
   --tests "org.catrobat.catroid.FaceRecognizer.RecognizerSessionTest"
+  --tests "org.catrobat.catroid.FaceRecognizer.FaceNameWindowTest"
+  --tests "org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetectorTest"
   --tests "org.catrobat.catroid.content.actions.FaceNameTrainActionStateTest"
-  --tests "org.catrobat.catroid.content.actions.FaceNameDetectActionTest"
   --tests "org.catrobat.catroid.formulaeditor.SensorHandlerFaceNameTest"
   --tests "org.catrobat.catroid.formulaeditor.common.FormulaElementResourcesTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
@@ -49,7 +52,7 @@ DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
 org.catrobat.catroid.FaceRecognizer.FaceRecognitionFalsePositiveTest,\
 org.catrobat.catroid.uiespresso.facerecognizer.FaceTrainingUiTest,\
-org.catrobat.catroid.uiespresso.facerecognizer.FaceNameDetectStageTest,\
+$SENSOR_TEST_CLASS,\
 org.catrobat.catroid.test.content.bricks.FaceNameBrickCategoryTest,\
 org.catrobat.catroid.test.content.bricks.BrickCategoryTest"
 
@@ -180,33 +183,35 @@ green() {
       --warning-mode all --console=plain
 }
 
-restore_recognizer() {
-  git checkout -- "$RECOGNIZER"
+worktree_at() {   # worktree_at <dir> <commit>: a worktree of this repository at <commit>
+  local dir="$1" commit="$2"
+  if [ ! -d "$dir" ]; then
+    git worktree add --detach "$dir" "$commit" || die "Could not create the worktree at $dir."
+  fi
+  # An existing worktree may be at another commit; move it to <commit>.
+  git -C "$dir" checkout -q --detach "$commit" || die "Could not check out $commit in $dir."
+  [ "$(git -C "$dir" rev-parse HEAD)" = "$(git rev-parse "$commit")" ] || die "$dir is not at $commit."
+  [ -f "$ROOT/local.properties" ] && cp "$ROOT/local.properties" "$dir/local.properties"
+  clear_results "$dir"
 }
 
-red_peek() {
-  # RecognizerSessionTest against the old peekSession guard (framesWithFace == 2).
-  git diff --quiet -- "$RECOGNIZER" || die "$RECOGNIZER has local changes; commit or stash them first."
-  [ "$(grep -cF "$PEEK_FIXED" "$RECOGNIZER")" = "1" ] || die "Expected exactly one '$PEEK_FIXED' in $RECOGNIZER."
+red_sensor() {
+  # FaceNameSensorStageTest on the commit that adds it, the parent of the feature.
+  [ "$(git rev-parse "$SENSOR_FEATURE^")" = "$(git rev-parse "$SENSOR_TESTS")" ] ||
+    die "$SENSOR_TESTS is not the parent of the feature commit $SENSOR_FEATURE."
+  git diff --name-only "$SENSOR_TESTS^" "$SENSOR_TESTS" > "$EVIDENCE/red_sensor_changed_files.txt"
+  [ "$(cat "$EVIDENCE/red_sensor_changed_files.txt")" = "catroid/src/androidTest/java/org/catrobat/catroid/uiespresso/facerecognizer/FaceNameSensorStageTest.kt
+catroid/src/main/java/org/catrobat/catroid/camera/mlkitdetectors/FaceNameTestFrames.kt" ] ||
+    die "$SENSOR_TESTS changes more than the stage test and its test-only frame source."
+  check_device
 
-  trap restore_recognizer EXIT INT TERM
-  # Only the peekSession line; finishSession's "session.totals == null || ..." guard stays.
-  sed -i 's/if (session == null || session\.framesWithFace == 0) {/if (session == null || session.framesWithFace == 2) {/' "$RECOGNIZER"
-  [ "$(grep -cF "$PEEK_OLD" "$RECOGNIZER")" = "1" ] || { restore_recognizer; die "Could not set the old guard."; }
-  git diff --no-color -U0 -- "$RECOGNIZER" > "$EVIDENCE/red_peek_session_old_guard.diff"
-  [ "$(grep -c '^[-+] ' "$EVIDENCE/red_peek_session_old_guard.diff")" = "2" ] || {
-    restore_recognizer; die "The temporary edit is not exactly the peekSession guard."; }
-
-  clear_results "$ROOT"
-  log_run red_peek_session_old_guard "$ROOT" ./gradlew :catroid:testCatroidDebugUnitTest \
-      --tests "org.catrobat.catroid.FaceRecognizer.RecognizerSessionTest" --continue --console=plain
-  copy_reports red_peek_session_old_guard "$ROOT"
-  summarise_xml red_peek_session_old_guard
-
-  restore_recognizer
-  trap - EXIT INT TERM
-  git diff --quiet -- "$RECOGNIZER" || die "$RECOGNIZER was not restored."
-  echo "$RECOGNIZER restored to $(git rev-parse --short HEAD)" | tee -a "$EVIDENCE/red_peek_session_old_guard.log"
+  local before="$ROOT/../Catroid-red-sensor"
+  worktree_at "$before" "$SENSOR_TESTS"
+  log_run red_sensor_before_feature "$before" ./gradlew :catroid:connectedCatroidDebugAndroidTest \
+      "-Pandroid.testInstrumentationRunnerArguments.class=$SENSOR_TEST_CLASS" \
+      --continue --console=plain
+  copy_reports red_sensor_before_feature "$before"
+  summarise_xml red_sensor_before_feature
 }
 
 red_alias() {
@@ -219,14 +224,7 @@ red_alias() {
   git diff --no-color "$BEFORE_ALIAS" "$ALIAS_FIX" > "$EVIDENCE/red_before_alias.diff"
 
   local before="$ROOT/../Catroid-before-alias"
-  if [ ! -d "$before" ]; then
-    git worktree add --detach "$before" "$BEFORE_ALIAS" || die "Could not create the worktree at $before."
-  fi
-  # An existing worktree may be at another commit; move it to BEFORE_ALIAS.
-  git -C "$before" checkout -q --detach "$BEFORE_ALIAS" || die "Could not check out $BEFORE_ALIAS in $before."
-  [ "$(git -C "$before" rev-parse HEAD)" = "$(git rev-parse "$BEFORE_ALIAS")" ] || die "$before is not at $BEFORE_ALIAS."
-  [ -f "$ROOT/local.properties" ] && cp "$ROOT/local.properties" "$before/local.properties"
-  clear_results "$before"
+  worktree_at "$before" "$BEFORE_ALIAS"
   log_run red_before_alias "$before" ./gradlew :catroid:testCatroidDebugUnitTest \
       --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest" \
       --continue --console=plain
@@ -236,11 +234,11 @@ red_alias() {
 
 check_environment
 case "${1:-all}" in
-  green)     green ;;
-  red-peek)  red_peek ;;
-  red-alias) red_alias ;;
-  all)       green; red_peek; red_alias ;;
-  *) echo "usage: $0 [green|red-peek|red-alias|all]"; exit 2 ;;
+  green)      green ;;
+  red-sensor) red_sensor ;;
+  red-alias)  red_alias ;;
+  all)        green; red_sensor; red_alias ;;
+  *) echo "usage: $0 [green|red-sensor|red-alias|all]"; exit 2 ;;
 esac
 
 echo
