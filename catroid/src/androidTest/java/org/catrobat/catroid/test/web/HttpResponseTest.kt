@@ -77,7 +77,7 @@ class HttpResponseTest : WebConnection.WebRequestListener {
     }
 
     override fun onRequestSuccess(httpResponse: Response) {
-        response.complete(httpResponse.body()?.string() ?: "")
+        response.complete(httpResponse.body?.string() ?: "")
     }
 
     override fun onRequestError(httpError: String) {
