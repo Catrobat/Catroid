@@ -52,6 +52,7 @@ import java.io.File
  * [android:theme="@android:style/Theme.Translucent.NoTitleBar"] works without
  * requiring an AppCompat theme.
  */
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 class ShortcutTrampolineActivity : Activity() {
 
     var ioDispatcher: CoroutineDispatcher = Dispatchers.IO

@@ -55,6 +55,7 @@ import java.io.File
  * for future-proofing — e.g. if we later want to survive renames without re-pinning — but
  * the current shortcut ID is still the encoded directory name.
  */
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 object ShortcutHelper {
 
     private const val TAG = "ShortcutHelper"
@@ -344,7 +345,8 @@ object ShortcutHelper {
 
     // --- MIUI / Xiaomi Compatibility ---
 
-    private const val MIUI_INSTALL_SHORTCUT_OP_CODE = 10017
+    private const val MIUI_INSTALL_SHORTCUT_OP_CODE = 10_017
+    private const val PROBE_SYNC_DELAY_MS = 200L
 
     /**
      * Checks if the device is a Xiaomi-related brand (Redmi, POCO, etc.)
@@ -401,7 +403,7 @@ object ShortcutHelper {
             ShortcutManagerCompat.pushDynamicShortcut(context, probeShortcut)
 
             // 2. Timeout guard: MIUI can be stale immediately after push
-            kotlinx.coroutines.delay(200)
+            kotlinx.coroutines.delay(PROBE_SYNC_DELAY_MS)
 
             // 3. Verify existence
             val dynamicShortcuts = ShortcutManagerCompat.getDynamicShortcuts(context)

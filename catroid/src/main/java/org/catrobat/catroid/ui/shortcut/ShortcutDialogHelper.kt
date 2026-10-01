@@ -47,15 +47,20 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
 
+@Suppress("LongParameterList")
 object ShortcutDialogHelper {
+
+    private const val MAX_DIALOG_WIDTH_DP = 345
+    private const val DIALOG_WIDTH_SCREEN_RATIO = 0.86
 
     var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 
     private fun applyDialogDimensions(dialog: AlertDialog, context: Context) {
         val displayMetrics = context.resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
-        val maxDialogWidth = (345 * displayMetrics.density).toInt()
-        val dialogWidth = (screenWidth * 0.86).toInt().coerceAtMost(maxDialogWidth)
+        val maxDialogWidth = (MAX_DIALOG_WIDTH_DP * displayMetrics.density).toInt()
+        val dialogWidth =
+            (screenWidth * DIALOG_WIDTH_SCREEN_RATIO).toInt().coerceAtMost(maxDialogWidth)
         dialog.window?.setLayout(dialogWidth, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
