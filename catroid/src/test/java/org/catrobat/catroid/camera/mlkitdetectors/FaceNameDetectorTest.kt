@@ -39,6 +39,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import java.io.IOException
 import java.util.concurrent.Executor
 
 /**
@@ -165,6 +166,55 @@ class FaceNameDetectorTest {
         FaceNameDetector.reset()
 
         assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+    }
+
+    // ---------------- Errors never escape a camera or recognition thread ----------------
+
+    @Test
+    fun aFrameThatRunsOutOfMemoryIsReleasedOnceAndNothingEscapes() {
+        FaceNameTestFrames.source = { throw OutOfMemoryError("no room for the frame") }
+
+        val frame = offerFrame()
+
+        verify(exactly = 1) { frame.close() }
+        assertEquals(0, queued.size)
+    }
+
+    @Test
+    fun faceModelsThatCannotBeReadDoNotEscapeTheRecognitionThread() {
+        FaceNameDetector.recognizerProvider = { throw IOException("facenet.tflite is missing") }
+
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+    }
+
+    @Test
+    fun aNativeLibraryThatCannotBeLoadedDoesNotEscapeAndIsNotRetriedOnEveryFrame() {
+        var attempts = 0
+        FaceNameDetector.recognizerProvider = {
+            attempts++
+            throw UnsatisfiedLinkError("libtensorflowlite_jni.so not found")
+        }
+
+        offerFrame()
+        runRecognition()
+        repeat(5) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+            runRecognition()
+        }
+
+        assertEquals("The models are not loaded again until the next program start", 1, attempts)
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        FaceNameDetector.reset()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("A new program start tries again", 2, attempts)
     }
 
     /** Passes one camera frame through the detector, as CatdroidImageAnalyzer does. */
