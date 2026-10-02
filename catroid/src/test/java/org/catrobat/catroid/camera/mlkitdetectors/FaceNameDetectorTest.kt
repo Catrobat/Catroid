@@ -70,14 +70,14 @@ class FaceNameDetectorTest {
         FaceNameDetector.clock = { now }
         FaceNameDetector.recognitionExecutor = Executor { queued.addLast(it) }
         FaceNameDetector.recognizerProvider = { null }
-        FaceNameTestFrames.source = { Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888) }
+        FaceNameDetector.frameSource = { Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888) }
         FaceNameDetector.reset()
     }
 
     @After
     fun tearDown() {
         runRecognition()
-        FaceNameTestFrames.source = null
+        FaceNameDetector.frameSource = null
         FaceNameDetector.clock = savedClock
         FaceNameDetector.recognitionExecutor = savedExecutor
         FaceNameDetector.recognizerProvider = savedRecognizerProvider
@@ -129,7 +129,7 @@ class FaceNameDetectorTest {
 
     @Test
     fun aFrameThatCannotBeReadIsReleasedOnce() {
-        FaceNameTestFrames.source = { throw IllegalStateException("broken frame") }
+        FaceNameDetector.frameSource = { throw IllegalStateException("broken frame") }
 
         val broken = offerFrame()
 
@@ -172,7 +172,7 @@ class FaceNameDetectorTest {
 
     @Test
     fun aFrameThatRunsOutOfMemoryIsReleasedOnceAndNothingEscapes() {
-        FaceNameTestFrames.source = { throw OutOfMemoryError("no room for the frame") }
+        FaceNameDetector.frameSource = { throw OutOfMemoryError("no room for the frame") }
 
         val frame = offerFrame()
 

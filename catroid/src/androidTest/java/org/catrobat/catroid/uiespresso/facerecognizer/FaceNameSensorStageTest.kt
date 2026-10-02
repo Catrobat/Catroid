@@ -47,7 +47,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
-import org.catrobat.catroid.camera.mlkitdetectors.FaceNameTestFrames
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
@@ -89,7 +89,7 @@ import java.util.concurrent.atomic.AtomicInteger
  *
  * The camera runs as in the app (CameraX, the camera Catroid's camera sensors
  * use); only the frames face name detection analyses are replaced by a fixture
- * photo through FaceNameTestFrames.
+ * photo through FaceNameDetector.frameSource.
  */
 @RunWith(AndroidJUnit4::class)
 class FaceNameSensorStageTest {
@@ -124,7 +124,7 @@ class FaceNameSensorStageTest {
         SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, true)
         SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, false)
 
-        FaceNameTestFrames.source = { frontCamera ->
+        FaceNameDetector.frameSource = { frontCamera ->
             framesAnalysed.incrementAndGet()
             cameraFacings.add(frontCamera)
             fixture?.let { harness.fixtureBitmap(it) }
@@ -139,7 +139,7 @@ class FaceNameSensorStageTest {
         SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, savedFaceNameSetting)
         SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, savedFaceDetectionSetting)
         harness.stop()
-        FaceNameTestFrames.source = null
+        FaceNameDetector.frameSource = null
     }
 
     /**
@@ -150,7 +150,7 @@ class FaceNameSensorStageTest {
      */
     private fun stopUsingTheFaceModel() {
         val analysedSoFar = framesAnalysed.get()
-        FaceNameTestFrames.source = {
+        FaceNameDetector.frameSource = {
             framesAnalysed.incrementAndGet()
             null
         }

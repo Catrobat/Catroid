@@ -66,6 +66,18 @@ object FaceNameDetector : Detector {
         Thread(runnable, "FaceNameRecognition")
     }
 
+    /**
+     * Test-only: replaces the camera frames face name detection analyses with
+     * fixture photos; everything after the frame stays the production code.
+     * Called once for every frame that is analysed, with whether the active
+     * camera faces front; returns the upright frame, which the detector then
+     * owns and recycles, or null for a frame without a usable face. Null in
+     * the app: frames come from the camera.
+     */
+    @VisibleForTesting
+    @Volatile
+    internal var frameSource: ((frontCamera: Boolean) -> Bitmap?)? = null
+
     /** Loads the face models on first use; until then the name stays Unknown. */
     @VisibleForTesting
     internal var recognizerProvider: () -> Recognizer? = {
@@ -131,7 +143,7 @@ object FaceNameDetector : Detector {
             return null
         }
         val frontCamera = isFrontCamera()
-        val source = FaceNameTestFrames.source
+        val source = frameSource
         val frame = if (source != null) source(frontCamera) else uprightBitmap(mediaImage, rotationDegrees)
         busy.set(true)
         return Task(frame, frontCamera, now, synchronized(lock) { runId })
