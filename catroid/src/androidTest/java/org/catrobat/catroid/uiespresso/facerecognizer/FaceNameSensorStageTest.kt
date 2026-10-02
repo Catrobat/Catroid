@@ -23,8 +23,10 @@
 package org.catrobat.catroid.uiespresso.facerecognizer
 
 import android.Manifest
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
+import android.hardware.camera2.CameraManager as SystemCameraManager
 import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
@@ -112,6 +114,8 @@ class FaceNameSensorStageTest {
     @Volatile
     private var fixture: String? = null
 
+    private var faceModelStopped = false
+
     private var savedFaceNameSetting = false
     private var savedFaceDetectionSetting = false
 
@@ -149,6 +153,10 @@ class FaceNameSensorStageTest {
      * two more of them mean the frame being recognised has finished.
      */
     private fun stopUsingTheFaceModel() {
+        if (faceModelStopped) {
+            return
+        }
+        faceModelStopped = true
         val analysedSoFar = framesAnalysed.get()
         FaceNameDetector.frameSource = {
             framesAnalysed.incrementAndGet()
@@ -317,6 +325,37 @@ class FaceNameSensorStageTest {
         assertFalse(cameraManager.isCameraFacingFront)
         val facings = synchronized(cameraFacings) { cameraFacings.toList() }
         assertFalse("A frame after the switch must come from the back camera", facings.last())
+    }
+
+    /**
+     * The real camera: detection is on in CameraManager while the program runs,
+     * and the camera device is released when the stage ends.
+     */
+    @Test
+    fun detectionIsOnWhileTheProgramRunsAndTheCameraIsReleasedWhenTheStageEnds() {
+        trainBoth()
+        fixture = "p02_test.jpg"
+        createProject()
+        val cameraWatch = CameraWatch(harness.appContext)
+        try {
+            launchStage()
+            waitForName(PERSON_B)
+
+            val cameraManager = StageActivity.getActiveCameraManager()
+            assertNotNull(cameraManager)
+            assertTrue("Detection must be on in CameraManager while the program runs", cameraManager!!.detectionOn)
+            assertTrue("A camera must be open while the program runs", cameraWatch.openIds.isNotEmpty())
+
+            stopUsingTheFaceModel()
+            stageRule.finishActivity()
+
+            assertTrue(
+                "The camera must be released when the stage ends; still open: ${cameraWatch.openIds}",
+                cameraWatch.waitUntilAllClosed(CAMERA_RELEASE_TIMEOUT_MS)
+            )
+        } finally {
+            cameraWatch.stop()
+        }
     }
 
     // ---------------- Together with another camera sensor ----------------
@@ -492,8 +531,58 @@ class FaceNameSensorStageTest {
         return reader.acquireLatestImage()
     }
 
+    /** Tracks which camera devices are open right now, from the camera service's callback. */
+    private class CameraWatch(context: Context) {
+        private val manager = context.getSystemService(Context.CAMERA_SERVICE) as SystemCameraManager
+        private val thread = HandlerThread("camera_watch").apply { start() }
+        private var registered = false
+
+        val openIds: MutableSet<String> = Collections.synchronizedSet(HashSet())
+
+        private val callback = object : SystemCameraManager.AvailabilityCallback() {
+            override fun onCameraUnavailable(cameraId: String) {
+                if (registered) {
+                    openIds.add(cameraId)
+                }
+            }
+
+            override fun onCameraAvailable(cameraId: String) {
+                openIds.remove(cameraId)
+            }
+        }
+
+        init {
+            // The callback first reports the current state of every camera; let
+            // that settle before tracking what the test opens.
+            manager.registerAvailabilityCallback(callback, Handler(thread.looper))
+            Thread.sleep(SETTLE_MS)
+            registered = true
+        }
+
+        fun waitUntilAllClosed(timeoutMs: Long): Boolean {
+            val deadline = System.currentTimeMillis() + timeoutMs
+            while (System.currentTimeMillis() < deadline) {
+                if (openIds.isEmpty()) {
+                    return true
+                }
+                Thread.sleep(POLL_MS)
+            }
+            return openIds.isEmpty()
+        }
+
+        fun stop() {
+            manager.unregisterAvailabilityCallback(callback)
+            thread.quitSafely()
+        }
+
+        private companion object {
+            const val SETTLE_MS = 300L
+        }
+    }
+
     private companion object {
         const val UNKNOWN = "Unknown"
+        const val CAMERA_RELEASE_TIMEOUT_MS = 3_000L
 
         /** Recognition loads its models on first use; generous for a slow phone. */
         const val TIMEOUT_MS = 30_000L
