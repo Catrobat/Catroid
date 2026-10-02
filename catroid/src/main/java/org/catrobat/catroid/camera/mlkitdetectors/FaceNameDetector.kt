@@ -94,6 +94,15 @@ object FaceNameDetector : Detector {
     @Volatile
     private var recognitionUnavailable = false
 
+    /**
+     * Face name analysis is much heavier than the ML Kit detectors, so it stays
+     * off until the program first reads "detected face name" (see [activate]).
+     * Until then every frame is released without being looked at. A project
+     * that uses only other camera sensors never turns it on.
+     */
+    @Volatile
+    private var activated = false
+
     /** Guards the window and the sensor against a frame recognised across a [reset]. */
     private val lock = Any()
     private var runId = 0
@@ -123,10 +132,20 @@ object FaceNameDetector : Detector {
      * Start of a program run, including a restart from the stage menu: no
      * frames in the window and "detected face name" back to Unknown.
      */
+    /** Called when the program reads "detected face name": from now on frames are analysed. */
+    @JvmStatic
+    fun activate() {
+        if (!activated) {
+            activated = true
+            Log.i(TAG, "Face name analysis started: the program read the sensor")
+        }
+    }
+
     @JvmStatic
     fun reset() {
         synchronized(lock) {
             runId++
+            activated = false
             recognitionUnavailable = false
             window.clear()
             SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
@@ -135,7 +154,7 @@ object FaceNameDetector : Detector {
 
     /** The frame to recognise, or null when this one is skipped. */
     private fun takeFrame(mediaImage: Image, rotationDegrees: Int): Task? {
-        if (busy.get() || recognitionUnavailable) {
+        if (!activated || busy.get() || recognitionUnavailable) {
             return null
         }
         val now = clock()

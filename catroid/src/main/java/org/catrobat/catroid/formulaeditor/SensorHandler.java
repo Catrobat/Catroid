@@ -42,6 +42,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -282,6 +283,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
 		if (sensor == Sensors.ON_DEVICE_FACE_RECOGNITION) {
+			// The first read in a program run starts the face name analysis.
+			FaceNameDetector.activate();
 			return faceNameRecognitionResult;
 		}
 		if (instance.sensorManager == null) {
