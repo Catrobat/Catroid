@@ -72,6 +72,8 @@ class FaceNameDetectorTest {
         FaceNameDetector.recognizerProvider = { null }
         FaceNameDetector.frameSource = { Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888) }
         FaceNameDetector.reset()
+        // A program that uses the sensor reads it; the cases below start from there.
+        readTheSensor()
     }
 
     @After
@@ -211,10 +213,73 @@ class FaceNameDetectorTest {
         assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
 
         FaceNameDetector.reset()
+        readTheSensor()
         now += FaceNameWindow.FRAME_INTERVAL_MS
         offerFrame()
         runRecognition()
         assertEquals("A new program start tries again", 2, attempts)
+    }
+
+    // ---------------- Off until the program first reads the sensor ----------------
+
+    @Test
+    fun beforeTheSensorIsReadFramesAreReleasedButNotAnalysed() {
+        FaceNameDetector.reset()
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        repeat(5) {
+            now += 10 * FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+        }
+
+        assertEquals("No frame may be analysed before the sensor is read", 0, analysed)
+        assertEquals(0, queued.size)
+    }
+
+    @Test
+    fun theFirstReadOfTheSensorStartsTheAnalysis() {
+        FaceNameDetector.reset()
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+        offerFrame()
+        assertEquals(0, analysed)
+
+        readTheSensor()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+
+        assertEquals(1, analysed)
+        assertEquals(1, queued.size)
+    }
+
+    @Test
+    fun aNewProgramStartTurnsTheAnalysisOffAgain() {
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+        offerFrame()
+        runRecognition()
+        assertEquals(1, analysed)
+
+        FaceNameDetector.reset()
+        now += 10 * FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+
+        assertEquals("After a new start, frames wait for the sensor to be read again", 1, analysed)
+    }
+
+    private fun readTheSensor() {
+        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
     }
 
     /** Passes one camera frame through the detector, as CatdroidImageAnalyzer does. */

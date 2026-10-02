@@ -52,10 +52,12 @@ import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
+import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
@@ -358,6 +360,51 @@ class FaceNameSensorStageTest {
         }
     }
 
+    /**
+     * Face name analysis is heavy, so it is off until the program first reads
+     * "detected face name". A program that uses only another camera sensor
+     * never turns it on, even with the face name setting on.
+     */
+    @Test
+    fun programReadingOnlyFaceXPositionDoesNotAnalyseFramesForFaceNames() {
+        SettingsFragment.setAIFaceDetectionPreferenceEnabled(harness.appContext, true)
+        trainBoth()
+        fixture = "p02_test.jpg"
+        createProject(readFaceName = false, readFaceX = true)
+
+        val faceSensorWrites = AtomicInteger(0)
+        val listener = SensorCustomEventListener { event ->
+            if (event.sensor == Sensors.FACE_DETECTED) {
+                faceSensorWrites.incrementAndGet()
+            }
+        }
+        VisualDetectionHandler.addListener(listener)
+        try {
+            launchStage()
+            waitUntil("ML Kit face detection to analyse camera frames") { faceSensorWrites.get() >= ENOUGH_FRAMES }
+            Thread.sleep(STAY_UNKNOWN_MS)
+
+            assertEquals("No frame may be analysed for face names", 0, framesAnalysed.get())
+            assertStageKeepsRunning()
+        } finally {
+            VisualDetectionHandler.removeListener(listener)
+        }
+    }
+
+    @Test
+    fun analysisStartsWhenTheProgramFirstReadsTheSensor() {
+        trainBoth()
+        fixture = "p02_test.jpg"
+        createProject(firstBrick = WaitBrick(SENSOR_FIRST_READ_AFTER_MS))
+
+        launchStage()
+        Thread.sleep(SENSOR_FIRST_READ_AFTER_MS - 500L)
+        assertEquals("No frame may be analysed before the sensor is read", 0, framesAnalysed.get())
+
+        waitForName(PERSON_B)
+        assertStageKeepsRunning()
+    }
+
     // ---------------- Together with another camera sensor ----------------
 
     /**
@@ -414,7 +461,7 @@ class FaceNameSensorStageTest {
     private fun createProject(
         readFaceName: Boolean = true,
         readFaceX: Boolean = false,
-        firstBrick: ChooseCameraBrick? = null
+        firstBrick: Brick? = null
     ) {
         val project = UiTestUtils.createDefaultTestProject("FaceNameSensorStageTest")
         name = UserVariable("name", "")
@@ -591,5 +638,8 @@ class FaceNameSensorStageTest {
         /** Frames to analyse before "still Unknown" means something. */
         const val ENOUGH_FRAMES = 5
         const val STAY_UNKNOWN_MS = 2_000L
+
+        /** The reading script waits this long before it first reads the sensor. */
+        const val SENSOR_FIRST_READ_AFTER_MS = 3_000
     }
 }
