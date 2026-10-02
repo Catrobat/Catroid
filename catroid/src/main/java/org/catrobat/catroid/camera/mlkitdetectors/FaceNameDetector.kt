@@ -187,11 +187,9 @@ object FaceNameDetector : Detector {
         return null
     }
 
-    private fun isFrontCamera(): Boolean = try {
+    /** False when there is no stage or no camera manager. */
+    private fun isFrontCamera(): Boolean =
         StageActivity.getActiveCameraManager()?.isCameraFacingFront == true
-    } catch (exception: NullPointerException) {
-        false
-    }
 
     /** The YUV_420_888 camera frame as an upright ARGB_8888 bitmap. */
     private fun uprightBitmap(image: Image, rotationDegrees: Int): Bitmap? {

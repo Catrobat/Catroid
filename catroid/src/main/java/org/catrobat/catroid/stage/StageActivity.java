@@ -285,10 +285,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public static CameraManager getActiveCameraManager() {
-		if (activeStageActivity != null) {
-			return activeStageActivity.get().cameraManager;
-		}
-		return null;
+		StageActivity stageActivity = activeStageActivity != null ? activeStageActivity.get() : null;
+		return stageActivity != null ? stageActivity.cameraManager : null;
 	}
 
 	public static VibrationManager getActiveVibrationManager() {
