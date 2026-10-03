@@ -124,6 +124,7 @@ import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
@@ -162,11 +163,14 @@ class LoadProjectAIExtensionSettingsTest(
             *speechRecognitionList,
             *speechSynthetizationList,
             *faceDetectionList,
+            *faceNameDetectionList,
             *poseDetectionList,
             *textRecognitionList
         )
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
+
+        private var detectedFaceName = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
 
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
@@ -283,6 +287,13 @@ class LoadProjectAIExtensionSettingsTest(
                 "Speech Synthetization SpeakAndWaitBrick",
                 SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
                 SpeakAndWaitBrick()
+            )
+        )
+
+        private val faceNameDetectionList = arrayOf(
+            arrayOf(
+                "Face Name Detection detectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(detectedFaceName))
             )
         )
 
@@ -698,6 +709,7 @@ class LoadProjectAIExtensionSettingsTest(
         SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
         SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
         SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+        SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
     )
