@@ -811,8 +811,7 @@ class Recognizer private constructor() {
         val match = try {
             findBestRecognitionMatch(
                 activeEmbedder = activeEmbedder,
-                faceFrame = requireNotNull(faceFrame),
-                faceBox = requireNotNull(faceBox),
+                face = face,
                 mirrorToo = mirrorToo
             )
         } catch (error: Exception) {
@@ -858,117 +857,32 @@ class Recognizer private constructor() {
             faceBox.height() > 0
     }
 
+    /**
+     * Scores the same aligned views as training and the stage sensor (three eye
+     * distances, each mirrored for the front camera) and keeps the best per
+     * person. A plain square crop does not match MobileFaceNet's aligned training
+     * views: on the fixtures it scored 0.29 where the aligned views score 0.70.
+     */
     private fun findBestRecognitionMatch(
         activeEmbedder: FaceEmbedder,
-        faceFrame: Bitmap,
-        faceBox: Rect,
+        face: FaceEmbedder.Face,
         mirrorToo: Boolean
     ): FaceDatabase.Match? {
-        val normalMatch = findNormalMatch(
-            activeEmbedder = activeEmbedder,
-            faceFrame = faceFrame,
-            faceBox = faceBox
+        val views = activeEmbedder.embedVariants(
+            frame = face.frame,
+            box = face.box,
+            includeMirror = mirrorToo,
+            leftEye = face.leftEye,
+            rightEye = face.rightEye
         )
-
-        if (!mirrorToo) {
-            return normalMatch
-        }
-
-        val mirroredMatch = findMirroredMatch(
-            activeEmbedder = activeEmbedder,
-            faceFrame = faceFrame,
-            faceBox = faceBox
-        )
-
-        return selectBetterMatch(
-            first = normalMatch,
-            second = mirroredMatch
-        )
-    }
-
-    private fun findNormalMatch(
-        activeEmbedder: FaceEmbedder,
-        faceFrame: Bitmap,
-        faceBox: Rect
-    ): FaceDatabase.Match? {
-        val embedding = activeEmbedder.embed(
-            frame = faceFrame,
-            box = faceBox
-        ) ?: return null
+        val scores = database.scoreAllVariants(views) ?: return null
 
         Log.d(
             TAG,
-            "Scores: ${database.describeScores(embedding)}"
+            "Scores (${views.size} views): ${database.describeScoreArray(scores)}"
         )
 
-        return database.match(embedding)
-    }
-
-    private fun findMirroredMatch(
-        activeEmbedder: FaceEmbedder,
-        faceFrame: Bitmap,
-        faceBox: Rect
-    ): FaceDatabase.Match? {
-        var mirroredBitmap: Bitmap? = null
-
-        return try {
-            mirroredBitmap = FaceEmbedder.mirror(faceFrame)
-
-            val mirroredBox = FaceEmbedder.mirrorRect(
-                box = faceBox,
-                frameWidth = faceFrame.width
-            )
-
-            val mirroredEmbedding = activeEmbedder.embed(
-                frame = mirroredBitmap,
-                box = mirroredBox
-            ) ?: return null
-
-            database.match(mirroredEmbedding)
-        } catch (error: Exception) {
-            Log.w(
-                TAG,
-                "Mirrored recognition failed",
-                error
-            )
-            null
-        } finally {
-            recycleMirroredBitmap(
-                mirroredBitmap = mirroredBitmap,
-                originalBitmap = faceFrame
-            )
-        }
-    }
-    private fun recycleMirroredBitmap(
-        mirroredBitmap: Bitmap?,
-        originalBitmap: Bitmap
-    ) {
-        if (
-            mirroredBitmap != null &&
-            mirroredBitmap !== originalBitmap &&
-            !mirroredBitmap.isRecycled
-        ) {
-            mirroredBitmap.recycle()
-        }
-    }
-
-    private fun selectBetterMatch(
-        first: FaceDatabase.Match?,
-        second: FaceDatabase.Match?
-    ): FaceDatabase.Match? {
-        if (first == null) {
-            return second
-        }
-
-        if (second == null) {
-            return first
-        }
-
-        return if (second.similarity > first.similarity) {
-            second
-        } else {
-            first
-        }
+        return database.decide(scores)
     }
 
     private fun createRecognitionResult(

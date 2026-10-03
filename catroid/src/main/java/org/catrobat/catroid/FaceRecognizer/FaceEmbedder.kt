@@ -744,16 +744,6 @@ class FaceEmbedder private constructor(
             return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, true)
         }
 
-        fun mirror(src: Bitmap): Bitmap {
-            val m = Matrix()
-            m.preScale(-1f, 1f, src.getWidth() / 2f, src.getHeight() / 2f)
-            return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, true)
-        }
-
-        fun mirrorRect(box: Rect, frameWidth: Int): Rect {
-            return Rect(frameWidth - box.right, box.top, frameWidth - box.left, box.bottom)
-        }
-
         /** Unit length, so a dot product between two embeddings is the cosine similarity.  */
         private fun normalize(v: FloatArray): FloatArray? {
             var sum = 0.0
