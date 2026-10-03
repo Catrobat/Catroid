@@ -74,6 +74,10 @@ class BlazeFace private constructor() {
         // Log this method so that it can be analyzed with systrace.
         Trace.beginSection("detect")
 
+        // Faces of this image only: an image without a face must not keep the
+        // previous image's boxes and landmarks for detectWithLandmarks().
+        lastFaces = emptyList()
+
         Trace.beginSection("preprocessBitmap")
         // Preprocess the image data from 0-255 int to normalized float based
         // on the provided parameters.
@@ -148,6 +152,7 @@ class BlazeFace private constructor() {
 
         // Check if there are any detections at all.
         if (detections.isEmpty()) {
+            Trace.endSection() // "detect"
             return ArrayList<RectF>()
         }
 
