@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.media.Image
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
@@ -218,6 +219,43 @@ class FaceNameDetectorTest {
         offerFrame()
         runRecognition()
         assertEquals("A new program start tries again", 2, attempts)
+    }
+
+    /**
+     * A class of the models that fails to load the first time it is used, while a
+     * frame is being scored, is a LinkageError, not an Exception. It must not end
+     * the recognition thread and the app, and it fails the same way on every
+     * frame, so scoring stops until the next program start.
+     */
+    @Test
+    fun aClassThatCannotBeLoadedWhileScoringDoesNotEscapeAndIsNotRetriedOnEveryFrame() {
+        var scored = 0
+        val recognizer = mockk<Recognizer>(relaxed = true)
+        every { recognizer.classNames } returns listOf("Ada")
+        every { recognizer.scoreFrame(any(), any()) } answers {
+            scored++
+            throw NoClassDefFoundError("org/tensorflow/lite/Interpreter")
+        }
+        FaceNameDetector.recognizerProvider = { recognizer }
+
+        offerFrame()
+        runRecognition()
+        repeat(5) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+            runRecognition()
+        }
+
+        assertEquals("Scoring is not tried again until the next program start", 1, scored)
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        FaceNameDetector.reset()
+        readTheSensor()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("A new program start tries again", 2, scored)
     }
 
     // ---------------- Off until the program first reads the sensor ----------------
