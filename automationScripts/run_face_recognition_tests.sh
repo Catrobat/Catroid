@@ -52,11 +52,13 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.FaceRecognizer.RecognizerPersonNameTest"
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
+  --tests "org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNetInputTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
 org.catrobat.catroid.FaceRecognizer.FaceRecognitionFalsePositiveTest,\
 org.catrobat.catroid.FaceRecognizer.FaceDetectionCacheTest,\
+org.catrobat.catroid.FaceRecognizer.MobileFaceNetTest,\
 org.catrobat.catroid.uiespresso.facerecognizer.FaceTrainingUiTest,\
 $SENSOR_TEST_CLASS,\
 org.catrobat.catroid.test.content.bricks.FaceNameBrickCategoryTest,\

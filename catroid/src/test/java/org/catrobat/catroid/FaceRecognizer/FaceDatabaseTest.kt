@@ -3,9 +3,10 @@ package org.catrobat.catroid.FaceRecognizer
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
-import org.catrobat.catroid.FaceRecognizer.ml.FaceNet
+import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -32,8 +33,8 @@ class FaceDatabaseTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         FileUtils.init(context)
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = 0.60f
-        FaceDatabase.minMargin = 0.05f
+        FaceDatabase.minSimilarity = 0.53f
+        FaceDatabase.minMargin = 0.04f
         database = FaceDatabase().apply { load() }
     }
 
@@ -141,6 +142,105 @@ class FaceDatabaseTest {
         assertEquals(0, database.getEmbeddingCount(0))
     }
 
+    // ---------------- Photos from the FaceNet build (512 values) ----------------
+
+    @Test
+    fun photosFromTheFaceNetBuildAreOutOfDateAndNeverCrash() {
+        writeFaceNetFiles("Person A", "Person B")
+
+        val reloaded = FaceDatabase().apply { load() }
+
+        assertTrue(reloaded.hasStaleEmbeddings())
+        assertEquals(listOf("Person A", "Person B"), reloaded.getNames())
+        assertEquals(0, reloaded.getEmbeddingCount(0))
+        assertEquals(0, reloaded.getEmbeddingCount(1))
+        assertNull(reloaded.match(unitVector(0)))
+        assertNull(reloaded.match(FloatArray(FACENET_SIZE)))
+        assertNull(reloaded.decide(reloaded.scoreAll(unitVector(0))))
+    }
+
+    @Test
+    fun theFaceNetThresholdsAreNotTakenOver() {
+        writeFaceNetFiles("Person A")
+        FaceDatabase.minSimilarity = 0.33f
+        FaceDatabase.minMargin = 0.02f
+
+        FaceDatabase().load()
+
+        // The old header says 0.60 / 0.05, on the FaceNet scale.
+        assertEquals(0.33f, FaceDatabase.minSimilarity, 0.0001f)
+        assertEquals(0.02f, FaceDatabase.minMargin, 0.0001f)
+    }
+
+    @Test
+    fun outdatedPhotosStayUntilThePersonIsTrainedAgain() {
+        writeFaceNetFiles("Person A", "Person B")
+        val reloaded = FaceDatabase().apply { load() }
+
+        reloaded.addEmbeddings(0, listOf(unitVector(0)))
+        assertTrue(reloaded.save())
+
+        // Person B is still waiting for new photos, also after a restart.
+        assertTrue(reloaded.hasStaleEmbeddings())
+        val restarted = FaceDatabase().apply { load() }
+        assertTrue(restarted.hasStaleEmbeddings())
+        assertEquals(1, restarted.getEmbeddingCount(0))
+        assertEquals(0, restarted.getEmbeddingCount(1))
+        assertEquals("Person A", restarted.match(unitVector(0))?.name)
+
+        restarted.addEmbeddings(1, listOf(unitVector(1)))
+        assertTrue(restarted.save())
+
+        val retrained = FaceDatabase().apply { load() }
+        assertFalse(retrained.hasStaleEmbeddings())
+        assertEquals(1, retrained.getEmbeddingCount(1))
+        assertEquals("Person B", retrained.match(unitVector(1))?.name)
+    }
+
+    @Test
+    fun deletingThePersonWithOutdatedPhotosEndsTheWarning() {
+        writeFaceNetFiles("Person A")
+        val reloaded = FaceDatabase().apply { load() }
+
+        reloaded.deletePerson(0)
+        assertTrue(reloaded.save())
+
+        assertFalse(reloaded.hasStaleEmbeddings())
+        assertFalse(FaceDatabase().apply { load() }.hasStaleEmbeddings())
+    }
+
+    @Test
+    fun photosOfThisBuildAreNotOutOfDate() {
+        database.addPerson("Person A")
+        database.addEmbeddings(0, listOf(unitVector(0)))
+        assertTrue(database.save())
+
+        assertFalse(FaceDatabase().apply { load() }.hasStaleEmbeddings())
+    }
+
+    /** The three files as the FaceNet build (pipeline 2, 512 values) wrote them. */
+    private fun writeFaceNetFiles(vararg names: String) {
+        val vector = (0 until FACENET_SIZE).joinToString(" ") { if (it == 0) "1.0" else "0.0" }
+        assertTrue(FileUtils.writeLines(FileUtils.LABEL_FILE, names.toList()))
+        assertTrue(
+            FileUtils.writeLines(
+                FileUtils.DATA_FILE,
+                names.indices.flatMap { listOf("$it $vector", "$it $vector") }
+            )
+        )
+        assertTrue(
+            FileUtils.writeLines(
+                FileUtils.MODEL_FILE,
+                listOf("v1 $FACENET_SIZE ${names.size} 0.6000 0.0500 p2") +
+                    names.indices.map { "$it 2 $vector" }
+            )
+        )
+    }
+
     private fun unitVector(position: Int): FloatArray =
-        FloatArray(FaceNet.EMBEDDING_SIZE).apply { this[position] = 1f }
+        FloatArray(MobileFaceNet.EMBEDDING_SIZE).apply { this[position] = 1f }
+
+    private companion object {
+        const val FACENET_SIZE = 512
+    }
 }
