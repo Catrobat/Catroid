@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceNameDe
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
+import java.util.concurrent.atomic.AtomicInteger
 
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
     const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
@@ -80,9 +81,10 @@ class DetectorsCompleteListener(
     private val numActiveDetectors: Int,
     private val imageProxy: ImageProxy
 ) {
-    private var finishedDetectors = 0
+    // Detectors finish on different threads (ML Kit on the main thread, face names on the analysis thread).
+    private val finishedDetectors = AtomicInteger()
     fun onComplete() {
-        if (++finishedDetectors >= numActiveDetectors) {
+        if (finishedDetectors.incrementAndGet() == numActiveDetectors) {
             imageProxy.close()
         }
     }
