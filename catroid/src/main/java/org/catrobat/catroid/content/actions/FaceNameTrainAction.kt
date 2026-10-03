@@ -263,6 +263,11 @@ class FaceNameTrainAction : Action() {
     }
 
     fun onNewName(name: String) {
+        if (Recognizer.hasLineBreak(name)) {
+            showError(R.string.face_train_name_line_break)
+            show(DialogType.FACE_TRAIN_MENU)
+            return
+        }
         val current = recognizerOrInit()
         if (current == null) {
             show(DialogType.FACE_TRAIN_MENU)

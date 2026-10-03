@@ -40,6 +40,7 @@ import androidx.appcompat.app.AlertDialog as CatroidAlertDialog
 import androidx.core.text.HtmlCompat
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.BuildConfig
+import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.R
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
@@ -254,7 +255,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     private fun createFaceTrainNewNameDialog(action: FaceNameTrainAction): Dialog {
         val builder = TextInputDialog.Builder(faceTrainContext())
         builder.setHint(stageActivity.getString(R.string.face_train_name_hint))
-            .setTextWatcher(InputWatcher.TextWatcher().apply { setScope(action.personNames()) })
+            .setTextWatcher(FaceNameWatcher().apply { setScope(action.personNames()) })
             .setPositiveButton(
                 stageActivity.getString(R.string.next),
                 TextInputDialog.OnClickListener { _, name -> action.onNewName(name.trim()) }
@@ -308,6 +309,16 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             .create()
         dialog.setOnShowListener { action.onProgressDialogShown(dialog, bar) }
         return dialog
+    }
+
+    /** Catroid's name checks, and no line break: the face database stores one name per line. */
+    private class FaceNameWatcher : InputWatcher.TextWatcher() {
+        override fun validateInput(input: String, context: Context): String? =
+            if (Recognizer.hasLineBreak(input)) {
+                context.getString(R.string.face_train_name_line_break)
+            } else {
+                super.validateInput(input, context)
+            }
     }
 
     override fun onKey(dialog: DialogInterface, keyCode: Int, event: KeyEvent) =

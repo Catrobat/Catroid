@@ -2381,4 +2381,5 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="face_train_no_photos">No photos selected</string>
     <string formatted="false" name="face_train_not_available">Face recognition could not start</string>
     <string formatted="false" name="face_train_name_missing">That name is no longer in the list</string>
+    <string formatted="false" name="face_train_name_line_break">A name can\'t contain a line break</string>
 </resources>

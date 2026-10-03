@@ -60,6 +60,7 @@ class Recognizer private constructor() {
     fun addPerson(name: String): Int {
         val safeName = name.trim()
         require(safeName.isNotEmpty()) { "Person name must not be blank" }
+        require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
         val existing = database.indexOf(safeName)
         if (existing >= 0) {
             return existing
@@ -1570,6 +1571,15 @@ class Recognizer private constructor() {
 
     companion object {
         const val TAG: String = "Recognizer"
+
+        /**
+         * The face database stores one name per line, so a name with a line
+         * break would come back as two names and shift every later person.
+         */
+        private val LINE_BREAKS = setOf('\n', '\r', '\u000B', '\u000C', '\u0085', '\u2028', '\u2029')
+
+        @JvmStatic
+        fun hasLineBreak(name: String): Boolean = name.any { it in LINE_BREAKS }
 
         /** Photos are downscaled to this longest side before detection, to bound memory.  */ /* FaceNet finally consumes only 160x160. 960 keeps ample face detail while
        cutting gallery bitmap/rotation memory by about 44% versus 1280. */
