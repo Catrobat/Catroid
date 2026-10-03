@@ -1,5 +1,6 @@
 package org.catrobat.catroid.content.actions
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -35,17 +36,18 @@ class FaceNameTrainAction : Action() {
 
     companion object {
         private const val TAG = "FaceNameTrain"
-        private const val REQ_BASE = 1000
+        private const val REQ_BASE = 3000
 
         /**
          * Request codes this action owns, one per person index.
          *
          * StageResourceHolder.onActivityResult must let these through, because its
          * default branch calls endStageActivity() and would close the program the
-         * moment the photo picker returns.
+         * moment the photo picker returns. They must stay clear of the codes the
+         * stage uses itself (1, 101, 1000, 2000).
          */
-        const val REQUEST_FIRST = 1000
-        const val REQUEST_LAST = 1899
+        const val REQUEST_FIRST = REQ_BASE
+        const val REQUEST_LAST = REQ_BASE + 899
 
         @JvmStatic
         fun ownsRequestCode(requestCode: Int): Boolean {
@@ -373,7 +375,15 @@ class FaceNameTrainAction : Action() {
                 Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
         )
         pickerOwner = this
-        activity.startActivityForResult(intent, targetIndex + REQ_BASE)
+        try {
+            activity.startActivityForResult(intent, targetIndex + REQ_BASE)
+        } catch (exception: ActivityNotFoundException) {
+            Log.e(TAG, "No app to choose photos", exception)
+            pickerOwner = null
+            pendingName = null
+            showError(R.string.face_train_no_photo_picker)
+            show(DialogType.FACE_TRAIN_MENU)
+        }
     }
 
     /** Picker result, forwarded by StageResourceHolder.onActivityResult. */
