@@ -89,7 +89,7 @@ class GlideToOtherSpritePositionActionTest {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         stopKoin()
     }
 

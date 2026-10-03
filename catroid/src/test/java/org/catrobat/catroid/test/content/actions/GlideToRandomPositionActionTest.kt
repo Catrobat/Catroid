@@ -42,14 +42,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.core.scope.Scope
 import org.koin.dsl.module
-import org.koin.ext.scope
 
 import kotlin.getValue
-import kotlin.time.Duration
-import org.koin.java.KoinJavaComponent
-
 
 @RunWith(JUnit4::class)
 class GlideToRandomPositionActionTest {
@@ -57,7 +52,7 @@ class GlideToRandomPositionActionTest {
     private lateinit var sprite: Sprite
     private lateinit var dummySprite: Sprite
     private lateinit var action: GlideToRandomPositionAction
-    private lateinit var  projectManager: ProjectManager
+    private lateinit var projectManager: ProjectManager
 
     @Before
     @Throws(Exception::class)
@@ -76,7 +71,8 @@ class GlideToRandomPositionActionTest {
                             .MobileServiceAvailability::class.java
                     )
                 }
-            })}
+            })
+        }
         val scene = Scene()
         project.addScene(scene)
         projectManager.currentlyPlayingScene = scene
@@ -91,7 +87,7 @@ class GlideToRandomPositionActionTest {
             as GlideToRandomPositionAction
     }
     @After
-    fun tearDown(){
+    fun tearDown() {
         stopKoin()
     }
 
@@ -111,7 +107,7 @@ class GlideToRandomPositionActionTest {
     }
 
     @Test
-    fun testGlideToBehavior(){
+    fun testGlideToBehavior() {
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
 

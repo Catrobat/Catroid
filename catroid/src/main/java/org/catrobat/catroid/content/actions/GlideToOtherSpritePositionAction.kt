@@ -29,9 +29,7 @@ class GlideToOtherSpritePositionAction : BaseGlideAction() {
     var destinationXPosition: Float = 0f
     var destinationYPosition: Float = 0f
 
-    override fun act(delta: Float): Boolean {
-        return super.act(delta)
-    }
+    override fun act(delta: Float) = super.act(delta)
 
     override fun update(percent: Float) {
         val destinationLook = destinationSprite?.look ?: return
