@@ -2,9 +2,13 @@ package org.catrobat.catroid.content.actions
 
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.bluetooth.BluetoothManager
 import org.catrobat.catroid.stage.StageActivity
@@ -25,15 +29,21 @@ import java.lang.ref.WeakReference
 class FaceNameTrainActionStateTest {
 
     private lateinit var context: Context
+    private var savedStage: WeakReference<StageActivity>? = null
+    private var savedHandler: Handler? = null
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         FaceNameTrainAction.resetStateForTest(context)
+        savedStage = StageActivity.activeStageActivity
+        savedHandler = StageActivity.messageHandler
     }
 
     @After
     fun tearDown() {
+        StageActivity.activeStageActivity = savedStage
+        StageActivity.messageHandler = savedHandler
         FaceNameTrainAction.resetStateForTest(null)
     }
 
@@ -90,6 +100,110 @@ class FaceNameTrainActionStateTest {
         } finally {
             StageActivity.activeStageActivity = previousStage
         }
+    }
+
+    /**
+     * Android may destroy the stage while the photo picker is open and create a
+     * new one. The brick that opened the picker belonged to the old stage, and
+     * nothing finishes it, so it still looked like it was running and took the
+     * result: the brick of the new run kept waiting with no dialog.
+     */
+    @Test
+    fun aPickerResultForAClosedStageGoesToTheBrickOfTheNewStage() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val oldBrick = runningBrick(listOf("Ada"))
+        oldBrick.onPersonChosen(0)
+
+        StageActivity.activeStageActivity = WeakReference(stage())
+        val newBrick = runningBrick(listOf("Ada"))
+        FaceNameTrainAction.currentInstance = newBrick
+
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+
+        assertSame("The brick of the new stage shows the names again", newBrick, shown.last()[1])
+    }
+
+    /** One request code per person: a person past the range cannot be given photos. */
+    @Test
+    fun aNameBeyondTheRequestCodesIsNotAdded() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val limit = FaceNameTrainAction.REQUEST_LAST - FaceNameTrainAction.REQUEST_FIRST + 1
+        val recognizer = recognizer(List(limit) { "Person $it" })
+        every { recognizer.addPerson(any()) } returns limit
+        val brick = runningBrick(recognizer)
+
+        brick.onNewName("Grace")
+
+        verify(exactly = 0) { recognizer.addPerson(any()) }
+        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
+    }
+
+    @Test
+    fun aPersonBeyondTheRequestCodesDoesNotOpenThePicker() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val limit = FaceNameTrainAction.REQUEST_LAST - FaceNameTrainAction.REQUEST_FIRST + 1
+        val brick = runningBrick(List(limit + 1) { "Person $it" })
+
+        brick.onPersonChosen(limit)
+
+        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
+    }
+
+    /** The name dialog checks names, but the recognizer has the last word; it must not end the app. */
+    @Test
+    fun aNameTheRecognizerRejectsDoesNotEndTheApp() {
+        val shown = recordDialogs()
+        StageActivity.activeStageActivity = WeakReference(stage())
+        val recognizer = recognizer(emptyList())
+        every { recognizer.addPerson(any()) } throws IllegalArgumentException("Person name must not be blank")
+        val brick = runningBrick(recognizer)
+
+        brick.onNewName(" ")
+
+        assertSame(brick, shown.last()[1])
+    }
+
+    private fun stage(): StageActivity {
+        val stage = mockk<StageActivity>(relaxed = true)
+        every { stage.isFinishing } returns false
+        every { stage.isDestroyed } returns false
+        every { stage.applicationContext } returns context
+        return stage
+    }
+
+    private fun recognizer(names: List<String>): Recognizer {
+        val recognizer = mockk<Recognizer>(relaxed = true)
+        every { recognizer.classNames } returns names
+        return recognizer
+    }
+
+    private fun runningBrick(names: List<String>): FaceNameTrainAction = runningBrick(recognizer(names))
+
+    /** A brick whose dialogs are open; act() would load the real face models. */
+    private fun runningBrick(recognizer: Recognizer): FaceNameTrainAction {
+        val brick = FaceNameTrainAction()
+        FaceNameTrainAction::class.java.getDeclaredField("recognizer").apply { isAccessible = true }
+            .set(brick, recognizer)
+        FaceNameTrainAction::class.java.getDeclaredField("started").apply { isAccessible = true }
+            .setBoolean(brick, true)
+        return brick
+    }
+
+    /** The dialogs the bricks ask the stage for: (type, brick, content). */
+    private fun recordDialogs(): MutableList<List<*>> {
+        val shown = mutableListOf<List<*>>()
+        StageActivity.messageHandler = object : Handler(Looper.getMainLooper()) {
+            override fun handleMessage(message: Message) {
+                shown.add(message.obj as List<*>)
+            }
+        }
+        return shown
     }
 
     private fun stageResourceHolderCode(name: String): Int =
