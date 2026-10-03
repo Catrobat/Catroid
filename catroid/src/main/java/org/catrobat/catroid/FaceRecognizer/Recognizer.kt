@@ -716,13 +716,13 @@ class Recognizer private constructor() {
         face: FaceEmbedder.Face,
         mirrorToo: Boolean
     ): FaceDatabase.Match? {
-        val views = activeEmbedder.embedVariants(
+        val views: List<FloatArray> = activeEmbedder.embedVariants(
             frame = face.frame,
             box = face.box,
             includeMirror = mirrorToo,
             leftEye = face.leftEye,
             rightEye = face.rightEye
-        )
+        ).toList()
         val scores = database.scoreAllVariants(views) ?: return null
 
         Log.d(

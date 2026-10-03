@@ -70,33 +70,39 @@ class FaceDatabase {
             centroids.add(null)
         }
 
-        var loaded = 0
-        var skipped = 0
-        for (line in readLines(FileUtils.DATA_FILE)) {
-            val parts = line.split(" ").filter { it.isNotEmpty() }
-            if (parts.size != EMBEDDING_SIZE + 1) {
-                if (!keepOutdatedPhoto(parts)) {
-                    skipped++
-                }
-                continue
-            }
-            try {
-                val index = parts[0].toInt()
-                if (index < 0 || index >= names.size) {
-                    skipped++
-                    continue
-                }
-                val v = FloatArray(EMBEDDING_SIZE)
-                for (i in v.indices) {
-                    v[i] = parts[i + 1].toFloat()
-                }
-                samples[index].add(v)
-                loaded++
-            } catch (e: NumberFormatException) {
-                skipped++
-            }
-        }
+        val lines = readLines(FileUtils.DATA_FILE).map(::loadDataLine)
 
+        loadModelAndCheckPipeline()
+        stamp()
+
+        Log.i(
+            TAG, ("Loaded " + names.size + " people, " + lines.count { it == DataLine.LOADED }
+                + " embeddings, " + lines.count { it == DataLine.SKIPPED } + " bad lines skipped")
+        )
+    }
+
+    private enum class DataLine { LOADED, OUTDATED, SKIPPED }
+
+    /** Stores one "data" line as a photo of this model, or keeps it as an outdated photo. */
+    private fun loadDataLine(line: String): DataLine {
+        val parts = line.split(" ").filter { it.isNotEmpty() }
+        if (parts.size != EMBEDDING_SIZE + 1) {
+            return if (keepOutdatedPhoto(parts)) DataLine.OUTDATED else DataLine.SKIPPED
+        }
+        val index = parts[0].toIntOrNull()
+        if (index == null || index !in names.indices) {
+            return DataLine.SKIPPED
+        }
+        return try {
+            samples[index].add(FloatArray(EMBEDDING_SIZE) { parts[it + 1].toFloat() })
+            DataLine.LOADED
+        } catch (e: NumberFormatException) {
+            DataLine.SKIPPED
+        }
+    }
+
+    /** Reads the model file, or rebuilds the centroids, and marks photos from another pipeline. */
+    private fun loadModelAndCheckPipeline() {
         staleEmbeddings = false
         if (outdatedPhotos.isNotEmpty()) {
             Log.e(
@@ -105,23 +111,18 @@ class FaceDatabase {
                     EMBEDDING_SIZE + " values. Add their photos again."
             )
         }
-        if (!loadModel()) {
-            rebuildCentroids()
-            // No readable model file, so the pipeline that made the data is unknown.
-            if (outdatedPhotos.isEmpty() && samples.any { it.isNotEmpty() }) {
-                staleEmbeddings = true
-                Log.w(
-                    TAG, "No model header, cannot tell which pipeline made these "
-                        + "photos. Retrain if detection returns Unknown."
-                )
-            }
+        if (loadModel()) {
+            return
         }
-        stamp()
-
-        Log.i(
-            TAG, ("Loaded " + names.size + " people, " + loaded
-                + " embeddings, " + skipped + " bad lines skipped")
-        )
+        rebuildCentroids()
+        // No readable model file, so the pipeline that made the data is unknown.
+        if (outdatedPhotos.isEmpty() && samples.any { it.isNotEmpty() }) {
+            staleEmbeddings = true
+            Log.w(
+                TAG, "No model header, cannot tell which pipeline made these "
+                    + "photos. Retrain if detection returns Unknown."
+            )
+        }
     }
 
     /** Keeps a data line of another embedding size for [outdatedPhotos]. False if it is no such line. */
