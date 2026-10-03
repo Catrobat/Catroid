@@ -177,6 +177,9 @@ object FaceNameDetector : Detector {
                     Log.e(TAG, "Face name recognition failed", exception)
                 } catch (error: OutOfMemoryError) {
                     Log.e(TAG, "No memory to recognise the frame; skipped", error)
+                } catch (error: LinkageError) {
+                    // Fails the same way on every frame; stop until the next program start.
+                    giveUp(error)
                 } finally {
                     task.frame?.recycle()
                     busy.set(false)
@@ -214,7 +217,7 @@ object FaceNameDetector : Detector {
 
     private fun giveUp(cause: Throwable): Recognizer? {
         recognitionUnavailable = true
-        Log.e(TAG, "The face models could not be loaded; detected face name stays Unknown", cause)
+        Log.e(TAG, "The face models cannot be used; detected face name stays Unknown", cause)
         return null
     }
 
