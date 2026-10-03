@@ -154,7 +154,7 @@ object FileUtils {
             }
         } catch (e: IOException) {
             Log.e(TAG, "Error writing " + fileName + "; the old file is kept", e)
-            temp.delete()
+            deleteTemporary(temp)
             return false
         }
 
@@ -163,8 +163,15 @@ object FileUtils {
             true
         } catch (e: IOException) {
             Log.e(TAG, "Could not replace " + fileName + "; the old file is kept", e)
-            temp.delete()
+            deleteTemporary(temp)
             false
+        }
+    }
+
+    /** A temporary file left behind is overwritten by the next write, so a failed delete is only logged. */
+    private fun deleteTemporary(temp: File) {
+        if (temp.exists() && !temp.delete()) {
+            Log.w(TAG, "Could not delete " + temp.getName())
         }
     }
 

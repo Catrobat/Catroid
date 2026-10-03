@@ -32,7 +32,7 @@ class FaceNameTrain : BrickBaseType() {
     override fun getViewResource(): Int = R.layout.brick_face_name
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.faceNameTrainAction(sprite, sequence))
+        sequence.addAction(sprite.actionFactory.faceNameTrainAction())
     }
 
     companion object {

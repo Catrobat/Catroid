@@ -768,10 +768,7 @@ open class CategoryBricksFactory {
             deviceBrickList.add(ChooseCameraBrick())
             deviceBrickList.add(FlashBrick())
         }
-        // Behind the same AI setting as the face name sensor, like the other AI bricks.
-        if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(context)) {
-            deviceBrickList.add(FaceNameTrain())
-        }
+        deviceBrickList.addAll(setupFaceNameBricks(context))
         deviceBrickList.add(WriteVariableOnDeviceBrick())
         deviceBrickList.add(ReadVariableFromDeviceBrick())
         deviceBrickList.add(WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))
@@ -824,6 +821,14 @@ open class CategoryBricksFactory {
         )
         return deviceBrickList
     }
+
+    // Behind the same AI setting as the face name sensor, like the other AI bricks.
+    private fun setupFaceNameBricks(context: Context): List<Brick> =
+        if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(context)) {
+            listOf(FaceNameTrain())
+        } else {
+            emptyList()
+        }
 
     private fun setupLegoNxtCategoryList(): List<Brick> {
         val legoNXTBrickList: MutableList<Brick> = ArrayList()

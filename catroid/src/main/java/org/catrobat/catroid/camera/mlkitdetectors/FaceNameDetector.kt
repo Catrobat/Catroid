@@ -246,10 +246,10 @@ object FaceNameDetector : Detector {
             val yRow = row * yRowStride
             val uvRow = (row shr 1) * uvRowStride
             for (column in 0 until width) {
-                val y = yBuffer.get(yRow + column * yPixelStride).toInt() and 0xff
+                val y = yBuffer[yRow + column * yPixelStride].toInt() and 0xff
                 val uvIndex = uvRow + (column shr 1) * uvPixelStride
-                val u = (uBuffer.get(uvIndex).toInt() and 0xff) - 128
-                val v = (vBuffer.get(uvIndex).toInt() and 0xff) - 128
+                val u = (uBuffer[uvIndex].toInt() and 0xff) - 128
+                val v = (vBuffer[uvIndex].toInt() and 0xff) - 128
                 val red = clamp(y + ((1436 * v) shr 10))
                 val green = clamp(y - ((352 * u + 731 * v) shr 10))
                 val blue = clamp(y + ((1815 * u) shr 10))

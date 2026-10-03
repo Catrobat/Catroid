@@ -259,7 +259,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action faceNameTrainAction(Sprite sprite, SequenceAction sequence) {
+	public Action faceNameTrainAction() {
 		return new FaceNameTrainAction();
 	}
 
