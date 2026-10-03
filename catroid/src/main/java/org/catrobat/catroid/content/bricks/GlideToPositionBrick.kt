@@ -33,12 +33,13 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner.OnItemSelectedListener
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption
 import org.catrobat.catroid.formulaeditor.Formula
 import org.koin.java.KoinJavaComponent
 
-class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick(), BrickSpinner
-.OnItemSelectedListener<Sprite?> {
+class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick(),
+    OnItemSelectedListener<Sprite?> {
     private var spinnerSelection: Int = 0
 
     init {
@@ -49,17 +50,13 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
     }
 
     constructor(durationInMilliSecondsValue: Int) : this() {
-        val durationInSeconds = durationInMilliSecondsValue / 1000.0
+        val durationInSeconds = durationInMilliSecondsValue / MILLI_SECONDS_TO_SECONDS
         setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, Formula(durationInSeconds))
     }
 
-    override fun getViewResource(): Int {
-        return R.layout.brick_glide_to_position
-    }
+    override fun getViewResource(): Int = R.layout.brick_glide_to_position
 
-    override fun getDefaultBrickField(): BrickField {
-        return BrickField.DURATION_IN_SECONDS
-    }
+    override fun getDefaultBrickField(): BrickField = BrickField.DURATION_IN_SECONDS
 
     override fun getView(context: Context?): View? {
         super.getView(context)
@@ -86,11 +83,11 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
     }
 
     override fun onNewOptionSelected(spinnerId: Int?) {
-        //is needed
+        // is needed
     }
 
     override fun onEditOptionSelected(spinnerId: Int?) {
-        //is needed
+        // is needed
     }
 
     override fun onStringOptionSelected(spinnerId: Int?, string: String) {
@@ -126,5 +123,6 @@ class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick
     companion object {
         @Suppress("unused")
         private const val serialVersionUID = 1L
+        private const val MILLI_SECONDS_TO_SECONDS = 1000
     }
 }
