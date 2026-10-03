@@ -150,6 +150,21 @@ class FaceTrainingUiTest {
     }
 
     /**
+     * Names trained with the FaceNet build (512 values per photo) are still
+     * listed, but their photos cannot match the new face model: the title asks
+     * for them again instead of saying what tapping a name does.
+     */
+    @Test
+    fun namesTrainedWithTheOldFaceModelAskForTheirPhotosAgain() {
+        writeFaceNetFiles("Person A")
+        startStage()
+
+        onView(withText(text(R.string.face_train_retrain))).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Person A")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText(text(R.string.face_train_choose_name))).check(doesNotExist())
+    }
+
+    /**
      * Colours come from Catroid's theme, not from AppCompat's defaults: the
      * dialog buttons use @color/accent (#A8DFF4), not AppCompat's dark accent
      * #80CBC4.
@@ -550,6 +565,19 @@ class FaceTrainingUiTest {
 
     private fun recognizer(): Recognizer = Recognizer.getInstance(appContext)
 
+    /** The face files as the FaceNet build wrote them: 512 values per photo. */
+    private fun writeFaceNetFiles(vararg names: String) {
+        val vector = (0 until FACENET_SIZE).joinToString(" ") { if (it == 0) "1.0" else "0.0" }
+        assertTrue(FileUtils.writeLines(FileUtils.LABEL_FILE, names.toList()))
+        assertTrue(FileUtils.writeLines(FileUtils.DATA_FILE, names.indices.map { "$it $vector" }))
+        assertTrue(
+            FileUtils.writeLines(
+                FileUtils.MODEL_FILE,
+                listOf("v1 $FACENET_SIZE ${names.size} 0.6000 0.0500 p2") + names.indices.map { "$it 1 $vector" }
+            )
+        )
+    }
+
     private fun text(resource: Int): String = appContext.getString(resource)
 
     private fun requiredAssetUri(assetPath: String): Uri {
@@ -633,5 +661,6 @@ class FaceTrainingUiTest {
         /** Espresso's own defaults, restored so other test classes are unaffected. */
         private const val DEFAULT_IDLING_TIMEOUT_SECONDS = 26L
         private const val DEFAULT_MASTER_TIMEOUT_SECONDS = 60L
+        private const val FACENET_SIZE = 512
     }
 }

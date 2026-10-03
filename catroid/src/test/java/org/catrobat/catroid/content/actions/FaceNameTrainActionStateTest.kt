@@ -169,6 +169,17 @@ class FaceNameTrainActionStateTest {
         assertSame(brick, shown.last()[1])
     }
 
+    /** Photos from the FaceNet build cannot match; the menu asks for them again. */
+    @Test
+    fun theMenuAsksForPhotosAgainWhileTheRecognizerNeedsRetraining() {
+        val recognizer = recognizer(listOf("Ada"))
+        every { recognizer.needsRetraining() } returns true
+        assertTrue(runningBrick(recognizer).needsRetraining())
+
+        every { recognizer.needsRetraining() } returns false
+        assertFalse(runningBrick(recognizer).needsRetraining())
+    }
+
     private fun stage(): StageActivity {
         val stage = mockk<StageActivity>(relaxed = true)
         every { stage.isFinishing } returns false
