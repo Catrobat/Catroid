@@ -17,6 +17,7 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -229,6 +230,26 @@ class FaceTrainingUiTest {
 
         assertTrue(recognizer().classNames.isEmpty())
         onView(withText(text(R.string.face_train_add_new_name))).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    /**
+     * The face database stores one name per line, so a pasted name with a line
+     * break ("Ada\nLovelace") must be rejected like an empty one.
+     */
+    @Test
+    fun nameWithALineBreakIsRejectedInlineAndNextIsDisabled() {
+        startStage()
+        openNewNameDialog()
+
+        onView(withClassName(endsWith("EditText")))
+            .inRoot(isDialog())
+            .perform(replaceText("Ada\nLovelace"), closeSoftKeyboard())
+
+        onView(withClassName(endsWith("TextInputLayout"))).inRoot(isDialog()).check { view, _ ->
+            assertTrue("The name field must show an error", (view as TextInputLayout).error != null)
+        }
+        onView(withText(text(R.string.next))).inRoot(isDialog()).check(matches(not(isEnabled())))
+        assertTrue(recognizer().classNames.isEmpty())
     }
 
     @Test
