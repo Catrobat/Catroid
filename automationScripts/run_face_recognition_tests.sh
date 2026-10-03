@@ -55,6 +55,7 @@ UNIT_TESTS=(
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
 org.catrobat.catroid.FaceRecognizer.FaceRecognitionFalsePositiveTest,\
+org.catrobat.catroid.FaceRecognizer.FaceDetectionCacheTest,\
 org.catrobat.catroid.uiespresso.facerecognizer.FaceTrainingUiTest,\
 $SENSOR_TEST_CLASS,\
 org.catrobat.catroid.test.content.bricks.FaceNameBrickCategoryTest,\
