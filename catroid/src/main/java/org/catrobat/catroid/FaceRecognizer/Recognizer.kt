@@ -27,8 +27,17 @@ import kotlin.math.sqrt
 class Recognizer private constructor() {
     class Result internal constructor(@JvmField val index: Int, @JvmField val name: String?, @JvmField val confidence: Float)
 
+    @Volatile
     private var embedder: FaceEmbedder? = null
     private val database = FaceDatabase()
+
+    /**
+     * Guards the face models (TFLite interpreters, not thread safe). The database
+     * and the names are guarded by this object. Model work never takes this
+     * object's lock, so the training dialogs on the main thread never wait for a
+     * frame or a training batch. Lock order: this object, then [modelLock].
+     */
+    private val modelLock = Any()
 
     @get:Synchronized
     val minSimilarity: Float
@@ -237,13 +246,19 @@ class Recognizer private constructor() {
      * usable face, plus a line per photo explaining what happened.
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @Synchronized
     fun extractEmbeddings(resolver: ContentResolver?, uris: List<Uri>?): EnrolResult {
         return extractEmbeddings(resolver, uris, listener = null)
     }
     @RequiresApi(Build.VERSION_CODES.N)
-    @Synchronized
     fun extractEmbeddings(
+        resolver: ContentResolver?,
+        uris: List<Uri>?,
+        listener: ProgressListener?
+    ): EnrolResult = synchronized(modelLock) { extractEmbeddingsWithModels(resolver, uris, listener) }
+
+    /** Runs under [modelLock]; touches only the models, not the database. */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun extractEmbeddingsWithModels(
         resolver: ContentResolver?,
         uris: List<Uri>?,
         listener: ProgressListener?
@@ -496,17 +511,15 @@ class Recognizer private constructor() {
      * the person, not by the camera or the pipeline.
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @Synchronized
     fun embedFrame(frame: Bitmap?): MutableList<FloatArray> {
         if (frame == null || frame.isRecycled()) {
             return mutableListOf()
         }
-        return embedder!!.embedAllVariants(frame, true)
+        return synchronized(modelLock) { embedder!!.embedAllVariants(frame, true) }
     }
 
-    @get:Synchronized
     val embedderProblem: String?
-        get() = if (embedder == null) "" else embedder!!.lastProblem
+        get() = synchronized(modelLock) { embedder?.lastProblem ?: "" }
 
     /** Stores the embeddings under an existing person and writes both files.  */
     @Synchronized
@@ -551,18 +564,38 @@ class Recognizer private constructor() {
      * usable face. The frame is not modified and is not recycled.
      */
     @RequiresApi(Build.VERSION_CODES.N)
-    @Synchronized
     fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? {
         if (frame == null || frame.isRecycled) {
             return null
         }
 
+        // The models run under their own lock, so the names and the database stay
+        // available to the training dialogs while a frame is being embedded.
+        val face = synchronized(modelLock) { embedLargestFace(frame, mirrorToo) } ?: return null
+
+        synchronized(this) {
+            database.ensureFresh()
+            val bestScores = database.scoreAllVariants(face.variants) ?: return null
+            Log.i(
+                TAG,
+                "Frame face " +
+                    "${face.width}x${face.height} px " +
+                    "(${face.variants.size} views): " +
+                    database.describeScoreArray(bestScores)
+            )
+            return bestScores
+        }
+    }
+
+    private class EmbeddedFace(val variants: List<FloatArray>, val width: Int, val height: Int)
+
+    /** Finds the largest usable face in [frame] and embeds its views. Runs under [modelLock]. */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun embedLargestFace(frame: Bitmap, mirrorToo: Boolean): EmbeddedFace? {
         val activeEmbedder = embedder ?: run {
             Log.e(TAG, "Face embedder is not initialized")
             return null
         }
-
-        database.ensureFresh()
 
         val face = activeEmbedder.findBestFace(frame)
 
@@ -650,9 +683,6 @@ class Recognizer private constructor() {
             return null
         }
 
-        val bestScores: FloatArray?
-        val variantCount: Int
-
         try {
             val variants = activeEmbedder.embedVariants(
                 frame = faceFrame,
@@ -661,28 +691,10 @@ class Recognizer private constructor() {
                 leftEye = face.leftEye,
                 rightEye = face.rightEye
             ).toList()
-
-            variantCount = variants.size
-
-            bestScores =
-                database.scoreAllVariants(variants)
+            return EmbeddedFace(variants, faceWidth, faceHeight)
         } finally {
             face.release(frame)
         }
-
-        if (bestScores == null) {
-            return null
-        }
-
-        Log.i(
-            TAG,
-            "Frame face " +
-                "${faceWidth}x${faceHeight} px " +
-                "($variantCount views): " +
-                database.describeScoreArray(bestScores)
-        )
-
-        return bestScores
     }
 
     /** Averages the session and applies the thresholds once. Null means Unknown.  */
@@ -755,6 +767,12 @@ class Recognizer private constructor() {
     @RequiresApi(Build.VERSION_CODES.N)
     @Synchronized
     fun recognize(
+        frame: Bitmap?,
+        mirrorToo: Boolean
+    ): Result? = synchronized(modelLock) { recognizeWithModels(frame, mirrorToo) }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun recognizeWithModels(
         frame: Bitmap?,
         mirrorToo: Boolean
     ): Result? {
@@ -2016,8 +2034,12 @@ class Recognizer private constructor() {
         @JvmStatic
         @Synchronized
         fun release() {
-            if (instance != null && instance!!.embedder != null) {
-                instance!!.embedder!!.close()
+            val released = instance ?: return
+            // Not while a frame or a training batch is using the models.
+            synchronized(released) {
+                synchronized(released.modelLock) {
+                    released.embedder?.close()
+                }
             }
             instance = null
         }
