@@ -55,9 +55,30 @@ class FaceNameTrainAction : Action() {
         /** Keeps the progress dialog on screen long enough to be seen. */
         private const val MIN_PROGRESS_MS = 700L
 
-        /** The action the picker result belongs to: the most recent brick run. */
+        /** The most recent brick run; it takes over results after a stage restart. */
         @JvmStatic
         var currentInstance: FaceNameTrainAction? = null
+
+        /**
+         * The brick that opened the photo picker, and the brick whose photos are
+         * being trained. With several training bricks running at once, their
+         * results belong to these, not to the brick that started last.
+         */
+        private var pickerOwner: FaceNameTrainAction? = null
+        private var trainingOwner: FaceNameTrainAction? = null
+
+        /**
+         * Photo picker result, forwarded by StageResourceHolder.onActivityResult.
+         * It goes to the brick that opened the picker while that brick is still
+         * running; after a stage restart that brick is gone and the brick of the
+         * new run takes the result.
+         */
+        @JvmStatic
+        fun onPickerResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            val owner = pickerOwner?.takeIf { it.isRunning } ?: currentInstance
+            pickerOwner = null
+            owner?.handleResult(requestCode, resultCode, data)
+        }
 
         private var appContext: Context? = null
         private var pendingName: String? = null
@@ -104,6 +125,8 @@ class FaceNameTrainAction : Action() {
             progressBar = null
             progressShownAt = 0L
             currentInstance = null
+            pickerOwner = null
+            trainingOwner = null
         }
 
         @VisibleForTesting
@@ -139,6 +162,10 @@ class FaceNameTrainAction : Action() {
     /** The user pressed Done, or the brick could not run; the script may continue. */
     @Volatile
     private var finished = false
+
+    /** Started and not yet finished: its script is waiting for it. */
+    private val isRunning: Boolean
+        get() = started && !finished
 
     /**
      * The current stage, or null if there is none or it is closing.
@@ -345,6 +372,7 @@ class FaceNameTrainAction : Action() {
             Intent.FLAG_GRANT_READ_URI_PERMISSION or
                 Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
         )
+        pickerOwner = this
         activity.startActivityForResult(intent, targetIndex + REQ_BASE)
     }
 
@@ -391,6 +419,7 @@ class FaceNameTrainAction : Action() {
         // From here on the brick shows the progress dialog whenever it runs, even
         // if the stage is destroyed and the program restarted meanwhile.
         trainingInProgress = true
+        trainingOwner = this
         progressTotal = uris.size
         progressDone = 0
 
@@ -466,8 +495,10 @@ class FaceNameTrainAction : Action() {
         progressBar = null
         progressShownAt = 0L
 
-        // The brick that is running now; after a stage restart that is a new action.
-        val owner = currentInstance ?: this
+        // The brick whose photos these were, if it still runs; after a stage
+        // restart that brick is gone and the brick of the new run takes over.
+        val owner = trainingOwner?.takeIf { it.isRunning } ?: currentInstance ?: this
+        trainingOwner = null
         if (owner.stageActivity() == null) {
             pendingOutcome = outcome
         } else {

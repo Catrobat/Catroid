@@ -47,6 +47,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
@@ -495,14 +496,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (org.catrobat.catroid.content.actions.FaceNameTrainAction
-				.ownsRequestCode(requestCode)) {
-			org.catrobat.catroid.content.actions.FaceNameTrainAction action =
-					org.catrobat.catroid.content.actions.FaceNameTrainAction
-							.getCurrentInstance();
-			if (action != null) {
-				action.handleResult(requestCode, resultCode, data);
-			}
+		if (FaceNameTrainAction.ownsRequestCode(requestCode)) {
+			FaceNameTrainAction.onPickerResult(requestCode, resultCode, data);
 			return;
 		}
 		switch (requestCode) {
