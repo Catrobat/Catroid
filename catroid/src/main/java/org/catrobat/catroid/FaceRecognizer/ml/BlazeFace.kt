@@ -131,7 +131,7 @@ class BlazeFace private constructor() {
 
             // The remaining 12 coordinates are the six landmarks. The original code
             // decoded only the box and discarded these, which is why faces were never
-            // aligned before being handed to FaceNet.
+            // aligned before being handed to the face embedding model.
             val keypoints = FloatArray(12)
             for (k in 0..5) {
                 val kx: Float = outputBoxes[i * NUM_COORDS + 4 + k * 2]
@@ -286,7 +286,7 @@ class BlazeFace private constructor() {
         private const val BYTE_SIZE_OF_FLOAT = 4
 
         /* 0.95 rejected valid faces after sunlight/contrast changed detector confidence.
-       Identity acceptance is still controlled separately by FaceNet similarity and
+       Identity acceptance is still controlled separately by MobileFaceNet similarity and
        inter-person margin, so this only makes face localisation more tolerant. */
         private const val MIN_SCORE_THRESH = 0.75f
 

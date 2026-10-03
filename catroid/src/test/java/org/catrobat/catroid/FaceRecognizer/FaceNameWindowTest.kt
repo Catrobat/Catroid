@@ -42,8 +42,10 @@ import org.robolectric.RobolectricTestRunner
 
 /**
  * The decision behind "detected face name", with known per-person scores for
- * each frame, so no face model is needed. Thresholds: 0.60 with a gap of 0.05,
- * 0.75 while the window holds a single frame, 0.70 with one person enrolled.
+ * each frame, so no face model is needed. Thresholds (MobileFaceNet scale):
+ * 0.53 with a gap of 0.04, 0.65 while the window holds a single frame, 0.61
+ * with one person enrolled. The FaceNet scale had 0.60, 0.05, 0.75 and 0.70;
+ * the scores below moved with them, so each keeps its place between them.
  */
 @RunWith(RobolectricTestRunner::class)
 class FaceNameWindowTest {
@@ -90,22 +92,22 @@ class FaceNameWindowTest {
 
     @Test
     fun oneFrameNeedsTheStricterSingleFrameThreshold() {
-        // 0.70 passes the normal threshold (0.60) but not the single-frame one (0.75).
-        assertEquals(UNKNOWN, add(0.70f, 0.10f))
+        // 0.61 passes the normal threshold (0.53) but not the single-frame one (0.65).
+        assertEquals(UNKNOWN, add(0.61f, 0.10f))
     }
 
     @Test
     fun twoFramesDecideOnTheirAverageWithTheNormalThreshold() {
-        add(0.70f, 0.10f)
-        // Average 0.70: accepted with two frames, rejected with one.
-        assertEquals(PERSON_A, add(0.70f, 0.10f))
+        add(0.61f, 0.10f)
+        // Average 0.61: accepted with two frames, rejected with one.
+        assertEquals(PERSON_A, add(0.61f, 0.10f))
     }
 
     @Test
     fun threeFramesDecideOnTheirAverage() {
-        add(0.50f, 0.10f)
-        assertEquals(UNKNOWN, add(0.50f, 0.10f))
-        // Average 0.63 over three frames; the first two alone average 0.50.
+        add(0.45f, 0.10f)
+        assertEquals(UNKNOWN, add(0.45f, 0.10f))
+        // Average 0.60 over three frames; the first two alone average 0.45.
         assertEquals(PERSON_A, add(0.90f, 0.10f))
         assertEquals(FRAMES, window.framesInWindow)
     }
@@ -153,7 +155,7 @@ class FaceNameWindowTest {
         assertEquals(0, window.framesInWindow)
 
         // A new start: one frame again needs the single-frame threshold.
-        assertEquals(UNKNOWN, add(0.70f, 0.10f, at = 1500))
+        assertEquals(UNKNOWN, add(0.61f, 0.10f, at = 1500))
     }
 
     @Test
@@ -176,18 +178,20 @@ class FaceNameWindowTest {
         recognizer.deletePerson(0)
         assertEquals(listOf(PERSON_B), recognizer.classNames)
 
-        // The frames from the phone after deleting the other person: 0.609, 0.610, 0.608.
-        add(0.609f)
-        add(0.610f)
-        assertEquals(UNKNOWN, add(0.608f))
+        // The frames from the phone after deleting the other person, FaceNet
+        // 0.609, 0.610, 0.608; on the MobileFaceNet scale 0.536, 0.537, 0.535.
+        add(0.536f)
+        add(0.537f)
+        assertEquals(UNKNOWN, add(0.535f))
     }
 
     @Test
     fun withOnePersonEnrolledAClearMatchIsRecognised() {
         recognizer.deletePerson(0)
 
-        add(0.787f)
-        assertEquals(PERSON_B, add(0.787f))
+        // 0.698: the weakest genuine single-person match in the device tests.
+        add(0.698f)
+        assertEquals(PERSON_B, add(0.698f))
     }
 
     // ---------------- People trained while the program runs ----------------
@@ -259,7 +263,7 @@ class FaceNameWindowTest {
         const val PERSON_A = "Person A"
         const val PERSON_B = "Person B"
         const val PERSON_C = "Person C"
-        const val MIN_SIMILARITY = 0.60f
-        const val MIN_MARGIN = 0.05f
+        const val MIN_SIMILARITY = 0.53f
+        const val MIN_MARGIN = 0.04f
     }
 }

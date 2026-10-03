@@ -1386,7 +1386,7 @@ class Recognizer private constructor() {
 
         val strayCount =
             affinities.count { affinity ->
-                affinity < 0.35f
+                affinity < STRAY_PHOTO_AFFINITY
             }
 
         appendPersonMeasurements(
@@ -1428,7 +1428,7 @@ class Recognizer private constructor() {
             String.format(
                 Locale.US,
                 "  %s: %d photos\n" +
-                    "    nearest match %.3f  (want 0.60+)\n" +
+                    "    nearest match %.3f  (want 0.53+)\n" +
                     "    all pairs %.3f\n",
                 name,
                 photoCount,
@@ -1463,7 +1463,7 @@ class Recognizer private constructor() {
         }
 
         report.append("\nDIFFERENT PEOPLE similarity\n")
-        report.append("(healthy is below 0.40)\n")
+        report.append("(healthy is below 0.36)\n")
 
         for (firstIndex in names.indices) {
             appendPersonComparisons(
@@ -1503,13 +1503,13 @@ class Recognizer private constructor() {
             !measured ->
                 "Add at least 2 photos per person, then run this again."
 
-            worstNearest < 0.35f ->
+            worstNearest < STRAY_PHOTO_AFFINITY ->
                 "BROKEN. One person's own photos do not even resemble each " +
                     "other. The embeddings carry no identity information, so no " +
                     "threshold will help. The problem is in the face crop or the " +
-                    "FaceNet input, not in the matching."
+                    "model input, not in the matching."
 
-            worstNearest < 0.60f ->
+            worstNearest < HEALTHY_NEAREST_MATCH ->
                 "WEAK. Matching now uses the single closest photo, so photos " +
                     "from different ages are fine. What is missing is a photo " +
                     "close to how the person looks right now, taken with this " +
@@ -1531,7 +1531,7 @@ class Recognizer private constructor() {
         val sb = StringBuilder()
         var total = 0
         for (i in names.indices) {
-            val removed = database.removeStrayPhotos(i, 0.35f)
+            val removed = database.removeStrayPhotos(i, STRAY_PHOTO_AFFINITY)
             total += removed
             sb.append("  ").append(names[i]).append(": removed ")
                 .append(removed).append(", kept ")
@@ -1599,7 +1599,7 @@ class Recognizer private constructor() {
         @JvmStatic
         fun hasLineBreak(name: String): Boolean = name.any { it in LINE_BREAKS }
 
-        /** Photos are downscaled to this longest side before detection, to bound memory.  */ /* FaceNet finally consumes only 160x160. 960 keeps ample face detail while
+        /** Photos are downscaled to this longest side before detection, to bound memory.  */ /* MobileFaceNet finally consumes only 112x112. 960 keeps ample face detail while
        cutting gallery bitmap/rotation memory by about 44% versus 1280. */
         private const val MAX_ENROL_SIDE = 960
 
@@ -1609,8 +1609,17 @@ class Recognizer private constructor() {
         /** Below this many photos, recognition is unreliable.  */
         const val RECOMMENDED_PHOTOS: Int = 5
 
-        /** A lone usable bracket frame must be exceptionally clear to identify anyone.  */
-        private const val SINGLE_FRAME_MIN_SIMILARITY = 0.75f
+        /**
+         * A lone usable bracket frame must be exceptionally clear to identify anyone.
+         * 0.75 with FaceNet; see FaceDatabase for how it was carried over.
+         */
+        private const val SINGLE_FRAME_MIN_SIMILARITY = 0.65f
+
+        /** A photo less similar than this to all of its person's other photos is a stray (0.35 with FaceNet). */
+        private const val STRAY_PHOTO_AFFINITY = 0.32f
+
+        /** The self test calls a person's photos healthy from here (0.60 with FaceNet). */
+        private const val HEALTHY_NEAREST_MATCH = 0.53f
 
         private var instance: Recognizer? = null
 
@@ -1646,7 +1655,7 @@ class Recognizer private constructor() {
 
         /**
          * Cold-start-safe enrolment. Unlike calling getInstance() from an Activity
-         * first, this loads BlazeFace, FaceNet and the database on the worker thread.
+         * first, this loads BlazeFace, MobileFaceNet and the database on the worker thread.
          * Use this method for the first and all later gallery training operations.
          */
         @RequiresApi(Build.VERSION_CODES.N)

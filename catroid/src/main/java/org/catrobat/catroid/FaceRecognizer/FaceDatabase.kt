@@ -6,7 +6,7 @@ import org.catrobat.catroid.FaceRecognizer.env.FileUtils.file
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.isReady
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.readLines
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeLines
-import org.catrobat.catroid.FaceRecognizer.ml.FaceNet
+import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
 import java.util.Arrays
 import java.util.Locale
 import kotlin.math.max
@@ -17,10 +17,10 @@ import kotlin.math.sqrt
  * Owns the three files and does the matching.
  *
  * label : one person name per line. The line number is the person index.
- * data  : one training embedding per line, "<index> v0 v1 ... v511".
+ * data  : one training embedding per line, "<index> v0 v1 ... v127".
  * model : compiled matcher, rebuilt from data on every change.
- * line 1  "v1 <embeddingSize> <personCount> <minSimilarity> <minMargin>"
- * then    "<index> <sampleCount> c0 c1 ... c511"   centroid, unit length
+ * line 1  "v1 <embeddingSize> <personCount> <minSimilarity> <minMargin> p<pipeline>"
+ * then    "<index> <sampleCount> c0 c1 ... c127"   centroid, unit length
  *
  * All three are written together from memory, so their indices can never drift apart.
  * Matching score for a person is a blend of the nearest training samples and the
@@ -30,9 +30,17 @@ class FaceDatabase {
     /** True when the stored embeddings were made by a different pipeline.  */
     private var staleEmbeddings = false
 
+    /**
+     * Data lines of another embedding size (512 values from the FaceNet build),
+     * by person name, without the index. They cannot be matched, but are written
+     * back unchanged until the person gets new photos or is deleted, so the
+     * request to retrain survives a restart.
+     */
+    private val outdatedPhotos: MutableMap<String, MutableList<String>> = LinkedHashMap()
+
     @Synchronized
     fun hasStaleEmbeddings(): Boolean {
-        return staleEmbeddings
+        return staleEmbeddings || outdatedPhotos.isNotEmpty()
     }
 
     class Match internal constructor(
@@ -54,6 +62,7 @@ class FaceDatabase {
         names.clear()
         samples.clear()
         centroids.clear()
+        outdatedPhotos.clear()
 
         for (name in readLines(FileUtils.LABEL_FILE)) {
             names.add(name)
@@ -65,8 +74,10 @@ class FaceDatabase {
         var skipped = 0
         for (line in readLines(FileUtils.DATA_FILE)) {
             val parts = line.split(" ").filter { it.isNotEmpty() }
-            if (parts.size != FaceNet.EMBEDDING_SIZE + 1) {
-                skipped++
+            if (parts.size != EMBEDDING_SIZE + 1) {
+                if (!keepOutdatedPhoto(parts)) {
+                    skipped++
+                }
                 continue
             }
             try {
@@ -75,7 +86,7 @@ class FaceDatabase {
                     skipped++
                     continue
                 }
-                val v = FloatArray(FaceNet.EMBEDDING_SIZE)
+                val v = FloatArray(EMBEDDING_SIZE)
                 for (i in v.indices) {
                     v[i] = parts[i + 1].toFloat()
                 }
@@ -87,10 +98,17 @@ class FaceDatabase {
         }
 
         staleEmbeddings = false
+        if (outdatedPhotos.isNotEmpty()) {
+            Log.e(
+                TAG, "STORED PHOTOS ARE OUT OF DATE. " + outdatedPhotos.keys +
+                    " have photos from another face model, this build uses " +
+                    EMBEDDING_SIZE + " values. Add their photos again."
+            )
+        }
         if (!loadModel()) {
             rebuildCentroids()
             // No readable model file, so the pipeline that made the data is unknown.
-            if (samples.isNotEmpty() && readLines(FileUtils.DATA_FILE).isNotEmpty()) {
+            if (outdatedPhotos.isEmpty() && samples.any { it.isNotEmpty() }) {
                 staleEmbeddings = true
                 Log.w(
                     TAG, "No model header, cannot tell which pipeline made these "
@@ -104,6 +122,20 @@ class FaceDatabase {
             TAG, ("Loaded " + names.size + " people, " + loaded
                 + " embeddings, " + skipped + " bad lines skipped")
         )
+    }
+
+    /** Keeps a data line of another embedding size for [outdatedPhotos]. False if it is no such line. */
+    private fun keepOutdatedPhoto(parts: List<String>): Boolean {
+        if (parts.size < 2) {
+            return false
+        }
+        val index = parts[0].toIntOrNull() ?: return false
+        if (index !in names.indices) {
+            return false
+        }
+        outdatedPhotos.getOrPut(names[index]) { ArrayList() }
+            .add(parts.subList(1, parts.size).joinToString(" "))
+        return true
     }
 
     /** Reloads if another process changed the files. Cheap, safe to call often.  */
@@ -124,13 +156,14 @@ class FaceDatabase {
             for (v in samples[index]) {
                 dataLines.add(vectorLine(index, v, -1))
             }
+            outdatedPhotos[names[index]]?.forEach { dataLines.add("$index $it") }
         }
 
         val modelLines: MutableList<String> = ArrayList<String>()
         modelLines.add(
             String.format(
                 Locale.US, "v%d %d %d %.4f %.4f p%d",
-                VERSION, FaceNet.EMBEDDING_SIZE, names.size, minSimilarity, minMargin,
+                VERSION, EMBEDDING_SIZE, names.size, minSimilarity, minMargin,
                 PIPELINE_VERSION
             )
         )
@@ -183,7 +216,12 @@ class FaceDatabase {
 
     private fun loadModelMetadata(header: List<String>): Boolean {
         return try {
-            if (!modelMatchesLabels(header)) {
+            if (header[1].toInt() != EMBEDDING_SIZE) {
+                // Another face model; its thresholds are on another scale too.
+                Log.w(TAG, "Model file is for " + header[1] + " values, this build uses " + EMBEDDING_SIZE)
+                staleEmbeddings = true
+                false
+            } else if (!modelMatchesLabels(header)) {
                 Log.w(TAG, "Model does not match label file, rebuilding from data")
                 false
             } else {
@@ -198,8 +236,7 @@ class FaceDatabase {
     }
 
     private fun modelMatchesLabels(header: List<String>): Boolean =
-        header[1].toInt() == FaceNet.EMBEDDING_SIZE &&
-            header[2].toInt() == names.size
+        header[2].toInt() == names.size
 
     private fun loadThresholds(header: List<String>) {
         if (header.size < 5) {
@@ -255,7 +292,7 @@ class FaceDatabase {
     private fun loadCentroid(line: String): Boolean {
         val parts = splitLine(line)
 
-        if (parts.size != FaceNet.EMBEDDING_SIZE + 2) {
+        if (parts.size != EMBEDDING_SIZE + 2) {
             return false
         }
 
@@ -274,7 +311,7 @@ class FaceDatabase {
             return false
         }
 
-        val centroid = FloatArray(FaceNet.EMBEDDING_SIZE) { position ->
+        val centroid = FloatArray(EMBEDDING_SIZE) { position ->
             parts[position + 2].toFloat()
         }
 
@@ -330,7 +367,7 @@ class FaceDatabase {
 
     /**
      * Average cosine similarity between a person's own training photos.
-     * Healthy FaceNet embeddings of one person sit around 0.6 to 0.9 here.
+     * Healthy MobileFaceNet embeddings of one person sit around 0.5 to 0.85 here.
      * A value near 0.2 means the embeddings carry no identity information at all,
      * which is a preprocessing or model problem, not a threshold problem.
      */
@@ -467,10 +504,16 @@ class FaceDatabase {
         if (index < 0 || index >= samples.size || list == null) {
             return
         }
+        var added = 0
         for (v in list) {
-            if (v.size == FaceNet.EMBEDDING_SIZE) {
+            if (v.size == EMBEDDING_SIZE) {
                 samples[index].add(v)
+                added++
             }
+        }
+        if (added > 0) {
+            // New photos replace the ones the old face model made.
+            outdatedPhotos.remove(names[index])
         }
     }
 
@@ -479,6 +522,7 @@ class FaceDatabase {
         if (index < 0 || index >= names.size) {
             return
         }
+        outdatedPhotos.remove(names[index])
         names.removeAt(index)
         samples.removeAt(index)
         centroids.removeAt(index)
@@ -489,7 +533,7 @@ class FaceDatabase {
     /** Score for every enrolled person, in index order. Used for multi frame voting.  */
     @Synchronized
     fun scoreAll(query: FloatArray?): FloatArray? {
-        if (query == null || query.size != FaceNet.EMBEDDING_SIZE || names.isEmpty()) {
+        if (query == null || query.size != EMBEDDING_SIZE || names.isEmpty()) {
             return null
         }
         val scores = FloatArray(names.size)
@@ -609,7 +653,7 @@ class FaceDatabase {
 
     @Synchronized
     fun match(query: FloatArray?): Match? {
-        if (query == null || query.size != FaceNet.EMBEDDING_SIZE || names.isEmpty()) {
+        if (query == null || query.size != EMBEDDING_SIZE || names.isEmpty()) {
             return null
         }
 
@@ -758,27 +802,39 @@ class FaceDatabase {
         /**
          * Accept a match only above this cosine similarity.
          * Raise it if strangers get a name. Lower it if known people come back Unknown.
-         * Useful range 0.45 to 0.72.
+         * Useful range 0.40 to 0.65 (MobileFaceNet scores lower than FaceNet did).
          */
         @JvmField
-        var minSimilarity: Float = 0.50f
+        var minSimilarity: Float = 0.45f
 
         /**
          * The winner must beat the runner up by this much. This is what stops the app
          * putting the wrong person's name on a face.
          */
         @JvmField
-        var minMargin: Float = 0.05f
+        var minMargin: Float = 0.04f
 
-        /** Never accept collapsed/no-detail embeddings even if an old model saved 0.50.  */
-        private const val ABSOLUTE_SAFETY_FLOOR = 0.60f
+        /*
+         * The thresholds below were tuned for FaceNet and carried over to the
+         * MobileFaceNet scale on the fixture photos (faces.zip, every photo
+         * against the others, all views, as scoreFrame scores them):
+         *   FaceNet       same person 0.689-0.909 (mean 0.814), others up to 0.325 (mean 0.149)
+         *   MobileFaceNet same person 0.575-0.855 (mean 0.704), others up to 0.435 (mean 0.157)
+         * Each old threshold t keeps its place between the two means:
+         *   t' = 0.157 + (t - 0.149) * 0.823
+         * 0.60 -> 0.53, 0.70 -> 0.61, 0.75 -> 0.65, margin 0.05 -> 0.04.
+         */
+
+        /** Never accept collapsed/no-detail embeddings even if an old model saved a lower value.  */
+        private const val ABSOLUTE_SAFETY_FLOOR = 0.53f
 
         /**
-         * Needed when there is no second person to compare against. Measured on
-         * a Galaxy M53: a stranger against the only enrolled person scored up to
-         * 0.61, genuine matches 0.79-0.93.
+         * Needed when there is no second person to compare against. With FaceNet,
+         * measured on a Galaxy M53, a stranger against the only enrolled person
+         * scored up to 0.61 (0.54 on this scale) and genuine matches 0.79-0.93;
+         * the bar was 0.70.
          */
-        internal const val SINGLE_PERSON_MIN_SIMILARITY = 0.70f
+        internal const val SINGLE_PERSON_MIN_SIMILARITY = 0.61f
 
         /**
          * Nearest neighbour. A person is scored against their single closest training
@@ -815,8 +871,11 @@ class FaceDatabase {
          *
          * 1  original square crop, no illumination normalisation
          * 2  illumination normalisation, eye alignment, multi scale variants
+         * 3  MobileFaceNet (112x112, 128 values) instead of FaceNet (160x160, 512)
          */
-        private const val PIPELINE_VERSION = 2
+        private const val PIPELINE_VERSION = 3
+
+        private const val EMBEDDING_SIZE = MobileFaceNet.EMBEDDING_SIZE
 
         private fun vectorLine(index: Int, v: FloatArray, count: Int): String {
             val sb = StringBuilder(v.size * 12)
@@ -834,7 +893,7 @@ class FaceDatabase {
             if (list.isNullOrEmpty()) {
                 return null
             }
-            val mean = FloatArray(FaceNet.EMBEDDING_SIZE)
+            val mean = FloatArray(EMBEDDING_SIZE)
             for (v in list) {
                 for (i in mean.indices) {
                     mean[i] += v[i]

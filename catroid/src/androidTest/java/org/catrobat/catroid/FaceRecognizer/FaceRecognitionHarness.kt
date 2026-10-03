@@ -201,9 +201,9 @@ class FaceRecognitionHarness {
 
         const val TRAINING_PHOTOS = 4
 
-        /** Explicit thresholds. 0.60 is also the recogniser's absolute floor. */
-        const val MIN_SIMILARITY = 0.60f
-        const val MIN_MARGIN = 0.05f
+        /** Explicit thresholds. 0.53 is also the recogniser's absolute floor (0.60 with FaceNet). */
+        const val MIN_SIMILARITY = 0.53f
+        const val MIN_MARGIN = 0.04f
 
         /** FaceNameDetector passes mirrorToo while the front camera, the default, is in use. */
         const val FRONT_CAMERA_MIRROR = true

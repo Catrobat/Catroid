@@ -14,14 +14,14 @@ import androidx.annotation.RequiresApi
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.saveBitmap
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace.FaceBox
-import org.catrobat.catroid.FaceRecognizer.ml.FaceNet
+import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
 import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
- * Turns a full resolution photo into one L2 normalised FaceNet embedding.
+ * Turns a full resolution photo into L2 normalised MobileFaceNet embeddings.
  * 
  * Training and detection both go through this class, so the crop size, the crop
  * margin and the normalisation are identical on both sides. That symmetry is what
@@ -29,7 +29,7 @@ import kotlin.math.sqrt
  */
 class FaceEmbedder private constructor(
     private val blazeFace: BlazeFace,
-    private val faceNet: FaceNet
+    private val model: MobileFaceNet
 ) {
     /** Why the last call returned null. Shown to the user so failures are not silent.  */
     var lastProblem: String = ""
@@ -140,65 +140,27 @@ class FaceEmbedder private constructor(
     /** Embeds a known box. Returns a normalised float[EMBEDDING_SIZE] or null.  */
     @Synchronized
     fun embed(frame: Bitmap?, box: Rect?): FloatArray? {
+        lastProblem = ""
         if (frame == null || frame.isRecycled() || box == null || box.width() <= 0 || box.height() <= 0) {
             lastProblem = "invalid crop"
             return null
         }
         try {
-            if (debugCropName != null) {
-                try {
-                    val crop = Bitmap.createBitmap(
-                        frame,
-                        box.left, box.top, box.width(), box.height()
-                    )
-                    saveBitmap(crop, debugCropName + ".png")
-                    crop.recycle()
-                } catch (ignored: Throwable) {
-                    // diagnostics must never break the real work
-                }
-            }
-
             Log.i(
                 TAG, ("Crop " + box.width() + "x" + box.height()
                     + " at (" + box.left + "," + box.top + ") in frame "
                     + frame.getWidth() + "x" + frame.getHeight())
             )
 
-            val buffer = try {
-                faceNet.getEmbeddings(frame, box)
-            } catch (error: Exception) {
-                lastProblem =
-                    "FaceNet failed: ${error.javaClass.simpleName}"
-
-                Log.e(
-                    TAG,
-                    "Could not generate face embedding",
-                    error
-                )
-
+            val input = cropToInput(frame, box, mirrored = false) ?: run {
+                lastProblem = "invalid crop"
                 return null
             }
-
-            // Do NOT rely on the buffer position or limit. Depending on the TFLite
-            // build, run() may or may not advance the position, and the flip() inside
-            // FaceNet can leave the limit at zero. Reset explicitly and read from 0.
-            buffer.clear()
-            if (buffer.remaining() < FaceNet.EMBEDDING_SIZE) {
-                lastProblem = "embedding buffer too small: " + buffer.remaining()
-                return null
-            }
-
-            val embedding = FloatArray(FaceNet.EMBEDDING_SIZE)
-
-            for (index in embedding.indices) {
-                embedding[index] = buffer[index]
-            }
-
-            val normalized: FloatArray? = normalize(embedding)
-            if (normalized == null) {
+            val embedding = embedInputs(listOf(input)).firstOrNull()
+            if (embedding == null && lastProblem.isEmpty()) {
                 lastProblem = "embedding was all zeros"
             }
-            return normalized
+            return embedding
         } catch (e: Exception) {
             Log.e(TAG, "Embedding failed", e)
             lastProblem = "embedding error: " + e.javaClass.getSimpleName()
@@ -261,6 +223,10 @@ class FaceEmbedder private constructor(
     ): Boolean =
         frame != null && !frame.isRecycled && box != null
 
+    /**
+     * Every eye distance, each followed by its mirror image when asked for, so
+     * that a face and its mirror share one model run.
+     */
     private fun addAlignedVariants(
         embeddings: MutableList<FloatArray>,
         frame: Bitmap,
@@ -272,50 +238,15 @@ class FaceEmbedder private constructor(
             return
         }
 
+        val inputs = mutableListOf<Bitmap>()
         for (eyeDistance in EYE_DISTANCES) {
-            addAlignedVariant(
-                embeddings,
-                frame,
-                leftEye,
-                rightEye,
-                eyeDistance,
-                mirror = false
-            )
-
+            alignFace(frame, leftEye, rightEye, eyeDistance, mirrored = false)?.let(inputs::add)
             if (includeMirror) {
-                addAlignedVariant(
-                    embeddings,
-                    frame,
-                    leftEye,
-                    rightEye,
-                    eyeDistance,
-                    mirror = true
-                )
+                alignFace(frame, leftEye, rightEye, eyeDistance, mirrored = true)?.let(inputs::add)
             }
         }
-    }
 
-    private fun addAlignedVariant(
-        embeddings: MutableList<FloatArray>,
-        frame: Bitmap,
-        leftEye: FloatArray,
-        rightEye: FloatArray,
-        eyeDistance: Float,
-        mirror: Boolean
-    ) {
-        val aligned = alignFace(
-            frame,
-            leftEye,
-            rightEye,
-            eyeDistance,
-            mirror
-        ) ?: return
-
-        try {
-            embedAligned(aligned)?.let(embeddings::add)
-        } finally {
-            recycleSafely(aligned)
-        }
+        embeddings.addAll(embedInputs(inputs))
     }
 
     private fun logAlignmentFallback(
@@ -336,6 +267,7 @@ class FaceEmbedder private constructor(
         box: Rect,
         includeMirror: Boolean
     ) {
+        val inputs = mutableListOf<Bitmap>()
         for (scale in CROP_SCALES) {
             val scaledBox = scaleBox(
                 box,
@@ -344,38 +276,57 @@ class FaceEmbedder private constructor(
                 frame.height
             ) ?: continue
 
-            embed(frame, scaledBox)?.let(embeddings::add)
-
+            cropToInput(frame, scaledBox, mirrored = false)?.let(inputs::add)
             if (includeMirror) {
-                addMirroredCropVariant(
-                    embeddings,
-                    frame,
-                    scaledBox
-                )
+                cropToInput(frame, scaledBox, mirrored = true)?.let(inputs::add)
             }
+        }
+
+        embeddings.addAll(embedInputs(inputs))
+    }
+
+    /**
+     * Runs the model on network-sized inputs, two per run, and recycles them.
+     * Returns the unit length embeddings; an all-zero one is left out.
+     */
+    private fun embedInputs(inputs: List<Bitmap>): List<FloatArray> {
+        if (inputs.isEmpty()) {
+            return emptyList()
+        }
+        try {
+            return model.embed(inputs).mapNotNull(::normalize)
+        } catch (error: Exception) {
+            lastProblem = "MobileFaceNet failed: ${error.javaClass.simpleName}"
+            Log.e(TAG, "Could not generate face embedding", error)
+            return emptyList()
+        } finally {
+            inputs.forEach(::recycleSafely)
         }
     }
 
-    private fun addMirroredCropVariant(
-        embeddings: MutableList<FloatArray>,
-        frame: Bitmap,
-        scaledBox: Rect
-    ) {
-        var mirroredFrame: Bitmap? = null
+    /** The box scaled into the network input, optionally mirrored. Null if out of memory.  */
+    private fun cropToInput(frame: Bitmap, box: Rect, mirrored: Boolean): Bitmap? {
+        val matrix = Matrix()
+        matrix.setRectToRect(RectF(box), FULL_NET_RECT, Matrix.ScaleToFit.FILL)
+        if (mirrored) {
+            matrix.postScale(-1f, 1f, NET_SIZE / 2f, NET_SIZE / 2f)
+        }
+        return drawInput(frame, matrix)
+    }
 
+    private fun drawInput(frame: Bitmap, matrix: Matrix): Bitmap? {
         try {
-            mirroredFrame = mirror(frame)
-
-            val mirroredBox = mirrorRect(
-                scaledBox,
-                frame.width
-            )
-
-            embed(mirroredFrame, mirroredBox)?.let(embeddings::add)
-        } catch (error: Throwable) {
-            Log.w(TAG, "Mirror variant failed", error)
-        } finally {
-            recycleSafely(mirroredFrame)
+            val input = Bitmap.createBitmap(NET_SIZE, NET_SIZE, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(input)
+            canvas.drawColor(Color.BLACK)
+            canvas.drawBitmap(frame, matrix, ALIGN_PAINT)
+            if (debugCropName != null) {
+                saveBitmap(input, debugCropName + ".png")
+            }
+            return input
+        } catch (t: Throwable) {
+            Log.w(TAG, "Could not draw the network input", t)
+            return null
         }
     }
 
@@ -404,7 +355,7 @@ class FaceEmbedder private constructor(
     }
 
     /**
-     * Warps the face into the 160x160 network input so that the eyes are level,
+     * Warps the face into the 112x112 network input so that the eyes are level,
      * a fixed distance apart, and centred at a fixed point. One similarity
      * transform does rotation, scale and translation in a single draw, so there is
      * no extra resampling loss.
@@ -431,41 +382,7 @@ class FaceEmbedder private constructor(
         matrix.postScale(if (mirrored) -scale else scale, scale)
         matrix.postTranslate(EYE_MID_X, EYE_MID_Y)
 
-        try {
-            val aligned = Bitmap.createBitmap(NET_SIZE, NET_SIZE, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(aligned)
-            canvas.drawColor(Color.BLACK)
-            canvas.drawBitmap(frame, matrix, ALIGN_PAINT)
-            if (debugCropName != null) {
-                saveBitmap(aligned, debugCropName + ".png")
-            }
-            return aligned
-        } catch (t: Throwable) {
-            Log.w(TAG, "Alignment failed", t)
-            return null
-        }
-    }
-
-    /** Embeds an already aligned 160x160 bitmap.  */
-    private fun embedAligned(aligned: Bitmap): FloatArray? {
-        try {
-            val buffer = faceNet.getEmbeddings(
-                aligned,
-                FULL_NET_RECT
-            )
-            buffer.clear()
-            if (buffer.remaining() < FaceNet.EMBEDDING_SIZE) {
-                return null
-            }
-            val embedding = FloatArray(FaceNet.EMBEDDING_SIZE)
-            for (index in embedding.indices) {
-                embedding[index] = buffer[index]
-            }
-            return normalize(embedding)
-        } catch (e: Exception) {
-            Log.e(TAG, "Aligned embedding failed", e)
-            return null
-        }
+        return drawInput(frame, matrix)
     }
 
     /** Convenience: locate and embed in one call.  */
@@ -732,7 +649,7 @@ class FaceEmbedder private constructor(
 
     fun close() {
         blazeFace.close()
-        faceNet.close()
+        model.close()
     }
 
     companion object {
@@ -749,34 +666,43 @@ class FaceEmbedder private constructor(
         /**
          * How tightly the face is cropped, as a multiplier on the box size.
          * A camera may frame a face tighter or looser than a gallery photo did, and
-         * FaceNet is sensitive to that. Embedding several tightnesses and keeping the
+         * the model is sensitive to that. Embedding several tightnesses and keeping the
          * best match removes the difference.
          */
         private val CROP_SCALES = floatArrayOf(0.85f, 1.0f, 1.18f)
 
-        // ---- Alignment template, in the 160x160 network input ----
-        /** Where the midpoint between the eyes is placed.  */
-        private const val EYE_MID_X = 80f
-        private const val EYE_MID_Y = 72f
+        // ---- Alignment template, in the 112x112 network input ----
+        private const val NET_SIZE = MobileFaceNet.INPUT_SIZE
 
-        /** Distance between the eyes. The three values act as crop tightness.  */
-        private val EYE_DISTANCES = floatArrayOf(46f, 53f, 61f)
-        private const val NET_SIZE = 160
+        // The standard ArcFace template MobileFaceNet was trained on: eyes at
+        // (38.29, 51.70) and (73.53, 51.50). On the fixture photos it separated
+        // people slightly better in the app than the FaceNet template scaled to
+        // 112 (worst gap 0.140 against 0.135, smallest margin 0.239 against 0.167).
+
+        /** Where the midpoint between the eyes is placed.  */
+        private const val EYE_MID_X = 55.91f
+        private const val EYE_MID_Y = 51.60f
 
         /**
-         * When set, the exact crop handed to FaceNet is written to the face data folder.
+         * Distance between the eyes. The middle value is the template's 35.24;
+         * the other two keep FaceNet's ratios (46, 53, 61) and act as crop tightness.
+         */
+        private val EYE_DISTANCES = floatArrayOf(30.59f, 35.24f, 40.56f)
+
+        /**
+         * When set, the exact input handed to the model is written to the face data folder.
          * Set it to "crop_train" before enrolling and "crop_detect" before recognising,
          * then compare the two PNGs. If they are not both a centred face, the bug is in
          * the crop, not in the matching.
          */
         var debugCropName: String? = null
 
-        private val FULL_NET_RECT = Rect(0, 0, NET_SIZE, NET_SIZE)
+        private val FULL_NET_RECT = RectF(0f, 0f, NET_SIZE.toFloat(), NET_SIZE.toFloat())
         private val ALIGN_PAINT =
             Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
 
         fun create(assetManager: AssetManager): FaceEmbedder {
-            return FaceEmbedder(BlazeFace.create(assetManager), FaceNet.create(assetManager))
+            return FaceEmbedder(BlazeFace.create(assetManager), MobileFaceNet.create(assetManager))
         }
 
         /** Grows or shrinks a square box around its centre, kept inside the frame.  */

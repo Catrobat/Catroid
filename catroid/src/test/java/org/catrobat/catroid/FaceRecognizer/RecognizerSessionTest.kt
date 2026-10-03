@@ -50,8 +50,8 @@ class RecognizerSessionTest {
 
     /**
      * Found on the phone: two people trained, one deleted, then the deleted
-     * person's face scored 0.609 against the one left over three frames and was
-     * given that name. With nobody else to compare against, the margin rule says
+     * person's face scored 0.609 (FaceNet; 0.536 on the MobileFaceNet scale)
+     * against the one left over three frames and was given that name. With nobody else to compare against, the margin rule says
      * nothing, so the single person needs SINGLE_PERSON_MIN_SIMILARITY.
      */
     @Test
@@ -59,25 +59,25 @@ class RecognizerSessionTest {
         recognizer.deletePerson(0)
         assertEquals(listOf(PERSON_B), recognizer.classNames)
 
-        // Frames 0.609, 0.610, 0.608 as logged on the phone.
-        assertNull(recognizer.finishSession(session(framesWithFace = 3, totals = floatArrayOf(1.827f))))
+        // Frames 0.536, 0.537, 0.535 (0.609, 0.610, 0.608 as FaceNet logged them on the phone).
+        assertNull(recognizer.finishSession(session(framesWithFace = 3, totals = floatArrayOf(1.608f))))
     }
 
     @Test
     fun theOnlyEnrolledPersonIsStillRecognisedOnAClearMatch() {
         recognizer.deletePerson(0)
 
-        // 0.787: the weakest genuine single-person match in the device tests.
-        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.574f)))
+        // 0.698: the weakest genuine single-person match in the device tests.
+        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.396f)))
 
         assertEquals(PERSON_B, result?.name)
-        assertEquals(0.787f, result!!.confidence, 0.0001f)
+        assertEquals(0.698f, result!!.confidence, 0.0001f)
     }
 
     @Test
     fun withTwoPeopleTheNormalThresholdStillApplies() {
-        // 0.65 is below the single-person bar but has a clear margin over B.
-        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.30f, 0.40f)))
+        // 0.57 is below the single-person bar (0.61) but has a clear margin over B.
+        val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.14f, 0.40f)))
 
         assertEquals(PERSON_A, result?.name)
     }
@@ -92,7 +92,7 @@ class RecognizerSessionTest {
     private companion object {
         const val PERSON_A = "Person A"
         const val PERSON_B = "Person B"
-        const val MIN_SIMILARITY = 0.60f
-        const val MIN_MARGIN = 0.05f
+        const val MIN_SIMILARITY = 0.53f
+        const val MIN_MARGIN = 0.04f
     }
 }
