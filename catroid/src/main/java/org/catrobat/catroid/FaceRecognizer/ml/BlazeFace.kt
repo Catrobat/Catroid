@@ -48,18 +48,7 @@ class BlazeFace private constructor() {
         @JvmField val location: RectF,
         /** 12 floats: x,y for right eye, left eye, nose, mouth, right ear, left ear.  */
         @JvmField val keypoints: FloatArray
-    ) {
-        /** Midpoint of the two eyes, or null if the landmarks look unusable.  */
-        fun eyeMidpoint(): FloatArray? {
-            if (keypoints.size < 4) {
-                return null
-            }
-            return floatArrayOf(
-                (keypoints[0] + keypoints[2]) / 2f,
-                (keypoints[1] + keypoints[3]) / 2f
-            )
-        }
-    }
+    )
 
     private inner class Detection(
         val location: RectF,
@@ -293,9 +282,6 @@ class BlazeFace private constructor() {
         private val strides = intArrayOf(8, 16, 16, 16)
 
         private const val ASPECT_RATIOS_SIZE = 1
-
-        private const val MIN_SCALE = 0.1484375f
-        private const val MAX_SCALE = 0.75f
 
         private const val ANCHOR_OFFSET_X = 0.5f
         private const val ANCHOR_OFFSET_Y = 0.5f

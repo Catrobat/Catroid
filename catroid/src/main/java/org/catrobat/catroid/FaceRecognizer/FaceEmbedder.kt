@@ -11,7 +11,6 @@ import android.graphics.RectF
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.saveBitmap
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace.FaceBox
 import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
@@ -44,10 +43,6 @@ class FaceEmbedder private constructor(
         /** Eye positions in frame coordinates, or null when unavailable.  */
         val leftEye: FloatArray?, val rightEye: FloatArray?
     ) {
-        fun hasEyes(): Boolean {
-            return leftEye != null && rightEye != null
-        }
-
         /** Recycles the rotated copy, if one was made. Never recycles the caller's bitmap.  */
         fun release(original: Bitmap?) {
             if (frame != original && frame != null && !frame.isRecycled()) {
@@ -320,9 +315,6 @@ class FaceEmbedder private constructor(
             val canvas = Canvas(input)
             canvas.drawColor(Color.BLACK)
             canvas.drawBitmap(frame, matrix, ALIGN_PAINT)
-            if (debugCropName != null) {
-                saveBitmap(input, debugCropName + ".png")
-            }
             return input
         } catch (t: Throwable) {
             Log.w(TAG, "Could not draw the network input", t)
@@ -688,14 +680,6 @@ class FaceEmbedder private constructor(
          * the other two keep FaceNet's ratios (46, 53, 61) and act as crop tightness.
          */
         private val EYE_DISTANCES = floatArrayOf(30.59f, 35.24f, 40.56f)
-
-        /**
-         * When set, the exact input handed to the model is written to the face data folder.
-         * Set it to "crop_train" before enrolling and "crop_detect" before recognising,
-         * then compare the two PNGs. If they are not both a centred face, the bug is in
-         * the crop, not in the matching.
-         */
-        var debugCropName: String? = null
 
         private val FULL_NET_RECT = RectF(0f, 0f, NET_SIZE.toFloat(), NET_SIZE.toFloat())
         private val ALIGN_PAINT =

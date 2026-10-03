@@ -185,7 +185,7 @@ class FaceNameDetectorTest {
 
     @Test
     fun faceModelsThatCannotBeReadDoNotEscapeTheRecognitionThread() {
-        FaceNameDetector.recognizerProvider = { throw IOException("facenet.tflite is missing") }
+        FaceNameDetector.recognizerProvider = { throw IOException("mobile_facenet.tflite is missing") }
 
         offerFrame()
         runRecognition()

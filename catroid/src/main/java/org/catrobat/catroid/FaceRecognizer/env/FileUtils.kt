@@ -1,14 +1,11 @@
 package org.catrobat.catroid.FaceRecognizer.env
 
 import android.content.Context
-import android.content.res.AssetManager
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
-import java.io.FileOutputStream
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
@@ -22,7 +19,8 @@ import java.nio.file.StandardCopyOption
  * 
  * Everything is stored in  filesDir/facerecog/
  * label : one person name per line, line number = person index
- * data  : one embedding per line,  "<personIndex> v0 v1 ... v511"
+ * data  : one embedding per line,  "<personIndex> v0 v1 ... v127"
+ * model : thresholds and one centroid per person, rebuilt from data
  * 
  * Call init(context) once before anything else touches these files.
  */
@@ -31,12 +29,9 @@ object FileUtils {
 
     const val DATA_FILE: String = "data"
     const val LABEL_FILE: String = "label"
-    const val MODEL_FILE: String = "model" // legacy, no longer written
+    const val MODEL_FILE: String = "model"
 
     private const val SUB_DIR = "facerecog"
-
-    /** Kept only so legacy classes still compile. Do not build paths from this by hand.  */
-    var ROOT: String = ""
 
     private var rootDir: File? = null
 
@@ -60,14 +55,7 @@ object FileUtils {
             Log.e(TAG, "Could not create face data directory: " + desired.getAbsolutePath())
         }
         rootDir = desired
-        ROOT = desired.getAbsolutePath()
-        Log.i(TAG, "Face data root = " + ROOT)
-    }
-
-    /** Legacy name, forwards to init.  */
-    @Synchronized
-    fun initializeRoot(context: Context?) {
-        init(context)
+        Log.i(TAG, "Face data root = " + desired.getAbsolutePath())
     }
 
     @JvmStatic
@@ -80,20 +68,6 @@ object FileUtils {
     fun file(fileName: String): File {
         checkNotNull(rootDir) { "FileUtils.init(context) was never called" }
         return File(rootDir, fileName)
-    }
-
-    @JvmStatic
-    @Synchronized
-    fun getAbsolutePath(fileName: String): String {
-        return file(fileName).getAbsolutePath()
-    }
-
-    @JvmStatic
-    @Synchronized
-    fun fileExists(context: Context?, fileName: String): Boolean {
-        init(context)
-        val f = file(fileName)
-        return f.exists() && f.length() > 0
     }
 
     @JvmStatic
@@ -198,52 +172,5 @@ object FileUtils {
                 Log.w(TAG, "Could not delete " + f.getName())
             }
         }
-    }
-
-    @JvmStatic
-    @Synchronized
-    fun saveBitmap(bitmap: Bitmap?, fileName: String) {
-        if (bitmap == null || rootDir == null) {
-            return
-        }
-        try {
-            FileOutputStream(file(fileName)).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-                out.flush()
-            }
-        } catch (e: IOException) {
-            Log.e(TAG, "Error saving bitmap " + fileName, e)
-        }
-    }
-
-    @Synchronized
-    fun copyAsset(assetManager: AssetManager, fileName: String) {
-        if (rootDir == null) {
-            return
-        }
-        val outFile = file(fileName)
-        if (outFile.exists() && outFile.length() > 0) {
-            return
-        }
-        try {
-            assetManager.open(fileName).use { `in` ->
-                FileOutputStream(outFile).use { out ->
-                    val buffer = ByteArray(4096)
-                    var read: Int
-                    while ((`in`.read(buffer).also { read = it }) != -1) {
-                        out.write(buffer, 0, read)
-                    }
-                    out.flush()
-                }
-            }
-        } catch (e: IOException) {
-            Log.e(TAG, "Failed to copy asset " + fileName, e)
-        }
-    }
-
-    @Synchronized
-    fun copyAsset(context: Context?, assetManager: AssetManager, fileName: String) {
-        init(context)
-        copyAsset(assetManager, fileName)
     }
 }
