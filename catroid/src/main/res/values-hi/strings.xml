@@ -835,7 +835,7 @@
     <string formatted="false" name="brick_point_in_direction">दिशा सेट करें</string>
     <string formatted="false" name="brick_point_to">इसकी ओर मुड़ें</string>
     <string formatted="false" name="brick_glide">सरकें</string>
-    <string formatted="false" name="brick_glide_to_x">में, यहाँ तक x:</string>
+    <string formatted="false" name="brick_glide_to_x">यहाँ तक x:</string>
     <string formatted="false" name="brick_go_to">यहाँ जाएँ</string>
     <string formatted="false" name="brick_go_to_touch_position">छूने की जगह</string>
     <string formatted="false" name="brick_go_to_random_position">कोई भी जगह</string>
@@ -1199,10 +1199,10 @@
     <string formatted="false" name="drone_set_vertical_outdoor">1000 mm/s</string>
     <string formatted="false" name="drone_set_vertical_max">2000 mm/s</string>
     <!-- Drone max rotation speed limit values  -->
-    <string formatted="false" name="drone_set_rotation_min">40 डिग्री/s</string>
-    <string formatted="false" name="drone_set_rotation_indoor">100 डिग्री/s</string>
-    <string formatted="false" name="drone_set_rotation_outdoor">200 डिग्री/s</string>
-    <string formatted="false" name="drone_set_rotation_max">350 डिग्री/s</string>
+    <string formatted="false" name="drone_set_rotation_min">40 डिग्री/सेकंड</string>
+    <string formatted="false" name="drone_set_rotation_indoor">100 डिग्री/सेकंड</string>
+    <string formatted="false" name="drone_set_rotation_outdoor">200 डिग्री/सेकंड</string>
+    <string formatted="false" name="drone_set_rotation_max">350 डिग्री/सेकंड</string>
     <!-- Drone max tilt limit values  -->
     <string formatted="false" name="drone_set_tilt_min">5 डिग्री</string>
     <string formatted="false" name="drone_set_tilt_indoor">12 डिग्री</string>
