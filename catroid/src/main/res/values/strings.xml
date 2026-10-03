@@ -2365,6 +2365,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Face Train -->
     <string formatted="false" name="face_train_title">Face names</string>
     <string formatted="false" name="face_train_choose_name">Tap a name to add photos</string>
+    <string formatted="false" name="face_train_retrain">Face recognition was updated. Tap each name and add its photos again</string>
     <string formatted="false" name="face_train_add_new_name">Add new name</string>
     <string formatted="false" name="face_train_no_names">No names yet.</string>
     <string formatted="false" name="face_train_name_hint">Enter a name</string>

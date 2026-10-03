@@ -302,6 +302,9 @@ class FaceNameTrainAction : Action() {
 
     fun personNames(): List<String> = recognizerOrInit()?.classNames.orEmpty()
 
+    /** True while stored photos come from an older face model and must be added again. */
+    fun needsRetraining(): Boolean = recognizerOrInit()?.needsRetraining() == true
+
     fun onPersonChosen(index: Int) {
         openImagePicker(index)
     }

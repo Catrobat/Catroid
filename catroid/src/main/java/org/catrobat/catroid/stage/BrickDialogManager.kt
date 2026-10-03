@@ -225,7 +225,12 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     private fun createFaceTrainMenuDialog(action: FaceNameTrainAction): Dialog {
         val names = action.personNames()
         // A list leaves no room for a message, so the title says what tapping a name does.
-        val title = if (names.isEmpty()) R.string.face_train_title else R.string.face_train_choose_name
+        // Photos from an older face model cannot match; then the title asks for them again.
+        val title = when {
+            names.isEmpty() -> R.string.face_train_title
+            action.needsRetraining() -> R.string.face_train_retrain
+            else -> R.string.face_train_choose_name
+        }
         val builder = faceTrainBuilder(stageActivity.getString(title))
             .setPositiveButton(stageActivity.getString(R.string.face_train_add_new_name)) { _, _ ->
                 action.onAddNameChosen()
