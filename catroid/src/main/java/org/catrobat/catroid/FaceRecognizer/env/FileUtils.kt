@@ -12,8 +12,10 @@ import java.io.FileOutputStream
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
-import java.io.PrintWriter
 import java.io.Writer
+import java.nio.file.AtomicMoveNotSupportedException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 /**
  * Single source of truth for where face data lives.
@@ -125,7 +127,12 @@ object FileUtils {
     @VisibleForTesting
     internal var openForWriting: (File) -> Writer = { FileWriter(it, false) }
 
-    /** Writes the whole file. Temp file plus rename so a crash cannot leave a half file.  */
+    /**
+     * Writes the whole file: into a temporary file first, which then replaces the
+     * old one in a single atomic move. A failed write (a full disk, say) reports
+     * false and leaves the old file as it was; it never replaces it with part of
+     * the new one.
+     */
     @Synchronized
     fun writeLines(fileName: String, lines: List<String>): Boolean {
         if (rootDir == null) {
@@ -136,26 +143,40 @@ object FileUtils {
         val temp = file(fileName + ".tmp")
 
         try {
-            PrintWriter(BufferedWriter(openForWriting(temp))).use { writer ->
+            // Unlike PrintWriter, BufferedWriter passes write, flush and close errors on.
+            BufferedWriter(openForWriting(temp)).use { writer ->
                 for (line in lines) {
-                    writer.println(line)
+                    writer.write(line)
+                    writer.newLine()
                 }
+                // close() does not flush the writer underneath; a failed flush must show.
                 writer.flush()
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Error writing " + fileName, e)
+            Log.e(TAG, "Error writing " + fileName + "; the old file is kept", e)
+            temp.delete()
             return false
         }
 
-        if (target.exists() && !target.delete()) {
-            Log.e(TAG, "Could not delete old " + fileName)
-            return false
+        return try {
+            replace(temp, target)
+            true
+        } catch (e: IOException) {
+            Log.e(TAG, "Could not replace " + fileName + "; the old file is kept", e)
+            temp.delete()
+            false
         }
-        if (!temp.renameTo(target)) {
-            Log.e(TAG, "Could not rename temp file for " + fileName)
-            return false
+    }
+
+    private fun replace(source: File, target: File) {
+        try {
+            Files.move(
+                source.toPath(), target.toPath(),
+                StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE
+            )
+        } catch (e: AtomicMoveNotSupportedException) {
+            Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
         }
-        return true
     }
 
     @JvmStatic
