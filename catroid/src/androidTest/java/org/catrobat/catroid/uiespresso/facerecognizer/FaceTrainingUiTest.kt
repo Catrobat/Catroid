@@ -40,6 +40,7 @@ import androidx.test.uiautomator.UiDevice
 import com.google.android.material.textfield.TextInputLayout
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.actions.FaceNameTrainAction
@@ -311,6 +312,34 @@ class FaceTrainingUiTest {
         intended(hasAction(Intent.ACTION_OPEN_DOCUMENT))
     }
 
+    /**
+     * Found in review: two training bricks run at the same time. The second
+     * menu is closed with Done, the picker is opened from the first menu and
+     * cancelled, and Done is pressed in the menu that comes back. The picker
+     * result went to the brick that started last, which had already finished,
+     * so the first brick never finished and its script stayed blocked.
+     */
+    @Test
+    fun twoTrainingBricksEachContinueTheirOwnScript() {
+        recognizer().addPerson("Person A")
+        val afterSecondTraining = addSecondTrainingScript()
+        stubPicker(Activity.RESULT_CANCELED, null)
+        startStage()
+        // Both bricks start in the same frame; let the second menu open on top.
+        Thread.sleep(BOTH_MENUS_OPEN_MS)
+        onIdle()
+
+        onView(withText(text(R.string.done))).inRoot(isDialog()).perform(click())
+        onView(withText("Person A")).inRoot(isDialog()).perform(click())
+        onIdle()
+        intended(hasAction(Intent.ACTION_OPEN_DOCUMENT))
+        onView(withText(text(R.string.done))).inRoot(isDialog()).perform(click())
+
+        assertUserVariableEqualsWithTimeout(afterTraining, 1.0, CONTINUE_TIMEOUT_MS)
+        assertUserVariableEqualsWithTimeout(afterSecondTraining, 1.0, CONTINUE_TIMEOUT_MS)
+        assertFalse("No dialog may stay open", stageRule.activity.dialogIsShowing())
+    }
+
     @Test
     fun selectedImageIsTrainedAndSavedAndTheMenuReturns() {
         stubPicker(Activity.RESULT_OK, Intent().setData(requiredAssetUri("faces/p01_train1.jpg")))
@@ -454,6 +483,20 @@ class FaceTrainingUiTest {
         UiTestUtils.getDefaultTestSprite(project).addScript(StartScript().apply { addBrick(forever) })
     }
 
+    /** A second script with its own training brick; returns its "after training" variable. */
+    private fun addSecondTrainingScript(): UserVariable {
+        val project = ProjectManager.getInstance().currentProject
+        val afterSecondTraining = UserVariable("afterSecondTraining", 0.0)
+        project.addUserVariable(afterSecondTraining)
+        UiTestUtils.getDefaultTestSprite(project).addScript(
+            StartScript().apply {
+                addBrick(FaceNameTrain())
+                addBrick(SetVariableBrick(Formula(1.0), afterSecondTraining))
+            }
+        )
+        return afterSecondTraining
+    }
+
     /** Launches the stage and waits until the brick's first dialog is open. */
     private fun startStage() {
         stageRule.launchActivity(null)
@@ -585,6 +628,7 @@ class FaceTrainingUiTest {
         private const val TRAINING_TIMEOUT_SECONDS = 60L
         private const val HOLD_CHECK_MS = 1500
         private const val CONTINUE_TIMEOUT_MS = 3000
+        private const val BOTH_MENUS_OPEN_MS = 1000L
 
         /** Espresso's own defaults, restored so other test classes are unaffected. */
         private const val DEFAULT_IDLING_TIMEOUT_SECONDS = 26L
