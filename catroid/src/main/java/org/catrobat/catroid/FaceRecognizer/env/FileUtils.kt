@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
@@ -12,6 +13,7 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
 import java.io.PrintWriter
+import java.io.Writer
 
 /**
  * Single source of truth for where face data lives.
@@ -119,6 +121,10 @@ object FileUtils {
         return out
     }
 
+    /** Opens a file for [writeLines]; the tests replace it to make a write fail. */
+    @VisibleForTesting
+    internal var openForWriting: (File) -> Writer = { FileWriter(it, false) }
+
     /** Writes the whole file. Temp file plus rename so a crash cannot leave a half file.  */
     @Synchronized
     fun writeLines(fileName: String, lines: List<String>): Boolean {
@@ -130,7 +136,7 @@ object FileUtils {
         val temp = file(fileName + ".tmp")
 
         try {
-            PrintWriter(BufferedWriter(FileWriter(temp, false))).use { writer ->
+            PrintWriter(BufferedWriter(openForWriting(temp))).use { writer ->
                 for (line in lines) {
                     writer.println(line)
                 }
