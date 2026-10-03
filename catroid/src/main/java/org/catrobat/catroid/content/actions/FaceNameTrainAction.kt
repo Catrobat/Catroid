@@ -17,6 +17,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.ToastUtil
+import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
 /**
@@ -54,6 +55,9 @@ class FaceNameTrainAction : Action() {
             return requestCode in REQUEST_FIRST..REQUEST_LAST
         }
 
+        /** One request code per person, so this many people can be given photos. */
+        private const val MAX_NAMES = REQUEST_LAST - REQUEST_FIRST + 1
+
         /** Keeps the progress dialog on screen long enough to be seen. */
         private const val MIN_PROGRESS_MS = 700L
 
@@ -77,7 +81,7 @@ class FaceNameTrainAction : Action() {
          */
         @JvmStatic
         fun onPickerResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            val owner = pickerOwner?.takeIf { it.isRunning } ?: currentInstance
+            val owner = pickerOwner?.takeIf { it.isRunningOnTheCurrentStage } ?: currentInstance
             pickerOwner = null
             owner?.handleResult(requestCode, resultCode, data)
         }
@@ -169,6 +173,20 @@ class FaceNameTrainAction : Action() {
     private val isRunning: Boolean
         get() = started && !finished
 
+    /** The stage this brick showed its dialogs on. */
+    private var runsOn: WeakReference<StageActivity>? = null
+
+    /**
+     * A brick of a stage that Android destroyed is never finished, so it looks
+     * like it is running; its script is gone with that stage.
+     */
+    private val isRunningOnTheCurrentStage: Boolean
+        get() {
+            @Suppress("SENSELESS_COMPARISON")
+            val current = StageActivity.activeStageActivity?.get() ?: return false
+            return isRunning && runsOn?.get() === current
+        }
+
     /**
      * The current stage, or null if there is none or it is closing.
      *
@@ -201,6 +219,7 @@ class FaceNameTrainAction : Action() {
             return
         }
         appContext = activity.applicationContext
+        runsOn = WeakReference(activity)
 
         // Loading the face models takes a moment; keep it off the GL and main threads.
         Thread({
@@ -302,7 +321,19 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        val index = current.addPerson(name)
+        if (current.classNames.size >= MAX_NAMES && name.trim() !in current.classNames) {
+            showError(R.string.face_train_too_many_names)
+            show(DialogType.FACE_TRAIN_MENU)
+            return
+        }
+        val index = try {
+            current.addPerson(name)
+        } catch (exception: IllegalArgumentException) {
+            Log.e(TAG, "Name rejected", exception)
+            showError(R.string.face_train_name_rejected)
+            show(DialogType.FACE_TRAIN_MENU)
+            return
+        }
         Log.i(TAG, "Added name '$name' at index $index")
         openImagePicker(index)
     }
@@ -364,7 +395,13 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
+        if (targetIndex >= MAX_NAMES) {
+            showError(R.string.face_train_too_many_names)
+            show(DialogType.FACE_TRAIN_MENU)
+            return
+        }
         pendingName = name
+        runsOn = WeakReference(activity)
 
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
@@ -507,7 +544,7 @@ class FaceNameTrainAction : Action() {
 
         // The brick whose photos these were, if it still runs; after a stage
         // restart that brick is gone and the brick of the new run takes over.
-        val owner = trainingOwner?.takeIf { it.isRunning } ?: currentInstance ?: this
+        val owner = trainingOwner?.takeIf { it.isRunningOnTheCurrentStage } ?: currentInstance ?: this
         trainingOwner = null
         if (owner.stageActivity() == null) {
             pendingOutcome = outcome
@@ -526,6 +563,7 @@ class FaceNameTrainAction : Action() {
         super.restart()
         started = false
         finished = false
+        runsOn = null
     }
 
     /** Resets this brick run only. The picker and training may outlive it. */
@@ -533,5 +571,6 @@ class FaceNameTrainAction : Action() {
         super.reset()
         started = false
         finished = false
+        runsOn = null
     }
 }
