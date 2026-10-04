@@ -93,12 +93,12 @@ public interface Brick extends Serializable, Cloneable {
 
 		ASSERT_EQUALS_EXPECTED, ASSERT_EQUALS_ACTUAL,
 
-		ASSERT_LOOP_ACTUAL;
+		ASSERT_LOOP_ACTUAL, MESSAGE;
 
 		private static final BrickField[] EXPECTS_STRING_VALUE = {
 				VARIABLE, NOTE, SPEAK, STRING, ASK_QUESTION,
 				NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION, LIST_ADD_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
-				REPLACE_ITEM_IN_USERLIST_VALUE};
+				REPLACE_ITEM_IN_USERLIST_VALUE, MESSAGE};
 
 		public static boolean isExpectingStringValue(BrickField field) {
 			for (BrickField bf : EXPECTS_STRING_VALUE) {

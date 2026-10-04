@@ -197,6 +197,7 @@ import org.catrobat.catroid.content.bricks.ShareLaserBrick
 import org.catrobat.catroid.content.bricks.ShowBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
+import org.catrobat.catroid.content.bricks.ShowToastBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
@@ -595,6 +596,7 @@ open class CategoryBricksFactory {
                 BrickValues.SHOW_VARIABLE_COLOR
             )
         )
+        looksBrickList.add(ShowToastBrick(context.getString(R.string.brick_show_toast_default_value)))
         looksBrickList.add(SetTransparencyBrick(BrickValues.SET_TRANSPARENCY))
         looksBrickList.add(ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT))
         looksBrickList.add(SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO))
@@ -735,6 +737,7 @@ open class CategoryBricksFactory {
     ): List<Brick> {
         val deviceBrickList: MutableList<Brick> = ArrayList()
         deviceBrickList.add(ResetTimerBrick())
+        deviceBrickList.add(ShowToastBrick(context.getString(R.string.brick_show_toast_default_value)))
         deviceBrickList.add(WhenBrick())
         deviceBrickList.add(WhenTouchDownBrick())
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {

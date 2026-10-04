@@ -236,6 +236,7 @@ import org.catrobat.catroid.content.bricks.SharePlotBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.ShowToastBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -555,6 +556,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
+		xstream.alias("brick", ShowToastBrick.class);
 		xstream.alias("brick", ResetTimerBrick.class);
 		xstream.alias("brick", EmptyEventBrick.class);
 
