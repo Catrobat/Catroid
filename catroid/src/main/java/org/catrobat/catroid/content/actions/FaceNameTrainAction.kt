@@ -1,5 +1,6 @@
 package org.catrobat.catroid.content.actions
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.annotation.VisibleForTesting
 import com.badlogic.gdx.scenes.scene2d.Action
@@ -83,9 +85,55 @@ class FaceNameTrainAction : Action() {
          */
         @JvmStatic
         fun onPickerResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            val owner = pickerOwner?.takeIf { it.isRunningOnTheCurrentStage } ?: currentInstance
+            pickerOpen = false
+            val owner = pickerOwner?.takeIf { it.isRunningOnTheCurrentStage }
+                ?: currentInstance?.takeIf { it.isRunningOnTheCurrentStage }
             pickerOwner = null
-            owner?.handleResult(requestCode, resultCode, data)
+            if (owner == null) {
+                // The stage was recreated, or the program restarted, while the
+                // picker was open, and the new run's brick has not started yet.
+                // It takes the result when it does; the old brick must not show
+                // its name list on the new stage.
+                synchronized(trainingLock) { pendingPickerResult = PickerResult(requestCode, resultCode, data) }
+                return
+            }
+            owner.handleResult(requestCode, resultCode, data)
+        }
+
+        /** A photo picker result that arrived before a brick of the current run started. */
+        private class PickerResult(val requestCode: Int, val resultCode: Int, val data: Intent?)
+
+        /** Guarded by [trainingLock]: set on the main thread, taken on a brick's start thread. */
+        private var pendingPickerResult: PickerResult? = null
+
+        /**
+         * True from opening the photo picker until its result arrives. Closing the
+         * name list for the picker must not resume the stage behind the picker.
+         */
+        @Volatile
+        private var pickerOpen = false
+
+        @JvmStatic
+        fun isPickerOpen(): Boolean = pickerOpen
+
+        /**
+         * Counts program runs. A brick belongs to the run it started in; after a
+         * restart from the stage menu the old run's bricks are never finished and
+         * stay on the same stage, but they must not take results any more.
+         */
+        @Volatile
+        private var programRun = 0
+
+        /**
+         * A program run starts (also a restart from the stage menu, and a stage
+         * Android recreated): bricks of earlier runs no longer take results. A
+         * picker result that is still waiting stays: on a recreated stage it can
+         * arrive after the program started, and the new run's brick takes it.
+         */
+        @JvmStatic
+        fun onProgramStart() {
+            programRun++
+            pickerOpen = false
         }
 
         @Volatile
@@ -100,7 +148,7 @@ class FaceNameTrainAction : Action() {
         private var trainingInProgress = false
 
         /**
-         * Guards [trainingInProgress], [progressWaiters] and [pendingOutcome]: a
+         * Guards [trainingInProgress], [progressWaiters] and [pendingPickerResult]: a
          * brick decides on its start thread whether to show the progress dialog,
          * while training ends on the main thread.
          */
@@ -119,15 +167,20 @@ class FaceNameTrainAction : Action() {
         /** A training result for the user; success and failure look different. */
         private class Outcome(val message: String, val success: Boolean)
 
-        /** Result waiting to be shown, if training finished with no stage up. */
-        private var pendingOutcome: Outcome? = null
-
-        /** A progress dialog and the brick it was shown for. */
+        /**
+         * A progress dialog and the brick it was shown for. Weak, so a stage the
+         * user left during training is not kept in memory by its dialog.
+         */
         private class ProgressView(
             val brick: FaceNameTrainAction,
-            val dialog: AlertDialog,
-            val bar: ProgressBar
-        )
+            dialog: AlertDialog,
+            bar: ProgressBar
+        ) {
+            private val dialogReference = WeakReference(dialog)
+            private val barReference = WeakReference(bar)
+            val dialog: AlertDialog? get() = dialogReference.get()
+            val bar: ProgressBar? get() = barReference.get()
+        }
 
         /**
          * Every open progress dialog. Several bricks can show one at a time: two
@@ -155,8 +208,9 @@ class FaceNameTrainAction : Action() {
             synchronized(trainingLock) {
                 trainingInProgress = false
                 progressWaiters.clear()
-                pendingOutcome = null
+                pendingPickerResult = null
             }
+            pickerOpen = false
             progressTotal = 1
             progressDone = 0
             progressViews.clear()
@@ -189,6 +243,12 @@ class FaceNameTrainAction : Action() {
         @VisibleForTesting
         @JvmStatic
         internal fun getProgressForTest(): IntArray = intArrayOf(progressDone, progressTotal)
+
+        @VisibleForTesting
+        @JvmStatic
+        internal fun setPickerOpenForTest(open: Boolean) {
+            pickerOpen = open
+        }
     }
 
     private var recognizer: Recognizer? = null
@@ -196,6 +256,10 @@ class FaceNameTrainAction : Action() {
     /** The first act() of this run has started the dialogs. */
     @Volatile
     private var started = false
+
+    /** The program run this brick belongs to, see [onProgramStart]. */
+    @Volatile
+    private var startedInRun = programRun
 
     /** The user pressed Done, or the brick could not run; the script may continue. */
     @Volatile
@@ -210,14 +274,14 @@ class FaceNameTrainAction : Action() {
     private var runsOn: WeakReference<StageActivity>? = null
 
     /**
-     * A brick of a stage that Android destroyed is never finished, so it looks
-     * like it is running; its script is gone with that stage.
+     * A brick of a stage that Android destroyed, or of a run before a restart
+     * from the stage menu, is never finished, so it looks like it is running;
+     * its script is gone. A stage that is closing runs no bricks either.
      */
     private val isRunningOnTheCurrentStage: Boolean
         get() {
-            @Suppress("SENSELESS_COMPARISON")
-            val current = StageActivity.activeStageActivity?.get() ?: return false
-            return isRunning && runsOn?.get() === current
+            val current = stageActivity() ?: return false
+            return isRunning && startedInRun == programRun && runsOn?.get() === current
         }
 
     /**
@@ -244,6 +308,7 @@ class FaceNameTrainAction : Action() {
     }
 
     private fun start() {
+        startedInRun = programRun
         currentInstance = this
         val activity = stageActivity()
         if (activity == null || StageActivity.messageHandler == null) {
@@ -267,18 +332,23 @@ class FaceNameTrainAction : Action() {
 
     /** Whatever the brick should be showing right now. */
     private fun showCurrentScreen() {
-        val outcome: Outcome?
+        val pickerResult: PickerResult?
         val waitsForTraining: Boolean
         synchronized(trainingLock) {
-            outcome = pendingOutcome
-            pendingOutcome = null
             waitsForTraining = trainingInProgress
+            pickerResult = if (waitsForTraining) null else pendingPickerResult
+            pendingPickerResult = null
             if (waitsForTraining) {
                 // Counted now, not when the dialog appears, so the end of training finds it.
                 progressWaiters.add(this)
             }
         }
-        outcome?.let { showOutcome(it) }
+        if (pickerResult != null) {
+            // The picker was opened before the stage was recreated or the program
+            // restarted: this brick takes its result, on the main thread.
+            mainHandler.post { handleResult(pickerResult.requestCode, pickerResult.resultCode, pickerResult.data) }
+            return
+        }
         show(if (waitsForTraining) DialogType.FACE_TRAIN_PROGRESS else DialogType.FACE_TRAIN_MENU)
     }
 
@@ -325,16 +395,25 @@ class FaceNameTrainAction : Action() {
     /** Catroid's toasts (ToastUtil), always on the main thread. */
     private fun showError(resource: Int) {
         val ctx = stageActivity() ?: appContext ?: return
-        mainHandler.post { ToastUtil.showError(ctx, resource) }
+        toast(ctx, ctx.getString(resource), success = false)
     }
 
-    private fun showOutcome(outcome: Outcome) {
-        val ctx = stageActivity() ?: appContext ?: return
+    private fun showOutcome(outcome: Outcome, ctx: Context? = stageActivity() ?: appContext) {
+        ctx ?: return
+        toast(ctx, outcome.message, outcome.success)
+    }
+
+    /**
+     * Catroid's toast on a stage. ToastUtil shows nothing without an activity,
+     * so with only the application context (no stage open, e.g. training ended
+     * after the user left the program) Android's own toast is used.
+     */
+    private fun toast(ctx: Context, message: String, success: Boolean) {
         mainHandler.post {
-            if (outcome.success) {
-                ToastUtil.showSuccess(ctx, outcome.message)
-            } else {
-                ToastUtil.showError(ctx, outcome.message)
+            when {
+                ctx !is Activity -> Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show()
+                success -> ToastUtil.showSuccess(ctx, message)
+                else -> ToastUtil.showError(ctx, message)
             }
         }
     }
@@ -473,10 +552,12 @@ class FaceNameTrainAction : Action() {
                 Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
         )
         pickerOwner = this
+        pickerOpen = true
         try {
             activity.startActivityForResult(intent, targetIndex + REQ_BASE)
         } catch (exception: ActivityNotFoundException) {
             Log.e(TAG, "No app to choose photos", exception)
+            pickerOpen = false
             pickerOwner = null
             pendingName = null
             showError(R.string.face_train_no_photo_picker)
@@ -516,11 +597,15 @@ class FaceNameTrainAction : Action() {
             return
         }
 
-        for (uri in uris) {
+        // Kept while training reads the photos, also if the stage is recreated
+        // meanwhile; released when training ends.
+        val persisted = uris.filter { uri ->
             try {
                 ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                true
             } catch (t: Throwable) {
                 Log.w(TAG, "Could not persist permission for $uri")
+                false
             }
         }
 
@@ -535,7 +620,7 @@ class FaceNameTrainAction : Action() {
         progressDone = 0
 
         show(DialogType.FACE_TRAIN_PROGRESS)
-        runTraining(ctx, current, name, uris)
+        runTraining(ctx, current, name, uris, persisted)
     }
 
     private fun urisOf(data: Intent): List<Uri> {
@@ -555,13 +640,15 @@ class FaceNameTrainAction : Action() {
 
     private fun refreshProgress() {
         for (view in progressViews) {
-            view.bar.max = progressTotal
-            view.bar.progress = progressDone
-            view.dialog.setMessage(progressText(view.dialog.context))
+            view.bar?.let {
+                it.max = progressTotal
+                it.progress = progressDone
+            }
+            view.dialog?.let { it.setMessage(progressText(it.context)) }
         }
     }
 
-    private fun runTraining(ctx: Context, current: Recognizer, name: String, uris: List<Uri>) {
+    private fun runTraining(ctx: Context, current: Recognizer, name: String, uris: List<Uri>, persisted: List<Uri>) {
         val onProgress = Recognizer.ProgressListener { done, total ->
             progressDone = done
             progressTotal = if (total > 0) total else 1
@@ -581,6 +668,8 @@ class FaceNameTrainAction : Action() {
             } catch (t: Throwable) {
                 error = "${t.javaClass.simpleName}: ${t.message}"
                 Log.e(TAG, "Training failed", t)
+            } finally {
+                releasePermissions(ctx, persisted)
             }
             val outcome = when {
                 error != null -> Outcome(ctx.getString(R.string.face_train_error, error), success = false)
@@ -593,6 +682,17 @@ class FaceNameTrainAction : Action() {
                 val shownFor = System.currentTimeMillis() - progressShownAt
                 val wait = if (progressViews.isNotEmpty() && shownFor < MIN_PROGRESS_MS) MIN_PROGRESS_MS - shownFor else 0L
                 mainHandler.postDelayed({ finishTraining(outcome) }, wait)
+            }
+        }
+    }
+
+    /** The photos have been read: their persisted permissions are not needed any more. */
+    private fun releasePermissions(ctx: Context, uris: List<Uri>) {
+        for (uri in uris) {
+            try {
+                ctx.contentResolver.releasePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            } catch (t: Throwable) {
+                Log.w(TAG, "Could not release the permission for $uri")
             }
         }
     }
@@ -616,13 +716,14 @@ class FaceNameTrainAction : Action() {
         // The brick whose photos these were, if it still runs; after a stage
         // restart that brick is gone and the brick of the new run takes over.
         // Only a brick that runs on the current stage may open the menu there:
-        // otherwise it would pause another program. The result then waits for
-        // the next training brick.
+        // otherwise it would pause another program. Without one the result is
+        // only shown, now, not kept for some later training brick.
         val owner = (listOf(trainingOwner, currentInstance) + waitingBricks + this)
             .firstOrNull { it?.isRunningOnTheCurrentStage == true }
         trainingOwner = null
         if (owner == null) {
-            synchronized(trainingLock) { pendingOutcome = outcome }
+            // Over whatever screen is in front, which may be another program.
+            showOutcome(outcome, appContext)
         } else {
             owner.showOutcome(outcome)
             owner.show(DialogType.FACE_TRAIN_MENU)
@@ -633,7 +734,7 @@ class FaceNameTrainAction : Action() {
             .forEach { it.show(DialogType.FACE_TRAIN_MENU) }
         for (view in views) {
             try {
-                view.dialog.dismiss()
+                view.dialog?.dismiss()
             } catch (t: Throwable) {
                 Log.w(TAG, "Progress dialog already gone")
             }

@@ -101,6 +101,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	public void initResources() {
 		FaceNameDetector.reset();
+		FaceNameTrainAction.onProgramStart();
 		failedResources = new HashSet<>();
 		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();

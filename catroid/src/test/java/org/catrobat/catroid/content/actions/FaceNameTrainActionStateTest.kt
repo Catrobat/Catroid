@@ -128,8 +128,10 @@ class FaceNameTrainActionStateTest {
         val oldBrick = runningBrick(listOf("Ada"))
         oldBrick.onPersonChosen("Ada")
 
-        StageActivity.activeStageActivity = WeakReference(stage())
+        val newStage = stage()
+        StageActivity.activeStageActivity = WeakReference(newStage)
         val newBrick = runningBrick(listOf("Ada"))
+        runsOn(newBrick, newStage)
         FaceNameTrainAction.currentInstance = newBrick
 
         FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)

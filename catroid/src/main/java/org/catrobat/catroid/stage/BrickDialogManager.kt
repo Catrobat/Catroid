@@ -346,6 +346,11 @@ class BrickDialogManager(val stageActivity: StageActivity) :
         if (closingStage || stageActivity.isFinishing || stageActivity.isDestroyed) {
             return
         }
+        // The name list closes because the photo picker opens: the stage stays
+        // paused behind it, and the picker's result opens the next dialog.
+        if (FaceNameTrainAction.isPickerOpen()) {
+            return
+        }
         StageLifeCycleController.stageResume(stageActivity)
     }
 }

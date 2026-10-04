@@ -24,8 +24,11 @@ package org.catrobat.catroid.stage
 
 import android.app.Dialog
 import android.content.DialogInterface
+import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.runs
 import io.mockk.unmockkStatic
 import io.mockk.verify
 import org.catrobat.catroid.content.actions.FaceNameTrainAction
@@ -67,6 +70,7 @@ class BrickDialogManagerTest {
     @Test
     fun closingADialogForThePhotoPickerDoesNotResumeTheStage() {
         mockkStatic(StageLifeCycleController::class)
+        every { StageLifeCycleController.stageResume(any()) } just runs
         FaceNameTrainAction.setPickerOpenForTest(true)
 
         dismissListener.onDismiss(mockk<Dialog>(relaxed = true))
@@ -77,6 +81,7 @@ class BrickDialogManagerTest {
     @Test
     fun closingTheLastDialogOtherwiseResumesTheStage() {
         mockkStatic(StageLifeCycleController::class)
+        every { StageLifeCycleController.stageResume(any()) } just runs
         FaceNameTrainAction.setPickerOpenForTest(false)
 
         dismissListener.onDismiss(mockk<Dialog>(relaxed = true))
