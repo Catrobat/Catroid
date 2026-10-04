@@ -2,6 +2,8 @@ package org.catrobat.catroid.content.actions
 
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -11,6 +13,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.bluetooth.BluetoothManager
+import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageResourceHolder
 import org.junit.After
@@ -23,6 +26,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 import java.lang.ref.WeakReference
 
 @RunWith(RobolectricTestRunner::class)
@@ -220,6 +224,54 @@ class FaceNameTrainActionStateTest {
         verify(exactly = 0) { recognizer.deletePerson("Bob") }
     }
 
+    // ---------------- Training that ends after the stage changed ----------------
+
+    /**
+     * Found in review: training runs on, the user leaves the program and opens
+     * another one. When training ends, its brick no longer runs; the result must
+     * not open the training menu on the other program's stage and pause it.
+     */
+    @Test
+    fun trainingThatEndsOnAnotherStageOpensNoMenuThere() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        val brick = runningBrick(recognizer)
+        FaceNameTrainAction::class.java.getDeclaredField("runsOn").apply { isAccessible = true }
+            .set(brick, WeakReference(oldStage))
+        FaceNameTrainAction.currentInstance = brick
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+
+        brick.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST,
+            StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        val shownOnTheOldStage = shown.size
+        StageActivity.activeStageActivity = WeakReference(stage())
+        waitForTrainingToFinish()
+
+        val shownLater = shown.drop(shownOnTheOldStage).map { it[0] }
+        assertFalse(
+            "No training menu on the other program's stage: $shownLater",
+            DialogType.FACE_TRAIN_MENU in shownLater
+        )
+        verify { recognizer.addEmbeddings(any(), any()) }
+    }
+
+    private fun waitForTrainingToFinish() {
+        val deadline = System.currentTimeMillis() + TRAINING_TIMEOUT_MS
+        while (FaceNameTrainAction.isTrainingForTest() && System.currentTimeMillis() < deadline) {
+            shadowOf(Looper.getMainLooper()).idle()
+            Thread.sleep(POLL_MS)
+        }
+        assertFalse("Training did not finish", FaceNameTrainAction.isTrainingForTest())
+    }
+
     private fun stage(): StageActivity {
         val stage = mockk<StageActivity>(relaxed = true)
         every { stage.isFinishing } returns false
@@ -303,5 +355,11 @@ class FaceNameTrainActionStateTest {
 
         assertTrue(action.act(0f))
         assertTrue(action.act(0f))
+    }
+
+    private companion object {
+        const val EMBEDDING_SIZE = 128
+        const val TRAINING_TIMEOUT_MS = 5000L
+        const val POLL_MS = 10L
     }
 }
