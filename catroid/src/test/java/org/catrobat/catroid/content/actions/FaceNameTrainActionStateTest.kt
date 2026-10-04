@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.every
 import io.mockk.mockk
@@ -28,6 +30,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import java.lang.ref.WeakReference
+import java.time.Duration
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class FaceNameTrainActionStateTest {
@@ -263,10 +268,69 @@ class FaceNameTrainActionStateTest {
         verify { recognizer.addEmbeddings(any(), any()) }
     }
 
+    /**
+     * Found in review: training runs on while the user leaves the program and
+     * opens it again, and the new run has two scripts with a training brick.
+     * Both show the progress dialog. When training ended, only the last one was
+     * closed; the other, which has no buttons, kept the stage paused for good.
+     * Every progress dialog closes, and every brick gets its name list back.
+     */
+    @Test
+    fun trainingRecoveredByTwoBricksClosesBothProgressDialogs() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val recognizer = recognizer(listOf("Ada"))
+        val trainingMayEnd = CountDownLatch(1)
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } answers {
+            trainingMayEnd.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        }
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, oldStage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainer.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST,
+            StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+
+        // The program is opened again while training runs: two training bricks.
+        val newStage = stage()
+        StageActivity.activeStageActivity = WeakReference(newStage)
+        val first = runningBrick(recognizer).also { runsOn(it, newStage) }
+        val second = runningBrick(recognizer).also { runsOn(it, newStage) }
+        FaceNameTrainAction.currentInstance = second
+        val firstDialog = mockk<AlertDialog>(relaxed = true)
+        val secondDialog = mockk<AlertDialog>(relaxed = true)
+        first.onProgressDialogShown(firstDialog, mockk<ProgressBar>(relaxed = true))
+        second.onProgressDialogShown(secondDialog, mockk<ProgressBar>(relaxed = true))
+        val shownBeforeTheEnd = shown.size
+
+        trainingMayEnd.countDown()
+        waitForTrainingToFinish()
+
+        verify { firstDialog.dismiss() }
+        verify { secondDialog.dismiss() }
+        val menusFor = shown.drop(shownBeforeTheEnd)
+            .filter { it[0] == DialogType.FACE_TRAIN_MENU }
+            .map { it[1] }
+        assertTrue("The first brick shows its names again: $menusFor", menusFor.any { it === first })
+        assertTrue("The second brick shows its names again: $menusFor", menusFor.any { it === second })
+    }
+
+    private fun runsOn(brick: FaceNameTrainAction, stage: StageActivity) {
+        FaceNameTrainAction::class.java.getDeclaredField("runsOn").apply { isAccessible = true }
+            .set(brick, WeakReference(stage))
+    }
+
     private fun waitForTrainingToFinish() {
         val deadline = System.currentTimeMillis() + TRAINING_TIMEOUT_MS
         while (FaceNameTrainAction.isTrainingForTest() && System.currentTimeMillis() < deadline) {
-            shadowOf(Looper.getMainLooper()).idle()
+            // Also runs what is posted with a delay (the progress dialog's minimum time).
+            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(POLL_MS))
             Thread.sleep(POLL_MS)
         }
         assertFalse("Training did not finish", FaceNameTrainAction.isTrainingForTest())
