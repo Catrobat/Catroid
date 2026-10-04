@@ -14,8 +14,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
+import java.io.Reader
 import java.io.Writer
 import org.robolectric.RobolectricTestRunner
 
@@ -29,6 +31,7 @@ class FaceDatabaseTest {
     private var savedMinSimilarity = 0f
     private var savedMinMargin = 0f
     private val savedOpenForWriting: (File) -> Writer = FileUtils.openForWriting
+    private val savedOpenForReading: (File) -> Reader = FileUtils.openForReading
 
     @Before
     fun setUp() {
@@ -46,6 +49,7 @@ class FaceDatabaseTest {
     @After
     fun tearDown() {
         FileUtils.openForWriting = savedOpenForWriting
+        FileUtils.openForReading = savedOpenForReading
         FileUtils.deleteAll()
         FaceDatabase.minSimilarity = savedMinSimilarity
         FaceDatabase.minMargin = savedMinMargin
@@ -175,6 +179,51 @@ class FaceDatabaseTest {
         assertEquals(listOf("Alice", "Bob"), restarted.getNames())
         assertEquals("Alice", restarted.match(unitVector(0))?.name)
         assertEquals("Bob", restarted.match(unitVector(1))?.name)
+    }
+
+    /**
+     * Found in a review of the load path: a file that could not be read loaded
+     * as empty, and the next change saved that empty state over the real files.
+     * A database that could not be read refuses to save until it can.
+     */
+    @Test
+    fun filesThatCannotBeReadAreNeverOverwritten() {
+        database.addPerson("Alice")
+        database.addPerson("Bob")
+        database.addEmbeddings(0, listOf(unitVector(0)))
+        database.addEmbeddings(1, listOf(unitVector(1)))
+        assertTrue(database.save())
+        FileUtils.openForReading = { file ->
+            if (file.name == FileUtils.DATA_FILE) throw IOException("I/O error")
+            FileReader(file)
+        }
+
+        val unreadable = FaceDatabase().apply { load() }
+        unreadable.addPerson("Carol")
+        assertFalse("A database that could not be read must not save", unreadable.save())
+
+        FileUtils.openForReading = savedOpenForReading
+        val restarted = FaceDatabase().apply { load() }
+        assertEquals(listOf("Alice", "Bob"), restarted.getNames())
+        assertEquals("Alice", restarted.match(unitVector(0))?.name)
+        assertEquals("Bob", restarted.match(unitVector(1))?.name)
+    }
+
+    /**
+     * Only this build writes 128 values per photo, so photos without a model
+     * file still come from it: they are not out of date, and still match.
+     */
+    @Test
+    fun photosWithoutAModelFileAreNotOutOfDate() {
+        database.addPerson("Alice")
+        database.addEmbeddings(0, listOf(unitVector(0)))
+        assertTrue(database.save())
+        assertTrue(FileUtils.file(FileUtils.MODEL_FILE).delete())
+
+        val reloaded = FaceDatabase().apply { load() }
+
+        assertFalse(reloaded.hasStaleEmbeddings())
+        assertEquals("Alice", reloaded.match(unitVector(0))?.name)
     }
 
     // ---------------- Photos from the FaceNet build (512 values) ----------------

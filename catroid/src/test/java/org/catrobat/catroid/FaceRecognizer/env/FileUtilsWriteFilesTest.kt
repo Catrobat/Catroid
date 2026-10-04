@@ -50,12 +50,14 @@ class FileUtilsWriteFilesTest {
     private lateinit var context: Context
     private lateinit var savedOpenForWriting: (File) -> Writer
     private lateinit var savedReplaceFile: (File, File) -> Unit
+    private lateinit var savedSyncFile: (File) -> Unit
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         savedOpenForWriting = FileUtils.openForWriting
         savedReplaceFile = FileUtils.replaceFile
+        savedSyncFile = FileUtils.syncFile
         FileUtils.init(context)
         FileUtils.deleteAll()
         assertTrue(FileUtils.writeFiles(OLD))
@@ -65,6 +67,7 @@ class FileUtilsWriteFilesTest {
     fun tearDown() {
         FileUtils.openForWriting = savedOpenForWriting
         FileUtils.replaceFile = savedReplaceFile
+        FileUtils.syncFile = savedSyncFile
         FileUtils.deleteAll()
     }
 
@@ -135,6 +138,66 @@ class FileUtilsWriteFilesTest {
 
         assertEquals(OLD.getValue(FileUtils.LABEL_FILE), FileUtils.readLines(FileUtils.LABEL_FILE))
         assertFalse(FileUtils.file(FileUtils.DATA_FILE).exists())
+        assertNoHelperFileLeft()
+    }
+
+    /**
+     * Found in a review of the save path: the new files were only flushed to
+     * the system, not written to storage, before they replaced the old ones and
+     * the backups were deleted. A power cut a few seconds after a save could
+     * leave empty or cut-off files and no backup. Every new file, and the
+     * journal, is on storage before anything is replaced.
+     */
+    @Test
+    fun everyNewFileIsOnStorageBeforeItReplacesAnOldOne() {
+        val synced = mutableListOf<String>()
+        FileUtils.syncFile = { file ->
+            synced.add(file.name)
+            savedSyncFile(file)
+        }
+        val moved = mutableListOf<String>()
+        FileUtils.replaceFile = { source, target ->
+            assertTrue("The journal is on storage before ${source.name} moves: $synced", "$JOURNAL.tmp" in synced)
+            if (source.name.endsWith(".tmp")) {
+                assertTrue("${source.name} is on storage before it moves: $synced", source.name in synced)
+            }
+            moved.add(target.name)
+            savedReplaceFile(source, target)
+        }
+
+        assertTrue(FileUtils.writeFiles(NEW))
+
+        assertFiles(NEW)
+        assertTrue("Every file was moved: $moved", NEW.keys.all { it in moved })
+    }
+
+    /**
+     * Found in the same review: when putting a backup back failed too, the
+     * journal was deleted anyway. The next start could not finish the job, and
+     * label and data no longer matched. The journal and the backups stay until
+     * every file is back.
+     */
+    @Test
+    fun aBackupThatCannotBePutBackIsRetriedAtTheNextStart() {
+        var restoreFailures = 1
+        FileUtils.replaceFile = { source, target ->
+            when {
+                target.name == FileUtils.DATA_FILE && source.name.endsWith(".tmp") ->
+                    throw IOException("Could not replace data")
+                source.name == FileUtils.LABEL_FILE + ".bak" && restoreFailures-- > 0 ->
+                    throw IOException("Could not put label back")
+                else -> savedReplaceFile(source, target)
+            }
+        }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertTrue("The journal stays for the next start", FileUtils.file(JOURNAL).exists())
+        assertTrue("The label backup stays", FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists())
+
+        FileUtils.recoverInterruptedWrite()
+
+        assertFiles(OLD)
         assertNoHelperFileLeft()
     }
 
