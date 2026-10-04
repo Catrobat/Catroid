@@ -305,21 +305,81 @@ class FaceNameTrainActionStateTest {
         FaceNameTrainAction.currentInstance = second
         val firstDialog = mockk<AlertDialog>(relaxed = true)
         val secondDialog = mockk<AlertDialog>(relaxed = true)
+        showCurrentScreen(first)
+        showCurrentScreen(second)
         first.onProgressDialogShown(firstDialog, mockk<ProgressBar>(relaxed = true))
         second.onProgressDialogShown(secondDialog, mockk<ProgressBar>(relaxed = true))
-        val shownBeforeTheEnd = shown.size
 
         trainingMayEnd.countDown()
         waitForTrainingToFinish()
 
         verify { firstDialog.dismiss() }
         verify { secondDialog.dismiss() }
-        val menusFor = shown.drop(shownBeforeTheEnd)
-            .filter { it[0] == DialogType.FACE_TRAIN_MENU }
-            .map { it[1] }
-        assertTrue("The first brick shows its names again: $menusFor", menusFor.any { it === first })
-        assertTrue("The second brick shows its names again: $menusFor", menusFor.any { it === second })
+        assertEquals("The first brick shows its names again, once", 1, menusShownFor(shown, first))
+        assertEquals("The second brick shows its names again, once", 1, menusShownFor(shown, second))
     }
+
+    /**
+     * Found in review: Android calls a dialog's onShow listener later, from the
+     * message queue. When training ended in between, the brick whose progress
+     * dialog was still opening was not counted as waiting; its late callback
+     * only closed the dialog, so the brick got no name list and its script
+     * waited for ever. Every brick that asked for the progress dialog gets
+     * exactly one name list, whenever its dialog appears.
+     */
+    @Test
+    fun aProgressDialogThatAppearsAfterTrainingEndedStillGivesItsBrickTheNames() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val recognizer = recognizer(listOf("Ada"))
+        val trainingMayEnd = CountDownLatch(1)
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } answers {
+            trainingMayEnd.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        }
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, oldStage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainer.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST,
+            StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        val newStage = stage()
+        StageActivity.activeStageActivity = WeakReference(newStage)
+        val first = runningBrick(recognizer).also { runsOn(it, newStage) }
+        val second = runningBrick(recognizer).also { runsOn(it, newStage) }
+        FaceNameTrainAction.currentInstance = second
+        val firstDialog = mockk<AlertDialog>(relaxed = true)
+        val secondDialog = mockk<AlertDialog>(relaxed = true)
+
+        // Both ask for the progress dialog; only the second one's has appeared.
+        showCurrentScreen(first)
+        showCurrentScreen(second)
+        second.onProgressDialogShown(secondDialog, mockk<ProgressBar>(relaxed = true))
+        trainingMayEnd.countDown()
+        waitForTrainingToFinish()
+        // Now the first brick's dialog appears.
+        first.onProgressDialogShown(firstDialog, mockk<ProgressBar>(relaxed = true))
+        shadowOf(Looper.getMainLooper()).idle()
+
+        verify { firstDialog.dismiss() }
+        verify { secondDialog.dismiss() }
+        assertEquals("The first brick shows its names again, once", 1, menusShownFor(shown, first))
+        assertEquals("The second brick shows its names again, once", 1, menusShownFor(shown, second))
+    }
+
+    /** What a running brick does when its first act() has loaded the models. */
+    private fun showCurrentScreen(brick: FaceNameTrainAction) {
+        FaceNameTrainAction::class.java.getDeclaredMethod("showCurrentScreen").apply { isAccessible = true }
+            .invoke(brick)
+    }
+
+    private fun menusShownFor(shown: List<List<*>>, brick: FaceNameTrainAction): Int =
+        shown.count { it[0] == DialogType.FACE_TRAIN_MENU && it[1] === brick }
 
     private fun runsOn(brick: FaceNameTrainAction, stage: StageActivity) {
         FaceNameTrainAction::class.java.getDeclaredField("runsOn").apply { isAccessible = true }
