@@ -6,6 +6,7 @@ import android.graphics.RectF
 import android.os.Build
 import android.os.Trace
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.io.IOException
@@ -50,13 +51,14 @@ class BlazeFace private constructor() {
         @JvmField val keypoints: FloatArray
     )
 
-    private inner class Detection(
+    /** One raw detection: box in 0..1 coordinates, score and landmarks. */
+    internal class Detection(
         val location: RectF,
         val score: Float,
         val keypoints: FloatArray
     )
 
-    private inner class IndexedScore(val index: Int, val score: Float)
+    private class IndexedScore(val index: Int, val score: Float)
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     fun detect(bitmap: Bitmap): MutableList<RectF> {
@@ -145,23 +147,7 @@ class BlazeFace private constructor() {
             return ArrayList<RectF>()
         }
 
-        val indexedScores: MutableList<IndexedScore> = ArrayList<IndexedScore>()
-        for (index in detections.indices) {
-            indexedScores.add(
-                IndexedScore(index, detections[index].score)
-            )
-        }
-        indexedScores.sortWith(
-            Comparator { o1, o2 ->
-                o2.score.compareTo(o1.score)
-            }
-        )
-
-        val retained: List<FaceBox> =
-            WeightedNonMaxSuppression(
-                indexedScores,
-                detections
-            ).toList()
+        val retained: List<FaceBox> = weightedNonMaxSuppression(detections).toList()
 
         Trace.endSection() // "detect"
 
@@ -183,87 +169,93 @@ class BlazeFace private constructor() {
         return lastFaces
     }
 
-    private fun WeightedNonMaxSuppression(
-        indexedScores: MutableList<IndexedScore>,
-        detections: List<Detection>
-    ): MutableList<FaceBox> {
-        val remainedIndexedScores: MutableList<IndexedScore> =
-            ArrayList<IndexedScore>(indexedScores)
-
-        val remained: MutableList<IndexedScore> = ArrayList<IndexedScore>()
-        val candidates: MutableList<IndexedScore> = ArrayList<IndexedScore>()
-        val outputLocations: MutableList<FaceBox> = ArrayList<FaceBox>()
-
-        while (remainedIndexedScores.isNotEmpty()) {
-            val detection = detections[remainedIndexedScores[0].index]
-            if (detection.score.toInt() < -1f) {
-                break
-            }
-
-            remained.clear()
-            candidates.clear()
-            val location = RectF(detection.location)
-            // This includes the first box.
-            for (indexed_score in remainedIndexedScores) {
-                val restLocation = RectF(detections[indexed_score.index].location)
-                val similarity =
-                    OverlapSimilarity(restLocation, location)
-                if (similarity > MIN_SUPPRESSION_THRESHOLD) {
-                    candidates.add(indexed_score)
-                } else {
-                    remained.add(indexed_score)
-                }
-            }
-            val weightedLocation = RectF(detection.location)
-            if (candidates.isNotEmpty()) {
-                var wxmin = 0.0f
-                var wymin = 0.0f
-                var wxmax = 0.0f
-                var wymax = 0.0f
-                var totalScore = 0.0f
-                for (candidate in candidates) {
-                    totalScore += candidate.score
-                    val bbox =
-                        detections[candidate.index].location
-                    wxmin += bbox.left * candidate.score
-                    wymin += bbox.top * candidate.score
-                    wxmax += bbox.right * candidate.score
-                    wymax += bbox.bottom * candidate.score
-                }
-                weightedLocation.left = wxmin / totalScore * INPUT_SIZE_WIDTH
-                weightedLocation.top = wymin / totalScore * INPUT_SIZE_HEIGHT
-                weightedLocation.right = wxmax / totalScore * INPUT_SIZE_WIDTH
-                weightedLocation.bottom = wymax / totalScore * INPUT_SIZE_HEIGHT
-            }
-            remainedIndexedScores.clear()
-            remainedIndexedScores.addAll(remained)
-            // Landmarks come from the seed, which is the highest scoring detection
-            // in this cluster. Averaging them adds nothing and blurs the eyes.
-            outputLocations.add(FaceBox(weightedLocation, detection.keypoints))
-        }
-
-        return outputLocations
-    }
-
-    // Computes an overlap similarity between two rectangles. Similarity measure is
-    // defined by overlap_type parameter.
-    private fun OverlapSimilarity(rect1: RectF, rect2: RectF): Float {
-        if (!RectF.intersects(rect1, rect2)) return 0.0f
-        val intersection = RectF()
-        intersection.setIntersect(rect1, rect2)
-
-        val intersectionArea = intersection.height() * intersection.width()
-        val normalization = (rect1.height() * rect1.width()
-            + rect2.height() * rect2.width() - intersectionArea)
-
-        return if (normalization > 0.0f) intersectionArea / normalization else 0.0f
-    }
-
     fun close() {
         interpreter.close()
     }
 
     companion object {
+        /**
+         * Merges overlapping boxes, best score first, into one face each. The best
+         * remaining box always belongs to its own cluster: a box without area, or
+         * with NaN coordinates, overlaps nothing, not even itself, and would
+         * otherwise stay in the list for ever.
+         */
+        @VisibleForTesting
+        internal fun weightedNonMaxSuppression(detections: List<Detection>): MutableList<FaceBox> {
+            val remainedIndexedScores: MutableList<IndexedScore> =
+                detections.indices.map { IndexedScore(it, detections[it].score) }
+                    .sortedByDescending { it.score }
+                    .toMutableList()
+
+            val remained: MutableList<IndexedScore> = ArrayList<IndexedScore>()
+            val candidates: MutableList<IndexedScore> = ArrayList<IndexedScore>()
+            val outputLocations: MutableList<FaceBox> = ArrayList<FaceBox>()
+
+            while (remainedIndexedScores.isNotEmpty()) {
+                val detection = detections[remainedIndexedScores[0].index]
+                if (detection.score.toInt() < -1f) {
+                    break
+                }
+
+                remained.clear()
+                candidates.clear()
+                val location = RectF(detection.location)
+                val seed = remainedIndexedScores[0]
+                for (indexed_score in remainedIndexedScores) {
+                    val restLocation = RectF(detections[indexed_score.index].location)
+                    val similarity =
+                        OverlapSimilarity(restLocation, location)
+                    if (indexed_score === seed || similarity > MIN_SUPPRESSION_THRESHOLD) {
+                        candidates.add(indexed_score)
+                    } else {
+                        remained.add(indexed_score)
+                    }
+                }
+                val weightedLocation = RectF(detection.location)
+                if (candidates.isNotEmpty()) {
+                    var wxmin = 0.0f
+                    var wymin = 0.0f
+                    var wxmax = 0.0f
+                    var wymax = 0.0f
+                    var totalScore = 0.0f
+                    for (candidate in candidates) {
+                        totalScore += candidate.score
+                        val bbox =
+                            detections[candidate.index].location
+                        wxmin += bbox.left * candidate.score
+                        wymin += bbox.top * candidate.score
+                        wxmax += bbox.right * candidate.score
+                        wymax += bbox.bottom * candidate.score
+                    }
+                    weightedLocation.left = wxmin / totalScore * INPUT_SIZE_WIDTH
+                    weightedLocation.top = wymin / totalScore * INPUT_SIZE_HEIGHT
+                    weightedLocation.right = wxmax / totalScore * INPUT_SIZE_WIDTH
+                    weightedLocation.bottom = wymax / totalScore * INPUT_SIZE_HEIGHT
+                }
+                remainedIndexedScores.clear()
+                remainedIndexedScores.addAll(remained)
+                // Landmarks come from the seed, which is the highest scoring detection
+                // in this cluster. Averaging them adds nothing and blurs the eyes.
+                outputLocations.add(FaceBox(weightedLocation, detection.keypoints))
+            }
+
+            return outputLocations
+        }
+
+        // Computes an overlap similarity between two rectangles. Similarity measure is
+        // defined by overlap_type parameter.
+        private fun OverlapSimilarity(rect1: RectF, rect2: RectF): Float {
+            if (!RectF.intersects(rect1, rect2)) return 0.0f
+            val intersection = RectF()
+            intersection.setIntersect(rect1, rect2)
+
+            val intersectionArea = intersection.height() * intersection.width()
+            val normalization = (rect1.height() * rect1.width()
+                + rect2.height() * rect2.width() - intersectionArea)
+
+            return if (normalization > 0.0f) intersectionArea / normalization else 0.0f
+        }
+
         private const val MODEL_FILE = "face_detection_front.tflite"
 
         const val INPUT_SIZE_HEIGHT: Int = 128

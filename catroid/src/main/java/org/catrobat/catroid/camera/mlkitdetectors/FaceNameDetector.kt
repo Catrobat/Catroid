@@ -194,12 +194,12 @@ object FaceNameDetector : Detector {
 
     private fun recogniseNow(task: Task) {
         val recognizer = loadRecognizer() ?: return
-        val scores = FaceNameWindow.scoreOf(recognizer, task.frame, task.frontCamera)
+        val scored = FaceNameWindow.scoreOf(recognizer, task.frame, task.frontCamera)
         synchronized(lock) {
             if (task.runId != runId) {
                 return
             }
-            val name = window.addScores(recognizer, scores, task.takenAt)
+            val name = window.addScores(recognizer, scored?.scores, task.takenAt, scored?.names)
             SensorHandler.setFaceNameRecognitionResult(name)
         }
     }

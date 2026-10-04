@@ -84,8 +84,10 @@ class FaceNameWindow {
      * here, when it holds no usable face. The frame is not modified or recycled.
      */
     @RequiresApi(Build.VERSION_CODES.N)
-    fun addFrame(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean, nowMs: Long): String =
-        addScores(recognizer, scoreOf(recognizer, frame, mirrorToo), nowMs)
+    fun addFrame(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean, nowMs: Long): String {
+        val scored = scoreOf(recognizer, frame, mirrorToo)
+        return addScores(recognizer, scored?.scores, nowMs, scored?.names)
+    }
 
     /**
      * Adds one analysed frame: [scores] has one score per enrolled person, in
@@ -93,7 +95,12 @@ class FaceNameWindow {
      * face. Returns the name, which is also [name].
      */
     @Synchronized
-    fun addScores(recognizer: Recognizer, scores: FloatArray?, nowMs: Long): String {
+    fun addScores(
+        recognizer: Recognizer,
+        scores: FloatArray?,
+        nowMs: Long,
+        scoredFor: List<String>? = null
+    ): String {
         if (scores == null) {
             val last = lastUsableFaceAt
             if (last == null || nowMs - last >= NO_FACE_RESET_MS) {
@@ -104,7 +111,7 @@ class FaceNameWindow {
         }
 
         val people = recognizer.classNames
-        if (scores.size != people.size) {
+        if (scores.size != people.size || (scoredFor != null && scoredFor != people)) {
             // Someone was added or deleted while this frame was scored.
             return name
         }
@@ -144,6 +151,14 @@ class FaceNameWindow {
                 totals[index] += scores[index]
             }
         }
+        // A person without a score in any frame (no usable photo then) has none
+        // in the average either; mixed with real scores it would look like a
+        // weak rival and lower the bar for everyone else.
+        for (index in totals.indices) {
+            if (frames.any { it[index] == FaceDatabase.NO_SCORE }) {
+                totals[index] = FaceDatabase.NO_SCORE * frames.size
+            }
+        }
         val session = recognizer.newSession().apply {
             this.totals = totals
             framesWithFace = frames.size
@@ -169,11 +184,11 @@ class FaceNameWindow {
          * face: none at all, or clipped highlights.
          */
         @RequiresApi(Build.VERSION_CODES.N)
-        fun scoreOf(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean): FloatArray? {
+        fun scoreOf(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean): Recognizer.ScoredFrame? {
             if (frame == null || recognizer.classNames.isEmpty() || isSeverelyOverexposed(frame)) {
                 return null
             }
-            return recognizer.scoreFrame(frame, mirrorToo)
+            return recognizer.scoreFrameForNames(frame, mirrorToo)
         }
 
         /**

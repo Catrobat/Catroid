@@ -686,7 +686,15 @@ class FaceEmbedder private constructor(
             Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
 
         fun create(assetManager: AssetManager): FaceEmbedder {
-            return FaceEmbedder(BlazeFace.create(assetManager), MobileFaceNet.create(assetManager))
+            val blazeFace = BlazeFace.create(assetManager)
+            val model = try {
+                MobileFaceNet.create(assetManager)
+            } catch (error: Throwable) {
+                // Otherwise the detector's interpreter and its native memory stay open.
+                blazeFace.close()
+                throw error
+            }
+            return FaceEmbedder(blazeFace, model)
         }
 
         /** Grows or shrinks a square box around its centre, kept inside the frame.  */

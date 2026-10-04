@@ -575,7 +575,7 @@ class FaceNameTrainAction : Action() {
                 val result = current.extractEmbeddings(ctx.contentResolver, uris, onProgress)
                 added = result.embeddings.size
                 if (added > 0) {
-                    current.addEmbeddings(current.addPerson(name), result.embeddings)
+                    current.addPhotos(name, result.embeddings)
                 }
                 Log.i(TAG, "Training '$name': " + result.report.joinToString(" | "))
             } catch (t: Throwable) {

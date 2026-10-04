@@ -772,7 +772,8 @@ class FaceDatabase {
          */
         private const val SAMPLE_WEIGHT = 1.0f
 
-        private val NO_SCORE = -2f
+        /** The score of a person who has no photo to compare with. */
+        internal const val NO_SCORE = -2f
         private const val VERSION = 1
 
         /**

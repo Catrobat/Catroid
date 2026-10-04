@@ -400,8 +400,19 @@ class Recognizer private constructor() {
         if (frame == null || frame.isRecycled()) {
             return mutableListOf()
         }
-        return synchronized(modelLock) { embedder!!.embedAllVariants(frame, true) }
+        return synchronized(modelLock) { embedder?.embedAllVariants(frame, true) ?: mutableListOf() }
     }
+
+    /**
+     * Stores the photos under [name], adding the name if it is new, in one step:
+     * a delete between adding the name and storing the photos would otherwise
+     * move them to the next person. Returns that person's photo count; throws
+     * IOException when the files could not be saved, and nothing changes then.
+     */
+    @Synchronized
+    @Throws(IOException::class)
+    fun addPhotos(name: String, embeddings: List<FloatArray>): Int =
+        addEmbeddings(addPerson(name), embeddings)
 
     /** Stores the embeddings under an existing person and writes the files. Throws IOException if that failed. */
     @Synchronized
@@ -447,7 +458,18 @@ class Recognizer private constructor() {
      * usable face. The frame is not modified and is not recycled.
      */
     @RequiresApi(Build.VERSION_CODES.N)
-    fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? {
+    fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? =
+        scoreFrameForNames(frame, mirrorToo)?.scores
+
+    /** Scores of one frame, with the names they belong to, in the same order. */
+    class ScoredFrame(val names: List<String>, val scores: FloatArray)
+
+    /**
+     * Like [scoreFrame], together with the names the scores were taken for: a
+     * person may be added or deleted before the caller uses them.
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun scoreFrameForNames(frame: Bitmap?, mirrorToo: Boolean): ScoredFrame? {
         if (frame == null || frame.isRecycled) {
             return null
         }
@@ -466,7 +488,7 @@ class Recognizer private constructor() {
                     "(${face.variants.size} views): " +
                     database.describeScoreArray(bestScores)
             )
-            return bestScores
+            return ScoredFrame(database.getNames(), bestScores)
         }
     }
 
@@ -647,125 +669,24 @@ class Recognizer private constructor() {
         return Result(match.index, match.name, match.similarity)
     }
 
+    /**
+     * Recognises the largest face in [frame] with the sensor's views and
+     * thresholds. The models run under [modelLock] only, the decision under
+     * this object's lock, as in [scoreFrame].
+     */
     @RequiresApi(Build.VERSION_CODES.N)
-    @Synchronized
     fun recognize(
         frame: Bitmap?,
         mirrorToo: Boolean
-    ): Result? = synchronized(modelLock) { recognizeWithModels(frame, mirrorToo) }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun recognizeWithModels(
-        frame: Bitmap?,
-        mirrorToo: Boolean
     ): Result? {
-        if (!isUsableBitmap(frame)) {
-            return null
+        val scored = scoreFrameForNames(frame, mirrorToo) ?: return null
+        synchronized(this) {
+            if (scored.names != database.getNames()) {
+                // Someone was added or deleted while the frame was scored.
+                return null
+            }
+            return createRecognitionResult(database.decide(scored.scores))
         }
-
-        val activeEmbedder = getActiveEmbedder()
-            ?: return null
-
-        database.ensureFresh()
-
-        val face = activeEmbedder.findBestFace(frame)
-
-        if (face == null) {
-            Log.i(
-                TAG,
-                "No face in frame: ${activeEmbedder.lastProblem}"
-            )
-            return null
-        }
-
-        val faceFrame = face.frame
-        val faceBox = face.box
-
-        if (!isValidDetectedFace(faceFrame, faceBox)) {
-            Log.i(
-                TAG,
-                "Recognition rejected: invalid detected face"
-            )
-
-            face.release(frame)
-            return null
-        }
-
-        val match = try {
-            findBestRecognitionMatch(
-                activeEmbedder = activeEmbedder,
-                face = face,
-                mirrorToo = mirrorToo
-            )
-        } catch (error: Exception) {
-            Log.e(
-                TAG,
-                "Face recognition failed",
-                error
-            )
-            null
-        } finally {
-            face.release(frame)
-        }
-
-        return createRecognitionResult(match)
-    }
-    private fun isUsableBitmap(
-        bitmap: Bitmap?
-    ): Boolean {
-        return bitmap != null && !bitmap.isRecycled
-    }
-
-    private fun getActiveEmbedder(): FaceEmbedder? {
-        val activeEmbedder = embedder
-
-        if (activeEmbedder == null) {
-            Log.e(
-                TAG,
-                "Recognition failed: embedder is not initialized"
-            )
-        }
-
-        return activeEmbedder
-    }
-
-    private fun isValidDetectedFace(
-        faceFrame: Bitmap?,
-        faceBox: Rect?
-    ): Boolean {
-        return faceFrame != null &&
-            !faceFrame.isRecycled &&
-            faceBox != null &&
-            faceBox.width() > 0 &&
-            faceBox.height() > 0
-    }
-
-    /**
-     * Scores the same aligned views as training and the stage sensor (three eye
-     * distances, each mirrored for the front camera) and keeps the best per
-     * person. A plain square crop does not match MobileFaceNet's aligned training
-     * views: on the fixtures it scored 0.29 where the aligned views score 0.70.
-     */
-    private fun findBestRecognitionMatch(
-        activeEmbedder: FaceEmbedder,
-        face: FaceEmbedder.Face,
-        mirrorToo: Boolean
-    ): FaceDatabase.Match? {
-        val views: List<FloatArray> = activeEmbedder.embedVariants(
-            frame = face.frame,
-            box = face.box,
-            includeMirror = mirrorToo,
-            leftEye = face.leftEye,
-            rightEye = face.rightEye
-        ).toList()
-        val scores = database.scoreAllVariants(views) ?: return null
-
-        Log.d(
-            TAG,
-            "Scores (${views.size} views): ${database.describeScoreArray(scores)}"
-        )
-
-        return database.decide(scores)
     }
 
     private fun createRecognitionResult(
@@ -1340,6 +1261,8 @@ class Recognizer private constructor() {
             synchronized(released) {
                 synchronized(released.modelLock) {
                     released.embedder?.close()
+                    // Anyone still holding this recogniser finds no models, not closed ones.
+                    released.embedder = null
                 }
             }
             instance = null

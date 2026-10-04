@@ -232,7 +232,7 @@ class FaceNameDetectorTest {
         var scored = 0
         val recognizer = mockk<Recognizer>(relaxed = true)
         every { recognizer.classNames } returns listOf("Ada")
-        every { recognizer.scoreFrame(any(), any()) } answers {
+        every { recognizer.scoreFrameForNames(any(), any()) } answers {
             scored++
             throw NoClassDefFoundError("org/tensorflow/lite/Interpreter")
         }

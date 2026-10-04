@@ -265,7 +265,7 @@ class FaceNameTrainActionStateTest {
             "No training menu on the other program's stage: $shownLater",
             DialogType.FACE_TRAIN_MENU in shownLater
         )
-        verify { recognizer.addEmbeddings(any(), any()) }
+        verify { recognizer.addPhotos("Ada", any()) }
     }
 
     /**
