@@ -1311,7 +1311,7 @@
     <!-- Lego Mindstorms Strings -->
     <string formatted="false" name="nxt_brick_motor_move">Definir motor NXT</string>
     <string formatted="false" name="nxt_motor_speed_to">para</string>
-    <string formatted="false" name="nxt_motor_speed">% de velocidade</string>
+    <string formatted="false" name="nxt_motor_speed">de velocidade</string>
     <string formatted="false" name="nxt_brick_motor_turn_angle">Girar motor NXT</string>
     <string formatted="false" name="nxt_motor_move_by">em</string>
     <string formatted="false" name="nxt_motor_stop">Parar motor NXT</string>
@@ -1413,7 +1413,7 @@
     <string formatted="false" name="brick_drone_set_rotation_speed">Limite de velocidade de rotação</string>
     <string formatted="false" name="brick_drone_set_tilt_limit">Limite de inclinação</string>
     <string formatted="false" name="brick_drone_with.">com</string>
-    <string formatted="false" name="brick_drone_power">% de potência</string>
+    <string formatted="false" name="brick_drone_power">de potência</string>
     <!--  -->
     <!-- Drone play led animation strings -->
     <string formatted="false" name="drone_animation_blinkgreenred">Piscar verde e vermelho</string>
