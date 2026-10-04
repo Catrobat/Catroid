@@ -32,6 +32,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import java.io.File
+import java.io.IOException
+import java.io.Writer
 
 /**
  * The face database stores one name per line. Found in review: a name with a
@@ -43,6 +46,7 @@ class RecognizerPersonNameTest {
 
     private lateinit var context: Context
     private lateinit var recognizer: Recognizer
+    private val savedOpenForWriting: (File) -> Writer = FileUtils.openForWriting
 
     @Before
     fun setUp() {
@@ -54,7 +58,36 @@ class RecognizerPersonNameTest {
 
     @After
     fun tearDown() {
+        FileUtils.openForWriting = savedOpenForWriting
         FileUtils.deleteAll()
+    }
+
+    // ---------------- Names that cannot be saved ----------------
+
+    /** A name the storage cannot take is not added, and the caller hears about it. */
+    @Test
+    fun aNameThatCannotBeSavedIsNotAdded() {
+        recognizer.addPerson("Ada")
+        failEveryWrite()
+
+        assertThrows(IOException::class.java) { recognizer.addPerson("Grace") }
+
+        assertEquals(listOf("Ada"), recognizer.classNames)
+    }
+
+    @Test
+    fun aDeleteThatCannotBeSavedKeepsTheName() {
+        recognizer.addPerson("Ada")
+        recognizer.addPerson("Grace")
+        failEveryWrite()
+
+        assertThrows(IOException::class.java) { recognizer.deletePerson("Ada") }
+
+        assertEquals(listOf("Ada", "Grace"), recognizer.classNames)
+    }
+
+    private fun failEveryWrite() {
+        FileUtils.openForWriting = { throw IOException("No space left on device") }
     }
 
     @Test

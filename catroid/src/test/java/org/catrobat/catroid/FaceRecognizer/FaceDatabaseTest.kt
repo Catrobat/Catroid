@@ -13,6 +13,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+import java.io.Writer
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -24,6 +28,7 @@ class FaceDatabaseTest {
     // not leak its values into whichever test runs next in the same JVM.
     private var savedMinSimilarity = 0f
     private var savedMinMargin = 0f
+    private val savedOpenForWriting: (File) -> Writer = FileUtils.openForWriting
 
     @Before
     fun setUp() {
@@ -40,6 +45,7 @@ class FaceDatabaseTest {
 
     @After
     fun tearDown() {
+        FileUtils.openForWriting = savedOpenForWriting
         FileUtils.deleteAll()
         FaceDatabase.minSimilarity = savedMinSimilarity
         FaceDatabase.minMargin = savedMinMargin
@@ -140,6 +146,35 @@ class FaceDatabaseTest {
         database.addEmbeddings(99, listOf(unitVector(0)))
 
         assertEquals(0, database.getEmbeddingCount(0))
+    }
+
+    /**
+     * Found in review: deleting Alice from [Alice, Bob] could save the new names
+     * and then fail on the photos, so after a restart Alice's photos were Bob's.
+     * A failed save keeps the files as they were and puts the database back.
+     */
+    @Test
+    fun aSaveThatFailsKeepsEveryoneWithTheirOwnPhotos() {
+        database.addPerson("Alice")
+        database.addPerson("Bob")
+        database.addEmbeddings(0, listOf(unitVector(0)))
+        database.addEmbeddings(1, listOf(unitVector(1)))
+        assertTrue(database.save())
+        FileUtils.openForWriting = { file ->
+            if (file.name.startsWith(FileUtils.DATA_FILE)) throw IOException("No space left on device")
+            FileWriter(file, false)
+        }
+
+        database.deletePerson(0)
+        assertFalse("A failed save must say so", database.save())
+
+        assertEquals(listOf("Alice", "Bob"), database.getNames())
+        assertEquals("Bob", database.match(unitVector(1))?.name)
+        FileUtils.openForWriting = savedOpenForWriting
+        val restarted = FaceDatabase().apply { load() }
+        assertEquals(listOf("Alice", "Bob"), restarted.getNames())
+        assertEquals("Alice", restarted.match(unitVector(0))?.name)
+        assertEquals("Bob", restarted.match(unitVector(1))?.name)
     }
 
     // ---------------- Photos from the FaceNet build (512 values) ----------------

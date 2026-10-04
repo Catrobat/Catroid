@@ -49,6 +49,7 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.stage.BrickDialogManagerTest"
   --tests "org.catrobat.catroid.io.RecentBrickListSerializerTest"
   --tests "org.catrobat.catroid.FaceRecognizer.env.FileUtilsWriteLinesTest"
+  --tests "org.catrobat.catroid.FaceRecognizer.env.FileUtilsWriteFilesTest"
   --tests "org.catrobat.catroid.FaceRecognizer.RecognizerPersonNameTest"
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
