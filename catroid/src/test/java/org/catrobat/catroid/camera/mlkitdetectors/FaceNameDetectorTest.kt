@@ -24,13 +24,16 @@ package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.graphics.Bitmap
 import android.media.Image
+import androidx.test.core.app.ApplicationProvider
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
@@ -314,6 +317,42 @@ class FaceNameDetectorTest {
         offerFrame()
 
         assertEquals("After a new start, frames wait for the sensor to be read again", 1, analysed)
+    }
+
+    /**
+     * Found in a review: pausing the stage (the app in the background, the stage
+     * menu, a brick's dialog) kept the window. The first face after the pause was
+     * averaged with up to two frames from before, so the old name stayed. A
+     * pause forgets the frames and the name; a frame from before the pause that
+     * is recognised after it is left out. Analysis stays on.
+     */
+    @Test
+    fun pausingTheStageForgetsTheFramesAndTheName() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        repeat(FaceNameWindow.FRAMES) {
+            offerFrame()
+            runRecognition()
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+        }
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        offerFrame()
+        FaceNameDetector.onStagePaused()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(0, FaceNameDetector.window.framesInWindow)
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Analysis goes on after the pause", 1, FaceNameDetector.window.framesInWindow)
+        FileUtils.deleteAll()
     }
 
     private fun readTheSensor() {
