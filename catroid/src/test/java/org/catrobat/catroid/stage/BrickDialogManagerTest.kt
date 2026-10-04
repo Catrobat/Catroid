@@ -22,9 +22,14 @@
  */
 package org.catrobat.catroid.stage
 
+import android.app.Dialog
 import android.content.DialogInterface
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import io.mockk.verify
+import org.catrobat.catroid.content.actions.FaceNameTrainAction
+import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,6 +50,39 @@ class BrickDialogManagerTest {
     private val stageActivity = mockk<StageActivity>(relaxed = true)
     private val manager = BrickDialogManager(stageActivity)
     private val dismissListener: DialogInterface.OnDismissListener = manager
+
+    @After
+    fun tearDown() {
+        FaceNameTrainAction.resetStateForTest(null)
+        unmockkStatic(StageLifeCycleController::class)
+    }
+
+    /**
+     * Found in a review: tapping a name opens the photo picker from inside the
+     * list, and Android closes the list afterwards. With no dialog left, the
+     * close resumed the stage behind the picker: sounds, sensors and the camera
+     * came back while the user was choosing photos. Not while the picker is open;
+     * its result opens the next dialog.
+     */
+    @Test
+    fun closingADialogForThePhotoPickerDoesNotResumeTheStage() {
+        mockkStatic(StageLifeCycleController::class)
+        FaceNameTrainAction.setPickerOpenForTest(true)
+
+        dismissListener.onDismiss(mockk<Dialog>(relaxed = true))
+
+        verify(exactly = 0) { StageLifeCycleController.stageResume(any()) }
+    }
+
+    @Test
+    fun closingTheLastDialogOtherwiseResumesTheStage() {
+        mockkStatic(StageLifeCycleController::class)
+        FaceNameTrainAction.setPickerOpenForTest(false)
+
+        dismissListener.onDismiss(mockk<Dialog>(relaxed = true))
+
+        verify(exactly = 1) { StageLifeCycleController.stageResume(stageActivity) }
+    }
 
     @Test
     fun aDismissNoticeWithoutItsDialogDoesNotCrash() {

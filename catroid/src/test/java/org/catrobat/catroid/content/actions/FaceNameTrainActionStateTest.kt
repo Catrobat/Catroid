@@ -1,6 +1,7 @@
 package org.catrobat.catroid.content.actions
 
 import android.content.ActivityNotFoundException
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.bluetooth.BluetoothManager
@@ -29,6 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
+import org.robolectric.shadows.ShadowToast
 import java.lang.ref.WeakReference
 import java.time.Duration
 import java.util.concurrent.CountDownLatch
@@ -371,6 +374,176 @@ class FaceNameTrainActionStateTest {
         assertEquals("The first brick shows its names again, once", 1, menusShownFor(shown, first))
         assertEquals("The second brick shows its names again, once", 1, menusShownFor(shown, second))
     }
+
+    // ---------------- Picker results across a new stage or a restart ----------------
+
+    /**
+     * Found in a review: Android recreated the stage while the photo picker was
+     * open. The result reached the new stage before the new run's brick had
+     * started, and went to the old brick, which opened its name list on the new
+     * stage; after Done the new brick opened its own, so the list came twice.
+     * The result now waits for the new run's brick, which shows one list.
+     */
+    @Test
+    fun aPickerResultForARecreatedStageWaitsForTheNewRunsBrick() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val recognizer = recognizer(listOf("Ada"))
+        val oldBrick = runningBrick(recognizer)
+        runsOn(oldBrick, oldStage)
+        FaceNameTrainAction.currentInstance = oldBrick
+        oldBrick.onPersonChosen("Ada")
+
+        val newStage = stage()
+        StageActivity.activeStageActivity = WeakReference(newStage)
+        FaceNameTrainAction.onProgramStart()
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        shadowOf(Looper.getMainLooper()).idle()
+        assertEquals("The old brick shows nothing on the new stage", 0, shownFor(shown, oldBrick))
+
+        val newBrick = runningBrick(recognizer).also { runsOn(it, newStage) }
+        FaceNameTrainAction.currentInstance = newBrick
+        showCurrentScreen(newBrick)
+        shadowOf(Looper.getMainLooper()).idle()
+
+        assertEquals("The new brick shows its name list once", 1, menusShownFor(shown, newBrick))
+        assertEquals(0, shownFor(shown, oldBrick))
+    }
+
+    /**
+     * Found in a review: after Restart from the stage menu the old run's brick
+     * was never finished and ran on the same stage, so it still took results.
+     * A brick of an earlier program run takes none.
+     */
+    @Test
+    fun aBrickFromBeforeARestartTakesNoResults() {
+        val shown = recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        val before = runningBrick(recognizer)
+        runsOn(before, stage)
+        FaceNameTrainAction.currentInstance = before
+        before.onPersonChosen("Ada")
+
+        FaceNameTrainAction.onProgramStart()
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        shadowOf(Looper.getMainLooper()).idle()
+        assertEquals("The brick from before the restart shows nothing", 0, shownFor(shown, before))
+
+        val after = runningBrick(recognizer).also { runsOn(it, stage) }
+        FaceNameTrainAction.currentInstance = after
+        showCurrentScreen(after)
+        shadowOf(Looper.getMainLooper()).idle()
+
+        assertEquals(1, menusShownFor(shown, after))
+    }
+
+    /**
+     * Found in a review: training that ended with no training brick running
+     * kept its result and showed it the next time any training brick ran, in
+     * any project, maybe much later. The result is shown when training ends.
+     */
+    @Test
+    fun aResultWithNoBrickRunningIsShownWhenTrainingEndsNotLater() {
+        val shown = recordDialogs()
+        val oldStage = stage()
+        StageActivity.activeStageActivity = WeakReference(oldStage)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, oldStage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainer.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST,
+            StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        StageActivity.activeStageActivity = WeakReference(stage())
+        val toastsBefore = ShadowToast.shownToastCount()
+        waitForTrainingToFinish()
+        shadowOf(Looper.getMainLooper()).idle()
+        assertEquals("The result is shown when training ends", toastsBefore + 1, ShadowToast.shownToastCount())
+
+        val later = runningBrick(recognizer).also { runsOn(it, StageActivity.activeStageActivity.get()!!) }
+        val toastsLater = ShadowToast.shownToastCount()
+        showCurrentScreen(later)
+        shadowOf(Looper.getMainLooper()).idle()
+
+        assertEquals("A later brick shows no old result", toastsLater, ShadowToast.shownToastCount())
+        assertEquals(1, menusShownFor(shown, later))
+    }
+
+    /**
+     * Found in a review: a stage that is closing, or already destroyed but not
+     * yet collected, is still the active one, so its bricks counted as running
+     * and took training results. They do not.
+     */
+    @Test
+    fun aBrickOfAClosingStageTakesNoTrainingResult() {
+        val shown = recordDialogs()
+        val closing = stage()
+        every { closing.isFinishing } returns true
+        StageActivity.activeStageActivity = WeakReference(closing)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, closing)
+        FaceNameTrainAction.currentInstance = trainer
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainer.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST,
+            StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        val shownBefore = shown.size
+
+        waitForTrainingToFinish()
+
+        assertFalse(
+            "No name list for a brick of a closing stage",
+            shown.drop(shownBefore).any { it[0] == DialogType.FACE_TRAIN_MENU }
+        )
+    }
+
+    /**
+     * Found in a review: every photo ever picked kept a persisted read
+     * permission, until the system limit per app. Training reads the photos
+     * at once; their permissions are released when it ends.
+     */
+    @Test
+    fun photoPermissionsAreReleasedWhenTrainingEnds() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val resolver = mockk<ContentResolver>(relaxed = true)
+        val appContext = spyk(context)
+        every { appContext.applicationContext } returns appContext
+        every { appContext.contentResolver } returns resolver
+        FaceNameTrainAction.resetStateForTest(appContext)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        val photo = Uri.parse("content://photos/1")
+
+        trainer.handleResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK, Intent().setData(photo))
+        waitForTrainingToFinish()
+
+        verify { resolver.takePersistableUriPermission(photo, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+        verify { resolver.releasePersistableUriPermission(photo, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    }
+
+    private fun shownFor(shown: List<List<*>>, brick: FaceNameTrainAction): Int =
+        shown.count { it[1] === brick }
 
     /** What a running brick does when its first act() has loaded the models. */
     private fun showCurrentScreen(brick: FaceNameTrainAction) {
