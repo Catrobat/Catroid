@@ -565,9 +565,13 @@ class FaceNameTrainAction : Action() {
 
         // The brick whose photos these were, if it still runs; after a stage
         // restart that brick is gone and the brick of the new run takes over.
-        val owner = trainingOwner?.takeIf { it.isRunningOnTheCurrentStage } ?: currentInstance ?: this
+        // Only a brick that runs on the current stage may open the menu there:
+        // otherwise it would pause another program. The result then waits for
+        // the next training brick.
+        val owner = listOf(trainingOwner, currentInstance, this)
+            .firstOrNull { it?.isRunningOnTheCurrentStage == true }
         trainingOwner = null
-        if (owner.stageActivity() == null) {
+        if (owner == null) {
             pendingOutcome = outcome
         } else {
             owner.showOutcome(outcome)
