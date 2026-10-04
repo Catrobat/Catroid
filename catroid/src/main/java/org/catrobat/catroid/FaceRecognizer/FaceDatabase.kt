@@ -5,7 +5,7 @@ import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.file
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.isReady
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.readLines
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeLines
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeFiles
 import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
 import java.util.Arrays
 import java.util.Locale
@@ -176,16 +176,26 @@ class FaceDatabase {
             }
         }
 
-        var ok = writeLines(FileUtils.LABEL_FILE, ArrayList<String>(names))
-        ok = ok and writeLines(FileUtils.DATA_FILE, dataLines)
-        ok = ok and writeLines(FileUtils.MODEL_FILE, modelLines)
-        stamp()
-
+        // The files refer to each other by person index: all or none are replaced.
+        val ok = writeFiles(
+            mapOf(
+                FileUtils.LABEL_FILE to ArrayList<String>(names),
+                FileUtils.DATA_FILE to dataLines,
+                FileUtils.MODEL_FILE to modelLines
+            )
+        )
         Log.i(
             TAG, ("Saved label(" + names.size + ") data(" + dataLines.size
                 + ") model(" + (modelLines.size - 1) + ") ok=" + ok)
         )
-        return ok
+        if (!ok) {
+            // The files are as before; so is the database, or it would not match them.
+            Log.e(TAG, "Could not save the face files; the change is undone")
+            load()
+            return false
+        }
+        stamp()
+        return true
     }
 
     private fun loadModel(): Boolean {
@@ -340,13 +350,13 @@ class FaceDatabase {
     }
 
     // ---------------- People ----------------
-    /** Changes the thresholds and writes them into the model file header.  */
+    /** Changes the thresholds and writes them into the model file header. False if that failed. */
     @Synchronized
-    fun setThresholds(similarity: Float, margin: Float) {
+    fun setThresholds(similarity: Float, margin: Float): Boolean {
         minSimilarity = max(0.05f, min(0.95f, similarity))
         minMargin = max(0f, min(0.5f, margin))
         Log.i(TAG, "Thresholds set to " + minSimilarity + " / " + minMargin)
-        save()
+        return save()
     }
 
     @Synchronized

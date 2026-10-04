@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
+import java.io.IOException
 import java.util.Locale
 import kotlin.collections.ArrayList
 import kotlin.collections.MutableList
@@ -44,8 +45,11 @@ class Recognizer private constructor() {
         get() = FaceDatabase.Companion.minMargin
 
     @Synchronized
+    @Throws(IOException::class)
     fun setThresholds(similarity: Float, margin: Float) {
-        database.setThresholds(similarity, margin)
+        if (!database.setThresholds(similarity, margin)) {
+            throw IOException("The face thresholds could not be saved")
+        }
     }
 
     @get:Synchronized
@@ -60,7 +64,12 @@ class Recognizer private constructor() {
         return database.getEmbeddingCount(index)
     }
 
+    /**
+     * Adds a person, or returns the index the name already has.
+     * Throws IOException when the face files could not be saved; nothing changes then.
+     */
     @Synchronized
+    @Throws(IOException::class)
     fun addPerson(name: String): Int {
         val safeName = name.trim()
         require(safeName.isNotEmpty()) { "Person name must not be blank" }
@@ -70,14 +79,22 @@ class Recognizer private constructor() {
             return existing
         }
         val index = database.addPerson(safeName)
-        database.save()
+        saveOrThrow()
         return index
     }
 
     @Synchronized
+    @Throws(IOException::class)
     fun deletePerson(index: Int) {
         database.deletePerson(index)
-        database.save()
+        saveOrThrow()
+    }
+
+    /** A failed save has already put the database back as it is on disk. */
+    private fun saveOrThrow() {
+        if (!database.save()) {
+            throw IOException("The face files could not be saved")
+        }
     }
 
     // ---------------- Training ----------------
@@ -369,11 +386,12 @@ class Recognizer private constructor() {
         return synchronized(modelLock) { embedder!!.embedAllVariants(frame, true) }
     }
 
-    /** Stores the embeddings under an existing person and writes both files.  */
+    /** Stores the embeddings under an existing person and writes the files. Throws IOException if that failed. */
     @Synchronized
+    @Throws(IOException::class)
     fun addEmbeddings(index: Int, embeddings: List<FloatArray>): Int {
         database.addEmbeddings(index, embeddings)
-        database.save()
+        saveOrThrow()
         return database.getEmbeddingCount(index)
     }
 

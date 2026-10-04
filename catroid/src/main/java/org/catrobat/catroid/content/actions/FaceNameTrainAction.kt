@@ -17,6 +17,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.ToastUtil
+import java.io.IOException
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
@@ -336,6 +337,11 @@ class FaceNameTrainAction : Action() {
             showError(R.string.face_train_name_rejected)
             show(DialogType.FACE_TRAIN_MENU)
             return
+        } catch (exception: IOException) {
+            Log.e(TAG, "Name not saved", exception)
+            showError(R.string.face_train_not_saved)
+            show(DialogType.FACE_TRAIN_MENU)
+            return
         }
         Log.i(TAG, "Added name '$name' at index $index")
         openImagePicker(index)
@@ -354,7 +360,12 @@ class FaceNameTrainAction : Action() {
     }
 
     fun onDeleteConfirmed(index: Int) {
-        recognizerOrInit()?.deletePerson(index)
+        try {
+            recognizerOrInit()?.deletePerson(index)
+        } catch (exception: IOException) {
+            Log.e(TAG, "Delete not saved", exception)
+            showError(R.string.face_train_not_saved)
+        }
         show(DialogType.FACE_TRAIN_MENU)
     }
 
