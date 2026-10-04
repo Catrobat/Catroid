@@ -105,9 +105,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
-public class ScriptFragment extends ListFragment implements ActionMode.Callback, BrickAdapter.OnBrickClickListener, BrickAdapter.SelectionListener, OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener, ProjectLoader.ProjectLoadListener {
+public class ScriptFragment extends ListFragment implements ActionMode.Callback, BrickAdapter.OnBrickClickListener, BrickAdapter.SelectionListener, OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener, ProjectLoader.ProjectLoadListener, BrickListView.OnMoveCommittedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -143,6 +142,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private Script scriptToFocus;
 
 	private SpriteActivity activity;
+	private boolean pendingMoveUndoSnapshot = false;
 
 	public static ScriptFragment newInstance(Brick brickToFocus) {
 		ScriptFragment scriptFragment = new ScriptFragment();
@@ -352,6 +352,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		currentProject.getBroadcastMessageContainer().update();
 
+		currentSceneName = currentScene.getName();
+		currentSpriteName = currentSprite.getName();
+
 		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
@@ -359,6 +362,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
+		listView.setOnMoveCommittedListener(this);
 
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS, R.string.formula_editor_object_number_of_backgrounds);
@@ -476,9 +480,18 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public void cancelMove() {
+		pendingMoveUndoSnapshot = false;
 		listView.cancelMove();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		adapter.updateItems(sprite);
+	}
+
+	@Override
+	public void onMoveCommitted() {
+		if (pendingMoveUndoSnapshot) {
+			copyProjectForUndoOption();
+			pendingMoveUndoSnapshot = false;
+		}
 	}
 
 	public boolean isCurrentlyHighlighted() {
@@ -598,6 +611,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public void addBrick(Brick brick) {
+		copyProjectForUndoOption();
 		try {
 			if (!brick.getClass().equals(UserDefinedReceiverBrick.class) && !brick.getClass().equals(UserDefinedBrick.class)) {
 				RecentBrickListManager.getInstance().addBrick(brick.clone());
@@ -714,7 +728,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
-		showUndo(false);
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
@@ -723,6 +736,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_copy_brick:
 			case R.string.brick_context_dialog_copy_script:
+				copyProjectForUndoOption();
 				try {
 					Brick clonedBrick = brick.getAllParts().get(0).clone();
 					adapter.addItem(position, clonedBrick);
@@ -741,6 +755,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
+				copyProjectForUndoOption();
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(false);
 				}
@@ -748,6 +763,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				break;
 			case R.string.brick_context_dialog_comment_out:
 			case R.string.brick_context_dialog_comment_out_script:
+				copyProjectForUndoOption();
 				for (Brick brickPart : brick.getAllParts()) {
 					brickPart.setCommentedOut(true);
 				}
@@ -791,10 +807,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public boolean onBrickLongClick(Brick brick, int position) {
-		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
+			pendingMoveUndoSnapshot = true;
 			listView.startMoving(brick);
 		}
 		return true;
@@ -847,6 +863,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void copy(List<Brick> selectedBricks) {
+		copyProjectForUndoOption();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		brickController.copy(selectedBricks, sprite);
 		adapter.updateItems(sprite);
@@ -869,6 +886,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void toggleComments(List<Brick> selectedBricks) {
+		copyProjectForUndoOption();
 		for (Brick brick : adapter.getItems()) {
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
@@ -886,97 +904,111 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
 		Project project = projectManager.getCurrentProject();
 		XstreamSerializer.getInstance().saveProject(project);
-		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
-		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
 
-		if (currentCodeFile.exists()) {
-			try {
-				StorageOperations.transferData(currentCodeFile, undoCodeFile);
-				saveVariables();
-				return true;
-			} catch (IOException exception) {
-				Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
-			}
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (spriteActivity != null && spriteActivity.getUndoManager() != null) {
+			saveVariables();
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
+					savedUserVariables, savedMultiplayerVariables, savedUserLists,
+					savedLocalUserVariables, savedLocalLists);
+			spriteActivity.getUndoManager().pushState(currentSceneName, currentSpriteName, snapshot);
+			spriteActivity.setUndoMenuItemVisibility(false);
+			spriteActivity.invalidateOptionsMenu();
+			return true;
 		}
 		return false;
 	}
 
+	private boolean isUndoRedoInProgress = false;
+
 	public void loadProjectAfterUndoOption() {
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
-		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
-		Context context = getContext();
-
-		if (!isAdded() || context == null) {
-			Log.w(TAG, "Cannot load project after undo because fragment is not attached.");
+		if (isUndoRedoInProgress) {
 			return;
 		}
-
-		if (!undoCodeFile.exists()) {
-			Log.e(TAG, "Undo code file " + UNDO_CODE_XML_FILE_NAME + " does not exist.");
-			ToastUtil.showError(context, R.string.error_load_project);
-			return;
-		}
-
-		if (currentCodeFile.exists()) {
-			try {
-				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null) {
-					spriteActivity.setUndoMenuItemVisibility(false);
-					spriteActivity.showUndo(false);
-				}
-				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
-			} catch (IOException exception) {
-				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
-				ToastUtil.showError(context, R.string.error_load_project);
-				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null && undoCodeFile.exists()) {
-					spriteActivity.setUndoMenuItemVisibility(true);
-					spriteActivity.showUndo(true);
-				}
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (spriteActivity != null && spriteActivity.getUndoManager() != null) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			XstreamSerializer.getInstance().saveProject(project);
+			saveVariables();
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
+					savedUserVariables, savedMultiplayerVariables, savedUserLists,
+					savedLocalUserVariables, savedLocalLists);
+			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popUndo(
+					currentSceneName, currentSpriteName, snapshot);
+			if (entry != null) {
+				isUndoRedoInProgress = true;
+				spriteActivity.showUndo(false);
+				spriteActivity.showRedo(false);
+				listView.cancelMove();
+				listView.cancelHighlighting();
+				restoreFromEntry(entry);
 			}
 		}
 	}
 
+	public void loadProjectAfterRedoOption() {
+		if (isUndoRedoInProgress) {
+			return;
+		}
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (spriteActivity != null && spriteActivity.getUndoManager() != null) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			XstreamSerializer.getInstance().saveProject(project);
+			saveVariables();
+			ProjectUndoManager.VariableSnapshot snapshot = new ProjectUndoManager.VariableSnapshot(
+					savedUserVariables, savedMultiplayerVariables, savedUserLists,
+					savedLocalUserVariables, savedLocalLists);
+			ProjectUndoManager.UndoEntry entry = spriteActivity.getUndoManager().popRedo(
+					currentSceneName, currentSpriteName, snapshot);
+			if (entry != null) {
+				isUndoRedoInProgress = true;
+				spriteActivity.showUndo(false);
+				spriteActivity.showRedo(false);
+				listView.cancelMove();
+				listView.cancelHighlighting();
+				restoreFromEntry(entry);
+			}
+		}
+	}
+
+	private void restoreFromEntry(ProjectUndoManager.UndoEntry entry) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		if (entry.sceneName != null) {
+			this.currentSceneName = entry.sceneName;
+		}
+		if (entry.spriteName != null) {
+			this.currentSpriteName = entry.spriteName;
+		}
+		this.savedUserVariables = entry.variableSnapshot.savedUserVariables;
+		this.savedMultiplayerVariables = entry.variableSnapshot.savedMultiplayerVariables;
+		this.savedUserLists = entry.variableSnapshot.savedUserLists;
+		this.savedLocalUserVariables = entry.variableSnapshot.savedLocalUserVariables;
+		this.savedLocalLists = entry.variableSnapshot.savedLocalLists;
+		new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
+	}
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		if (!isAdded() || getContext() == null) {
-			return;
-		}
-
-		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		isUndoRedoInProgress = false;
 		if (!success) {
-			Log.e(TAG, "Loading project after undo failed.");
-			ToastUtil.showError(getContext(), R.string.error_load_project);
-			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(true);
-				spriteActivity.showUndo(true);
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
+			if (getActivity() instanceof SpriteActivity spriteActivity) {
+				spriteActivity.invalidateOptionsMenu();
 			}
 			return;
 		}
-
-		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
-			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		if (adapter != null) {
+			adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
 		}
-
-		loadVariables();
-
-		if (spriteActivity != null) {
-			spriteActivity.setUndoMenuItemVisibility(false);
-			spriteActivity.showUndo(false);
-		}
-
-		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
-		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
-			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
-		}
-
-		if (getView() == null || listView == null) {
-			return;
+		if (checkVariables()) {
+			loadVariables();
 		}
 		refreshFragmentAfterUndo();
+		if (getActivity() instanceof SpriteActivity spriteActivity) {
+			spriteActivity.invalidateOptionsMenu();
+		}
 	}
 
 	private void saveVariables() {
@@ -996,31 +1028,25 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		return (project != null && hasProjectVariablesChanged(project))
-			|| (currentSprite != null && hasSpriteVariablesChanged(currentSprite));
-	}
-
-	private boolean hasProjectVariablesChanged(Project project) {
 		boolean changed = false;
-		if (savedUserVariables != null && project.getUserVariables() != null) {
-			changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+		if (project != null) {
+			if (savedUserVariables != null) {
+				changed |= project.hasUserDataChanged(project.getUserVariables(), savedUserVariables);
+			}
+			if (savedMultiplayerVariables != null) {
+				changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
+			}
+			if (savedUserLists != null) {
+				changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
+			}
 		}
-		if (savedMultiplayerVariables != null && project.getMultiplayerVariables() != null) {
-			changed |= project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables);
-		}
-		if (savedUserLists != null && project.getUserLists() != null) {
-			changed |= project.hasUserDataChanged(project.getUserLists(), savedUserLists);
-		}
-		return changed;
-	}
-
-	private boolean hasSpriteVariablesChanged(Sprite currentSprite) {
-		boolean changed = false;
-		if (savedLocalUserVariables != null && currentSprite.getUserVariables() != null) {
-			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
-		}
-		if (savedLocalLists != null && currentSprite.getUserLists() != null) {
-			changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+		if (currentSprite != null) {
+			if (savedLocalUserVariables != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables);
+			}
+			if (savedLocalLists != null) {
+				changed |= currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists);
+			}
 		}
 		return changed;
 	}
@@ -1055,8 +1081,12 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (!isAdded() || getActivity() == null || getParentFragmentManager().isStateSaved()) {
 			return;
 		}
-		Fragment scriptFragment = getParentFragmentManager().findFragmentByTag(TAG);
-		if (scriptFragment == null) {
+		Fragment scriptFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
+		if (!(scriptFragment instanceof ScriptFragment)) {
+			scriptFragment = getParentFragmentManager().findFragmentByTag(TAG);
+		}
+
+		if (!(scriptFragment instanceof ScriptFragment)) {
 			return;
 		}
 
@@ -1068,9 +1098,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		final FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
-		fragmentTransaction.commitNow();
+		fragmentTransaction.commitNowAllowingStateLoss();
 
 		if (listView != null
+				&& undoBrickPosition >= 0
 				&& (undoBrickPosition < listView.getFirstVisiblePosition()
 				|| undoBrickPosition > listView.getLastVisiblePosition())) {
 			listView.post(() -> listView.setSelection(undoBrickPosition));

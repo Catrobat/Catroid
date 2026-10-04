@@ -396,6 +396,7 @@ class ProjectListFragment(
             item ?: continue
             try {
                 projectManager.deleteDownloadedProjectInformation(item.name)
+                ProjectUndoManager.clearUndoHistoryForProject(item.directory)
                 StorageOperations.deleteDir(item.directory)
                 items.remove(item)
                 deletedProjectNames.add(item.name)
@@ -444,6 +445,7 @@ class ProjectListFragment(
         if (name != item.name) {
             val oldName = item.name
             setShowProgressBar(true)
+            ProjectUndoManager.clearUndoHistoryForProject(item.directory)
             ProjectRenamer(item.directory, name)
                 .renameProjectAsync({ success: Boolean ->
                     onRenameFinished(success)

@@ -106,9 +106,9 @@ def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
 
 android {
-    compileSdk = 35
+    compileSdkVersion 35
 
-    namespace = 'org.catrobat.catroid'
+    namespace 'org.catrobat.catroid'
 
     buildFeatures {
         buildConfig = true
