@@ -306,8 +306,12 @@ class FaceNameTrainAction : Action() {
     /** True while stored photos come from an older face model and must be added again. */
     fun needsRetraining(): Boolean = recognizerOrInit()?.needsRetraining() == true
 
-    fun onPersonChosen(index: Int) {
-        openImagePicker(index)
+    /**
+     * By name, not by row: another training menu may have deleted or added a
+     * person since this list was shown, and the row would then be someone else.
+     */
+    fun onPersonChosen(name: String) {
+        openImagePicker(name)
     }
 
     fun onAddNameChosen() {
@@ -344,7 +348,7 @@ class FaceNameTrainAction : Action() {
             return
         }
         Log.i(TAG, "Added name '$name' at index $index")
-        openImagePicker(index)
+        openImagePicker(name.trim())
     }
 
     fun onNewNameCancelled() {
@@ -355,13 +359,16 @@ class FaceNameTrainAction : Action() {
         show(DialogType.FACE_TRAIN_DELETE_CHOICE)
     }
 
-    fun onDeleteTargetChosen(index: Int) {
-        show(DialogType.FACE_TRAIN_DELETE_CONFIRM, index.toString())
+    fun onDeleteTargetChosen(name: String) {
+        show(DialogType.FACE_TRAIN_DELETE_CONFIRM, name)
     }
 
-    fun onDeleteConfirmed(index: Int) {
+    /** By name, like [onPersonChosen]: an older list must not delete someone else. */
+    fun onDeleteConfirmed(name: String) {
         try {
-            recognizerOrInit()?.deletePerson(index)
+            if (recognizerOrInit()?.deletePerson(name) == false) {
+                showError(R.string.face_train_name_missing)
+            }
         } catch (exception: IOException) {
             Log.e(TAG, "Delete not saved", exception)
             showError(R.string.face_train_not_saved)
@@ -400,11 +407,11 @@ class FaceNameTrainAction : Action() {
 
     // ---------------- Photo picker ----------------
 
-    private fun openImagePicker(targetIndex: Int) {
+    private fun openImagePicker(name: String) {
         val current = recognizerOrInit()
-        val name = current?.classNames?.getOrNull(targetIndex)
+        val targetIndex = current?.classNames?.indexOf(name) ?: -1
         val activity = stageActivity()
-        if (name == null || activity == null) {
+        if (targetIndex < 0 || activity == null) {
             showError(R.string.face_train_name_missing)
             show(DialogType.FACE_TRAIN_MENU)
             return

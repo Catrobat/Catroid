@@ -90,6 +90,23 @@ class Recognizer private constructor() {
         saveOrThrow()
     }
 
+    /**
+     * Deletes the person with this name. False if nobody has it any more, for
+     * example after another training menu deleted it: a row index from an older
+     * list would point at someone else by then.
+     */
+    @Synchronized
+    @Throws(IOException::class)
+    fun deletePerson(name: String): Boolean {
+        database.ensureFresh()
+        val index = database.indexOf(name)
+        if (index < 0) {
+            return false
+        }
+        deletePerson(index)
+        return true
+    }
+
     /** A failed save has already put the database back as it is on disk. */
     private fun saveOrThrow() {
         if (!database.save()) {
