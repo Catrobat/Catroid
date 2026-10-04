@@ -105,8 +105,19 @@ class FaceNameTrainAction : Action() {
         /** Result waiting to be shown, if training finished with no stage up. */
         private var pendingOutcome: Outcome? = null
 
-        private var progressDialog: AlertDialog? = null
-        private var progressBar: ProgressBar? = null
+        /** A progress dialog and the brick it was shown for. */
+        private class ProgressView(
+            val brick: FaceNameTrainAction,
+            val dialog: AlertDialog,
+            val bar: ProgressBar
+        )
+
+        /**
+         * Every open progress dialog. Several bricks can show one at a time: two
+         * scripts with a training brick, run again while training goes on.
+         * Main thread only.
+         */
+        private val progressViews = mutableListOf<ProgressView>()
         private var progressShownAt = 0L
 
         private val mainHandler = Handler(Looper.getMainLooper())
@@ -128,8 +139,7 @@ class FaceNameTrainAction : Action() {
             pendingOutcome = null
             progressTotal = 1
             progressDone = 0
-            progressDialog = null
-            progressBar = null
+            progressViews.clear()
             progressShownAt = 0L
             currentInstance = null
             pickerOwner = null
@@ -399,8 +409,7 @@ class FaceNameTrainAction : Action() {
             dialog.dismiss()
             return
         }
-        progressDialog = dialog
-        progressBar = bar
+        progressViews.add(ProgressView(this, dialog, bar))
         progressShownAt = System.currentTimeMillis()
         refreshProgress()
     }
@@ -511,12 +520,11 @@ class FaceNameTrainAction : Action() {
     // ---------------- Training ----------------
 
     private fun refreshProgress() {
-        val dialog = progressDialog ?: return
-        progressBar?.let {
-            it.max = progressTotal
-            it.progress = progressDone
+        for (view in progressViews) {
+            view.bar.max = progressTotal
+            view.bar.progress = progressDone
+            view.dialog.setMessage(progressText(view.dialog.context))
         }
-        dialog.setMessage(progressText(dialog.context))
     }
 
     private fun runTraining(ctx: Context, current: Recognizer, name: String, uris: List<Uri>) {
@@ -546,29 +554,32 @@ class FaceNameTrainAction : Action() {
                 else -> Outcome(ctx.getString(R.string.face_train_success), success = true)
             }
 
-            val shownFor = System.currentTimeMillis() - progressShownAt
-            val wait = if (progressDialog != null && shownFor < MIN_PROGRESS_MS) MIN_PROGRESS_MS - shownFor else 0L
-            mainHandler.postDelayed({ finishTraining(outcome) }, wait)
+            // On the main thread, where the progress dialogs are tracked.
+            mainHandler.post {
+                val shownFor = System.currentTimeMillis() - progressShownAt
+                val wait = if (progressViews.isNotEmpty() && shownFor < MIN_PROGRESS_MS) MIN_PROGRESS_MS - shownFor else 0L
+                mainHandler.postDelayed({ finishTraining(outcome) }, wait)
+            }
         }
     }
 
     /**
-     * Main thread. Returns to the name list: the list opens first and the
-     * progress dialog closes afterwards, so there is no gap between them.
+     * Main thread. Returns to the name list: the lists open first and the
+     * progress dialogs close afterwards, so there is no gap between them.
      */
     private fun finishTraining(outcome: Outcome) {
         trainingInProgress = false
-        val dialog = progressDialog
-        progressDialog = null
-        progressBar = null
+        val views = progressViews.toList()
+        progressViews.clear()
         progressShownAt = 0L
+        val waitingBricks = views.map { it.brick }.distinct()
 
         // The brick whose photos these were, if it still runs; after a stage
         // restart that brick is gone and the brick of the new run takes over.
         // Only a brick that runs on the current stage may open the menu there:
         // otherwise it would pause another program. The result then waits for
         // the next training brick.
-        val owner = listOf(trainingOwner, currentInstance, this)
+        val owner = (listOf(trainingOwner, currentInstance) + waitingBricks + this)
             .firstOrNull { it?.isRunningOnTheCurrentStage == true }
         trainingOwner = null
         if (owner == null) {
@@ -577,10 +588,16 @@ class FaceNameTrainAction : Action() {
             owner.showOutcome(outcome)
             owner.show(DialogType.FACE_TRAIN_MENU)
         }
-        try {
-            dialog?.dismiss()
-        } catch (t: Throwable) {
-            Log.w(TAG, "Progress dialog already gone")
+        // Every other brick that waited in a progress dialog gets its name list back too.
+        waitingBricks
+            .filter { it !== owner && it.isRunningOnTheCurrentStage }
+            .forEach { it.show(DialogType.FACE_TRAIN_MENU) }
+        for (view in views) {
+            try {
+                view.dialog.dismiss()
+            } catch (t: Throwable) {
+                Log.w(TAG, "Progress dialog already gone")
+            }
         }
     }
 
