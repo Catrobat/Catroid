@@ -4,9 +4,11 @@ import android.util.Log
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.file
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.isReady
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.readLines
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils.readAllLines
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils.recoverInterruptedWrite
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeFiles
 import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
+import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
 import kotlin.math.max
@@ -56,6 +58,13 @@ class FaceDatabase {
 
     private var loadedStamp = -1L
 
+    /**
+     * True when a face file exists but could not be read. The database is then
+     * empty in memory, and saving it would replace the real files with that:
+     * [save] refuses until a load succeeds.
+     */
+    private var unreadable = false
+
     // ---------------- Load and save ----------------
     @Synchronized
     fun load() {
@@ -63,16 +72,46 @@ class FaceDatabase {
         samples.clear()
         centroids.clear()
         outdatedPhotos.clear()
+        staleEmbeddings = false
 
-        for (name in readLines(FileUtils.LABEL_FILE)) {
+        if (!isReady) {
+            // FileUtils.init has not run: there is nothing to read yet.
+            unreadable = false
+            loadedStamp = -1L
+            return
+        }
+        // A save the app stopped in, or whose rollback failed, is finished first.
+        if (!recoverInterruptedWrite()) {
+            // Some files are new and some old; they must not be read together.
+            Log.e(TAG, "The face files are mid-save; nothing is read or saved until they are restored")
+            unreadable = true
+            loadedStamp = -1L
+            return
+        }
+        val labelLines: List<String>
+        val dataLines: List<String>
+        val modelLines: List<String>
+        try {
+            labelLines = readAllLines(FileUtils.LABEL_FILE)
+            dataLines = readAllLines(FileUtils.DATA_FILE)
+            modelLines = readAllLines(FileUtils.MODEL_FILE)
+        } catch (e: IOException) {
+            Log.e(TAG, "Could not read the face files; nothing is saved until they can be read", e)
+            unreadable = true
+            loadedStamp = -1L
+            return
+        }
+        unreadable = false
+
+        for (name in labelLines) {
             names.add(name)
             samples.add(ArrayList())
             centroids.add(null)
         }
 
-        val lines = readLines(FileUtils.DATA_FILE).map(::loadDataLine)
+        val lines = dataLines.map(::loadDataLine)
 
-        loadModelAndCheckPipeline()
+        loadModelAndCheckPipeline(modelLines)
         stamp()
 
         Log.i(
@@ -102,8 +141,7 @@ class FaceDatabase {
     }
 
     /** Reads the model file, or rebuilds the centroids, and marks photos from another pipeline. */
-    private fun loadModelAndCheckPipeline() {
-        staleEmbeddings = false
+    private fun loadModelAndCheckPipeline(modelLines: List<String>) {
         if (outdatedPhotos.isNotEmpty()) {
             Log.e(
                 TAG, "STORED PHOTOS ARE OUT OF DATE. " + outdatedPhotos.keys +
@@ -111,18 +149,13 @@ class FaceDatabase {
                     EMBEDDING_SIZE + " values. Add their photos again."
             )
         }
-        if (loadModel()) {
+        if (loadModel(modelLines)) {
             return
         }
+        // No usable model file. Photos of this embedding size can only come
+        // from this pipeline (older ones are outdated photos above), so only
+        // the centroids need rebuilding.
         rebuildCentroids()
-        // No readable model file, so the pipeline that made the data is unknown.
-        if (outdatedPhotos.isEmpty() && samples.any { it.isNotEmpty() }) {
-            staleEmbeddings = true
-            Log.w(
-                TAG, "No model header, cannot tell which pipeline made these "
-                    + "photos. Retrain if detection returns Unknown."
-            )
-        }
     }
 
     /** Keeps a data line of another embedding size for [outdatedPhotos]. False if it is no such line. */
@@ -150,6 +183,12 @@ class FaceDatabase {
 
     @Synchronized
     fun save(): Boolean {
+        if (unreadable) {
+            // Saving would write the empty database over files that are still there.
+            Log.e(TAG, "Not saving: the face files could not be read; the change is undone")
+            load()
+            return false
+        }
         rebuildCentroids()
 
         val dataLines: MutableList<String> = ArrayList<String>()
@@ -198,9 +237,7 @@ class FaceDatabase {
         return true
     }
 
-    private fun loadModel(): Boolean {
-        val lines: List<String> = readLines(FileUtils.MODEL_FILE)
-
+    private fun loadModel(lines: List<String>): Boolean {
         if (lines.isEmpty()) {
             return false
         }

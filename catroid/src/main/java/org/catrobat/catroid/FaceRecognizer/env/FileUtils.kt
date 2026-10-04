@@ -9,10 +9,14 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
+import java.io.RandomAccessFile
+import java.io.Reader
 import java.io.Writer
+import java.nio.channels.FileChannel
 import java.nio.file.AtomicMoveNotSupportedException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
 
 /**
  * Single source of truth for where face data lives.
@@ -74,32 +78,49 @@ object FileUtils {
         return File(rootDir, fileName)
     }
 
+    /** All non-empty lines of the file; an empty list if it is missing or cannot be read. */
     @JvmStatic
     @Synchronized
     fun readLines(fileName: String): MutableList<String> {
-        val out = mutableListOf<String>()
         if (rootDir == null) {
             Log.e(TAG, "readLines before init")
-            return out
+            return mutableListOf()
         }
+        return try {
+            readAllLines(fileName)
+        } catch (e: IOException) {
+            Log.e(TAG, "Error reading " + fileName, e)
+            mutableListOf()
+        }
+    }
+
+    /**
+     * All non-empty lines of the file; an empty list if it does not exist. A
+     * file that exists but cannot be read throws, so that a caller never takes
+     * it for an empty one and saves that over it.
+     */
+    @Synchronized
+    @Throws(IOException::class)
+    fun readAllLines(fileName: String): MutableList<String> {
+        val out = mutableListOf<String>()
         val f = file(fileName)
         if (!f.exists()) {
             return out
         }
-        try {
-            BufferedReader(FileReader(f)).use { reader ->
-                while (true) {
-                    val line = reader.readLine()?.trim() ?: break
-                    if (line.isNotEmpty()) {
-                        out.add(line)
-                    }
+        BufferedReader(openForReading(f)).use { reader ->
+            while (true) {
+                val line = reader.readLine()?.trim() ?: break
+                if (line.isNotEmpty()) {
+                    out.add(line)
                 }
             }
-        } catch (e: IOException) {
-            Log.e(TAG, "Error reading " + fileName, e)
         }
         return out
     }
+
+    /** Opens a file for [readAllLines]; the tests replace it to make a read fail. */
+    @VisibleForTesting
+    internal var openForReading: (File) -> Reader = { FileReader(it) }
 
     /** Opens a file for [writeLines]; the tests replace it to make a write fail. */
     @VisibleForTesting
@@ -141,6 +162,9 @@ object FileUtils {
      *    file is moved to "<name>.bak" and every temporary file into place. A
      *    failure here moves the backups back.
      * 3. Deleting the journal completes the write; the backups go after it.
+     * Every new file and the journal are synced to storage before anything is
+     * moved, and the moves before the journal is deleted, so a power cut at any
+     * point leaves either the old files or the new ones.
      * If the app stops during step 2, [recoverInterruptedWrite] undoes it at the
      * next start.
      */
@@ -173,8 +197,11 @@ object FileUtils {
             recoverInterruptedWrite()
             return false
         }
+        // The moves must be on storage before the journal, which could undo them, goes.
+        syncDirectory()
         deleteTemporary(file(SAVE_JOURNAL))
         files.keys.forEach { deleteTemporary(file("$it.bak")) }
+        syncDirectory()
         return true
     }
 
@@ -184,32 +211,60 @@ object FileUtils {
      * removed. Without a journal it only clears leftovers.
      */
     @Synchronized
-    fun recoverInterruptedWrite() {
-        val root = rootDir ?: return
+    fun recoverInterruptedWrite(): Boolean {
+        val root = rootDir ?: return false
         val journal = File(root, SAVE_JOURNAL)
         if (journal.exists()) {
             Log.w(TAG, "The last save of the face files did not complete; restoring the files before it")
+            var restored = true
             for (entry in readLines(SAVE_JOURNAL)) {
                 val parts = entry.split(" ")
                 val name = parts.getOrNull(0) ?: continue
                 val existed = parts.getOrNull(1) == "1"
                 val backup = File(root, "$name.bak")
                 when {
-                    backup.exists() -> restore(backup, File(root, name))
+                    backup.exists() -> restored = restore(backup, File(root, name)) && restored
                     !existed -> deleteTemporary(File(root, name))
                 }
             }
+            if (!restored) {
+                // Keep the journal and the backups: the next start tries again.
+                Log.e(TAG, "Could not put every face file back; trying again at the next start")
+                root.listFiles()?.filter { it.name.endsWith(".tmp") }?.forEach { deleteTemporary(it) }
+                return false
+            }
+            syncDirectory()
             deleteTemporary(journal)
         }
         root.listFiles()?.filter { it.name.endsWith(".tmp") || it.name.endsWith(".bak") }
             ?.forEach { deleteTemporary(it) }
+        return true
     }
 
-    private fun restore(backup: File, target: File) {
-        try {
-            replace(backup, target)
+    private fun restore(backup: File, target: File): Boolean {
+        return try {
+            replaceFile(backup, target)
+            true
         } catch (e: IOException) {
             Log.e(TAG, "Could not restore " + target.getName(), e)
+            false
+        }
+    }
+
+    /** Writes a file's data through to storage; the tests replace it to watch the order. */
+    @VisibleForTesting
+    internal var syncFile: (File) -> Unit = { file ->
+        RandomAccessFile(file, "rw").use { it.fd.sync() }
+    }
+
+    /** Writes the folder's entries (the moves and deletes) through to storage, where the system allows it. */
+    private fun syncDirectory() {
+        val root = rootDir ?: return
+        try {
+            FileChannel.open(root.toPath(), StandardOpenOption.READ).use { it.force(true) }
+        } catch (e: Exception) {
+            // Not every file system lets a folder be opened; the file syncs still hold.
+            Log.w(TAG, "Could not sync the face data folder", e)
         }
     }
 
@@ -226,6 +281,9 @@ object FileUtils {
                 // close() does not flush the writer underneath; a failed flush must show.
                 writer.flush()
             }
+            // flush() only hands the data to the system; it must be on storage
+            // before this file replaces the old one.
+            syncFile(temp)
             return true
         } catch (e: IOException) {
             Log.e(TAG, "Error writing " + fileName + "; the old file is kept", e)
