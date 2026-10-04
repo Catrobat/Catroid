@@ -46,7 +46,14 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
-        imageProxy.image?.let { mediaImage ->
+        val mediaImage = imageProxy.image
+        if (mediaImage == null || activeDetectors.isEmpty()) {
+            // Nobody would release this frame, and the camera sends no more until
+            // it is: every AI setting off, or a frame without an image.
+            imageProxy.close()
+            return
+        }
+        mediaImage.let { mediaImage ->
             val completeListener = DetectorsCompleteListener(activeDetectors.size, imageProxy)
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
             for (detector in activeDetectors) {

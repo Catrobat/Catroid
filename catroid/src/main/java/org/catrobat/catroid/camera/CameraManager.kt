@@ -39,9 +39,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import org.koin.java.KoinJavaComponent.get
 
@@ -112,6 +114,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     @Synchronized
     fun destroy() {
         lifecycle.currentState = Lifecycle.State.DESTROYED
+        analysisExecutor.shutdown()
     }
 
     @Synchronized
@@ -232,14 +235,24 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         }
     }
 
+    /** One analysis thread per camera manager, reused on every bind, ended in [destroy]. */
+    private val analysisExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor() }
+
     @UiThread
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
+        // Face names need no mobile services, unlike the ML Kit and Huawei detectors.
+        val faceNames = isAIFaceNameDetectionSharedPreferenceEnabled(stageActivity)
         if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
             CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
+            analysisUseCase.setAnalyzer(analysisExecutor, CatdroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
+            analysisUseCase.setAnalyzer(
+                analysisExecutor,
+                if (faceNames) FaceNameFirstAnalyzer(FaceTextPoseDetectorHuawei) else FaceTextPoseDetectorHuawei
+            )
+        } else if (faceNames) {
+            analysisUseCase.setAnalyzer(analysisExecutor, FaceNameFirstAnalyzer(null))
         }
     }
 

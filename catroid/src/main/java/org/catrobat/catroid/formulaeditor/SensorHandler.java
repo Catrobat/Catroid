@@ -87,7 +87,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
-	private static String faceNameRecognitionResult = "Unknown";
+	// Written on the face name recognition thread, read on the GL thread.
+	private static volatile String faceNameRecognitionResult = "Unknown";
 
 	private LocationManager locationManager;
 	private boolean isGpsConnected;

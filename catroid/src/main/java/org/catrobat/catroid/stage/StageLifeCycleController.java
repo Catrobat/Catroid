@@ -37,6 +37,7 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -153,6 +154,7 @@ public final class StageLifeCycleController {
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
 
 			SensorHandler.stopSensorListeners();
+			FaceNameDetector.onStagePaused();
 			SoundManager.getInstance().pause();
 			MidiSoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
@@ -258,6 +260,8 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager = null;
 			}
 			SensorHandler.destroy();
+			// The name of this run must not show in the formula editor afterwards.
+			FaceNameDetector.reset();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}

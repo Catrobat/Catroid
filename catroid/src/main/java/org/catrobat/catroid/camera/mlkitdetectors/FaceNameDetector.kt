@@ -115,17 +115,29 @@ object FaceNameDetector : Detector {
         onCompleteListener: DetectorsCompleteListener
     ) {
         val task = try {
-            takeFrame(mediaImage, inputImage.rotationDegrees)
-        } catch (exception: RuntimeException) {
-            Log.e(TAG, "Could not read the camera frame", exception)
-            null
-        } catch (error: OutOfMemoryError) {
-            Log.e(TAG, "No memory for the camera frame; skipped", error)
-            null
+            readFrame(mediaImage, inputImage.rotationDegrees)
         } finally {
             onCompleteListener.onComplete()
         }
         task?.let { recognise(it) }
+    }
+
+    /**
+     * The same for an analyser without ML Kit (Huawei devices, or no mobile
+     * services): the frame is read here, and the caller releases it afterwards.
+     */
+    fun analyseFrame(mediaImage: Image, rotationDegrees: Int) {
+        readFrame(mediaImage, rotationDegrees)?.let { recognise(it) }
+    }
+
+    private fun readFrame(mediaImage: Image, rotationDegrees: Int): Task? = try {
+        takeFrame(mediaImage, rotationDegrees)
+    } catch (exception: RuntimeException) {
+        Log.e(TAG, "Could not read the camera frame", exception)
+        null
+    } catch (error: OutOfMemoryError) {
+        Log.e(TAG, "No memory for the camera frame; skipped", error)
+        null
     }
 
     /**
@@ -138,6 +150,21 @@ object FaceNameDetector : Detector {
         if (!activated) {
             activated = true
             Log.i(TAG, "Face name analysis started: the program read the sensor")
+        }
+    }
+
+    /**
+     * The stage pauses (the app in the background, the stage menu, a brick's
+     * dialog): the people in front of the camera may have changed when it
+     * resumes. The frames and the name are forgotten, and a frame from before
+     * the pause that is still being recognised is left out. Analysis stays on.
+     */
+    @JvmStatic
+    fun onStagePaused() {
+        synchronized(lock) {
+            runId++
+            window.clear()
+            SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
     }
 

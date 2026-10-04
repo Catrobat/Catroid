@@ -394,7 +394,10 @@ dependencies {
     } else {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
-    implementation 'org.tensorflow:tensorflow-lite:2.12.0'
+    // LiteRT is TensorFlow Lite under its new name (same org.tensorflow.lite API).
+    // 1.4.0 ships 16 KB aligned native libraries, which Android 15+ devices and
+    // Google Play need; tensorflow-lite 2.12.0 was aligned to 4 KB.
+    implementation 'com.google.ai.edge.litert:litert:1.4.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'

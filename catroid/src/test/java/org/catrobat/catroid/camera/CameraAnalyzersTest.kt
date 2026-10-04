@@ -28,6 +28,7 @@ import androidx.camera.core.ImageProxy
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
@@ -46,10 +47,12 @@ import java.util.concurrent.Executor
 class CameraAnalyzersTest {
 
     private val savedExecutor: Executor = FaceNameDetector.recognitionExecutor
+    private val savedRecognizerProvider: () -> Recognizer? = FaceNameDetector.recognizerProvider
 
     @After
     fun tearDown() {
         FaceNameDetector.recognitionExecutor = savedExecutor
+        FaceNameDetector.recognizerProvider = savedRecognizerProvider
         FaceNameDetector.frameSource = null
         FaceNameDetector.reset()
         CatdroidImageAnalyzer.setActiveDetectorsWithContext(null)
@@ -89,7 +92,9 @@ class CameraAnalyzersTest {
     @Test
     fun withoutGooglePlayServicesFaceNamesAreStillAnalysedAndTheFrameReleasedOnce() {
         var analysed = 0
-        FaceNameDetector.recognitionExecutor = Executor { }
+        // Recognition runs at once, without models, so nothing stays busy.
+        FaceNameDetector.recognitionExecutor = Executor { it.run() }
+        FaceNameDetector.recognizerProvider = { null }
         FaceNameDetector.frameSource = {
             analysed++
             null
