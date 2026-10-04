@@ -34,6 +34,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.VisibleForTesting
 import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +43,7 @@ import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
@@ -241,13 +243,50 @@ object ShortcutDialogHelper {
     ) {
         val currentProject = ProjectManager.getInstance()?.currentProject
         if (currentProject != null && currentProject.name == projectName) {
-            currentProject.name = newName
+            relocateOpenProject(currentProject, newName)
         }
-        ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
         CoroutineScope(mainDispatcher).launch {
+            // Migrate existing shortcuts first so pinning reuses their ID instead of
+            // publishing a second shortcut for the same project.
             ShortcutHelper.updateShortcutOnRename(context, projectName, newName)
+            ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
+            onProjectRenamed?.invoke(projectName, newName)
         }
-        onProjectRenamed?.invoke(projectName, newName)
+    }
+
+    /**
+     * Points the loaded project at its renamed directory. The directory and all look/sound
+     * file references are updated in memory, so unsaved edits are preserved and later saves
+     * (e.g. in onPause) are written to the new folder instead of recreating the old one.
+     */
+    @VisibleForTesting
+    fun relocateOpenProject(project: Project, newName: String) {
+        val oldDirectory = project.directory
+        val newDirectory = File(
+            oldDirectory.parentFile,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
+        )
+        project.name = newName
+        project.directory = newDirectory
+
+        project.sceneList.forEach { scene ->
+            scene.spriteList.forEach { sprite ->
+                sprite.lookList.forEach { look ->
+                    look.file = relocateFile(look.file, oldDirectory, newDirectory)
+                }
+                sprite.soundList.forEach { sound ->
+                    sound.file = relocateFile(sound.file, oldDirectory, newDirectory)
+                }
+            }
+        }
+    }
+
+    private fun relocateFile(file: File?, oldDirectory: File, newDirectory: File): File? {
+        file ?: return null
+        val oldPath = oldDirectory.absolutePath + File.separator
+        val filePath = file.absolutePath
+        if (!filePath.startsWith(oldPath)) return file
+        return File(newDirectory, filePath.removePrefix(oldPath))
     }
 
     fun showShortcutPermissionDialog(

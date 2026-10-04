@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.ui.shortcut
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.content.pm.ShortcutInfoCompat
@@ -40,6 +41,7 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutTrampolineActivity
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -71,12 +73,28 @@ class ShortcutHelperTest {
     @Before
     fun setUp() {
         mockkStatic(ShortcutManagerCompat::class)
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns emptyList()
+        every { ShortcutManagerCompat.getShortcuts(any(), any()) } returns emptyList()
+        every { ShortcutManagerCompat.getMaxShortcutCountPerActivity(any()) } returns 5
     }
 
     @After
     fun tearDown() {
         unmockkAll()
         ShadowBuild.reset()
+    }
+
+    private fun projectShortcut(
+        id: String,
+        projectName: String,
+        label: String = projectName
+    ): ShortcutInfoCompat = mockk {
+        every { this@mockk.id } returns id
+        every { shortLabel } returns label
+        every { intent } returns Intent().putExtra(
+            ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
+            projectName
+        )
     }
 
     // Must: Launcher unsupported guard
@@ -107,6 +125,9 @@ class ShortcutHelperTest {
 
     @Test
     fun `rename calls updateShortcuts with new label`() = runTest {
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(
+            projectShortcut("OldName", "OldName")
+        )
         every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
 
         mockkObject(ShortcutHelper)
@@ -125,13 +146,19 @@ class ShortcutHelperTest {
 
     @Test
     fun `delete calls disableShortcuts for removed projects`() {
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(
+            projectShortcut("Project1", "Project1"),
+            projectShortcut("Project2", "Project2")
+        )
         every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
         every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
         every { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) } just Runs
 
         ShortcutHelper.removeShortcutsForProjects(context, listOf("Project1", "Project2"))
 
-        verify { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
+        verify {
+            ShortcutManagerCompat.disableShortcuts(any(), listOf("Project1", "Project2"), any())
+        }
         verify { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) }
     }
 
@@ -371,10 +398,7 @@ class ShortcutHelperTest {
         val projectName = "AlreadyPinnedProject"
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 
-        // Simulate an existing dynamic shortcut with the same encoded ID
-        val existingShortcut = mockk<ShortcutInfoCompat> {
-            every { id } returns encodedName
-        }
+        val existingShortcut = projectShortcut(encodedName, projectName)
         every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
         every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
@@ -402,11 +426,7 @@ class ShortcutHelperTest {
         coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
 
         val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Name1")
-        val existingShortcut = mockk<ShortcutInfoCompat> {
-            every { id } returns originalId
-            every { shortLabel } returns "Name2"
-            every { intent } returns android.content.Intent()
-        }
+        val existingShortcut = projectShortcut(originalId, "Name2", "Name2")
         every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
 
         // Rename from Name2 to Name3 — it should still update the originalId
@@ -420,38 +440,76 @@ class ShortcutHelperTest {
     }
 
     @Test
-    fun `verifyShortcutPermission falls back to probe when reflection fails`() = runTest {
-        ShadowBuild.setManufacturer("Xiaomi")
-        val mockContext = mockk<android.content.Context>()
-        val mockAppOps = mockk<android.app.AppOpsManager>()
-        every { mockContext.getSystemService(android.content.Context.APP_OPS_SERVICE) } returns mockAppOps
-        every { mockContext.packageName } returns "org.catrobat.catroid"
-
+    fun `reusing project name allocates distinct shortcut ID`() {
+        val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("ProjectA")
+        // Project A was pinned, then renamed to B, so its shortcut ID is still "ProjectA"
+        val existingShortcutB = projectShortcut(originalId, "ProjectB", "ProjectB")
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcutB)
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
-        every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
-        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns emptyList()
-        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
-
-        val granted = ShortcutHelper.verifyShortcutPermission(mockContext)
-        assertFalse(
-            "Should return false when reflection fails and probe detects blocked state",
-            granted
+        val pushedShortcut = slot<ShortcutInfoCompat>()
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), capture(pushedShortcut)) } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
         )
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
+
+        // Now a new project named ProjectA is pinned
+        val result = ShortcutHelper.pinProject(context, "ProjectA", null)
+
+        assertTrue(result)
+        verify { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
+        assertEquals("${originalId}_2", pushedShortcut.captured.id)
     }
 
     @Test
-    fun `removeShortcutsForProjects resolves and disables shortcuts by label and intent extra`() {
+    fun `deleting project does not touch another project with matching custom label`() {
+        // Project A has custom label "ProjectB"
+        val shortcutA = projectShortcut("ProjectA", "ProjectA", label = "ProjectB")
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(shortcutA)
+        every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) } just Runs
+
+        // Deleting Project B should NOT disable Project A's shortcut
+        ShortcutHelper.removeShortcutsForProjects(context, listOf("ProjectB"))
+
+        verify(exactly = 0) { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
+    }
+
+    @Test
+    fun `renaming project does not touch another project with matching custom label`() = runTest {
+        // Project A has custom label "ProjectB"
+        val shortcutA = projectShortcut("ProjectA", "ProjectA", label = "ProjectB")
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(shortcutA)
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+
+        mockkObject(ShortcutHelper)
+        coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
+
+        // Renaming Project B to Project C should NOT update Project A's shortcut
+        ShortcutHelper.updateShortcutOnRename(context, "ProjectB", "ProjectC")
+
+        verify(exactly = 0) { ShortcutManagerCompat.updateShortcuts(any(), any()) }
+    }
+
+    @Test
+    fun `probeIsShortcutCreationBlocked is skipped when dynamic list is full`() = runTest {
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.getMaxShortcutCountPerActivity(any()) } returns 2
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(
+            projectShortcut("1", "P1"),
+            projectShortcut("2", "P2")
+        )
+
+        val blocked = ShortcutHelper.probeIsShortcutCreationBlocked(context)
+        assertFalse("Probe should be skipped and return false when dynamic list is full", blocked)
+        verify(exactly = 0) { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
+    }
+
+    @Test
+    fun `removeShortcutsForProjects resolves and disables shortcuts by launch intent`() {
         val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("OriginalName")
-        val existingShortcut = mockk<ShortcutInfoCompat> {
-            every { id } returns originalId
-            every { shortLabel } returns "RenamedName"
-            every { intent } returns android.content.Intent().apply {
-                putExtra(
-                    org.catrobat.catroid.ui.shortcut.ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
-                    "RenamedName"
-                )
-            }
-        }
+        val existingShortcut = projectShortcut(originalId, "RenamedName", "RenamedName")
         every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
         every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
         every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs

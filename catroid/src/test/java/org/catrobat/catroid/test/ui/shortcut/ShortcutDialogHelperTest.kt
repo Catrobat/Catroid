@@ -253,4 +253,35 @@ class ShortcutDialogHelperTest {
         }
         assertFalse(dialog.isShowing)
     }
+
+    @Test
+    fun `relocateOpenProject updates loaded project directory and look and sound files`() {
+        val oldDir = java.io.File("/tmp/projects/OldProject")
+        val project = org.catrobat.catroid.content.Project(activity, "OldProject")
+        project.directory = oldDir
+
+        val lookFile = java.io.File(oldDir, "images/look1.png")
+        val look = org.catrobat.catroid.common.LookData("look1", lookFile)
+
+        val soundFile = java.io.File(oldDir, "sounds/sound1.mp3")
+        val sound = org.catrobat.catroid.common.SoundInfo("sound1", soundFile)
+
+        val sprite = project.sceneList[0].spriteList[0]
+        sprite.lookList.add(look)
+        sprite.soundList.add(sound)
+
+        ShortcutDialogHelper.relocateOpenProject(project, "NewProject")
+
+        assertEquals("NewProject", project.name)
+        val expectedNewDir = java.io.File(oldDir.parentFile, "NewProject")
+        assertEquals(expectedNewDir.absolutePath, project.directory.absolutePath)
+        assertEquals(
+            java.io.File(expectedNewDir, "images/look1.png").absolutePath,
+            look.file.absolutePath
+        )
+        assertEquals(
+            java.io.File(expectedNewDir, "sounds/sound1.mp3").absolutePath,
+            sound.file.absolutePath
+        )
+    }
 }

@@ -164,7 +164,10 @@ object ShortcutHelper {
      * Also pushes a dynamic shortcut with the same ID so that
      * [updateShortcutOnRename] and [removeShortcutsForProjects] can manage it later.
      *
-     * Shortcut ID = encoded directory name at time of pinning.
+     * If the project already owns a shortcut, its ID is reused so the project never ends up
+     * with two shortcut IDs. Otherwise the encoded project name is used as ID, unless that ID
+     * is already owned by a different (renamed) project, in which case a distinct ID is
+     * allocated so the other project's shortcut is never overwritten.
      */
     fun pinProject(
         context: Context,
@@ -172,16 +175,13 @@ object ShortcutHelper {
         icon: Bitmap? = null,
         shortcutLabel: String = projectName
     ): Boolean {
+        val trackedShortcuts = getTrackedShortcuts(context)
+        val ownShortcut = trackedShortcuts.firstOrNull { belongsToProject(it, projectName) }
+        val shortcutId = ownShortcut?.id ?: allocateShortcutId(projectName, trackedShortcuts)
         val shortcutInfo =
-            buildShortcutInfo(context, projectName, icon, shortcutLabel = shortcutLabel)
+            buildShortcutInfo(context, projectName, icon, shortcutId, shortcutLabel)
 
-        val existingShortcuts = try {
-            ShortcutManagerCompat.getDynamicShortcuts(context)
-        } catch (e: Exception) {
-            emptyList()
-        }
-
-        if (existingShortcuts.any { it.id == shortcutInfo.id }) {
+        if (ownShortcut != null) {
             // Project was previously pinned/registered; update its metadata in place
             try {
                 ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
@@ -213,34 +213,31 @@ object ShortcutHelper {
     }
 
     /**
-     * Updates the label and intent of an existing pinned shortcut after a project rename.
+     * Updates the label and intent of every shortcut owned by a project after a rename.
      *
-     * Uses [ShortcutManagerCompat.updateShortcuts] to change the shortcut in-place —
-     * the home-screen icon stays, but its label and launch intent switch to the new name.
-     *
-     * Searches existing shortcuts to find the original shortcut ID even if the project
-     * has been renamed multiple times.
+     * Uses [ShortcutManagerCompat.updateShortcuts] to change the shortcuts in-place —
+     * the home-screen icons stay, but their launch intents switch to the new name.
+     * Shortcuts are matched by the project their launch intent targets, so the original
+     * IDs are found even after multiple renames. Custom labels chosen by the user are kept;
+     * labels that simply mirrored the old project name follow the new name.
      */
     suspend fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
-        val dynamicShortcuts = try {
-            ShortcutManagerCompat.getDynamicShortcuts(context)
-        } catch (e: Exception) {
-            emptyList()
-        }
-
-        val existing = dynamicShortcuts.firstOrNull {
-            it.id == encodeShortcutId(oldName) ||
-                it.shortLabel == oldName ||
-                it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == oldName
-        }
-
-        val shortcutId = existing?.id ?: encodeShortcutId(oldName)
+        val ownShortcuts = getTrackedShortcuts(context).filter { belongsToProject(it, oldName) }
+        if (ownShortcuts.isEmpty()) return
 
         val icon = loadProjectIcon(newName)
-        val updatedShortcut = buildShortcutInfo(context, newName, icon, shortcutId)
+        val updatedShortcuts = ownShortcuts.map { existing ->
+            val currentLabel = existing.shortLabel?.toString()
+            val label = if (currentLabel.isNullOrBlank() || currentLabel == oldName) {
+                newName
+            } else {
+                currentLabel
+            }
+            buildShortcutInfo(context, newName, icon, existing.id, label)
+        }
 
         try {
-            ShortcutManagerCompat.updateShortcuts(context, listOf(updatedShortcut))
+            ShortcutManagerCompat.updateShortcuts(context, updatedShortcuts)
         } catch (e: Exception) {
             Log.w(
                 TAG,
@@ -262,20 +259,26 @@ object ShortcutHelper {
     fun removeShortcutsForProjects(context: Context, projectNames: List<String>) {
         if (projectNames.isEmpty()) return
 
-        val dynamicShortcuts = try {
-            ShortcutManagerCompat.getDynamicShortcuts(context)
-        } catch (e: Exception) {
-            emptyList()
-        }
-
+        val trackedShortcuts = getTrackedShortcuts(context)
         val shortcutIds = projectNames.flatMap { name ->
-            val matching = dynamicShortcuts.filter {
-                it.id == encodeShortcutId(name) ||
-                    it.shortLabel == name ||
-                    it.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME) == name
-            }.map { it.id }
-            if (matching.isNotEmpty()) matching else listOf(encodeShortcutId(name))
+            trackedShortcuts.filter { belongsToProject(it, name) }.map { it.id }
         }.distinct()
+        if (shortcutIds.isEmpty()) return
+
+        disableShortcutIds(context, shortcutIds)
+    }
+
+    /**
+     * Returns the IDs of all shortcuts whose launch intent targets the given project.
+     */
+    fun findShortcutIdsForProject(context: Context, projectName: String): List<String> =
+        getTrackedShortcuts(context).filter { belongsToProject(it, projectName) }.map { it.id }
+
+    /**
+     * Removes and disables the given shortcut IDs.
+     */
+    fun disableShortcutIds(context: Context, shortcutIds: List<String>) {
+        if (shortcutIds.isEmpty()) return
 
         // removeLongLivedShortcuts fully removes pinned shortcuts from the home screen
         try {
@@ -299,6 +302,56 @@ object ShortcutHelper {
         } catch (e: Exception) {
             Log.w(TAG, "Could not disable shortcuts: ${e.message}")
         }
+    }
+
+    /**
+     * Returns all dynamic and pinned shortcuts published by the app, de-duplicated by ID.
+     * Pinned shortcuts are included so tracking survives eviction from the dynamic list.
+     */
+    private fun getTrackedShortcuts(context: Context): List<ShortcutInfoCompat> {
+        val dynamicShortcuts = try {
+            ShortcutManagerCompat.getDynamicShortcuts(context)
+        } catch (e: Exception) {
+            emptyList()
+        }
+        val pinnedShortcuts = try {
+            ShortcutManagerCompat.getShortcuts(context, ShortcutManagerCompat.FLAG_MATCH_PINNED)
+        } catch (e: Exception) {
+            emptyList()
+        }
+        return (dynamicShortcuts.orEmpty() + pinnedShortcuts.orEmpty()).distinctBy { it.id }
+    }
+
+    /**
+     * A shortcut belongs to a project if its launch intent targets that project.
+     * The editable label is deliberately ignored, as it does not identify a project.
+     */
+    private fun belongsToProject(shortcut: ShortcutInfoCompat, projectName: String): Boolean =
+        targetProjectName(shortcut) == projectName
+
+    private fun targetProjectName(shortcut: ShortcutInfoCompat): String? = try {
+        shortcut.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME)
+    } catch (e: Exception) {
+        null
+    }
+
+    /**
+     * Allocates a shortcut ID for a project that does not own one yet. Prefers the encoded
+     * project name, but appends a numeric suffix if that ID is already in use (for example
+     * by a project that was renamed after being pinned).
+     */
+    private fun allocateShortcutId(
+        projectName: String,
+        trackedShortcuts: List<ShortcutInfoCompat>
+    ): String {
+        val baseId = encodeShortcutId(projectName)
+        val usedIds = trackedShortcuts.map { it.id }.toSet()
+        if (baseId !in usedIds) return baseId
+        var suffix = 2
+        while ("${baseId}_$suffix" in usedIds) {
+            suffix++
+        }
+        return "${baseId}_$suffix"
     }
 
     /**
@@ -338,7 +391,7 @@ object ShortcutHelper {
     }
 
     /**
-     * Encodes a project name into the shortcut ID (= encoded directory name).
+     * Encodes a project name into the preferred shortcut ID (= encoded directory name).
      */
     private fun encodeShortcutId(projectName: String): String =
         FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
@@ -374,6 +427,15 @@ object ShortcutHelper {
     fun canAddMoreShortcuts(context: Context): Boolean =
         ShortcutManagerCompat.getMaxShortcutCountPerActivity(context) > 0
 
+    private fun isDynamicShortcutListFull(context: Context): Boolean = try {
+        val maxCount = ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
+        val dynamicCount = ShortcutManagerCompat.getDynamicShortcuts(context).size
+        maxCount > 0 && dynamicCount >= maxCount
+    } catch (e: Exception) {
+        // If the registry cannot be inspected, avoid modifying it
+        true
+    }
+
     /**
      * Performs a 'Silent Probe' to detect if shortcut creation is blocked by the OS.
      * This is a reliable fallback for Xiaomi/HyperOS when reflection checks are blocked.
@@ -382,12 +444,19 @@ object ShortcutHelper {
      * 2. Waits 200ms to allow MIUI's throttled shortcut manager to sync.
      * 3. Checks if the shortcut actually exists in the dynamic list.
      * 4. Cleans up the dummy shortcut.
+     *
+     * The probe is skipped when the dynamic shortcut list is already full, because
+     * [ShortcutManagerCompat.pushDynamicShortcut] would then evict a real project shortcut.
      */
     suspend fun probeIsShortcutCreationBlocked(
         context: Context,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ): Boolean = withContext(dispatcher) {
         if (!isShortcutSupported(context)) return@withContext true
+        if (isDynamicShortcutListFull(context)) {
+            Log.w(TAG, "Skipping silent probe: dynamic shortcut list is full")
+            return@withContext false
+        }
 
         val probeId = "miui_probe_${System.currentTimeMillis()}"
         val probeIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
