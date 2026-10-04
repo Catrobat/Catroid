@@ -60,6 +60,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 		onChildView(R.id.settings_button)
 				.perform(click());
 		onView(withText(R.string.rename))
+				.inRoot(androidx.test.espresso.matcher.RootMatchers.isPlatformPopup())
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(newName), closeSoftKeyboard());
@@ -71,6 +72,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 		onChildView(R.id.settings_button)
 				.perform(click());
 		onView(withText(R.string.edit))
+				.inRoot(androidx.test.espresso.matcher.RootMatchers.isPlatformPopup())
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(newValue), closeSoftKeyboard());
