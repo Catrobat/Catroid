@@ -194,6 +194,38 @@ class FaceNameWindowTest {
         assertEquals(PERSON_B, add(0.698f))
     }
 
+    // ---------------- Frames scored for other people ----------------
+
+    /**
+     * Found in a review: a frame is scored against the names as they were, and
+     * the window only compared how many there were. One name deleted and another
+     * added while the frame was scored, and its scores were taken for the new
+     * names. A frame scored for other names is left out.
+     */
+    @Test
+    fun aFrameScoredForOtherNamesIsLeftOut() {
+        assertEquals(UNKNOWN, window.addScores(recognizer, floatArrayOf(0.90f, 0.20f), 0, listOf(PERSON_A, PERSON_C)))
+
+        assertEquals(0, window.framesInWindow)
+        assertEquals(PERSON_A, window.addScores(recognizer, floatArrayOf(0.90f, 0.20f), 300, listOf(PERSON_A, PERSON_B)))
+    }
+
+    /**
+     * Found in a review: a person without usable photos has no score in a frame.
+     * Averaged with real scores later in the window, that turned into a low
+     * score of a rival, so the one person who has photos was named with the
+     * normal threshold instead of the stricter single-person one. A person
+     * without a score in any frame of the window has none in the average.
+     */
+    @Test
+    fun aPersonWithoutAScoreInOneFrameIsNoRival() {
+        add(0.57f, NO_SCORE)
+        add(0.57f, 0.10f)
+
+        // A alone has 0.57: above the normal threshold, below the single-person one.
+        assertEquals(UNKNOWN, add(0.57f, 0.10f))
+    }
+
     // ---------------- People trained while the program runs ----------------
 
     @Test
@@ -265,5 +297,6 @@ class FaceNameWindowTest {
         const val PERSON_C = "Person C"
         const val MIN_SIMILARITY = 0.53f
         const val MIN_MARGIN = 0.04f
+        const val NO_SCORE = FaceDatabase.NO_SCORE
     }
 }

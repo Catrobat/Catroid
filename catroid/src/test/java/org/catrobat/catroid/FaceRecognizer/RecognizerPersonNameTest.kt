@@ -87,6 +87,26 @@ class RecognizerPersonNameTest {
         assertEquals(listOf("Ada", "Grace"), recognizer.classNames)
     }
 
+    // ---------------- Photos for a name ----------------
+
+    /**
+     * Found in a review: training added the name, then stored the photos at the
+     * index it got, in two steps. A delete in between moved everyone after it
+     * up, and the photos went to the next person. Name and photos are stored
+     * in one step.
+     */
+    @Test
+    fun photosAreStoredUnderTheirNameInOneStep() {
+        recognizer.addPerson("Ada")
+
+        assertEquals(1, recognizer.addPhotos("Grace", listOf(FloatArray(EMBEDDING_SIZE) { 0.1f })))
+        assertEquals(2, recognizer.addPhotos("Ada", List(2) { FloatArray(EMBEDDING_SIZE) { 0.1f } }))
+
+        assertEquals(listOf("Ada", "Grace"), recognizer.classNames)
+        assertEquals(2, recognizer.getPhotoCount(0))
+        assertEquals(1, recognizer.getPhotoCount(1))
+    }
+
     // ---------------- Deleting by name ----------------
 
     /** A menu that still lists a deleted name must not delete whoever took its place. */
@@ -99,6 +119,10 @@ class RecognizerPersonNameTest {
         assertFalse(recognizer.deletePerson("Ada"))
 
         assertEquals(listOf("Grace"), recognizer.classNames)
+    }
+
+    private companion object {
+        const val EMBEDDING_SIZE = 128
     }
 
     private fun failEveryWrite() {
