@@ -27,6 +27,7 @@ import androidx.test.core.app.ApplicationProvider
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
@@ -84,6 +85,20 @@ class RecognizerPersonNameTest {
         assertThrows(IOException::class.java) { recognizer.deletePerson("Ada") }
 
         assertEquals(listOf("Ada", "Grace"), recognizer.classNames)
+    }
+
+    // ---------------- Deleting by name ----------------
+
+    /** A menu that still lists a deleted name must not delete whoever took its place. */
+    @Test
+    fun deletingANameThatIsGoneDeletesNobody() {
+        recognizer.addPerson("Ada")
+        recognizer.addPerson("Grace")
+        recognizer.deletePerson("Ada")
+
+        assertFalse(recognizer.deletePerson("Ada"))
+
+        assertEquals(listOf("Grace"), recognizer.classNames)
     }
 
     private fun failEveryWrite() {

@@ -94,7 +94,7 @@ class FaceNameTrainActionStateTest {
             FaceNameTrainAction::class.java.getDeclaredField("recognizer").apply { isAccessible = true }
                 .set(action, recognizer)
 
-            action.onPersonChosen(0)
+            action.onPersonChosen("Ada")
 
             assertNull("No photos are expected for Ada", FaceNameTrainAction.getPendingNameForTest())
         } finally {
@@ -114,7 +114,7 @@ class FaceNameTrainActionStateTest {
         val oldStage = stage()
         StageActivity.activeStageActivity = WeakReference(oldStage)
         val oldBrick = runningBrick(listOf("Ada"))
-        oldBrick.onPersonChosen(0)
+        oldBrick.onPersonChosen("Ada")
 
         StageActivity.activeStageActivity = WeakReference(stage())
         val newBrick = runningBrick(listOf("Ada"))
@@ -150,7 +150,7 @@ class FaceNameTrainActionStateTest {
         val limit = FaceNameTrainAction.REQUEST_LAST - FaceNameTrainAction.REQUEST_FIRST + 1
         val brick = runningBrick(List(limit + 1) { "Person $it" })
 
-        brick.onPersonChosen(limit)
+        brick.onPersonChosen("Person $limit")
 
         verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
     }
@@ -178,6 +178,46 @@ class FaceNameTrainActionStateTest {
 
         every { recognizer.needsRetraining() } returns false
         assertFalse(runningBrick(recognizer).needsRetraining())
+    }
+
+    // ---------------- Menus that show an older list of names ----------------
+
+    /**
+     * Found in review: two training menus both list [Alice, Bob]. Alice is
+     * deleted through one of them; the other still shows Alice in the first row,
+     * which by then is Bob. Choosing Alice there must not add photos to Bob.
+     */
+    @Test
+    fun choosingANameThatWasDeletedMeanwhileGivesNobodyThePhotos() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val brick = runningBrick(listOf("Bob"))
+
+        brick.onPersonChosen("Alice")
+
+        assertNull(FaceNameTrainAction.getPendingNameForTest())
+        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
+
+        brick.onPersonChosen("Bob")
+
+        assertEquals("Bob", FaceNameTrainAction.getPendingNameForTest())
+        verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_FIRST) }
+    }
+
+    /** The same with delete: Alice's old row must not delete Bob. */
+    @Test
+    fun deletingANameThatWasDeletedMeanwhileDeletesNobodyElse() {
+        recordDialogs()
+        StageActivity.activeStageActivity = WeakReference(stage())
+        val recognizer = recognizer(listOf("Bob"))
+        val brick = runningBrick(recognizer)
+
+        brick.onDeleteTargetChosen("Alice")
+        brick.onDeleteConfirmed("Alice")
+
+        verify(exactly = 0) { recognizer.deletePerson(any<Int>()) }
+        verify(exactly = 0) { recognizer.deletePerson("Bob") }
     }
 
     private fun stage(): StageActivity {
