@@ -64,6 +64,7 @@ class FaceNameTrainAction : Action() {
 
         /** The most recent brick run; it takes over results after a stage restart. */
         @JvmStatic
+        @Volatile
         var currentInstance: FaceNameTrainAction? = null
 
         /**
@@ -87,6 +88,7 @@ class FaceNameTrainAction : Action() {
             owner?.handleResult(requestCode, resultCode, data)
         }
 
+        @Volatile
         private var appContext: Context? = null
         private var pendingName: String? = null
 
@@ -96,6 +98,21 @@ class FaceNameTrainAction : Action() {
          * training), the progress dialog is shown instead of the name list.
          */
         private var trainingInProgress = false
+
+        /**
+         * Guards [trainingInProgress], [progressWaiters] and [pendingOutcome]: a
+         * brick decides on its start thread whether to show the progress dialog,
+         * while training ends on the main thread.
+         */
+        private val trainingLock = Any()
+
+        /**
+         * Every brick that asked for the progress dialog of the training now
+         * running. When training ends, each gets exactly one name list, also if
+         * its progress dialog has not appeared yet: Android calls a dialog's
+         * onShow listener later, from the message queue.
+         */
+        private val progressWaiters = LinkedHashSet<FaceNameTrainAction>()
         private var progressTotal = 1
         private var progressDone = 0
 
@@ -135,8 +152,11 @@ class FaceNameTrainAction : Action() {
         internal fun resetStateForTest(context: Context?) {
             appContext = context?.applicationContext
             pendingName = null
-            trainingInProgress = false
-            pendingOutcome = null
+            synchronized(trainingLock) {
+                trainingInProgress = false
+                progressWaiters.clear()
+                pendingOutcome = null
+            }
             progressTotal = 1
             progressDone = 0
             progressViews.clear()
@@ -159,12 +179,12 @@ class FaceNameTrainAction : Action() {
         @VisibleForTesting
         @JvmStatic
         internal fun setTrainingForTest(active: Boolean) {
-            trainingInProgress = active
+            synchronized(trainingLock) { trainingInProgress = active }
         }
 
         @VisibleForTesting
         @JvmStatic
-        internal fun isTrainingForTest(): Boolean = trainingInProgress
+        internal fun isTrainingForTest(): Boolean = synchronized(trainingLock) { trainingInProgress }
 
         @VisibleForTesting
         @JvmStatic
@@ -174,6 +194,7 @@ class FaceNameTrainAction : Action() {
     private var recognizer: Recognizer? = null
 
     /** The first act() of this run has started the dialogs. */
+    @Volatile
     private var started = false
 
     /** The user pressed Done, or the brick could not run; the script may continue. */
@@ -185,6 +206,7 @@ class FaceNameTrainAction : Action() {
         get() = started && !finished
 
     /** The stage this brick showed its dialogs on. */
+    @Volatile
     private var runsOn: WeakReference<StageActivity>? = null
 
     /**
@@ -245,11 +267,19 @@ class FaceNameTrainAction : Action() {
 
     /** Whatever the brick should be showing right now. */
     private fun showCurrentScreen() {
-        pendingOutcome?.let {
+        val outcome: Outcome?
+        val waitsForTraining: Boolean
+        synchronized(trainingLock) {
+            outcome = pendingOutcome
             pendingOutcome = null
-            showOutcome(it)
+            waitsForTraining = trainingInProgress
+            if (waitsForTraining) {
+                // Counted now, not when the dialog appears, so the end of training finds it.
+                progressWaiters.add(this)
+            }
         }
-        show(if (trainingInProgress) DialogType.FACE_TRAIN_PROGRESS else DialogType.FACE_TRAIN_MENU)
+        outcome?.let { showOutcome(it) }
+        show(if (waitsForTraining) DialogType.FACE_TRAIN_PROGRESS else DialogType.FACE_TRAIN_MENU)
     }
 
     /**
@@ -404,8 +434,9 @@ class FaceNameTrainAction : Action() {
 
     /** BrickDialogManager hands over the progress dialog it opened for this action. */
     fun onProgressDialogShown(dialog: AlertDialog, bar: ProgressBar) {
-        if (!trainingInProgress) {
-            // Training finished while the dialog was being built.
+        if (!synchronized(trainingLock) { trainingInProgress }) {
+            // Training finished while the dialog was being shown. This brick was
+            // a waiter then and has already been given its name list.
             dialog.dismiss()
             return
         }
@@ -456,7 +487,7 @@ class FaceNameTrainAction : Action() {
     /** Picker result, forwarded by StageResourceHolder.onActivityResult. */
     fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // Safe to call more than once: training must not run twice.
-        if (trainingInProgress) {
+        if (synchronized(trainingLock) { trainingInProgress }) {
             Log.i(TAG, "Ignoring duplicate result, training already running")
             return
         }
@@ -495,7 +526,10 @@ class FaceNameTrainAction : Action() {
 
         // From here on the brick shows the progress dialog whenever it runs, even
         // if the stage is destroyed and the program restarted meanwhile.
-        trainingInProgress = true
+        synchronized(trainingLock) {
+            trainingInProgress = true
+            progressWaiters.add(this)
+        }
         trainingOwner = this
         progressTotal = uris.size
         progressDone = 0
@@ -568,11 +602,16 @@ class FaceNameTrainAction : Action() {
      * progress dialogs close afterwards, so there is no gap between them.
      */
     private fun finishTraining(outcome: Outcome) {
-        trainingInProgress = false
+        val waiters: List<FaceNameTrainAction>
+        synchronized(trainingLock) {
+            trainingInProgress = false
+            waiters = progressWaiters.toList()
+            progressWaiters.clear()
+        }
         val views = progressViews.toList()
         progressViews.clear()
         progressShownAt = 0L
-        val waitingBricks = views.map { it.brick }.distinct()
+        val waitingBricks = (waiters + views.map { it.brick }).distinct()
 
         // The brick whose photos these were, if it still runs; after a stage
         // restart that brick is gone and the brick of the new run takes over.
@@ -583,12 +622,12 @@ class FaceNameTrainAction : Action() {
             .firstOrNull { it?.isRunningOnTheCurrentStage == true }
         trainingOwner = null
         if (owner == null) {
-            pendingOutcome = outcome
+            synchronized(trainingLock) { pendingOutcome = outcome }
         } else {
             owner.showOutcome(outcome)
             owner.show(DialogType.FACE_TRAIN_MENU)
         }
-        // Every other brick that waited in a progress dialog gets its name list back too.
+        // Every other brick that waited for training gets its name list back too, once.
         waitingBricks
             .filter { it !== owner && it.isRunningOnTheCurrentStage }
             .forEach { it.show(DialogType.FACE_TRAIN_MENU) }
