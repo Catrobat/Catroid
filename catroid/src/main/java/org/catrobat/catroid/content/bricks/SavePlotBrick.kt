@@ -52,4 +52,9 @@ class SavePlotBrick() : FormulaBrick() {
             )
         )
     }
+
+    override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {
+        requiredResourcesSet.addAll(listOf(Brick.STORAGE_READ, Brick.STORAGE_WRITE))
+        super.addRequiredResources(requiredResourcesSet)
+    }
 }

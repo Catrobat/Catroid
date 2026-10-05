@@ -22,19 +22,36 @@
  */
 package org.catrobat.catroid.content.actions
 
+import org.catrobat.catroid.R
 import org.catrobat.catroid.plot.PlotColor
 import org.catrobat.catroid.plot.SVGPlotGenerator
+import org.catrobat.catroid.stage.StageActivity
 import java.io.File
 
 class SaveLaserAction : SavePlotAction() {
-    override fun writePlotDataToFile(destinationFile: File) {
-        val scope = this.scope ?: return
-        val plot = scope.sprite.plot
+
+    override fun checkIfDataIsReady(): Boolean {
+        val scope = this.scope ?: return false
+        val plot = scope.sprite.plot ?: return false
+        return SVGPlotGenerator(plot).hasLaserData()
+    }
+
+    override fun showDataMissingMessage() {
+        val message = context.getString(R.string.error_laser_data_not_found)
+        val params = ArrayList<Any>(listOf(message))
+        StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params).sendToTarget()
+    }
+
+    override fun handleFileWork(file: File): Boolean {
+        val scope = this.scope ?: return false
+        val plot = scope.sprite.plot ?: return false
         val svgFileGenerator = SVGPlotGenerator(plot)
         svgFileGenerator.action = PlotColor.BLUE
         val engravePath = svgFileGenerator.pathFromData(plot.engraveDataPointLists)
         svgFileGenerator.action = PlotColor.RED
         val cutPath = svgFileGenerator.pathFromData(plot.cutDataPointLists)
-        svgFileGenerator.writeToSVGFile(destinationFile, engravePath + cutPath)
+        val finalLaserData = engravePath + cutPath
+        svgFileGenerator.writeToSVGFile(file, finalLaserData)
+        return true
     }
 }

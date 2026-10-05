@@ -33,12 +33,21 @@ enum class PlotColor(val rgb: Int) {
     BLUE(0x0000FF)
 }
 
-class SVGPlotGenerator(plot: Plot) {
+class SVGPlotGenerator(private val plot: Plot) {
+    private val data = plot.data()
     private var width: Float = plot.width
     private var height: Float = plot.height
     private var lineWidth: Double = 1.0
     var action: PlotColor = PlotColor.BLACK
     private val scaleMMtoPx: Float = 0.2f / 0.2646f
+
+    fun hasPlotData(): Boolean = data.any { it.size >= 2 }
+
+    fun hasLaserData(): Boolean {
+        val hasEngraveData = plot.engraveDataPointLists.any { it.size >= 2 }
+        val hasCutData = plot.cutDataPointLists.any { it.size >= 2 }
+        return hasEngraveData || hasCutData
+    }
 
     private fun dotDecimalRound(number: Float): String {
         return "%.2f".format(Locale.ENGLISH, number * scaleMMtoPx)
