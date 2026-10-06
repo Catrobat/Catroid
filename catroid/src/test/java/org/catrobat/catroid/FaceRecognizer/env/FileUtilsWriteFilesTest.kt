@@ -33,8 +33,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import java.io.File
+import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
+import java.io.Reader
 import java.io.Writer
 
 /**
@@ -51,6 +53,7 @@ class FileUtilsWriteFilesTest {
     private lateinit var savedOpenForWriting: (File) -> Writer
     private lateinit var savedReplaceFile: (File, File) -> Unit
     private lateinit var savedSyncFile: (File) -> Unit
+    private lateinit var savedOpenForReading: (File) -> Reader
 
     @Before
     fun setUp() {
@@ -58,6 +61,7 @@ class FileUtilsWriteFilesTest {
         savedOpenForWriting = FileUtils.openForWriting
         savedReplaceFile = FileUtils.replaceFile
         savedSyncFile = FileUtils.syncFile
+        savedOpenForReading = FileUtils.openForReading
         FileUtils.init(context)
         FileUtils.deleteAll()
         assertTrue(FileUtils.writeFiles(OLD))
@@ -68,6 +72,7 @@ class FileUtilsWriteFilesTest {
         FileUtils.openForWriting = savedOpenForWriting
         FileUtils.replaceFile = savedReplaceFile
         FileUtils.syncFile = savedSyncFile
+        FileUtils.openForReading = savedOpenForReading
         FileUtils.deleteAll()
     }
 
@@ -120,6 +125,38 @@ class FileUtilsWriteFilesTest {
 
         FileUtils.recoverInterruptedWrite()
 
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    /**
+     * Found in review: a journal that could not be read was taken for an empty
+     * one, so recovery restored nothing, reported success and deleted the
+     * backups. After an interrupted delete of Alice, her photos then matched
+     * Bob. A journal that cannot be read keeps every recovery file, and the
+     * next start restores them.
+     */
+    @Test
+    fun aJournalThatCannotBeReadKeepsEveryBackupForTheNextStart() {
+        FileUtils.writeLines(JOURNAL, OLD.keys.map { "$it 1" })
+        for (name in OLD.keys) {
+            FileUtils.file(name).renameTo(FileUtils.file("$name.bak"))
+        }
+        FileUtils.writeLines(FileUtils.LABEL_FILE, NEW.getValue(FileUtils.LABEL_FILE))
+        FileUtils.openForReading = { file ->
+            if (file.name == JOURNAL) throw IOException("I/O error")
+            FileReader(file)
+        }
+
+        assertFalse("Recovery must not report success", FileUtils.recoverInterruptedWrite())
+
+        assertTrue("The journal stays", FileUtils.file(JOURNAL).exists())
+        for (name in OLD.keys) {
+            assertTrue("$name.bak stays", FileUtils.file("$name.bak").exists())
+        }
+
+        FileUtils.openForReading = savedOpenForReading
+        assertTrue(FileUtils.recoverInterruptedWrite())
         assertFiles(OLD)
         assertNoHelperFileLeft()
     }

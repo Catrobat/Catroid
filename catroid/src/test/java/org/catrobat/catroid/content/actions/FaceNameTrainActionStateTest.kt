@@ -544,6 +544,68 @@ class FaceNameTrainActionStateTest {
         verify { resolver.releasePersistableUriPermission(photo, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
     }
 
+    // ---------------- A brick whose models load while the stage changes ----------------
+
+    /**
+     * Found in review: a brick loads the face models on a background thread and
+     * then showed its dialog through whichever stage was current by then. If
+     * the user left the program, or restarted it, while the models loaded, the
+     * old brick opened its name list on the new stage and paused it, and could
+     * take a picker result that belongs to the new run. After loading, a brick
+     * that no longer runs on the current stage and run shows nothing and takes
+     * nothing.
+     */
+    @Test
+    fun aBrickWhoseModelsLoadWhileTheStageChangesShowsNothingThere() {
+        assertNothingShownAfterLoading { FaceNameTrainAction.onProgramStart() ; stage() }
+    }
+
+    @Test
+    fun aBrickWhoseModelsLoadWhileTheProgramRestartsShowsNothing() {
+        assertNothingShownAfterLoading { FaceNameTrainAction.onProgramStart() ; null }
+    }
+
+    /**
+     * Starts a brick whose models load until [change] has happened: a new stage
+     * (returned), or a restart on the same stage (null). Then checks the brick
+     * showed nothing, and that the waiting picker result is still there for a
+     * brick of the new run.
+     */
+    private fun assertNothingShownAfterLoading(change: () -> StageActivity?) {
+        val shown = recordDialogs()
+        val firstStage = stage()
+        StageActivity.activeStageActivity = WeakReference(firstStage)
+        val recognizer = recognizer(listOf("Ada"))
+        val loadingMayEnd = CountDownLatch(1)
+        val loaded = CountDownLatch(1)
+        FaceNameTrainAction.recognizerFactory = {
+            loadingMayEnd.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            loaded.countDown()
+            recognizer
+        }
+        val obsolete = FaceNameTrainAction()
+        obsolete.act(0f)
+
+        val newStage = change() ?: firstStage
+        StageActivity.activeStageActivity = WeakReference(newStage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        loadingMayEnd.countDown()
+        assertTrue(loaded.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
+        repeat(LOADING_POLLS) {
+            Thread.sleep(POLL_MS)
+            shadowOf(Looper.getMainLooper()).idle()
+        }
+        assertEquals("The obsolete brick shows nothing", 0, shownFor(shown, obsolete))
+
+        val current = runningBrick(recognizer).also { runsOn(it, newStage) }
+        FaceNameTrainAction.currentInstance = current
+        showCurrentScreen(current)
+        shadowOf(Looper.getMainLooper()).idle()
+        assertEquals("The new run's brick takes the picker result", 1, menusShownFor(shown, current))
+        assertEquals(0, shownFor(shown, obsolete))
+    }
+
     private fun shownFor(shown: List<List<*>>, brick: FaceNameTrainAction): Int =
         shown.count { it[1] === brick }
 
@@ -660,5 +722,6 @@ class FaceNameTrainActionStateTest {
         const val EMBEDDING_SIZE = 128
         const val TRAINING_TIMEOUT_MS = 5000L
         const val POLL_MS = 10L
+        const val LOADING_POLLS = 20
     }
 }
