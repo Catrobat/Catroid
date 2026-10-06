@@ -216,8 +216,16 @@ object FileUtils {
         val journal = File(root, SAVE_JOURNAL)
         if (journal.exists()) {
             Log.w(TAG, "The last save of the face files did not complete; restoring the files before it")
+            val entries = try {
+                readAllLines(SAVE_JOURNAL)
+            } catch (e: IOException) {
+                // Without the journal nothing can be restored; deleting the
+                // backups now would lose the only good copy. Keep everything.
+                Log.e(TAG, "Could not read the save journal; keeping every recovery file", e)
+                return false
+            }
             var restored = true
-            for (entry in readLines(SAVE_JOURNAL)) {
+            for (entry in entries) {
                 val parts = entry.split(" ")
                 val name = parts.getOrNull(0) ?: continue
                 val existed = parts.getOrNull(1) == "1"

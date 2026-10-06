@@ -211,6 +211,7 @@ class FaceNameTrainAction : Action() {
                 pendingPickerResult = null
             }
             pickerOpen = false
+            recognizerFactory = loadRecognizer
             progressTotal = 1
             progressDone = 0
             progressViews.clear()
@@ -243,6 +244,12 @@ class FaceNameTrainAction : Action() {
         @VisibleForTesting
         @JvmStatic
         internal fun getProgressForTest(): IntArray = intArrayOf(progressDone, progressTotal)
+
+        private val loadRecognizer: (Context) -> Recognizer = { Recognizer.getInstance(it) }
+
+        /** Loads the face models; the tests replace it to hold loading. */
+        @VisibleForTesting
+        internal var recognizerFactory: (Context) -> Recognizer = loadRecognizer
 
         @VisibleForTesting
         @JvmStatic
@@ -321,13 +328,27 @@ class FaceNameTrainAction : Action() {
 
         // Loading the face models takes a moment; keep it off the GL and main threads.
         Thread({
-                   if (initRecognizer()) {
-                       showCurrentScreen()
-                   } else {
-                       showError(R.string.face_train_not_available)
-                       finished = true
-                   }
+                   val loaded = initRecognizer()
+                   mainHandler.post { afterLoading(loaded) }
                }, "face_train_init").start()
+    }
+
+    /**
+     * Main thread, once the models are loaded. The user may have left or
+     * restarted the program meanwhile: a brick that no longer runs on the
+     * current stage and run shows nothing and takes no waiting picker result.
+     */
+    private fun afterLoading(loaded: Boolean) {
+        if (!isRunningOnTheCurrentStage) {
+            Log.i(TAG, "The program changed while the face models loaded; nothing to show")
+            return
+        }
+        if (loaded) {
+            showCurrentScreen()
+        } else {
+            showError(R.string.face_train_not_available)
+            finished = true
+        }
     }
 
     /** Whatever the brick should be showing right now. */
@@ -379,7 +400,7 @@ class FaceNameTrainAction : Action() {
         val ctx = appContext ?: return false
         return try {
             FileUtils.init(ctx)
-            recognizer = Recognizer.getInstance(ctx)
+            recognizer = recognizerFactory(ctx)
             true
         } catch (t: Throwable) {
             Log.e(TAG, "Recognizer initialization failed", t)
