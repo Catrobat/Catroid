@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecogn
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
     const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
     private val activeDetectors = ArrayList<Detector>()
+    private var frontCamera = true
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -47,12 +48,13 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
             val completeListener = DetectorsCompleteListener(activeDetectors.size, imageProxy)
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
             for (detector in activeDetectors) {
-                detector.processImage(mediaImage, image, completeListener)
+                detector.processImage(mediaImage, image, completeListener, frontCamera)
             }
         }
     }
 
-    fun setActiveDetectorsWithContext(context: Context?) {
+    fun setActiveDetectorsWithContext(context: Context?, frontCamera: Boolean) {
+        this.frontCamera = frontCamera
         activeDetectors.clear()
         context?.let {
             if (isAIFaceDetectionSharedPreferenceEnabled(it)) {

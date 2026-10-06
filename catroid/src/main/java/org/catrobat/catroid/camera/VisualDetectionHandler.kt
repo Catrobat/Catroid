@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,6 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_Y
-import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
 
 data class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
@@ -103,7 +102,7 @@ object VisualDetectionHandler {
         }
     }
 
-    fun updateAllFaceSensorValues(imageWidth: Int, imageHeight: Int) {
+    fun updateAllFaceSensorValues(imageWidth: Int, imageHeight: Int, frontCamera: Boolean) {
         updateFaceDetectionStatusSensorValues()
 
         facesForSensors.forEachIndexed { index, face ->
@@ -112,7 +111,7 @@ object VisualDetectionHandler {
 
                 val facePosition = translateToStageCoordinates(
                     faceBounds.exactCenterX().toDouble(), faceBounds.exactCenterY().toDouble(),
-                    imageWidth, imageHeight
+                    imageWidth, imageHeight, frontCamera
                 )
                 val relativeFaceSize =
                     (faceBounds.height().toDouble() / imageHeight).coerceAtMost(1.0)
@@ -175,7 +174,9 @@ object VisualDetectionHandler {
         }
     }
 
-    fun updateAllPoseSensorValues(pose: Pose?, imageWidth: Int, imageHeight: Int) {
+    fun updateAllPoseSensorValues(
+        pose: Pose?, imageWidth: Int, imageHeight: Int, frontCamera: Boolean
+    ) {
         val allPoseLandmarks = pose?.allPoseLandmarks
 
         if (allPoseLandmarks.isNullOrEmpty()) return
@@ -187,7 +188,8 @@ object VisualDetectionHandler {
                         poseLandmark.position.x.toDouble(),
                         poseLandmark.position.y.toDouble(),
                         imageWidth,
-                        imageHeight
+                        imageHeight,
+                        frontCamera
                     )
 
                 updatePoseSensorValues(poseLandmark, poseLandmarkPositionTranslated)
@@ -287,9 +289,10 @@ object VisualDetectionHandler {
     fun updateAllPoseSensorValuesHuawei(
         skeletonList: List<MLSkeleton>,
         imageWidth: Int,
-        imageHeight: Int
+        imageHeight: Int,
+        frontCamera: Boolean
     ) {
-        if (skeletonList.isNullOrEmpty()) return
+        if (skeletonList.isEmpty()) return
 
         skeletonList[0].joints.forEach { joint ->
             joint?.let {
@@ -297,7 +300,8 @@ object VisualDetectionHandler {
                     joint.pointX.toDouble(),
                     joint.pointY.toDouble(),
                     imageWidth,
-                    imageHeight
+                    imageHeight,
+                    frontCamera
                 )
 
                 updatePoseSensorValuesHuawei(joint.type, jointPositionTranslated)
@@ -309,7 +313,7 @@ object VisualDetectionHandler {
         jointType: Int,
         position: Point
     ) {
-        sensorListeners.forEach() { sensorListener ->
+        sensorListeners.forEach { sensorListener ->
             val positionSensor = when (jointType) {
                 MLJoint.TYPE_HEAD_TOP -> Pair(Sensors.HEAD_TOP_X, Sensors.HEAD_TOP_Y)
                 MLJoint.TYPE_NECK -> Pair(Sensors.NECK_X, Sensors.NECK_Y)
@@ -342,9 +346,9 @@ object VisualDetectionHandler {
         x: Double,
         y: Double,
         imageWidth: Int,
-        imageHeight: Int
+        imageHeight: Int,
+        frontCamera: Boolean
     ): Point {
-        val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
         val aspectRatio = imageWidth.toDouble() / imageHeight
 
         return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {

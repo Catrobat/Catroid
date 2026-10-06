@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ private val objectDetectionClient by lazy {
 
 class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
     override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
-        ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
+        ObjectDetectorResults.result = detectedObjects.associateBy { it.trackingId }
     }
 }
 
@@ -50,7 +50,8 @@ object ObjectDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
+        onCompleteListener: DetectorsCompleteListener,
+        frontCamera: Boolean
     ) {
         objectDetectionClient.process(inputImage)
             .addOnSuccessListener(ObjectDetectorOnSuccessListener())

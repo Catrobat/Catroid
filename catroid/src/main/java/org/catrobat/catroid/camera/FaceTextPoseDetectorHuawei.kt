@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,11 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private var textDetected = false
     private var faceDetected = false
     private var poseDetected = false
+    private var frontCamera = true
+
+    fun setFrontCamera(frontCamera: Boolean) {
+        this.frontCamera = frontCamera
+    }
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -86,7 +91,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 val faces = translateHuaweiFaceToVisualDetectionFace(huaweiMLFaces)
                 handleAlreadyExistingFaces(faces)
                 handleNewFaces(faces)
-                updateAllFaceSensorValues(mediaImage.width, mediaImage.height)
+                updateAllFaceSensorValues(mediaImage.width, mediaImage.height, frontCamera)
                 faceDetected = true
                 if (textDetected && poseDetected) {
                     imageProxy.close()
@@ -105,7 +110,8 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 updateAllPoseSensorValuesHuawei(
                     huaweiMLPoseList,
                     mediaImage.width,
-                    mediaImage.height
+                    mediaImage.height,
+                    frontCamera
                 )
                 poseDetected = true
                 if (faceDetected && textDetected) {
