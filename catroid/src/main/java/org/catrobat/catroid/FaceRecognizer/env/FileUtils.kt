@@ -216,7 +216,7 @@ object FileUtils {
         val journal = File(root, SAVE_JOURNAL)
         if (journal.exists()) {
             Log.w(TAG, "The last save of the face files did not complete; restoring the files before it")
-            val entries = try {
+            val entries: List<String> = try {
                 readAllLines(SAVE_JOURNAL)
             } catch (e: IOException) {
                 // Without the journal nothing can be restored; deleting the

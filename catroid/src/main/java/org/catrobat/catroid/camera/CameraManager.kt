@@ -243,16 +243,16 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
         // Face names need no mobile services, unlike the ML Kit and Huawei detectors.
         val faceNames = isAIFaceNameDetectionSharedPreferenceEnabled(stageActivity)
-        if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
-            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
-            analysisUseCase.setAnalyzer(analysisExecutor, CatdroidImageAnalyzer)
-        } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-            analysisUseCase.setAnalyzer(
+        when {
+            mobileServiceAvailability.isGmsAvailable(stageActivity) -> {
+                CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
+                analysisUseCase.setAnalyzer(analysisExecutor, CatdroidImageAnalyzer)
+            }
+            mobileServiceAvailability.isHmsAvailable(stageActivity) -> analysisUseCase.setAnalyzer(
                 analysisExecutor,
                 if (faceNames) FaceNameFirstAnalyzer(FaceTextPoseDetectorHuawei) else FaceTextPoseDetectorHuawei
             )
-        } else if (faceNames) {
-            analysisUseCase.setAnalyzer(analysisExecutor, FaceNameFirstAnalyzer(null))
+            faceNames -> analysisUseCase.setAnalyzer(analysisExecutor, FaceNameFirstAnalyzer(null))
         }
     }
 
