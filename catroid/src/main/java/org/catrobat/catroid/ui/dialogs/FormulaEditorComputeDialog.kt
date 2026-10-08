@@ -107,11 +107,7 @@ open class FormulaEditorComputeDialog(
             SensorHandler.registerListener(this)
         }
 
-        if (resourcesSet.contains(Brick.FACE_DETECTION) ||
-            resourcesSet.contains(Brick.OBJECT_DETECTION) ||
-            resourcesSet.contains(Brick.POSE_DETECTION) ||
-            resourcesSet.contains(Brick.TEXT_DETECTION)
-        ) {
+        if (requiresVisualDetection(resourcesSet)) {
             camerManager = CameraManager(context as Activity)
             camerManager?.startDetection()
             VisualDetectionHandler.addListener(this)
@@ -129,6 +125,13 @@ open class FormulaEditorComputeDialog(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         dismiss()
         return true
+    }
+
+    private fun requiresVisualDetection(resourcesSet: Brick.ResourcesSet): Boolean {
+        return resourcesSet.contains(Brick.FACE_DETECTION) ||
+            resourcesSet.contains(Brick.OBJECT_DETECTION) ||
+            resourcesSet.contains(Brick.POSE_DETECTION) ||
+            resourcesSet.contains(Brick.TEXT_DETECTION)
     }
 
     private fun showFormulaResult(scope: Scope, stringProvider: Formula.StringProvider) {

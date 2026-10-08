@@ -175,7 +175,10 @@ object VisualDetectionHandler {
     }
 
     fun updateAllPoseSensorValues(
-        pose: Pose?, imageWidth: Int, imageHeight: Int, frontCamera: Boolean
+        pose: Pose?,
+        imageWidth: Int,
+        imageHeight: Int,
+        frontCamera: Boolean
     ) {
         val allPoseLandmarks = pose?.allPoseLandmarks
 
