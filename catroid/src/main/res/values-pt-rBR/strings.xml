@@ -703,7 +703,7 @@
     <string formatted="false" name="error_session_expired">Sessão expirada. Entre novamente.</string>
     <string formatted="false" name="error_register_empty_username">Nome de usuário vazio</string>
     <string formatted="false" name="error_register_username_as_email">Um endereço de e-mail não pode ser usado como nome de usuário</string>
-    <string formatted="false" name="error_register_invalid_username">O nome de usuário deve conter apenas letras (a–z), números (0-9), traços (-), sublinhados (_) e pontos (.).</string>
+    <string formatted="false" name="error_register_invalid_username">O nome de usuário deve conter apenas letras (a–z), números (0–9), traços (-), sublinhados (_) e pontos (.).</string>
     <string formatted="false" name="error_register_username_start_with">O nome de usuário não deve começar com traços (-), sublinhados (_) ou pontos (.).</string>
     <string formatted="false" name="error_register_invalid_email_format">Formato de e-mail inválido</string>
     <string formatted="false" name="error_register_empty_password">O campo de senha está vazio</string>
