@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,13 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content
+import org.catrobat.catroid.content.Sprite
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+class GlideToOtherSpritePositionAction : BaseGlideAction() {
+    var destinationSprite: Sprite? = null
+    var destinationXPosition: Float = 0f
+    var destinationYPosition: Float = 0f
 
-data class Scope(
-    val project: Project?,
-    var sprite: Sprite,
-    val sequence: SequenceAction?
-)
+    override fun act(delta: Float) = super.act(delta)
+
+    override fun update(percent: Float) {
+        val destinationLook = destinationSprite?.look ?: return
+        destinationXPosition = destinationLook.xInUserInterfaceDimensionUnit
+        destinationYPosition = destinationLook.yInUserInterfaceDimensionUnit
+        currentXPosition = startXPosition + (destinationXPosition - startXPosition) * percent
+        currentYPosition = startYPosition + (destinationYPosition - startYPosition) * percent
+        scope.sprite.look?.setPositionInUserInterfaceDimensionUnit(currentXPosition, currentYPosition)
+    }
+}

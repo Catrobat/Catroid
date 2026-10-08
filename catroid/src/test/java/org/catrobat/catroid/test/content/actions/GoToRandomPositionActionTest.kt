@@ -53,7 +53,7 @@ class GoToRandomPositionActionTest {
     }
 
     @Test
-    fun testGoToOtherSpriteAction() {
+    fun testGoToRandomPositionAction() {
         sprite.look.xInUserInterfaceDimensionUnit = 0f
         sprite.look.yInUserInterfaceDimensionUnit = 0f
 

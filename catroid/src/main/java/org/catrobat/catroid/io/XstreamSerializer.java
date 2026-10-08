@@ -120,6 +120,7 @@ import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.GlideToPositionBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoThroughBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -321,7 +322,7 @@ public final class XstreamSerializer {
 	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
-	private Lock loadSaveLock = new ReentrantLock();
+	private final Lock loadSaveLock = new ReentrantLock();
 
 	private XstreamSerializer() {
 		prepareXstream(Project.class, Scene.class);
@@ -449,6 +450,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", DeleteThisCloneBrick.class);
 		xstream.alias("brick", ForeverBrick.class);
 		xstream.alias("brick", GlideToBrick.class);
+		xstream.alias("brick", GlideToPositionBrick.class);
 		xstream.alias("brick", GoNStepsBackBrick.class);
 		xstream.alias("brick", HideBrick.class);
 		xstream.alias("brick", HideTextBrick.class);
@@ -792,6 +794,7 @@ public final class XstreamSerializer {
 			}
 		}
 	}
+
 	private boolean unnecessaryChanges(String currentXml, String previousXml) {
 		String formulaYRegex = "<formula category=\".*Y.*\">";
 		String formulaXRegex = "<formula category=\".*X.*\">";
@@ -801,10 +804,9 @@ public final class XstreamSerializer {
 		Matcher previousFormulaXMatcher = formulaXPattern.matcher(previousXml);
 		currentFormulaYMatcher.find();
 		previousFormulaXMatcher.find();
-		if (previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches() && (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)))) {
-			return true;
-		}
-		return false;
+		return previousFormulaXMatcher.matches()
+				&& currentFormulaYMatcher.matches()
+				&& currentXml.indexOf(Objects.requireNonNull(previousFormulaXMatcher.group(0))) == previousXml.indexOf(Objects.requireNonNull(currentFormulaYMatcher.group(0)));
 	}
 
 	public boolean saveProject(Project project) {
