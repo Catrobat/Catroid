@@ -339,13 +339,11 @@
     <plurals name="delete_projects">
         <item quantity="one">למחוק את המיזם?</item>
         <item quantity="two">למחוק את המיזמים?</item>
-        <item quantity="many">למחוק את המיזמים?</item>
         <item quantity="other">למחוק את המיזמים?</item>
     </plurals>
     <plurals name="delete_scenes">
         <item quantity="one">למחוק את הסצנה?</item>
         <item quantity="two">למחוק את הסצנות?</item>
-        <item quantity="many">למחוק את הסצנות?</item>
         <item quantity="other">למחוק את הסצנות?</item>
     </plurals>
     <plurals name="delete_sprites">
@@ -862,7 +860,6 @@
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">שכבה</item>
         <item quantity="two">שכבות</item>
-        <item quantity="many">שכבות</item>
         <item quantity="other">שכבות</item>
     </plurals>
     <string formatted="false" name="brick_come_to_front">עבור לשכבה הקדמית</string>
