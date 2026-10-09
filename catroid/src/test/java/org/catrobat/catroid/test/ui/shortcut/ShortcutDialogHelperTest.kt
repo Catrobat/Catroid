@@ -28,11 +28,23 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.asynctask.projectSaveLock
+import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.junit.After
@@ -42,6 +54,9 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.io.File
+import java.util.concurrent.CountDownLatch
+import kotlin.concurrent.thread
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
@@ -283,5 +298,117 @@ class ShortcutDialogHelperTest {
             java.io.File(expectedNewDir, "sounds/sound1.mp3").absolutePath,
             sound.file.absolutePath
         )
+    }
+
+    @Test
+    fun `saveProject during open project rename does not recreate old directory and saves to new directory`() {
+        val rootDir = activity.filesDir
+        val oldProjectDir = File(rootDir, "OriginalName").apply { mkdirs() }
+        val newProjectDir = File(rootDir, "RenamedName")
+
+        val project = Project(activity, "OriginalName")
+        project.directory = oldProjectDir
+        XstreamSerializer.getInstance().saveProject(project)
+        assertTrue(oldProjectDir.exists())
+        assertTrue(File(oldProjectDir, Constants.CODE_XML_FILE_NAME).exists())
+
+        ProjectManager.getInstance().currentProject = project
+
+        val saveStarted = CountDownLatch(1)
+        val saveCompleted = CountDownLatch(1)
+        var saveResult = false
+
+        project.description = "Unsaved edit before pause"
+
+        val backgroundThread = thread {
+            saveStarted.countDown()
+            saveResult = saveProjectSerial(project, activity)
+            saveCompleted.countDown()
+        }
+
+        synchronized(projectSaveLock) {
+            saveStarted.await()
+            Thread.sleep(50)
+
+            val renamedDir = renameProject(oldProjectDir, "RenamedName")
+            assertNotNull(renamedDir)
+            ShortcutDialogHelper.relocateOpenProject(project, "RenamedName")
+        }
+
+        saveCompleted.await()
+
+        assertTrue("saveProjectSerial should succeed after rename completes", saveResult)
+        assertFalse(
+            "Old project directory must not be recreated by concurrent save",
+            oldProjectDir.exists()
+        )
+        assertTrue("New project directory must exist", newProjectDir.exists())
+        assertEquals("RenamedName", project.name)
+        assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
+        assertTrue(
+            "code.xml must exist in new directory",
+            File(newProjectDir, Constants.CODE_XML_FILE_NAME).exists()
+        )
+
+        newProjectDir.deleteRecursively()
+    }
+
+    @Test
+    fun `pin button with changed name and checked rename triggers rename and relocation`() {
+        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val oldProjectDir = File(rootDir, "DialogRenameOriginal").apply { mkdirs() }
+        val newProjectDir = File(rootDir, "DialogRenameNew")
+
+        val project = Project(activity, "DialogRenameOriginal")
+        project.directory = oldProjectDir
+        XstreamSerializer.getInstance().saveProject(project)
+
+        ProjectManager.getInstance().currentProject = project
+
+        every { ShortcutHelper.isXiaomiDevice() } returns false
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+
+        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
+        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+
+        try {
+            var renamedCallbackOld = ""
+            var renamedCallbackNew = ""
+
+            ShortcutDialogHelper.showPinShortcutDialog(
+                context = activity,
+                layoutInflater = activity.layoutInflater,
+                projectName = "DialogRenameOriginal",
+                icon = null,
+                isPermissionGranted = true,
+                onProjectRenamed = { oldName, newName ->
+                    renamedCallbackOld = oldName
+                    renamedCallbackNew = newName
+                }
+            )
+
+            val dialog = ShadowAlertDialog.getLatestAlertDialog()
+            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
+            val renameCheckbox =
+                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
+
+            nameEdit.setText("DialogRenameNew")
+            renameCheckbox.isChecked = true
+            pinBtn.performClick()
+
+            assertEquals("DialogRenameOriginal", renamedCallbackOld)
+            assertEquals("DialogRenameNew", renamedCallbackNew)
+            assertEquals("DialogRenameNew", project.name)
+            assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
+            assertFalse(oldProjectDir.exists())
+            assertTrue(newProjectDir.exists())
+        } finally {
+            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
+            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
+            oldProjectDir.deleteRecursively()
+            newProjectDir.deleteRecursively()
+        }
     }
 }

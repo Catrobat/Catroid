@@ -182,7 +182,14 @@ object ShortcutHelper {
             buildShortcutInfo(context, projectName, icon, shortcutId, shortcutLabel)
 
         if (ownShortcut != null) {
-            // Project was previously pinned/registered; update its metadata in place
+            // Project was previously pinned/registered; re-enable if disabled, and update metadata
+            if (!ownShortcut.isEnabled) {
+                try {
+                    ShortcutManagerCompat.enableShortcuts(context, listOf(shortcutInfo))
+                } catch (e: Exception) {
+                    Log.w(TAG, "Could not enable existing shortcut: ${e.message}")
+                }
+            }
             try {
                 ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
             } catch (e: Exception) {
@@ -198,18 +205,30 @@ object ShortcutHelper {
         }
 
         // Request the pinned shortcut on the home screen
-        val callbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            shortcutInfo.id.hashCode(),
-            callbackIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        return ShortcutManagerCompat.requestPinShortcut(
-            context,
-            shortcutInfo,
-            pendingIntent.intentSender
-        )
+        val callbackIntent = try {
+            ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not create shortcut result intent: ${e.message}")
+            null
+        }
+        val pendingIntent = callbackIntent?.let {
+            PendingIntent.getBroadcast(
+                context,
+                shortcutInfo.id.hashCode(),
+                it,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        return try {
+            ShortcutManagerCompat.requestPinShortcut(
+                context,
+                shortcutInfo,
+                pendingIntent?.intentSender
+            )
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not request pin shortcut: ${e.message}")
+            false
+        }
     }
 
     /**

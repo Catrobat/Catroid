@@ -40,11 +40,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.io.asynctask.ProjectRenamer
+import org.catrobat.catroid.io.asynctask.projectSaveLock
+import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
@@ -55,6 +57,7 @@ object ShortcutDialogHelper {
     private const val MAX_DIALOG_WIDTH_DP = 345
     private const val DIALOG_WIDTH_SCREEN_RATIO = 0.86
 
+    var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 
     private fun applyDialogDimensions(dialog: AlertDialog, context: Context) {
@@ -214,16 +217,25 @@ object ShortcutDialogHelper {
 
         dialog.dismiss()
 
-        ProjectRenamer(projectDir, newName).renameProjectAsync(
-            onRenameProjectComplete = { success ->
+        CoroutineScope(ioDispatcher).launch {
+            val success = synchronized(projectSaveLock) {
+                val renamedDir = renameProject(projectDir, newName)
+                if (renamedDir != null) {
+                    val currentProject = ProjectManager.getInstance()?.currentProject
+                    if (currentProject != null && currentProject.name == projectName) {
+                        relocateOpenProject(currentProject, newName)
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
+
+            withContext(mainDispatcher) {
                 if (success) {
-                    onProjectRenameSuccess(
-                        context,
-                        projectName,
-                        newName,
-                        icon,
-                        onProjectRenamed
-                    )
+                    ShortcutHelper.updateShortcutOnRename(context, projectName, newName)
+                    ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
+                    onProjectRenamed?.invoke(projectName, newName)
                 } else {
                     ToastUtil.showError(
                         context,
@@ -231,26 +243,6 @@ object ShortcutDialogHelper {
                     )
                 }
             }
-        )
-    }
-
-    private fun onProjectRenameSuccess(
-        context: Context,
-        projectName: String,
-        newName: String,
-        icon: Bitmap?,
-        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
-    ) {
-        val currentProject = ProjectManager.getInstance()?.currentProject
-        if (currentProject != null && currentProject.name == projectName) {
-            relocateOpenProject(currentProject, newName)
-        }
-        CoroutineScope(mainDispatcher).launch {
-            // Migrate existing shortcuts first so pinning reuses their ID instead of
-            // publishing a second shortcut for the same project.
-            ShortcutHelper.updateShortcutOnRename(context, projectName, newName)
-            ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
-            onProjectRenamed?.invoke(projectName, newName)
         }
     }
 

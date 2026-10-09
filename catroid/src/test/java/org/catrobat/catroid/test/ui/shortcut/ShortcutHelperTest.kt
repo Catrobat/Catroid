@@ -91,6 +91,7 @@ class ShortcutHelperTest {
     ): ShortcutInfoCompat = mockk {
         every { this@mockk.id } returns id
         every { shortLabel } returns label
+        every { isEnabled } returns true
         every { intent } returns Intent().putExtra(
             ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
             projectName
@@ -556,5 +557,62 @@ class ShortcutHelperTest {
 
         val result = ShortcutHelper.verifyShortcutPermission(context)
         assertTrue("Non-Xiaomi devices should always return true for shortcut permission", result)
+    }
+
+    @Test
+    fun `pinProject re-enables disabled shortcut before reusing its ID when recreating project`() {
+        val projectName = "DeletedAndRecreatedProject"
+        val encodedId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+
+        val disabledShortcut = mockk<ShortcutInfoCompat> {
+            every { id } returns encodedId
+            every { shortLabel } returns projectName
+            every { isEnabled } returns false
+            every { intent } returns Intent().putExtra(
+                ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
+                projectName
+            )
+        }
+
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns emptyList()
+        every {
+            ShortcutManagerCompat.getShortcuts(any(), ShortcutManagerCompat.FLAG_MATCH_PINNED)
+        } returns listOf(disabledShortcut)
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.enableShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+        every { ShortcutManagerCompat.createShortcutResultIntent(any(), any()) } returns mockk(
+            relaxed = true
+        )
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns true
+
+        val result = ShortcutHelper.pinProject(context, projectName, null)
+
+        assertTrue(
+            "pinProject should return true when re-pinning previously deleted project",
+            result
+        )
+        verify {
+            ShortcutManagerCompat.enableShortcuts(any(), match { list ->
+                list.size == 1 && list[0].id == encodedId
+            })
+        }
+        verify { ShortcutManagerCompat.updateShortcuts(any(), any()) }
+        verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
+    }
+
+    @Test
+    fun `pinProject handles exception from createShortcutResultIntent gracefully`() {
+        val projectName = "TestProject"
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
+        every {
+            ShortcutManagerCompat.createShortcutResultIntent(any(), any())
+        } throws IllegalArgumentException("Shortcut is disabled")
+        every { ShortcutManagerCompat.requestPinShortcut(any(), any(), null) } returns true
+
+        val result = ShortcutHelper.pinProject(context, projectName, null)
+        assertTrue(result)
+        verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), null) }
     }
 }
