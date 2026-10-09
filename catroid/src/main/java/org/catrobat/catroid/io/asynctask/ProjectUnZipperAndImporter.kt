@@ -63,16 +63,26 @@ fun unzipAndImportProjects(files: Array<File>): Boolean {
     return success
 }
 
-private fun unzipAndImportProject(projectDir: File): Boolean = try {
+private fun unzipAndImportProject(projectDir: File): Boolean {
     val cachedProjectDir = File(CACHE_DIRECTORY, StorageOperations.getSanitizedFileName(projectDir.name))
-    if (cachedProjectDir.isDirectory) {
-        StorageOperations.deleteDir(cachedProjectDir)
+    return try {
+        if (cachedProjectDir.isDirectory) {
+            StorageOperations.deleteDir(cachedProjectDir)
+        }
+        ZipArchiver().unzip(projectDir, cachedProjectDir)
+        importProject(cachedProjectDir)
+    } catch (e: IOException) {
+        Log.e(TAG, "Cannot unzip project " + projectDir.name, e)
+        false
+    } finally {
+        if (cachedProjectDir.exists()) {
+            try {
+                StorageOperations.deleteDir(cachedProjectDir)
+            } catch (deleteException: IOException) {
+                Log.w(TAG, "Cannot delete cached project folder $cachedProjectDir", deleteException)
+            }
+        }
     }
-    ZipArchiver().unzip(projectDir, cachedProjectDir)
-    importProject(cachedProjectDir)
-} catch (e: IOException) {
-    Log.e(TAG, "Cannot unzip project " + projectDir.name, e)
-    false
 }
 
 private fun getProjectName(projectDir: File): String? {
@@ -101,7 +111,7 @@ private fun importProject(projectDir: File): Boolean {
         true
     } catch (e: IOException) {
         Log.e(TAG, "Something went wrong while importing project ${projectDir.name}", e)
-        errorWhileImporting(projectDir, destinationDirectory)
+        errorWhileImporting(destinationDirectory)
         false
     }
 }
@@ -111,13 +121,13 @@ private fun copyProject(projectDir: File, destinationDirectory: File, projectNam
     XstreamSerializer.renameProject(File(destinationDirectory, Constants.CODE_XML_FILE_NAME), projectName)
 }
 
-private fun errorWhileImporting(projectDir: File, destinationDirectory: File) {
+private fun errorWhileImporting(destinationDirectory: File) {
     if (destinationDirectory.isDirectory) {
         Log.e(TAG, "Folder exists, trying to delete folder.")
         try {
-            StorageOperations.deleteDir(projectDir)
+            StorageOperations.deleteDir(destinationDirectory)
         } catch (deleteException: IOException) {
-            Log.e(TAG, "Cannot delete folder $projectDir", deleteException)
+            Log.e(TAG, "Cannot delete folder $destinationDirectory", deleteException)
         }
     }
 }

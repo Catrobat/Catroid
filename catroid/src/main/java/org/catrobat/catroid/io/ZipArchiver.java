@@ -39,7 +39,6 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipArchiver {
 
-	private static final String DIRECTORY_LEVEL_UP = "../";
 	private static final int COMPRESSION_LEVEL = 0;
 
 	public void zip(File archive, File[] files) throws IOException {
@@ -82,8 +81,9 @@ public class ZipArchiver {
 	}
 
 	public void unzip(File archive, File dstDir) throws IOException {
-		InputStream inputStream = new FileInputStream(archive);
-		unzip(inputStream, dstDir);
+		try (InputStream inputStream = new FileInputStream(archive)) {
+			unzip(inputStream, dstDir);
+		}
 	}
 
 	public void unzip(InputStream is, File dstDir) throws IOException {
@@ -91,17 +91,26 @@ public class ZipArchiver {
 
 		try (ZipInputStream zipInputStream = new ZipInputStream(is)) {
 			ZipEntry zipEntry;
+			String canonicalDestDirPath = dstDir.getCanonicalPath();
+
 			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-				if (zipEntry.getName().contains(DIRECTORY_LEVEL_UP)) {
-					continue;
-				}
-				if (zipEntry.isDirectory()) {
-					createDirIfNecessary(new File(dstDir, zipEntry.getName()));
+				File zipEntryFile = new File(dstDir, zipEntry.getName());
+				String canonicalEntryPath = zipEntryFile.getCanonicalPath();
+
+				if (!canonicalEntryPath.startsWith(canonicalDestDirPath + File.separator)
+						&& !canonicalEntryPath.equals(canonicalDestDirPath)) {
 					continue;
 				}
 
-				File zipEntryFile = new File(dstDir, zipEntry.getName());
-				zipEntryFile.getParentFile().mkdirs();
+				if (zipEntry.isDirectory()) {
+					createDirIfNecessary(zipEntryFile);
+					continue;
+				}
+
+				File parent = zipEntryFile.getParentFile();
+				if (parent != null && !parent.exists() && !parent.mkdirs()) {
+					throw new IOException("Could not create directory: " + parent.getAbsolutePath());
+				}
 
 				try (FileOutputStream fileOutputStream = new FileOutputStream(zipEntryFile)) {
 					byte[] b = new byte[Constants.BUFFER_8K];
@@ -115,8 +124,9 @@ public class ZipArchiver {
 	}
 
 	private void createDirIfNecessary(File dir) throws IOException {
-		if (!dir.exists() && !dir.mkdir()) {
+		if (!dir.exists() && !dir.mkdirs()) {
 			throw new IOException("Could NOT create Dir: " + dir.getAbsolutePath());
 		}
 	}
 }
+
