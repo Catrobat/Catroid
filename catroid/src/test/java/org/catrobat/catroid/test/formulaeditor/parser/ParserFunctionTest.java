@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -114,7 +114,33 @@ public class ParserFunctionTest {
 
 	@Test
 	public void testArctan2ZeroParameter() {
-		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.NUMBER, "0",
-				InternTokenType.NUMBER, "0", 0.0, 180.0, null);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.NUMBER, "0", InternTokenType.NUMBER, "0", 0.0, 180.0, null);
+	}
+
+	@Test
+	public void testIfElse() {
+		List<InternToken> internTokenList = new LinkedList<>();
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.IF_THEN_ELSE.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TRUE.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "5"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
+
+		assertNotNull(parseTree);
+		assertEquals("5", parseTree.interpretRecursive(null));
+	}
+
+	@Test
+	public void testMultiFingerTouched() {
+		List<InternToken> internTokenList = new LinkedList<>();
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MULTI_FINGER_TOUCHED.name()));
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
+
+		assertNotNull(parseTree);
+		assertEquals(0.0, parseTree.interpretRecursive(null));
 	}
 }
