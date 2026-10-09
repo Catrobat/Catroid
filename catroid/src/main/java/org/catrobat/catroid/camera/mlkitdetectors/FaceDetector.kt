@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,8 @@ object FaceDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
+        onCompleteListener: DetectorsCompleteListener,
+        frontCamera: Boolean
     ) {
         faceDetectionClient.process(inputImage)
             .addOnSuccessListener { faces ->
@@ -58,7 +59,8 @@ object FaceDetector : Detector {
                 VisualDetectionHandler.handleNewFaces(translatedFaces)
                 VisualDetectionHandler.updateAllFaceSensorValues(
                     mediaImage.width,
-                    mediaImage.height
+                    mediaImage.height,
+                    frontCamera
                 )
             }
             .addOnFailureListener { e ->

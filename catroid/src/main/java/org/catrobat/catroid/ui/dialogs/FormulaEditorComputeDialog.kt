@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs
 
+import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.TextView
@@ -34,13 +36,16 @@ import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService
+import org.catrobat.catroid.camera.CameraManager
+import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.common.CatroidService
 import org.catrobat.catroid.common.ServiceProvider
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
 import org.catrobat.catroid.utils.NumberFormats
@@ -49,9 +54,10 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 open class FormulaEditorComputeDialog(
     private val context: Context,
     private val scope: Scope
-) : AlertDialog(context), SensorEventListener {
+) : AlertDialog(context), SensorEventListener, SensorCustomEventListener {
     private var formulaToCompute: Formula? = null
     private var computeTextView: TextView? = null
+    private var camerManager: CameraManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,22 +83,22 @@ open class FormulaEditorComputeDialog(
         }
 
         if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-            val btService = ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+            val btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
             btService.connectDevice(BluetoothDevice.LEGO_NXT, context)
         }
 
         if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
-            val btService = ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+            val btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
             btService.connectDevice(BluetoothDevice.LEGO_EV3, context)
         }
 
         if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
-            val btService = ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+            val btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
             btService.connectDevice(BluetoothDevice.ARDUINO, context)
         }
 
         if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
-            val btService = ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+            val btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
             btService.connectDevice(BluetoothDevice.PHIRO, context)
         }
 
@@ -100,18 +106,32 @@ open class FormulaEditorComputeDialog(
             SensorHandler.startSensorListener(context)
             SensorHandler.registerListener(this)
         }
+
+        if (requiresVisualDetection(resourcesSet)) {
+            camerManager = CameraManager(context as Activity)
+            camerManager?.startDetection()
+            VisualDetectionHandler.addListener(this)
+        }
     }
 
     override fun onStop() {
+        VisualDetectionHandler.removeListener(this)
         SensorHandler.unregisterListener(this)
         SensorHandler.stopSensorListeners()
-        ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause()
+        ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause()
         super.onStop()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         dismiss()
         return true
+    }
+
+    private fun requiresVisualDetection(resourcesSet: Brick.ResourcesSet): Boolean {
+        return resourcesSet.contains(Brick.FACE_DETECTION) ||
+            resourcesSet.contains(Brick.OBJECT_DETECTION) ||
+            resourcesSet.contains(Brick.POSE_DETECTION) ||
+            resourcesSet.contains(Brick.TEXT_DETECTION)
     }
 
     private fun showFormulaResult(scope: Scope, stringProvider: Formula.StringProvider) {
@@ -138,6 +158,11 @@ open class FormulaEditorComputeDialog(
             params.height = height + heightMargin
             textView.layoutParams = params
         }
+    }
+
+    override fun onCustomSensorChanged(event: SensorCustomEvent?) {
+        Log.d("FormulaCompute", "Custom sensor: ${event?.sensor} = ${event?.value}")
+        showFormulaResult(scope, AndroidStringProvider(context))
     }
 
     companion object {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.camera
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.View
@@ -38,17 +39,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import org.catrobat.catroid.R
-import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import org.koin.java.KoinJavaComponent.get
 
-class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
-    private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
+class CameraManager(private val activity: Activity) : LifecycleOwner {
+    private val cameraProvider = ProcessCameraProvider.getInstance(activity).get()
     private val lifecycle = LifecycleRegistry(this)
-    val previewView = PreviewView(stageActivity).apply {
+    val previewView = PreviewView(activity).apply {
         visibility = View.INVISIBLE
     }
 
@@ -61,7 +61,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     val hasFrontCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
     val hasBackCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
-    val hasFlash = stageActivity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+    val hasFlash = activity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
     var previewVisible = false
         private set
@@ -78,7 +78,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     init {
         if (hasFrontCamera || hasBackCamera) {
-            stageActivity.addContentView(
+            activity.addContentView(
                 previewView,
                 FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             )
@@ -128,14 +128,14 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     @Synchronized
     fun switchToFrontCamera() {
         if (hasFrontCamera) {
-            runInMainThreadAndWait(Runnable { switchCamera(CameraSelector.DEFAULT_FRONT_CAMERA) })
+            runInMainThreadAndWait { switchCamera(CameraSelector.DEFAULT_FRONT_CAMERA) }
         }
     }
 
     @Synchronized
     fun switchToBackCamera() {
         if (hasBackCamera) {
-            runInMainThreadAndWait(Runnable { switchCamera(CameraSelector.DEFAULT_BACK_CAMERA) })
+            runInMainThreadAndWait { switchCamera(CameraSelector.DEFAULT_BACK_CAMERA) }
         }
     }
 
@@ -157,12 +157,12 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     fun startPreview() {
         if (previewVisible.not()) {
             previewVisible = true
-            runInMainThreadAndWait(Runnable {
+            runInMainThreadAndWait {
                 previewView.visibility = View.VISIBLE
                 if (cameraProvider.isBound(previewUseCase).not()) {
                     bindPreview()
                 }
-            })
+            }
         }
     }
 
@@ -170,12 +170,12 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     fun stopPreview() {
         if (previewVisible) {
             previewVisible = false
-            runInMainThreadAndWait(Runnable {
+            runInMainThreadAndWait {
                 if (flashOn.not()) {
                     unbindPreview()
                 }
                 previewView.visibility = View.INVISIBLE
-            })
+            }
         }
     }
 
@@ -187,7 +187,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
                 switchToBackCamera()
             }
             if (cameraProvider.isBound(previewUseCase).not()) {
-                runInMainThreadAndWait(Runnable { bindPreview() })
+                runInMainThreadAndWait { bindPreview() }
             } else {
                 currentCamera?.cameraControl?.enableTorch(true)
             }
@@ -200,7 +200,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
             flashOn = false
             currentCamera?.cameraControl?.enableTorch(false)
             if (previewVisible.not()) {
-                runInMainThreadAndWait(Runnable { unbindPreview() })
+                runInMainThreadAndWait { unbindPreview() }
             }
         }
     }
@@ -217,7 +217,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private fun bindPreview(): Boolean {
         previewView.visibility = View.VISIBLE
         return bindUseCase(previewUseCase).also {
-            previewUseCase.setSurfaceProvider(previewView.createSurfaceProvider())
+            previewUseCase.surfaceProvider = previewView.createSurfaceProvider()
             if (previewVisible.not()) {
                 previewView.visibility = View.INVISIBLE
             }
@@ -235,10 +235,11 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     @UiThread
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
-        if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
-            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
+        if (mobileServiceAvailability.isGmsAvailable(activity)) {
+            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.activity, isCameraFacingFront)
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
-        } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+        } else if (mobileServiceAvailability.isHmsAvailable(activity)) {
+            FaceTextPoseDetectorHuawei.setFrontCamera(isCameraFacingFront)
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
         }
     }
@@ -270,7 +271,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     private fun runInMainThreadAndWait(runnable: Runnable) {
         val executionLatch = CountDownLatch(1)
-        stageActivity.runOnUiThread {
+        activity.runOnUiThread {
             runnable.run()
             executionLatch.countDown()
         }
@@ -278,7 +279,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     }
 
     private fun handleError() {
-        ToastUtil.showError(stageActivity, stageActivity.getString(R.string.camera_error_generic))
+        ToastUtil.showError(activity, activity.getString(R.string.camera_error_generic))
         destroy()
     }
 
