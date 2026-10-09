@@ -84,6 +84,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
                 }
                 updateTitle()
             }
+
             R.id.confirm -> handleContextualAction()
         }
         return super.onOptionsItemSelected(item)
@@ -139,7 +140,14 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val globalLists = ProjectManager.getInstance().currentProject.userLists
         val localLists = ProjectManager.getInstance().currentSprite.userLists
 
-        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
+        adapter = DataListAdapter(
+            ArrayList(),
+            ArrayList(),
+            ArrayList(),
+            ArrayList(),
+            globalLists,
+            localLists
+        )
         adapter?.showCheckBoxes(true)
         onAdapterReady()
     }
@@ -273,16 +281,19 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val itemList: MutableList<UserData<*>> = ArrayList()
         itemList.add(item)
         val hiddenOptionMenuIds = intArrayOf(
-                R.id.backpack,
-                R.id.copy,
-                R.id.new_group,
-                R.id.new_scene,
-                R.id.show_details,
-                R.id.project_options,
-                R.id.from_local
+            R.id.backpack,
+            R.id.copy,
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.from_local,
+            R.id.pin_to_home_screen,
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, context, R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.rename -> showRenameDialog(listOf(item))

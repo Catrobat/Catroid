@@ -29,12 +29,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.catrobat.catroid.R
@@ -55,6 +55,7 @@ import java.io.File
  * for future-proofing — e.g. if we later want to survive renames without re-pinning — but
  * the current shortcut ID is still the encoded directory name.
  */
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 object ShortcutHelper {
 
     private const val TAG = "ShortcutHelper"
@@ -66,8 +67,14 @@ object ShortcutHelper {
     fun isShortcutSupported(context: Context): Boolean =
         !isPocoDevice() && ShortcutManagerCompat.isRequestPinShortcutSupported(context)
 
-    fun isPocoDevice(): Boolean =
-        android.os.Build.MANUFACTURER.contains("POCO", ignoreCase = true)
+    fun isPocoDevice(): Boolean {
+        val manufacturer = android.os.Build.MANUFACTURER
+        val brand = android.os.Build.BRAND
+        val model = android.os.Build.MODEL
+        return manufacturer.contains("POCO", ignoreCase = true) ||
+            brand.contains("POCO", ignoreCase = true) ||
+            model.contains("POCO", ignoreCase = true)
+    }
 
     /**
      * Loads the project screenshot bitmap from the project directory on a background thread.
@@ -77,7 +84,10 @@ object ShortcutHelper {
      * First attempts full-resolution ARGB_8888. On OutOfMemoryError, retries at half-resolution
      * with RGB_565. If both fail, returns null.
      */
-    suspend fun loadProjectIcon(projectName: String): Bitmap? = withContext(Dispatchers.IO) {
+    suspend fun loadProjectIcon(
+        projectName: String,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Bitmap? = withContext(dispatcher) {
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, encodedName)
         val screenshotFile = findScreenshotFile(projectDir) ?: return@withContext null
@@ -154,59 +164,104 @@ object ShortcutHelper {
      * Also pushes a dynamic shortcut with the same ID so that
      * [updateShortcutOnRename] and [removeShortcutsForProjects] can manage it later.
      *
-     * Shortcut ID = encoded directory name at time of pinning.
+     * If the project already owns a shortcut, its ID is reused so the project never ends up
+     * with two shortcut IDs. Otherwise the encoded project name is used as ID, unless that ID
+     * is already owned by a different (renamed) project, in which case a distinct ID is
+     * allocated so the other project's shortcut is never overwritten.
      */
-    fun pinProject(context: Context, projectName: String, icon: Bitmap?): Boolean {
-        val shortcutInfo = buildShortcutInfo(context, projectName, icon)
+    fun pinProject(
+        context: Context,
+        projectName: String,
+        icon: Bitmap? = null,
+        shortcutLabel: String = projectName
+    ): Boolean {
+        val trackedShortcuts = getTrackedShortcuts(context)
+        val ownShortcut = trackedShortcuts.firstOrNull { belongsToProject(it, projectName) }
+        val shortcutId = ownShortcut?.id ?: allocateShortcutId(projectName, trackedShortcuts)
+        val shortcutInfo =
+            buildShortcutInfo(context, projectName, icon, shortcutId, shortcutLabel)
 
-        // Guard: prevent duplicate pins for the same project
-        val existingShortcuts = ShortcutManagerCompat.getDynamicShortcuts(context)
-        if (existingShortcuts.any { it.id == shortcutInfo.id }) {
-            Toast.makeText(
-                context,
-                R.string.shortcut_already_pinned,
-                Toast.LENGTH_SHORT
-            ).show()
-            return false
-        }
-
-        // Register as dynamic shortcut first — required for updateShortcuts / remove to work
-        try {
-            ShortcutManagerCompat.pushDynamicShortcut(context, shortcutInfo)
-        } catch (e: Exception) {
-            Log.w(TAG, "Could not push dynamic shortcut: ${e.message}")
+        if (ownShortcut != null) {
+            // Project was previously pinned/registered; re-enable if disabled, and update metadata
+            if (!ownShortcut.isEnabled) {
+                try {
+                    ShortcutManagerCompat.enableShortcuts(context, listOf(shortcutInfo))
+                } catch (e: Exception) {
+                    Log.w(TAG, "Could not enable existing shortcut: ${e.message}")
+                }
+            }
+            try {
+                ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not update existing shortcut: ${e.message}")
+            }
+        } else {
+            // Register as dynamic shortcut first — keeps it tracked for rename/delete lifecycle
+            try {
+                ShortcutManagerCompat.pushDynamicShortcut(context, shortcutInfo)
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not push dynamic shortcut: ${e.message}")
+            }
         }
 
         // Request the pinned shortcut on the home screen
-        val callbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            callbackIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        return ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, pendingIntent.intentSender)
+        val callbackIntent = try {
+            ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not create shortcut result intent: ${e.message}")
+            null
+        }
+        val pendingIntent = callbackIntent?.let {
+            PendingIntent.getBroadcast(
+                context,
+                shortcutInfo.id.hashCode(),
+                it,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        return try {
+            ShortcutManagerCompat.requestPinShortcut(
+                context,
+                shortcutInfo,
+                pendingIntent?.intentSender
+            )
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not request pin shortcut: ${e.message}")
+            false
+        }
     }
 
     /**
-     * Updates the label and intent of an existing pinned shortcut after a project rename.
+     * Updates the label and intent of every shortcut owned by a project after a rename.
      *
-     * Uses [ShortcutManagerCompat.updateShortcuts] to change the shortcut in-place —
-     * the home-screen icon stays, but its label and launch intent switch to the new name.
-     *
-     * The shortcut ID stays the same (= encoded old directory name). Only the displayed
-     * label and the intent extra change.
+     * Uses [ShortcutManagerCompat.updateShortcuts] to change the shortcuts in-place —
+     * the home-screen icons stay, but their launch intents switch to the new name.
+     * Shortcuts are matched by the project their launch intent targets, so the original
+     * IDs are found even after multiple renames. Custom labels chosen by the user are kept;
+     * labels that simply mirrored the old project name follow the new name.
      */
     suspend fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
-        val shortcutId = encodeShortcutId(oldName)
+        val ownShortcuts = getTrackedShortcuts(context).filter { belongsToProject(it, oldName) }
+        if (ownShortcuts.isEmpty()) return
 
         val icon = loadProjectIcon(newName)
-        val updatedShortcut = buildShortcutInfo(context, newName, icon, shortcutId)
+        val updatedShortcuts = ownShortcuts.map { existing ->
+            val currentLabel = existing.shortLabel?.toString()
+            val label = if (currentLabel.isNullOrBlank() || currentLabel == oldName) {
+                newName
+            } else {
+                currentLabel
+            }
+            buildShortcutInfo(context, newName, icon, existing.id, label)
+        }
 
         try {
-            ShortcutManagerCompat.updateShortcuts(context, listOf(updatedShortcut))
+            ShortcutManagerCompat.updateShortcuts(context, updatedShortcuts)
         } catch (e: Exception) {
-            Log.w(TAG, "Could not update shortcut for rename '$oldName' -> '$newName': ${e.message}")
+            Log.w(
+                TAG,
+                "Could not update shortcut for rename '$oldName' -> '$newName': ${e.message}"
+            )
         }
     }
 
@@ -223,7 +278,26 @@ object ShortcutHelper {
     fun removeShortcutsForProjects(context: Context, projectNames: List<String>) {
         if (projectNames.isEmpty()) return
 
-        val shortcutIds = projectNames.map { encodeShortcutId(it) }
+        val trackedShortcuts = getTrackedShortcuts(context)
+        val shortcutIds = projectNames.flatMap { name ->
+            trackedShortcuts.filter { belongsToProject(it, name) }.map { it.id }
+        }.distinct()
+        if (shortcutIds.isEmpty()) return
+
+        disableShortcutIds(context, shortcutIds)
+    }
+
+    /**
+     * Returns the IDs of all shortcuts whose launch intent targets the given project.
+     */
+    fun findShortcutIdsForProject(context: Context, projectName: String): List<String> =
+        getTrackedShortcuts(context).filter { belongsToProject(it, projectName) }.map { it.id }
+
+    /**
+     * Removes and disables the given shortcut IDs.
+     */
+    fun disableShortcutIds(context: Context, shortcutIds: List<String>) {
+        if (shortcutIds.isEmpty()) return
 
         // removeLongLivedShortcuts fully removes pinned shortcuts from the home screen
         try {
@@ -250,6 +324,56 @@ object ShortcutHelper {
     }
 
     /**
+     * Returns all dynamic and pinned shortcuts published by the app, de-duplicated by ID.
+     * Pinned shortcuts are included so tracking survives eviction from the dynamic list.
+     */
+    private fun getTrackedShortcuts(context: Context): List<ShortcutInfoCompat> {
+        val dynamicShortcuts = try {
+            ShortcutManagerCompat.getDynamicShortcuts(context)
+        } catch (e: Exception) {
+            emptyList()
+        }
+        val pinnedShortcuts = try {
+            ShortcutManagerCompat.getShortcuts(context, ShortcutManagerCompat.FLAG_MATCH_PINNED)
+        } catch (e: Exception) {
+            emptyList()
+        }
+        return (dynamicShortcuts.orEmpty() + pinnedShortcuts.orEmpty()).distinctBy { it.id }
+    }
+
+    /**
+     * A shortcut belongs to a project if its launch intent targets that project.
+     * The editable label is deliberately ignored, as it does not identify a project.
+     */
+    private fun belongsToProject(shortcut: ShortcutInfoCompat, projectName: String): Boolean =
+        targetProjectName(shortcut) == projectName
+
+    private fun targetProjectName(shortcut: ShortcutInfoCompat): String? = try {
+        shortcut.intent?.getStringExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME)
+    } catch (e: Exception) {
+        null
+    }
+
+    /**
+     * Allocates a shortcut ID for a project that does not own one yet. Prefers the encoded
+     * project name, but appends a numeric suffix if that ID is already in use (for example
+     * by a project that was renamed after being pinned).
+     */
+    private fun allocateShortcutId(
+        projectName: String,
+        trackedShortcuts: List<ShortcutInfoCompat>
+    ): String {
+        val baseId = encodeShortcutId(projectName)
+        val usedIds = trackedShortcuts.map { it.id }.toSet()
+        if (baseId !in usedIds) return baseId
+        var suffix = 2
+        while ("${baseId}_$suffix" in usedIds) {
+            suffix++
+        }
+        return "${baseId}_$suffix"
+    }
+
+    /**
      * Builds a [ShortcutInfoCompat] for a project.
      *
      * @param overrideId  If non-null, uses this as the shortcut ID instead of encoding the name.
@@ -259,9 +383,11 @@ object ShortcutHelper {
         context: Context,
         projectName: String,
         icon: Bitmap?,
-        overrideId: String? = null
+        overrideId: String? = null,
+        shortcutLabel: String? = null
     ): ShortcutInfoCompat {
         val shortcutId = overrideId ?: encodeShortcutId(projectName)
+        val label = if (!shortcutLabel.isNullOrBlank()) shortcutLabel else projectName
 
         val trampolineIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
             action = Intent.ACTION_VIEW
@@ -275,8 +401,8 @@ object ShortcutHelper {
         }
 
         return ShortcutInfoCompat.Builder(context, shortcutId)
-            .setShortLabel(projectName)
-            .setLongLabel(projectName)
+            .setShortLabel(label)
+            .setLongLabel(label)
             .setLongLived(true)
             .setIcon(iconCompat)
             .setIntent(trampolineIntent)
@@ -284,24 +410,30 @@ object ShortcutHelper {
     }
 
     /**
-     * Encodes a project name into the shortcut ID (= encoded directory name).
+     * Encodes a project name into the preferred shortcut ID (= encoded directory name).
      */
     private fun encodeShortcutId(projectName: String): String =
         FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 
     // --- MIUI / Xiaomi Compatibility ---
 
-    private const val MIUI_INSTALL_SHORTCUT_OP_CODE = 10017
+    private const val MIUI_INSTALL_SHORTCUT_OP_CODE = 10_017
+    private const val PROBE_SYNC_DELAY_MS = 200L
 
     /**
      * Checks if the device is a Xiaomi-related brand (Redmi, POCO, etc.)
      */
     fun isXiaomiDevice(): Boolean {
         val manufacturer = android.os.Build.MANUFACTURER
+        val brand = android.os.Build.BRAND
         return manufacturer.contains("Xiaomi", ignoreCase = true) ||
-                manufacturer.contains("Redmi", ignoreCase = true) ||
-                manufacturer.contains("POCO", ignoreCase = true) ||
-                manufacturer.contains("Blackshark", ignoreCase = true)
+            manufacturer.contains("Redmi", ignoreCase = true) ||
+            manufacturer.contains("POCO", ignoreCase = true) ||
+            manufacturer.contains("Blackshark", ignoreCase = true) ||
+            brand.contains("Xiaomi", ignoreCase = true) ||
+            brand.contains("Redmi", ignoreCase = true) ||
+            brand.contains("POCO", ignoreCase = true) ||
+            brand.contains("Blackshark", ignoreCase = true)
     }
 
     /**
@@ -314,6 +446,15 @@ object ShortcutHelper {
     fun canAddMoreShortcuts(context: Context): Boolean =
         ShortcutManagerCompat.getMaxShortcutCountPerActivity(context) > 0
 
+    private fun isDynamicShortcutListFull(context: Context): Boolean = try {
+        val maxCount = ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
+        val dynamicCount = ShortcutManagerCompat.getDynamicShortcuts(context).size
+        maxCount > 0 && dynamicCount >= maxCount
+    } catch (e: Exception) {
+        // If the registry cannot be inspected, avoid modifying it
+        true
+    }
+
     /**
      * Performs a 'Silent Probe' to detect if shortcut creation is blocked by the OS.
      * This is a reliable fallback for Xiaomi/HyperOS when reflection checks are blocked.
@@ -322,14 +463,27 @@ object ShortcutHelper {
      * 2. Waits 200ms to allow MIUI's throttled shortcut manager to sync.
      * 3. Checks if the shortcut actually exists in the dynamic list.
      * 4. Cleans up the dummy shortcut.
+     *
+     * The probe is skipped when the dynamic shortcut list is already full, because
+     * [ShortcutManagerCompat.pushDynamicShortcut] would then evict a real project shortcut.
      */
-    suspend fun probeIsShortcutCreationBlocked(context: Context): Boolean = withContext(Dispatchers.IO) {
+    suspend fun probeIsShortcutCreationBlocked(
+        context: Context,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Boolean = withContext(dispatcher) {
         if (!isShortcutSupported(context)) return@withContext true
+        if (isDynamicShortcutListFull(context)) {
+            Log.w(TAG, "Skipping silent probe: dynamic shortcut list is full")
+            return@withContext false
+        }
 
         val probeId = "miui_probe_${System.currentTimeMillis()}"
+        val probeIntent = Intent(context, ShortcutTrampolineActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+        }
         val probeShortcut = ShortcutInfoCompat.Builder(context, probeId)
             .setShortLabel("Probe")
-            .setIntent(Intent(Intent.ACTION_VIEW))
+            .setIntent(probeIntent)
             .build()
 
         try {
@@ -337,7 +491,7 @@ object ShortcutHelper {
             ShortcutManagerCompat.pushDynamicShortcut(context, probeShortcut)
 
             // 2. Timeout guard: MIUI can be stale immediately after push
-            kotlinx.coroutines.delay(200)
+            kotlinx.coroutines.delay(PROBE_SYNC_DELAY_MS)
 
             // 3. Verify existence
             val dynamicShortcuts = ShortcutManagerCompat.getDynamicShortcuts(context)
@@ -354,14 +508,73 @@ object ShortcutHelper {
     }
 
     /**
-     * Checks if the "Install shortcut" permission is granted on MIUI.
+     * Verifies if shortcut permission is granted on Xiaomi/MIUI/HyperOS.
+     * Tries reflection first, and gracefully falls back to the silent probe when
+     * reflection is blocked on newer Android/HyperOS versions.
+     */
+    suspend fun verifyShortcutPermission(
+        context: Context,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Boolean = withContext(dispatcher) {
+        if (!isXiaomiDevice()) return@withContext true
+
+        val appOpsManager =
+            context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
+                ?: return@withContext true
+
+        // Try checkOpNoThrow first (API 19+)
+        try {
+            val method = appOpsManager.javaClass.getMethod(
+                "checkOpNoThrow",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java
+            )
+            val result = method.invoke(
+                appOpsManager,
+                MIUI_INSTALL_SHORTCUT_OP_CODE,
+                android.os.Process.myUid(),
+                context.packageName
+            ) as Int
+            return@withContext result == android.app.AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            Log.w(TAG, "checkOpNoThrow failed, trying checkOp", e)
+        }
+
+        // Fallback to checkOp
+        try {
+            val method = appOpsManager.javaClass.getMethod(
+                "checkOp",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java
+            )
+            val result = method.invoke(
+                appOpsManager,
+                MIUI_INSTALL_SHORTCUT_OP_CODE,
+                android.os.Process.myUid(),
+                context.packageName
+            ) as Int
+            return@withContext result == android.app.AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            Log.w(TAG, "MIUI reflection failed, falling back to silent probe", e)
+        }
+
+        // Silent probe fallback when reflection is blocked
+        !probeIsShortcutCreationBlocked(context)
+    }
+
+    /**
+     * Checks if the "Install shortcut" permission is granted on MIUI (synchronous fast path).
      * Uses reflection to access the hidden 'checkOp' method in AppOpsManager.
      */
     fun isShortcutPermissionGranted(context: Context): Boolean {
         if (!isXiaomiDevice()) return true
 
-        val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as android.app.AppOpsManager
-        
+        val appOpsManager =
+            context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
+                ?: return true
+
         // Try checkOpNoThrow first (API 19+)
         try {
             val method = appOpsManager.javaClass.getMethod(
@@ -397,9 +610,11 @@ object ShortcutHelper {
             ) as Int
             result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(TAG, "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.", e)
-            // If reflection is blocked or API changed (e.g. HyperOS), default to TRUE 
-            // so we don't block the user from trying to pin.
+            Log.e(
+                TAG,
+                "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.",
+                e
+            )
             true
         }
     }
@@ -426,14 +641,14 @@ object ShortcutHelper {
 
     private fun openStandardAppSettings(context: Context) {
         try {
-            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = "package:${context.packageName}".toUri()
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+            val intent =
+                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = "package:${context.packageName}".toUri()
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
             context.startActivity(intent)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open even standard app settings", e)
         }
     }
 }
-

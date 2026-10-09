@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -39,7 +38,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,6 +69,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
@@ -126,7 +125,7 @@ class ProjectListFragment(
             )
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 setAdapterItems(adapter.projectsSorted)
                 filesForUnzipAndImportTask?.clear()
@@ -145,7 +144,7 @@ class ProjectListFragment(
                 filesForUnzipAndImportTask?.clear()
             }
 
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -166,7 +165,7 @@ class ProjectListFragment(
             checkForEmptyList()
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 if (adapter != null) {
                     setAdapterItems(adapter.projectsSorted)
@@ -182,7 +181,12 @@ class ProjectListFragment(
             val icon = pendingShortcutIcon
             pendingShortcutProjectName = null
             pendingShortcutIcon = null
-            showPinShortcutDialog(projectName, icon)
+            coroutineScope.launch {
+                val isGranted = context?.let { ShortcutHelper.verifyShortcutPermission(it) } ?: true
+                withContext(mainDispatcher) {
+                    showPinShortcutDialog(projectName, icon, isGranted)
+                }
+            }
         }
 
         BottomBar.showBottomBar(requireActivity())
@@ -190,9 +194,10 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
-                sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
+                sharedPreferenceDetailsKey =
+                    SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
                 adapter = ProjectAdapter(items)
                 onAdapterReady()
             }
@@ -280,13 +285,18 @@ class ProjectListFragment(
             onImportError()
             return
         }
-        var uris: ArrayList<Uri> = ArrayList()
+        val uris: ArrayList<Uri> = ArrayList()
         if (data.data == null && !data.hasExtra(Intent.EXTRA_STREAM) && data.clipData == null) {
             onImportError()
             return
         }
         if (data.hasExtra(Intent.EXTRA_STREAM)) {
-            uris = data.extras?.get(Intent.EXTRA_STREAM) as ArrayList<Uri>
+            val streamExtra = data.extras?.get(Intent.EXTRA_STREAM)
+            if (streamExtra is ArrayList<*>) {
+                uris.addAll(streamExtra.filterIsInstance<Uri>())
+            } else if (streamExtra is Uri) {
+                uris.add(streamExtra)
+            }
         } else {
             extractAllUris(data, uris)
         }
@@ -377,7 +387,8 @@ class ProjectListFragment(
         val usedProjectNames = ArrayList(adapter.items)
         for (projectData in selectedItems) {
             projectData ?: continue
-            val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
+            val name =
+                uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
             usedProjectNames.add(ProjectData(name, null, 0.0, false))
             val projectCopier = ProjectCopier(projectData.directory, name)
             projectCopier.copyProjectAsync({ success: Boolean -> onCopyProjectComplete(success) })
@@ -444,8 +455,8 @@ class ProjectListFragment(
         if (name != item.name) {
             val oldName = item.name
             setShowProgressBar(true)
-            ProjectRenamer(item.directory, name)
-                .renameProjectAsync({ success: Boolean ->
+            ProjectRenamer(item.directory, name).renameProjectAsync(
+                onRenameProjectComplete = { success: Boolean ->
                     onRenameFinished(success)
                     if (success) {
                         coroutineScope.launch {
@@ -454,7 +465,8 @@ class ProjectListFragment(
                             )
                         }
                     }
-                })
+                }
+            )
         }
     }
 
@@ -474,7 +486,7 @@ class ProjectListFragment(
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -491,11 +503,13 @@ class ProjectListFragment(
                 super.onItemClick(item, null)
                 return
             }
+
             NONE -> {
                 setShowProgressBar(true)
                 val directoryFile = item?.directory ?: return
                 ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
             }
+
             IMPORT_LOCAL -> {
                 val intent = Intent()
                 intent.putExtra(
@@ -505,6 +519,7 @@ class ProjectListFragment(
                 requireActivity().setResult(RESULT_OK, intent)
                 requireActivity().finish()
             }
+
             else -> super.onItemClick(item, selectionManager)
         }
     }
@@ -579,7 +594,6 @@ class ProjectListFragment(
                     }
                 )
         }
-
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
@@ -597,7 +611,11 @@ class ProjectListFragment(
 
             lock.lock()
             getLocalProjectList(newItems)
-            newItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData -> project2.lastUsed.compareTo(project1.lastUsed) })
+            newItems.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
+                project2.lastUsed.compareTo(
+                    project1.lastUsed
+                )
+            })
             items = newItems
             lock.unlock()
 
@@ -655,99 +673,38 @@ class ProjectListFragment(
         val projectName = item.name
         coroutineScope.launch {
             val icon = ShortcutHelper.loadProjectIcon(projectName)
+            val isGranted = ShortcutHelper.verifyShortcutPermission(context)
             withContext(mainDispatcher) {
-                showPinShortcutDialog(projectName, icon)
+                showPinShortcutDialog(projectName, icon, isGranted)
             }
         }
     }
 
-    private fun showPinShortcutDialog(projectName: String, icon: android.graphics.Bitmap?) {
-        val context = context ?: return
-
-        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
-
-        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
-            showShortcutPermissionDialog(context, projectName, icon)
-            return
-        }
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
-
-        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
-        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
-
-        if (icon != null) {
-            iconView.setImageBitmap(icon)
-        } else {
-            iconView.setImageResource(R.drawable.ic_launcher_foreground)
-        }
-        nameView.text = projectName
-        miuiContainer.visibility = android.view.View.GONE
-        pinButton.visibility = android.view.View.VISIBLE
-
-        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
-
-        pinButton.setOnClickListener {
-            dialog.dismiss()
-            ShortcutHelper.pinProject(context, projectName, icon)
-        }
-
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun showShortcutPermissionDialog(
-        context: Context,
+    private fun showPinShortcutDialog(
         projectName: String,
-        icon: android.graphics.Bitmap?
+        icon: android.graphics.Bitmap?,
+        isPermissionGranted: Boolean = ShortcutHelper.isShortcutPermissionGranted(requireContext())
     ) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
-
-        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
-        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
-        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
-        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
-        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
-        val settingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
-        val miuiCancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_cancel_button)
-
-        if (icon != null) {
-            iconView.setImageBitmap(icon)
-        } else {
-            iconView.setImageResource(R.drawable.ic_launcher_foreground)
-        }
-        nameView.text = projectName
-        miuiContainer.visibility = android.view.View.VISIBLE
-        pinButton.visibility = android.view.View.GONE
-        cancelButton.visibility = android.view.View.GONE
-
-        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
-
-        settingsButton.setOnClickListener {
-            pendingShortcutProjectName = projectName
-            pendingShortcutIcon = icon
-            dialog.dismiss()
-            ShortcutHelper.openMiuiPermissionEditor(context)
-        }
-
-        miuiCancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
+        val context = context ?: return
+        ShortcutDialogHelper.showPinShortcutDialog(
+            context,
+            layoutInflater,
+            projectName,
+            icon,
+            isPermissionGranted,
+            onSettingsClicked = {
+                pendingShortcutProjectName = projectName
+                pendingShortcutIcon = icon
+            },
+            onProjectRenamed = { _, _ ->
+                getLocalProjectListAsync(object : LoadProjectsListener {
+                    override fun onProjectsLoaded() {
+                        if (isAdded && adapter != null) {
+                            setAdapterItems(adapter.projectsSorted)
+                        }
+                    }
+                })
+            }
+        )
     }
 }

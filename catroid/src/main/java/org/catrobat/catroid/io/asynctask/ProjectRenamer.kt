@@ -57,25 +57,27 @@ class ProjectRenamer(
 }
 
 fun renameProject(projectDirectory: File, destinationName: String): File? {
-    val destinationDirectory = File(
-        projectDirectory.parent,
-        FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
-    )
-    val file = File(
-        destinationDirectory,
-        Constants.CODE_XML_FILE_NAME
-    )
+    synchronized(projectSaveLock) {
+        val destinationDirectory = File(
+            projectDirectory.parent,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
+        )
+        val file = File(
+            destinationDirectory,
+            Constants.CODE_XML_FILE_NAME
+        )
 
-    val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
-        file,
-        destinationName
-    )
-    if (!success) {
-        return null
+        val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
+            file,
+            destinationName
+        )
+        if (!success) {
+            return null
+        }
+
+        ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
+        return destinationDirectory
     }
-
-    ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
-    return destinationDirectory
 }
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
