@@ -60,6 +60,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.multiplayer.Multiplayer;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_LE;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY;
 
-public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
+public class ConnectBluetoothDeviceActivity extends BaseActivity {
 
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
 
@@ -347,7 +348,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				onBackPressed();
+				getOnBackPressedDispatcher().onBackPressed();
 				break;
 			case R.id.skip_bluetooth:
 				setResult(AppCompatActivity.RESULT_OK);

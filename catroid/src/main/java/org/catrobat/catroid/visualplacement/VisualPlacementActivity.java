@@ -61,6 +61,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Locale;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -125,6 +126,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float layoutWidthRatio;
 	private float layoutHeightRatio;
 	private VisualPlacementTouchListener visualPlacementTouchListener;
+	private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(false) {
+		@Override
+		public void handleOnBackPressed() {
+			showSaveChangesDialog(VisualPlacementActivity.this);
+		}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,7 +143,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				onBackPressed();
+				getOnBackPressedDispatcher().onBackPressed();
 				break;
 			case R.id.confirm:
 				finishWithResult();
@@ -221,6 +228,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		toolbar.bringToFront();
 		frameLayout.setOnTouchListener(this);
+
+		getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 	}
 
 	private void setBackground() {
@@ -370,18 +379,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	}
 
 	@Override
-	public void onBackPressed() {
-		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
-		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
-
-		if (translateX != xCoordinate || translateY != yCoordinate) {
-			showSaveChangesDialog(this);
-		} else {
-			finish();
-		}
-	}
-
-	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
 			case BUTTON_POSITIVE:
@@ -420,6 +417,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				.show();
 	}
 
+	private boolean hasUnsavedChanges() {
+		int xCoordinate = Math.round(xCoord / layoutWidthRatio);
+		int yCoordinate = Math.round(yCoord / layoutHeightRatio);
+
+		return translateX != xCoordinate || translateY != yCoordinate;
+	}
+
 	@Override
 	public void setXCoordinate(float xCoordinate) {
 		if (isText) {
@@ -427,6 +431,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			xCoord = xCoordinate;
 		}
+		onBackPressedCallback.setEnabled(hasUnsavedChanges());
 	}
 
 	@Override
@@ -436,5 +441,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			yCoord = yCoordinate;
 		}
+		onBackPressedCallback.setEnabled(hasUnsavedChanges());
 	}
 }

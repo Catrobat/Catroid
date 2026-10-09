@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -52,9 +51,12 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.activity.ComponentDialog;
+import androidx.activity.OnBackPressedCallback;
+
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 
-public class StageDialog extends Dialog implements View.OnClickListener {
+public class StageDialog extends ComponentDialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();
 	private StageActivity stageActivity;
 	private StageListener stageListener;
@@ -91,6 +93,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
 		}
+
+		OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				exitStage();
+			}
+		};
+		getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
 	}
 
 	@Override
@@ -108,7 +118,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
-				onBackPressed();
+				getOnBackPressedDispatcher().onBackPressed();
 				break;
 			case R.id.stage_dialog_button_continue:
 				onContinuePressed();
@@ -134,8 +144,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
+	public void exitStage() {
 		clearBroadcastMaps();
 		resetEmbroideryThreadColor();
 		dismiss();

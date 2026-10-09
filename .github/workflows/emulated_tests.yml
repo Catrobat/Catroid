@@ -85,7 +85,7 @@ jobs:
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 36
           force-avd-creation: true
           emulator-boot-timeout: 900
           emulator-options: >

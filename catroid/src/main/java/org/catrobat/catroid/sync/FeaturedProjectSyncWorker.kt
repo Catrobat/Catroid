@@ -24,11 +24,13 @@
 package org.catrobat.catroid.sync
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.catrobat.catroid.web.WebConnectionException
 import org.koin.java.KoinJavaComponent.inject
 
 class FeaturedProjectSyncWorker(context: Context, params: WorkerParameters) :
@@ -36,11 +38,30 @@ class FeaturedProjectSyncWorker(context: Context, params: WorkerParameters) :
 
     private val featuredProjectsSync: FeaturedProjectsSync by inject(FeaturedProjectsSync::class.java)
 
-    override suspend fun doWork(): Result {
-        Log.d(javaClass.simpleName, "doWork()")
-        return withContext(Dispatchers.IO) {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        val attempt = runAttemptCount + 1
+        Log.d(TAG, "doWork() attempt $attempt")
+
+        try {
             featuredProjectsSync.sync()
             Result.success()
+        } catch (webError: WebConnectionException) {
+            if (attempt < MAX_RUN_ATTEMPTS) {
+                Log.d(TAG, "sync failed, retrying", webError)
+                Result.retry()
+            } else {
+                Log.w(TAG, "giving up after $attempt attempts", webError)
+                Result.failure()
+            }
+        } finally {
+            if (isStopped && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Log.e(TAG, "stopped by the system, stopReason = $stopReason")
+            }
         }
+    }
+
+    companion object {
+        private val TAG = FeaturedProjectSyncWorker::class.java.simpleName
+        private const val MAX_RUN_ATTEMPTS = 3
     }
 }

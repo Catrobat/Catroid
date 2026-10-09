@@ -31,11 +31,15 @@ import android.os.Looper
 import android.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -52,6 +56,7 @@ import org.catrobat.catroid.ui.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -229,6 +234,35 @@ class ProjectUploadDialogTest {
         getInstrumentation().waitForIdleSync()
 
         assertFalse(isKeyboardVisible())
+    }
+
+    @Test
+    fun backOnNotesAndCreditsScreenReturnsToNameScreen() {
+        onView(withId(R.id.next))
+            .perform(click())
+
+        onView(withId(R.id.input_project_notes_and_credits))
+            .check(matches(isDisplayed()))
+
+        pressBack()
+
+        onView(withId(R.id.input_project_name))
+            .check(matches(isDisplayed()))
+        onView(withId(R.id.input_project_notes_and_credits))
+            .check(matches(withEffectiveVisibility(Visibility.GONE)))
+    }
+
+    @Test
+    fun backOnNameScreenFinishesActivity() {
+        onView(withId(R.id.input_project_name))
+            .check(matches(isDisplayed()))
+
+        val activity = activityTestRule.activity
+
+        pressBackUnconditionally()
+        getInstrumentation().waitForIdleSync()
+
+        assertTrue(activity.isFinishing)
     }
 
     private fun isKeyboardVisible(): Boolean {

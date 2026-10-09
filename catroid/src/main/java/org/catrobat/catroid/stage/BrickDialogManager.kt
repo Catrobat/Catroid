@@ -26,6 +26,7 @@ package org.catrobat.catroid.stage
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.os.Build
 import android.text.method.LinkMovementMethod
 import android.view.ContextThemeWrapper
 import android.view.KeyEvent
@@ -33,6 +34,7 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
+import android.window.OnBackInvokedDispatcher
 import androidx.core.text.HtmlCompat
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.BuildConfig
@@ -74,6 +76,11 @@ class BrickDialogManager(val stageActivity: StageActivity) :
         StageLifeCycleController.stagePause(stageActivity)
         openDialogs.add(dialog)
         dialog.show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            dialog.onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_OVERLAY
+            ) { stageActivity.handleBackEvent() }
+        }
     }
 
     private fun createAskDialog(askAction: AskAction, question: String): Dialog {
@@ -162,11 +169,13 @@ class BrickDialogManager(val stageActivity: StageActivity) :
 
     override fun onKey(dialog: DialogInterface, keyCode: Int, event: KeyEvent) =
         (keyCode == KeyEvent.KEYCODE_BACK).also {
-            if (it) stageActivity.onBackPressed()
+            if (it) stageActivity.handleBackEvent()
         }
 
     override fun onDismiss(dialog: DialogInterface) {
         openDialogs.remove(dialog as Dialog)
-        StageLifeCycleController.stageResume(stageActivity)
+        if (stageActivity.applicationListener != null) {
+            StageLifeCycleController.stageResume(stageActivity)
+        }
     }
 }

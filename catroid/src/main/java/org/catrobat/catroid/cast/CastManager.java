@@ -197,7 +197,7 @@ public final class CastManager {
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				gamepadActivity.onBackPressed();
+				gamepadActivity.handleBackEvent();
 			}
 		};
 
@@ -427,7 +427,7 @@ public final class CastManager {
 
 			if (stageViewDisplayedOnCast != null) {
 				// Meaning that there is currently a stage being displayed on the remote screen
-				gamepadActivity.onBackPressed();
+				gamepadActivity.handleBackEvent();
 			}
 			stageViewDisplayedOnCast = null;
 			setIsConnected(false);

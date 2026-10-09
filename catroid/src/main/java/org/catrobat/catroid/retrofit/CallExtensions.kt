@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,32 +21,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.db
+package org.catrobat.catroid.retrofit
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
-import kotlinx.coroutines.flow.Flow
-import org.catrobat.catroid.retrofit.models.FeaturedProject
+import android.util.Log
+import org.catrobat.catroid.web.WebConnectionException
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.awaitResponse
+import java.io.IOException
 
-@Dao
-@SuppressWarnings("UnnecessaryAbstractClass")
-abstract class FeaturedProjectDao {
-
-    @Query("SELECT * FROM featured_project")
-    abstract fun getFeaturedProjects(): Flow<List<FeaturedProject>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertFeaturedProjects(projects: List<FeaturedProject>)
-
-    @Query("DELETE FROM featured_project")
-    abstract fun deleteAll()
-
-    @Transaction
-    open fun replaceAll(projects: List<FeaturedProject>) {
-        deleteAll()
-        insertFeaturedProjects(projects)
+@Throws(WebConnectionException::class)
+internal suspend fun <T> Call<T>.awaitSuccessfulResponse(tag: String): Response<T> {
+    val response = try {
+        awaitResponse()
+    } catch (ioException: IOException) {
+        Log.e(tag, Log.getStackTraceString(ioException))
+        throw WebConnectionException(WebConnectionException.ERROR_NETWORK, "I/O Exception")
     }
+
+    if (!response.isSuccessful) {
+        throw WebConnectionException(response.code(), response.message())
+    }
+
+    return response
 }
