@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.web
 
 import okhttp3.Call
@@ -37,9 +37,9 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
-import org.powermock.api.mockito.PowerMockito.doNothing
-import org.powermock.api.mockito.PowerMockito.doReturn
-import org.powermock.api.mockito.PowerMockito.mock
+import org.mockito.Mockito.doNothing
+import org.mockito.Mockito.doReturn
+import org.mockito.Mockito.mock
 
 @RunWith(JUnit4::class)
 class WebConnectionTest {
@@ -78,4 +78,3 @@ class WebConnectionTest {
         verify(call, times(1)).enqueue(any())
     }
 }
-*/

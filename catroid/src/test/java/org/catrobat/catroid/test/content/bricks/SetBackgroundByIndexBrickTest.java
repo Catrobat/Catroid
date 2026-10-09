@@ -20,8 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.bricks;
+
+import android.annotation.SuppressLint;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -35,29 +37,33 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GdxNativesLoader.class)
+import static org.mockito.Mockito.mockStatic;
+
+@RunWith(MockitoJUnitRunner.class)
 public class SetBackgroundByIndexBrickTest {
 	private Sprite sprite;
 	private final double backgroundIndex = 2.0;
-	private String localUserVariableBackgroundIndex = "BGI";
+	private final String localUserVariableBackgroundIndex = "BGI";
 
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
+
+	@SuppressLint("CheckResult")
 	@Before
 	public void setUp() throws Exception {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
+		gdxNativesLoaderMock = mockStatic(GdxNativesLoader.class);
 
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		sprite = new Sprite("Sprite");
@@ -81,6 +87,11 @@ public class SetBackgroundByIndexBrickTest {
 		project.getDefaultScene().getBackgroundSprite().look.setLookData(lookData);
 	}
 
+	@After
+	public void tearDown() {
+		gdxNativesLoaderMock.close();
+	}
+
 	@Test
 	public void testSetBackgroundByIndex() {
 		ActionFactory actionFactory = new ActionFactory();
@@ -102,4 +113,3 @@ public class SetBackgroundByIndexBrickTest {
 		return new Formula(formulaElement);
 	}
 }
-*/

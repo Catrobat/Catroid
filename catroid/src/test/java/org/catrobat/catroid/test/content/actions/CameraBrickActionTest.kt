@@ -20,39 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.CameraBrickAction
 import org.catrobat.catroid.stage.StageActivity
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
+import org.mockito.MockedStatic
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.mockStatic
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
-import org.powermock.api.mockito.PowerMockito.mock
-import org.powermock.api.mockito.PowerMockito.mockStatic
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class, StageActivity::class)
+@RunWith(MockitoJUnitRunner::class)
 class CameraBrickActionTest {
     private lateinit var testSprite: Sprite
     private lateinit var cameraManager: org.catrobat.catroid.camera.CameraManager
+
+    private lateinit var gdxNativesLoaderMock: MockedStatic<GdxNativesLoader>
+    private lateinit var stageActivityMock: MockedStatic<StageActivity>
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
         testSprite = Sprite("testSprite")
         cameraManager = mock(org.catrobat.catroid.camera.CameraManager::class.java)
-        mockStatic(GdxNativesLoader::class.java)
-        mockStatic(StageActivity::class.java)
+        gdxNativesLoaderMock = mockStatic(GdxNativesLoader::class.java)
+        stageActivityMock = mockStatic(StageActivity::class.java)
         given(StageActivity.getActiveCameraManager()).willReturn(cameraManager)
-        // PowerMockito.doNothing().`when`(cameraManager).setFlashMode(anyBoolean())
+    }
+
+    @After
+    fun tearDown() {
+        gdxNativesLoaderMock.close()
+        stageActivityMock.close()
     }
 
     @Test
@@ -71,4 +79,3 @@ class CameraBrickActionTest {
         verify(cameraManager, times(1)).stopPreview()
     }
 }
-*/

@@ -667,6 +667,17 @@ public final class XstreamSerializer {
 		xstream.alias("brick", FadeParticleEffectBrick.class);
 		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
 		xstream.alias("brick", SetParticleColorBrick.class);
+
+		xstream.alias("brick", SaveLaserBrick.class);
+		xstream.alias("brick", SavePlotBrick.class);
+		xstream.alias("brick", SharePlotBrick.class);
+		xstream.alias("brick", ShareLaserBrick.class);
+		xstream.alias("brick", StartCutBrick.class);
+		xstream.alias("brick", StartEngraveBrick.class);
+		xstream.alias("brick", StartPlotBrick.class);
+		xstream.alias("brick", StopCutBrick.class);
+		xstream.alias("brick", StopEngraveBrick.class);
+		xstream.alias("brick", StopPlotBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
