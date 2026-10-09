@@ -126,7 +126,7 @@ class ProjectListFragment(
             )
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 setAdapterItems(adapter.projectsSorted)
                 filesForUnzipAndImportTask?.clear()
@@ -145,7 +145,7 @@ class ProjectListFragment(
                 filesForUnzipAndImportTask?.clear()
             }
 
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
@@ -166,7 +166,8 @@ class ProjectListFragment(
             checkForEmptyList()
         }
 
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        setShowProgressBar(true)
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
                 if (adapter != null) {
                     setAdapterItems(adapter.projectsSorted)
@@ -190,10 +191,16 @@ class ProjectListFragment(
     }
 
     override fun initializeAdapter() {
-        getLocalProjectListAsync(object: LoadProjectsListener {
+        setShowProgressBar(true)
+        getLocalProjectListAsync(object : LoadProjectsListener {
             override fun onProjectsLoaded() {
-                sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
+                sharedPreferenceDetailsKey =
+                    SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY
                 adapter = ProjectAdapter(items)
+                if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
+                    adapter.showSettings = false
+                }
+
                 onAdapterReady()
             }
         })
@@ -421,12 +428,13 @@ class ProjectListFragment(
     }
 
     fun checkForEmptyList() {
-        if (adapter.items.isEmpty()) {
+        if (adapter != null && adapter.items.isEmpty()) {
             setShowProgressBar(true)
             if (projectManager.initializeDefaultProject()) {
                 setAdapterItems(adapter.projectsSorted)
                 setShowProgressBar(false)
             } else {
+                setShowProgressBar(false)
                 ToastUtil.showError(requireContext(), R.string.wtf_error)
                 requireActivity().finish()
             }
@@ -459,6 +467,7 @@ class ProjectListFragment(
     }
 
     override fun onLoadFinished(success: Boolean) {
+        setShowProgressBar(false)
         if (success) {
             val intent = Intent(requireContext(), ProjectActivity::class.java)
             intent.putExtra(
@@ -467,20 +476,20 @@ class ProjectListFragment(
             )
             startActivity(intent)
         } else {
-            setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_load_project)
         }
     }
 
     private fun onCopyProjectComplete(success: Boolean) {
         if (success) {
-            getLocalProjectListAsync(object: LoadProjectsListener {
+            getLocalProjectListAsync(object : LoadProjectsListener {
                 override fun onProjectsLoaded() {
                     setAdapterItems(adapter.projectsSorted)
                     setShowProgressBar(false)
                 }
             })
         } else {
+            setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_copy_project)
         }
     }
@@ -583,6 +592,8 @@ class ProjectListFragment(
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
+        if (adapter == null) return
+
         if (sortProjects) {
             adapter.setItems(getSortedItemList().toList())
         } else {
