@@ -601,6 +601,7 @@
     </plurals>
     <!-- Renamed -->
     <string formatted="false" name="renamed_project">Renamed project</string>
+    <string formatted="false" name="restored_project">Restored project</string>
     <!--  -->
 
     <!-- ProjectListActivity and ProjectListFragment -->
