@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,6 @@ import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
-import java.util.ArrayList
 
 class LookListFragment : RecyclerViewFragment<LookData?>() {
     private val lookController = LookController()
@@ -148,12 +147,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     override fun onDestroy() {
         super.onDestroy()
         disposeItem()
-        val activity: Activity = requireActivity()
-        if (activity is SpriteActivity) {
-            activity.setUndoMenuItemVisibility(false)
-            activity.checkForChange()
-            activity.showUndo(false)
-        }
     }
 
     @PluralsRes
@@ -187,9 +180,11 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SpriteActivity.EDIT_LOOK && resultCode == Activity.RESULT_OK) {
-            val activity: Activity = requireActivity()
-            if (activity is SpriteActivity) {
+        if (requestCode == SpriteActivity.EDIT_LOOK) {
+            val activity = requireActivity() as? SpriteActivity ?: return
+            activity.setUndoMenuItemVisibility(false)
+
+            if (resultCode == Activity.RESULT_OK) {
                 activity.setUndoMenuItemVisibility(true)
             }
         }

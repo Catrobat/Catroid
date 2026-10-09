@@ -460,9 +460,11 @@ class FormulaEditorUndoTest {
         assertNotNull(ProjectManager.getInstance().currentProject.getUserVariable(NEW_VARIABLE_NAME))
 
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
-            baseActivityTestRule.activity.recreate()
+            baseActivityTestRule.activity.finish()
         }
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+        baseActivityTestRule.launchActivity()
 
         onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at)
 
