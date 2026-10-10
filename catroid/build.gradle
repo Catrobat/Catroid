@@ -24,6 +24,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+import javax.inject.Inject
+
 buildscript {
     repositories {
         google()
@@ -103,6 +105,44 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
 
 def defaultVersionCode = 102
 def defaultVersionName = "1.4.1"
+
+// Face-recognition fixtures for the instrumented tests. The archive stays in
+// src/androidTest/assets; its contents are unpacked into a build directory that
+// AGP registers as a generated androidTest asset source. Nothing is written into
+// src/, so no other task reads this task's output without a declared dependency.
+abstract class UnpackFaceTestAssets extends DefaultTask {
+    @InputFile
+    @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getArchive()
+
+    @OutputDirectory
+    abstract DirectoryProperty getOutputDir()
+
+    @Inject
+    abstract FileSystemOperations getFileSystem()
+
+    @Inject
+    abstract ArchiveOperations getArchives()
+
+    @TaskAction
+    void unpack() {
+        File zip = archive.get().asFile
+        if (!zip.isFile()) {
+            throw new GradleException("Required face test archive is missing: $zip")
+        }
+        File target = outputDir.get().dir('faces').asFile
+        fileSystem.sync {
+            from(archives.zipTree(zip))
+            into(target)
+        }
+    }
+}
+
+def unpackFaceTestAssets = tasks.register('unpackFaceTestAssets', UnpackFaceTestAssets) {
+    group = 'verification'
+    description = 'Unpacks face-recognition fixtures for instrumented tests.'
+    archive.set(layout.projectDirectory.file('src/androidTest/assets/faces.zip'))
+}
 
 android {
     compileSdk = 35
@@ -353,6 +393,10 @@ dependencies {
     } else {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
+    // LiteRT is TensorFlow Lite under its new name (same org.tensorflow.lite API).
+    // 1.4.0 ships 16 KB aligned native libraries, which Android 15+ devices and
+    // Google Play need; tensorflow-lite 2.12.0 was aligned to 4 KB.
+    implementation 'com.google.ai.edge.litert:litert:1.4.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
@@ -490,6 +534,7 @@ dependencies {
     testImplementation "io.mockk:mockk:${mockkVersion}"
 
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    testImplementation 'androidx.test:core:1.5.0'
 
     testImplementation 'org.robolectric:robolectric:4.16.1'
 
@@ -559,6 +604,15 @@ tasks.register('copyAndroidNatives') {
 tasks.configureEach { packageTask ->
     if (packageTask.name.contains("package")) {
         packageTask.dependsOn 'copyAndroidNatives'
+    }
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        // Registers the unpacked fixtures as androidTest assets (served as
+        // assets/faces/...) and wires the task dependency for every consumer.
+        variant.androidTest?.sources?.assets?.addGeneratedSourceDirectory(
+                unpackFaceTestAssets, { UnpackFaceTestAssets task -> task.outputDir })
     }
 }
 

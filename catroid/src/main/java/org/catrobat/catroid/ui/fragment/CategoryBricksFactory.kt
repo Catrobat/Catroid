@@ -80,6 +80,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.FaceNameTrain
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -767,6 +768,7 @@ open class CategoryBricksFactory {
             deviceBrickList.add(ChooseCameraBrick())
             deviceBrickList.add(FlashBrick())
         }
+        deviceBrickList.addAll(setupFaceNameBricks(context))
         deviceBrickList.add(WriteVariableOnDeviceBrick())
         deviceBrickList.add(ReadVariableFromDeviceBrick())
         deviceBrickList.add(WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))
@@ -819,6 +821,14 @@ open class CategoryBricksFactory {
         )
         return deviceBrickList
     }
+
+    // Behind the same AI setting as the face name sensor, like the other AI bricks.
+    private fun setupFaceNameBricks(context: Context): List<Brick> =
+        if (SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(context)) {
+            listOf(FaceNameTrain())
+        } else {
+            emptyList()
+        }
 
     private fun setupLegoNxtCategoryList(): List<Brick> {
         val legoNXTBrickList: MutableList<Brick> = ArrayList()
@@ -1215,6 +1225,7 @@ open class CategoryBricksFactory {
         when (brick) {
             is AskBrick -> category = res.getString(R.string.category_looks)
             is AskSpeechBrick -> category = res.getString(R.string.category_sound)
+            is FaceNameTrain -> category = res.getString(R.string.category_device)
             is LookRequestBrick -> category = res.getString(R.string.category_looks)
             is BackgroundRequestBrick -> category = res.getString(R.string.category_looks)
             is WhenClonedBrick -> category = res.getString(R.string.category_control)

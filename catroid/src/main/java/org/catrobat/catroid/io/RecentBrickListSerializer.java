@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public final class RecentBrickListSerializer {
 
@@ -87,8 +88,15 @@ public final class RecentBrickListSerializer {
 
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(recentBricksFile));
-			return recentBrickListGson.fromJson(bufferedReader,
+			RecentBricksHolder recentBricksHolder = recentBrickListGson.fromJson(bufferedReader,
 					RecentBricksHolder.class);
+			if (recentBricksHolder == null || recentBricksHolder.getRecentBricks() == null) {
+				return new RecentBricksHolder();
+			}
+			// A brick whose class no longer exists is loaded as null, and once saved
+			// back the file holds that null; handing it out crashes the script editor.
+			recentBricksHolder.getRecentBricks().removeIf(Objects::isNull);
+			return recentBricksHolder;
 		} catch (Exception e) {
 			if (!(e instanceof FileNotFoundException)) {
 				recentBricksFile.delete();

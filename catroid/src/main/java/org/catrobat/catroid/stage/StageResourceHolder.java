@@ -41,11 +41,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
@@ -98,6 +100,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initResources() {
+		FaceNameDetector.reset();
+		FaceNameTrainAction.onProgramStart();
 		failedResources = new HashSet<>();
 		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
@@ -236,6 +240,13 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+		if (requiredResourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.FACE_NAME_DETECTION);
 			}
 		}
 
@@ -450,6 +461,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_face_detection_available));
 					break;
+				case Brick.FACE_NAME_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_face_name_detection_available));
+					break;
 				case Brick.OBJECT_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_object_detection_available));
@@ -482,6 +497,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (FaceNameTrainAction.ownsRequestCode(requestCode)) {
+			FaceNameTrainAction.onPickerResult(requestCode, resultCode, data);
+			return;
+		}
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {

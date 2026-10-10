@@ -199,6 +199,9 @@ public final class ProjectManager {
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
 			SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, true);
 		}
+		if (resourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
+			SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, true);
+		}
 
 		if (resourcesSet.contains(Brick.POSE_DETECTION)) {
 			SettingsFragment.setAIPoseDetectionPreferenceEnabled(context, true);

@@ -160,8 +160,12 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
         detection</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Face name
+        detection</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Enable
+        face name detection bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -889,6 +893,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Face name detection\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -1059,6 +1064,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name">Add face samples and train</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Vibrate for</string>
@@ -2029,6 +2035,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Face name
+        detection</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
@@ -2074,6 +2082,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">current items</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">first face is visible</string>
+    <string formatted="false" name="formula_editor_sensor_face_name_detected">detected face name</string>
     <string formatted="false" name="formula_editor_sensor_face_size">first face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">first face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">first face y position</string>
@@ -2355,4 +2364,30 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
     <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
+
+    <!-- Face Train -->
+    <string formatted="false" name="face_train_title">Face names</string>
+    <string formatted="false" name="face_train_choose_name">Tap a name to add photos</string>
+    <string formatted="false" name="face_train_retrain">Face recognition was updated. Tap each name and add its photos again</string>
+    <string formatted="false" name="face_train_add_new_name">Add new name</string>
+    <string formatted="false" name="face_train_no_names">No names yet.</string>
+    <string formatted="false" name="face_train_name_hint">Enter a name</string>
+    <string formatted="false" name="face_train_name_subtitle">Type the name, then choose photos of that person</string>
+    <string formatted="false" name="face_train_delete">Delete a name</string>
+    <string formatted="false" name="face_train_delete_choose_title">Delete which name?</string>
+    <string formatted="false" name="face_train_delete_title">Delete \"%1$s\"?</string>
+
+    <string formatted="false" name="face_train_progress_title">Training</string>
+    <string formatted="false" name="face_train_progress_photo">Photo %1$d of %2$d</string>
+    <string formatted="false" name="face_train_success">Trained successfully</string>
+    <string formatted="false" name="face_train_no_face">No face found in the selected photos</string>
+    <string formatted="false" name="face_train_error">Training failed: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">No photos selected</string>
+    <string formatted="false" name="face_train_no_photo_picker">No app found to choose photos</string>
+    <string formatted="false" name="face_train_too_many_names">No more names can be added</string>
+    <string formatted="false" name="face_train_name_rejected">This name can\'t be used</string>
+    <string formatted="false" name="face_train_not_available">Face recognition could not start</string>
+    <string formatted="false" name="face_train_name_missing">That name is no longer in the list</string>
+    <string formatted="false" name="face_train_not_saved">The names could not be saved</string>
+    <string formatted="false" name="face_train_name_line_break">A name can\'t contain a line break</string>
 </resources>
