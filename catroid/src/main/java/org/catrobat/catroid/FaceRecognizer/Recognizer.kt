@@ -6,10 +6,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.get
+import androidx.core.graphics.scale
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
 import java.io.IOException
 import java.util.Locale
@@ -130,11 +130,9 @@ class Recognizer private constructor() {
      * Reads the picked photos and returns one embedding per photo that contained a
      * usable face, plus a line per photo explaining what happened.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun extractEmbeddings(resolver: ContentResolver?, uris: List<Uri>?): EnrolResult {
         return extractEmbeddings(resolver, uris, listener = null)
     }
-    @RequiresApi(Build.VERSION_CODES.N)
     fun extractEmbeddings(
         resolver: ContentResolver?,
         uris: List<Uri>?,
@@ -142,7 +140,6 @@ class Recognizer private constructor() {
     ): EnrolResult = synchronized(modelLock) { extractEmbeddingsWithModels(resolver, uris, listener) }
 
     /** Runs under [modelLock]; touches only the models, not the database. */
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun extractEmbeddingsWithModels(
         resolver: ContentResolver?,
         uris: List<Uri>?,
@@ -395,7 +392,6 @@ class Recognizer private constructor() {
      * point: a photo enrolled this way and a photo detected later differ only by
      * the person, not by the camera or the pipeline.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun embedFrame(frame: Bitmap?): MutableList<FloatArray> {
         if (frame == null || frame.isRecycled()) {
             return mutableListOf()
@@ -457,7 +453,6 @@ class Recognizer private constructor() {
      * score per person, in [classNames] order. Null when the frame has no
      * usable face. The frame is not modified and is not recycled.
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? =
         scoreFrameForNames(frame, mirrorToo)?.scores
 
@@ -468,7 +463,6 @@ class Recognizer private constructor() {
      * Like [scoreFrame], together with the names the scores were taken for: a
      * person may be added or deleted before the caller uses them.
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun scoreFrameForNames(frame: Bitmap?, mirrorToo: Boolean): ScoredFrame? {
         if (frame == null || frame.isRecycled) {
             return null
@@ -495,7 +489,6 @@ class Recognizer private constructor() {
     private class EmbeddedFace(val variants: List<FloatArray>, val width: Int, val height: Int)
 
     /** Finds the largest usable face in [frame] and embeds its views. Runs under [modelLock]. */
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun embedLargestFace(frame: Bitmap, mirrorToo: Boolean): EmbeddedFace? {
         val activeEmbedder = embedder ?: run {
             Log.e(TAG, "Face embedder is not initialized")
@@ -674,7 +667,6 @@ class Recognizer private constructor() {
      * thresholds. The models run under [modelLock] only, the decision under
      * this object's lock, as in [scoreFrame].
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun recognize(
         frame: Bitmap?,
         mirrorToo: Boolean
@@ -958,12 +950,7 @@ class Recognizer private constructor() {
             Math.round(bitmap.height * scale)
         )
 
-        val reduced = Bitmap.createScaledBitmap(
-            bitmap,
-            targetWidth,
-            targetHeight,
-            true
-        )
+        val reduced = bitmap.scale(targetWidth, targetHeight)
 
         if (reduced !== bitmap) {
             bitmap.recycle()
@@ -1145,7 +1132,7 @@ class Recognizer private constructor() {
 
                 while (x < box.right) {
                     val luma = calculateLuma(
-                        bitmap.getPixel(x, y)
+                        bitmap[x, y]
                     )
 
                     sum += luma

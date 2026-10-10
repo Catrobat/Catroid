@@ -72,6 +72,10 @@ public class InternFormulaKeyboardAdapter {
 			return buildString(name);
 		}
 
+		// Resource IDs are not constants with non-final R classes: new entries are checked before the switch.
+		if (resource == R.string.formula_editor_sensor_face_name_detected) {
+			return buildSensor(Sensors.ON_DEVICE_FACE_RECOGNITION);
+		}
 		switch (resource) {
 			case R.id.formula_editor_keyboard_0:
 				return buildNumber("0");
@@ -244,8 +248,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.Y_INCLINATION);
 			case R.string.formula_editor_sensor_loudness:
 				return buildSensor(Sensors.LOUDNESS);
-			case R.string.formula_editor_sensor_face_name_detected:
-				return buildSensor(Sensors.ON_DEVICE_FACE_RECOGNITION);
 			case R.string.formula_editor_sensor_face_detected:
 				return buildSensor(Sensors.FACE_DETECTED);
 			case R.string.formula_editor_sensor_face_size:

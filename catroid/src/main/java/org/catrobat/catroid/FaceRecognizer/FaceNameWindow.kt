@@ -23,9 +23,8 @@
 package org.catrobat.catroid.FaceRecognizer
 
 import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.get
 import kotlin.math.max
 import kotlin.math.min
 
@@ -83,7 +82,6 @@ class FaceNameWindow {
      * Scores [frame] and adds it, see [addScores]. [frame] is null, or rejected
      * here, when it holds no usable face. The frame is not modified or recycled.
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun addFrame(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean, nowMs: Long): String {
         val scored = scoreOf(recognizer, frame, mirrorToo)
         return addScores(recognizer, scored?.scores, nowMs, scored?.names)
@@ -183,7 +181,6 @@ class FaceNameWindow {
          * The scores [addScores] takes for [frame]; null when it holds no usable
          * face: none at all, or clipped highlights.
          */
-        @RequiresApi(Build.VERSION_CODES.N)
         fun scoreOf(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean): Recognizer.ScoredFrame? {
             if (frame == null || recognizer.classNames.isEmpty() || isSeverelyOverexposed(frame)) {
                 return null
@@ -212,7 +209,7 @@ class FaceNameWindow {
             while (y < bottom) {
                 var x = left
                 while (x < right) {
-                    val p = bitmap.getPixel(x, y)
+                    val p = bitmap[x, y]
                     val r = (p shr 16) and 0xff
                     val g = (p shr 8) and 0xff
                     val b = p and 0xff

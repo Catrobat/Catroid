@@ -580,7 +580,7 @@ class FaceDatabase {
             sb.append(String.format(Locale.US, "%s=%.3f ", names[i], scores[i]))
             i++
         }
-        return sb.toString().trim { it <= ' ' }
+        return sb.toString().trim()
     }
 
     @Synchronized

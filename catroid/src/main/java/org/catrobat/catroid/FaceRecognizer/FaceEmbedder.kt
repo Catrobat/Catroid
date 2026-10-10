@@ -8,9 +8,9 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace
 import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace.FaceBox
 import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
@@ -56,7 +56,6 @@ class FaceEmbedder private constructor(
      * missing EXIF orientation still work. Returns null when no usable face is found.
      * The caller must call face.release(sourceBitmap) when done.
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     @Synchronized
     fun findBestFace(source: Bitmap?): Face? {
         lastProblem = ""
@@ -311,7 +310,7 @@ class FaceEmbedder private constructor(
 
     private fun drawInput(frame: Bitmap, matrix: Matrix): Bitmap? {
         try {
-            val input = Bitmap.createBitmap(NET_SIZE, NET_SIZE, Bitmap.Config.ARGB_8888)
+            val input = createBitmap(NET_SIZE, NET_SIZE)
             val canvas = Canvas(input)
             canvas.drawColor(Color.BLACK)
             canvas.drawBitmap(frame, matrix, ALIGN_PAINT)
@@ -329,7 +328,6 @@ class FaceEmbedder private constructor(
     }
 
     /** Locates the face, then returns every variant of it.  */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Synchronized
     fun embedAllVariants(source: Bitmap?, includeMirror: Boolean): MutableList<FloatArray> {
         val face = findBestFace(source)
@@ -378,7 +376,6 @@ class FaceEmbedder private constructor(
     }
 
     /** Convenience: locate and embed in one call.  */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Synchronized
     fun embedBestFace(source: Bitmap?): FloatArray? {
         val face = findBestFace(source)
@@ -392,7 +389,6 @@ class FaceEmbedder private constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun largestFaceRect(
         frame: Bitmap
     ): Rect? {
@@ -451,12 +447,7 @@ class FaceEmbedder private constructor(
         var scaledBitmap: Bitmap? = null
 
         return try {
-            scaledBitmap = Bitmap.createScaledBitmap(
-                frame,
-                BlazeFace.INPUT_SIZE_WIDTH,
-                BlazeFace.INPUT_SIZE_HEIGHT,
-                true
-            )
+            scaledBitmap = frame.scale(BlazeFace.INPUT_SIZE_WIDTH, BlazeFace.INPUT_SIZE_HEIGHT)
 
             blazeFace
                 .detectWithLandmarks(scaledBitmap)
