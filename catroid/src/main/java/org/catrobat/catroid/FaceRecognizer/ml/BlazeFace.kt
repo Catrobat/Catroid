@@ -3,9 +3,7 @@ package org.catrobat.catroid.FaceRecognizer.ml
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.RectF
-import android.os.Build
 import android.os.Trace
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
@@ -60,35 +58,47 @@ class BlazeFace private constructor() {
 
     private class IndexedScore(val index: Int, val score: Float)
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun detect(bitmap: Bitmap): MutableList<RectF> {
         // Log this method so that it can be analyzed with systrace.
         Trace.beginSection("detect")
+        try {
+            return detectFaces(bitmap)
+        } finally {
+            Trace.endSection() // "detect"
+        }
+    }
 
+    private fun detectFaces(bitmap: Bitmap): MutableList<RectF> {
         // Faces of this image only: an image without a face must not keep the
         // previous image's boxes and landmarks for detectWithLandmarks().
         lastFaces = emptyList()
 
         Trace.beginSection("preprocessBitmap")
-        // Preprocess the image data from 0-255 int to normalized float based
-        // on the provided parameters.
-        bitmap.getPixels(intValues, 0, INPUT_SIZE_WIDTH, 0, 0, INPUT_SIZE_WIDTH, INPUT_SIZE_HEIGHT)
+        try {
+            // Preprocess the image data from 0-255 int to normalized float based
+            // on the provided parameters.
+            bitmap.getPixels(intValues, 0, INPUT_SIZE_WIDTH, 0, 0, INPUT_SIZE_WIDTH, INPUT_SIZE_HEIGHT)
 
-        for (i in 0..<INPUT_SIZE_HEIGHT) {
-            for (j in 0..<INPUT_SIZE_WIDTH) {
-                val p = intValues[i * INPUT_SIZE_WIDTH + j]
+            for (i in 0..<INPUT_SIZE_HEIGHT) {
+                for (j in 0..<INPUT_SIZE_WIDTH) {
+                    val p = intValues[i * INPUT_SIZE_WIDTH + j]
 
-                floatValues[0][i][j][2] = (p and 0xFF) / 127.5f - 1
-                floatValues[0][i][j][1] = ((p shr 8) and 0xFF) / 127.5f - 1
-                floatValues[0][i][j][0] = ((p shr 16) and 0xFF) / 127.5f - 1
+                    floatValues[0][i][j][2] = (p and 0xFF) / 127.5f - 1
+                    floatValues[0][i][j][1] = ((p shr 8) and 0xFF) / 127.5f - 1
+                    floatValues[0][i][j][0] = ((p shr 16) and 0xFF) / 127.5f - 1
+                }
             }
+        } finally {
+            Trace.endSection() // preprocessBitmap
         }
-        Trace.endSection() // preprocessBitmap
 
         // Run the inference call.
         Trace.beginSection("run")
-        interpreter.runForMultipleInputsOutputs(inputArray, outputMap)
-        Trace.endSection()
+        try {
+            interpreter.runForMultipleInputsOutputs(inputArray, outputMap)
+        } finally {
+            Trace.endSection()
+        }
 
         outputScores.flip()
         outputBoxes.flip()
@@ -143,13 +153,10 @@ class BlazeFace private constructor() {
 
         // Check if there are any detections at all.
         if (detections.isEmpty()) {
-            Trace.endSection() // "detect"
             return ArrayList<RectF>()
         }
 
         val retained: List<FaceBox> = weightedNonMaxSuppression(detections).toList()
-
-        Trace.endSection() // "detect"
 
         val boxes: MutableList<RectF> = ArrayList<RectF>()
         for (f in retained) {
@@ -163,7 +170,6 @@ class BlazeFace private constructor() {
     private var lastFaces: List<FaceBox> = ArrayList<FaceBox>()
 
     /** Runs detection and returns the boxes together with their landmarks.  */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun detectWithLandmarks(bitmap: Bitmap): List<FaceBox> {
         detect(bitmap)
         return lastFaces
