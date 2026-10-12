@@ -57,7 +57,7 @@ public final class Constants {
 	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String UNDO_CODE_XML_FILE_NAME = "undo_" + CODE_XML_FILE_NAME;
-
+	public static final String UNDO_DIRECTORY_NAME = "undo_history";
 	public static final String DEVICE_VARIABLE_JSON_FILE_NAME = "DeviceVariables.json";
 	public static final String DEVICE_LIST_JSON_FILE_NAME = "DeviceLists.json";
 
