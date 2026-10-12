@@ -56,7 +56,11 @@ class NewProjectDialogFragment : DialogFragment() {
     private var _binding: DialogNewProjectBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = DialogNewProjectBinding.inflate(inflater, container, false)
         EdgeToEdge.applyTopPadding(binding.toolbar.toolbar)
         return binding.root
@@ -81,13 +85,30 @@ class NewProjectDialogFragment : DialogFragment() {
             binding.castRadioButton.visibility = VISIBLE
         }
 
+        if (StitchEduHelper.isStitchEduSupported) {
+            binding.stitcheduRadioButton.visibility = VISIBLE
+        }
+
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            val isStitchEdu = checkedId == R.id.stitchedu_radio_button
+            binding.input.visibility = if (isStitchEdu) View.GONE else VISIBLE
+            binding.exampleProjectSwitch.visibility = if (isStitchEdu) View.GONE else VISIBLE
+            binding.stitcheduDescription.visibility = if (isStitchEdu) VISIBLE else View.GONE
+            activity?.invalidateOptionsMenu()
+        }
+
         val uniqueNameProvider: UniqueNameProvider = object : UniqueNameProvider() {
             override fun isUnique(newName: String) = !projectExistsInDirectory(newName)
         }
 
         binding.input.hint = getString(R.string.project_name_label)
         binding.inputEditText.apply {
-            setText(uniqueNameProvider.getUniqueName(getString(R.string.default_project_name), null))
+            setText(
+                uniqueNameProvider.getUniqueName(
+                    getString(R.string.default_project_name),
+                    null
+                )
+            )
             addTextChangedListener(object : NewProjectNameTextWatcher<Nameable>() {
                 override fun afterTextChanged(s: Editable?) {
                     binding.input.error = validateInput(s.toString(), getContext())
@@ -99,6 +120,11 @@ class NewProjectDialogFragment : DialogFragment() {
     }
 
     fun createProject() {
+        if (binding.radioGroup.checkedRadioButtonId == R.id.stitchedu_radio_button) {
+            context?.let { StitchEduHelper.openStitchEdu(it) }
+            return
+        }
+
         val projectName = binding.inputEditText.text.toString().trim()
         var landscapeMode = false
         var projectCreatorType = DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT
@@ -114,8 +140,17 @@ class NewProjectDialogFragment : DialogFragment() {
 
         try {
             when (binding.exampleProjectSwitch.isChecked) {
-                true -> projectManager.createNewExampleProject(projectName, projectCreatorType, landscapeMode)
-                false -> projectManager.createNewEmptyProject(projectName, landscapeMode, castProject)
+                true -> projectManager.createNewExampleProject(
+                    projectName,
+                    projectCreatorType,
+                    landscapeMode
+                )
+
+                false -> projectManager.createNewEmptyProject(
+                    projectName,
+                    landscapeMode,
+                    castProject
+                )
             }
 
             activity?.startActivity(Intent(activity, ProjectActivity::class.java))
@@ -135,7 +170,8 @@ class NewProjectDialogFragment : DialogFragment() {
         }
 
         val confirm = menu.findItem(R.id.confirm)
-        if (binding.input.error == null) {
+        val isStitchEdu = binding.radioGroup.checkedRadioButtonId == R.id.stitchedu_radio_button
+        if (isStitchEdu || binding.input.error == null) {
             confirm.setIcon(R.drawable.ic_done)
             confirm.isEnabled = true
         } else {
@@ -151,12 +187,18 @@ class NewProjectDialogFragment : DialogFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.confirm -> {
-                dismiss()
                 createProject()
+                dismiss()
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

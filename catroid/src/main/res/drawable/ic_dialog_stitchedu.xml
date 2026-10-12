@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2026 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="31dp"
+    android:height="31dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48"
+    android:autoMirrored="true">
+
+    <!-- Handwheel on right -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M42.5,14.2c0,-0.7 0.5,-1.2 1.2,-1.2h0.1c0.7,0 1.2,0.5 1.2,1.2v6.6c0,0.7 -0.5,1.2 -1.2,1.2h-0.1c-0.7,0 -1.2,-0.5 -1.2,-1.2z" />
+
+    <!-- Top Spool Pin -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M36,7.5c0,-0.3 0.2,-0.5 0.5,-0.5h1c0.3,0 0.5,0.2 0.5,0.5v3h-2z" />
+
+    <!-- Sewing Machine Body with Screen Cutout -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:fillType="evenOdd"
+        android:pathData="M12,10 L39,10 C41.5,10 43,11.5 43,14 L43,36 C43,37.5 41.5,39 39,39 L30,39 C28.5,39 28,37.8 28,36 L28,32 C28,30.5 29,29.5 31,29.5 L34,29.5 C35,29.5 35.5,28.5 35.5,27 L35.5,19.5 C35.5,18.5 34.5,18 33,18 L18,18 C16.5,18 16,18.8 16,20 L16,23 C16,24 15,24.5 14,24.5 L11,24.5 C9.5,24.5 8.5,23.5 8.5,22 L8.5,13.5 C8.5,11.5 10,10 12,10 Z M24.5,12.2 L32.5,12.2 C33.5,12.2 34,12.7 34,13.5 L34,16.2 C34,17 33.5,17.5 32.5,17.5 L24.5,17.5 C23.5,17.5 23,17 23,16.2 L23,13.5 C23,12.7 23.5,12.2 24.5,12.2 Z" />
+
+    <!-- Heart inside Screen -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M28.5,13.2 C27.8,12.6 26.8,12.8 26.2,13.5 C25.6,14.2 25.8,15.1 26.5,15.8 L28.5,17.2 L30.5,15.8 C31.2,15.1 31.4,14.2 30.8,13.5 C30.2,12.8 29.2,12.6 28.5,13.2 Z" />
+
+    <!-- Needle Bar & Needle Tip -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M11.8,24.9c0,-0.2 0.2,-0.4 0.4,-0.4h0.6c0.2,0 0.4,0.2 0.4,0.4v5.7c0,0.2 -0.2,0.4 -0.4,0.4h-0.6c-0.2,0 -0.4,-0.2 -0.4,-0.4z" />
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M12.5,31 L11.7,31 L12.5,33.5 L13.3,31 Z" />
+
+    <!-- Thread Spool on the right (with transparent gaps) -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M33,28.2c0,-0.4 0.3,-0.7 0.7,-0.7h6.6c0.4,0 0.7,0.3 0.7,0.7v0.4c0,0.4 -0.3,0.7 -0.7,0.7h-6.6c-0.4,0 -0.7,-0.3 -0.7,-0.7z" />
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M34,30h6v1.8h-6z" />
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M34,32.5h6v1.8h-6z" />
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M34,35h6v1.8h-6z" />
+    <path
+        android:fillColor="#E6E6E6"
+        android:pathData="M32,38.4c0,-0.5 0.4,-0.9 0.9,-0.9h8.2c0.5,0 0.9,0.4 0.9,0.9v0.4c0,0.5 -0.4,0.9 -0.9,0.9h-8.2c-0.5,0 -0.9,-0.4 -0.9,-0.9z" />
+
+    <!-- Embroidery Hoop Frame under needle -->
+    <path
+        android:fillColor="#E6E6E6"
+        android:fillType="evenOdd"
+        android:pathData="M7,30 L23,30 C27,30 29,32 29,35.5 C29,39 27,41 23,41 L7,41 C3,41 1,39 1,35.5 C1,32 3,30 7,30 Z M7.5,32.2 C4.5,32.2 3,33.5 3,35.5 C3,37.5 4.5,38.8 7.5,38.8 L22.5,38.8 C25.5,38.8 27,37.5 27,35.5 C27,33.5 25.5,32.2 22.5,32.2 Z" />
+
+    <!-- Rainbow Stitches in Hoop -->
+    <path
+        android:strokeColor="#E6E6E6"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M9.5,37.5 C9.5,34 20.5,34 20.5,37.5" />
+    <path
+        android:strokeColor="#E6E6E6"
+        android:strokeWidth="1.1"
+        android:strokeLineCap="round"
+        android:pathData="M12,37.5 C12,35.2 18,35.2 18,37.5" />
+</vector>

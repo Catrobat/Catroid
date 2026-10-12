@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -38,6 +39,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,6 +71,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
@@ -89,6 +92,10 @@ class ProjectListFragment(
     private val projectManager: ProjectManager by inject()
 
     private val lock = ReentrantLock()
+
+    // Tracks a pending shortcut pin after returning from MIUI permission settings
+    private var pendingShortcutProjectName: String? = null
+    private var pendingShortcutIcon: android.graphics.Bitmap? = null
 
     override fun onActivityCreated(savedInstance: Bundle?) {
         super.onActivityCreated(savedInstance)
@@ -168,6 +175,15 @@ class ProjectListFragment(
                 }
             }
         })
+
+        // After returning from MIUI settings, re-open the dialog to check permission status
+        val projectName = pendingShortcutProjectName
+        if (projectName != null) {
+            val icon = pendingShortcutIcon
+            pendingShortcutProjectName = null
+            pendingShortcutIcon = null
+            showPinShortcutDialog(projectName, icon)
+        }
 
         BottomBar.showBottomBar(requireActivity())
         super.onResume()
@@ -374,6 +390,7 @@ class ProjectListFragment(
     override fun deleteItems(selectedItems: MutableList<ProjectData?>?) {
         setShowProgressBar(true)
         var deletedItemCount = 0
+        val deletedProjectNames = mutableListOf<String>()
         selectedItems ?: return
         for (item in selectedItems) {
             item ?: continue
@@ -381,11 +398,15 @@ class ProjectListFragment(
                 projectManager.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
                 items.remove(item)
+                deletedProjectNames.add(item.name)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
             deletedItemCount++
+        }
+        if (deletedProjectNames.isNotEmpty()) {
+            ShortcutHelper.removeShortcutsForProjects(requireContext(), deletedProjectNames)
         }
         ToastUtil.showSuccess(
             requireContext(), resources.getQuantityString(
@@ -421,9 +442,19 @@ class ProjectListFragment(
         item ?: return
         name ?: return
         if (name != item.name) {
+            val oldName = item.name
             setShowProgressBar(true)
             ProjectRenamer(item.directory, name)
-                .renameProjectAsync({ success: Boolean -> onRenameFinished(success) })
+                .renameProjectAsync({ success: Boolean ->
+                    onRenameFinished(success)
+                    if (success) {
+                        coroutineScope.launch {
+                            ShortcutHelper.updateShortcutOnRename(
+                                requireContext(), oldName, name
+                            )
+                        }
+                    }
+                })
         }
     }
 
@@ -485,13 +516,18 @@ class ProjectListFragment(
     override fun onSettingsClick(item: ProjectData?, view: View?) {
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
-        val hiddenMenuOptionIds = intArrayOf(
+
+        val hiddenMenuOptionIds = mutableListOf(
             R.id.new_group, R.id.new_scene, R.id.show_details,
             R.id.from_local, R.id.edit
         )
+        if (!ShortcutHelper.isShortcutSupported(requireContext())) {
+            hiddenMenuOptionIds.add(R.id.pin_to_home_screen)
+        }
+
         val popupMenu = UiUtils.createSettingsPopUpMenu(
             view, requireContext(),
-            R.menu.menu_project_activity, hiddenMenuOptionIds
+            R.menu.menu_project_activity, hiddenMenuOptionIds.toIntArray()
         )
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
@@ -499,6 +535,7 @@ class ProjectListFragment(
                 R.id.rename -> showRenameDialog(item)
                 R.id.delete -> deleteItems(itemList)
                 R.id.project_options -> showProjectOptionsFragment(item)
+                R.id.pin_to_home_screen -> pinProjectToHomeScreen(item)
             }
             true
         }
@@ -599,5 +636,118 @@ class ProjectListFragment(
                 }
             }
         }
+    }
+
+    private fun pinProjectToHomeScreen(item: ProjectData?) {
+        val context = context ?: return
+        item ?: return
+
+        if (!ShortcutHelper.isShortcutSupported(context)) {
+            val view = view ?: return
+            com.google.android.material.snackbar.Snackbar.make(
+                view,
+                R.string.shortcut_not_supported,
+                com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val projectName = item.name
+        coroutineScope.launch {
+            val icon = ShortcutHelper.loadProjectIcon(projectName)
+            withContext(mainDispatcher) {
+                showPinShortcutDialog(projectName, icon)
+            }
+        }
+    }
+
+    private fun showPinShortcutDialog(projectName: String, icon: android.graphics.Bitmap?) {
+        val context = context ?: return
+
+        val isGranted = ShortcutHelper.isShortcutPermissionGranted(context)
+
+        if (ShortcutHelper.isXiaomiDevice() && !isGranted) {
+            showShortcutPermissionDialog(context, projectName, icon)
+            return
+        }
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+
+        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
+        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
+        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
+        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
+        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
+
+        if (icon != null) {
+            iconView.setImageBitmap(icon)
+        } else {
+            iconView.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+        nameView.text = projectName
+        miuiContainer.visibility = android.view.View.GONE
+        pinButton.visibility = android.view.View.VISIBLE
+
+        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
+
+        pinButton.setOnClickListener {
+            dialog.dismiss()
+            ShortcutHelper.pinProject(context, projectName, icon)
+        }
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun showShortcutPermissionDialog(
+        context: Context,
+        projectName: String,
+        icon: android.graphics.Bitmap?
+    ) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
+
+        val iconView = dialogView.findViewById<android.widget.ImageView>(R.id.shortcut_dialog_icon)
+        val nameView = dialogView.findViewById<android.widget.TextView>(R.id.shortcut_dialog_project_name)
+        val pinButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_pin_button)
+        val cancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_cancel_button)
+        val miuiContainer = dialogView.findViewById<android.view.View>(R.id.shortcut_dialog_miui_container)
+        val settingsButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_settings_button)
+        val miuiCancelButton = dialogView.findViewById<android.widget.Button>(R.id.shortcut_dialog_miui_cancel_button)
+
+        if (icon != null) {
+            iconView.setImageBitmap(icon)
+        } else {
+            iconView.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+        nameView.text = projectName
+        miuiContainer.visibility = android.view.View.VISIBLE
+        pinButton.visibility = android.view.View.GONE
+        cancelButton.visibility = android.view.View.GONE
+
+        val dialog = android.app.AlertDialog.Builder(context, R.style.ShortcutPinDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
+
+        settingsButton.setOnClickListener {
+            pendingShortcutProjectName = projectName
+            pendingShortcutIcon = icon
+            dialog.dismiss()
+            ShortcutHelper.openMiuiPermissionEditor(context)
+        }
+
+        miuiCancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

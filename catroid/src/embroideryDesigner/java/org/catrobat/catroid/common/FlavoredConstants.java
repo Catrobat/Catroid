@@ -45,6 +45,7 @@ public final class FlavoredConstants {
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "EmbroideryDesigner";
 
 	public static final String FLAVOR_NAME = "embroidery";
+	public static final String STITCH_EDU_URL = Constants.STITCH_EDU_URL;
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 

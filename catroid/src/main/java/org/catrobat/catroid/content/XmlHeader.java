@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.ScreenModes;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class XmlHeader implements Serializable {
 
@@ -53,6 +54,10 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
 	private String listeningLanguageTag = "";
+
+	// Stable identifier persisted in code.xml for future-proofing (e.g. shortcut IDs).
+	// Lazily generated on first access; older projects will get a UUID assigned on next save.
+	private String projectUuid;
 
 	//==============================================================================================
 	// mutable fields only used by Catroweb (share.catrob.at website) so far
@@ -272,5 +277,20 @@ public class XmlHeader implements Serializable {
 
 	public void setListeningLanguageTag(String listeningLanguageTag) {
 		this.listeningLanguageTag = listeningLanguageTag;
+	}
+
+	/**
+	 * Returns the stable project UUID. If not yet set (e.g. older project), generates one.
+	 * The UUID is persisted when the project is next saved to code.xml.
+	 */
+	public String getProjectUuid() {
+		if (projectUuid == null || projectUuid.isEmpty()) {
+			projectUuid = UUID.randomUUID().toString();
+		}
+		return projectUuid;
+	}
+
+	public void setProjectUuid(String projectUuid) {
+		this.projectUuid = projectUuid;
 	}
 }
