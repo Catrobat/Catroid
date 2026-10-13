@@ -1024,6 +1024,12 @@ public class SpriteActivity extends BaseActivity {
 		this.currentSprite = sprite;
 	}
 
+	public void refreshFromProjectManager() {
+		currentProject = projectManager.getCurrentProject();
+		currentScene = projectManager.getCurrentlyEditedScene();
+		currentSprite = projectManager.getCurrentSprite();
+	}
+
 	public void removeTabs() {
 		removeTabLayout(this);
 	}

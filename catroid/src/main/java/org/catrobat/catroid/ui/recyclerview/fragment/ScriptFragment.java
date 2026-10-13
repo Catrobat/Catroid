@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.aiassist.merge.AiTutorSpriteMerger;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -952,18 +953,19 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	public void applyProjectFromAiTutor(String spriteXml) {
-		if (!copyProjectForUndoOption()) {
+		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
+		if (newSprite == null || !copyProjectForUndoOption()) {
 			ToastUtil.showError(getContext(), R.string.error_load_project);
 			return;
 		}
 		showUndo(true);
 
-		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
 		ProjectManager pm = ProjectManager.getInstance();
 		Scene currentScene = pm.getCurrentlyEditedScene();
 		Sprite currentSprite = pm.getCurrentSprite();
 		int index = currentScene.getSpriteList().indexOf(currentSprite);
 		if (index >= 0) {
+			AiTutorSpriteMerger.preserveOriginalIdentityAndMedia(currentSprite, newSprite);
 			currentScene.getSpriteList().set(index, newSprite);
 			pm.setCurrentSprite(newSprite);
 		}
@@ -990,6 +992,14 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
 			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+			pendingLoadSource = null;
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			setUndoControlsVisible(spriteActivity, true);
+			return;
+		}
+
+		if (spriteActivity != null) {
+			spriteActivity.refreshFromProjectManager();
 		}
 
 		loadVariables();
