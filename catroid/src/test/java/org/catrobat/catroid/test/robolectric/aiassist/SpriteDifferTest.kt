@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.ui.SpriteActivity
@@ -106,6 +107,16 @@ class SpriteDifferTest {
         val statuses = diffStatuses(
             spriteWith(SetXBrick(0)),
             spriteWith(SetXBrick(100))
+        )
+
+        assertEquals(listOf(DiffStatus.MODIFIED), statuses)
+    }
+
+    @Test
+    fun sameBroadcastBrickWithChangedMessageIsModified() {
+        val statuses = diffStatuses(
+            spriteWith(BroadcastBrick("jump")),
+            spriteWith(BroadcastBrick("run"))
         )
 
         assertEquals(listOf(DiffStatus.MODIFIED), statuses)

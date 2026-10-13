@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.aiassist.diff
 import android.content.Context
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
 
@@ -158,8 +159,9 @@ private fun flatten(sprite: Sprite): List<Brick> {
 }
 
 /**
- * A brick's equality key for the LCS: its class name plus the selected data names and each formula
- * field's text, so two bricks compare equal only when they would look identical in the editor.
+ * A brick's equality key for the LCS: its class name plus the selected data names, the broadcast
+ * message and each formula field's text, so two bricks compare equal only when they would look
+ * identical in the editor.
  */
 private fun brickSignature(brick: Brick, context: Context): String {
     val sb = StringBuilder(brick.javaClass.simpleName)
@@ -167,6 +169,7 @@ private fun brickSignature(brick: Brick, context: Context): String {
     for (name in dataNames(brick)) {
         sb.append("|data=").append(name)
     }
+    (brick as? BroadcastMessageBrick)?.broadcastMessage?.let { sb.append("|message=").append(it) }
     if (brick is FormulaBrick) {
         val map = brick.formulaMap
         for (field in map.keys.sortedBy { it.toString() }) {
