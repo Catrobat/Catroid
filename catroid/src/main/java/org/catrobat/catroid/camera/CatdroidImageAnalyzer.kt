@@ -23,7 +23,6 @@
 package org.catrobat.catroid.camera
 
 import android.content.Context
-import android.util.Log
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -37,7 +36,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceDetect
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
-import org.catrobat.catroid.utils.ToastUtil
 
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
     const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
