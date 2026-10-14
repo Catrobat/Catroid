@@ -261,6 +261,77 @@ class FaceNameDetectorTest {
         assertEquals("A new program start tries again", 2, scored)
     }
 
+    /**
+     * Found in review: a frame of the previous run started loading the face models,
+     * the program restarted meanwhile, and only then the load failed. That old
+     * failure switched detection off for the new run, which never loaded the
+     * models again. A failure, like a result, belongs to the run of its frame.
+     */
+    @Test
+    fun aLoadOfThePreviousRunThatFailsAfterARestartDoesNotStopTheNewRun() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        var loads = 0
+        var loadFails = true
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            if (loadFails) {
+                throw IOException("mobile_facenet.tflite could not be read")
+            }
+            recognizer
+        }
+
+        offerFrame()
+        FaceNameDetector.reset()
+        readTheSensor()
+        runRecognition()
+        loadFails = false
+        repeat(FaceNameWindow.FRAMES) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            offerFrame()
+            runRecognition()
+        }
+
+        assertEquals("The new run loads the models again", 1 + FaceNameWindow.FRAMES, loads)
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        FileUtils.deleteAll()
+    }
+
+    /** The same for a class that fails to load while a frame of the previous run is scored. */
+    @Test
+    fun scoringOfThePreviousRunThatFailsAfterARestartDoesNotStopTheNewRun() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        var scoringFails = true
+        every { recognizer.scoreFrameForNames(any(), any()) } answers {
+            if (scoringFails) {
+                throw NoClassDefFoundError("org/tensorflow/lite/Interpreter")
+            }
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        }
+        FaceNameDetector.recognizerProvider = { recognizer }
+
+        offerFrame()
+        FaceNameDetector.reset()
+        readTheSensor()
+        runRecognition()
+        scoringFails = false
+        repeat(FaceNameWindow.FRAMES) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            offerFrame()
+            runRecognition()
+        }
+
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        FileUtils.deleteAll()
+    }
+
     // ---------------- Off until the program first reads the sensor ----------------
 
     @Test
