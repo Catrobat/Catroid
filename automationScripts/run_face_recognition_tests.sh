@@ -56,6 +56,8 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
   --tests "org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNetInputTest"
+  --tests "org.catrobat.catroid.test.robolectric.SpriteActivityRecreationTest"
+  --tests "org.catrobat.catroid.test.robolectric.StageActivityRecreationTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
@@ -137,15 +139,17 @@ copy_reports() {   # copy_reports <name> <dir>
 summarise_xml() {   # summarise_xml <name>
   "$PYTHON" - "$EVIDENCE/${1}_reports" <<'EOF' | tee "$EVIDENCE/${1}_summary.txt"
 import glob, sys, xml.etree.ElementTree as ET
-total = failed = 0
+total = failed = skipped = 0
 for path in sorted(glob.glob(sys.argv[1] + "/**/TEST-*.xml", recursive=True)):
     for tc in ET.parse(path).getroot().iter("testcase"):
-        bad = tc.find("failure") is not None or tc.find("error") is not None
         total += 1
-        failed += bad
-        if bad:
+        if tc.find("failure") is not None or tc.find("error") is not None:
+            failed += 1
             print("FAIL", tc.get("classname"), tc.get("name"))
-print(f"TOTAL={total} PASSED={total - failed} FAILED={failed}")
+        elif tc.find("skipped") is not None:
+            skipped += 1
+            print("SKIPPED", tc.get("classname"), tc.get("name"))
+print(f"TOTAL={total} PASSED={total - failed - skipped} FAILED={failed} SKIPPED={skipped}")
 if total == 0:
     print("NO TESTS RAN")
 EOF
