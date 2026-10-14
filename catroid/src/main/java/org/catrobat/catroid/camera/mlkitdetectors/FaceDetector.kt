@@ -24,16 +24,12 @@
 package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
-import android.util.Log
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
-import org.catrobat.catroid.stage.StageActivity
 
 private val faceDetectionClient by lazy {
     FaceDetection.getClient(
@@ -49,7 +45,8 @@ object FaceDetector : Detector {
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener,
-        frontCamera: Boolean
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     ) {
         faceDetectionClient.process(inputImage)
             .addOnSuccessListener { faces ->
@@ -65,16 +62,7 @@ object FaceDetector : Detector {
             }
             .addOnFailureListener { e ->
                 VisualDetectionHandler.updateFaceDetectionStatusSensorValues()
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
-                Log.e(
-                    javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    e
-                )
+                onError(R.string.camera_error_face_detection, e)
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
             }

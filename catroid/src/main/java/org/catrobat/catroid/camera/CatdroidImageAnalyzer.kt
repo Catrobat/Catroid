@@ -23,6 +23,7 @@
 package org.catrobat.catroid.camera
 
 import android.content.Context
+import android.util.Log
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -36,11 +37,13 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceDetect
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
+import org.catrobat.catroid.utils.ToastUtil
 
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
     const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
     private val activeDetectors = ArrayList<Detector>()
     private var frontCamera = true
+    private var onDetectionError: (Int, Exception) -> Unit = { _, _ -> }
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -48,13 +51,18 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
             val completeListener = DetectorsCompleteListener(activeDetectors.size, imageProxy)
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
             for (detector in activeDetectors) {
-                detector.processImage(mediaImage, image, completeListener, frontCamera)
+                detector.processImage(mediaImage, image, completeListener, frontCamera, onDetectionError)
             }
         }
     }
 
-    fun setActiveDetectorsWithContext(context: Context?, frontCamera: Boolean) {
+    fun setActiveDetectorsWithContext(
+        context: Context?,
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
+    ) {
         this.frontCamera = frontCamera
+        onDetectionError = onError
         activeDetectors.clear()
         context?.let {
             if (isAIFaceDetectionSharedPreferenceEnabled(it)) {

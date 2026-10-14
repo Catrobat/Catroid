@@ -46,7 +46,8 @@ object PoseDetector : Detector {
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener,
-        frontCamera: Boolean
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     ) {
         poseDetectionClient.process(inputImage)
             .addOnSuccessListener { pose ->

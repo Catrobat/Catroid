@@ -32,6 +32,7 @@ fun interface Detector {
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener,
-        frontCamera: Boolean
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     )
 }

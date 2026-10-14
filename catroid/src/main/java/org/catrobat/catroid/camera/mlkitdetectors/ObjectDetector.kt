@@ -42,7 +42,7 @@ private val objectDetectionClient by lazy {
 
 class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
     override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
-        ObjectDetectorResults.result = detectedObjects.associateBy { it.trackingId }
+        ObjectDetectorResults.updateResult(detectedObjects)
     }
 }
 
@@ -51,7 +51,8 @@ object ObjectDetector : Detector {
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener,
-        frontCamera: Boolean
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     ) {
         objectDetectionClient.process(inputImage)
             .addOnSuccessListener(ObjectDetectorOnSuccessListener())
@@ -68,6 +69,34 @@ object ObjectDetector : Detector {
 }
 
 object ObjectDetectorResults {
-    @get:Synchronized @set:Synchronized
-    var result: Map<Int?, DetectedObject> = HashMap()
+    @get:Synchronized
+    @set:Synchronized
+    var result: Map<Int?, DetectedObject> = emptyMap()
+        private set
+
+    private val listeners = mutableSetOf<() -> Unit>()
+
+    @Synchronized
+    fun addListener(listener: () -> Unit) {
+        listeners.add(listener)
+    }
+
+    @Synchronized
+    fun removeListener(listener: () -> Unit) {
+        listeners.remove(listener)
+    }
+
+    fun updateResult(detectedObjects: List<DetectedObject>) {
+        synchronized(this) {
+            result = detectedObjects.associateBy { it.trackingId }
+        }
+        notifyListeners()
+    }
+
+    private fun notifyListeners() {
+        val currentListeners = synchronized(this) {
+            listeners.toList()
+        }
+        currentListeners.forEach { it() }
+    }
 }

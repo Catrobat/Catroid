@@ -30,7 +30,6 @@ import androidx.camera.core.ImageProxy
 import com.huawei.hms.mlsdk.MLAnalyzerFactory
 import com.huawei.hms.mlsdk.common.MLFrame
 import com.huawei.hms.mlsdk.skeleton.MLSkeletonAnalyzerFactory
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
@@ -38,7 +37,6 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToV
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValuesHuawei
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
-import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
 
 object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
@@ -52,9 +50,11 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private var faceDetected = false
     private var poseDetected = false
     private var frontCamera = true
+    private var onDetectionError: (Int, Exception) -> Unit = { _, _ -> }
 
-    fun setFrontCamera(frontCamera: Boolean) {
+    fun setFrontCamera(frontCamera: Boolean, onError: (Int, Exception) -> Unit) {
         this.frontCamera = frontCamera
+        this.onDetectionError = onError
     }
 
     @ExperimentalGetImage
@@ -78,11 +78,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = StageActivity.activeStageActivity.get()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context?.getString(R.string.camera_error_text_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_text_detection, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
 
@@ -97,11 +93,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_face_detection, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
 
@@ -118,11 +110,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_generic, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
         }

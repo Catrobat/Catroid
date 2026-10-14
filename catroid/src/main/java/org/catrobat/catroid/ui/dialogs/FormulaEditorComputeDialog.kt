@@ -38,6 +38,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice
 import org.catrobat.catroid.camera.CameraManager
 import org.catrobat.catroid.camera.VisualDetectionHandler
+import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorResults
 import org.catrobat.catroid.common.CatroidService
 import org.catrobat.catroid.common.ServiceProvider
 import org.catrobat.catroid.content.Scope
@@ -58,6 +59,12 @@ open class FormulaEditorComputeDialog(
     private var formulaToCompute: Formula? = null
     private var computeTextView: TextView? = null
     private var camerManager: CameraManager? = null
+
+    private val objectDetectionListener: () -> Unit = {
+        computeTextView?.post {
+            showFormulaResult(scope, AndroidStringProvider(context))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,14 +118,23 @@ open class FormulaEditorComputeDialog(
             camerManager = CameraManager(context as Activity)
             camerManager?.startDetection()
             VisualDetectionHandler.addListener(this)
+            ObjectDetectorResults.addListener(objectDetectionListener)
         }
     }
 
     override fun onStop() {
         VisualDetectionHandler.removeListener(this)
+        ObjectDetectorResults.removeListener(objectDetectionListener)
         SensorHandler.unregisterListener(this)
         SensorHandler.stopSensorListeners()
         ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause()
+
+        camerManager?.run {
+            destroy()
+            (previewView.parent as? ViewGroup)?.removeView(previewView)
+        }
+        camerManager = null
+
         super.onStop()
     }
 

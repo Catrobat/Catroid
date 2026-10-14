@@ -236,10 +236,33 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
         if (mobileServiceAvailability.isGmsAvailable(activity)) {
-            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.activity, isCameraFacingFront)
+            CatdroidImageAnalyzer.setActiveDetectorsWithContext(
+                this.activity,
+                isCameraFacingFront
+            ) { messageResId, exception ->
+                Log.e(TAG, "Visual detection failed", exception)
+
+                activity.runOnUiThread {
+                    ToastUtil.showError(
+                        activity,
+                        activity.getString(messageResId)
+                    )
+                }
+            }
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(activity)) {
-            FaceTextPoseDetectorHuawei.setFrontCamera(isCameraFacingFront)
+            FaceTextPoseDetectorHuawei.setFrontCamera(
+                isCameraFacingFront
+            ) { messageResId, exception ->
+                Log.e(TAG, "Visual detection failed", exception)
+
+                activity.runOnUiThread {
+                    ToastUtil.showError(
+                        activity,
+                        activity.getString(messageResId)
+                    )
+                }
+            }
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
         }
     }
