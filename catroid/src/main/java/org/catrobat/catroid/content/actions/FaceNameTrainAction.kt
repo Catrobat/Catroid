@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.R
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.ToastUtil
@@ -401,6 +402,7 @@ class FaceNameTrainAction : Action() {
         return try {
             FileUtils.init(ctx)
             recognizer = recognizerFactory(ctx)
+            FaceNameDetector.onModelsLoaded()
             true
         } catch (t: Throwable) {
             Log.e(TAG, "Recognizer initialization failed", t)
@@ -684,6 +686,7 @@ class FaceNameTrainAction : Action() {
                 added = result.embeddings.size
                 if (added > 0) {
                     current.addPhotos(name, result.embeddings)
+                    FaceNameDetector.onModelsLoaded()
                 }
                 Log.i(TAG, "Training '$name': " + result.report.joinToString(" | "))
             } catch (t: Throwable) {

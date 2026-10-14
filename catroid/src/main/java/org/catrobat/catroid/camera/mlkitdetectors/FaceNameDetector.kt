@@ -88,8 +88,9 @@ object FaceNameDetector : Detector {
 
     /**
      * Set when the face models could not be loaded. Until the next program
-     * start no frame is analysed and the name stays Unknown, instead of the
-     * models being loaded again for every frame.
+     * start, or until the training brick loads the models successfully (see
+     * [onModelsLoaded]), no frame is analysed and the name stays Unknown,
+     * instead of the models being loaded again for every frame.
      */
     @Volatile
     private var recognitionUnavailable = false
@@ -165,6 +166,19 @@ object FaceNameDetector : Detector {
             runId++
             window.clear()
             SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
+        }
+    }
+
+    /**
+     * The training brick loaded the face models, or trained with them: a load
+     * that failed earlier in this run no longer stops the analysis. A failing
+     * load itself is still not retried on every frame.
+     */
+    @JvmStatic
+    fun onModelsLoaded() {
+        if (recognitionUnavailable) {
+            recognitionUnavailable = false
+            Log.i(TAG, "The face models work again: face name analysis resumes")
         }
     }
 
