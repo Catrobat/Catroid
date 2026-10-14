@@ -95,6 +95,10 @@ public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
 
+	public static boolean isLegacyStorageManager() {
+		return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q;
+	}
+
 	private enum RemixUrlParsingState {
 		STARTING, TOKEN, BETWEEN
 	}
