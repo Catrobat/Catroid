@@ -1488,13 +1488,14 @@ public class ActionFactory extends Actions {
 		}
 	}
 
-	public Action createReportAction(Sprite sprite, SequenceAction sequence, Script currentScript, Formula reportFormula) {
+	public Action createReportAction(Sprite sprite, ScriptSequenceAction sequence, Script currentScript, Formula reportFormula) {
 		if (currentScript instanceof UserDefinedScript) {
 			ReportAction reportAction = Actions.action(ReportAction.class);
 			Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 			reportAction.setScope(scope);
 			reportAction.setCurrentScript(currentScript);
 			reportAction.setReportFormula(reportFormula);
+			reportAction.setCallId(sequence.callId);
 			return reportAction;
 		} else {
 			StopThisScriptAction stopThisScriptAction = Actions.action(StopThisScriptAction.class);
