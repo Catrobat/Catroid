@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test
 
 import android.content.Context
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 
 /**
@@ -48,6 +49,8 @@ class StaticSingletonInitializer private constructor() {
             if (ProjectManager.getInstance() == null) {
                 ProjectManager(contextMock)
             }
+            // Initialize CatroidApplication.appContext for tests
+            CatroidApplication.setAppContextForTesting(contextMock)
         }
     }
 }
