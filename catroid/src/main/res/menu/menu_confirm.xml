@@ -26,6 +26,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/reset"
+        android:icon="@drawable/icon_undo"
+        android:title="@string/reset"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/rotate_90"
+        android:icon="@drawable/ic_rotate_90"
+        android:title="@string/rotate_90"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/confirm"
         android:icon="@drawable/ic_done"
         android:title="@string/confirm"
