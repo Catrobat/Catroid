@@ -160,8 +160,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	public static void setFaceNameRecognitionResult(String name) {
-		faceNameRecognitionResult =
-				(name == null || name.trim().isEmpty()) ? "Unknown" : name.trim();
+		String trimmed = name == null ? "" : name.trim();
+		faceNameRecognitionResult = trimmed.isEmpty() ? "Unknown" : trimmed;
 	}
 
 	private static double startWeekWithMonday() {
