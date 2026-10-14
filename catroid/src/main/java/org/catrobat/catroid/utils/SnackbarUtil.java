@@ -170,4 +170,9 @@ public final class SnackbarUtil {
 			hint.dismiss();
 		}
 	}
+
+//	public static void showError(Context context, String message) {
+//		Snackbar.make(context, message, Toast.LENGTH_SHORT, DEFAULT_COLOR);
+//	}
+
 }
