@@ -38,6 +38,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -93,6 +95,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -801,8 +804,24 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void showBackpackModeChooser() {
-		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(getContext()).setTitle(R.string.backpack_title).setItems(items, (dialog, which) -> {
+		List<Integer> options = new ArrayList<>();
+		options.add(R.string.pack);
+		options.add(R.string.unpack);
+		List<String> names = new ArrayList<>();
+		for (Integer option : options) {
+			names.add(getString(option));
+		}
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names, requireContext(), requireActivity());
+
+		View customDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_backpack_custom_alert, null);
+		((TextView) customDialogView.findViewById(R.id.backpack_dialog_title)).setText(R.string.backpack_title);
+		ListView listView = customDialogView.findViewById(R.id.backpack_item_list);
+		listView.setAdapter(arrayAdapter);
+
+		AlertDialog dialog = new AlertDialog.Builder(requireContext()).setView(customDialogView).create();
+		Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.backpack_background_round);
+
+		listView.setOnItemClickListener((parent, view, which, id) -> {
 			switch (which) {
 				case 0:
 					if (adapter.getItems().size() == 1) {
@@ -814,7 +833,11 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				case 1:
 					switchToBackpack();
 			}
-		}).show();
+
+			dialog.dismiss();
+		});
+
+		dialog.show();
 	}
 
 	public void showNewScriptGroupAlert(List<Brick> selectedBricks) {
