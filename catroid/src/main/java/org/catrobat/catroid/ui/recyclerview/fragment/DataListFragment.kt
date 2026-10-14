@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,13 +61,14 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
+import org.catrobat.catroid.utils.NumberFormats.Companion.trimTrailingCharacters
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
 
-class DataListFragment<T : UserData<String>> : Fragment(),
+class DataListFragment : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
-    RVAdapter.OnItemClickListener<T> {
+    RVAdapter.OnItemClickListener<UserData<*>> {
     @Retention(AnnotationRetention.SOURCE)
     @IntDef(NONE, DELETE)
     internal annotation class ActionModeType
@@ -477,22 +478,50 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         }
     }
 
-    private fun showEditDialog(selectedItems: List<T>) {
+    private fun showEditDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
         val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_value))
-            .setText(item.value.toString())
+            .setText(rawValueToString(item.value))
             .setPositiveButton(getString(R.string.save)) { _: DialogInterface?, textInput: String? ->
                 editItem(item, textInput)
             }
-        builder.setTitle("Edit " + item.name)
+        builder.setTitle(getString(R.string.edit_data_dialog_title, item.name))
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
-    private fun editItem(item: T, value: String?) {
-        updateUserVariableValue(value, item)
+    private fun rawValueToString(value: Any?): String {
+        return when (value) {
+            is Boolean -> if (value) {
+                getString(R.string.formula_editor_function_true)
+            } else {
+                getString(R.string.formula_editor_function_false)
+            }
+            is Double -> trimTrailingCharacters(value.toString())
+            else -> value?.toString().orEmpty()
+        }
+    }
+
+    private fun editItem(item: UserData<*>, value: String?) {
+        val trimmedValue = value?.trim()
+        if (item is UserVariable) {
+            val localizedTrue = getString(R.string.formula_editor_function_true)
+            val localizedFalse = getString(R.string.formula_editor_function_false)
+            val parsedValue: Any? = when {
+                trimmedValue.equals("true", ignoreCase = true) ||
+                    trimmedValue.equals(localizedTrue, ignoreCase = true) -> true
+                trimmedValue.equals("false", ignoreCase = true) ||
+                    trimmedValue.equals(localizedFalse, ignoreCase = true) -> false
+                else -> try {
+                    trimmedValue?.toDouble()
+                } catch (_: NumberFormatException) {
+                    value
+                }
+            }
+            item.value = parsedValue
+        }
         adapter?.updateDataSet()
         finishActionMode()
     }
@@ -503,7 +532,7 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         }
     }
 
-    override fun onItemClick(item: T, selectionManager: MultiSelectionManager?) {
+    override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         if (actionModeType == NONE) {
             val formulaEditorFragment =
                 fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
@@ -512,7 +541,7 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         }
     }
 
-    override fun onItemLongClick(item: T, holder: CheckableViewHolder) {
+    override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
         onItemClick(item, null)
     }
 
@@ -538,13 +567,9 @@ class DataListFragment<T : UserData<String>> : Fragment(),
             )
         }
 
-        @JvmStatic
-        fun <T> updateUserVariableValue(value: T?, item: UserData<T>) {
-            item.value = value
-        }
     }
 
-    override fun onSettingsClick(item: T, view: View?) {
+    override fun onSettingsClick(item: UserData<*>, view: View?) {
         if (item is UserDefinedBrickInput) {
             return
         }

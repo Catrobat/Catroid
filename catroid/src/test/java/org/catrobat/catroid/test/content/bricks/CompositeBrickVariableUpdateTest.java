@@ -115,13 +115,13 @@ public class CompositeBrickVariableUpdateTest {
 
 	@Test
 	public void testEditVariable() {
-		DataListFragment.updateUserVariableValue(NEW_VARIABLE_VALUE, userVariable);
+		userVariable.setValue(NEW_VARIABLE_VALUE);
 		assertEquals(NEW_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	@Test
 	public void testEditVariableSameValue() {
-		DataListFragment.updateUserVariableValue(VARIABLE_VALUE, userVariable);
+		userVariable.setValue(VARIABLE_VALUE);
 		assertEquals(VARIABLE_VALUE, userVariable.getValue());
 	}
 
