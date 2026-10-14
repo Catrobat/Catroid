@@ -4,19 +4,29 @@ import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.media.Image
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.ImageProxy
 import androidx.test.core.app.ApplicationProvider
+import com.google.mlkit.vision.common.InputImage
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.bluetooth.BluetoothManager
+import org.catrobat.catroid.camera.DetectorsCompleteListener
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
+import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageResourceHolder
@@ -32,9 +42,11 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.shadows.ShadowToast
+import java.io.IOException
 import java.lang.ref.WeakReference
 import java.time.Duration
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
@@ -43,6 +55,7 @@ class FaceNameTrainActionStateTest {
     private lateinit var context: Context
     private var savedStage: WeakReference<StageActivity>? = null
     private var savedHandler: Handler? = null
+    private var restoreDetector: () -> Unit = {}
 
     @Before
     fun setUp() {
@@ -57,6 +70,7 @@ class FaceNameTrainActionStateTest {
         StageActivity.activeStageActivity = savedStage
         StageActivity.messageHandler = savedHandler
         FaceNameTrainAction.resetStateForTest(null)
+        restoreDetector()
     }
 
     @Test
@@ -718,10 +732,134 @@ class FaceNameTrainActionStateTest {
         assertTrue(action.act(0f))
     }
 
+    // ---------------- Detection after the face models failed to load ----------------
+
+    /**
+     * Found in review: when loading the face models failed once while the camera
+     * was analysed (an exception, or no memory), detection stopped until the next
+     * program start, so that the failing load is not repeated on every frame. A
+     * training brick that then loaded the models and trained successfully left it
+     * stopped: the trained person stayed "Unknown" until the program restarted.
+     * Successful manual loading or training must start detection again, while a
+     * failed load is still not retried on every frame.
+     */
+    @Test
+    fun detectionResumesWhenTheTrainingBrickLoadsTheModelsAfterAFailedLoad() {
+        val recognizer = detectionGivesUpThenModelsWork()
+        FaceNameTrainAction.recognizerFactory = { recognizer }
+
+        trainSuccessfully(FaceNameTrainAction())
+
+        assertEquals("Ada", detectedNameAfterFrames())
+    }
+
+    @Test
+    fun detectionResumesWhenABrickWithLoadedModelsTrainsAfterAFailedLoad() {
+        val recognizer = detectionGivesUpThenModelsWork()
+
+        trainSuccessfully(runningBrick(recognizer))
+
+        assertEquals("Ada", detectedNameAfterFrames())
+    }
+
+    @Test
+    fun withoutSuccessfulTrainingAFailedLoadIsStillNotRetriedOnEveryFrame() {
+        detectionGivesUpThenModelsWork()
+
+        assertEquals(FaceNameWindow.UNKNOWN, detectedNameAfterFrames())
+        assertEquals("The failed load is not repeated for later frames", 1, modelLoads)
+    }
+
+    private val queuedRecognitions = ArrayDeque<Runnable>()
+    private var cameraTime = 10_000L
+    private var modelLoads = 0
+    private var modelsWork = false
+
+    /**
+     * The program reads the sensor, the first frame fails to load the models and
+     * detection gives up; afterwards the models can be loaded.
+     */
+    private fun detectionGivesUpThenModelsWork(): Recognizer {
+        FileUtils.init(context)
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(context))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(HIGH_SCORE))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult().apply { embeddings.add(FloatArray(EMBEDDING_SIZE)) }
+        every { recognizer.addPhotos(any(), any()) } returns 1
+
+        val savedClock = FaceNameDetector.clock
+        val savedExecutor = FaceNameDetector.recognitionExecutor
+        val savedProvider = FaceNameDetector.recognizerProvider
+        restoreDetector = {
+            FaceNameDetector.frameSource = null
+            FaceNameDetector.clock = savedClock
+            FaceNameDetector.recognitionExecutor = savedExecutor
+            FaceNameDetector.recognizerProvider = savedProvider
+            FaceNameDetector.reset()
+            FileUtils.deleteAll()
+        }
+        FaceNameDetector.clock = { cameraTime }
+        FaceNameDetector.recognitionExecutor = Executor { queuedRecognitions.addLast(it) }
+        FaceNameDetector.frameSource = { Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888) }
+        FaceNameDetector.recognizerProvider = {
+            modelLoads++
+            if (!modelsWork) {
+                throw IOException("mobile_facenet.tflite could not be read")
+            }
+            recognizer
+        }
+        FaceNameDetector.reset()
+        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+
+        offerFrame()
+        assertEquals("The first frame tried to load the models", 1, modelLoads)
+        modelsWork = true
+        return recognizer
+    }
+
+    private fun trainSuccessfully(brick: FaceNameTrainAction) {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        runsOn(brick, stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        brick.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        waitForTrainingToFinish()
+    }
+
+    /** The name after enough camera frames for a decision, without a program restart. */
+    private fun detectedNameAfterFrames(): Any? {
+        repeat(FaceNameWindow.FRAMES) {
+            cameraTime += FaceNameWindow.FRAME_INTERVAL_MS
+            offerFrame()
+        }
+        return SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+    }
+
+    /** One camera frame through the detector, recognised right away. */
+    private fun offerFrame() {
+        FaceNameDetector.processImage(
+            mockk<Image>(relaxed = true),
+            mockk<InputImage>(relaxed = true),
+            DetectorsCompleteListener(1, mockk<ImageProxy>(relaxed = true))
+        )
+        while (queuedRecognitions.isNotEmpty()) {
+            queuedRecognitions.removeFirst().run()
+        }
+    }
+
     private companion object {
         const val EMBEDDING_SIZE = 128
         const val TRAINING_TIMEOUT_MS = 5000L
         const val POLL_MS = 10L
         const val LOADING_POLLS = 20
+        const val HIGH_SCORE = 0.95f
     }
 }
