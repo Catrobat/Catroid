@@ -51,13 +51,19 @@ class StageActivityRecreationTest {
     @Before
     fun setUp() {
         savedStage = StageActivity.activeStageActivity
-        ProjectManager.getInstance().resetProjectManager()
+        forgetTheProject()
     }
 
     @After
     fun tearDown() {
         StageActivity.activeStageActivity = savedStage
+        forgetTheProject()
+    }
+
+    /** The state after Android stopped the app: no project in memory, also none from another test. */
+    private fun forgetTheProject() {
         ProjectManager.getInstance().resetProjectManager()
+        ProjectManager.getInstance().currentProject = null
     }
 
     @Test

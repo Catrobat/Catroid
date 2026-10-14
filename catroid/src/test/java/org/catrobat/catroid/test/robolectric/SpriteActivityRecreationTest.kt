@@ -62,11 +62,13 @@ class SpriteActivityRecreationTest {
     @After
     fun tearDown() {
         ProjectManager.getInstance().resetProjectManager()
+        ProjectManager.getInstance().currentProject = null
     }
 
     @Test
     fun theScriptEditorClosesWhenTheAppWasStoppedInTheBackground() {
         ProjectManager.getInstance().resetProjectManager()
+        ProjectManager.getInstance().currentProject = null
 
         val activity = Robolectric.buildActivity(SpriteActivity::class.java).create(savedState).get()
 
