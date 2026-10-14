@@ -220,7 +220,7 @@ object FaceNameDetector : Detector {
                     Log.e(TAG, "No memory to recognise the frame; skipped", error)
                 } catch (error: LinkageError) {
                     // Fails the same way on every frame; stop until the next program start.
-                    giveUp(error)
+                    giveUp(error, task.runId)
                 } finally {
                     task.frame?.recycle()
                     busy.set(false)
@@ -234,7 +234,7 @@ object FaceNameDetector : Detector {
     }
 
     private fun recogniseNow(task: Task) {
-        val recognizer = loadRecognizer() ?: return
+        val recognizer = loadRecognizer(task.runId) ?: return
         val scored = FaceNameWindow.scoreOf(recognizer, task.frame, task.frontCamera)
         synchronized(lock) {
             if (task.runId != runId) {
@@ -246,18 +246,28 @@ object FaceNameDetector : Detector {
     }
 
     /** The recogniser, loading the face models on first use; null when they cannot be loaded. */
-    private fun loadRecognizer(): Recognizer? = try {
+    private fun loadRecognizer(taskRunId: Int): Recognizer? = try {
         recognizerProvider()
     } catch (exception: Exception) {
-        giveUp(exception)
+        giveUp(exception, taskRunId)
     } catch (error: LinkageError) {
-        giveUp(error)
+        giveUp(error, taskRunId)
     } catch (error: OutOfMemoryError) {
-        giveUp(error)
+        giveUp(error, taskRunId)
     }
 
-    private fun giveUp(cause: Throwable): Recognizer? {
-        recognitionUnavailable = true
+    /**
+     * Stops the analysis for this run. Like a result, a failure belongs to the run of
+     * its frame: one from before a restart or a [reset] does not stop the new run.
+     */
+    private fun giveUp(cause: Throwable, taskRunId: Int): Recognizer? {
+        synchronized(lock) {
+            if (taskRunId != runId) {
+                Log.w(TAG, "The face models failed for a frame of an earlier run; ignored", cause)
+                return null
+            }
+            recognitionUnavailable = true
+        }
         Log.e(TAG, "The face models cannot be used; detected face name stays Unknown", cause)
         return null
     }
