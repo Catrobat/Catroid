@@ -54,6 +54,8 @@ class FileUtilsWriteFilesTest {
     private lateinit var savedReplaceFile: (File, File) -> Unit
     private lateinit var savedSyncFile: (File) -> Unit
     private lateinit var savedOpenForReading: (File) -> Reader
+    private lateinit var savedSyncDirectory: (File) -> Unit
+    private lateinit var savedDeleteFile: (File) -> Boolean
 
     @Before
     fun setUp() {
@@ -62,6 +64,8 @@ class FileUtilsWriteFilesTest {
         savedReplaceFile = FileUtils.replaceFile
         savedSyncFile = FileUtils.syncFile
         savedOpenForReading = FileUtils.openForReading
+        savedSyncDirectory = FileUtils.syncDirectory
+        savedDeleteFile = FileUtils.deleteFile
         FileUtils.init(context)
         FileUtils.deleteAll()
         assertTrue(FileUtils.writeFiles(OLD))
@@ -73,6 +77,8 @@ class FileUtilsWriteFilesTest {
         FileUtils.replaceFile = savedReplaceFile
         FileUtils.syncFile = savedSyncFile
         FileUtils.openForReading = savedOpenForReading
+        FileUtils.syncDirectory = savedSyncDirectory
+        FileUtils.deleteFile = savedDeleteFile
         FileUtils.deleteAll()
     }
 
@@ -234,6 +240,143 @@ class FileUtilsWriteFilesTest {
 
         FileUtils.recoverInterruptedWrite()
 
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    // ---------------- Directory syncs around the journal ----------------
+
+    /**
+     * Found in review: the journal's new name was not synced before the files
+     * moved. A power cut could then keep the moves but lose the journal, and the
+     * next start deleted the backups as leftovers instead of restoring them.
+     */
+    @Test
+    fun theJournalsNameIsOnStorageBeforeAnyFileMoves() {
+        val events = mutableListOf<String>()
+        FileUtils.syncDirectory = { folder ->
+            events.add("folder synced, journal ${if (FileUtils.file(JOURNAL).exists()) "there" else "gone"}")
+            savedSyncDirectory(folder)
+        }
+        FileUtils.replaceFile = { source, target ->
+            assertTrue(
+                "The folder is synced with the journal in it before ${source.name} moves: $events",
+                "folder synced, journal there" in events
+            )
+            savedReplaceFile(source, target)
+        }
+
+        assertTrue(FileUtils.writeFiles(NEW))
+
+        assertFiles(NEW)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun aFolderSyncThatFailsBeforeTheMovesKeepsTheOldFiles() {
+        FileUtils.syncDirectory = { throw IOException("Could not sync the folder") }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    /**
+     * Found in the same review: the journal and the backups were deleted before
+     * the folder was synced, and a journal that could not be deleted did not stop
+     * the backups from going. A power cut could leave the journal with only some
+     * backups, pairing old photos with new names. The backups only go once the
+     * journal is deleted and that is on storage.
+     */
+    @Test
+    fun theBackupsStayUntilTheJournalIsGoneForGood() {
+        var journalGoneForGood = false
+        FileUtils.syncDirectory = { folder ->
+            savedSyncDirectory(folder)
+            if (!FileUtils.file(JOURNAL).exists()) {
+                journalGoneForGood = true
+            }
+        }
+        FileUtils.deleteFile = { file ->
+            if (file.name.endsWith(".bak")) {
+                assertTrue("${file.name} is deleted only after the journal is gone for good", journalGoneForGood)
+            }
+            savedDeleteFile(file)
+        }
+
+        assertTrue(FileUtils.writeFiles(NEW))
+
+        assertFiles(NEW)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun aFolderSyncThatFailsAfterTheMovesPutsTheOldFilesBack() {
+        var moves = 0
+        FileUtils.replaceFile = { source, target ->
+            moves++
+            savedReplaceFile(source, target)
+        }
+        FileUtils.syncDirectory = { folder ->
+            if (moves > 0) throw IOException("Could not sync the folder")
+            savedSyncDirectory(folder)
+        }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertFiles(OLD)
+    }
+
+    @Test
+    fun aJournalThatCannotBeDeletedPutsTheOldFilesBackWithTheirBackups() {
+        var journalDeletable = false
+        FileUtils.deleteFile = { file ->
+            if (file.name == JOURNAL && !journalDeletable) false else savedDeleteFile(file)
+        }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertFiles(OLD)
+        journalDeletable = true
+        FileUtils.recoverInterruptedWrite()
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun aFolderSyncThatFailsAfterTheJournalIsDeletedKeepsTheBackupsAndTheNewFiles() {
+        FileUtils.syncDirectory = { folder ->
+            if (!FileUtils.file(JOURNAL).exists() && FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists()) {
+                throw IOException("Could not sync the folder")
+            }
+            savedSyncDirectory(folder)
+        }
+
+        assertTrue(FileUtils.writeFiles(NEW))
+
+        assertFiles(NEW)
+        assertTrue("The backups stay", FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists())
+        FileUtils.syncDirectory = savedSyncDirectory
+        FileUtils.recoverInterruptedWrite()
+        assertFiles(NEW)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun recoveryKeepsTheJournalWhenTheRestoredFilesCannotBeSynced() {
+        FileUtils.writeLines(JOURNAL, OLD.keys.map { "$it 1" })
+        for (name in OLD.keys) {
+            FileUtils.file(name).renameTo(FileUtils.file("$name.bak"))
+        }
+        FileUtils.writeLines(FileUtils.LABEL_FILE, NEW.getValue(FileUtils.LABEL_FILE))
+        FileUtils.syncDirectory = { throw IOException("Could not sync the folder") }
+
+        assertFalse(FileUtils.recoverInterruptedWrite())
+
+        assertTrue("The journal stays for the next start", FileUtils.file(JOURNAL).exists())
+        FileUtils.syncDirectory = savedSyncDirectory
+        assertTrue(FileUtils.recoverInterruptedWrite())
         assertFiles(OLD)
         assertNoHelperFileLeft()
     }

@@ -269,12 +269,20 @@ object FileUtils {
     private fun syncDirectory() {
         val root = rootDir ?: return
         try {
-            FileChannel.open(root.toPath(), StandardOpenOption.READ).use { it.force(true) }
+            syncDirectory(root)
         } catch (e: Exception) {
             // Not every file system lets a folder be opened; the file syncs still hold.
             Log.w(TAG, "Could not sync the face data folder", e)
         }
     }
+
+    @VisibleForTesting
+    internal var syncDirectory: (File) -> Unit = { folder ->
+        FileChannel.open(folder.toPath(), StandardOpenOption.READ).use { it.force(true) }
+    }
+
+    @VisibleForTesting
+    internal var deleteFile: (File) -> Boolean = { it.delete() }
 
     /** Writes [lines] to "<fileName>.tmp"; false, and no temporary file, if that fails. */
     private fun writeTemporary(fileName: String, lines: List<String>): Boolean {
@@ -306,7 +314,7 @@ object FileUtils {
 
     /** A temporary file left behind is overwritten by the next write, so a failed delete is only logged. */
     private fun deleteTemporary(temp: File) {
-        if (temp.exists() && !temp.delete()) {
+        if (temp.exists() && !deleteFile(temp)) {
             Log.w(TAG, "Could not delete " + temp.getName())
         }
     }
