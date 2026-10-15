@@ -381,6 +381,81 @@ class FileUtilsWriteFilesTest {
         assertNoHelperFileLeft()
     }
 
+    // ---------------- Backups left by a completed save ----------------
+
+    /**
+     * Found in review: when the folder sync after the journal's deletion failed,
+     * the save reported success and kept the backups of the files before it. The
+     * next save then backed up only some files over them before failing, and
+     * recovery paired the newer names with the older photos: Alice's photos
+     * matched Bob. Leftover backups are cleared, with the folder synced, before a
+     * new journal is written.
+     */
+    @Test
+    fun aSaveAfterLeftoverBackupsDoesNotMixTheirFilesWithNewerOnes() {
+        leaveBackupsOfTheOldFiles()
+        FileUtils.replaceFile = { source, target ->
+            if (target.name == FileUtils.DATA_FILE + ".bak") throw IOException("Could not back up data")
+            savedReplaceFile(source, target)
+        }
+
+        assertFalse(FileUtils.writeFiles(NEWER))
+
+        assertFiles(NEW)
+        FileUtils.replaceFile = savedReplaceFile
+        FileUtils.recoverInterruptedWrite()
+        assertFiles(NEW)
+    }
+
+    @Test
+    fun leftoverBackupsThatCannotBeSyncedStopTheNextSaveBeforeItsJournal() {
+        leaveBackupsOfTheOldFiles()
+        FileUtils.syncDirectory = { throw IOException("Could not sync the folder") }
+
+        assertFalse(FileUtils.writeFiles(NEWER))
+
+        assertFiles(NEW)
+        assertFalse("No journal was written", FileUtils.file(JOURNAL).exists())
+    }
+
+    @Test
+    fun leftoverBackupsThatCannotBeDeletedStopTheNextSave() {
+        leaveBackupsOfTheOldFiles()
+        FileUtils.deleteFile = { file -> if (file.name.endsWith(".bak")) false else savedDeleteFile(file) }
+
+        assertFalse(FileUtils.writeFiles(NEWER))
+
+        assertFiles(NEW)
+        assertFalse("No journal was written", FileUtils.file(JOURNAL).exists())
+    }
+
+    @Test
+    fun recoveryKeepsLeftoverBackupsUntilTheFolderIsSynced() {
+        leaveBackupsOfTheOldFiles()
+        FileUtils.syncDirectory = { throw IOException("Could not sync the folder") }
+
+        assertFalse(FileUtils.recoverInterruptedWrite())
+
+        assertTrue("The backups stay", FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists())
+        FileUtils.syncDirectory = savedSyncDirectory
+        assertTrue(FileUtils.recoverInterruptedWrite())
+        assertFiles(NEW)
+        assertNoHelperFileLeft()
+    }
+
+    /** Saves NEW while the folder sync after the journal's deletion fails: the OLD backups stay. */
+    private fun leaveBackupsOfTheOldFiles() {
+        FileUtils.syncDirectory = { folder ->
+            if (!FileUtils.file(JOURNAL).exists() && FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists()) {
+                throw IOException("Could not sync the folder")
+            }
+            savedSyncDirectory(folder)
+        }
+        assertTrue(FileUtils.writeFiles(NEW))
+        assertTrue("The backups of the old files stay", FileUtils.file(FileUtils.DATA_FILE + ".bak").exists())
+        FileUtils.syncDirectory = savedSyncDirectory
+    }
+
     private fun assertFiles(expected: Map<String, List<String>>) {
         for ((name, lines) in expected) {
             assertEquals(name, lines, FileUtils.readLines(name))
@@ -404,6 +479,11 @@ class FileUtilsWriteFilesTest {
             FileUtils.LABEL_FILE to listOf("Bob"),
             FileUtils.DATA_FILE to listOf("0 0.0 1.0"),
             FileUtils.MODEL_FILE to listOf("v1 2 1")
+        )
+        val NEWER = mapOf(
+            FileUtils.LABEL_FILE to listOf("Bob", "Charlie"),
+            FileUtils.DATA_FILE to listOf("0 0.0 1.0", "1 0.6 0.8"),
+            FileUtils.MODEL_FILE to listOf("v1 2 2")
         )
     }
 }
