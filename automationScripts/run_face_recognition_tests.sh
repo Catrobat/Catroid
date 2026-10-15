@@ -58,6 +58,7 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNetInputTest"
   --tests "org.catrobat.catroid.test.robolectric.SpriteActivityRecreationTest"
   --tests "org.catrobat.catroid.test.robolectric.StageActivityRecreationTest"
+  --tests "org.catrobat.catroid.stage.FaceNameWatcherTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
