@@ -162,9 +162,11 @@ object FileUtils {
      *    file is moved to "<name>.bak" and every temporary file into place. A
      *    failure here moves the backups back.
      * 3. Deleting the journal completes the write; the backups go after it.
-     * Every new file and the journal are synced to storage before anything is
-     * moved, and the moves before the journal is deleted, so a power cut at any
-     * point leaves either the old files or the new ones.
+     * Every new file and the journal, including its name in the folder, are on
+     * storage before anything is moved; the moves before the journal is deleted;
+     * and the deleted journal before any backup goes. A power cut at any point
+     * leaves either the old files or the new ones. A folder sync or a journal
+     * deletion that fails puts the old files back and reports false.
      * If the app stops during step 2, [recoverInterruptedWrite] undoes it at the
      * next start.
      */
@@ -185,6 +187,12 @@ object FileUtils {
             files.keys.forEach { deleteTemporary(file("$it.tmp")) }
             return false
         }
+        // Only the journal can undo the moves, so its name must be on storage before the first one.
+        if (!trySyncDirectory()) {
+            deleteTemporary(file(SAVE_JOURNAL))
+            files.keys.forEach { deleteTemporary(file("$it.tmp")) }
+            return false
+        }
         try {
             for (name in files.keys.filter { existed.getValue(it) }) {
                 replaceFile(file(name), file("$name.bak"))
@@ -198,10 +206,17 @@ object FileUtils {
             return false
         }
         // The moves must be on storage before the journal, which could undo them, goes.
-        syncDirectory()
-        deleteTemporary(file(SAVE_JOURNAL))
-        files.keys.forEach { deleteTemporary(file("$it.bak")) }
-        syncDirectory()
+        if (!trySyncDirectory() || !deleteFile(file(SAVE_JOURNAL))) {
+            Log.e(TAG, "Could not complete the save of the face files; the old ones are put back")
+            recoverInterruptedWrite()
+            return false
+        }
+        // A journal that a power cut brings back needs every backup, so they go
+        // only once its deletion is on storage. Otherwise they stay until the next start.
+        if (trySyncDirectory()) {
+            files.keys.forEach { deleteTemporary(file("$it.bak")) }
+            trySyncDirectory()
+        }
         return true
     }
 
@@ -241,8 +256,12 @@ object FileUtils {
                 root.listFiles()?.filter { it.name.endsWith(".tmp") }?.forEach { deleteTemporary(it) }
                 return false
             }
-            syncDirectory()
-            deleteTemporary(journal)
+            // The restored files must be on storage before the journal goes, and the
+            // deleted journal before the leftover backups go.
+            if (!trySyncDirectory() || !deleteFile(journal) || !trySyncDirectory()) {
+                Log.e(TAG, "Could not complete the restore of the face files; trying again at the next start")
+                return false
+            }
         }
         root.listFiles()?.filter { it.name.endsWith(".tmp") || it.name.endsWith(".bak") }
             ?.forEach { deleteTemporary(it) }
@@ -265,22 +284,38 @@ object FileUtils {
         RandomAccessFile(file, "rw").use { it.fd.sync() }
     }
 
-    /** Writes the folder's entries (the moves and deletes) through to storage, where the system allows it. */
-    private fun syncDirectory() {
-        val root = rootDir ?: return
-        try {
+    /** Writes the folder's entries (the moves and deletes) through to storage; false if that fails. */
+    private fun trySyncDirectory(): Boolean {
+        val root = rootDir ?: return false
+        return try {
             syncDirectory(root)
-        } catch (e: Exception) {
-            // Not every file system lets a folder be opened; the file syncs still hold.
-            Log.w(TAG, "Could not sync the face data folder", e)
+            true
+        } catch (e: IOException) {
+            Log.e(TAG, "Could not sync the face data folder", e)
+            false
         }
     }
 
+    /**
+     * Syncs the folder's entries; the tests replace it to watch the order or make
+     * it fail. A system that cannot open a folder at all (not Android) has nothing
+     * to sync; a sync that fails throws.
+     */
     @VisibleForTesting
     internal var syncDirectory: (File) -> Unit = { folder ->
-        FileChannel.open(folder.toPath(), StandardOpenOption.READ).use { it.force(true) }
+        val channel = try {
+            FileChannel.open(folder.toPath(), StandardOpenOption.READ)
+        } catch (e: IOException) {
+            Log.w(TAG, "This file system cannot open the face data folder to sync it", e)
+            null
+        } catch (e: UnsupportedOperationException) {
+            Log.w(TAG, "This file system cannot open the face data folder to sync it", e)
+            null
+        }
+        channel?.use { it.force(true) }
     }
 
+    /** Deletes a file; the tests replace it to make a deletion fail. */
     @VisibleForTesting
     internal var deleteFile: (File) -> Boolean = { it.delete() }
 
