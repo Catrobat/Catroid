@@ -77,6 +77,10 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
             }
         }
     }
+
+    fun clearDetectionErrorCallback() {
+        onDetectionError = { _, _ -> }
+    }
 }
 
 class DetectorsCompleteListener(

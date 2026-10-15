@@ -52,11 +52,6 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private var frontCamera = true
     private var onDetectionError: (Int, Exception) -> Unit = { _, _ -> }
 
-    fun setFrontCamera(frontCamera: Boolean, onError: (Int, Exception) -> Unit) {
-        this.frontCamera = frontCamera
-        this.onDetectionError = onError
-    }
-
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { mediaImage ->
@@ -114,5 +109,14 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
         }
+    }
+
+    fun setFrontCamera(frontCamera: Boolean, onError: (Int, Exception) -> Unit) {
+        this.frontCamera = frontCamera
+        this.onDetectionError = onError
+    }
+
+    fun clearDetectionErrorCallback() {
+        onDetectionError = { _, _ -> }
     }
 }

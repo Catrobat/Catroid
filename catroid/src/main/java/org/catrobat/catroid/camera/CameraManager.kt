@@ -44,6 +44,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import org.koin.java.KoinJavaComponent.get
+import java.util.concurrent.ExecutorService
 
 class CameraManager(private val activity: Activity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(activity).get()
@@ -58,6 +59,7 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
     private var currentCamera: Camera? = null
     private val defaultCameraSelector: CameraSelector
     private var currentCameraSelector: CameraSelector
+    private val analysisExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
     val hasFrontCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
     val hasBackCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
@@ -111,7 +113,15 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
 
     @Synchronized
     fun destroy() {
+        analysisUseCase.clearAnalyzer()
+        cameraProvider.unbind(previewUseCase, analysisUseCase)
+
         lifecycle.currentState = Lifecycle.State.DESTROYED
+
+        CatdroidImageAnalyzer.clearDetectionErrorCallback()
+        FaceTextPoseDetectorHuawei.clearDetectionErrorCallback()
+
+        analysisExecutor.shutdown()
     }
 
     @Synchronized
@@ -249,7 +259,7 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
                     )
                 }
             }
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
+            analysisUseCase.setAnalyzer(analysisExecutor, CatdroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(activity)) {
             FaceTextPoseDetectorHuawei.setFrontCamera(
                 isCameraFacingFront
@@ -263,7 +273,7 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
                     )
                 }
             }
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
+            analysisUseCase.setAnalyzer(analysisExecutor, FaceTextPoseDetectorHuawei)
         }
     }
 
