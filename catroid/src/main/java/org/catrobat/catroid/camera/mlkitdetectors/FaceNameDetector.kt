@@ -195,8 +195,13 @@ object FaceNameDetector : Detector {
 
     /** The frame to recognise, or null when this one is skipped. */
     private fun takeFrame(mediaImage: Image, rotationDegrees: Int): Task? {
-        if (!activated || busy.get() || recognitionUnavailable) {
-            return null
+        // The frame belongs to the run in which it was taken: a pause or restart
+        // while the image is read leaves its result and its failures out.
+        val taskRunId = synchronized(lock) {
+            if (!activated || busy.get() || recognitionUnavailable) {
+                return null
+            }
+            runId
         }
         val now = clock()
         if (!window.isFrameDue(now)) {
@@ -206,7 +211,7 @@ object FaceNameDetector : Detector {
         val source = frameSource
         val frame = if (source != null) source(frontCamera) else uprightBitmap(mediaImage, rotationDegrees)
         busy.set(true)
-        return Task(frame, frontCamera, now, synchronized(lock) { runId })
+        return Task(frame, frontCamera, now, taskRunId)
     }
 
     private fun recognise(task: Task) {
