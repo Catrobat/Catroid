@@ -38,7 +38,8 @@ import kotlin.math.min
  * single-frame threshold while the window holds one frame and the single-person
  * rule when one person is enrolled. A frame without a usable face changes
  * nothing, until no usable face was seen for [NO_FACE_RESET_MS]; then the
- * window is cleared and the name is [UNKNOWN].
+ * window is cleared and the name is [UNKNOWN]. A usable face after that time
+ * starts a fresh decision, even if no frame came in between.
  *
  * The window is also the throttle: [isFrameDue] lets one frame through every
  * [FRAME_INTERVAL_MS].
@@ -99,13 +100,19 @@ class FaceNameWindow {
         nowMs: Long,
         scoredFor: List<String>? = null
     ): String {
+        val last = lastUsableFaceAt
+        val expired = last == null || nowMs - last >= NO_FACE_RESET_MS
         if (scores == null) {
-            val last = lastUsableFaceAt
-            if (last == null || nowMs - last >= NO_FACE_RESET_MS) {
+            if (expired) {
                 clearFrames()
                 name = UNKNOWN
             }
             return name
+        }
+        if (expired) {
+            // The face is back after the limit: it starts a fresh decision, without
+            // the frames of whoever was there before.
+            clearFrames()
         }
 
         val people = recognizer.classNames
