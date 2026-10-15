@@ -158,6 +158,42 @@ class FaceNameWindowTest {
         assertEquals(UNKNOWN, add(0.61f, 0.10f, at = 1500))
     }
 
+    /**
+     * Found in review: the one-second limit was only checked on frames without a
+     * usable face. Person A at 0 and 300 ms, no face at 600, 900 and 1200 ms,
+     * then person B at 1500 ms: B's frame was averaged with A's two and the
+     * window still said A. A face after one second without one starts afresh.
+     */
+    @Test
+    fun aFaceAfterOneSecondWithoutAUsableFaceStartsAFreshDecision() {
+        add(0.90f, 0.20f, at = 0)
+        add(0.90f, 0.20f, at = 300)
+        window.addScores(recognizer, null, 600)
+        window.addScores(recognizer, null, 900)
+        window.addScores(recognizer, null, 1200)
+
+        assertEquals(PERSON_B, add(0.20f, 0.90f, at = 1500))
+        assertEquals(1, window.framesInWindow)
+    }
+
+    @Test
+    fun aFaceAfterOneSecondWithoutAnyAnalysedFrameStartsAFreshDecision() {
+        add(0.90f, 0.20f, at = 0)
+        add(0.90f, 0.20f, at = 300)
+
+        assertEquals(PERSON_B, add(0.20f, 0.90f, at = 300 + NO_FACE_RESET_MS))
+        assertEquals(1, window.framesInWindow)
+    }
+
+    @Test
+    fun aFaceWithinOneSecondIsAveragedWithTheFramesBefore() {
+        add(0.90f, 0.20f, at = 0)
+        add(0.90f, 0.20f, at = 300)
+
+        assertEquals(PERSON_A, add(0.20f, 0.90f, at = 300 + NO_FACE_RESET_MS - 1))
+        assertEquals(3, window.framesInWindow)
+    }
+
     @Test
     fun framesWithoutAUsableFaceFromTheStartStayUnknown() {
         assertEquals(UNKNOWN, window.addScores(recognizer, null, 0))
