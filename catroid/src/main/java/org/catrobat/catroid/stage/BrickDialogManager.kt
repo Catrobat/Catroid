@@ -327,6 +327,10 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             } else {
                 super.validateInput(input, context)
             }
+
+        // The face database ignores case: "ada" is Ada, so it is taken too.
+        override fun isNameUnique(name: String): Boolean =
+            scope.none { it.equals(name.trim(), ignoreCase = true) }
     }
 
     override fun onKey(dialog: DialogInterface, keyCode: Int, event: KeyEvent) =
