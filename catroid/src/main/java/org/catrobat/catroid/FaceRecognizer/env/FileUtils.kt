@@ -40,6 +40,8 @@ object FileUtils {
     /** Lists the files a [writeFiles] is replacing, until it has completed. */
     private const val SAVE_JOURNAL = "save.journal"
 
+    private const val COULD_NOT_DELETE = "Could not delete "
+
     private var rootDir: File? = null
 
     @JvmStatic
@@ -291,7 +293,7 @@ object FileUtils {
         }
         for (leftover in leftovers) {
             if (leftover.exists() && !deleteFile(leftover)) {
-                Log.e(TAG, "Could not delete " + leftover.name)
+                Log.e(TAG, COULD_NOT_DELETE + leftover.name)
                 return false
             }
         }
@@ -380,7 +382,7 @@ object FileUtils {
     /** A temporary file left behind is overwritten by the next write, so a failed delete is only logged. */
     private fun deleteTemporary(temp: File) {
         if (temp.exists() && !deleteFile(temp)) {
-            Log.w(TAG, "Could not delete " + temp.getName())
+            Log.w(TAG, COULD_NOT_DELETE + temp.getName())
         }
     }
 
@@ -404,7 +406,7 @@ object FileUtils {
         val files = rootDir?.listFiles() ?: return
         for (f in files) {
             if (!f.delete()) {
-                Log.w(TAG, "Could not delete " + f.getName())
+                Log.w(TAG, COULD_NOT_DELETE + f.getName())
             }
         }
     }
