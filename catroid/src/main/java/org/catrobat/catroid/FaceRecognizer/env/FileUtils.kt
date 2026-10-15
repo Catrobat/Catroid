@@ -165,8 +165,11 @@ object FileUtils {
      * Every new file and the journal, including its name in the folder, are on
      * storage before anything is moved; the moves before the journal is deleted;
      * and the deleted journal before any backup goes. A power cut at any point
-     * leaves either the old files or the new ones. A folder sync or a journal
-     * deletion that fails puts the old files back and reports false.
+     * leaves either the old files or the new ones. A folder sync before the
+     * journal's deletion, or the deletion itself, that fails puts the old files
+     * back and reports false. If only the sync after the deletion fails, the save
+     * is done and reports true; its backups stay until the next save or start
+     * settles them, and a save that cannot settle them changes nothing.
      * If the app stops during step 2, [recoverInterruptedWrite] undoes it at the
      * next start.
      */
@@ -174,6 +177,12 @@ object FileUtils {
     fun writeFiles(files: Map<String, List<String>>): Boolean {
         if (rootDir == null) {
             Log.e(TAG, "writeFiles before init")
+            return false
+        }
+        // The backups of an earlier save must not meet this save's: a save it
+        // cannot settle first stops this one, before anything changes.
+        if (!recoverInterruptedWrite()) {
+            Log.e(TAG, "The last save of the face files is not settled; nothing is saved")
             return false
         }
         for ((name, lines) in files) {
@@ -212,18 +221,17 @@ object FileUtils {
             return false
         }
         // A journal that a power cut brings back needs every backup, so they go
-        // only once its deletion is on storage. Otherwise they stay until the next start.
-        if (trySyncDirectory()) {
-            files.keys.forEach { deleteTemporary(file("$it.bak")) }
-            trySyncDirectory()
-        }
+        // only once its deletion is on storage. Otherwise the save is still done,
+        // and the backups stay until the next save or start settles them.
+        clearLeftovers()
         return true
     }
 
     /**
      * Undoes a [writeFiles] that did not complete: every file listed in the
      * journal gets its backup back, and a file that did not exist before is
-     * removed. Without a journal it only clears leftovers.
+     * removed. Without a journal it only clears leftovers, see [clearLeftovers].
+     * False when this could not complete; the files it needs are kept then.
      */
     @Synchronized
     fun recoverInterruptedWrite(): Boolean {
@@ -256,16 +264,38 @@ object FileUtils {
                 root.listFiles()?.filter { it.name.endsWith(".tmp") }?.forEach { deleteTemporary(it) }
                 return false
             }
-            // The restored files must be on storage before the journal goes, and the
-            // deleted journal before the leftover backups go.
-            if (!trySyncDirectory() || !deleteFile(journal) || !trySyncDirectory()) {
+            // The restored files must be on storage before the journal goes.
+            if (!trySyncDirectory() || !deleteFile(journal)) {
                 Log.e(TAG, "Could not complete the restore of the face files; trying again at the next start")
                 return false
             }
         }
-        root.listFiles()?.filter { it.name.endsWith(".tmp") || it.name.endsWith(".bak") }
-            ?.forEach { deleteTemporary(it) }
-        return true
+        return clearLeftovers()
+    }
+
+    /**
+     * Deletes the backups and temporary files a completed save or restore left.
+     * The deleted journal that made them leftovers must be on storage first: a
+     * power cut could bring it back, and it would need them. False, with the
+     * files kept, when the folder cannot be synced or a file cannot be deleted.
+     */
+    private fun clearLeftovers(): Boolean {
+        val root = rootDir ?: return false
+        val leftovers = root.listFiles()?.filter { it.name.endsWith(".tmp") || it.name.endsWith(".bak") }.orEmpty()
+        if (leftovers.isEmpty()) {
+            return true
+        }
+        if (!trySyncDirectory()) {
+            Log.e(TAG, "Could not sync the face data folder; the leftover backups are kept")
+            return false
+        }
+        for (leftover in leftovers) {
+            if (leftover.exists() && !deleteFile(leftover)) {
+                Log.e(TAG, "Could not delete " + leftover.name)
+                return false
+            }
+        }
+        return trySyncDirectory()
     }
 
     private fun restore(backup: File, target: File): Boolean {
