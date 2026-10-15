@@ -332,6 +332,61 @@ class FaceNameDetectorTest {
         FileUtils.deleteAll()
     }
 
+    /**
+     * Found in review: the run of a frame was taken after the camera image was
+     * converted. A pause or restart during the conversion gave the old frame the
+     * new run, so its name filled the sensor just cleared. The run is taken
+     * together with the checks, before the image is read.
+     */
+    @Test
+    fun aFrameReadWhileTheStageIsPausedDoesNotFillTheClearedSensor() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        FaceNameDetector.frameSource = {
+            FaceNameDetector.onStagePaused()
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(0, FaceNameDetector.window.framesInWindow)
+        FileUtils.deleteAll()
+    }
+
+    /** The same for a model failure: a frame read across a restart does not stop the new run. */
+    @Test
+    fun aModelFailureOfAFrameReadAcrossARestartDoesNotStopTheNewRun() {
+        var loads = 0
+        var restartWhileReading = true
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            throw IOException("mobile_facenet.tflite could not be read")
+        }
+        FaceNameDetector.frameSource = {
+            if (restartWhileReading) {
+                restartWhileReading = false
+                FaceNameDetector.reset()
+                readTheSensor()
+            }
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        offerFrame()
+        runRecognition()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+
+        assertEquals("The new run tries the models itself", 2, loads)
+    }
+
     // ---------------- Off until the program first reads the sensor ----------------
 
     @Test
