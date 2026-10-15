@@ -36,6 +36,7 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog as CatroidAlertDialog
 import androidx.core.text.HtmlCompat
 import com.badlogic.gdx.scenes.scene2d.Action
@@ -318,7 +319,8 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     }
 
     /** Catroid's name checks, and no line break: the face database stores one name per line. */
-    private class FaceNameWatcher : InputWatcher.TextWatcher() {
+    @VisibleForTesting
+    internal class FaceNameWatcher : InputWatcher.TextWatcher() {
         override fun validateInput(input: String, context: Context): String? =
             if (Recognizer.hasLineBreak(input)) {
                 context.getString(R.string.face_train_name_line_break)
