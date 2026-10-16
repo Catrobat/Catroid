@@ -6,6 +6,7 @@ import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -80,6 +81,23 @@ class RecognizerSessionTest {
         val result = recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.14f, 0.40f)))
 
         assertEquals(PERSON_A, result?.name)
+    }
+
+    /**
+     * Found in review: matching never goes below the safety floor (0.53), and
+     * needs 0.61 with one person, but the summary printed the configured
+     * minimum, so a setting of 0.45 showed "need 0.45". It shows what matching uses.
+     */
+    @Test
+    fun theSummaryShowsTheThresholdThatMatchingUses() {
+        recognizer.setThresholds(0.45f, MIN_MARGIN)
+
+        recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.14f, 0.40f)))
+        assertTrue(recognizer.lastSummary, recognizer.lastSummary.contains("need 0.53,"))
+
+        recognizer.deletePerson(0)
+        recognizer.finishSession(session(framesWithFace = 2, totals = floatArrayOf(1.14f)))
+        assertTrue(recognizer.lastSummary, recognizer.lastSummary.contains("need 0.61,"))
     }
 
     private fun session(framesWithFace: Int, totals: FloatArray?, framesTried: Int = framesWithFace) =
