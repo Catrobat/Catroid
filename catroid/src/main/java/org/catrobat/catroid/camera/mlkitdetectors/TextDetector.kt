@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,12 @@
 package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
-import android.util.Log
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
-import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil
 
 private val textDetectionClient by lazy {
@@ -43,7 +40,9 @@ object TextDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
+        onCompleteListener: DetectorsCompleteListener,
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     ) {
         textDetectionClient.process(inputImage)
             .addOnSuccessListener { text ->
@@ -55,16 +54,7 @@ object TextDetector : Detector {
                 )
             }
             .addOnFailureListener { e ->
-                val context = StageActivity.activeStageActivity.get()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context?.getString(R.string.camera_error_text_detection))
-                ).sendToTarget()
-                Log.e(
-                    javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    e
-                )
+                onError(R.string.camera_error_text_detection, e)
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
             }

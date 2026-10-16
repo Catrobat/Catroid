@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,6 @@ import androidx.camera.core.ImageProxy
 import com.huawei.hms.mlsdk.MLAnalyzerFactory
 import com.huawei.hms.mlsdk.common.MLFrame
 import com.huawei.hms.mlsdk.skeleton.MLSkeletonAnalyzerFactory
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
@@ -38,7 +37,6 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToV
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValuesHuawei
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
-import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
 
 object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
@@ -51,6 +49,8 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private var textDetected = false
     private var faceDetected = false
     private var poseDetected = false
+    private var frontCamera = true
+    private var onDetectionError: (Int, Exception) -> Unit = { _, _ -> }
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -73,11 +73,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = StageActivity.activeStageActivity.get()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context?.getString(R.string.camera_error_text_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_text_detection, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
 
@@ -86,17 +82,13 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 val faces = translateHuaweiFaceToVisualDetectionFace(huaweiMLFaces)
                 handleAlreadyExistingFaces(faces)
                 handleNewFaces(faces)
-                updateAllFaceSensorValues(mediaImage.width, mediaImage.height)
+                updateAllFaceSensorValues(mediaImage.width, mediaImage.height, frontCamera)
                 faceDetected = true
                 if (textDetected && poseDetected) {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_face_detection, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
 
@@ -105,20 +97,26 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 updateAllPoseSensorValuesHuawei(
                     huaweiMLPoseList,
                     mediaImage.width,
-                    mediaImage.height
+                    mediaImage.height,
+                    frontCamera
                 )
                 poseDetected = true
                 if (faceDetected && textDetected) {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
+                onDetectionError(R.string.camera_error_generic, e)
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
         }
+    }
+
+    fun setFrontCamera(frontCamera: Boolean, onError: (Int, Exception) -> Unit) {
+        this.frontCamera = frontCamera
+        this.onDetectionError = onError
+    }
+
+    fun clearDetectionErrorCallback() {
+        onDetectionError = { _, _ -> }
     }
 }
