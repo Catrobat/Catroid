@@ -76,7 +76,13 @@ check_environment() {
   fi
   [ -n "${ANDROID_HOME:-}" ] || die "Set ANDROID_HOME or sdk.dir in local.properties."
   export ANDROID_HOME
-  export PATH="$ANDROID_HOME/platform-tools:$PATH"
+  # In PATH a Windows drive letter ("C:/...") splits at its colon; Git Bash needs /c/...
+  local sdk_in_path="$ANDROID_HOME"
+  if command -v cygpath >/dev/null 2>&1; then
+    sdk_in_path="$(cygpath -u "$ANDROID_HOME")"
+  fi
+  export PATH="$sdk_in_path/platform-tools:$PATH"
+  command -v adb >/dev/null 2>&1 || die "adb not found in $sdk_in_path/platform-tools."
 
   # The first candidate that really runs Python 3 (on Windows "python3" can be
   # the Microsoft Store placeholder).
