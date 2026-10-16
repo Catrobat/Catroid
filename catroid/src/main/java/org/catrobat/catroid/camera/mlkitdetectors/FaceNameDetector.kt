@@ -300,22 +300,25 @@ object FaceNameDetector : Detector {
         val uvRowStride = uPlane.rowStride
         val uvPixelStride = uPlane.pixelStride
 
-        val pixels = IntArray(width * height)
-        for (row in 0 until height) {
-            val yRow = row * yRowStride
-            val uvRow = (row shr 1) * uvRowStride
-            for (column in 0 until width) {
-                val y = yBuffer[yRow + column * yPixelStride].toInt() and 0xff
-                val uvIndex = uvRow + (column shr 1) * uvPixelStride
-                val u = (uBuffer[uvIndex].toInt() and 0xff) - 128
-                val v = (vBuffer[uvIndex].toInt() and 0xff) - 128
-                val red = clamp(y + ((1436 * v) shr 10))
-                val green = clamp(y - ((352 * u + 731 * v) shr 10))
-                val blue = clamp(y + ((1815 * u) shr 10))
-                pixels[row * width + column] = (0xff shl 24) or (red shl 16) or (green shl 8) or blue
+        val frame = synchronized(pixelLock) {
+            val pixels = pixelsFor(width * height)
+            for (row in 0 until height) {
+                val yRow = row * yRowStride
+                val uvRow = (row shr 1) * uvRowStride
+                for (column in 0 until width) {
+                    val y = yBuffer[yRow + column * yPixelStride].toInt() and 0xff
+                    val uvIndex = uvRow + (column shr 1) * uvPixelStride
+                    val u = (uBuffer[uvIndex].toInt() and 0xff) - 128
+                    val v = (vBuffer[uvIndex].toInt() and 0xff) - 128
+                    val red = clamp(y + ((1436 * v) shr 10))
+                    val green = clamp(y - ((352 * u + 731 * v) shr 10))
+                    val blue = clamp(y + ((1815 * u) shr 10))
+                    pixels[row * width + column] = (0xff shl 24) or (red shl 16) or (green shl 8) or blue
+                }
             }
+            // createBitmap copies the pixels, so the array can take the next frame.
+            Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
         }
-        val frame = Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
         if (rotationDegrees % 360 == 0) {
             return frame
         }
@@ -328,4 +331,18 @@ object FaceNameDetector : Detector {
     }
 
     private fun clamp(value: Int): Int = value.coerceIn(0, 255)
+
+    /**
+     * One pixel array for the camera frames, instead of about 1.2 MB of new memory
+     * for every analysed 640x480 frame; a frame of another size replaces it.
+     */
+    private val pixelLock = Any()
+    private var pixelBuffer = IntArray(0)
+
+    private fun pixelsFor(size: Int): IntArray {
+        if (pixelBuffer.size != size) {
+            pixelBuffer = IntArray(size)
+        }
+        return pixelBuffer
+    }
 }
