@@ -40,6 +40,7 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.FaceRecognizer.env.FileUtilsWriteFilesTest"
   --tests "org.catrobat.catroid.FaceRecognizer.ml.BlazeFaceSuppressionTest"
   --tests "org.catrobat.catroid.camera.CameraAnalyzersTest"
+  --tests "org.catrobat.catroid.camera.DetectorsCompleteListenerTest"
   --tests "org.catrobat.catroid.FaceRecognizer.RecognizerPersonNameTest"
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
@@ -189,6 +190,7 @@ green() {
       --warning-mode all --console=plain
 }
 
+check_environment
 case "${1:-green}" in
   green) green ;;
   *) echo "usage: $0 [green]"; exit 2 ;;
