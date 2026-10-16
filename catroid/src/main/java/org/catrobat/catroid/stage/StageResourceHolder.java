@@ -242,6 +242,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
+		// The training brick needs nothing from the stage: its resource only turns the setting on.
+		if (requiredResourcesSet.contains(Brick.FACE_NAME_TRAINING)) {
+			resourceInitialized();
+		}
 		if (requiredResourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
 			if (getCameraManager().startDetection()) {
 				resourceInitialized();

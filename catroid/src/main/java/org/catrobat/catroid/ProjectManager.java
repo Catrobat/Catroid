@@ -199,7 +199,7 @@ public final class ProjectManager {
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
 			SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, true);
 		}
-		if (resourcesSet.contains(Brick.FACE_NAME_DETECTION)) {
+		if (resourcesSet.contains(Brick.FACE_NAME_DETECTION) || resourcesSet.contains(Brick.FACE_NAME_TRAINING)) {
 			SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, true);
 		}
 

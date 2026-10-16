@@ -35,6 +35,12 @@ class FaceNameTrainBrick : BrickBaseType() {
         sequence.addAction(sprite.actionFactory.faceNameTrainAction())
     }
 
+    /** Training turns the face name setting on when a project is loaded, but needs no camera. */
+    override fun addRequiredResources(requiredResourcesSet: Brick.ResourcesSet) {
+        requiredResourcesSet.add(Brick.FACE_NAME_TRAINING)
+        super.addRequiredResources(requiredResourcesSet)
+    }
+
     companion object {
         private const val serialVersionUID = 1L
     }

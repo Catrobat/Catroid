@@ -134,7 +134,7 @@ public interface Brick extends Serializable, Cloneable {
 			NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION, BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION,
 			CAST_REQUIRED, MICROPHONE, STORAGE_WRITE, STORAGE_READ, SPEECH_RECOGNITION,
 			TEXT_DETECTION, POSE_DETECTION, OBJECT_DETECTION, BLUETOOTH_MULTIPLAYER,
-			FACE_NAME_DETECTION})
+			FACE_NAME_DETECTION, FACE_NAME_TRAINING})
 	@interface Resources {
 	}
 
@@ -168,6 +168,7 @@ public interface Brick extends Serializable, Cloneable {
 	int OBJECT_DETECTION = 28;
 	int BLUETOOTH_MULTIPLAYER = 29;
 	int FACE_NAME_DETECTION = 30;
+	int FACE_NAME_TRAINING = 31;
 
 	class ResourcesSet extends HashSet<Integer> {
 		@Override
