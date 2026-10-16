@@ -454,7 +454,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@VisibleForTesting
 	public static void setLoginCookies(String url, CookieManager cookieManager, String jwtToken) {
-		if (jwtToken == null || jwtToken.isEmpty()) {
+		if (jwtToken == null || jwtToken.isEmpty() || !isShareUrl(url)) {
 			return;
 		}
 
@@ -469,12 +469,33 @@ public class WebViewActivity extends AppCompatActivity {
 	}
 
 	/**
+	 * True only for the share server's own host. The session token must never reach another
+	 * host: the old share.catrob.at domain is no longer ours, and a prefix match would also
+	 * accept hosts like share.catrobat.org.example.com.
+	 */
+	@VisibleForTesting
+	public static boolean isShareUrl(String url) {
+		if (url == null) {
+			return false;
+		}
+		try {
+			URI uri = new URI(url);
+			URI share = new URI(MAIN_URL_HTTPS);
+			return share.getHost().equalsIgnoreCase(uri.getHost())
+					&& share.getScheme().equalsIgnoreCase(uri.getScheme())
+					&& share.getPort() == uri.getPort();
+		} catch (URISyntaxException e) {
+			return false;
+		}
+	}
+
+	/**
 	 * True for the share site's logout route, which is themed
 	 * ({@code https://share.catrobat.org/pocketcode/logout}) and is where the web session ends.
 	 */
 	@VisibleForTesting
 	public static boolean isLogoutUrl(String url) {
-		if (url == null || !url.startsWith(MAIN_URL_HTTPS)) {
+		if (!isShareUrl(url)) {
 			return false;
 		}
 		try {

@@ -84,4 +84,23 @@ public class WebViewActivityLoginCookieTest {
 		assertFalse(WebViewActivity.isLogoutUrl("https://example.org/pocketcode/logout"));
 		assertFalse(WebViewActivity.isLogoutUrl(null));
 	}
+
+	@Test
+	public void testSetLoginCookiesNeverLeavesTheShareHost() {
+		WebViewActivity.setLoginCookies("https://share.catrob.at/app/", cookieManagerMock, jwtToken);
+		WebViewActivity.setLoginCookies("https://share.catrobat.org.example.com/", cookieManagerMock, jwtToken);
+		WebViewActivity.setLoginCookies("http://share.catrobat.org/", cookieManagerMock, jwtToken);
+		WebViewActivity.setLoginCookies(null, cookieManagerMock, jwtToken);
+		verifyNoMoreInteractions(cookieManagerMock);
+	}
+
+	@Test
+	public void testIsShareUrl() {
+		assertTrue(WebViewActivity.isShareUrl(Constants.MAIN_URL_HTTPS + "/pocketcode/project/1"));
+		assertTrue(WebViewActivity.isShareUrl("HTTPS://SHARE.CATROBAT.ORG/app/"));
+		assertFalse(WebViewActivity.isShareUrl("https://share.catrob.at/app/"));
+		assertFalse(WebViewActivity.isShareUrl("https://share.catrobat.org.example.com/"));
+		assertFalse(WebViewActivity.isShareUrl("https://share.catrobat.org:8443/"));
+		assertFalse(WebViewActivity.isShareUrl("not a url"));
+	}
 }
