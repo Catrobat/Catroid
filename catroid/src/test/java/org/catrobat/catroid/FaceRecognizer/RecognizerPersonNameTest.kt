@@ -131,7 +131,7 @@ class RecognizerPersonNameTest {
 
     @Test
     fun aNameWithALineBreakIsRejected() {
-        for (name in listOf("Ada\nLovelace", "Ada\r\nLovelace", "Ada\rLovelace", "Ada Lovelace")) {
+        for (name in listOf("Ada\nLovelace", "Ada\r\nLovelace", "Ada\rLovelace", "Ada\u2028Lovelace", "Ada\u2029Lovelace")) {
             assertThrows("'$name' must be rejected", IllegalArgumentException::class.java) {
                 recognizer.addPerson(name)
             }

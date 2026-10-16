@@ -290,7 +290,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     }
 
     private fun createFaceTrainDeleteConfirmDialog(action: FaceNameTrainAction, name: String): Dialog {
-        // Catroid's delete pattern: "Delete …?", "You can't undo this!", Delete / Cancel.
+        // Catroid's delete pattern: "Delete ...?", "You can't undo this!", Delete / Cancel.
         return faceTrainBuilder(stageActivity.getString(R.string.face_train_delete_title, name))
             .setMessage(stageActivity.getString(R.string.dialog_confirm_delete))
             .setPositiveButton(stageActivity.getString(R.string.delete)) { _, _ ->
