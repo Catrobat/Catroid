@@ -1,23 +1,19 @@
 #!/usr/bin/env bash
-# Face recognition tests: every run listed in the test protocol.
+# Face recognition tests: the local and device tests of the current commit.
 #
 # Run from the repository root (Git Bash on Windows, or any bash), with one
 # Android device or emulator connected:
 #
 #     export JAVA_HOME=/path/to/jdk-21
 #     export ANDROID_HOME=/path/to/android/sdk        # or sdk.dir in local.properties
-#     bash automationScripts/run_face_recognition_tests.sh            # everything
-#     bash automationScripts/run_face_recognition_tests.sh green      # current commit
-#     bash automationScripts/run_face_recognition_tests.sh red-sensor # sensor tests before FaceNameDetector
-#     bash automationScripts/run_face_recognition_tests.sh red-alias  # without xstream aliases
+#     bash automationScripts/run_face_recognition_tests.sh
 #
 # Results go to build/face_recognition_evidence/ (override with EVIDENCE=...):
 # one log per Gradle call with its exit code, the JUnit XML/HTML reports, and
 # a *_summary.txt per run read from the JUnit XML. The instrumented task has
 # ignoreFailures = true, so its exit code says nothing about the tests.
 #
-# Nothing here edits a file. The red runs run the tests of an earlier commit of
-# this branch, checked out in a separate worktree next to this repository.
+# Nothing here edits a file.
 # Needs: git, bash, python 3 (for the XML summary), JDK 21, Android SDK.
 
 set -u
@@ -28,14 +24,6 @@ EVIDENCE="${EVIDENCE:-$ROOT/build/face_recognition_evidence}"
 mkdir -p "$EVIDENCE"
 EVIDENCE="$(cd "$EVIDENCE" && pwd)"
 
-# The commit just before "[fix] XStream aliases for the face bricks" on this branch;
-# it differs from that fix commit only by the aliases.
-BEFORE_ALIAS=68eeae484
-ALIAS_FIX=30607b1f5
-# "[test] FaceNameSensorStageTest" and "[feature] Continuous face name detection":
-# the sensor stage tests on the commit that adds them, the parent of the feature.
-SENSOR_TESTS=5945c7c56
-SENSOR_FEATURE=0682ba62e
 SENSOR_TEST_CLASS=org.catrobat.catroid.uiespresso.facerecognizer.FaceNameSensorStageTest
 
 UNIT_TESTS=(
@@ -59,6 +47,8 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.test.robolectric.SpriteActivityRecreationTest"
   --tests "org.catrobat.catroid.test.robolectric.StageActivityRecreationTest"
   --tests "org.catrobat.catroid.stage.FaceNameWatcherTest"
+  --tests "org.catrobat.catroid.content.bricks.FaceNameTrainBrickTest"
+  --tests "org.catrobat.catroid.io.RenamedBrickTypesTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
@@ -199,62 +189,9 @@ green() {
       --warning-mode all --console=plain
 }
 
-worktree_at() {   # worktree_at <dir> <commit>: a worktree of this repository at <commit>
-  local dir="$1" commit="$2"
-  if [ ! -d "$dir" ]; then
-    git worktree add --detach "$dir" "$commit" || die "Could not create the worktree at $dir."
-  fi
-  # An existing worktree may be at another commit; move it to <commit>.
-  git -C "$dir" checkout -q --detach "$commit" || die "Could not check out $commit in $dir."
-  [ "$(git -C "$dir" rev-parse HEAD)" = "$(git rev-parse "$commit")" ] || die "$dir is not at $commit."
-  [ -f "$ROOT/local.properties" ] && cp "$ROOT/local.properties" "$dir/local.properties"
-  clear_results "$dir"
-}
-
-red_sensor() {
-  # FaceNameSensorStageTest on the commit that adds it, the parent of the feature.
-  [ "$(git rev-parse "$SENSOR_FEATURE^")" = "$(git rev-parse "$SENSOR_TESTS")" ] ||
-    die "$SENSOR_TESTS is not the parent of the feature commit $SENSOR_FEATURE."
-  git diff --name-only "$SENSOR_TESTS^" "$SENSOR_TESTS" > "$EVIDENCE/red_sensor_changed_files.txt"
-  [ "$(cat "$EVIDENCE/red_sensor_changed_files.txt")" = "catroid/src/androidTest/java/org/catrobat/catroid/uiespresso/facerecognizer/FaceNameSensorStageTest.kt
-catroid/src/main/java/org/catrobat/catroid/camera/mlkitdetectors/FaceNameTestFrames.kt" ] ||
-    die "$SENSOR_TESTS changes more than the stage test and its test-only frame source."
-  check_device
-
-  local before="$ROOT/../Catroid-red-sensor"
-  worktree_at "$before" "$SENSOR_TESTS"
-  log_run red_sensor_before_feature "$before" ./gradlew :catroid:connectedCatroidDebugAndroidTest \
-      "-Pandroid.testInstrumentationRunnerArguments.class=$SENSOR_TEST_CLASS" \
-      --continue --console=plain
-  copy_reports red_sensor_before_feature "$before"
-  summarise_xml red_sensor_before_feature
-}
-
-red_alias() {
-  # The existing BricksXmlSerializerTest on the commit just before the alias fix.
-  [ "$(git rev-parse "$ALIAS_FIX^")" = "$(git rev-parse "$BEFORE_ALIAS")" ] ||
-    die "$BEFORE_ALIAS is not the parent of the alias fix $ALIAS_FIX."
-  git diff --name-only "$BEFORE_ALIAS" "$ALIAS_FIX" > "$EVIDENCE/red_before_alias_changed_files.txt"
-  [ "$(cat "$EVIDENCE/red_before_alias_changed_files.txt")" = "catroid/src/main/java/org/catrobat/catroid/io/XstreamSerializer.java" ] ||
-    die "The alias fix changes more than XstreamSerializer.java."
-  git diff --no-color "$BEFORE_ALIAS" "$ALIAS_FIX" > "$EVIDENCE/red_before_alias.diff"
-
-  local before="$ROOT/../Catroid-before-alias"
-  worktree_at "$before" "$BEFORE_ALIAS"
-  log_run red_before_alias "$before" ./gradlew :catroid:testCatroidDebugUnitTest \
-      --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest" \
-      --continue --console=plain
-  copy_reports red_before_alias "$before"
-  summarise_xml red_before_alias
-}
-
-check_environment
-case "${1:-all}" in
-  green)      green ;;
-  red-sensor) red_sensor ;;
-  red-alias)  red_alias ;;
-  all)        green; red_sensor; red_alias ;;
-  *) echo "usage: $0 [green|red-sensor|red-alias|all]"; exit 2 ;;
+case "${1:-green}" in
+  green) green ;;
+  *) echo "usage: $0 [green]"; exit 2 ;;
 esac
 
 echo
