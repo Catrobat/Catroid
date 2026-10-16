@@ -95,6 +95,7 @@ class MobileFaceNet private constructor(private val interpreter: Interpreter) {
         private const val FIRST_INPUT = "img1"
         private const val SECOND_INPUT = "img2"
         private const val OUTPUT = "embeddings"
+        private const val INFERENCE_THREADS = 4
 
         const val EMBEDDING_SIZE: Int = 128
         const val INPUT_SIZE: Int = 112
@@ -140,7 +141,8 @@ class MobileFaceNet private constructor(private val interpreter: Interpreter) {
         @JvmStatic
         fun create(assetManager: AssetManager): MobileFaceNet {
             val interpreter = try {
-                Interpreter(loadModelFile(assetManager))
+                // Three runs per face, in training and for every analysed frame: like BlazeFace, on four threads.
+                Interpreter(loadModelFile(assetManager), Interpreter.Options().setNumThreads(INFERENCE_THREADS))
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
