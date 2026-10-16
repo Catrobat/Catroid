@@ -113,7 +113,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
-import org.catrobat.catroid.content.bricks.FaceNameTrain;
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
@@ -669,7 +669,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
 		xstream.alias("brick", SetParticleColorBrick.class);
 
-		xstream.alias("brick", FaceNameTrain.class);
+		xstream.alias("brick", FaceNameTrainBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {

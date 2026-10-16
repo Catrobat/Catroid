@@ -23,7 +23,7 @@
 package org.catrobat.catroid.io
 
 import org.catrobat.catroid.common.RecentBricksHolder
-import org.catrobat.catroid.content.bricks.FaceNameTrain
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -63,7 +63,7 @@ class RecentBrickListSerializerTest {
 
         val bricks = serializer.loadRecentBricks().recentBricks
 
-        assertEquals(listOf(FaceNameTrain::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
+        assertEquals(listOf(FaceNameTrainBrick::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
     }
 
     @Test
@@ -74,7 +74,7 @@ class RecentBrickListSerializerTest {
         val bricks = serializer.loadRecentBricks().recentBricks
 
         assertFalse("A recent brick may not be null", bricks.contains(null))
-        assertEquals(listOf(FaceNameTrain::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
+        assertEquals(listOf(FaceNameTrainBrick::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
     }
 
     @Test
@@ -85,13 +85,31 @@ class RecentBrickListSerializerTest {
         val bricks = serializer.loadRecentBricks().recentBricks
 
         assertFalse("A recent brick may not be null", bricks.contains(null))
-        assertEquals(listOf(FaceNameTrain::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
+        assertEquals(listOf(FaceNameTrainBrick::class.java, NoteBrick::class.java), bricks.map { it.javaClass })
+    }
+
+    /**
+     * The training brick was renamed from FaceNameTrain to FaceNameTrainBrick, like
+     * every other brick class. A recent bricks file written before still names
+     * the old class; that brick stays in the list.
+     */
+    @Test
+    fun aBrickSavedUnderItsOldClassNameIsLoaded() {
+        saveRecentBricks()
+        insertEntry("""{"type": "org.catrobat.catroid.content.bricks.FaceNameTrain", "properties": {"commentedOut": false}}""")
+
+        val bricks = serializer.loadRecentBricks().recentBricks
+
+        assertEquals(
+            listOf(FaceNameTrainBrick::class.java, FaceNameTrainBrick::class.java, NoteBrick::class.java),
+            bricks.map { it.javaClass }
+        )
     }
 
     private fun saveRecentBricks() {
         val holder = RecentBricksHolder()
         holder.insert(NoteBrick())
-        holder.insert(FaceNameTrain())
+        holder.insert(FaceNameTrainBrick())
         serializer.saveRecentBricks(holder)
     }
 

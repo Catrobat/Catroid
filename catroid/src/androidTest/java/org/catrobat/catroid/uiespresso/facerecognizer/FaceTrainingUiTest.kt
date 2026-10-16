@@ -45,7 +45,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.actions.FaceNameTrainAction
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
-import org.catrobat.catroid.content.bricks.FaceNameTrain
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.formulaeditor.Formula
@@ -490,7 +490,7 @@ class FaceTrainingUiTest {
         project.addUserVariable(ticks)
 
         val script = UiTestUtils.getDefaultTestScript(project)
-        script.addBrick(FaceNameTrain())
+        script.addBrick(FaceNameTrainBrick())
         script.addBrick(SetVariableBrick(Formula(1.0), afterTraining))
 
         val forever = ForeverBrick()
@@ -505,7 +505,7 @@ class FaceTrainingUiTest {
         project.addUserVariable(afterSecondTraining)
         UiTestUtils.getDefaultTestSprite(project).addScript(
             StartScript().apply {
-                addBrick(FaceNameTrain())
+                addBrick(FaceNameTrainBrick())
                 addBrick(SetVariableBrick(Formula(1.0), afterSecondTraining))
             }
         )

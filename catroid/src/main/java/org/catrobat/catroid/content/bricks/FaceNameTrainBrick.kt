@@ -27,7 +27,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 
-class FaceNameTrain : BrickBaseType() {
+class FaceNameTrainBrick : BrickBaseType() {
 
     override fun getViewResource(): Int = R.layout.brick_face_name
 

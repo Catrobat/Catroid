@@ -9,7 +9,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.FaceNameTrain
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory
@@ -52,7 +52,7 @@ class FaceNameBrickCategoryTest {
     fun faceNameTrainBrickIsHiddenWhileTheSettingIsOff() {
         val classes = deviceBrickClasses()
 
-        assertFalse(FaceNameTrain::class.java in classes)
+        assertFalse(FaceNameTrainBrick::class.java in classes)
     }
 
     @Test
@@ -63,7 +63,7 @@ class FaceNameBrickCategoryTest {
 
         val flash = classes.indexOf(FlashBrick::class.java)
         assertEquals(
-            listOf(FlashBrick::class.java, FaceNameTrain::class.java),
+            listOf(FlashBrick::class.java, FaceNameTrainBrick::class.java),
             classes.subList(flash, flash + 2)
         )
     }
@@ -73,7 +73,7 @@ class FaceNameBrickCategoryTest {
         // A loaded project can contain the brick while the setting is off.
         val device = context.getString(R.string.category_device)
 
-        assertEquals(device, factory.getBrickCategory(FaceNameTrain(), false, context))
+        assertEquals(device, factory.getBrickCategory(FaceNameTrainBrick(), false, context))
     }
 
     private fun deviceBrickClasses(): List<Class<*>> =
