@@ -23,21 +23,30 @@
 
 package org.catrobat.catroid.ui.aiassist.merge
 
+import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.content.Sprite
 
 object AiTutorSpriteMerger {
     @JvmStatic
     fun preserveOriginalIdentityAndMedia(originalSprite: Sprite, aiSprite: Sprite) {
         aiSprite.name = originalSprite.name
+        keepOriginalMedia(originalSprite.lookList, aiSprite.lookList) {
+            it.file?.name ?: it.xstreamFileName
+        }
+        keepOriginalMedia(originalSprite.soundList, aiSprite.soundList) {
+            it.file?.name ?: it.xstreamFileName
+        }
+    }
 
-        val aiLookFileNames = aiSprite.lookList.map { it.xstreamFileName }
-        originalSprite.lookList
-            .filter { it.file != null && it.file.name !in aiLookFileNames }
-            .forEach { aiSprite.lookList.add(it) }
-
-        val aiSoundFileNames = aiSprite.soundList.map { it.xstreamFileName }
-        originalSprite.soundList
-            .filter { it.file != null && it.file.name !in aiSoundFileNames }
-            .forEach { aiSprite.soundList.add(it) }
+    private fun <T : Nameable> keepOriginalMedia(
+        original: List<T>,
+        ai: MutableList<T>,
+        fileName: (T) -> String?
+    ) {
+        val kept = original.map { o ->
+            ai.find { fileName(it) == fileName(o) }?.apply { name = o.name } ?: o
+        }
+        ai.clear()
+        ai.addAll(kept)
     }
 }
