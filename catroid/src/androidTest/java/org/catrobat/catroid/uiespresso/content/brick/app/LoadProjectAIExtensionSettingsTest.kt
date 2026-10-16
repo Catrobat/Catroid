@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
@@ -294,6 +295,10 @@ class LoadProjectAIExtensionSettingsTest(
             arrayOf(
                 "Face Name Detection detectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
                 ChangeSizeByNBrick(Formula(detectedFaceName))
+            ),
+            arrayOf(
+                "Face Name Detection FaceNameTrainBrick", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                FaceNameTrainBrick()
             )
         )
 
