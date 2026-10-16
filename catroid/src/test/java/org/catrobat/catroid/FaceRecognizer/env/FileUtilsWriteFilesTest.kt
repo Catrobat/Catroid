@@ -28,6 +28,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,6 +39,8 @@ import java.io.FileWriter
 import java.io.IOException
 import java.io.Reader
 import java.io.Writer
+import java.nio.channels.FileChannel
+import java.nio.file.StandardOpenOption
 
 /**
  * The face database is three files whose lines refer to each other by person
@@ -56,6 +59,7 @@ class FileUtilsWriteFilesTest {
     private lateinit var savedOpenForReading: (File) -> Reader
     private lateinit var savedSyncDirectory: (File) -> Unit
     private lateinit var savedDeleteFile: (File) -> Boolean
+    private lateinit var savedOpenDirectory: (File) -> FileChannel
 
     @Before
     fun setUp() {
@@ -66,6 +70,7 @@ class FileUtilsWriteFilesTest {
         savedOpenForReading = FileUtils.openForReading
         savedSyncDirectory = FileUtils.syncDirectory
         savedDeleteFile = FileUtils.deleteFile
+        savedOpenDirectory = FileUtils.openDirectory
         FileUtils.init(context)
         FileUtils.deleteAll()
         assertTrue(FileUtils.writeFiles(OLD))
@@ -79,6 +84,7 @@ class FileUtilsWriteFilesTest {
         FileUtils.openForReading = savedOpenForReading
         FileUtils.syncDirectory = savedSyncDirectory
         FileUtils.deleteFile = savedDeleteFile
+        FileUtils.openDirectory = savedOpenDirectory
         FileUtils.deleteAll()
     }
 
@@ -454,6 +460,119 @@ class FileUtilsWriteFilesTest {
         assertTrue(FileUtils.writeFiles(NEW))
         assertTrue("The backups of the old files stay", FileUtils.file(FileUtils.DATA_FILE + ".bak").exists())
         FileUtils.syncDirectory = savedSyncDirectory
+    }
+
+    // ---------------- Rolling back a first save ----------------
+
+    /**
+     * Found in review: rolling back a save removes the files that did not exist
+     * before it, but a removal that failed was only logged. Recovery then
+     * reported success and deleted the journal, so the half-saved names stayed,
+     * and nothing could remove them later: Alice remained with no photos. A file
+     * that is already gone counts as removed; one that cannot be removed keeps
+     * the journal for the next attempt.
+     */
+    @Test
+    fun aFirstSaveWhoseNewFileCannotBeRemovedKeepsTheJournalUntilItIs() {
+        FileUtils.deleteAll()
+        var labelDeletable = false
+        FileUtils.replaceFile = { source, target ->
+            if (target.name == FileUtils.DATA_FILE) throw IOException("Could not replace data")
+            savedReplaceFile(source, target)
+        }
+        FileUtils.deleteFile = { file ->
+            if (file.name == FileUtils.LABEL_FILE && !labelDeletable) false else savedDeleteFile(file)
+        }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertTrue("The journal stays for the next attempt", FileUtils.file(JOURNAL).exists())
+        assertFalse("Recovery reports that it could not complete", FileUtils.recoverInterruptedWrite())
+        assertTrue("The journal still stays", FileUtils.file(JOURNAL).exists())
+
+        labelDeletable = true
+        FileUtils.replaceFile = savedReplaceFile
+        assertTrue(FileUtils.recoverInterruptedWrite())
+        for (name in NEW.keys) {
+            assertFalse("$name of the failed first save is removed", FileUtils.file(name).exists())
+        }
+        assertNoHelperFileLeft()
+
+        assertTrue(FileUtils.writeFiles(NEW))
+        assertFiles(NEW)
+    }
+
+    // ---------------- A folder that cannot be opened to sync it ----------------
+
+    /**
+     * Found in review: the folder sync took a folder that could not be opened
+     * (no file descriptors left, an I/O error) for one that needs no sync, so the
+     * files moved and the backups went without the folder being on storage. The
+     * real sync now reports such a failure, here with a failing open.
+     */
+    @Test
+    fun aFolderThatCannotBeOpenedStopsTheSaveBeforeAnyFileMoves() {
+        FileUtils.syncDirectory = FileUtils.syncDirectoryOnStorage
+        FileUtils.openDirectory = { throw IOException("Too many open files") }
+        FileUtils.replaceFile = { source, _ -> fail("${source.name} moved although the folder could not be synced") }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun aFileSystemThatCannotOpenFoldersStopsTheSaveBeforeAnyFileMoves() {
+        FileUtils.syncDirectory = FileUtils.syncDirectoryOnStorage
+        FileUtils.openDirectory = { throw UnsupportedOperationException("Folders cannot be opened") }
+        FileUtils.replaceFile = { source, _ -> fail("${source.name} moved although the folder could not be synced") }
+
+        assertFalse(FileUtils.writeFiles(NEW))
+
+        assertFiles(OLD)
+        assertNoHelperFileLeft()
+    }
+
+    @Test
+    fun aFolderThatCannotBeOpenedAtCleanupKeepsTheBackupsAndStopsTheNextSave() {
+        FileUtils.syncDirectory = FileUtils.syncDirectoryOnStorage
+        var openFails = false
+        FileUtils.openDirectory = { folder ->
+            if (openFails || (!FileUtils.file(JOURNAL).exists() && FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists())) {
+                throw IOException("Too many open files")
+            }
+            syncableChannel(folder)
+        }
+
+        assertTrue(FileUtils.writeFiles(NEW))
+
+        assertFiles(NEW)
+        assertTrue("The backups stay", FileUtils.file(FileUtils.LABEL_FILE + ".bak").exists())
+
+        openFails = true
+        assertFalse("A save cannot start before the backups are settled", FileUtils.writeFiles(NEWER))
+        assertFiles(NEW)
+        assertFalse("No journal was written", FileUtils.file(JOURNAL).exists())
+
+        openFails = false
+        FileUtils.openDirectory = { folder -> syncableChannel(folder) }
+        assertTrue(FileUtils.writeFiles(NEWER))
+        assertFiles(NEWER)
+        assertNoHelperFileLeft()
+    }
+
+    /**
+     * A channel the real sync can force. Some test hosts (Windows) cannot open a
+     * folder at all; a file next to it stands in for it there.
+     */
+    private fun syncableChannel(folder: File): FileChannel {
+        val stand = File(context.cacheDir, "sync-probe").apply { if (!exists()) createNewFile() }
+        return try {
+            FileChannel.open(folder.toPath(), StandardOpenOption.READ)
+        } catch (e: IOException) {
+            FileChannel.open(stand.toPath(), StandardOpenOption.READ)
+        }
     }
 
     private fun assertFiles(expected: Map<String, List<String>>) {

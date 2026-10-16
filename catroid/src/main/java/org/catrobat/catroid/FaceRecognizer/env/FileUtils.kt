@@ -334,9 +334,13 @@ object FileUtils {
      * to sync; a sync that fails throws.
      */
     @VisibleForTesting
-    internal var syncDirectory: (File) -> Unit = { folder ->
+    internal var syncDirectory: (File) -> Unit = { folder -> syncDirectoryOnStorage(folder) }
+
+    /** The folder sync itself, which [syncDirectory] is unless a test replaces it. */
+    @VisibleForTesting
+    internal val syncDirectoryOnStorage: (File) -> Unit = { folder ->
         val channel = try {
-            FileChannel.open(folder.toPath(), StandardOpenOption.READ)
+            openDirectory(folder)
         } catch (e: IOException) {
             Log.w(TAG, "This file system cannot open the face data folder to sync it", e)
             null
@@ -345,6 +349,12 @@ object FileUtils {
             null
         }
         channel?.use { it.force(true) }
+    }
+
+    /** Opens the folder for [syncDirectoryOnStorage]; the tests replace it to make the open fail. */
+    @VisibleForTesting
+    internal var openDirectory: (File) -> FileChannel = { folder ->
+        FileChannel.open(folder.toPath(), StandardOpenOption.READ)
     }
 
     /** Deletes a file; the tests replace it to make a deletion fail. */
