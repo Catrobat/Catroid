@@ -102,6 +102,12 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
         get() = lifecycle.currentState in listOf(Lifecycle.State.STARTED, Lifecycle.State.RESUMED) &&
             (cameraProvider.isBound(previewUseCase) || cameraProvider.isBound(analysisUseCase))
 
+    private enum class DetectorBackend {
+        GOOGLE, HUAWEI
+    }
+
+    private var activeDetectorBackend: DetectorBackend? = null
+
     @Synchronized
     fun reset() {
         flashOn = false
@@ -118,9 +124,13 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
 
         lifecycle.currentState = Lifecycle.State.DESTROYED
 
-        CatdroidImageAnalyzer.clearDetectionErrorCallback()
-        FaceTextPoseDetectorHuawei.clearDetectionErrorCallback()
+        when (activeDetectorBackend) {
+            DetectorBackend.GOOGLE -> CatdroidImageAnalyzer.clearDetectionErrorCallback()
+            DetectorBackend.HUAWEI -> FaceTextPoseDetectorHuawei.clearDetectionErrorCallback()
+            null -> Unit
+        }
 
+        activeDetectorBackend = null
         analysisExecutor.shutdown()
     }
 
@@ -246,6 +256,8 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
         if (mobileServiceAvailability.isGmsAvailable(activity)) {
+            activeDetectorBackend = DetectorBackend.GOOGLE
+
             CatdroidImageAnalyzer.setActiveDetectorsWithContext(
                 this.activity,
                 isCameraFacingFront
@@ -261,6 +273,8 @@ class CameraManager(private val activity: Activity) : LifecycleOwner {
             }
             analysisUseCase.setAnalyzer(analysisExecutor, CatdroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(activity)) {
+            activeDetectorBackend = DetectorBackend.HUAWEI
+
             FaceTextPoseDetectorHuawei.setFrontCamera(
                 isCameraFacingFront
             ) { messageResId, exception ->
