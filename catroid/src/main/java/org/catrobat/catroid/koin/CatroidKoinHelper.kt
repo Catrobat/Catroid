@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.AuthInterceptor
+import org.catrobat.catroid.retrofit.TokenRefresher
 import org.catrobat.catroid.retrofit.AuthService
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
@@ -89,11 +90,14 @@ val componentsModules = module(createdAtStart = true, override = false) {
     // Auth service (no auth interceptor — avoids refresh loop)
     single<AuthService> { CatroidWebServer.getAuthService(API_BASE_URL) }
 
+    // One refresher for every caller: refresh tokens are single-use on the server
+    single { TokenRefresher(get(), API_BASE_URL) }
+
     // Auth interceptor
-    single { AuthInterceptor(get(), API_BASE_URL) }
+    single { AuthInterceptor(get(), get<TokenRefresher>()) }
 
     // Login repository
-    single { LoginRepository(get(), get()) }
+    single { LoginRepository(get(), get(), get()) }
 
     // WebService with auth interceptor for authenticated API calls
     single { CatroidWebServer.getWebService(API_BASE_URL, listOf(get<AuthInterceptor>())) }

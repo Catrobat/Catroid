@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.web
 
+import android.util.Log
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +33,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import java.io.IOException
 
 /**
@@ -38,6 +41,9 @@ import java.io.IOException
  * it when its screen goes away, so one screen never cancels another screen's login.
  */
 object LoginHelper {
+
+    private const val TAG = "LoginHelper"
+    private const val SESSION_CHECK_TIMEOUT_MS = 3000L
 
     private var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
@@ -80,14 +86,21 @@ object LoginHelper {
         }
 
     /**
-     * The WebView signs in with the stored access token, which expires after an hour. Check it
-     * (refreshing it when expired) before the page loads; a rejected session is dropped locally.
+     * The WebView signs in with the stored access token, which expires after an hour. For a share
+     * page, check it (refreshing it when expired) before the page loads. The page loads in any
+     * case, and a slow or failing check only costs [SESSION_CHECK_TIMEOUT_MS].
      */
     @JvmStatic
-    fun prepareWebSession(loginRepository: LoginRepository, onReady: Runnable): Job =
+    fun prepareWebSession(loginRepository: LoginRepository, isSharePage: Boolean, onReady: Runnable): Job =
         CoroutineScope(SupervisorJob() + ioDispatcher).launch {
-            if (loginRepository.isLoggedIn() && loginRepository.validateToken() == false) {
-                loginRepository.clearLocalSession()
+            try {
+                if (isSharePage && loginRepository.isLoggedIn()) {
+                    withTimeoutOrNull(SESSION_CHECK_TIMEOUT_MS) { loginRepository.validateToken() }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.w(TAG, "Session check before the web view failed", e)
             }
             withContext(mainDispatcher) {
                 coroutineContext.ensureActive()
@@ -96,13 +109,14 @@ object LoginHelper {
         }
 
     /**
-     * Revokes [token] on the server. Deliberately not tied to a screen: the logout page closes
-     * the WebView right away, and cancelling would leave the token valid on the server.
+     * Revokes the session on the server. Deliberately not tied to a screen: the logout page closes
+     * the WebView right away, and cancelling would leave the refresh token valid on the server.
      */
     @JvmStatic
-    fun revokeInBackground(loginRepository: LoginRepository, token: String?) {
-        token ?: return
-        CoroutineScope(SupervisorJob() + ioDispatcher).launch { loginRepository.revoke(token) }
+    fun revokeInBackground(loginRepository: LoginRepository, accessToken: String?, refreshToken: String?) {
+        CoroutineScope(SupervisorJob() + ioDispatcher).launch {
+            loginRepository.revoke(accessToken, refreshToken)
+        }
     }
 
     /** Network errors map to null, so the caller shows its own connection message. */

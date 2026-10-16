@@ -20,41 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.retrofit
 
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.catrobat.catroid.retrofit.models.AuthResponse
-import org.catrobat.catroid.retrofit.models.RefreshRequest
 import org.catrobat.catroid.web.JwtTokenStore
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
-import java.io.IOException
 
 class AuthInterceptor(
     private val tokenStore: JwtTokenStore,
-    private val baseUrl: String
+    private val refresher: TokenRefresher
 ) : Interceptor {
 
-    private val lock = Any()
-
-    private fun interface SyncRefreshService {
-        @POST("authentication/refresh")
-        fun refreshToken(@Body body: RefreshRequest): Call<AuthResponse>
-    }
-
-    private val refreshService: SyncRefreshService by lazy {
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(MoshiConverterFactory.create(CatroidWebServer.moshi))
-            .build()
-            .create(SyncRefreshService::class.java)
-    }
+    constructor(tokenStore: JwtTokenStore, baseUrl: String) : this(tokenStore, TokenRefresher(tokenStore, baseUrl))
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
@@ -74,61 +51,21 @@ class AuthInterceptor(
             return response
         }
 
-        synchronized(lock) {
-            val currentToken = tokenStore.getAccessToken()
-            if (currentToken != null && currentToken != token) {
-                response.close()
-                val retryRequest = originalRequest.newBuilder()
-                    .header(HEADER_AUTHORIZATION, bearer(currentToken))
-                    .build()
-                return chain.proceed(retryRequest)
-            }
-            if (currentToken == null) {
-                tokenStore.clearTokens()
-                return response
-            }
-
-            val refreshToken = tokenStore.getRefreshToken() ?: run {
-                tokenStore.clearTokens()
-                return response
-            }
-
-            return try {
-                val refreshResponse = refreshService
-                    .refreshToken(RefreshRequest(refreshToken))
-                    .execute()
-
-                if (refreshResponse.isSuccessful && refreshResponse.body() != null) {
-                    val body = refreshResponse.body()!!
-                    tokenStore.setTokens(body.token, body.refreshToken)
-
-                    response.close()
-                    val retryRequest = originalRequest.newBuilder()
-                        .header(HEADER_AUTHORIZATION, bearer(body.token))
-                        .build()
-                    chain.proceed(retryRequest)
-                } else {
-                    Log.w(TAG, "Token refresh returned ${refreshResponse.code()}")
-                    // Only a rejected refresh token ends the session. A 5xx or 429 during a
-                    // deploy or under load says nothing about it.
-                    if (refreshResponse.code() in SESSION_REJECTED_CODES) {
-                        tokenStore.clearTokens()
-                    }
-                    response
-                }
-            } catch (e: IOException) {
-                // Offline or server unreachable: the refresh token may still be valid, so keep
-                // the session and let the next request try again.
-                Log.w(TAG, "Token refresh failed", e)
-                response
-            }
+        // Offline or a server error keeps the session: the refresh token may still be valid.
+        if (refresher.refresh(token) != TokenRefresher.Outcome.REFRESHED) {
+            return response
         }
+        val newToken = tokenStore.getAccessToken() ?: return response
+        response.close()
+        return chain.proceed(
+            originalRequest.newBuilder()
+                .header(HEADER_AUTHORIZATION, bearer(newToken))
+                .build()
+        )
     }
 
     companion object {
-        private const val TAG = "AuthInterceptor"
         private const val HTTP_UNAUTHORIZED = 401
-        private val SESSION_REJECTED_CODES = setOf(400, 401, 403)
         private const val HEADER_AUTHORIZATION = "Authorization"
         private const val BEARER_PREFIX = "Bearer "
         private fun bearer(token: String) = BEARER_PREFIX + token

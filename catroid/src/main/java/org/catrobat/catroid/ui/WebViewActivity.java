@@ -167,7 +167,7 @@ public class WebViewActivity extends AppCompatActivity {
 		tokenStore = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class).getValue();
 		loginRepository = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.LoginRepository.class).getValue();
 		final String startUrl = url;
-		sessionJob = LoginHelper.prepareWebSession(loginRepository, () -> {
+		sessionJob = LoginHelper.prepareWebSession(loginRepository, isShareUrl(startUrl), () -> {
 			setLoginCookies(startUrl, CookieManager.getInstance(), tokenStore.getAccessToken());
 			webView.loadUrl(startUrl);
 		});
@@ -270,9 +270,10 @@ public class WebViewActivity extends AppCompatActivity {
 				// as BEARER cookie on every WebView visit, so without this the next visit
 				// silently signs the user back in.
 				// The local cleanup runs right away, because the logout redirect closes this screen.
-				String token = tokenStore.getAccessToken();
+				String accessToken = tokenStore.getAccessToken();
+				String refreshToken = tokenStore.getRefreshToken();
 				Utils.logoutUser(WebViewActivity.this);
-				LoginHelper.revokeInBackground(loginRepository, token);
+				LoginHelper.revokeInBackground(loginRepository, accessToken, refreshToken);
 			}
 			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);

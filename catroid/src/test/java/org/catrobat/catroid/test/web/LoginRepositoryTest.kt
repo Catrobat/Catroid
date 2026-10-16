@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.web
 
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -31,6 +32,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.catrobat.catroid.retrofit.AuthService
+import org.catrobat.catroid.retrofit.TokenRefresher
 import org.catrobat.catroid.retrofit.models.AuthResponse
 import org.catrobat.catroid.web.JwtTokenStore
 import org.catrobat.catroid.web.LoginRepository
@@ -52,12 +54,14 @@ class LoginRepositoryTest {
     private lateinit var authService: AuthService
     private lateinit var tokenStore: JwtTokenStore
     private lateinit var loginRepository: LoginRepository
+    private lateinit var refresher: TokenRefresher
 
     @Before
     fun setUp() {
         authService = mockk(relaxed = true)
         tokenStore = mockk(relaxed = true)
-        loginRepository = LoginRepository(authService, tokenStore)
+        refresher = mockk()
+        loginRepository = LoginRepository(authService, tokenStore, refresher)
     }
 
     @Test
@@ -96,7 +100,7 @@ class LoginRepositoryTest {
     @Test
     fun `logout clears tokens`() = runBlocking {
         every { tokenStore.getAccessToken() } returns "some-token"
-        coEvery { authService.logout(any()) } returns Response.success(Unit)
+        coEvery { authService.logout(any(), any()) } returns Response.success(Unit)
 
         loginRepository.logout()
 
@@ -106,7 +110,7 @@ class LoginRepositoryTest {
     @Test
     fun `logout clears tokens even if server call fails`() = runBlocking {
         every { tokenStore.getAccessToken() } returns "some-token"
-        coEvery { authService.logout(any()) } throws RuntimeException("Server down")
+        coEvery { authService.logout(any(), any()) } throws RuntimeException("Server down")
 
         loginRepository.logout()
 
@@ -147,9 +151,9 @@ class LoginRepositoryTest {
     @Test
     fun `validateToken is false when the server rejects the token`() = runBlocking {
         every { tokenStore.getAccessToken() } returns "token"
-        every { tokenStore.getRefreshToken() } returns null
         coEvery { authService.checkToken(any()) } returns
             Response.error(401, ResponseBody.create(null, ""))
+        every { refresher.refresh("token") } returns TokenRefresher.Outcome.REJECTED
 
         assertEquals(false, loginRepository.validateToken())
     }
@@ -189,33 +193,32 @@ class LoginRepositoryTest {
     @Test
     fun `validateToken refreshes an expired access token`() = runBlocking {
         every { tokenStore.getAccessToken() } returns "expired"
-        every { tokenStore.getRefreshToken() } returns "refresh"
         coEvery { authService.checkToken(any()) } returns
             Response.error(401, ResponseBody.create(null, ""))
-        coEvery { authService.refreshToken(any()) } returns AuthResponse("new-access", "new-refresh")
+        every { refresher.refresh("expired") } returns TokenRefresher.Outcome.REFRESHED
 
         assertEquals(true, loginRepository.validateToken())
-        verify { tokenStore.setTokens("new-access", "new-refresh") }
     }
 
     @Test
-    fun `refreshSession is false when the refresh token is rejected`() = runBlocking {
-        every { tokenStore.getRefreshToken() } returns "refresh"
-        coEvery { authService.refreshToken(any()) } throws
-            HttpException(Response.error<AuthResponse>(401, ResponseBody.create(null, "")))
+    fun `validateToken is unknown when the refresh cannot reach the server`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "expired"
+        coEvery { authService.checkToken(any()) } returns
+            Response.error(401, ResponseBody.create(null, ""))
+        every { refresher.refresh("expired") } returns TokenRefresher.Outcome.UNREACHABLE
 
-        assertEquals(false, loginRepository.refreshSession())
+        assertNull(loginRepository.validateToken())
     }
 
     @Test
-    fun `refreshSession is unknown on server error or offline`() = runBlocking {
+    fun `logout revokes the refresh token on the server`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "access"
         every { tokenStore.getRefreshToken() } returns "refresh"
-        coEvery { authService.refreshToken(any()) } throws
-            HttpException(Response.error<AuthResponse>(503, ResponseBody.create(null, "")))
-        assertNull(loginRepository.refreshSession())
+        coEvery { authService.logout(any(), any()) } returns Response.success(Unit)
 
-        coEvery { authService.refreshToken(any()) } throws IOException("offline")
-        assertNull(loginRepository.refreshSession())
-        verify(exactly = 0) { tokenStore.clearTokens() }
+        loginRepository.logout()
+
+        coVerify { authService.logout("Bearer access", "refresh") }
+        verify { tokenStore.clearTokens() }
     }
 }

@@ -48,6 +48,10 @@ interface AuthService {
     @GET("authentication")
     suspend fun checkToken(@Header("Authorization") bearer: String): Response<Unit>
 
+    /** Deletes the refresh token server-side; an access token cannot be revoked and simply expires. */
     @DELETE("authentication")
-    suspend fun logout(@Header("Authorization") bearer: String): Response<Unit>
+    suspend fun logout(
+        @Header("Authorization") bearer: String,
+        @Header("X-Refresh") refreshToken: String
+    ): Response<Unit>
 }
