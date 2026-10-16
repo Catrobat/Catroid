@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Da fatan za a jira</string>
     <string formatted="false" name="search_hint">Bincika</string>
     <string formatted="false" name="backpack_add">Saka a jakar baya</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Shirin da kuka sauke yana sauraron muryarku a ɓoye kuma yana aika bayanai zuwa intanet. Wannan na iya zama ba shi da lahani, kuma yana iya zama dole don aikinsa. Amma, da fatan ku tabbatar cewa abin da kuke faɗi yayin da shirin ke gudana ba shi da haɗari. Idan kuna da shakka, da fatan ku goge shirin da kuka sauke. Kuna iya kuma kai rahoton shirin a shafinsa na dandalin al\'ummar Catrobat idan kun tabbata cewa yana da lahani.</string>
     <!-- Replace Api dialog -->

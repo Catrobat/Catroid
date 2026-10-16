@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">โปรดรอสักครู่</string>
     <string formatted="false" name="search_hint">ค้นหา</string>
     <string formatted="false" name="backpack_add">เพิ่มลงในกระเป๋าเป้</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">โปรเจกต์ที่คุณดาวน์โหลดมาจะฟังเสียงของคุณอยู่เบื้องหลังและส่งข้อมูลไปยังอินเทอร์เน็ตด้วย ซึ่งอาจไม่เป็นอันตรายและจำเป็นต่อการทำงานตามที่ตั้งใจไว้ อย่างไรก็ตาม โปรดตรวจสอบให้แน่ใจว่าสิ่งที่คุณพูดขณะที่โปรเจกต์ทำงานอยู่นั้นปลอดภัย หากไม่แน่ใจ โปรดลบโปรเจกต์ที่ดาวน์โหลดมา และหากคุณมั่นใจว่าโปรเจกต์นี้เป็นอันตราย คุณสามารถรายงานโปรเจกต์ได้ที่หน้าของโปรเจกต์บนแพลตฟอร์มชุมชน Catrobat</string>
     <!-- Replace Api dialog -->

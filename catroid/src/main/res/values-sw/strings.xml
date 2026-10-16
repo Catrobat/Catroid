@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Tafadhali subiri</string>
     <string formatted="false" name="search_hint">Tafuta</string>
     <string formatted="false" name="backpack_add">Ongeza kwenye mkoba</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Mradi uliopakua unasikiliza sauti yako chinichini na pia hutuma data kwenye intaneti. Huenda hili halina madhara na ni muhimu kwa jinsi mradi unavyotakiwa kufanya kazi. Hata hivyo, tafadhali hakikisha kwamba unachosema wakati mradi unaendeshwa ni salama. Ukiwa na shaka, tafadhali futa mradi uliopakua. Ukiwa na uhakika kwamba una madhara, unaweza pia kuripoti mradi huo kwenye ukurasa wake katika jukwaa la jumuiya ya Catrobat.</string>
     <!-- Replace Api dialog -->

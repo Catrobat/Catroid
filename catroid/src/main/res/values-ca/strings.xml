@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Espera, si us plau</string>
     <string formatted="false" name="search_hint">Cerca…</string>
     <string formatted="false" name="backpack_add">Afegeix a la motxilla</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">El projecte que has baixat t\'escolta en segon pla i també envia dades a internet. Pot ser inofensiu i necessari per al seu funcionament. Tanmateix, assegura\'t que el que dius mentre el projecte s\'executa no comporta cap risc. En cas de dubte, elimina el projecte baixat. Si estàs segur que és perjudicial, també pots denunciar el projecte a la seva pàgina de la plataforma de la comunitat Catrobat.</string>
     <!-- Replace Api dialog -->

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">გთხოვ, მოიცადე</string>
     <string formatted="false" name="search_hint">ძიება</string>
     <string formatted="false" name="backpack_add">ზურგჩანთაში ჩადება</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">შენ მიერ ჩამოტვირთული პროექტი ფონურ რეჟიმში გისმენს და მონაცემებს ინტერნეტშიც აგზავნის. ეს შეიძლება უვნებელი იყოს და პროექტის მუშაობისთვის იყოს საჭირო. მაინც დარწმუნდი, რომ ის, რასაც პროექტის მუშაობისას ამბობ, უსაფრთხოა. ეჭვის შემთხვევაში წაშალე ჩამოტვირთული პროექტი. თუ დარწმუნებული ხარ, რომ პროექტი მავნეა, შეგიძლია მის შესახებ შეატყობინო მის გვერდზე Catrobat-ის საზოგადოების პლატფორმაზე.</string>
     <!-- Replace Api dialog -->

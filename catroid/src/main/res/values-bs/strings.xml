@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Molim te, sačekaj</string>
     <string formatted="false" name="search_hint">Pretraži</string>
     <string formatted="false" name="backpack_add">Dodaj u ranac</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Preuzeti projekat u pozadini sluša tvoj glas i šalje podatke na internet. To može biti bezopasno i potrebno za ono što projekat treba da radi. Ipak, pazi da je ono što govoriš dok projekat radi sigurno. Ako sumnjaš, izbriši preuzeti projekat. Ako je projekat sigurno štetan, možeš ga prijaviti i na njegovoj stranici na platformi Catrobat zajednice.</string>
     <!-- Replace Api dialog -->

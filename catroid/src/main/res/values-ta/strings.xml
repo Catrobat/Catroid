@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">தயவுசெய்து காத்திருக்கவும்</string>
     <string formatted="false" name="search_hint">தேடு</string>
     <string formatted="false" name="backpack_add">முதுகுப்பையில் சேர்</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">நீங்கள் பதிவிறக்கிய திட்டம் பின்னணியில் உங்கள் குரலைக் கேட்கிறது, மேலும் இணையத்துக்குத் தரவையும் அனுப்புகிறது. இது தீங்கற்றதாகவும், அதன் நோக்கத்திற்குத் தேவையானதாகவும் இருக்கலாம். ஆயினும், திட்டம் இயங்கும்போது நீங்கள் பேசுவது பாதுகாப்பானதா என்பதை உறுதிசெய்யவும். சந்தேகம் இருந்தால், பதிவிறக்கிய திட்டத்தை நீக்கவும். அது தீங்கானது என்று உறுதியாகத் தெரிந்தால், Catrobat சமூகத் தளத்தில் அந்தத் திட்டத்தின் பக்கத்தில் அதைப் புகாரளிக்கவும் செய்யலாம்.</string>
     <!-- Replace Api dialog -->

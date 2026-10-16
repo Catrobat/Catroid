@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Περίμενε λίγο</string>
     <string formatted="false" name="search_hint">Αναζήτηση</string>
     <string formatted="false" name="backpack_add">Προσθήκη στο σακίδιο</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Το έργο που κατέβασες ακούει τη φωνή σου στο παρασκήνιο και στέλνει επίσης δεδομένα στο διαδίκτυο. Αυτό μπορεί να είναι ακίνδυνο και απαραίτητο για τη λειτουργία του. Ωστόσο, φρόντισε όσα λες ενώ εκτελείται το έργο να είναι ασφαλή. Αν έχεις αμφιβολίες, διάγραψε το έργο που κατέβασες. Αν είσαι σίγουρος ότι είναι επιβλαβές, μπορείς επίσης να το αναφέρεις στη σελίδα του στην πλατφόρμα της κοινότητας Catrobat.</string>
     <!-- Replace Api dialog -->

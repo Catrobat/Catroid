@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,8 +60,8 @@ class FeaturedProjectsAdapter : RecyclerView.Adapter<FeaturedProjectsAdapter.Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.featuredProjectIV.loadImageFromUrl(item.featured_image)
-        holder.itemView.setOnClickListener { callback.onFeatureProjectClicked(item.project_url) }
+        holder.featuredProjectIV.loadImageFromUrl(item.featuredImage)
+        holder.itemView.setOnClickListener { callback.onFeatureProjectClicked(item.projectUrl) }
     }
 
     override fun getItemCount() = data.size

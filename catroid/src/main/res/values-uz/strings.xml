@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Iltimos, kuting</string>
     <string formatted="false" name="search_hint">Qidirish</string>
     <string formatted="false" name="backpack_add">Ryukzakka qoʻshish</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Siz yuklab olgan loyiha fonda ovozingizni tinglaydi va internetga maʼlumot yuboradi. Bu zararsiz va loyihaning moʻljallangan ishlashi uchun zarur boʻlishi mumkin. Biroq loyiha ishlayotgan paytda aytayotgan gaplaringiz xavfsiz ekanligiga ishonch hosil qiling. Shubha boʻlsa, yuklab olingan loyihani oʻchirib tashlang. Agar loyiha zararli ekaniga amin boʻlsangiz, Catrobat hamjamiyati platformasidagi loyiha sahifasida u haqida xabar berishingiz ham mumkin.</string>
     <!-- Replace Api dialog -->

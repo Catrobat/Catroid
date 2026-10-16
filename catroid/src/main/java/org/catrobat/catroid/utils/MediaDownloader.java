@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import android.os.ResultReceiver;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.lang.ref.WeakReference;
 
@@ -49,39 +48,29 @@ public final class MediaDownloader {
 		}
 
 		Intent downloadIntent = new Intent(activity, MediaDownloadService.class);
-		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG, new DownloadMediaReceiver(new Handler()));
+		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG,
+				new DownloadMediaReceiver(new Handler(), filePath));
 		downloadIntent.putExtra(MediaDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(MediaDownloadService.MEDIA_FILE_PATH, filePath);
-		webViewActivity.createProgressDialog(mediaName);
-		webViewActivity.setResultIntent(webViewActivity.getResultIntent()
-				.putExtra(WebViewActivity.MEDIA_FILE_PATH, filePath));
 		activity.startService(downloadIntent);
 	}
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadMediaReceiver extends ResultReceiver {
-		DownloadMediaReceiver(Handler handler) {
+		private final String filePath;
+
+		DownloadMediaReceiver(Handler handler, String filePath) {
 			super(handler);
+			this.filePath = filePath;
 		}
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			WebViewActivity webViewActivity = webViewActivityWeakReference.get();
-			if (webViewActivity == null) {
-				return;
-			}
-
-			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
-				if (endOfFileReached) {
-					progress = 100;
-				}
-
-				webViewActivity.updateProgressDialog(progress);
-			} else if (resultCode == Constants.UPDATE_DOWNLOAD_ERROR) {
-				webViewActivity.dismissProgressDialog();
+			// The service shows the success and error toasts; only a finished file is handed back
+			if (webViewActivity != null && resultCode == Constants.UPDATE_DOWNLOAD_SUCCESS) {
+				webViewActivity.onMediaDownloaded(filePath);
 			}
 		}
 	}

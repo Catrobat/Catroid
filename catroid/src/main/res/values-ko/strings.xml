@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">잠시 기다려 주세요</string>
     <string formatted="false" name="search_hint">검색</string>
     <string formatted="false" name="backpack_add">백팩에 추가</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">다운로드한 프로젝트가 백그라운드에서 사용자의 목소리를 듣고 인터넷으로 데이터를 보냅니다. 이것은 해롭지 않을 수 있고, 프로젝트가 의도한 대로 작동하는 데 필요할 수도 있습니다. 하지만 프로젝트가 실행되는 동안 말하는 내용이 안전한지 꼭 확인하세요. 의심스러우면 다운로드한 프로젝트를 삭제하세요. 프로젝트가 해롭다고 확신하면 Catrobat 커뮤니티 플랫폼의 해당 프로젝트 페이지에서 신고할 수도 있습니다.</string>
     <!-- Replace Api dialog -->

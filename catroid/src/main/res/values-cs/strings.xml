@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Počkej prosím</string>
     <string formatted="false" name="search_hint">Hledat</string>
     <string formatted="false" name="backpack_add">Přidat do batohu</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Stažený projekt na pozadí poslouchá tvůj hlas a zároveň odesílá data na internet. Může to být neškodné a nutné pro jeho zamýšlené chování. Přesto si prosím dej pozor, aby bylo bezpečné to, co říkáš, zatímco projekt běží. V případě pochybností stažený projekt raději smaž. Pokud víš jistě, že je škodlivý, můžeš projekt také nahlásit na jeho stránce v komunitě Catrobat.</string>
     <!-- Replace Api dialog -->

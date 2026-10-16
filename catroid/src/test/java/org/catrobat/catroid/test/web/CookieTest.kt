@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,38 @@ package org.catrobat.catroid.test.web
 
 import org.catrobat.catroid.web.Cookie
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CookieTest {
     @Test
     fun `test generateCookieString`() {
         val cookie = Cookie("sessionID", "12345")
-        assertEquals("sessionID=12345", cookie.generateCookieString())
+        assertEquals("sessionID=12345; HttpOnly; Secure; Path=/; SameSite=Strict", cookie.generateCookieString())
+    }
+
+    @Test
+    fun `cookie string contains HttpOnly flag`() {
+        val cookie = Cookie("BEARER", "jwt-token-value")
+        val cookieString = cookie.generateCookieString()
+        assertTrue(cookieString.contains("HttpOnly"))
+        assertTrue(cookieString.contains("Secure"))
+        assertTrue(cookieString.contains("SameSite=Strict"))
+    }
+
+    @Test
+    fun `cookie string starts with name value pair`() {
+        val cookie = Cookie("TOKEN", "abc123")
+        assertTrue(cookie.generateCookieString().startsWith("TOKEN=abc123"))
+    }
+
+    @Test
+    fun `cookie string omits Secure flag when secure is false`() {
+        val cookie = Cookie("BEARER", "jwt-token-value", secure = false)
+        val cookieString = cookie.generateCookieString()
+        assertFalse(cookieString.contains("Secure"))
+        assertTrue(cookieString.contains("HttpOnly"))
+        assertTrue(cookieString.contains("SameSite=Strict"))
     }
 }

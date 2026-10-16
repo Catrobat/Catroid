@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">براہ کرم انتظار کریں</string>
     <string formatted="false" name="search_hint">تلاش کریں</string>
     <string formatted="false" name="backpack_add">بستے میں ڈالیں</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">آپ کا ڈاؤن لوڈ کیا ہوا پروجیکٹ پس منظر میں آپ کی آواز سنتا ہے اور انٹرنیٹ پر ڈیٹا بھی بھیجتا ہے۔ ہو سکتا ہے یہ بے ضرر ہو اور پروجیکٹ کے کام کے لیے ضروری ہو۔ پھر بھی براہ کرم یقینی بنائیں کہ پروجیکٹ چلتے وقت آپ جو کچھ کہہ رہے ہیں وہ محفوظ ہے۔ شک کی صورت میں ڈاؤن لوڈ کیا ہوا پروجیکٹ حذف کر دیں۔ اگر آپ کو یقین ہو کہ یہ نقصان دہ ہے تو آپ Catrobat کمیونٹی پلیٹ فارم پر اس پروجیکٹ کے صفحے پر اس کی رپورٹ بھی کر سکتے ہیں۔</string>
     <!-- Replace Api dialog -->

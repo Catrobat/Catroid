@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">مهرباني وکړئ انتظار وکړئ</string>
     <string formatted="false" name="search_hint">لټون</string>
     <string formatted="false" name="backpack_add">کڅوړې ته یې ورزیات کړئ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې، په شالید کې ستاسو غږ اوري او انټرنېټ ته معلومات هم لېږي. کېدای شي دا بې‌زیانه وي او د پروژې د ټاکلې دندې لپاره اړین وي. خو مهرباني وکړئ ډاډ ترلاسه کړئ چې د پروژې د چلېدو پر مهال چې څه وایئ، خوندي دي. که شک لرئ، ډاونلوډ شوې پروژه ړنګه کړئ. که ډاډه یاست چې پروژه زیانمنه ده، کولی شئ د Catrobat ټولنې په پلېټفارم کې د پروژې په پاڼه یې راپور هم ورکړئ.</string>
     <!-- Replace Api dialog -->

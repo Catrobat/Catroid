@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проєкт, який ви завантажили, слухає ваш голос у фоновому режимі та надсилає дані в інтернет. Це може бути нешкідливим і потрібним для роботи проєкту. Проте переконайтеся, що те, що ви говорите під час роботи проєкту, безпечно. Якщо сумніваєтеся, видаліть завантажений проєкт. Якщо ви впевнені, що проєкт шкідливий, можете також поскаржитися на нього на його сторінці на платформі спільноти Catrobat.</string>
     <!-- Replace Api dialog -->

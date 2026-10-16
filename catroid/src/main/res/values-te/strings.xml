@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">దయచేసి వేచి ఉండండి</string>
     <string formatted="false" name="search_hint">వెతకండి</string>
     <string formatted="false" name="backpack_add">బ్యాక్‌ప్యాక్‌లో పెట్టు</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">మీరు డౌన్‌లోడ్ చేసిన ప్రాజెక్ట్ బ్యాక్‌గ్రౌండ్‌లో మీ గొంతును వింటుంది, అలాగే ఇంటర్నెట్‌కు డేటాను కూడా పంపుతుంది. ఇది హానికరం కాకపోవచ్చు, దాని ఉద్దేశిత పనికి అవసరం కూడా కావచ్చు. అయినప్పటికీ, ప్రాజెక్ట్ రన్ అవుతున్నప్పుడు మీరు మాట్లాడేది సురక్షితమైనదేనని దయచేసి నిర్ధారించుకోండి. సందేహం ఉంటే, దయచేసి డౌన్‌లోడ్ చేసిన ప్రాజెక్ట్‌ను తొలగించండి. ఇది హానికరమని మీకు ఖచ్చితంగా తెలిస్తే, Catrobat కమ్యూనిటీ ప్లాట్‌ఫామ్‌లో ఆ ప్రాజెక్ట్ పేజీలో దాన్ని రిపోర్ట్ కూడా చేయవచ్చు.</string>
     <!-- Replace Api dialog -->

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Itxaron, mesedez</string>
     <string formatted="false" name="search_hint">Bilatu</string>
     <string formatted="false" name="backpack_add">Gehitu motxilara</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Deskargatu duzun proiektuak zure ahotsa entzuten du atzeko planoan, eta datuak bidaltzen ditu Internetera. Baliteke kaltegabea izatea eta proiektuak behar bezala funtzionatzeko beharrezkoa izatea. Hala ere, ziurtatu proiektua exekutatzen ari den bitartean esaten duzuna segurua dela. Zalantzarik baduzu, ezabatu deskargatutako proiektua. Kaltegarria dela ziur bazaude, proiektua salatu dezakezu Catrobat komunitatearen plataformako bere orrian.</string>
     <!-- Replace Api dialog -->
