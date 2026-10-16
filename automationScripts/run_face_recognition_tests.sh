@@ -13,7 +13,8 @@
 # a *_summary.txt per run read from the JUnit XML. The instrumented task has
 # ignoreFailures = true, so its exit code says nothing about the tests.
 #
-# Nothing here edits a file.
+# Nothing here edits a file. The device tests delete the trained faces on the
+# device; the app itself stays installed, with its projects.
 # Needs: git, bash, python 3 (for the XML summary), JDK 21, Android SDK.
 
 set -u
@@ -184,8 +185,11 @@ green() {
   summarise_xml green_unit
 
   clear_results "$ROOT"
+  # Gradle uninstalls the app after the run by default, and with it every project
+  # saved on the device; the app and the test app stay installed instead.
   log_run green_device "$ROOT" ./gradlew :catroid:connectedCatroidDebugAndroidTest \
       "-Pandroid.testInstrumentationRunnerArguments.class=$DEVICE_TESTS" \
+      -Pandroid.injected.androidTest.leaveApksInstalledAfterRun=true \
       --continue --console=plain
   copy_reports green_device "$ROOT"
   summarise_xml green_device
