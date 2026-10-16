@@ -84,7 +84,7 @@ class WebConnection(private val okHttpClient: OkHttpClient, listener: WebRequest
                     if (response.isSuccessful) {
                         onRequestSuccess(response)
                     } else {
-                        onRequestError(response.code().toString())
+                        onRequestError(response.code.toString())
                     }
                 }
             }
@@ -92,7 +92,7 @@ class WebConnection(private val okHttpClient: OkHttpClient, listener: WebRequest
     }
 
     fun cancelCall() {
-        okHttpClient.dispatcher()?.executorService()?.execute {
+        okHttpClient.dispatcher.executorService.execute {
             call?.cancel()
         }
     }
