@@ -522,6 +522,11 @@ class FaceDatabase {
      * else without photos) the margin says nothing, so a stranger who only
      * resembles that person must not get their name: the bar is higher.
      */
+    /** The similarity [decide] needs for these scores: with a rival, or for the only person. */
+    @Synchronized
+    fun similarityNeededFor(scores: FloatArray): Float =
+        similarityNeeded(hasRival = scores.count { it != NO_SCORE } > 1)
+
     private fun similarityNeeded(hasRival: Boolean): Float {
         val floor = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
         return if (hasRival) floor else max(floor, SINGLE_PERSON_MIN_SIMILARITY)
@@ -716,10 +721,11 @@ class FaceDatabase {
         /**
          * Accept a match only above this cosine similarity.
          * Raise it if strangers get a name. Lower it if known people come back Unknown.
-         * Useful range 0.40 to 0.65 (MobileFaceNet scores lower than FaceNet did).
+         * Useful range 0.53 to 0.65 (MobileFaceNet scores lower than FaceNet did):
+         * matching never goes below the safety floor of 0.53, so a lower value has no effect.
          */
         @JvmField
-        var minSimilarity: Float = 0.45f
+        var minSimilarity: Float = 0.53f
 
         /**
          * The winner must beat the runner up by this much. This is what stops the app

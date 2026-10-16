@@ -639,7 +639,7 @@ class Recognizer private constructor() {
 
         lastSummary = (database.describeScoreArray(average)
             + "\nfrom " + session.framesWithFace + " frame(s)"
-            + "\nneed " + FaceDatabase.Companion.minSimilarity
+            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average))
             + ", gap " + FaceDatabase.Companion.minMargin)
 
         val match = database.decide(average)
