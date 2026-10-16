@@ -111,8 +111,9 @@ class FaceNameWindow {
         }
         if (expired) {
             // The face is back after the limit: it starts a fresh decision, without
-            // the frames of whoever was there before.
+            // the frames or the name of whoever was there before.
             clearFrames()
+            name = UNKNOWN
         }
 
         val people = recognizer.classNames
