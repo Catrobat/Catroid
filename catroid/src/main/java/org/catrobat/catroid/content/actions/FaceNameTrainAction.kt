@@ -139,6 +139,8 @@ class FaceNameTrainAction : Action() {
 
         @Volatile
         private var appContext: Context? = null
+
+        @Volatile
         private var pendingName: String? = null
 
         /**
@@ -162,7 +164,12 @@ class FaceNameTrainAction : Action() {
          * onShow listener later, from the message queue.
          */
         private val progressWaiters = LinkedHashSet<FaceNameTrainAction>()
+
+        // Counted on the training thread, shown on the main thread.
+        @Volatile
         private var progressTotal = 1
+
+        @Volatile
         private var progressDone = 0
 
         /** A training result for the user; success and failure look different. */
@@ -259,6 +266,8 @@ class FaceNameTrainAction : Action() {
         }
     }
 
+    /** Loaded on the face_train_init thread, used on the main thread. */
+    @Volatile
     private var recognizer: Recognizer? = null
 
     /** The first act() of this run has started the dialogs. */
