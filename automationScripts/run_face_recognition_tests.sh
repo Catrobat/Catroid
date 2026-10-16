@@ -106,6 +106,9 @@ check_device() {
 
 # ---------------- helpers ----------------
 
+# Every run that failed: a Gradle exit code, failed tests, no tests or unreadable results.
+FAILED_RUNS=()
+
 log_run() {   # log_run <name> <dir> <command...>
   local name="$1" dir="$2"; shift 2
   local log="$EVIDENCE/$name.log"
@@ -119,6 +122,7 @@ log_run() {   # log_run <name> <dir> <command...>
   ( cd "$dir" && "$@" ) 2>&1 | tee -a "$log"
   local code=${PIPESTATUS[0]}
   echo "EXIT_CODE=$code" | tee -a "$log"
+  [ "$code" = "0" ] || FAILED_RUNS+=("$name: Gradle exit code $code")
 }
 
 clear_results() {   # a run can never pick up XML from an earlier run
@@ -135,12 +139,18 @@ copy_reports() {   # copy_reports <name> <dir>
   cp -r "$2/catroid/build/reports/androidTests" "$out/device-html" 2>/dev/null
 }
 
-summarise_xml() {   # summarise_xml <name>
+summarise_xml() {   # summarise_xml <name>; exits 1 with failed tests, no tests or an unreadable report
   "$PYTHON" - "$EVIDENCE/${1}_reports" <<'EOF' | tee "$EVIDENCE/${1}_summary.txt"
 import glob, sys, xml.etree.ElementTree as ET
-total = failed = skipped = 0
+total = failed = skipped = unreadable = 0
 for path in sorted(glob.glob(sys.argv[1] + "/**/TEST-*.xml", recursive=True)):
-    for tc in ET.parse(path).getroot().iter("testcase"):
+    try:
+        root = ET.parse(path).getroot()
+    except (ET.ParseError, OSError) as error:
+        unreadable += 1
+        print("UNREADABLE", path, error)
+        continue
+    for tc in root.iter("testcase"):
         total += 1
         if tc.find("failure") is not None or tc.find("error") is not None:
             failed += 1
@@ -151,7 +161,12 @@ for path in sorted(glob.glob(sys.argv[1] + "/**/TEST-*.xml", recursive=True)):
 print(f"TOTAL={total} PASSED={total - failed - skipped} FAILED={failed} SKIPPED={skipped}")
 if total == 0:
     print("NO TESTS RAN")
+if unreadable:
+    print(f"UNREADABLE REPORTS={unreadable}")
+sys.exit(1 if failed or total == 0 or unreadable else 0)
 EOF
+  local code=${PIPESTATUS[0]}
+  [ "$code" = "0" ] || FAILED_RUNS+=("$1: failed tests, no tests or unreadable results")
 }
 
 device_info() {
@@ -200,16 +215,26 @@ green() {
       --warning-mode all --console=plain
 }
 
+report() {   # the logs and summaries; returns 1 when any run failed
+  echo
+  echo "Logs and reports: $EVIDENCE"
+  grep -H "EXIT_CODE" "$EVIDENCE"/*.log
+  for summary in "$EVIDENCE"/*_summary.txt; do
+    echo "== $(basename "$summary")"
+    cat "$summary"
+  done
+  echo
+  if [ "${#FAILED_RUNS[@]}" -gt 0 ]; then
+    echo "FAILED:"
+    printf '  %s\n' "${FAILED_RUNS[@]}"
+    return 1
+  fi
+  echo "ALL RUNS PASSED"
+}
+
 check_environment
 case "${1:-green}" in
   green) green ;;
   *) echo "usage: $0 [green]"; exit 2 ;;
 esac
-
-echo
-echo "Logs and reports: $EVIDENCE"
-grep -H "EXIT_CODE" "$EVIDENCE"/*.log
-for summary in "$EVIDENCE"/*_summary.txt; do
-  echo "== $(basename "$summary")"
-  cat "$summary"
-done
+report || exit 1
