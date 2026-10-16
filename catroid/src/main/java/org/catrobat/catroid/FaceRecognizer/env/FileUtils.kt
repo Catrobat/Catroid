@@ -257,7 +257,8 @@ object FileUtils {
                 val backup = File(root, "$name.bak")
                 when {
                     backup.exists() -> restored = restore(backup, File(root, name)) && restored
-                    !existed -> deleteTemporary(File(root, name))
+                    // A file the save created goes; one that is already gone counts as removed.
+                    !existed -> restored = removeNewFile(File(root, name)) && restored
                 }
             }
             if (!restored) {
@@ -300,6 +301,14 @@ object FileUtils {
         return trySyncDirectory()
     }
 
+    private fun removeNewFile(target: File): Boolean {
+        if (target.exists() && !deleteFile(target)) {
+            Log.e(TAG, COULD_NOT_DELETE + target.name)
+            return false
+        }
+        return true
+    }
+
     private fun restore(backup: File, target: File): Boolean {
         return try {
             replaceFile(backup, target)
@@ -329,26 +338,25 @@ object FileUtils {
     }
 
     /**
-     * Syncs the folder's entries; the tests replace it to watch the order or make
-     * it fail. A system that cannot open a folder at all (not Android) has nothing
-     * to sync; a sync that fails throws.
+     * Syncs the folder's entries, throwing when that fails; the tests replace it
+     * to watch the order or make it fail, and on hosts that cannot open folders.
      */
     @VisibleForTesting
     internal var syncDirectory: (File) -> Unit = { folder -> syncDirectoryOnStorage(folder) }
 
-    /** The folder sync itself, which [syncDirectory] is unless a test replaces it. */
+    /**
+     * The folder sync itself, which [syncDirectory] is unless a test replaces it.
+     * A folder that cannot be opened is a failed sync, never a skipped one:
+     * without it the moves and deletions are not known to be on storage.
+     */
     @VisibleForTesting
     internal val syncDirectoryOnStorage: (File) -> Unit = { folder ->
         val channel = try {
             openDirectory(folder)
-        } catch (e: IOException) {
-            Log.w(TAG, "This file system cannot open the face data folder to sync it", e)
-            null
         } catch (e: UnsupportedOperationException) {
-            Log.w(TAG, "This file system cannot open the face data folder to sync it", e)
-            null
+            throw IOException("This file system cannot open the face data folder to sync it", e)
         }
-        channel?.use { it.force(true) }
+        channel.use { it.force(true) }
     }
 
     /** Opens the folder for [syncDirectoryOnStorage]; the tests replace it to make the open fail. */
