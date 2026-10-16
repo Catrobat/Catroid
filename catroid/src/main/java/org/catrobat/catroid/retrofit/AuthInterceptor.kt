@@ -109,7 +109,11 @@ class AuthInterceptor(
                     chain.proceed(retryRequest)
                 } else {
                     Log.w(TAG, "Token refresh returned ${refreshResponse.code()}")
-                    tokenStore.clearTokens()
+                    // Only a rejected refresh token ends the session. A 5xx or 429 during a
+                    // deploy or under load says nothing about it.
+                    if (refreshResponse.code() in SESSION_REJECTED_CODES) {
+                        tokenStore.clearTokens()
+                    }
                     response
                 }
             } catch (e: IOException) {
@@ -124,6 +128,7 @@ class AuthInterceptor(
     companion object {
         private const val TAG = "AuthInterceptor"
         private const val HTTP_UNAUTHORIZED = 401
+        private val SESSION_REJECTED_CODES = setOf(400, 401, 403)
         private const val HEADER_AUTHORIZATION = "Authorization"
         private const val BEARER_PREFIX = "Bearer "
         private fun bearer(token: String) = BEARER_PREFIX + token

@@ -147,6 +147,7 @@ class LoginRepositoryTest {
     @Test
     fun `validateToken is false when the server rejects the token`() = runBlocking {
         every { tokenStore.getAccessToken() } returns "token"
+        every { tokenStore.getRefreshToken() } returns null
         coEvery { authService.checkToken(any()) } returns
             Response.error(401, ResponseBody.create(null, ""))
 
@@ -183,5 +184,38 @@ class LoginRepositoryTest {
     fun `getUsername delegates to tokenStore`() {
         every { tokenStore.getUsername() } returns "testuser"
         assertEquals("testuser", loginRepository.getUsername())
+    }
+
+    @Test
+    fun `validateToken refreshes an expired access token`() = runBlocking {
+        every { tokenStore.getAccessToken() } returns "expired"
+        every { tokenStore.getRefreshToken() } returns "refresh"
+        coEvery { authService.checkToken(any()) } returns
+            Response.error(401, ResponseBody.create(null, ""))
+        coEvery { authService.refreshToken(any()) } returns AuthResponse("new-access", "new-refresh")
+
+        assertEquals(true, loginRepository.validateToken())
+        verify { tokenStore.setTokens("new-access", "new-refresh") }
+    }
+
+    @Test
+    fun `refreshSession is false when the refresh token is rejected`() = runBlocking {
+        every { tokenStore.getRefreshToken() } returns "refresh"
+        coEvery { authService.refreshToken(any()) } throws
+            HttpException(Response.error<AuthResponse>(401, ResponseBody.create(null, "")))
+
+        assertEquals(false, loginRepository.refreshSession())
+    }
+
+    @Test
+    fun `refreshSession is unknown on server error or offline`() = runBlocking {
+        every { tokenStore.getRefreshToken() } returns "refresh"
+        coEvery { authService.refreshToken(any()) } throws
+            HttpException(Response.error<AuthResponse>(503, ResponseBody.create(null, "")))
+        assertNull(loginRepository.refreshSession())
+
+        coEvery { authService.refreshToken(any()) } throws IOException("offline")
+        assertNull(loginRepository.refreshSession())
+        verify(exactly = 0) { tokenStore.clearTokens() }
     }
 }

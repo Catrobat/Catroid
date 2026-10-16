@@ -30,6 +30,7 @@ import org.catrobat.catroid.retrofit.models.ApiErrorResponse
 import org.catrobat.catroid.retrofit.models.AuthResponse
 import org.catrobat.catroid.retrofit.models.LoginRequest
 import org.catrobat.catroid.retrofit.models.OAuthLoginRequest
+import org.catrobat.catroid.retrofit.models.RefreshRequest
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -82,9 +83,29 @@ class LoginRepository(
             val response = authService.checkToken("Bearer $token")
             when {
                 response.isSuccessful -> true
-                response.code() == HTTP_UNAUTHORIZED -> false
+                response.code() == HTTP_UNAUTHORIZED -> refreshSession()
                 else -> null
             }
+        } catch (_: IOException) {
+            null
+        }
+    }
+
+    /**
+     * Trades the refresh token for a new access token. The access token lives an hour, the
+     * refresh token a month, so an expired access token alone must not end the session.
+     *
+     * @return true when refreshed, false when the server rejected the refresh token, null when
+     * the server could not be asked.
+     */
+    suspend fun refreshSession(): Boolean? {
+        val refreshToken = tokenStore.getRefreshToken() ?: return false
+        return try {
+            val response = authService.refreshToken(RefreshRequest(refreshToken))
+            tokenStore.setTokens(response.token, response.refreshToken)
+            true
+        } catch (e: HttpException) {
+            if (e.code() in SESSION_REJECTED_CODES) false else null
         } catch (_: IOException) {
             null
         }
@@ -107,12 +128,13 @@ class LoginRepository(
     }
 
     suspend fun logout() {
-        val token = tokenStore.getAccessToken()
-        if (token != null) {
-            // Best effort — clear local tokens regardless of the server response
-            runCatching { authService.logout("Bearer $token") }
-        }
+        tokenStore.getAccessToken()?.let { revoke(it) }
         tokenStore.clearTokens()
+    }
+
+    /** Best effort: the local session is cleared regardless of the server response. */
+    suspend fun revoke(token: String) {
+        runCatching { authService.logout("Bearer $token") }
     }
 
     fun isLoggedIn(): Boolean = tokenStore.isLoggedIn()
@@ -121,5 +143,6 @@ class LoginRepository(
 
     private companion object {
         const val HTTP_UNAUTHORIZED = 401
+        val SESSION_REJECTED_CODES = setOf(400, 401, 403)
     }
 }

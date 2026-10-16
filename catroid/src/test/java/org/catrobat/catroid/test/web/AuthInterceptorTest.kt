@@ -31,9 +31,12 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.catrobat.catroid.retrofit.AuthInterceptor
 import org.catrobat.catroid.web.JwtTokenStore
 import org.junit.Assert.assertEquals
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,6 +48,13 @@ class AuthInterceptorTest {
     private lateinit var tokenStore: JwtTokenStore
     private lateinit var interceptor: AuthInterceptor
     private lateinit var chain: Interceptor.Chain
+
+    private val server = MockWebServer()
+
+    @After
+    fun tearDown() {
+        server.shutdown()
+    }
 
     @Before
     fun setUp() {
@@ -183,5 +193,42 @@ class AuthInterceptorTest {
 
         assertEquals(401, result.code())
         verify { tokenStore.clearTokens() }
+    }
+
+    @Test
+    fun `keeps the session when the refresh endpoint has a server error`() {
+        server.enqueue(MockResponse().setResponseCode(503))
+        val result = interceptExpiredToken()
+
+        assertEquals(401, result.code())
+        verify(exactly = 0) { tokenStore.clearTokens() }
+    }
+
+    @Test
+    fun `ends the session when the refresh token is rejected`() {
+        server.enqueue(MockResponse().setResponseCode(401))
+        val result = interceptExpiredToken()
+
+        assertEquals(401, result.code())
+        verify { tokenStore.clearTokens() }
+    }
+
+    private fun interceptExpiredToken(): Response {
+        server.start()
+        val refreshingInterceptor = AuthInterceptor(tokenStore, server.url("/api/").toString())
+        every { tokenStore.getAccessToken() } returns "expired-token"
+        every { tokenStore.getRefreshToken() } returns "refresh-token"
+
+        val request = Request.Builder().url(server.url("/api/projects")).build()
+        every { chain.request() } returns request
+        every { chain.proceed(any()) } returns Response.Builder()
+            .request(request)
+            .protocol(Protocol.HTTP_1_1)
+            .code(401)
+            .message("Unauthorized")
+            .body(ResponseBody.create(null, ""))
+            .build()
+
+        return refreshingInterceptor.intercept(chain)
     }
 }

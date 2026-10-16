@@ -31,4 +31,7 @@ class Cookie(
         val secureFlag = if (secure) "Secure; " else ""
         return "$name=$value; HttpOnly; ${secureFlag}Path=/; SameSite=Strict"
     }
+
+    /** The same cookie, already expired: setting it removes the stored one. */
+    fun generateExpiredCookieString(): String = "$name=; Max-Age=0; " + generateCookieString().substringAfter("; ")
 }

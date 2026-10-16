@@ -43,7 +43,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 public class WebViewActivityLoginCookieTest {
 
 	private CookieManager cookieManagerMock;
-	private String urlStub = "https://share.catrobat.org";
+	private String urlStub = Constants.MAIN_URL_HTTPS;
+	private static final String EXPIRED_COOKIE = "BEARER=; Max-Age=0; HttpOnly; Secure; Path=/; SameSite=Strict";
 	private String jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test.signature";
 
 	@Before
@@ -59,14 +60,16 @@ public class WebViewActivityLoginCookieTest {
 	}
 
 	@Test
-	public void testSetLoginCookiesWithNullToken() {
+	public void testSetLoginCookiesWithNullTokenRemovesTheCookie() {
 		WebViewActivity.setLoginCookies(urlStub, cookieManagerMock, null);
+		verify(cookieManagerMock).setCookie(urlStub, EXPIRED_COOKIE);
 		verifyNoMoreInteractions(cookieManagerMock);
 	}
 
 	@Test
-	public void testSetLoginCookiesWithEmptyToken() {
+	public void testSetLoginCookiesWithEmptyTokenRemovesTheCookie() {
 		WebViewActivity.setLoginCookies(urlStub, cookieManagerMock, "");
+		verify(cookieManagerMock).setCookie(urlStub, EXPIRED_COOKIE);
 		verifyNoMoreInteractions(cookieManagerMock);
 	}
 
@@ -97,7 +100,7 @@ public class WebViewActivityLoginCookieTest {
 	@Test
 	public void testIsShareUrl() {
 		assertTrue(WebViewActivity.isShareUrl(Constants.MAIN_URL_HTTPS + "/pocketcode/project/1"));
-		assertTrue(WebViewActivity.isShareUrl("HTTPS://SHARE.CATROBAT.ORG/app/"));
+		assertTrue(WebViewActivity.isShareUrl(Constants.MAIN_URL_HTTPS.toUpperCase(java.util.Locale.ROOT) + "/app/"));
 		assertFalse(WebViewActivity.isShareUrl("https://share.catrob.at/app/"));
 		assertFalse(WebViewActivity.isShareUrl("https://share.catrobat.org.example.com/"));
 		assertFalse(WebViewActivity.isShareUrl("https://share.catrobat.org:8443/"));

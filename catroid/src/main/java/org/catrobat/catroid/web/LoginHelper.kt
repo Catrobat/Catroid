@@ -79,15 +79,31 @@ object LoginHelper {
             }
         }
 
+    /**
+     * The WebView signs in with the stored access token, which expires after an hour. Check it
+     * (refreshing it when expired) before the page loads; a rejected session is dropped locally.
+     */
     @JvmStatic
-    fun performLogout(loginRepository: LoginRepository, onComplete: Runnable): Job =
+    fun prepareWebSession(loginRepository: LoginRepository, onReady: Runnable): Job =
         CoroutineScope(SupervisorJob() + ioDispatcher).launch {
-            loginRepository.logout()
+            if (loginRepository.isLoggedIn() && loginRepository.validateToken() == false) {
+                loginRepository.clearLocalSession()
+            }
             withContext(mainDispatcher) {
                 coroutineContext.ensureActive()
-                onComplete.run()
+                onReady.run()
             }
         }
+
+    /**
+     * Revokes [token] on the server. Deliberately not tied to a screen: the logout page closes
+     * the WebView right away, and cancelling would leave the token valid on the server.
+     */
+    @JvmStatic
+    fun revokeInBackground(loginRepository: LoginRepository, token: String?) {
+        token ?: return
+        CoroutineScope(SupervisorJob() + ioDispatcher).launch { loginRepository.revoke(token) }
+    }
 
     /** Network errors map to null, so the caller shows its own connection message. */
     private fun userMessage(e: Throwable, fallback: String): String? =

@@ -46,16 +46,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.io.Files;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
-import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.MediaDownloader;
 import org.catrobat.catroid.utils.ProjectDownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -103,7 +99,7 @@ public class WebViewActivity extends AppCompatActivity {
 	private WebView webView;
 	private org.catrobat.catroid.web.JwtTokenStore tokenStore;
 	private org.catrobat.catroid.web.LoginRepository loginRepository;
-	private kotlinx.coroutines.Job logoutJob;
+	private kotlinx.coroutines.Job sessionJob;
 	private boolean allowGoBack = false;
 	private boolean forceOpenInApp = false;
 	private ProgressDialog webViewLoadingDialog;
@@ -170,8 +166,11 @@ public class WebViewActivity extends AppCompatActivity {
 
 		tokenStore = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.JwtTokenStore.class).getValue();
 		loginRepository = org.koin.java.KoinJavaComponent.inject(org.catrobat.catroid.web.LoginRepository.class).getValue();
-		setLoginCookies(url, CookieManager.getInstance(), tokenStore.getAccessToken());
-		webView.loadUrl(url);
+		final String startUrl = url;
+		sessionJob = LoginHelper.prepareWebSession(loginRepository, () -> {
+			setLoginCookies(startUrl, CookieManager.getInstance(), tokenStore.getAccessToken());
+			webView.loadUrl(startUrl);
+		});
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 			if (downloadUrl != null && downloadUrl.startsWith("blob:")) {
@@ -230,7 +229,7 @@ public class WebViewActivity extends AppCompatActivity {
 			String url = request.getUrl().toString();
 
 			Matcher projectMatcher = PROJECT_DOWNLOAD_PATTERN.matcher(url);
-			if (projectMatcher.find()) {
+			if (isShareUrl(url) && projectMatcher.find()) {
 				return interceptProjectDownload(url);
 			}
 
@@ -253,44 +252,11 @@ public class WebViewActivity extends AppCompatActivity {
 				}
 				final String finalName = projectName;
 
-				// Never overwrite a local project silently: hand it to the regular download
-				// flow, which asks whether to replace it.
-				if (GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(finalName)
-						|| ReplaceExistingProjectDialogFragment.projectExistsInDirectory(finalName)) {
-					new Handler(Looper.getMainLooper()).post(() ->
-							new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), url,
-									ProjectDownloadUtil.INSTANCE, finalName).download(WebViewActivity.this));
-					return null;
-				}
-
-				File tempDirectory = new File(Constants.CACHE_DIRECTORY, Constants.TMP_DIRECTORY_NAME);
-				tempDirectory.mkdirs();
-				File tempFile = File.createTempFile("down", Constants.CATROBAT_EXTENSION, tempDirectory);
-				try (okio.BufferedSink sink = okio.Okio.buffer(okio.Okio.sink(tempFile))) {
-					sink.writeAll(httpResponse.body().source());
-				}
-
-				File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
-						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(finalName));
-				new ZipArchiver().unzip(tempFile, projectDir);
-				if (serverProjectId != null) {
-					// Lets a later upload update this project instead of creating a copy
-					Files.asCharSink(new File(projectDir, ".server_project_id"), StandardCharsets.UTF_8)
-							.write(serverProjectId);
-				}
-				if (!tempFile.delete()) {
-					Log.w(TAG, "Could not delete temp file: " + tempFile.getAbsolutePath());
-				}
-
-				new Handler(Looper.getMainLooper()).post(() -> {
-					ProjectManager.getInstance().addNewDownloadedProject(finalName);
-					Intent mainMenuIntent = new Intent(WebViewActivity.this, MainMenuActivity.class);
-					mainMenuIntent.setAction(Intent.ACTION_MAIN);
-					mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					mainMenuIntent.putExtra(Constants.EXTRA_PROJECT_NAME, finalName);
-					startActivity(mainMenuIntent);
-					finish();
-				});
+				// The download service does the whole import: the replace dialog for an existing
+				// name, the rename, the remix URL and the server project id.
+				new Handler(Looper.getMainLooper()).post(() ->
+						new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), url,
+								ProjectDownloadUtil.INSTANCE, finalName).download(WebViewActivity.this));
 			} catch (Exception e) {
 				Log.e(TAG, "Project download interception failed", e);
 			}
@@ -303,8 +269,10 @@ public class WebViewActivity extends AppCompatActivity {
 				// The web session ends here. The app's own JWT has to go with it: it is injected
 				// as BEARER cookie on every WebView visit, so without this the next visit
 				// silently signs the user back in.
-				LoginHelper.cancel(logoutJob);
-				logoutJob = LoginHelper.performLogout(loginRepository, () -> Utils.logoutUser(WebViewActivity.this));
+				// The local cleanup runs right away, because the logout redirect closes this screen.
+				String token = tokenStore.getAccessToken();
+				Utils.logoutUser(WebViewActivity.this);
+				LoginHelper.revokeInBackground(loginRepository, token);
 			}
 			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
@@ -454,11 +422,16 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@VisibleForTesting
 	public static void setLoginCookies(String url, CookieManager cookieManager, String jwtToken) {
-		if (jwtToken == null || jwtToken.isEmpty() || !isShareUrl(url)) {
+		if (!isShareUrl(url)) {
 			return;
 		}
 
-		boolean secure = url != null && url.regionMatches(true, 0, "https://", 0, "https://".length());
+		boolean secure = url.regionMatches(true, 0, "https://", 0, "https://".length());
+		if (jwtToken == null || jwtToken.isEmpty()) {
+			// A cookie from an earlier session would otherwise keep the web side signed in.
+			cookieManager.setCookie(url, new Cookie("BEARER", "", secure).generateExpiredCookieString());
+			return;
+		}
 		Cookie bearerCookie = new Cookie("BEARER", jwtToken, secure);
 		cookieManager.setCookie(url, bearerCookie.generateCookieString());
 	}
@@ -524,7 +497,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
-		LoginHelper.cancel(logoutJob);
+		LoginHelper.cancel(sessionJob);
 		webView.setDownloadListener(null);
 		webView.destroy();
 
