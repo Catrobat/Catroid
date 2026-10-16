@@ -185,6 +185,26 @@ class FaceNameWindowTest {
         assertEquals(1, window.framesInWindow)
     }
 
+    /**
+     * Found in review: after one second without a usable face, a new face cleared
+     * the frames but kept the old name. When that frame was then left out because
+     * someone was added or deleted while it was scored, the window still said the
+     * old person, with nothing in it.
+     */
+    @Test
+    fun anExpiredWindowDoesNotKeepTheOldNameWhenTheNewFrameIsLeftOut() {
+        add(0.90f, 0.20f, at = 0)
+        add(0.90f, 0.20f, at = 300)
+
+        val name = window.addScores(
+            recognizer, floatArrayOf(0.20f, 0.90f), 300 + NO_FACE_RESET_MS, listOf(PERSON_A, PERSON_C)
+        )
+
+        assertEquals(UNKNOWN, name)
+        assertEquals(UNKNOWN, window.name)
+        assertEquals(0, window.framesInWindow)
+    }
+
     @Test
     fun aFaceWithinOneSecondIsAveragedWithTheFramesBefore() {
         add(0.90f, 0.20f, at = 0)
