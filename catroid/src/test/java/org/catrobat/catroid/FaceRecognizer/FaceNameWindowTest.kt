@@ -250,6 +250,51 @@ class FaceNameWindowTest {
         assertEquals(PERSON_B, add(0.698f))
     }
 
+    /**
+     * Found in a live test on a phone: with one person enrolled the name needs
+     * 0.61, and live frames of that person averaged 0.508 to 0.641, so the name
+     * only flickered. Once shown, the name stays while the same face goes on
+     * scoring at least the normal floor (0.53); a new name still needs 0.61.
+     */
+    @Test
+    fun withOnePersonEnrolledTheNameStaysWhileTheFaceScoresAboveTheFloor() {
+        recognizer.deletePerson(0)
+        add(0.64f)
+        add(0.63f)
+        assertEquals(PERSON_B, add(0.62f))
+
+        // Averages 0.605, 0.590 and 0.567: below 0.61, above 0.53.
+        assertEquals(PERSON_B, add(0.565f))
+        assertEquals(PERSON_B, add(0.585f))
+        assertEquals(PERSON_B, add(0.55f))
+    }
+
+    @Test
+    fun withOnePersonEnrolledTheNameGoesWhenTheFaceFallsBelowTheFloor() {
+        recognizer.deletePerson(0)
+        add(0.64f)
+        add(0.63f)
+        assertEquals(PERSON_B, add(0.62f))
+        add(0.45f)
+
+        // Average 0.507 of 0.62, 0.45 and 0.45.
+        assertEquals(UNKNOWN, add(0.45f))
+        // Gone, the name needs 0.61 again: averages 0.487, 0.533 and 0.570 are not enough.
+        assertEquals(UNKNOWN, add(0.56f))
+        assertEquals(UNKNOWN, add(0.59f))
+        assertEquals(UNKNOWN, add(0.56f))
+    }
+
+    @Test
+    fun withOnePersonEnrolledAFaceThatNeverReachesTheBarGetsNoName() {
+        recognizer.deletePerson(0)
+
+        add(0.58f)
+        add(0.59f)
+        assertEquals(UNKNOWN, add(0.60f))
+        assertEquals(UNKNOWN, add(0.60f))
+    }
+
     // ---------------- Frames scored for other people ----------------
 
     /**
