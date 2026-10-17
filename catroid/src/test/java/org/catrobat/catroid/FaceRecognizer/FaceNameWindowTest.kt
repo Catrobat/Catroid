@@ -323,6 +323,16 @@ class FaceNameWindowTest {
         assertEquals(UNKNOWN, window.nameWithThreshold(recognizer, 0f))
     }
 
+    @Test
+    fun aMissingScoreLeavesOtherCandidatesUsableAndExpiresWithItsFrame() {
+        assertEquals(PERSON_B, add(NO_SCORE, 0.70f))
+        assertEquals(PERSON_B, add(0.90f, 0.70f))
+        assertEquals(PERSON_B, add(0.90f, 0.70f))
+
+        // A has a complete window again once the missing-score frame leaves it.
+        assertEquals(PERSON_A, add(0.90f, 0.70f))
+    }
+
     // ---------------- People trained while the program runs ----------------
 
     @Test

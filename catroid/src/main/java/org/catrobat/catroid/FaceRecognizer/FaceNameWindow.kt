@@ -164,12 +164,11 @@ class FaceNameWindow {
         // Missing evidence must remain missing in the average, even at cutoff
         // zero; mixing the sentinel with real scores could otherwise accept it.
         for (index in totals.indices) {
-            if (frames.any { it[index] == FaceDatabase.NO_SCORE }) {
-                totals[index] = FaceDatabase.NO_SCORE * frames.size
+            totals[index] = if (frames.any { it[index] == FaceDatabase.NO_SCORE }) {
+                FaceDatabase.NO_SCORE
+            } else {
+                totals[index] / frames.size
             }
-        }
-        for (index in totals.indices) {
-            totals[index] /= frames.size
         }
         return recognizer.nameForScores(framesScoredFor, totals, threshold) ?: UNKNOWN
     }

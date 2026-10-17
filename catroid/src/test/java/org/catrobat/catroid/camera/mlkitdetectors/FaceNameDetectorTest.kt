@@ -35,8 +35,11 @@ import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.camera.DetectorsCompleteListener
+import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.formulaeditor.function.FaceNameFunctionProvider
+import org.catrobat.catroid.formulaeditor.function.FormulaFunction
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -502,6 +505,30 @@ class FaceNameDetectorTest {
         assertEquals(0, loads)
         runRecognition()
         assertEquals("Only the recognition worker loads models", 1, loads)
+    }
+
+    @Test
+    fun anInvalidThresholdArgumentStillActivatesAnalysisWithoutLoadingModelsOnTheCallingThread() {
+        val functions = mutableMapOf<Functions, FormulaFunction>()
+        FaceNameFunctionProvider().addFunctionsToMap(functions)
+        val sensor = checkNotNull(functions[Functions.FACE_NAME_WITH_THRESHOLD])
+
+        for (arguments in listOf(emptyArray<Double?>(), arrayOf<Double?>(null), arrayOf<Double?>(Double.NaN))) {
+            FaceNameDetector.reset()
+            var loads = 0
+            FaceNameDetector.recognizerProvider = {
+                loads++
+                null
+            }
+
+            assertEquals(FaceNameWindow.UNKNOWN, sensor.execute(*arguments))
+            assertEquals("An invalid formula read must not load models", 0, loads)
+            offerFrame()
+            assertEquals("Reading the sensor must activate camera analysis", 1, queued.size)
+            assertEquals(0, loads)
+            runRecognition()
+            assertEquals("Only the recognition worker loads models", 1, loads)
+        }
     }
 
     @Test

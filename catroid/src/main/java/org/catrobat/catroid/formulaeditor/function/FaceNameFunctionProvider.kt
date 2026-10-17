@@ -28,12 +28,7 @@ import org.catrobat.catroid.formulaeditor.Functions
 class FaceNameFunctionProvider : FunctionProvider {
     override fun addFunctionsToMap(formulaFunctions: MutableMap<Functions, FormulaFunction>) {
         formulaFunctions[Functions.FACE_NAME_WITH_THRESHOLD] = FormulaFunction { arguments ->
-            val threshold = arguments.getOrNull(0)
-            if (threshold == null) {
-                "Unknown"
-            } else {
-                FaceNameDetector.getNameWithThreshold(threshold)
-            }
+            FaceNameDetector.getNameWithThreshold(arguments.getOrNull(0) ?: Double.NaN)
         }
     }
 }

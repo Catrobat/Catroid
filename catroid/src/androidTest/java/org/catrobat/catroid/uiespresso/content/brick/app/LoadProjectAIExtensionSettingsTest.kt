@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR
+import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_DETECTED
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_SIZE
@@ -172,6 +173,11 @@ class LoadProjectAIExtensionSettingsTest(
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
 
         private var detectedFaceName = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
+        private val detectedFaceNameWithThreshold = FormulaElement(
+            FormulaElement.ElementType.FUNCTION, Functions.FACE_NAME_WITH_THRESHOLD.name, null
+        ).apply {
+            setLeftChild(FormulaElement(FormulaElement.ElementType.NUMBER, "0.53", null))
+        }
 
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
@@ -293,7 +299,11 @@ class LoadProjectAIExtensionSettingsTest(
 
         private val faceNameDetectionList = arrayOf(
             arrayOf(
-                "Face Name Detection detectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                "Face Name Detection detectedFaceNameWithThreshold", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(detectedFaceNameWithThreshold))
+            ),
+            arrayOf(
+                "Face Name Detection legacyDetectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
                 ChangeSizeByNBrick(Formula(detectedFaceName))
             ),
             arrayOf(

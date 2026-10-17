@@ -21,10 +21,10 @@ import java.io.File
  *    followed by addPerson/addEmbeddings, as FaceNameTrainAction does after the
  *    photo picker returns.
  *  - [StagePath] recognises through [FaceNameWindow], the decision behind the
- *    "detected face name" sensor (clipped-frame check, scoreFrame, the average
- *    of the last three usable frames with finishSession and its stricter
- *    single-frame threshold). Only the camera is replaced: the fixture photo is
- *    offered as three consecutive camera frames.
+ *    "detected face name with threshold" sensor (clipped-frame check, scoreFrame,
+ *    and the average of the last three usable frames at the default cutoff).
+ *    Only the camera is replaced: the fixture photo is offered as three
+ *    consecutive camera frames.
  *  - [RecognizePath] uses [Recognizer.recognize] (FaceDatabase.match()).
  */
 class FaceRecognitionHarness {
@@ -139,11 +139,11 @@ class FaceRecognitionHarness {
             if (name == FaceNameWindow.UNKNOWN) {
                 return null
             }
-            // The window reports a name; the confidence is in the summary.
+            // The window reports only a name, without exposing a confidence score.
             return Recognizer.Result(recognizer.classNames.indexOf(name), name, Float.NaN)
         }
 
-        override fun describe(): String = "Summary: ${recognizer.lastSummary}"
+        override fun describe(): String = "Threshold: ${FaceNameWindow.DEFAULT_THRESHOLD}"
     }
 
     inner class RecognizePath : RecognitionPath() {
@@ -201,7 +201,7 @@ class FaceRecognitionHarness {
 
         const val TRAINING_PHOTOS = 4
 
-        /** Explicit thresholds. 0.53 is also the recogniser's absolute floor (0.60 with FaceNet). */
+        /** Legacy recognize() thresholds; StagePath uses FaceNameWindow.DEFAULT_THRESHOLD. */
         const val MIN_SIMILARITY = 0.53f
         const val MIN_MARGIN = 0.04f
 

@@ -421,13 +421,7 @@ class Recognizer private constructor() {
 
     // ---------------- Detection ----------------
     /**
-     * Recognises the largest face in the frame. Returns null when no face is found or
-     * when no enrolled person is close enough.
-     *
-     * @param mirrorToo also try the mirrored face, needed for front camera frames
-     */
-    /**
-     * Accumulates scores across several camera frames. One frame can be blurry,
+     * Accumulates scores for the legacy [finishSession] API. One frame can be blurry,
      * badly exposed or caught mid blink. Averaging over a few frames removes most
      * of that noise and is the largest single accuracy gain available here.
      */
@@ -435,12 +429,9 @@ class Recognizer private constructor() {
         internal var totals: FloatArray? = null
         internal var framesWithFace: Int = 0
         internal var framesTried: Int = 0
-
-        /** The name on screen when this session started, if any; see [FaceDatabase.decide]. */
-        internal var shownName: String? = null
     }
 
-    /** Plain text summary of the last finished session. Shown to the user.  */
+    /** Diagnostic summary of [finishSession]; the live sensor uses cached scores instead. */
     @get:Synchronized
     var lastSummary: String = ""
         private set
@@ -610,7 +601,6 @@ class Recognizer private constructor() {
         }
     }
 
-    /** Averages the session and applies the thresholds once. Null means Unknown.  */
     /** True when the stored photos were made by a different embedding pipeline.  */
     @Synchronized
     fun needsRetraining(): Boolean {
@@ -618,6 +608,7 @@ class Recognizer private constructor() {
         return database.hasStaleEmbeddings()
     }
 
+    /** Averages a legacy session and applies its thresholds once. Null means Unknown. */
     @Synchronized
     fun finishSession(session: Session?): Result? {
         if (session == null || session.totals == null || session.framesWithFace == 0) {
@@ -654,10 +645,10 @@ class Recognizer private constructor() {
 
         lastSummary = (database.describeScoreArray(average)
             + "\nfrom " + session.framesWithFace + " frame(s)"
-            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average, session.shownName))
+            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average))
             + ", gap " + FaceDatabase.Companion.minMargin)
 
-        val match = database.decide(average, session.shownName)
+        val match = database.decide(average)
         if (match == null) {
             lastSummary = "REJECTED\n" + lastSummary
             if (database.hasStaleEmbeddings()) {
@@ -678,7 +669,7 @@ class Recognizer private constructor() {
     }
 
     /**
-     * Recognises the largest face in [frame] with the sensor's views and
+     * Recognises the largest face in [frame] with the legacy similarity and margin
      * thresholds. The models run under [modelLock] only, the decision under
      * this object's lock, as in [scoreFrame].
      */

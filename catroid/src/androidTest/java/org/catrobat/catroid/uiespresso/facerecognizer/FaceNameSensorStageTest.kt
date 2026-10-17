@@ -50,6 +50,7 @@ import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
@@ -60,6 +61,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -83,7 +85,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * "detected face name" as a sensor, like the face detection sensors: a program
+ * "detected face name with threshold (0.53)" as a sensor: a program
  * that reads it in a formula starts camera analysis at program start, every
  * analysed frame updates the stored name, and reading the sensor never waits.
  *
@@ -186,6 +188,46 @@ class FaceNameSensorStageTest {
         val ticksBefore = ticks.value as Double
         waitForName(PERSON_B)
         assertTrue("The counter script must keep running", ticks.value as Double > ticksBefore)
+        assertStageKeepsRunning()
+    }
+
+    @Test
+    fun legacyParameterlessSensorStillRecognisesATrainedPerson() {
+        trainBoth()
+        fixture = "p02_test.jpg"
+        createProject(faceNameFormula = sensor(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        launchStage()
+
+        waitForName(PERSON_B)
+        assertStageKeepsRunning()
+    }
+
+    @Test
+    fun formulasWithDifferentThresholdsKeepIndependentResultsWhileTheStageRuns() {
+        trainBoth()
+        fixture = "p02_test.jpg"
+        val project = createProject()
+        val strictName = UserVariable("strictName", "")
+        project.addUserVariable(strictName)
+        UiTestUtils.getDefaultTestSprite(project).addScript(
+            StartScript().apply {
+                addBrick(ForeverBrick().apply {
+                    addBrick(SetVariableBrick(faceNameWithThreshold(1.0), strictName))
+                })
+            }
+        )
+
+        launchStage()
+
+        waitForName(PERSON_B)
+        waitUntil("the strict threshold to report Unknown") { strictName.value == UNKNOWN }
+        val end = System.currentTimeMillis() + STAY_UNKNOWN_MS
+        while (System.currentTimeMillis() < end) {
+            assertEquals("The default formula must still recognise the person", PERSON_B, name.value)
+            assertEquals("The strict formula must keep its own cutoff", UNKNOWN, strictName.value)
+            Thread.sleep(POLL_MS)
+        }
         assertStageKeepsRunning()
     }
 
@@ -461,8 +503,9 @@ class FaceNameSensorStageTest {
     private fun createProject(
         readFaceName: Boolean = true,
         readFaceX: Boolean = false,
-        firstBrick: Brick? = null
-    ) {
+        firstBrick: Brick? = null,
+        faceNameFormula: Formula = faceNameWithThreshold(0.53)
+    ): Project {
         val project = UiTestUtils.createDefaultTestProject("FaceNameSensorStageTest")
         name = UserVariable("name", "")
         ticks = UserVariable("ticks", 0.0)
@@ -477,7 +520,7 @@ class FaceNameSensorStageTest {
             readingScript.addBrick(
                 ForeverBrick().apply {
                     if (readFaceName) {
-                        addBrick(SetVariableBrick(sensor(Sensors.ON_DEVICE_FACE_RECOGNITION), name))
+                        addBrick(SetVariableBrick(faceNameFormula, name))
                     }
                     if (readFaceX) {
                         addBrick(SetVariableBrick(sensor(Sensors.FACE_X), faceX))
@@ -491,7 +534,14 @@ class FaceNameSensorStageTest {
                 addBrick(ForeverBrick().apply { addBrick(ChangeVariableBrick(Formula(1.0), ticks)) })
             }
         )
+        return project
     }
+
+    private fun faceNameWithThreshold(threshold: Double) = Formula(
+        FormulaElement(FormulaElement.ElementType.FUNCTION, Functions.FACE_NAME_WITH_THRESHOLD.name, null).apply {
+            setLeftChild(FormulaElement(FormulaElement.ElementType.NUMBER, threshold.toString(), null))
+        }
+    )
 
     private fun sensor(sensor: Sensors) =
         Formula(FormulaElement(FormulaElement.ElementType.SENSOR, sensor.name, null))
