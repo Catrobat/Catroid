@@ -169,6 +169,7 @@ class FaceNameWindow {
             this.totals = totals
             framesWithFace = frames.size
             framesTried = frames.size
+            shownName = name.takeIf { it != UNKNOWN }
         }
         return recognizer.finishSession(session)?.name ?: UNKNOWN
     }

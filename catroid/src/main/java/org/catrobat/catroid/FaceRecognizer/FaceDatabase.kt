@@ -524,17 +524,31 @@ class FaceDatabase {
      */
     /** The similarity [decide] needs for these scores: with a rival, or for the only person. */
     @Synchronized
-    fun similarityNeededFor(scores: FloatArray): Float =
-        similarityNeeded(hasRival = scores.count { it != NO_SCORE } > 1)
-
-    private fun similarityNeeded(hasRival: Boolean): Float {
-        val floor = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
-        return if (hasRival) floor else max(floor, SINGLE_PERSON_MIN_SIMILARITY)
+    fun similarityNeededFor(scores: FloatArray, shownName: String? = null): Float {
+        val best = scores.indices.filter { scores[it] != NO_SCORE }.maxByOrNull { scores[it] }
+        return similarityNeeded(
+            hasRival = scores.count { it != NO_SCORE } > 1,
+            keepsShownName = best != null && best < names.size && names[best] == shownName
+        )
     }
 
-    /** Applies the two thresholds to an already combined score array.  */
+    /**
+     * With nobody to compare against, a new name needs the higher bar, so a
+     * stranger who only resembles the one person does not get their name. A name
+     * already on screen stays while its face scores the normal floor: live frames
+     * of the enrolled person vary around the higher bar, and the name flickered.
+     */
+    private fun similarityNeeded(hasRival: Boolean, keepsShownName: Boolean = false): Float {
+        val floor = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
+        return if (hasRival || keepsShownName) floor else max(floor, SINGLE_PERSON_MIN_SIMILARITY)
+    }
+
+    /**
+     * Applies the two thresholds to an already combined score array. [shownName]
+     * is the name on screen now, which keeps its place at the normal floor.
+     */
     @Synchronized
-    fun decide(scores: FloatArray?): Match? {
+    fun decide(scores: FloatArray?, shownName: String? = null): Match? {
         if (scores == null || scores.size != names.size || names.isEmpty()) {
             return null
         }
@@ -560,7 +574,10 @@ class FaceDatabase {
             return null
         }
         val margin = if (second == NO_SCORE) 1f else best - second
-        val requiredSimilarity: Float = similarityNeeded(hasRival = second != NO_SCORE)
+        val requiredSimilarity: Float = similarityNeeded(
+            hasRival = second != NO_SCORE,
+            keepsShownName = names[bestIndex] == shownName
+        )
         if (best < requiredSimilarity || margin < minMargin) {
             Log.i(
                 TAG, String.format(

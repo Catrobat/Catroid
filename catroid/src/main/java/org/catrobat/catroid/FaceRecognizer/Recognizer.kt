@@ -435,6 +435,9 @@ class Recognizer private constructor() {
         internal var totals: FloatArray? = null
         internal var framesWithFace: Int = 0
         internal var framesTried: Int = 0
+
+        /** The name on screen when this session started, if any; see [FaceDatabase.decide]. */
+        internal var shownName: String? = null
     }
 
     /** Plain text summary of the last finished session. Shown to the user.  */
@@ -639,10 +642,10 @@ class Recognizer private constructor() {
 
         lastSummary = (database.describeScoreArray(average)
             + "\nfrom " + session.framesWithFace + " frame(s)"
-            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average))
+            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average, session.shownName))
             + ", gap " + FaceDatabase.Companion.minMargin)
 
-        val match = database.decide(average)
+        val match = database.decide(average, session.shownName)
         if (match == null) {
             lastSummary = "REJECTED\n" + lastSummary
             if (database.hasStaleEmbeddings()) {
