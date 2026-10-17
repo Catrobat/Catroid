@@ -24,13 +24,19 @@
 package org.catrobat.catroid.test.robolectric
 
 import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.koin.core.context.stopKoin
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method
 
 class TestCatroidApplication : CatroidApplication(), TestLifecycleApplication {
 
-    override fun beforeTest(method: Method?) = Unit
+    override fun beforeTest(method: Method?) {
+        // Windows cannot open a folder to sync it; Android and Linux sync the face data folder for real.
+        if (System.getProperty("os.name").orEmpty().startsWith("Windows")) {
+            FileUtils.syncDirectory = {}
+        }
+    }
 
     override fun prepareTest(test: Any?) = Unit
 

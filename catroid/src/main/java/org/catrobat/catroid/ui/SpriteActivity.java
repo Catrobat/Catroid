@@ -163,7 +163,9 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
+		// A configuration change keeps the project in memory; after Android stopped the app in the
+		// background it is gone, and BaseActivity closes this screen instead of crashing.
+		if (savedInstanceState != null && isProjectInMemory()) {
 			setSavedInstanceStateExpected(true);
 		}
 		super.onCreate(savedInstanceState);
@@ -200,6 +202,12 @@ public class SpriteActivity extends BaseActivity {
 			loadFragment(this, fragmentPosition);
 		}
 		addTabLayout(this, fragmentPosition);
+	}
+
+	private static boolean isProjectInMemory() {
+		ProjectManager manager = ProjectManager.getInstance();
+		return manager.getCurrentProject() != null && manager.getCurrentlyEditedScene() != null
+				&& manager.getCurrentSprite() != null;
 	}
 
 	public String createActionBarTitle() {

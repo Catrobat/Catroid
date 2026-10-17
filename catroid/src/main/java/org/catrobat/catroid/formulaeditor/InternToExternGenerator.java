@@ -127,6 +127,10 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_x_inclination);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),
 				R.string.formula_editor_sensor_y_inclination);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ON_DEVICE_FACE_RECOGNITION.name(),
+				R.string.formula_editor_sensor_face_name_detected);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FACE_NAME_WITH_THRESHOLD.name(),
+				R.string.formula_editor_function_face_name_with_threshold);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_DETECTED.name(),
 				R.string.formula_editor_sensor_face_detected);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_SIZE.name(), R.string.formula_editor_sensor_face_size);

@@ -36,6 +36,8 @@ import com.badlogic.gdx.graphics.Color;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
@@ -211,6 +213,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
+		FaceNameDetector.reset();
+		FaceNameTrainAction.onProgramStart();
 		stageListener.reloadProject(this);
 		synchronized (this) {
 			try {

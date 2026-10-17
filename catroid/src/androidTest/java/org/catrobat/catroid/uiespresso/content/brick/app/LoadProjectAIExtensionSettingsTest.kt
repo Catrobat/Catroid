@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
+import org.catrobat.catroid.content.bricks.FaceNameTrainBrick
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
@@ -45,6 +46,7 @@ import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR
+import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_DETECTED
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_SIZE
@@ -124,6 +126,7 @@ import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
@@ -162,11 +165,19 @@ class LoadProjectAIExtensionSettingsTest(
             *speechRecognitionList,
             *speechSynthetizationList,
             *faceDetectionList,
+            *faceNameDetectionList,
             *poseDetectionList,
             *textRecognitionList
         )
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
+
+        private var detectedFaceName = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
+        private val detectedFaceNameWithThreshold = FormulaElement(
+            FormulaElement.ElementType.FUNCTION, Functions.FACE_NAME_WITH_THRESHOLD.name, null
+        ).apply {
+            setLeftChild(FormulaElement(FormulaElement.ElementType.NUMBER, "0.53", null))
+        }
 
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
@@ -283,6 +294,21 @@ class LoadProjectAIExtensionSettingsTest(
                 "Speech Synthetization SpeakAndWaitBrick",
                 SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
                 SpeakAndWaitBrick()
+            )
+        )
+
+        private val faceNameDetectionList = arrayOf(
+            arrayOf(
+                "Face Name Detection detectedFaceNameWithThreshold", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(detectedFaceNameWithThreshold))
+            ),
+            arrayOf(
+                "Face Name Detection legacyDetectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                ChangeSizeByNBrick(Formula(detectedFaceName))
+            ),
+            arrayOf(
+                "Face Name Detection FaceNameTrainBrick", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
+                FaceNameTrainBrick()
             )
         )
 
@@ -698,6 +724,7 @@ class LoadProjectAIExtensionSettingsTest(
         SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
         SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
         SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+        SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
         SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
     )

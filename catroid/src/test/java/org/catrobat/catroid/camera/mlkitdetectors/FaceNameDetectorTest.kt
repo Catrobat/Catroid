@@ -1,0 +1,679 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2026 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.catrobat.catroid.camera.mlkitdetectors
+
+import android.graphics.Bitmap
+import android.media.Image
+import androidx.test.core.app.ApplicationProvider
+import androidx.camera.core.ImageProxy
+import com.google.mlkit.vision.common.InputImage
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
+import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.camera.DetectorsCompleteListener
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.formulaeditor.function.FaceNameFunctionProvider
+import org.catrobat.catroid.formulaeditor.function.FormulaFunction
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import java.io.IOException
+import java.util.concurrent.Executor
+
+/**
+ * Every camera frame passed to [FaceNameDetector] must be released exactly once,
+ * whether it is analysed, skipped by the 300 ms throttle, skipped because the
+ * previous frame is still being recognised, or unreadable. A frame that is not
+ * released is never closed, and then all camera analysis stops.
+ *
+ * Recognition runs on a queue the test runs by hand, so "still being
+ * recognised" is a state the test controls.
+ */
+@RunWith(RobolectricTestRunner::class)
+class FaceNameDetectorTest {
+
+    private val queued = ArrayDeque<Runnable>()
+    private var now = 10_000L
+    private var usesTestDatabase = false
+
+    private lateinit var savedClock: () -> Long
+    private lateinit var savedExecutor: Executor
+    private lateinit var savedRecognizerProvider: () -> Recognizer?
+
+    @Before
+    fun setUp() {
+        savedClock = FaceNameDetector.clock
+        savedExecutor = FaceNameDetector.recognitionExecutor
+        savedRecognizerProvider = FaceNameDetector.recognizerProvider
+
+        FaceNameDetector.clock = { now }
+        FaceNameDetector.recognitionExecutor = Executor { queued.addLast(it) }
+        FaceNameDetector.recognizerProvider = { null }
+        FaceNameDetector.frameSource = { Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888) }
+        FaceNameDetector.reset()
+        // A program that uses the sensor reads it; the cases below start from there.
+        readTheSensor()
+    }
+
+    @After
+    fun tearDown() {
+        runRecognition()
+        FaceNameDetector.frameSource = null
+        FaceNameDetector.clock = savedClock
+        FaceNameDetector.recognitionExecutor = savedExecutor
+        FaceNameDetector.recognizerProvider = savedRecognizerProvider
+        FaceNameDetector.reset()
+        if (usesTestDatabase) {
+            FileUtils.deleteAll()
+        }
+    }
+
+    @Test
+    fun anAnalysedFrameIsReleasedOnceAndRecognisedOnTheOtherThread() {
+        val frame = offerFrame()
+
+        verify(exactly = 1) { frame.close() }
+        assertEquals("Recognition must not run on the camera analysis thread", 1, queued.size)
+    }
+
+    @Test
+    fun aFrameWithin300MsIsSkippedAndReleasedOnce() {
+        offerFrame()
+        runRecognition()
+
+        now += FaceNameWindow.FRAME_INTERVAL_MS - 1
+        val skipped = offerFrame()
+
+        verify(exactly = 1) { skipped.close() }
+        assertEquals("A skipped frame must not be recognised", 0, queued.size)
+    }
+
+    @Test
+    fun aFrameWhileRecognitionIsBusyIsSkippedAndReleasedOnce() {
+        offerFrame()
+
+        now += 10 * FaceNameWindow.FRAME_INTERVAL_MS
+        val whileBusy = offerFrame()
+
+        verify(exactly = 1) { whileBusy.close() }
+        assertEquals("Only the first frame may be waiting for recognition", 1, queued.size)
+    }
+
+    @Test
+    fun theNextDueFrameIsAnalysedOnceRecognitionIsDone() {
+        offerFrame()
+        runRecognition()
+
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        val next = offerFrame()
+
+        verify(exactly = 1) { next.close() }
+        assertEquals(1, queued.size)
+    }
+
+    @Test
+    fun aFrameThatCannotBeReadIsReleasedOnce() {
+        FaceNameDetector.frameSource = { throw IllegalStateException("broken frame") }
+
+        val broken = offerFrame()
+
+        verify(exactly = 1) { broken.close() }
+        assertEquals(0, queued.size)
+    }
+
+    @Test
+    fun aStreamOfFramesIsReleasedFrameByFrame() {
+        val frames = (1..60).map { index ->
+            now += 50
+            offerFrame().also {
+                if (index % 4 == 0) {
+                    runRecognition()
+                }
+            }
+        }
+
+        frames.forEach { verify(exactly = 1) { it.close() } }
+    }
+
+    @Test
+    fun untilTheRecognizerIsLoadedTheNameStaysUnknown() {
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+    }
+
+    @Test
+    fun resetSetsTheSensorBackToUnknown() {
+        SensorHandler.setFaceNameRecognitionResult("Person A")
+
+        FaceNameDetector.reset()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+    }
+
+    // ---------------- Errors never escape a camera or recognition thread ----------------
+
+    @Test
+    fun aFrameThatRunsOutOfMemoryIsReleasedOnceAndNothingEscapes() {
+        FaceNameDetector.frameSource = { throw OutOfMemoryError("no room for the frame") }
+
+        val frame = offerFrame()
+
+        verify(exactly = 1) { frame.close() }
+        assertEquals(0, queued.size)
+    }
+
+    @Test
+    fun faceModelsThatCannotBeReadDoNotEscapeTheRecognitionThread() {
+        FaceNameDetector.recognizerProvider = { throw IOException("mobile_facenet.tflite is missing") }
+
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+    }
+
+    @Test
+    fun aNativeLibraryThatCannotBeLoadedDoesNotEscapeAndIsNotRetriedOnEveryFrame() {
+        var attempts = 0
+        FaceNameDetector.recognizerProvider = {
+            attempts++
+            throw UnsatisfiedLinkError("libtensorflowlite_jni.so not found")
+        }
+
+        offerFrame()
+        runRecognition()
+        repeat(5) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+            runRecognition()
+        }
+
+        assertEquals("The models are not loaded again until the next program start", 1, attempts)
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        FaceNameDetector.reset()
+        readTheSensor()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("A new program start tries again", 2, attempts)
+    }
+
+    /**
+     * A class of the models that fails to load the first time it is used, while a
+     * frame is being scored, is a LinkageError, not an Exception. It must not end
+     * the recognition thread and the app, and it fails the same way on every
+     * frame, so scoring stops until the next program start.
+     */
+    @Test
+    fun aClassThatCannotBeLoadedWhileScoringDoesNotEscapeAndIsNotRetriedOnEveryFrame() {
+        var scored = 0
+        val recognizer = mockk<Recognizer>(relaxed = true)
+        every { recognizer.classNames } returns listOf("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } answers {
+            scored++
+            throw NoClassDefFoundError("org/tensorflow/lite/Interpreter")
+        }
+        FaceNameDetector.recognizerProvider = { recognizer }
+
+        offerFrame()
+        runRecognition()
+        repeat(5) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+            runRecognition()
+        }
+
+        assertEquals("Scoring is not tried again until the next program start", 1, scored)
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        FaceNameDetector.reset()
+        readTheSensor()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("A new program start tries again", 2, scored)
+    }
+
+    /**
+     * Found in review: a frame of the previous run started loading the face models,
+     * the program restarted meanwhile, and only then the load failed. That old
+     * failure switched detection off for the new run, which never loaded the
+     * models again. A failure, like a result, belongs to the run of its frame.
+     */
+    @Test
+    fun aLoadOfThePreviousRunThatFailsAfterARestartDoesNotStopTheNewRun() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        var loads = 0
+        var loadFails = true
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            if (loadFails) {
+                throw IOException("mobile_facenet.tflite could not be read")
+            }
+            recognizer
+        }
+
+        offerFrame()
+        FaceNameDetector.reset()
+        readTheSensor()
+        runRecognition()
+        loadFails = false
+        repeat(FaceNameWindow.FRAMES) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            offerFrame()
+            runRecognition()
+        }
+
+        assertEquals("The new run loads the models again", 1 + FaceNameWindow.FRAMES, loads)
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        FileUtils.deleteAll()
+    }
+
+    /** The same for a class that fails to load while a frame of the previous run is scored. */
+    @Test
+    fun scoringOfThePreviousRunThatFailsAfterARestartDoesNotStopTheNewRun() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        var scoringFails = true
+        every { recognizer.scoreFrameForNames(any(), any()) } answers {
+            if (scoringFails) {
+                throw NoClassDefFoundError("org/tensorflow/lite/Interpreter")
+            }
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        }
+        FaceNameDetector.recognizerProvider = { recognizer }
+
+        offerFrame()
+        FaceNameDetector.reset()
+        readTheSensor()
+        runRecognition()
+        scoringFails = false
+        repeat(FaceNameWindow.FRAMES) {
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+            offerFrame()
+            runRecognition()
+        }
+
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        FileUtils.deleteAll()
+    }
+
+    /**
+     * Found in review: the run of a frame was taken after the camera image was
+     * converted. A pause or restart during the conversion gave the old frame the
+     * new run, so its name filled the sensor just cleared. The run is taken
+     * together with the checks, before the image is read.
+     */
+    @Test
+    fun aFrameReadWhileTheStageIsPausedDoesNotFillTheClearedSensor() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        FaceNameDetector.frameSource = {
+            FaceNameDetector.onStagePaused()
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(0, FaceNameDetector.window.framesInWindow)
+        FileUtils.deleteAll()
+    }
+
+    /** The same for a model failure: a frame read across a restart does not stop the new run. */
+    @Test
+    fun aModelFailureOfAFrameReadAcrossARestartDoesNotStopTheNewRun() {
+        var loads = 0
+        var restartWhileReading = true
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            throw IOException("mobile_facenet.tflite could not be read")
+        }
+        FaceNameDetector.frameSource = {
+            if (restartWhileReading) {
+                restartWhileReading = false
+                FaceNameDetector.reset()
+                readTheSensor()
+            }
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        offerFrame()
+        runRecognition()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+
+        assertEquals("The new run tries the models itself", 2, loads)
+    }
+
+    // ---------------- Off until the program first reads the sensor ----------------
+
+    @Test
+    fun beforeTheSensorIsReadFramesAreReleasedButNotAnalysed() {
+        FaceNameDetector.reset()
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+
+        repeat(5) {
+            now += 10 * FaceNameWindow.FRAME_INTERVAL_MS
+            val frame = offerFrame()
+            verify(exactly = 1) { frame.close() }
+        }
+
+        assertEquals("No frame may be analysed before the sensor is read", 0, analysed)
+        assertEquals(0, queued.size)
+    }
+
+    @Test
+    fun theFirstReadOfTheSensorStartsTheAnalysis() {
+        FaceNameDetector.reset()
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+        offerFrame()
+        assertEquals(0, analysed)
+
+        readTheSensor()
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+
+        assertEquals(1, analysed)
+        assertEquals(1, queued.size)
+    }
+
+    @Test
+    fun aNewProgramStartTurnsTheAnalysisOffAgain() {
+        var analysed = 0
+        FaceNameDetector.frameSource = {
+            analysed++
+            Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888)
+        }
+        offerFrame()
+        runRecognition()
+        assertEquals(1, analysed)
+
+        FaceNameDetector.reset()
+        now += 10 * FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+
+        assertEquals("After a new start, frames wait for the sensor to be read again", 1, analysed)
+    }
+
+    /**
+     * Found in a review: pausing the stage (the app in the background, the stage
+     * menu, a brick's dialog) kept the window. The first face after the pause was
+     * averaged with up to two frames from before, so the old name stayed. A
+     * pause forgets the frames and the name; a frame from before the pause that
+     * is recognised after it is left out. Analysis stays on.
+     */
+    @Test
+    fun pausingTheStageForgetsTheFramesAndTheName() {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(0.95f))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        repeat(FaceNameWindow.FRAMES) {
+            offerFrame()
+            runRecognition()
+            now += FaceNameWindow.FRAME_INTERVAL_MS
+        }
+        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+
+        offerFrame()
+        FaceNameDetector.onStagePaused()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(0, FaceNameDetector.window.framesInWindow)
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Analysis goes on after the pause", 1, FaceNameDetector.window.framesInWindow)
+        FileUtils.deleteAll()
+    }
+
+    @Test
+    fun aThresholdReadActivatesTheCameraWithoutLoadingModelsOnTheCallingThread() {
+        FaceNameDetector.reset()
+        var loads = 0
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            null
+        }
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+        assertEquals("A formula read must not load models", 0, loads)
+
+        offerFrame()
+        assertEquals(1, queued.size)
+        assertEquals(0, loads)
+        runRecognition()
+        assertEquals("Only the recognition worker loads models", 1, loads)
+    }
+
+    @Test
+    fun anInvalidThresholdArgumentStillActivatesAnalysisWithoutLoadingModelsOnTheCallingThread() {
+        val functions = mutableMapOf<Functions, FormulaFunction>()
+        FaceNameFunctionProvider().addFunctionsToMap(functions)
+        val sensor = checkNotNull(functions[Functions.FACE_NAME_WITH_THRESHOLD])
+
+        for (arguments in listOf(emptyArray<Double?>(), arrayOf<Double?>(null), arrayOf<Double?>(Double.NaN))) {
+            FaceNameDetector.reset()
+            var loads = 0
+            FaceNameDetector.recognizerProvider = {
+                loads++
+                null
+            }
+
+            assertEquals(FaceNameWindow.UNKNOWN, sensor.execute(*arguments))
+            assertEquals("An invalid formula read must not load models", 0, loads)
+            offerFrame()
+            assertEquals("Reading the sensor must activate camera analysis", 1, queued.size)
+            assertEquals(0, loads)
+            runRecognition()
+            assertEquals("Only the recognition worker loads models", 1, loads)
+        }
+    }
+
+    @Test
+    fun differentFormulaThresholdsReadTheSameScoresWithoutReloadingOrRescoring() {
+        val recognizer = recognizerScoring(0.55f)
+        var loads = 0
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            recognizer
+        }
+        offerFrame()
+        runRecognition()
+
+        repeat(3) {
+            assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+            assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.99))
+            assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+        }
+
+        assertEquals("The legacy sensor still uses the default", "Ada",
+            SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(1, loads)
+        verify(exactly = 1) { recognizer.scoreFrameForNames(any(), any()) }
+        assertEquals(1, FaceNameDetector.window.framesInWindow)
+    }
+
+    @Test
+    fun aLowerCutoffCanMatchEvenWhenTheDefaultCachedNameIsUnknown() {
+        recognizerScoring(0.40f)
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.30))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.NaN))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.POSITIVE_INFINITY))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.NEGATIVE_INFINITY))
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(-1.0))
+    }
+
+    @Test
+    fun pauseAndResetClearEveryFormulaThresholdUntilAFreshFrameArrives() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.onStagePaused()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.reset()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun anOldQueuedFrameCannotRestoreThresholdResultsAfterReset() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        FaceNameDetector.reset()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun aModelFailureClearsCachedScoresEvenForTheMostPermissiveCutoff() {
+        val recognizer = recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.recognizerProvider = { throw IOException("models unavailable") }
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+
+        FaceNameDetector.recognizerProvider = { recognizer }
+        FaceNameDetector.onModelsLoaded()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun aSecondWithoutAUsableFaceClearsEveryThresholdResult() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.frameSource = { null }
+        now += FaceNameWindow.NO_FACE_RESET_MS
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    private fun recognizerScoring(score: Float): Recognizer {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        usesTestDatabase = true
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(score))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        return recognizer
+    }
+
+    private fun readTheSensor() {
+        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+    }
+
+    /** Passes one camera frame through the detector, as CatdroidImageAnalyzer does. */
+    private fun offerFrame(): ImageProxy {
+        val frame = mockk<ImageProxy>(relaxed = true)
+        FaceNameDetector.processImage(
+            mockk<Image>(relaxed = true),
+            mockk<InputImage>(relaxed = true),
+            DetectorsCompleteListener(1, frame)
+        )
+        return frame
+    }
+
+    private fun runRecognition() {
+        while (queued.isNotEmpty()) {
+            queued.removeFirst().run()
+        }
+    }
+}

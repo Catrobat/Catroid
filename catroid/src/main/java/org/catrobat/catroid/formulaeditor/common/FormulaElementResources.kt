@@ -56,6 +56,8 @@ object FormulaElementResources {
             Sensors.TEXT_BLOCK_FROM_CAMERA,
             Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA -> Brick.TEXT_DETECTION
 
+            Sensors.ON_DEVICE_FACE_RECOGNITION -> Brick.FACE_NAME_DETECTION
+
             Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
 
             else -> return
@@ -67,6 +69,7 @@ object FormulaElementResources {
         when (function) {
             Functions.ID_OF_DETECTED_OBJECT,
             Functions.OBJECT_WITH_ID_VISIBLE -> Brick.OBJECT_DETECTION
+            Functions.FACE_NAME_WITH_THRESHOLD -> Brick.FACE_NAME_DETECTION
             else -> return
         }.let { resources.add(it) }
     }
