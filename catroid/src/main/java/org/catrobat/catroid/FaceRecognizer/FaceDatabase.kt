@@ -591,6 +591,36 @@ class FaceDatabase {
         return Match(bestIndex, names[bestIndex], best, margin)
     }
 
+    /** Uses the formula's cutoff directly, without saved thresholds or a previous-name latch. */
+    @Synchronized
+    fun decideWithThreshold(scores: FloatArray, threshold: Float): Match? {
+        if (scores.size != names.size || !threshold.isFinite()) {
+            return null
+        }
+        val cutoff = threshold.coerceIn(0f, 1f)
+        var bestIndex = -1
+        var best = Float.NEGATIVE_INFINITY
+        var second = Float.NEGATIVE_INFINITY
+        for (index in scores.indices) {
+            val score = scores[index]
+            if (score == NO_SCORE || !score.isFinite()) {
+                continue
+            }
+            if (score > best) {
+                second = best
+                best = score
+                bestIndex = index
+            } else if (score > second) {
+                second = score
+            }
+        }
+        if (bestIndex < 0 || best < cutoff) {
+            return null
+        }
+        val margin = if (second.isFinite()) best - second else 1f
+        return Match(bestIndex, names[bestIndex], best, margin)
+    }
+
     @Synchronized
     fun describeScoreArray(scores: FloatArray?): String {
         if (scores == null) {

@@ -107,6 +107,7 @@ object FaceNameDetector : Detector {
     /** Guards the window and the sensor against a frame recognised across a [reset]. */
     private val lock = Any()
     private var runId = 0
+    private var cachedRecognizer: Recognizer? = null
 
     private class Task(val frame: Bitmap?, val frontCamera: Boolean, val takenAt: Long, val runId: Int)
 
@@ -154,6 +155,22 @@ object FaceNameDetector : Detector {
         }
     }
 
+    /** Formula reads only cached scores; loading models remains on the recognition worker. */
+    @JvmStatic
+    fun getNameWithThreshold(threshold: Double): String {
+        activate()
+        if (!threshold.isFinite()) {
+            return FaceNameWindow.UNKNOWN
+        }
+        synchronized(lock) {
+            if (recognitionUnavailable) {
+                return FaceNameWindow.UNKNOWN
+            }
+            val recognizer = cachedRecognizer ?: return FaceNameWindow.UNKNOWN
+            return window.nameWithThreshold(recognizer, threshold.coerceIn(0.0, 1.0).toFloat())
+        }
+    }
+
     /**
      * The stage pauses (the app in the background, the stage menu, a brick's
      * dialog): the people in front of the camera may have changed when it
@@ -188,6 +205,7 @@ object FaceNameDetector : Detector {
             runId++
             activated = false
             recognitionUnavailable = false
+            cachedRecognizer = null
             window.clear()
             SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
@@ -245,6 +263,7 @@ object FaceNameDetector : Detector {
             if (task.runId != runId) {
                 return
             }
+            cachedRecognizer = recognizer
             val name = window.addScores(recognizer, scored?.scores, task.takenAt, scored?.names)
             SensorHandler.setFaceNameRecognitionResult(name)
         }
@@ -272,6 +291,9 @@ object FaceNameDetector : Detector {
                 return null
             }
             recognitionUnavailable = true
+            cachedRecognizer = null
+            window.clear()
+            SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
         Log.e(TAG, "The face models cannot be used; detected face name stays Unknown", cause)
         return null

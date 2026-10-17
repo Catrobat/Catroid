@@ -69,6 +69,7 @@ object FormulaElementResources {
         when (function) {
             Functions.ID_OF_DETECTED_OBJECT,
             Functions.OBJECT_WITH_ID_VISIBLE -> Brick.OBJECT_DETECTION
+            Functions.FACE_NAME_WITH_THRESHOLD -> Brick.FACE_NAME_DETECTION
             else -> return
         }.let { resources.add(it) }
     }

@@ -452,6 +452,18 @@ class Recognizer private constructor() {
     }
 
     /**
+     * Reads cached camera scores without loading models, changing saved thresholds,
+     * or running inference. Checking the names and matching share the enrollment lock.
+     */
+    @Synchronized
+    fun nameForScores(scoredFor: List<String>, scores: FloatArray, threshold: Float): String? {
+        if (scoredFor != database.getNames()) {
+            return null
+        }
+        return database.decideWithThreshold(scores, threshold)?.name
+    }
+
+    /**
      * Scores the largest face in [frame] against every enrolled person: one
      * score per person, in [classNames] order. Null when the frame has no
      * usable face. The frame is not modified and is not recycled.

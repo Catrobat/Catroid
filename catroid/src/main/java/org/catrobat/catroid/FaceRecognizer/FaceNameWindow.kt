@@ -34,10 +34,9 @@ import kotlin.math.min
  *
  * A frame with a usable face enters the window, the oldest one leaving when the
  * window is full, and the name is decided again: the window's scores are
- * averaged and the recogniser's thresholds applied, with the stricter
- * single-frame threshold while the window holds one frame and the single-person
- * rule when one person is enrolled. A frame without a usable face changes
- * nothing, until no usable face was seen for [NO_FACE_RESET_MS]; then the
+ * averaged and the formula's explicit threshold applied. The default is 0.53,
+ * independent of the number of enrolled people and the previous name. A frame
+ * without a usable face changes nothing, until no usable face was seen for [NO_FACE_RESET_MS]; then the
  * window is cleared and the name is [UNKNOWN]. A usable face after that time
  * starts a fresh decision, even if no frame came in between.
  *
@@ -132,7 +131,7 @@ class FaceNameWindow {
         frames.addLast(scores.copyOf())
         lastUsableFaceAt = nowMs
 
-        name = decide(recognizer)
+        name = nameWithThreshold(recognizer, DEFAULT_THRESHOLD)
         return name
     }
 
@@ -150,32 +149,35 @@ class FaceNameWindow {
         lastUsableFaceAt = null
     }
 
-    private fun decide(recognizer: Recognizer): String {
+    /** Re-evaluates the same cached scores per formula; never changes another formula's cutoff. */
+    @Synchronized
+    fun nameWithThreshold(recognizer: Recognizer, threshold: Float): String {
+        if (frames.isEmpty() || !threshold.isFinite()) {
+            return UNKNOWN
+        }
         val totals = FloatArray(framesScoredFor.size)
         for (scores in frames) {
             for (index in totals.indices) {
                 totals[index] += scores[index]
             }
         }
-        // A person without a score in any frame (no usable photo then) has none
-        // in the average either; mixed with real scores it would look like a
-        // weak rival and lower the bar for everyone else.
+        // Missing evidence must remain missing in the average, even at cutoff
+        // zero; mixing the sentinel with real scores could otherwise accept it.
         for (index in totals.indices) {
             if (frames.any { it[index] == FaceDatabase.NO_SCORE }) {
                 totals[index] = FaceDatabase.NO_SCORE * frames.size
             }
         }
-        val session = recognizer.newSession().apply {
-            this.totals = totals
-            framesWithFace = frames.size
-            framesTried = frames.size
-            shownName = name.takeIf { it != UNKNOWN }
+        for (index in totals.indices) {
+            totals[index] /= frames.size
         }
-        return recognizer.finishSession(session)?.name ?: UNKNOWN
+        return recognizer.nameForScores(framesScoredFor, totals, threshold) ?: UNKNOWN
     }
 
     companion object {
         const val UNKNOWN: String = "Unknown"
+
+        const val DEFAULT_THRESHOLD: Float = 0.53f
 
         /** Usable frames whose scores are averaged. More frames, less noise. */
         const val FRAMES = 3

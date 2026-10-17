@@ -42,10 +42,9 @@ import org.robolectric.RobolectricTestRunner
 
 /**
  * The decision behind "detected face name", with known per-person scores for
- * each frame, so no face model is needed. Thresholds (MobileFaceNet scale):
- * 0.53 with a gap of 0.04, 0.65 while the window holds a single frame, 0.61
- * with one person enrolled. The FaceNet scale had 0.60, 0.05, 0.75 and 0.70;
- * the scores below moved with them, so each keeps its place between them.
+ * each frame, so no face model is needed. The window's default cutoff is
+ * 0.53, including the first frame and when only one person is enrolled.
+ * Formula-specific cutoffs are covered in [FaceNameThresholdTest].
  */
 @RunWith(RobolectricTestRunner::class)
 class FaceNameWindowTest {
@@ -91,15 +90,14 @@ class FaceNameWindowTest {
     }
 
     @Test
-    fun oneFrameNeedsTheStricterSingleFrameThreshold() {
-        // 0.61 passes the normal threshold (0.53) but not the single-frame one (0.65).
-        assertEquals(UNKNOWN, add(0.61f, 0.10f))
+    fun oneFrameUsesTheSameDefaultThresholdAsAFullWindow() {
+        assertEquals(PERSON_A, add(0.61f, 0.10f))
     }
 
     @Test
     fun twoFramesDecideOnTheirAverageWithTheNormalThreshold() {
         add(0.61f, 0.10f)
-        // Average 0.61: accepted with two frames, rejected with one.
+        // Both frames use the same default cutoff.
         assertEquals(PERSON_A, add(0.61f, 0.10f))
     }
 
@@ -154,8 +152,8 @@ class FaceNameWindowTest {
         assertEquals(UNKNOWN, window.addScores(recognizer, null, 300 + NO_FACE_RESET_MS))
         assertEquals(0, window.framesInWindow)
 
-        // A new start: one frame again needs the single-frame threshold.
-        assertEquals(UNKNOWN, add(0.61f, 0.10f, at = 1500))
+        // A new start: the old strong frames must not lift this weak one.
+        assertEquals(UNKNOWN, add(0.51f, 0.10f, at = 1500))
     }
 
     /**
@@ -223,14 +221,13 @@ class FaceNameWindowTest {
     // ---------------- Thresholds ----------------
 
     @Test
-    fun ambiguousScoresAreUnknown() {
-        // Both people at 0.80: the best passes the threshold, the gap does not.
-        add(0.80f, 0.80f)
-        assertEquals(UNKNOWN, add(0.80f, 0.80f))
+    fun closeScoresUseTheBestMatchWithoutAHiddenMargin() {
+        add(0.80f, 0.79f)
+        assertEquals(PERSON_A, add(0.80f, 0.79f))
     }
 
     @Test
-    fun withOnePersonEnrolledAMatchJustAboveTheNormalThresholdIsUnknown() {
+    fun withOnePersonEnrolledAMatchJustAboveTheDefaultThresholdIsRecognised() {
         recognizer.deletePerson(0)
         assertEquals(listOf(PERSON_B), recognizer.classNames)
 
@@ -238,7 +235,7 @@ class FaceNameWindowTest {
         // 0.609, 0.610, 0.608; on the MobileFaceNet scale 0.536, 0.537, 0.535.
         add(0.536f)
         add(0.537f)
-        assertEquals(UNKNOWN, add(0.535f))
+        assertEquals(PERSON_B, add(0.535f))
     }
 
     @Test
@@ -251,13 +248,12 @@ class FaceNameWindowTest {
     }
 
     /**
-     * Found in a live test on a phone: with one person enrolled the name needs
-     * 0.61, and live frames of that person averaged 0.508 to 0.641, so the name
-     * only flickered. Once shown, the name stays while the same face goes on
-     * scoring at least the normal floor (0.53); a new name still needs 0.61.
+     * Found in a live test on a phone: live scores crossed the former 0.61
+     * single-person cutoff only occasionally. The visible 0.53 default applies
+     * to both initial recognition and subsequent frames.
      */
     @Test
-    fun withOnePersonEnrolledTheNameStaysWhileTheFaceScoresAboveTheFloor() {
+    fun withOnePersonEnrolledTheNameStaysWhileTheAverageExceedsTheDefaultCutoff() {
         recognizer.deletePerson(0)
         add(0.64f)
         add(0.63f)
@@ -270,7 +266,7 @@ class FaceNameWindowTest {
     }
 
     @Test
-    fun withOnePersonEnrolledTheNameGoesWhenTheFaceFallsBelowTheFloor() {
+    fun withOnePersonEnrolledTheNameReturnsAtTheSameCutoffAfterBeingLost() {
         recognizer.deletePerson(0)
         add(0.64f)
         add(0.63f)
@@ -279,20 +275,20 @@ class FaceNameWindowTest {
 
         // Average 0.507 of 0.62, 0.45 and 0.45.
         assertEquals(UNKNOWN, add(0.45f))
-        // Gone, the name needs 0.61 again: averages 0.487, 0.533 and 0.570 are not enough.
+        // Averages 0.487, 0.533 and 0.570: the same 0.53 cutoff applies again.
         assertEquals(UNKNOWN, add(0.56f))
-        assertEquals(UNKNOWN, add(0.59f))
-        assertEquals(UNKNOWN, add(0.56f))
+        assertEquals(PERSON_B, add(0.59f))
+        assertEquals(PERSON_B, add(0.56f))
     }
 
     @Test
-    fun withOnePersonEnrolledAFaceThatNeverReachesTheBarGetsNoName() {
+    fun withOnePersonEnrolledAFaceBelowTheDefaultCutoffGetsNoName() {
         recognizer.deletePerson(0)
 
-        add(0.58f)
-        add(0.59f)
-        assertEquals(UNKNOWN, add(0.60f))
-        assertEquals(UNKNOWN, add(0.60f))
+        add(0.48f)
+        add(0.49f)
+        assertEquals(UNKNOWN, add(0.50f))
+        assertEquals(UNKNOWN, add(0.50f))
     }
 
     // ---------------- Frames scored for other people ----------------
@@ -314,17 +310,17 @@ class FaceNameWindowTest {
     /**
      * Found in a review: a person without usable photos has no score in a frame.
      * Averaged with real scores later in the window, that turned into a low
-     * score of a rival, so the one person who has photos was named with the
-     * normal threshold instead of the stricter single-person one. A person
-     * without a score in any frame of the window has none in the average.
+     * score of a rival. A person without a score in any frame of the window
+     * has none in the average, even when the chosen cutoff is zero.
      */
     @Test
-    fun aPersonWithoutAScoreInOneFrameIsNoRival() {
-        add(0.57f, NO_SCORE)
-        add(0.57f, 0.10f)
+    fun aPersonWithoutAScoreInOneFrameCannotMatchAtTheLowestCutoff() {
+        add(NO_SCORE, NO_SCORE)
+        add(1f, NO_SCORE)
+        add(1f, NO_SCORE)
 
-        // A alone has 0.57: above the normal threshold, below the single-person one.
-        assertEquals(UNKNOWN, add(0.57f, 0.10f))
+        // Without preserving NO_SCORE, A's average would become zero and pass.
+        assertEquals(UNKNOWN, window.nameWithThreshold(recognizer, 0f))
     }
 
     // ---------------- People trained while the program runs ----------------

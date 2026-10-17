@@ -640,10 +640,10 @@ class CategoryListItems {
             R.string.formula_editor_function_no_parameter
         )
         private val SENSORS_FACE_NAME_DETECTION = listOf(
-            R.string.formula_editor_sensor_face_name_detected
+            R.string.formula_editor_function_face_name_with_threshold
         )
         private val SENSORS_FACE_NAME_DETECTION_PARAMS = listOf(
-            R.string.formula_editor_function_no_parameter
+            R.string.formula_editor_function_face_name_with_threshold_parameter
         )
         private val SENSORS_POSE_DETECTION = listOf(
             R.string.formula_editor_sensor_nose_x,

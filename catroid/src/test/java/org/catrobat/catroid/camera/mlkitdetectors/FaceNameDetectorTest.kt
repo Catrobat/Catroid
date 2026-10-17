@@ -60,6 +60,7 @@ class FaceNameDetectorTest {
 
     private val queued = ArrayDeque<Runnable>()
     private var now = 10_000L
+    private var usesTestDatabase = false
 
     private lateinit var savedClock: () -> Long
     private lateinit var savedExecutor: Executor
@@ -88,6 +89,9 @@ class FaceNameDetectorTest {
         FaceNameDetector.recognitionExecutor = savedExecutor
         FaceNameDetector.recognizerProvider = savedRecognizerProvider
         FaceNameDetector.reset()
+        if (usesTestDatabase) {
+            FileUtils.deleteAll()
+        }
     }
 
     @Test
@@ -479,6 +483,150 @@ class FaceNameDetectorTest {
         runRecognition()
         assertEquals("Analysis goes on after the pause", 1, FaceNameDetector.window.framesInWindow)
         FileUtils.deleteAll()
+    }
+
+    @Test
+    fun aThresholdReadActivatesTheCameraWithoutLoadingModelsOnTheCallingThread() {
+        FaceNameDetector.reset()
+        var loads = 0
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            null
+        }
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+        assertEquals("A formula read must not load models", 0, loads)
+
+        offerFrame()
+        assertEquals(1, queued.size)
+        assertEquals(0, loads)
+        runRecognition()
+        assertEquals("Only the recognition worker loads models", 1, loads)
+    }
+
+    @Test
+    fun differentFormulaThresholdsReadTheSameScoresWithoutReloadingOrRescoring() {
+        val recognizer = recognizerScoring(0.55f)
+        var loads = 0
+        FaceNameDetector.recognizerProvider = {
+            loads++
+            recognizer
+        }
+        offerFrame()
+        runRecognition()
+
+        repeat(3) {
+            assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+            assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.99))
+            assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+        }
+
+        assertEquals("The legacy sensor still uses the default", "Ada",
+            SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(1, loads)
+        verify(exactly = 1) { recognizer.scoreFrameForNames(any(), any()) }
+        assertEquals(1, FaceNameDetector.window.framesInWindow)
+    }
+
+    @Test
+    fun aLowerCutoffCanMatchEvenWhenTheDefaultCachedNameIsUnknown() {
+        recognizerScoring(0.40f)
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.30))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.NaN))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.POSITIVE_INFINITY))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.NEGATIVE_INFINITY))
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(-1.0))
+    }
+
+    @Test
+    fun pauseAndResetClearEveryFormulaThresholdUntilAFreshFrameArrives() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.onStagePaused()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.reset()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun anOldQueuedFrameCannotRestoreThresholdResultsAfterReset() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        FaceNameDetector.reset()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun aModelFailureClearsCachedScoresEvenForTheMostPermissiveCutoff() {
+        val recognizer = recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.recognizerProvider = { throw IOException("models unavailable") }
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+
+        FaceNameDetector.recognizerProvider = { recognizer }
+        FaceNameDetector.onModelsLoaded()
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        now += FaceNameWindow.FRAME_INTERVAL_MS
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    @Test
+    fun aSecondWithoutAUsableFaceClearsEveryThresholdResult() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
+
+        FaceNameDetector.frameSource = { null }
+        now += FaceNameWindow.NO_FACE_RESET_MS
+        offerFrame()
+        runRecognition()
+
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.0))
+        assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
+    }
+
+    private fun recognizerScoring(score: Float): Recognizer {
+        FileUtils.init(ApplicationProvider.getApplicationContext())
+        FileUtils.deleteAll()
+        usesTestDatabase = true
+        val recognizer = spyk(Recognizer.withoutModelsForTest(ApplicationProvider.getApplicationContext()))
+        recognizer.addPerson("Ada")
+        every { recognizer.scoreFrameForNames(any(), any()) } returns
+            Recognizer.ScoredFrame(listOf("Ada"), floatArrayOf(score))
+        FaceNameDetector.recognizerProvider = { recognizer }
+        return recognizer
     }
 
     private fun readTheSensor() {

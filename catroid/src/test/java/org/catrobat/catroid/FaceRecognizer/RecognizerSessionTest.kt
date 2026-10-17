@@ -13,9 +13,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 /**
- * Pins how [Recognizer.finishSession] decides from averaged scores, the
- * decision FaceNameWindow uses for "detected face name": the single-person
- * rule, and the normal threshold while two people are enrolled.
+ * Pins the legacy [Recognizer.finishSession] decision from averaged scores:
+ * the single-person rule, and the normal threshold with two enrolled people.
+ * The configurable sensor uses [Recognizer.nameForScores] instead.
  *
  * Sessions are filled with known per-person scores directly, so no face model
  * is needed. Scores are summed over frames, as FaceNameWindow does.

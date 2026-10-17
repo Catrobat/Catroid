@@ -2080,6 +2080,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">first face is visible</string>
     <string formatted="false" name="formula_editor_sensor_face_name_detected">detected face name</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">detected face name with threshold</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">first face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">first face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">first face y position</string>
