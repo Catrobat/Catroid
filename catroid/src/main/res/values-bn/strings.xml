@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">সব নির্বাচন বাতিল করুন</string>
     <string formatted="false" name="skip">এড়িয়ে যান</string>
     <string formatted="false" name="warning">সতর্কতা</string>
-    <string formatted="false" name="error">ত্রুটি</string>
     <string formatted="false" name="loading">লোড হচ্ছে…</string>
-    <string formatted="false" name="please_wait">অনুগ্রহ করে অপেক্ষা করুন</string>
     <string formatted="false" name="search_hint">অনুসন্ধান</string>
     <string formatted="false" name="backpack_add">ব্যাকপ্যাকে রাখুন</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">আপনার ডাউনলোড করা প্রজেক্টটি পটভূমিতে আপনার কণ্ঠস্বর শোনে এবং ইন্টারনেটে ডেটা পাঠায়। এটি ক্ষতিকর নাও হতে পারে এবং প্রজেক্টটির কাজের জন্য প্রয়োজনীয় হতে পারে। তবে প্রজেক্ট চলার সময় আপনি যা বলছেন তা নিরাপদ কি না, অনুগ্রহ করে নিশ্চিত হয়ে নিন। সন্দেহ হলে ডাউনলোড করা প্রজেক্টটি মুছে ফেলুন। প্রজেক্টটি ক্ষতিকর বলে নিশ্চিত হলে Catrobat কমিউনিটি প্ল্যাটফর্মে প্রজেক্টটির পৃষ্ঠায় এটি রিপোর্টও করতে পারেন।</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">এখানে API কী লিখুন</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">লগ ইন ডেটা যাচাই করা হচ্ছে…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google লগ ইন ডেটা আদান-প্রদান করা হচ্ছে…</string>
-    <string formatted="false" name="loading_google_login">আমাদের সার্ভারে Google লগ ইন সম্পন্ন হয়েছে…</string>
     <string formatted="false" name="logout_successful">লগ আউট সফল হয়েছে</string>
     <string formatted="false" name="degrees">ডিগ্রি</string>
     <string formatted="false" name="background">পটভূমি</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">নতুন প্রজেক্ট</string>
     <string formatted="false" name="main_menu_programs">প্রজেক্টসমূহ</string>
     <string formatted="false" name="main_menu_help">সাহায্য</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">প্রজেক্ট আপলোড করুন</string>
     <string formatted="false" name="main_menu_play">প্রজেক্ট চালান</string>
     <string formatted="false" name="main_menu_rate_app">আমাদের রেটিং দিন!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">বর্তমান দৃশ্য (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">সাইন ইন</string>
     <string formatted="false" name="username">ব্যবহারকারীর নাম</string>
     <string formatted="false" name="password">পাসওয়ার্ড</string>
     <string formatted="false" name="reset_password">পাসওয়ার্ড রিসেট করুন</string>
-    <string formatted="false" name="new_user_registered">নতুন অ্যাকাউন্ট তৈরি হয়েছে</string>
-    <string formatted="false" name="user_logged_in">লগ ইন সফল হয়েছে</string>
-    <string formatted="false" name="register_error">লগ ইন তথ্য সঠিক নয়</string>
     <string formatted="false" name="register_terms">নিবন্ধন করার মাধ্যমে আপনি আমাদের এতে সম্মত হচ্ছেন:</string>
     <string formatted="false" name="register_code_terms_of_use_text">ব্যবহার ও পরিষেবার শর্তাবলি</string>
     <string formatted="false" name="login">লগ ইন</string>
     <string formatted="false" name="register">নিবন্ধন করুন</string>
-    <string formatted="false" name="password_confirm">পাসওয়ার্ড নিশ্চিত করুন</string>
-    <string formatted="false" name="accountName">ই-মেইল</string>
-    <string formatted="false" name="signin_thanks">নিবন্ধন করার জন্য আপনাকে ধন্যবাদ!</string>
-    <string formatted="false" name="signin_choose_username">অনুগ্রহ করে আপনার ব্যবহারকারীর নাম বেছে নিন:</string>
-    <string formatted="false" name="signin_choose_username_empty">অনুগ্রহ করে একটি ব্যবহারকারীর নাম লিখুন।</string>
-    <string formatted="false" name="signin_choose_username_hint">ব্যবহারকারীর নাম আপনার আসল নাম বা কোনো ই-মেইল ঠিকানা হওয়া উচিত নয়।</string>
-    <string formatted="false" name="oauth_username_taken">এই নামটি অন্য কেউ আগেই ব্যবহার করছেন। অনুগ্রহ করে অন্য একটি নাম বেছে নিন!</string>
     <string formatted="false" name="show_password">পাসওয়ার্ড দেখান</string>
     <string formatted="false" name="sign_in_error">সাইন ইন করার সময় কিছু একটা ভুল হয়েছে।</string>
     <string formatted="false" name="error_google_plus_sign_in">Google সাইন ইন ত্রুটি। অবস্থা: %s</string>
-    <string formatted="false" name="error_session_expired">সেশনের মেয়াদ শেষ হয়েছে, অনুগ্রহ করে লগ ইন করুন।</string>
     <string formatted="false" name="error_register_empty_username">ব্যবহারকারীর নাম খালি</string>
-    <string formatted="false" name="error_register_username_as_email">ই-মেইল ঠিকানা ব্যবহারকারীর নাম হিসেবে ব্যবহার করা যাবে না</string>
     <string formatted="false" name="error_register_invalid_username">ব্যবহারকারীর নামে শুধু অক্ষর (a–z), সংখ্যা (0–9), ড্যাশ (-), আন্ডারস্কোর (_) ও ফুলস্টপ (.) থাকতে পারে।</string>
-    <string formatted="false" name="error_register_username_start_with">ব্যবহারকারীর নাম ড্যাশ (-), আন্ডারস্কোর (_) বা ফুলস্টপ (.) দিয়ে শুরু হওয়া উচিত নয়।</string>
-    <string formatted="false" name="error_register_invalid_email_format">ই-মেইলের ফরম্যাট সঠিক নয়</string>
     <string formatted="false" name="error_register_empty_password">পাসওয়ার্ডের ঘর খালি</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">পাসওয়ার্ডে কমপক্ষে ৬টি অক্ষর থাকতে হবে</string>
-    <string formatted="false" name="error_register_passwords_mismatch">পাসওয়ার্ড মিলছে না</string>
-    <string formatted="false" name="error_register_empty_confirm_password">পাসওয়ার্ড নিশ্চিত করার ঘর খালি</string>
-    <string formatted="false" name="error_register_username_already_exists">এই ব্যবহারকারীর নাম আগে থেকেই আছে</string>
-    <string formatted="false" name="error_register_email_exists">এই ই-মেইল ঠিকানা আগে থেকেই আছে</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">প্রজেক্টটি আগে থেকেই আছে।</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">অবস্থান:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">নতুন মান:</string>
     <string formatted="false" name="brick_web_request">ওয়েব অনুরোধ পাঠান এই ঠিকানায়:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">এবং উত্তর রাখুন এতে:</string>
     <string formatted="false" name="web_request_warning_title">ওয়েব অ্যাক্সেসের অনুমতি দেবেন?</string>
     <string formatted="false" name="web_request_warning_message">অনুমতি দেওয়ার আগে খুব সাবধান থাকুন, কারণ লিংকটি আপনার ব্যক্তিগত তথ্য, যেমন আপনার সঠিক ভৌগোলিক অবস্থান বা আপনার লেখা যেকোনো টেক্সট, অসৎ লোকদের কাছে বা সবার সামনে প্রকাশ করে দিতে পারে। এটি কেন অত্যন্ত বিপজ্জনক হতে পারে, সে বিষয়ে আরও জানতে আমাদের &lt;a href=%1s&gt;উইকি&lt;/a&gt; দেখুন।</string>

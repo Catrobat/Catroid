@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Batalkan semua pilihan</string>
     <string formatted="false" name="skip">Lewati</string>
     <string formatted="false" name="warning">Peringatan</string>
-    <string formatted="false" name="error">Kesalahan</string>
     <string formatted="false" name="loading">Memuat…</string>
-    <string formatted="false" name="please_wait">Mohon tunggu</string>
     <string formatted="false" name="search_hint">Cari</string>
     <string formatted="false" name="backpack_add">Tambahkan ke ransel</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Proyek yang Anda unduh mendengarkan suara Anda di latar belakang dan juga mengirim data ke internet. Hal ini mungkin tidak berbahaya dan memang diperlukan agar proyek berfungsi sebagaimana mestinya. Namun, pastikan apa yang Anda ucapkan selama proyek berjalan aman. Jika ragu, hapus proyek yang diunduh. Anda juga dapat melaporkan proyek di halamannya pada platform komunitas Catrobat jika Anda yakin proyek itu berbahaya.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">masukkan kunci API di sini</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Memeriksa data masuk…</string>
-    <string formatted="false" name="loading_google_exchange_code">Menukar data masuk Google…</string>
-    <string formatted="false" name="loading_google_login">Proses masuk Google di server kami selesai…</string>
     <string formatted="false" name="logout_successful">Berhasil keluar</string>
     <string formatted="false" name="degrees">derajat</string>
     <string formatted="false" name="background">Latar belakang</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Proyek baru</string>
     <string formatted="false" name="main_menu_programs">Proyek</string>
     <string formatted="false" name="main_menu_help">Bantuan</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Unggah proyek</string>
     <string formatted="false" name="main_menu_play">Mainkan proyek</string>
     <string formatted="false" name="main_menu_rate_app">Nilai kami!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">Adegan saat ini (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Masuk</string>
     <string formatted="false" name="username">Nama pengguna</string>
     <string formatted="false" name="password">Kata sandi</string>
     <string formatted="false" name="reset_password">Setel ulang kata sandi</string>
-    <string formatted="false" name="new_user_registered">Akun baru telah dibuat</string>
-    <string formatted="false" name="user_logged_in">Berhasil masuk</string>
-    <string formatted="false" name="register_error">Data masuk tidak valid</string>
     <string formatted="false" name="register_terms">Dengan mendaftar, Anda menyetujui</string>
     <string formatted="false" name="register_code_terms_of_use_text">Ketentuan Penggunaan dan Layanan</string>
     <string formatted="false" name="login">Masuk</string>
     <string formatted="false" name="register">Daftar</string>
-    <string formatted="false" name="password_confirm">Konfirmasi kata sandi</string>
-    <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">Terima kasih telah mendaftar!</string>
-    <string formatted="false" name="signin_choose_username">Silakan pilih nama pengguna Anda:</string>
-    <string formatted="false" name="signin_choose_username_empty">Silakan masukkan nama pengguna.</string>
-    <string formatted="false" name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli Anda dan juga bukan alamat email.</string>
-    <string formatted="false" name="oauth_username_taken">Nama ini sudah digunakan orang lain. Silakan pilih nama lain!</string>
     <string formatted="false" name="show_password">Tampilkan kata sandi</string>
     <string formatted="false" name="sign_in_error">Terjadi kesalahan saat masuk.</string>
     <string formatted="false" name="error_google_plus_sign_in">Kesalahan masuk Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sesi kedaluwarsa, silakan masuk.</string>
     <string formatted="false" name="error_register_empty_username">Nama pengguna kosong</string>
-    <string formatted="false" name="error_register_username_as_email">Alamat email tidak dapat digunakan sebagai nama pengguna</string>
     <string formatted="false" name="error_register_invalid_username">Nama pengguna hanya boleh berisi huruf (a–z), angka (0–9), tanda hubung (-), garis bawah (_), dan titik (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Nama pengguna tidak boleh diawali dengan tanda hubung (-), garis bawah (_), atau titik (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Format email tidak valid</string>
     <string formatted="false" name="error_register_empty_password">Kolom kata sandi kosong</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Kata sandi minimal 6 karakter</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Kata sandi tidak cocok</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Kolom konfirmasi kata sandi kosong</string>
-    <string formatted="false" name="error_register_username_already_exists">Nama pengguna sudah ada</string>
-    <string formatted="false" name="error_register_email_exists">Alamat email sudah ada</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proyek sudah ada.</string>
@@ -1037,7 +1012,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pada posisi</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">dengan</string>
     <string formatted="false" name="brick_web_request">Kirim permintaan web ke</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">dan simpan jawaban di</string>
     <string formatted="false" name="web_request_warning_title">Izinkan akses web?</string>
     <string formatted="false" name="web_request_warning_message">Berhati-hatilah sebelum mengizinkan akses, karena tautan tersebut dapat membuka informasi pribadi Anda, seperti lokasi geografis Anda yang tepat atau teks apa pun yang telah Anda masukkan, kepada orang lain yang berniat jahat atau kepada publik. Lihat &lt;a href=%1s&gt;wiki&lt;/a&gt; kami untuk informasi lebih lanjut mengapa hal ini bisa sangat berbahaya.</string>

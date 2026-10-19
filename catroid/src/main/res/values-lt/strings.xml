@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Atžymėti viską</string>
     <string formatted="false" name="skip">praleisti</string>
     <string formatted="false" name="warning">Įspėjimas</string>
-    <string formatted="false" name="error">Klaida</string>
     <string formatted="false" name="loading">Įkeliama…</string>
-    <string formatted="false" name="please_wait">Palauk</string>
     <string formatted="false" name="search_hint">Ieškoti</string>
     <string formatted="false" name="backpack_add">Įdėti į kuprinę</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projektas, kurį atsisiuntei, fone klausosi tavo balso ir siunčia duomenis į internetą. Tai gali būti nekenksminga ir reikalinga, kad projektas veiktų taip, kaip numatyta. Vis dėlto pasirūpink, kad tai, ką sakai, kol projektas veikia, būtų saugu. Jei abejoji, ištrink atsisiųstą projektą. Jei neabejoji, kad projektas kenksmingas, gali apie jį pranešti jo puslapyje Catrobat bendruomenės platformoje.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">čia įrašyk API raktą</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Tikrinami prisijungimo duomenys…</string>
-    <string formatted="false" name="loading_google_exchange_code">Keičiamasi Google prisijungimo duomenimis…</string>
-    <string formatted="false" name="loading_google_login">Google prisijungimas mūsų serveryje baigtas…</string>
     <string formatted="false" name="logout_successful">Sėkmingai atsijungta</string>
     <string formatted="false" name="degrees">laipsnių</string>
     <string formatted="false" name="background">Fonas</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Naujas projektas</string>
     <string formatted="false" name="main_menu_programs">Projektai</string>
     <string formatted="false" name="main_menu_help">Pagalba</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Įkelti projektą</string>
     <string formatted="false" name="main_menu_play">Paleisti projektą</string>
     <string formatted="false" name="main_menu_rate_app">Įvertink mus!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Dabartinis epizodas (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Prisijungti</string>
     <string formatted="false" name="username">Vartotojo vardas</string>
     <string formatted="false" name="password">Slaptažodis</string>
     <string formatted="false" name="reset_password">Atkurti slaptažodį</string>
-    <string formatted="false" name="new_user_registered">Paskyra sukurta</string>
-    <string formatted="false" name="user_logged_in">Sėkmingai prisijungta</string>
-    <string formatted="false" name="register_error">Neteisingi prisijungimo duomenys</string>
     <string formatted="false" name="register_terms">Registruodamasis sutinki su mūsų</string>
     <string formatted="false" name="register_code_terms_of_use_text">Naudojimo sąlygomis</string>
     <string formatted="false" name="login">Prisijungti</string>
     <string formatted="false" name="register">Registruotis</string>
-    <string formatted="false" name="password_confirm">Pakartok slaptažodį</string>
-    <string formatted="false" name="accountName">El. paštas</string>
-    <string formatted="false" name="signin_thanks">Ačiū, kad užsiregistravai!</string>
-    <string formatted="false" name="signin_choose_username">Pasirink vartotojo vardą:</string>
-    <string formatted="false" name="signin_choose_username_empty">Įvesk vartotojo vardą.</string>
-    <string formatted="false" name="signin_choose_username_hint">Vartotojo vardas neturėtų būti nei tavo tikrasis vardas, nei el. pašto adresas.</string>
-    <string formatted="false" name="oauth_username_taken">Šį vardą jau naudoja kažkas kitas. Pasirink kitą!</string>
     <string formatted="false" name="show_password">Rodyti slaptažodį</string>
     <string formatted="false" name="sign_in_error">Prisijungiant kažkas nepavyko.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google prisijungimo klaida. Būsena: %s</string>
-    <string formatted="false" name="error_session_expired">Sesija baigėsi, prisijunk iš naujo.</string>
     <string formatted="false" name="error_register_empty_username">Tuščias vartotojo vardas</string>
-    <string formatted="false" name="error_register_username_as_email">El. pašto adreso negalima naudoti kaip vartotojo vardo</string>
     <string formatted="false" name="error_register_invalid_username">Vartotojo varde gali būti tik raidės (a–z), skaičiai (0–9), brūkšneliai (-), pabraukimo brūkšniai (_) ir taškai (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Vartotojo vardas negali prasidėti brūkšneliu (-), pabraukimo brūkšniu (_) ar tašku (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Neteisingas el. pašto formatas</string>
     <string formatted="false" name="error_register_empty_password">Slaptažodžio laukas tuščias</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Slaptažodį turi sudaryti bent 6 simboliai</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Slaptažodžiai nesutampa</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Slaptažodžio pakartojimo laukas tuščias</string>
-    <string formatted="false" name="error_register_username_already_exists">Toks vartotojo vardas jau yra</string>
-    <string formatted="false" name="error_register_email_exists">Toks el. pašto adresas jau yra</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projektas jau yra.</string>
@@ -1172,7 +1147,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pozicijoje</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">į</string>
     <string formatted="false" name="brick_web_request">Siųsti interneto užklausą į</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ir atsakymą išsaugoti į</string>
     <string formatted="false" name="web_request_warning_title">Leisti prieigą prie interneto?</string>
     <string formatted="false" name="web_request_warning_message">Prieš leisdamas prieigą būk labai atsargus, nes nuoroda gali atskleisti tavo asmeninę informaciją, pavyzdžiui, tikslią geografinę vietą ar bet kokį įvestą tekstą, piktavaliams arba visiems. Daugiau apie tai, kodėl tai gali būti itin pavojinga, skaityk mūsų &lt;a href=%1s&gt;vikyje&lt;/a&gt;.</string>

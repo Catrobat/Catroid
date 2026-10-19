@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Má yan ọ̀kankan</string>
     <string formatted="false" name="skip">fò ó</string>
     <string formatted="false" name="warning">Ìkìlọ̀</string>
-    <string formatted="false" name="error">Àṣìṣe</string>
     <string formatted="false" name="loading">Ó ń ṣí…</string>
-    <string formatted="false" name="please_wait">Jọ̀wọ́ dúró</string>
     <string formatted="false" name="search_hint">Wá</string>
     <string formatted="false" name="backpack_add">Fi sínú àpò ẹ̀yìn</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Iṣẹ́ àkànṣe tí o gbà sílẹ̀ ń tẹ́tí sí ohùn rẹ ní abẹ́lẹ̀, ó sì ń fi dátà ránṣẹ́ sí íńtánẹ́ẹ̀tì. Èyí lè má léwu, ó sì lè jẹ́ dandan fún iṣẹ́ rẹ̀. Síbẹ̀, jọ̀wọ́ rí i dájú pé ohun tí ò ń sọ nígbà tí iṣẹ́ àkànṣe náà ń ṣiṣẹ́ kò léwu. Tí o bá ṣiyèméjì, jọ̀wọ́ pa iṣẹ́ àkànṣe tí o gbà sílẹ̀ náà rẹ́. O tún lè fi ẹjọ́ iṣẹ́ àkànṣe náà sùn lójú ìwé rẹ̀ lórí pèpéle àwùjọ Catrobat tí o bá dá ọ lójú pé ó léwu.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">fi kọ́kọ́rọ́ API síbí</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Ó ń ṣàyẹ̀wò dátà ìwọlé…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ó ń pàṣípààrọ̀ dátà ìwọlé Google…</string>
-    <string formatted="false" name="loading_google_login">Ìwọlé Google lórí sáfà wa ti parí…</string>
     <string formatted="false" name="logout_successful">O ti jáde ní àṣeyọrí</string>
     <string formatted="false" name="degrees">dígírì</string>
     <string formatted="false" name="background">Àwòrán ẹ̀yìn</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Iṣẹ́ àkànṣe tuntun</string>
     <string formatted="false" name="main_menu_programs">Àwọn iṣẹ́ àkànṣe</string>
     <string formatted="false" name="main_menu_help">Ìrànlọ́wọ́</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Gbé iṣẹ́ àkànṣe sókè</string>
     <string formatted="false" name="main_menu_play">Ṣeré iṣẹ́ àkànṣe</string>
     <string formatted="false" name="main_menu_rate_app">Fún wa ní máàkì!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">Ìran lọ́wọ́lọ́wọ́ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Wọlé</string>
     <string formatted="false" name="username">Orúkọ oníṣe</string>
     <string formatted="false" name="password">Ọ̀rọ̀ aṣínà</string>
     <string formatted="false" name="reset_password">Tún ọ̀rọ̀ aṣínà ṣe</string>
-    <string formatted="false" name="new_user_registered">A ti ṣẹ̀dá àkọọ́lẹ̀ tuntun</string>
-    <string formatted="false" name="user_logged_in">O ti wọlé ní àṣeyọrí</string>
-    <string formatted="false" name="register_error">Ìwọlé kò wúlò</string>
     <string formatted="false" name="register_terms">Nípa fífi orúkọ sílẹ̀, o gbà</string>
     <string formatted="false" name="register_code_terms_of_use_text">Àwọn òfin ìlò</string>
     <string formatted="false" name="login">Wọlé</string>
     <string formatted="false" name="register">Forúkọ sílẹ̀</string>
-    <string formatted="false" name="password_confirm">Jẹ́rìísí ọ̀rọ̀ aṣínà</string>
-    <string formatted="false" name="accountName">Ímeèlì</string>
-    <string formatted="false" name="signin_thanks">O ṣé fún fífi orúkọ sílẹ̀!</string>
-    <string formatted="false" name="signin_choose_username">Jọ̀wọ́ yan orúkọ oníṣe rẹ:</string>
-    <string formatted="false" name="signin_choose_username_empty">Jọ̀wọ́ kọ orúkọ oníṣe kan.</string>
-    <string formatted="false" name="signin_choose_username_hint">Orúkọ oníṣe kò gbọdọ̀ jẹ́ orúkọ rẹ gidi, kò sì gbọdọ̀ jẹ́ àdírẹ́sì ímeèlì.</string>
-    <string formatted="false" name="oauth_username_taken">Ẹlòmíràn ti ń lo orúkọ yìí. Jọ̀wọ́ yan òmíràn!</string>
     <string formatted="false" name="show_password">Fi ọ̀rọ̀ aṣínà hàn</string>
     <string formatted="false" name="sign_in_error">Nǹkan kan ṣẹlẹ̀ nígbà ìwọlé.</string>
     <string formatted="false" name="error_google_plus_sign_in">Àṣìṣe ìwọlé Google. Ipò: %s</string>
-    <string formatted="false" name="error_session_expired">Àkókò ìwọlé ti parí, jọ̀wọ́ wọlé.</string>
     <string formatted="false" name="error_register_empty_username">Orúkọ oníṣe ṣófo</string>
-    <string formatted="false" name="error_register_username_as_email">A kò lè lo àdírẹ́sì ímeèlì gẹ́gẹ́ bí orúkọ oníṣe</string>
     <string formatted="false" name="error_register_invalid_username">Orúkọ oníṣe gbọdọ̀ ní lẹ́tà (a–z), nọ́ńbà (0–9), ìlà kékeré (-), ìlà ìsàlẹ̀ (_) àti àmì ìdúró (.) nìkan.</string>
-    <string formatted="false" name="error_register_username_start_with">Orúkọ oníṣe kò gbọdọ̀ bẹ̀rẹ̀ pẹ̀lú ìlà kékeré (-), ìlà ìsàlẹ̀ (_) tàbí àmì ìdúró (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ìrísí ímeèlì kò tọ́</string>
     <string formatted="false" name="error_register_empty_password">Àpótí ọ̀rọ̀ aṣínà ṣófo</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Ọ̀rọ̀ aṣínà gbọdọ̀ ní ó kéré tán àmì 6</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Àwọn ọ̀rọ̀ aṣínà kò bára mu</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Àpótí ìjẹ́rìísí ọ̀rọ̀ aṣínà ṣófo</string>
-    <string formatted="false" name="error_register_username_already_exists">Orúkọ oníṣe yìí ti wà tẹ́lẹ̀</string>
-    <string formatted="false" name="error_register_email_exists">Àdírẹ́sì ímeèlì yìí ti wà tẹ́lẹ̀</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Iṣẹ́ àkànṣe náà ti wà.</string>
@@ -1037,7 +1012,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ní ipò</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">pẹ̀lú</string>
     <string formatted="false" name="brick_web_request">Fi ìbéèrè wẹ́ẹ̀bù ránṣẹ́ sí</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">kí o sì fi ìdáhùn pamọ́ sí</string>
     <string formatted="false" name="web_request_warning_title">Ṣé kí a gba ìráyèsí íńtánẹ́ẹ̀tì láàyè?</string>
     <string formatted="false" name="web_request_warning_message">Ṣọ́ra gidigidi kí o tó gba ìráyèsí láàyè, nítorí pé ìtọ́ka náà lè ṣí àwọn ìsọfúnni àdáni rẹ payá, bíi ibi tí o wà gẹ́lẹ́ tàbí ọ̀rọ̀ èyíkéyìí tí o ti kọ, fún àwọn ènìyàn búburú tàbí fún gbogbo ayé. Wo &lt;a href=%1s&gt;wiki&lt;/a&gt; wa fún àlàyé síwájú sí i nípa ìdí tí èyí fi lè léwu gidigidi.</string>

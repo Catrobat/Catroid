@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Зняти виділення</string>
     <string formatted="false" name="skip">пропустити</string>
     <string formatted="false" name="warning">Попередження</string>
-    <string formatted="false" name="error">Помилка</string>
     <string formatted="false" name="loading">Завантаження…</string>
-    <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проєкт, який ви завантажили, слухає ваш голос у фоновому режимі та надсилає дані в інтернет. Це може бути нешкідливим і потрібним для роботи проєкту. Проте переконайтеся, що те, що ви говорите під час роботи проєкту, безпечно. Якщо сумніваєтеся, видаліть завантажений проєкт. Якщо ви впевнені, що проєкт шкідливий, можете також поскаржитися на нього на його сторінці на платформі спільноти Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">вставте ключ API тут</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Перевірка даних входу…</string>
-    <string formatted="false" name="loading_google_exchange_code">Обмін даними входу в Google…</string>
-    <string formatted="false" name="loading_google_login">Вхід в Google на нашому сервері завершено…</string>
     <string formatted="false" name="logout_successful">Вихід виконано</string>
     <string formatted="false" name="degrees">градусів</string>
     <string formatted="false" name="background">Тло</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Новий проєкт</string>
     <string formatted="false" name="main_menu_programs">Проєкти</string>
     <string formatted="false" name="main_menu_help">Довідка</string>
-    <string formatted="false" name="main_menu_web">Спільнота Catrobat</string>
     <string formatted="false" name="main_menu_upload">Вивантажити проєкт</string>
     <string formatted="false" name="main_menu_play">Запустити проєкт</string>
     <string formatted="false" name="main_menu_rate_app">Оцініть нас!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Поточний епізод (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Увійти</string>
     <string formatted="false" name="username">Ім’я користувача</string>
     <string formatted="false" name="password">Пароль</string>
     <string formatted="false" name="reset_password">Скинути пароль</string>
-    <string formatted="false" name="new_user_registered">Створено новий обліковий запис</string>
-    <string formatted="false" name="user_logged_in">Вхід виконано</string>
-    <string formatted="false" name="register_error">Неправильні дані для входу</string>
     <string formatted="false" name="register_terms">Реєструючись, ви погоджуєтеся з нашими</string>
     <string formatted="false" name="register_code_terms_of_use_text">умовами використання та надання послуг</string>
     <string formatted="false" name="login">Увійти</string>
     <string formatted="false" name="register">Зареєструватися</string>
-    <string formatted="false" name="password_confirm">Підтвердьте пароль</string>
-    <string formatted="false" name="accountName">Ел. пошта</string>
-    <string formatted="false" name="signin_thanks">Дякуємо за реєстрацію!</string>
-    <string formatted="false" name="signin_choose_username">Виберіть ім’я користувача:</string>
-    <string formatted="false" name="signin_choose_username_empty">Введіть ім’я користувача.</string>
-    <string formatted="false" name="signin_choose_username_hint">Ім’я користувача не повинно бути вашим справжнім ім’ям або адресою електронної пошти.</string>
-    <string formatted="false" name="oauth_username_taken">Це ім’я вже використовує хтось інший. Виберіть інше!</string>
     <string formatted="false" name="show_password">Показати пароль</string>
     <string formatted="false" name="sign_in_error">Під час входу щось пішло не так.</string>
     <string formatted="false" name="error_google_plus_sign_in">Помилка входу через Google. Стан: %s</string>
-    <string formatted="false" name="error_session_expired">Сеанс завершився. Увійдіть знову.</string>
     <string formatted="false" name="error_register_empty_username">Ім’я користувача не вказано</string>
-    <string formatted="false" name="error_register_username_as_email">Адресу електронної пошти не можна використовувати як ім’я користувача</string>
     <string formatted="false" name="error_register_invalid_username">Ім’я користувача має містити лише літери (a–z), цифри (0–9), тире (-), підкреслення (_) і крапки (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Ім’я користувача не повинно починатися з тире (-), підкреслення (_) або крапок (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Недійсний формат електронної пошти</string>
     <string formatted="false" name="error_register_empty_password">Поле пароля порожнє</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Пароль має містити щонайменше 6 символів</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Паролі не збігаються</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Поле підтвердження пароля порожнє</string>
-    <string formatted="false" name="error_register_username_already_exists">Таке ім’я користувача вже існує</string>
-    <string formatted="false" name="error_register_email_exists">Така адреса електронної пошти вже існує</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Проєкт уже існує.</string>
@@ -1172,7 +1147,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиції</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">значенням</string>
     <string formatted="false" name="brick_web_request">Надіслати вебзапит на</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">і зберегти відповідь у</string>
     <string formatted="false" name="web_request_warning_title">Дозволити доступ до вебу?</string>
     <string formatted="false" name="web_request_warning_message">Будьте дуже обережні, перш ніж дозволити доступ: посилання може розкрити зловмисникам або всім охочим вашу особисту інформацію, наприклад ваше точне місцезнаходження чи будь-який введений вами текст. Чому це може бути надзвичайно небезпечно, читайте в нашій &lt;a href=%1s&gt;вікі&lt;/a&gt;.</string>

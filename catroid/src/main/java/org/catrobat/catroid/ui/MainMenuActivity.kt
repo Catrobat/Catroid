@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -226,7 +226,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
         if (intent.action != null && intent.action == "android.intent.action.VIEW" && intent.data != null) {
             val shareUri = intent.data
             val webIntent = Intent(this, WebViewActivity::class.java)
-            webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString())
+            val shareUrl = shareUri.toString()
+                .replaceFirst(Constants.LEGACY_SHARE_URL_HTTPS, Constants.MAIN_URL_HTTPS)
+            webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUrl)
             startActivity(webIntent)
         }
     }

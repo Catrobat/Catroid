@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">لغو انتخاب همه</string>
     <string formatted="false" name="skip">رد شدن</string>
     <string formatted="false" name="warning">هشدار</string>
-    <string formatted="false" name="error">خطا</string>
     <string formatted="false" name="loading">در حال بارگذاری…</string>
-    <string formatted="false" name="please_wait">لطفاً صبر کنید</string>
     <string formatted="false" name="search_hint">جستجو</string>
     <string formatted="false" name="backpack_add">افزودن به کوله‌پشتی</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">پروژه‌ای که دانلود کرده‌اید در پس‌زمینه به صدای شما گوش می‌دهد و داده‌هایی را نیز به اینترنت می‌فرستد. این کار ممکن است بی‌خطر و برای عملکرد مورد نظر پروژه لازم باشد. با این حال، لطفاً مطمئن شوید که آنچه هنگام اجرای پروژه می‌گویید مشکلی ایجاد نمی‌کند. اگر شک دارید، پروژهٔ دانلودشده را حذف کنید. اگر مطمئن هستید که این پروژه آسیب‌رسان است، می‌توانید آن را در صفحهٔ خودش در پلتفرم جامعهٔ Catrobat گزارش دهید.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">کلید API را اینجا وارد کنید</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">در حال بررسی اطلاعات ورود…</string>
-    <string formatted="false" name="loading_google_exchange_code">در حال تبادل اطلاعات ورود Google…</string>
-    <string formatted="false" name="loading_google_login">ورود با Google در سرور ما انجام شد…</string>
     <string formatted="false" name="logout_successful">با موفقیت خارج شدید</string>
     <string formatted="false" name="degrees">درجه</string>
     <string formatted="false" name="background">پس‌زمینه</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">پروژهٔ جدید</string>
     <string formatted="false" name="main_menu_programs">پروژه‌ها</string>
     <string formatted="false" name="main_menu_help">راهنما</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">آپلود پروژه</string>
     <string formatted="false" name="main_menu_play">اجرای پروژه</string>
     <string formatted="false" name="main_menu_rate_app">به ما امتیاز دهید!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">سکانس فعلی (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ورود</string>
     <string formatted="false" name="username">نام کاربری</string>
     <string formatted="false" name="password">رمز عبور</string>
     <string formatted="false" name="reset_password">بازنشانی رمز عبور</string>
-    <string formatted="false" name="new_user_registered">حساب جدید ساخته شد</string>
-    <string formatted="false" name="user_logged_in">با موفقیت وارد شدید</string>
-    <string formatted="false" name="register_error">اطلاعات ورود نامعتبر است</string>
     <string formatted="false" name="register_terms">با ثبت‌نام، این موارد را می‌پذیرید:</string>
     <string formatted="false" name="register_code_terms_of_use_text">شرایط استفاده و خدمات</string>
     <string formatted="false" name="login">ورود</string>
     <string formatted="false" name="register">ثبت‌نام</string>
-    <string formatted="false" name="password_confirm">تکرار رمز عبور</string>
-    <string formatted="false" name="accountName">ایمیل</string>
-    <string formatted="false" name="signin_thanks">از ثبت‌نام شما متشکریم!</string>
-    <string formatted="false" name="signin_choose_username">لطفاً نام کاربری خود را انتخاب کنید:</string>
-    <string formatted="false" name="signin_choose_username_empty">لطفاً یک نام کاربری وارد کنید.</string>
-    <string formatted="false" name="signin_choose_username_hint">نام کاربری نباید نام واقعی شما یا یک نشانی ایمیل باشد.</string>
-    <string formatted="false" name="oauth_username_taken">این نام را کس دیگری استفاده می‌کند. لطفاً نام دیگری انتخاب کنید!</string>
     <string formatted="false" name="show_password">نمایش رمز عبور</string>
     <string formatted="false" name="sign_in_error">هنگام ورود مشکلی پیش آمد.</string>
     <string formatted="false" name="error_google_plus_sign_in">خطا در ورود با Google. وضعیت: %s</string>
-    <string formatted="false" name="error_session_expired">نشست شما منقضی شده است. لطفاً وارد شوید.</string>
     <string formatted="false" name="error_register_empty_username">نام کاربری خالی است</string>
-    <string formatted="false" name="error_register_username_as_email">نمی‌توان از نشانی ایمیل به‌عنوان نام کاربری استفاده کرد</string>
     <string formatted="false" name="error_register_invalid_username">نام کاربری فقط می‌تواند شامل حروف (a–z)، اعداد (0–9)، خط تیره (-)، زیرخط (_) و نقطه (.) باشد.</string>
-    <string formatted="false" name="error_register_username_start_with">نام کاربری نباید با خط تیره (-)، زیرخط (_) یا نقطه (.) شروع شود.</string>
-    <string formatted="false" name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string formatted="false" name="error_register_empty_password">کادر رمز عبور خالی است</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">رمز عبور باید دست‌کم ۶ نویسه باشد</string>
-    <string formatted="false" name="error_register_passwords_mismatch">رمزهای عبور یکسان نیستند</string>
-    <string formatted="false" name="error_register_empty_confirm_password">کادر تکرار رمز عبور خالی است</string>
-    <string formatted="false" name="error_register_username_already_exists">این نام کاربری از قبل وجود دارد</string>
-    <string formatted="false" name="error_register_email_exists">این نشانی ایمیل از قبل وجود دارد</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروژه وجود دارد.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">در جایگاه</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">با</string>
     <string formatted="false" name="brick_web_request">درخواست وب بفرست به</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">و پاسخ را ذخیره کن در</string>
     <string formatted="false" name="web_request_warning_title">اجازهٔ دسترسی به وب داده شود؟</string>
     <string formatted="false" name="web_request_warning_message">پیش از دادن اجازهٔ دسترسی بسیار مراقب باشید، چون این پیوند ممکن است اطلاعات شخصی شما، مانند موقعیت جغرافیایی دقیق یا هر متنی را که وارد کرده‌اید، در اختیار افراد بدخواه یا همه قرار دهد. برای اینکه بدانید چرا این کار می‌تواند بسیار خطرناک باشد، &lt;a href=%1s&gt;ویکی&lt;/a&gt; ما را ببینید.</string>

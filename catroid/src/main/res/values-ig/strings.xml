@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Ewepụ nhọrọ niile</string>
     <string formatted="false" name="skip">gafere</string>
     <string formatted="false" name="warning">Ịdọ aka na ntị</string>
-    <string formatted="false" name="error">Njehie</string>
     <string formatted="false" name="loading">Na-ebu…</string>
-    <string formatted="false" name="please_wait">Biko chere</string>
     <string formatted="false" name="search_hint">Chọọ</string>
     <string formatted="false" name="backpack_add">Tinye n\'akpa azụ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ọrụ ị budatara na-ege olu gị n\'azụ ma na-ezigakwa data n\'ịntanetị. Nke a nwere ike ịbụ ihe na-adịghị njọ, nke dị mkpa maka ihe ọ na-eme. Otú ọ dị, biko hụ na ihe ị na-ekwu mgbe ọrụ ahụ na-agba dị mma. Ọ bụrụ na obi abụọ dị gị, biko hichapụ ọrụ ị budatara. Ị nwekwara ike ịkọ banyere ọrụ ahụ na peeji ya n\'ikpo okwu obodo Catrobat ma ọ bụrụ na o doro gị anya na ọ na-emerụ ahụ.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">tinye igodo API ebe a</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Na-enyocha data mbanye…</string>
-    <string formatted="false" name="loading_google_exchange_code">Na-agbanwe data mbanye Google…</string>
-    <string formatted="false" name="loading_google_login">Mbanye Google na sava anyị agwụla…</string>
     <string formatted="false" name="logout_successful">Ịpụ gara nke ọma</string>
     <string formatted="false" name="degrees">digrii</string>
     <string formatted="false" name="background">Ndabere</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Ọrụ ọhụrụ</string>
     <string formatted="false" name="main_menu_programs">Ọrụ</string>
     <string formatted="false" name="main_menu_help">Enyemaka</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Bulite ọrụ</string>
     <string formatted="false" name="main_menu_play">Kpọọ ọrụ</string>
     <string formatted="false" name="main_menu_rate_app">Nye anyị akara!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">Nkebi dị ugbu a (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Banye</string>
     <string formatted="false" name="username">Aha njirimara</string>
     <string formatted="false" name="password">Okwuntughe</string>
     <string formatted="false" name="reset_password">Tọgharịa okwuntughe</string>
-    <string formatted="false" name="new_user_registered">E mepụtala akaụntụ ọhụrụ</string>
-    <string formatted="false" name="user_logged_in">Ịbanye gara nke ọma</string>
-    <string formatted="false" name="register_error">Mbanye ezighị ezi</string>
     <string formatted="false" name="register_terms">Site n\'ịdebanye aha, ị kwenyere na</string>
     <string formatted="false" name="register_code_terms_of_use_text">Usoro Ojiji na Ọrụ</string>
     <string formatted="false" name="login">Banye</string>
     <string formatted="false" name="register">Debanye aha</string>
-    <string formatted="false" name="password_confirm">Kwenye okwuntughe</string>
-    <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">Daalụ maka ịdebanye aha!</string>
-    <string formatted="false" name="signin_choose_username">Biko họrọ aha njirimara gị:</string>
-    <string formatted="false" name="signin_choose_username_empty">Biko tinye aha njirimara.</string>
-    <string formatted="false" name="signin_choose_username_hint">Aha njirimara ekwesịghị ịbụ ezigbo aha gị, ọ bụghịkwa adreesị email.</string>
-    <string formatted="false" name="oauth_username_taken">Onye ọzọ na-eji aha a. Biko họrọ nke dị iche!</string>
     <string formatted="false" name="show_password">Gosi okwuntughe</string>
     <string formatted="false" name="sign_in_error">Ihe adịghị mma mere mgbe a na-abanye.</string>
     <string formatted="false" name="error_google_plus_sign_in">Njehie mbanye Google. Ọnọdụ: %s</string>
-    <string formatted="false" name="error_session_expired">Oge mbanye agwụla, biko banye.</string>
     <string formatted="false" name="error_register_empty_username">Aha njirimara tọgbọrọ chakoo</string>
-    <string formatted="false" name="error_register_username_as_email">Enweghị ike iji adreesị email dị ka aha njirimara</string>
     <string formatted="false" name="error_register_invalid_username">Aha njirimara kwesịrị inwe naanị mkpụrụedemede (a–z), nọmba (0–9), mkpịsị (-), ahịrị ala (_), na ntụpọ (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Aha njirimara ekwesịghị ibido na mkpịsị (-), ahịrị ala (_), ma ọ bụ ntụpọ (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ụdị email ezighị ezi</string>
     <string formatted="false" name="error_register_empty_password">Ebe okwuntughe tọgbọrọ chakoo</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Okwuntughe kwesịrị inwe opekata mpe mkpụrụedemede 6</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Okwuntughe ndị ahụ adabaghị</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Ebe ikwenye okwuntughe tọgbọrọ chakoo</string>
-    <string formatted="false" name="error_register_username_already_exists">Aha njirimara a adịlarị</string>
-    <string formatted="false" name="error_register_email_exists">Adreesị email a adịlarị</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Ọrụ ahụ adịlarị.</string>
@@ -1037,7 +1012,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">n\'ọnọdụ</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">jiri</string>
     <string formatted="false" name="brick_web_request">Zipụ arịrịọ weebụ na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ma chekwaa azịza na</string>
     <string formatted="false" name="web_request_warning_title">Kwe ka e nweta ịntanetị?</string>
     <string formatted="false" name="web_request_warning_message">Kpachara anya nke ukwuu tupu i nye ohere, n\'ihi na njikọ ahụ nwere ike ikpughe ozi gbasara onwe gị, dị ka ebe ị nọ kpọmkwem ma ọ bụ ederede ọ bụla i tinyere, nye ndị ọjọọ ma ọ bụ ọha mmadụ. Lee &lt;a href=%1s&gt;wiki&lt;/a&gt; anyị maka ozi ndị ọzọ gbasara ihe kpatara nke a ji dị ize ndụ nke ukwuu.</string>

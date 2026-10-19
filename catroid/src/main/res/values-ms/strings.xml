@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Nyahpilih semua</string>
     <string formatted="false" name="skip">langkau</string>
     <string formatted="false" name="warning">Amaran</string>
-    <string formatted="false" name="error">Ralat</string>
     <string formatted="false" name="loading">Memuatkan…</string>
-    <string formatted="false" name="please_wait">Sila tunggu</string>
     <string formatted="false" name="search_hint">Cari</string>
     <string formatted="false" name="backpack_add">Tambah ke beg galas</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projek yang anda muat turun mendengar suara anda di latar belakang dan juga menghantar data ke internet. Ini mungkin tidak berbahaya dan diperlukan untuk fungsinya. Walau bagaimanapun, pastikan apa yang anda katakan semasa projek berjalan adalah selamat. Jika ragu-ragu, sila padamkan projek yang dimuat turun. Anda juga boleh melaporkan projek itu di halamannya pada platform komuniti Catrobat jika anda pasti bahawa ia berbahaya.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">masukkan kunci API di sini</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Menyemak data log masuk…</string>
-    <string formatted="false" name="loading_google_exchange_code">Menukar data log masuk Google…</string>
-    <string formatted="false" name="loading_google_login">Log masuk Google pada pelayan kami telah selesai…</string>
     <string formatted="false" name="logout_successful">Berjaya log keluar</string>
     <string formatted="false" name="degrees">darjah</string>
     <string formatted="false" name="background">Latar belakang</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Projek baharu</string>
     <string formatted="false" name="main_menu_programs">Projek</string>
     <string formatted="false" name="main_menu_help">Bantuan</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Muat naik projek</string>
     <string formatted="false" name="main_menu_play">Main projek</string>
     <string formatted="false" name="main_menu_rate_app">Nilai kami!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">Babak semasa (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Log masuk</string>
     <string formatted="false" name="username">Nama pengguna</string>
     <string formatted="false" name="password">Kata laluan</string>
     <string formatted="false" name="reset_password">Tetapkan semula kata laluan</string>
-    <string formatted="false" name="new_user_registered">Akaun baharu telah dicipta</string>
-    <string formatted="false" name="user_logged_in">Berjaya log masuk</string>
-    <string formatted="false" name="register_error">Log masuk tidak sah</string>
     <string formatted="false" name="register_terms">Dengan mendaftar, anda bersetuju dengan</string>
     <string formatted="false" name="register_code_terms_of_use_text">Terma Penggunaan dan Perkhidmatan</string>
     <string formatted="false" name="login">Log masuk</string>
     <string formatted="false" name="register">Daftar</string>
-    <string formatted="false" name="password_confirm">Sahkan kata laluan</string>
-    <string formatted="false" name="accountName">E-mel</string>
-    <string formatted="false" name="signin_thanks">Terima kasih kerana mendaftar!</string>
-    <string formatted="false" name="signin_choose_username">Sila pilih nama pengguna anda:</string>
-    <string formatted="false" name="signin_choose_username_empty">Sila masukkan nama pengguna.</string>
-    <string formatted="false" name="signin_choose_username_hint">Nama pengguna tidak boleh nama sebenar anda dan tidak boleh alamat e-mel.</string>
-    <string formatted="false" name="oauth_username_taken">Nama ini sudah digunakan oleh orang lain. Sila pilih nama lain!</string>
     <string formatted="false" name="show_password">Tunjukkan kata laluan</string>
     <string formatted="false" name="sign_in_error">Berlaku masalah semasa log masuk.</string>
     <string formatted="false" name="error_google_plus_sign_in">Ralat log masuk Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sesi telah tamat, sila log masuk.</string>
     <string formatted="false" name="error_register_empty_username">Nama pengguna kosong</string>
-    <string formatted="false" name="error_register_username_as_email">Alamat e-mel tidak boleh digunakan sebagai nama pengguna</string>
     <string formatted="false" name="error_register_invalid_username">Nama pengguna hanya boleh mengandungi huruf (a–z), nombor (0–9), sengkang (-), garis bawah (_) dan titik (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Nama pengguna tidak boleh bermula dengan sengkang (-), garis bawah (_) atau titik (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Format e-mel tidak sah</string>
     <string formatted="false" name="error_register_empty_password">Medan kata laluan kosong</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Kata laluan mestilah sekurang-kurangnya 6 aksara</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Kata laluan tidak sepadan</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Medan pengesahan kata laluan kosong</string>
-    <string formatted="false" name="error_register_username_already_exists">Nama pengguna sudah wujud</string>
-    <string formatted="false" name="error_register_email_exists">Alamat e-mel sudah wujud</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projek sudah wujud.</string>
@@ -1037,7 +1012,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pada kedudukan</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">dengan</string>
     <string formatted="false" name="brick_web_request">Hantar permintaan web ke</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">dan simpan jawapan dalam</string>
     <string formatted="false" name="web_request_warning_title">Benarkan akses web?</string>
     <string formatted="false" name="web_request_warning_message">Berhati-hati sebelum membenarkan akses, kerana pautan itu mungkin mendedahkan maklumat peribadi anda, seperti lokasi geografi tepat anda atau sebarang teks yang telah anda masukkan, kepada orang lain yang berniat jahat atau kepada umum. Lihat &lt;a href=%1s&gt;wiki&lt;/a&gt; kami untuk maklumat lanjut mengapa ini boleh menjadi sangat berbahaya.</string>

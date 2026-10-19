@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Poista valinnat</string>
     <string formatted="false" name="skip">ohita</string>
     <string formatted="false" name="warning">Varoitus</string>
-    <string formatted="false" name="error">Virhe</string>
     <string formatted="false" name="loading">Ladataan…</string>
-    <string formatted="false" name="please_wait">Odota hetki</string>
     <string formatted="false" name="search_hint">Hae</string>
     <string formatted="false" name="backpack_add">Lisää reppuun</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Lataamasi projekti kuuntelee ääntäsi taustalla ja lähettää tietoja myös internetiin. Tämä voi olla vaaratonta ja tarpeellista projektin toiminnan kannalta. Varmista kuitenkin, että se, mitä sanot projektin ollessa käynnissä, on turvallista. Jos olet epävarma, poista ladattu projekti. Jos olet varma, että projekti on haitallinen, voit myös ilmoittaa siitä projektin sivulla Catrobat-yhteisöalustalla.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">lisää API-avain tähän</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Tarkistetaan kirjautumistietoja…</string>
-    <string formatted="false" name="loading_google_exchange_code">Vaihdetaan Google-kirjautumistietoja…</string>
-    <string formatted="false" name="loading_google_login">Google-kirjautuminen palvelimellemme on valmis…</string>
     <string formatted="false" name="logout_successful">Uloskirjautuminen onnistui</string>
     <string formatted="false" name="degrees">astetta</string>
     <string formatted="false" name="background">Tausta</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Uusi projekti</string>
     <string formatted="false" name="main_menu_programs">Projektit</string>
     <string formatted="false" name="main_menu_help">Ohje</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Lähetä projekti</string>
     <string formatted="false" name="main_menu_play">Toista projekti</string>
     <string formatted="false" name="main_menu_rate_app">Arvioi meidät!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Nykyinen kohtaus (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Kirjaudu sisään</string>
     <string formatted="false" name="username">Käyttäjänimi</string>
     <string formatted="false" name="password">Salasana</string>
     <string formatted="false" name="reset_password">Nollaa salasana</string>
-    <string formatted="false" name="new_user_registered">Uusi tili luotu</string>
-    <string formatted="false" name="user_logged_in">Kirjautuminen onnistui</string>
-    <string formatted="false" name="register_error">Virheelliset kirjautumistiedot</string>
     <string formatted="false" name="register_terms">Rekisteröitymällä hyväksyt seuraavat:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Käyttöehdot</string>
     <string formatted="false" name="login">Kirjaudu sisään</string>
     <string formatted="false" name="register">Rekisteröidy</string>
-    <string formatted="false" name="password_confirm">Vahvista salasana</string>
-    <string formatted="false" name="accountName">Sähköposti</string>
-    <string formatted="false" name="signin_thanks">Kiitos rekisteröitymisestä!</string>
-    <string formatted="false" name="signin_choose_username">Valitse käyttäjänimesi:</string>
-    <string formatted="false" name="signin_choose_username_empty">Kirjoita käyttäjänimi.</string>
-    <string formatted="false" name="signin_choose_username_hint">Käyttäjänimi ei saa olla oikea nimesi eikä sähköpostiosoite.</string>
-    <string formatted="false" name="oauth_username_taken">Joku muu käyttää jo tätä nimeä. Valitse toinen nimi!</string>
     <string formatted="false" name="show_password">Näytä salasana</string>
     <string formatted="false" name="sign_in_error">Kirjautumisessa tapahtui virhe.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google-kirjautumisvirhe. Tila: %s</string>
-    <string formatted="false" name="error_session_expired">Istunto on vanhentunut. Kirjaudu sisään.</string>
     <string formatted="false" name="error_register_empty_username">Käyttäjänimi puuttuu</string>
-    <string formatted="false" name="error_register_username_as_email">Sähköpostiosoitetta ei voi käyttää käyttäjänimenä</string>
     <string formatted="false" name="error_register_invalid_username">Käyttäjänimessä saa olla vain kirjaimia (a–z), numeroita (0–9), yhdysmerkkejä (-), alaviivoja (_) ja pisteitä (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Käyttäjänimi ei saa alkaa yhdysmerkillä (-), alaviivalla (_) tai pisteellä (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Virheellinen sähköpostiosoite</string>
     <string formatted="false" name="error_register_empty_password">Salasanakenttä on tyhjä</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Salasanassa on oltava vähintään 6 merkkiä</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Salasanat eivät täsmää</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Salasanan vahvistuskenttä on tyhjä</string>
-    <string formatted="false" name="error_register_username_already_exists">Käyttäjänimi on jo olemassa</string>
-    <string formatted="false" name="error_register_email_exists">Sähköpostiosoite on jo käytössä</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekti on jo olemassa.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">kohdan</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">alkio arvolla</string>
     <string formatted="false" name="brick_web_request">Lähetä verkkopyyntö osoitteeseen</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ja tallenna vastaus muuttujaan</string>
     <string formatted="false" name="web_request_warning_title">Sallitaanko verkkoyhteys?</string>
     <string formatted="false" name="web_request_warning_message">Ole hyvin varovainen ennen kuin sallit yhteyden, sillä linkki voi paljastaa henkilötietojasi, kuten tarkan sijaintisi tai kirjoittamasi tekstit, pahantahtoisille ihmisille tai kaikille. Lue &lt;a href=%1s&gt;wikistämme&lt;/a&gt; lisää siitä, miksi tämä voi olla erittäin vaarallista.</string>

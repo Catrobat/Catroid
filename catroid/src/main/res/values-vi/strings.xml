@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Bỏ chọn tất cả</string>
     <string formatted="false" name="skip">bỏ qua</string>
     <string formatted="false" name="warning">Cảnh báo</string>
-    <string formatted="false" name="error">Lỗi</string>
     <string formatted="false" name="loading">Đang tải…</string>
-    <string formatted="false" name="please_wait">Vui lòng đợi</string>
     <string formatted="false" name="search_hint">Tìm kiếm</string>
     <string formatted="false" name="backpack_add">Thêm vào ba lô</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Dự án bạn vừa tải xuống sẽ nghe giọng nói của bạn khi chạy ngầm và còn gửi dữ liệu lên internet. Điều này có thể vô hại và cần thiết để dự án hoạt động đúng như dự định. Tuy nhiên, hãy chắc chắn rằng những gì bạn nói trong lúc dự án đang chạy là an toàn. Nếu còn nghi ngờ, hãy xóa dự án đã tải xuống. Nếu bạn chắc chắn rằng dự án có hại, bạn cũng có thể báo cáo dự án trên trang của nó tại nền tảng cộng đồng Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">chèn khóa API vào đây</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Đang kiểm tra dữ liệu đăng nhập…</string>
-    <string formatted="false" name="loading_google_exchange_code">Đang trao đổi dữ liệu đăng nhập Google…</string>
-    <string formatted="false" name="loading_google_login">Đăng nhập Google trên máy chủ của chúng tôi đã hoàn tất…</string>
     <string formatted="false" name="logout_successful">Đăng xuất thành công</string>
     <string formatted="false" name="degrees">độ</string>
     <string formatted="false" name="background">Phông nền</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Dự án mới</string>
     <string formatted="false" name="main_menu_programs">Dự án</string>
     <string formatted="false" name="main_menu_help">Trợ giúp</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Tải lên dự án</string>
     <string formatted="false" name="main_menu_play">Chạy dự án</string>
     <string formatted="false" name="main_menu_rate_app">Đánh giá chúng tôi!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">Cảnh hiện tại (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Đăng nhập</string>
     <string formatted="false" name="username">Tên người dùng</string>
     <string formatted="false" name="password">Mật khẩu</string>
     <string formatted="false" name="reset_password">Đặt lại mật khẩu</string>
-    <string formatted="false" name="new_user_registered">Đã tạo tài khoản mới</string>
-    <string formatted="false" name="user_logged_in">Đăng nhập thành công</string>
-    <string formatted="false" name="register_error">Thông tin đăng nhập không hợp lệ</string>
     <string formatted="false" name="register_terms">Khi đăng ký, bạn đồng ý với</string>
     <string formatted="false" name="register_code_terms_of_use_text">Điều khoản sử dụng và dịch vụ</string>
     <string formatted="false" name="login">Đăng nhập</string>
     <string formatted="false" name="register">Đăng ký</string>
-    <string formatted="false" name="password_confirm">Xác nhận mật khẩu</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Cảm ơn bạn đã đăng ký!</string>
-    <string formatted="false" name="signin_choose_username">Vui lòng chọn tên người dùng:</string>
-    <string formatted="false" name="signin_choose_username_empty">Vui lòng nhập tên người dùng.</string>
-    <string formatted="false" name="signin_choose_username_hint">Tên người dùng không nên là tên thật của bạn, cũng không nên là địa chỉ email.</string>
-    <string formatted="false" name="oauth_username_taken">Tên này đã có người dùng. Vui lòng chọn tên khác!</string>
     <string formatted="false" name="show_password">Hiện mật khẩu</string>
     <string formatted="false" name="sign_in_error">Đã xảy ra lỗi khi đăng nhập.</string>
     <string formatted="false" name="error_google_plus_sign_in">Lỗi đăng nhập Google. Trạng thái: %s</string>
-    <string formatted="false" name="error_session_expired">Phiên đã hết hạn, vui lòng đăng nhập.</string>
     <string formatted="false" name="error_register_empty_username">Tên người dùng trống</string>
-    <string formatted="false" name="error_register_username_as_email">Không thể dùng địa chỉ email làm tên người dùng</string>
     <string formatted="false" name="error_register_invalid_username">Tên người dùng chỉ được chứa chữ cái (a–z), chữ số (0–9), dấu gạch ngang (-), dấu gạch dưới (_) và dấu chấm (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Tên người dùng không được bắt đầu bằng dấu gạch ngang (-), dấu gạch dưới (_) hoặc dấu chấm (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Định dạng email không hợp lệ</string>
     <string formatted="false" name="error_register_empty_password">Ô mật khẩu đang trống</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Mật khẩu phải có ít nhất 6 ký tự</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Mật khẩu không khớp</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Ô xác nhận mật khẩu đang trống</string>
-    <string formatted="false" name="error_register_username_already_exists">Tên người dùng đã tồn tại</string>
-    <string formatted="false" name="error_register_email_exists">Địa chỉ email đã tồn tại</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Dự án đã tồn tại.</string>
@@ -1037,7 +1012,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">tại vị trí</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">bằng</string>
     <string formatted="false" name="brick_web_request">Gửi yêu cầu web đến</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">và lưu câu trả lời vào</string>
     <string formatted="false" name="web_request_warning_title">Cho phép truy cập web?</string>
     <string formatted="false" name="web_request_warning_message">Hãy hết sức cẩn thận trước khi cho phép truy cập, vì liên kết có thể làm lộ thông tin cá nhân của bạn, chẳng hạn như vị trí địa lý chính xác hoặc bất kỳ văn bản nào bạn đã nhập, cho kẻ xấu hoặc cho công chúng. Xem &lt;a href=%1s&gt;wiki&lt;/a&gt; của chúng tôi để biết thêm vì sao điều này có thể cực kỳ nguy hiểm.</string>

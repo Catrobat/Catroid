@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">إلغاء تحديد الكل</string>
     <string formatted="false" name="skip">تخطٍّ</string>
     <string formatted="false" name="warning">تحذير</string>
-    <string formatted="false" name="error">خطأ</string>
     <string formatted="false" name="loading">جارٍ التحميل…</string>
-    <string formatted="false" name="please_wait">يُرجى الانتظار</string>
     <string formatted="false" name="search_hint">بحث</string>
     <string formatted="false" name="backpack_add">إضافة إلى حقيبة الظهر</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">المشروع الذي نزّلته يستمع إلى صوتك في الخلفية ويرسل أيضًا بيانات إلى الإنترنت. قد يكون هذا غير ضار وضروريًا لعمل المشروع كما هو مقصود. ومع ذلك، تأكد من أن ما تقوله أثناء تشغيل المشروع آمن. إذا كنت في شك، فاحذف المشروع الذي نزّلته. ويمكنك أيضًا الإبلاغ عن المشروع في صفحته على موقع مجتمع Catrobat إذا كنت متأكدًا من أنه ضار.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">أدخل مفتاح API هنا</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">جارٍ التحقق من بيانات تسجيل الدخول…</string>
-    <string formatted="false" name="loading_google_exchange_code">جارٍ تبادل بيانات تسجيل الدخول عبر Google…</string>
-    <string formatted="false" name="loading_google_login">اكتمل تسجيل الدخول عبر Google على خادمنا…</string>
     <string formatted="false" name="logout_successful">تم تسجيل الخروج بنجاح</string>
     <string formatted="false" name="degrees">درجة</string>
     <string formatted="false" name="background">الخلفية</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">مشروع جديد</string>
     <string formatted="false" name="main_menu_programs">المشاريع</string>
     <string formatted="false" name="main_menu_help">المساعدة</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">رفع المشروع</string>
     <string formatted="false" name="main_menu_play">تشغيل المشروع</string>
     <string formatted="false" name="main_menu_rate_app">قيّمنا!</string>
@@ -831,39 +825,20 @@
     <string formatted="false" name="play_scene_dialog_current">المشهد الحالي (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">تسجيل الدخول</string>
     <string formatted="false" name="username">اسم المستخدم</string>
     <string formatted="false" name="password">كلمة المرور</string>
     <string formatted="false" name="reset_password">إعادة تعيين كلمة المرور</string>
-    <string formatted="false" name="new_user_registered">تم إنشاء حساب جديد</string>
-    <string formatted="false" name="user_logged_in">تم تسجيل الدخول بنجاح</string>
-    <string formatted="false" name="register_error">بيانات تسجيل الدخول غير صالحة</string>
     <string formatted="false" name="register_terms">بالتسجيل، أنت توافق على</string>
     <string formatted="false" name="register_code_terms_of_use_text">شروط الاستخدام والخدمة</string>
     <string formatted="false" name="login">تسجيل الدخول</string>
     <string formatted="false" name="register">التسجيل</string>
-    <string formatted="false" name="password_confirm">تأكيد كلمة المرور</string>
-    <string formatted="false" name="accountName">البريد الإلكتروني</string>
-    <string formatted="false" name="signin_thanks">شكرًا لتسجيلك!</string>
-    <string formatted="false" name="signin_choose_username">يُرجى اختيار اسم المستخدم الخاص بك:</string>
-    <string formatted="false" name="signin_choose_username_empty">يُرجى إدخال اسم مستخدم.</string>
-    <string formatted="false" name="signin_choose_username_hint">يجب ألا يكون اسم المستخدم اسمك الحقيقي ولا عنوان بريد إلكتروني.</string>
-    <string formatted="false" name="oauth_username_taken">هذا الاسم يستخدمه شخص آخر بالفعل. يُرجى اختيار اسم مختلف!</string>
     <string formatted="false" name="show_password">إظهار كلمة المرور</string>
     <string formatted="false" name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>
     <string formatted="false" name="error_google_plus_sign_in">خطأ في تسجيل الدخول عبر Google. الحالة: %s</string>
-    <string formatted="false" name="error_session_expired">انتهت صلاحية الجلسة، يُرجى تسجيل الدخول.</string>
     <string formatted="false" name="error_register_empty_username">اسم المستخدم فارغ</string>
-    <string formatted="false" name="error_register_username_as_email">لا يمكن استخدام عنوان البريد الإلكتروني كاسم مستخدم</string>
     <string formatted="false" name="error_register_invalid_username">يجب أن يحتوي اسم المستخدم على حروف (a–z) وأرقام (0–9) وشرطات (-) وشرطات سفلية (_) ونقاط (.) فقط.</string>
-    <string formatted="false" name="error_register_username_start_with">يجب ألا يبدأ اسم المستخدم بشرطة (-) أو شرطة سفلية (_) أو نقطة (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">تنسيق البريد الإلكتروني غير صالح</string>
     <string formatted="false" name="error_register_empty_password">حقل كلمة المرور فارغ</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">يجب أن تتكون كلمة المرور من 6 أحرف على الأقل</string>
-    <string formatted="false" name="error_register_passwords_mismatch">كلمتا المرور غير متطابقتين</string>
-    <string formatted="false" name="error_register_empty_confirm_password">حقل تأكيد كلمة المرور فارغ</string>
-    <string formatted="false" name="error_register_username_already_exists">اسم المستخدم موجود بالفعل</string>
-    <string formatted="false" name="error_register_email_exists">عنوان البريد الإلكتروني موجود بالفعل</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">المشروع موجود.</string>
@@ -1262,7 +1237,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">في الموضع</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">بالقيمة</string>
     <string formatted="false" name="brick_web_request">أرسل طلب ويب إلى</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">واحفظ الإجابة في</string>
     <string formatted="false" name="web_request_warning_title">هل تريد السماح بالوصول إلى الويب؟</string>
     <string formatted="false" name="web_request_warning_message">كن حذرًا جدًا قبل السماح بالوصول، لأن الرابط قد يكشف معلوماتك الشخصية، مثل موقعك الجغرافي الدقيق أو أي نص أدخلته، لأشخاص ذوي نوايا سيئة أو للعامة. راجع &lt;a href=%1s&gt;الويكي&lt;/a&gt; الخاص بنا لمعرفة المزيد عن سبب الخطورة الشديدة لذلك.</string>

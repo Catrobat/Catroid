@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,12 +72,12 @@ public class OpenFromShareLinkTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"https://share.catrob.at/pocketcode/"},
-				{"https://share.catrob.at/pocketcode/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrob.at/pocketcode/program/817"},
-				{"https://share.catrob.at/luna/"},
-				{"https://share.catrob.at/luna/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrob.at/luna/program/817"},
+				{"https://share.catrobat.org/pocketcode/"},
+				{"https://share.catrobat.org/pocketcode/program/817?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/pocketcode/program/817"},
+				{"https://share.catrobat.org/luna/"},
+				{"https://share.catrobat.org/luna/program/817?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/luna/program/817"},
 		});
 	}
 

@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">ביטול בחירת הכול</string>
     <string formatted="false" name="skip">דילוג</string>
     <string formatted="false" name="warning">אזהרה</string>
-    <string formatted="false" name="error">שגיאה</string>
     <string formatted="false" name="loading">כעת בטעינה…</string>
-    <string formatted="false" name="please_wait">נא להמתין</string>
     <string formatted="false" name="search_hint">חיפוש…</string>
     <string formatted="false" name="backpack_add">הוספה לתרמיל</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">המיזם שהורדת מאזין לקול שלך ברקע וגם שולח נתונים לאינטרנט. ייתכן שזה לא מזיק ונחוץ לפעולה המתוכננת שלו. עם זאת, כדאי לוודא שמה שנאמר בזמן שהמיזם פועל הוא בטוח. במקרה של ספק, מומלץ למחוק את המיזם שהורד. אם ברור לך שהמיזם מזיק, אפשר גם לדווח עליו בעמוד שלו בפלטפורמת הקהילה של Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">יש להכניס כאן מפתח API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">בדיקת נתוני ההתחברות…</string>
-    <string formatted="false" name="loading_google_exchange_code">החלפת נתוני ההתחברות של Google…</string>
-    <string formatted="false" name="loading_google_login">ההתחברות עם Google בשרת שלנו הושלמה…</string>
     <string formatted="false" name="logout_successful">התנתקת בהצלחה</string>
     <string formatted="false" name="degrees">מעלות</string>
     <string formatted="false" name="background">רקע</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">מיזם חדש</string>
     <string formatted="false" name="main_menu_programs">מיזמים</string>
     <string formatted="false" name="main_menu_help">עזרה</string>
-    <string formatted="false" name="main_menu_web">קהילת Catrobat</string>
     <string formatted="false" name="main_menu_upload">העלאת מיזם</string>
     <string formatted="false" name="main_menu_play">הפעלת המיזם</string>
     <string formatted="false" name="main_menu_rate_app">דירוג היישום</string>
@@ -717,39 +711,20 @@
     <string formatted="false" name="play_scene_dialog_current">הסצנה הנוכחית (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">כניסה</string>
     <string formatted="false" name="username">שם משתמש</string>
     <string formatted="false" name="password">סיסמה</string>
     <string formatted="false" name="reset_password">איפוס סיסמה</string>
-    <string formatted="false" name="new_user_registered">חשבון חדש נוצר</string>
-    <string formatted="false" name="user_logged_in">התחברת בהצלחה</string>
-    <string formatted="false" name="register_error">פרטי ההתחברות שגויים</string>
     <string formatted="false" name="register_terms">בהרשמה, ההסכמה שלך ניתנת ל</string>
     <string formatted="false" name="register_code_terms_of_use_text">תנאי השימוש והשירות</string>
     <string formatted="false" name="login">התחברות</string>
     <string formatted="false" name="register">הרשמה</string>
-    <string formatted="false" name="password_confirm">אימות סיסמה</string>
-    <string formatted="false" name="accountName">דוא״ל</string>
-    <string formatted="false" name="signin_thanks">תודה על ההרשמה!</string>
-    <string formatted="false" name="signin_choose_username">נא לבחור שם משתמש:</string>
-    <string formatted="false" name="signin_choose_username_empty">נא להזין שם משתמש.</string>
-    <string formatted="false" name="signin_choose_username_hint">שם המשתמש לא אמור להיות השם האמיתי שלך ולא כתובת דוא״ל.</string>
-    <string formatted="false" name="oauth_username_taken">מישהו אחר כבר משתמש בשם הזה. נא לבחור שם אחר!</string>
     <string formatted="false" name="show_password">הצגת הסיסמה</string>
     <string formatted="false" name="sign_in_error">אירעה שגיאה במהלך הכניסה.</string>
     <string formatted="false" name="error_google_plus_sign_in">שגיאה בכניסה עם Google. מצב: %s</string>
-    <string formatted="false" name="error_session_expired">תוקף ההפעלה פג, נא להתחבר.</string>
     <string formatted="false" name="error_register_empty_username">שם המשתמש ריק</string>
-    <string formatted="false" name="error_register_username_as_email">אי אפשר להשתמש בכתובת דוא״ל כשם משתמש</string>
     <string formatted="false" name="error_register_invalid_username">שם המשתמש יכול להכיל רק אותיות (a–z), ספרות (0–9), מקפים (-), קווים תחתונים (_) ונקודות (.).</string>
-    <string formatted="false" name="error_register_username_start_with">שם המשתמש לא יכול להתחיל במקף (-), בקו תחתון (_) או בנקודה (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">תבנית הדוא״ל אינה תקינה</string>
     <string formatted="false" name="error_register_empty_password">שדה הסיסמה ריק</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">הסיסמה צריכה להכיל לפחות 6 תווים</string>
-    <string formatted="false" name="error_register_passwords_mismatch">הסיסמאות לא תואמות</string>
-    <string formatted="false" name="error_register_empty_confirm_password">שדה אימות הסיסמה ריק</string>
-    <string formatted="false" name="error_register_username_already_exists">שם המשתמש כבר קיים</string>
-    <string formatted="false" name="error_register_email_exists">כתובת הדוא״ל כבר קיימת</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">המיזם קיים.</string>
@@ -1127,7 +1102,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">במיקום</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ב־</string>
     <string formatted="false" name="brick_web_request">שלח בקשת רשת אל</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ושמור את התשובה ב־</string>
     <string formatted="false" name="web_request_warning_title">לאפשר גישה לרשת?</string>
     <string formatted="false" name="web_request_warning_message">יש לנקוט זהירות רבה לפני מתן הגישה, כי הקישור עלול לחשוף את המידע האישי שלך, כמו המיקום הגאוגרפי המדויק שלך או כל טקסט שהזנת, לגורמים זדוניים או לציבור. מידע נוסף על הסיבות לכך שזה עלול להיות מסוכן מאוד זמין ב&lt;a href=%1s&gt;ויקי&lt;/a&gt; שלנו.</string>

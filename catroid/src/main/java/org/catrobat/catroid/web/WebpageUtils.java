@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ public final class WebpageUtils {
 	private WebpageUtils() {
 	}
 
-	private static final String REGEX_WIKI = "https://catrob.at/regex";
+	private static final String REGEX_WIKI = "https://catrobat.org/regex";
 
 	public static void openWikiPage(Context context) {
 		startActivity(context, new Intent(Intent.ACTION_VIEW,

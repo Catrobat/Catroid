@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Fravælg alle</string>
     <string formatted="false" name="skip">spring over</string>
     <string formatted="false" name="warning">Advarsel</string>
-    <string formatted="false" name="error">Fejl</string>
     <string formatted="false" name="loading">Indlæser…</string>
-    <string formatted="false" name="please_wait">Vent venligst</string>
     <string formatted="false" name="search_hint">Søg</string>
     <string formatted="false" name="backpack_add">Læg i rygsæk</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Det projekt, du har downloadet, lytter til din stemme i baggrunden og sender også data til internettet. Det kan være harmløst og nødvendigt for, at projektet virker som tænkt. Men sørg for, at det, du siger, mens projektet kører, er sikkert. Er du i tvivl, så slet det downloadede projekt. Hvis du er sikker på, at projektet er skadeligt, kan du også anmelde det på dets side på Catrobat-fællesskabets platform.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">indsæt API-nøgle her</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kontrollerer loginoplysninger…</string>
-    <string formatted="false" name="loading_google_exchange_code">Udveksler Google-loginoplysninger…</string>
-    <string formatted="false" name="loading_google_login">Google-login på vores server er fuldført…</string>
     <string formatted="false" name="logout_successful">Du er logget ud</string>
     <string formatted="false" name="degrees">grader</string>
     <string formatted="false" name="background">Baggrund</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nyt projekt</string>
     <string formatted="false" name="main_menu_programs">Projekter</string>
     <string formatted="false" name="main_menu_help">Hjælp</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Upload projekt</string>
     <string formatted="false" name="main_menu_play">Afspil projekt</string>
     <string formatted="false" name="main_menu_rate_app">Bedøm os!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuel scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Log ind</string>
     <string formatted="false" name="username">Brugernavn</string>
     <string formatted="false" name="password">Adgangskode</string>
     <string formatted="false" name="reset_password">Nulstil adgangskode</string>
-    <string formatted="false" name="new_user_registered">Ny konto oprettet</string>
-    <string formatted="false" name="user_logged_in">Du er logget ind</string>
-    <string formatted="false" name="register_error">Ugyldigt login</string>
     <string formatted="false" name="register_terms">Når du opretter en konto, accepterer du vores</string>
     <string formatted="false" name="register_code_terms_of_use_text">Brugsvilkår</string>
     <string formatted="false" name="login">Log ind</string>
     <string formatted="false" name="register">Opret konto</string>
-    <string formatted="false" name="password_confirm">Bekræft adgangskode</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Tak, fordi du har oprettet en konto!</string>
-    <string formatted="false" name="signin_choose_username">Vælg dit brugernavn:</string>
-    <string formatted="false" name="signin_choose_username_empty">Skriv et brugernavn.</string>
-    <string formatted="false" name="signin_choose_username_hint">Brugernavnet må hverken være dit rigtige navn eller en e-mailadresse.</string>
-    <string formatted="false" name="oauth_username_taken">Nogen bruger allerede dette navn. Vælg et andet!</string>
     <string formatted="false" name="show_password">Vis adgangskode</string>
     <string formatted="false" name="sign_in_error">Der opstod en fejl under login.</string>
     <string formatted="false" name="error_google_plus_sign_in">Fejl ved login med Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessionen er udløbet. Log ind igen.</string>
     <string formatted="false" name="error_register_empty_username">Tomt brugernavn</string>
-    <string formatted="false" name="error_register_username_as_email">En e-mailadresse kan ikke bruges som brugernavn</string>
     <string formatted="false" name="error_register_invalid_username">Brugernavnet må kun indeholde bogstaver (a–z), tal (0–9), bindestreger (-), understregninger (_) og punktummer (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Brugernavnet må ikke starte med bindestreg (-), understregning (_) eller punktum (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ugyldigt e-mailformat</string>
     <string formatted="false" name="error_register_empty_password">Feltet til adgangskode er tomt</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Adgangskoden skal være på mindst 6 tegn</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Adgangskoderne er ikke ens</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Feltet til bekræftelse af adgangskode er tomt</string>
-    <string formatted="false" name="error_register_username_already_exists">Brugernavnet findes allerede</string>
-    <string formatted="false" name="error_register_email_exists">E-mailadressen findes allerede</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projektet findes.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">på position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">med</string>
     <string formatted="false" name="brick_web_request">Send webanmodning til</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">og gem svaret i</string>
     <string formatted="false" name="web_request_warning_title">Tillad internetadgang?</string>
     <string formatted="false" name="web_request_warning_message">Vær meget forsigtig, før du tillader adgang, for linket kan afsløre dine personlige oplysninger, fx din præcise geografiske position eller tekst, du har skrevet, til ondsindede personer eller til offentligheden. Se vores &lt;a href=%1s&gt;wiki&lt;/a&gt; for at læse mere om, hvorfor det kan være meget farligt.</string>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ class ErrorInterceptor : Interceptor {
 
         if (response.isSuccessful.not() and response.isRedirect.not()) {
             val contentType = response.body()?.contentType()
-            val body = response.body()?.toString() ?: ""
+            val body = response.body()?.string() ?: ""
 
             return response.newBuilder()
                 .body(ResponseBody.create(contentType, body))

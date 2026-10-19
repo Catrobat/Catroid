@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Deselectează tot</string>
     <string formatted="false" name="skip">omite</string>
     <string formatted="false" name="warning">Avertisment</string>
-    <string formatted="false" name="error">Eroare</string>
     <string formatted="false" name="loading">Se încarcă…</string>
-    <string formatted="false" name="please_wait">Te rog să aștepți</string>
     <string formatted="false" name="search_hint">Caută</string>
     <string formatted="false" name="backpack_add">Pune în rucsac</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Proiectul pe care l-ai descărcat îți ascultă vocea în fundal și trimite date pe internet. Acest lucru poate fi inofensiv și necesar pentru funcționarea lui. Totuși, asigură-te că ceea ce spui cât timp rulează proiectul este sigur. Dacă ai îndoieli, șterge proiectul descărcat. Poți, de asemenea, să raportezi proiectul pe pagina lui de pe platforma comunității Catrobat, dacă ești sigur că este dăunător.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">introdu cheia API aici</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Se verifică datele de conectare…</string>
-    <string formatted="false" name="loading_google_exchange_code">Se transmit datele de conectare Google…</string>
-    <string formatted="false" name="loading_google_login">Conectarea cu Google pe serverul nostru s-a încheiat…</string>
     <string formatted="false" name="logout_successful">Te-ai deconectat</string>
     <string formatted="false" name="degrees">grade</string>
     <string formatted="false" name="background">Fundal</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Proiect nou</string>
     <string formatted="false" name="main_menu_programs">Proiecte</string>
     <string formatted="false" name="main_menu_help">Ajutor</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Încarcă proiectul</string>
     <string formatted="false" name="main_menu_play">Pornește proiectul</string>
     <string formatted="false" name="main_menu_rate_app">Evaluează-ne!</string>
@@ -717,39 +711,20 @@
     <string formatted="false" name="play_scene_dialog_current">Scena curentă (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Conectare</string>
     <string formatted="false" name="username">Nume de utilizator</string>
     <string formatted="false" name="password">Parolă</string>
     <string formatted="false" name="reset_password">Resetează parola</string>
-    <string formatted="false" name="new_user_registered">Contul nou a fost creat</string>
-    <string formatted="false" name="user_logged_in">Te-ai conectat</string>
-    <string formatted="false" name="register_error">Date de conectare nevalide</string>
     <string formatted="false" name="register_terms">Prin înregistrare, accepți</string>
     <string formatted="false" name="register_code_terms_of_use_text">Termenii și condițiile de utilizare</string>
     <string formatted="false" name="login">Conectare</string>
     <string formatted="false" name="register">Înregistrare</string>
-    <string formatted="false" name="password_confirm">Confirmă parola</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Îți mulțumim că te-ai înregistrat!</string>
-    <string formatted="false" name="signin_choose_username">Alege-ți numele de utilizator:</string>
-    <string formatted="false" name="signin_choose_username_empty">Introdu un nume de utilizator.</string>
-    <string formatted="false" name="signin_choose_username_hint">Numele de utilizator nu trebuie să fie numele tău real și nici o adresă de e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Acest nume este deja folosit de altcineva. Alege altul!</string>
     <string formatted="false" name="show_password">Afișează parola</string>
     <string formatted="false" name="sign_in_error">Ceva nu a mers bine la conectare.</string>
     <string formatted="false" name="error_google_plus_sign_in">Eroare la conectarea cu Google. Stare: %s</string>
-    <string formatted="false" name="error_session_expired">Sesiunea a expirat. Conectează-te din nou.</string>
     <string formatted="false" name="error_register_empty_username">Numele de utilizator lipsește</string>
-    <string formatted="false" name="error_register_username_as_email">Adresa de e-mail nu poate fi folosită ca nume de utilizator</string>
     <string formatted="false" name="error_register_invalid_username">Numele de utilizator poate conține doar litere (a–z), cifre (0–9), cratime (-), liniuțe de subliniere (_) și puncte (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Numele de utilizator nu trebuie să înceapă cu cratimă (-), liniuță de subliniere (_) sau punct (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Format de e-mail nevalid</string>
     <string formatted="false" name="error_register_empty_password">Câmpul pentru parolă este gol</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Parola trebuie să aibă cel puțin 6 caractere</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Parolele nu coincid</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Câmpul de confirmare a parolei este gol</string>
-    <string formatted="false" name="error_register_username_already_exists">Numele de utilizator există deja</string>
-    <string formatted="false" name="error_register_email_exists">Adresa de e-mail există deja</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proiectul există.</string>
@@ -1127,7 +1102,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">de la poziția</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">cu</string>
     <string formatted="false" name="brick_web_request">Trimite o cerere web către</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">și salvează răspunsul în</string>
     <string formatted="false" name="web_request_warning_title">Permiți accesul la internet?</string>
     <string formatted="false" name="web_request_warning_message">Fii foarte atent înainte de a permite accesul, deoarece linkul poate dezvălui informațiile tale personale, cum ar fi locația ta geografică exactă sau orice text pe care l-ai introdus, unor persoane rău intenționate sau publicului. Vezi &lt;a href=%1s&gt;wiki&lt;/a&gt;-ul nostru pentru mai multe informații despre motivul pentru care acest lucru poate fi extrem de periculos.</string>

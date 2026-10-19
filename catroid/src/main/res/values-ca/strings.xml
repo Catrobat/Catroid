@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Desselecciona-ho tot</string>
     <string formatted="false" name="skip">omet</string>
     <string formatted="false" name="warning">Advertència</string>
-    <string formatted="false" name="error">Error</string>
     <string formatted="false" name="loading">S\'està carregant…</string>
-    <string formatted="false" name="please_wait">Espera, si us plau</string>
     <string formatted="false" name="search_hint">Cerca…</string>
     <string formatted="false" name="backpack_add">Afegeix a la motxilla</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">El projecte que has baixat t\'escolta en segon pla i també envia dades a internet. Pot ser inofensiu i necessari per al seu funcionament. Tanmateix, assegura\'t que el que dius mentre el projecte s\'executa no comporta cap risc. En cas de dubte, elimina el projecte baixat. Si estàs segur que és perjudicial, també pots denunciar el projecte a la seva pàgina de la plataforma de la comunitat Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">insereix aquí la clau d\'API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">S\'estan comprovant les dades d\'inici de sessió…</string>
-    <string formatted="false" name="loading_google_exchange_code">S\'estan intercanviant les dades d\'inici de sessió de Google…</string>
-    <string formatted="false" name="loading_google_login">S\'ha completat l\'inici de sessió de Google al nostre servidor…</string>
     <string formatted="false" name="logout_successful">S\'ha tancat la sessió</string>
     <string formatted="false" name="degrees">graus</string>
     <string formatted="false" name="background">Fons</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Projecte nou</string>
     <string formatted="false" name="main_menu_programs">Projectes</string>
     <string formatted="false" name="main_menu_help">Ajuda</string>
-    <string formatted="false" name="main_menu_web">Comunitat Catrobat</string>
     <string formatted="false" name="main_menu_upload">Puja el projecte</string>
     <string formatted="false" name="main_menu_play">Executa el projecte</string>
     <string formatted="false" name="main_menu_rate_app">Valora\'ns!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Escena actual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Inicia la sessió</string>
     <string formatted="false" name="username">Nom d\'usuari</string>
     <string formatted="false" name="password">Contrasenya</string>
     <string formatted="false" name="reset_password">Restableix la contrasenya</string>
-    <string formatted="false" name="new_user_registered">S\'ha creat el compte nou</string>
-    <string formatted="false" name="user_logged_in">Has iniciat la sessió correctament</string>
-    <string formatted="false" name="register_error">Les dades d\'inici de sessió no són vàlides</string>
     <string formatted="false" name="register_terms">En registrar-te acceptes les nostres</string>
     <string formatted="false" name="register_code_terms_of_use_text">Condicions d\'ús i del servei</string>
     <string formatted="false" name="login">Inicia la sessió</string>
     <string formatted="false" name="register">Registra\'t</string>
-    <string formatted="false" name="password_confirm">Confirma la contrasenya</string>
-    <string formatted="false" name="accountName">Correu electrònic</string>
-    <string formatted="false" name="signin_thanks">Gràcies per registrar-te!</string>
-    <string formatted="false" name="signin_choose_username">Tria el teu nom d\'usuari:</string>
-    <string formatted="false" name="signin_choose_username_empty">Escriu un nom d\'usuari.</string>
-    <string formatted="false" name="signin_choose_username_hint">El nom d\'usuari no ha de ser el teu nom real ni una adreça de correu electrònic.</string>
-    <string formatted="false" name="oauth_username_taken">Una altra persona ja utilitza aquest nom. Tria\'n un altre!</string>
     <string formatted="false" name="show_password">Mostra la contrasenya</string>
     <string formatted="false" name="sign_in_error">S\'ha produït un error en iniciar la sessió.</string>
     <string formatted="false" name="error_google_plus_sign_in">Error en iniciar la sessió amb Google. Estat: %s</string>
-    <string formatted="false" name="error_session_expired">La sessió ha caducat. Torna a iniciar la sessió.</string>
     <string formatted="false" name="error_register_empty_username">El nom d\'usuari és buit</string>
-    <string formatted="false" name="error_register_username_as_email">No pots utilitzar una adreça de correu electrònic com a nom d\'usuari</string>
     <string formatted="false" name="error_register_invalid_username">El nom d\'usuari només pot contenir lletres (a–z), números (0–9), guions (-), guions baixos (_) i punts (.).</string>
-    <string formatted="false" name="error_register_username_start_with">El nom d\'usuari no pot començar amb guions (-), guions baixos (_) ni punts (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">El format de l\'adreça de correu electrònic no és vàlid</string>
     <string formatted="false" name="error_register_empty_password">El camp de la contrasenya és buit</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">La contrasenya ha de tenir com a mínim 6 caràcters</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Les contrasenyes no coincideixen</string>
-    <string formatted="false" name="error_register_empty_confirm_password">El camp de confirmació de la contrasenya és buit</string>
-    <string formatted="false" name="error_register_username_already_exists">Aquest nom d\'usuari ja existeix</string>
-    <string formatted="false" name="error_register_email_exists">Aquesta adreça de correu electrònic ja existeix</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">El projecte ja existeix.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">a la posició</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">per</string>
     <string formatted="false" name="brick_web_request">Envia una sol·licitud web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">i desa la resposta a</string>
     <string formatted="false" name="web_request_warning_title">Vols permetre l\'accés a la web?</string>
     <string formatted="false" name="web_request_warning_message">Ves amb molt de compte abans de permetre l\'accés, perquè l\'enllaç pot revelar la teva informació personal, com ara la teva ubicació geogràfica exacta o qualsevol text que hagis escrit, a persones malintencionades o al públic. Consulta la nostra &lt;a href=%1s&gt;wiki&lt;/a&gt; per saber per què això pot ser extremadament perillós.</string>

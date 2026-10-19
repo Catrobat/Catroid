@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">ټول ناټاکلي کړئ</string>
     <string formatted="false" name="skip">تېرېدل</string>
     <string formatted="false" name="warning">خبرداری</string>
-    <string formatted="false" name="error">تېروتنه</string>
     <string formatted="false" name="loading">لوډ کېږي…</string>
-    <string formatted="false" name="please_wait">مهرباني وکړئ انتظار وکړئ</string>
     <string formatted="false" name="search_hint">لټون</string>
     <string formatted="false" name="backpack_add">کڅوړې ته یې ورزیات کړئ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې، په شالید کې ستاسو غږ اوري او انټرنېټ ته معلومات هم لېږي. کېدای شي دا بې‌زیانه وي او د پروژې د ټاکلې دندې لپاره اړین وي. خو مهرباني وکړئ ډاډ ترلاسه کړئ چې د پروژې د چلېدو پر مهال چې څه وایئ، خوندي دي. که شک لرئ، ډاونلوډ شوې پروژه ړنګه کړئ. که ډاډه یاست چې پروژه زیانمنه ده، کولی شئ د Catrobat ټولنې په پلېټفارم کې د پروژې په پاڼه یې راپور هم ورکړئ.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API کیلي دلته ولیکئ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">د ننوتلو معلومات کتل کېږي…</string>
-    <string formatted="false" name="loading_google_exchange_code">د Google د ننوتلو معلومات بدلېږي…</string>
-    <string formatted="false" name="loading_google_login">زموږ پر سرور د Google له لارې ننوتل بشپړ شول…</string>
     <string formatted="false" name="logout_successful">په بریالیتوب سره ووتلئ</string>
     <string formatted="false" name="degrees">درجې</string>
     <string formatted="false" name="background">شالید</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">نوې پروژه</string>
     <string formatted="false" name="main_menu_programs">پروژې</string>
     <string formatted="false" name="main_menu_help">مرسته</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">پروژه اپلوډ کړئ</string>
     <string formatted="false" name="main_menu_play">پروژه وچلوئ</string>
     <string formatted="false" name="main_menu_rate_app">موږ ته نمره راکړئ!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">اوسنۍ صحنه (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ننوتل</string>
     <string formatted="false" name="username">کارن نوم</string>
     <string formatted="false" name="password">پټنوم</string>
     <string formatted="false" name="reset_password">پټنوم بیا جوړ کړئ</string>
-    <string formatted="false" name="new_user_registered">نوی حساب جوړ شو</string>
-    <string formatted="false" name="user_logged_in">ننوتل بریالي شول</string>
-    <string formatted="false" name="register_error">ننوتل ناسم دي</string>
     <string formatted="false" name="register_terms">په نوم لیکنه سره تاسو زموږ دا شرایط منئ:</string>
     <string formatted="false" name="register_code_terms_of_use_text">د کارونې او خدماتو شرایط</string>
     <string formatted="false" name="login">ننوتل</string>
     <string formatted="false" name="register">نوم لیکنه</string>
-    <string formatted="false" name="password_confirm">پټنوم تایید کړئ</string>
-    <string formatted="false" name="accountName">برېښنالیک</string>
-    <string formatted="false" name="signin_thanks">د نوم لیکنې مننه!</string>
-    <string formatted="false" name="signin_choose_username">مهرباني وکړئ خپل کارن نوم وټاکئ:</string>
-    <string formatted="false" name="signin_choose_username_empty">مهرباني وکړئ یو کارن نوم ولیکئ.</string>
-    <string formatted="false" name="signin_choose_username_hint">کارن نوم باید نه ستاسو اصلي نوم وي او نه برېښنالیک پته.</string>
-    <string formatted="false" name="oauth_username_taken">دا نوم بل څوک دمخه کاروي. مهرباني وکړئ بل نوم وټاکئ!</string>
     <string formatted="false" name="show_password">پټنوم ښکاره کړئ</string>
     <string formatted="false" name="sign_in_error">د ننوتلو پر مهال یوه ستونزه پېښه شوه.</string>
     <string formatted="false" name="error_google_plus_sign_in">د Google د ننوتلو تېروتنه. حالت: %s</string>
-    <string formatted="false" name="error_session_expired">ناسته پای ته ورسېده، مهرباني وکړئ بیا ننوځئ.</string>
     <string formatted="false" name="error_register_empty_username">کارن نوم تش دی</string>
-    <string formatted="false" name="error_register_username_as_email">برېښنالیک پته د کارن نوم په توګه نه شي کارول کېدای</string>
     <string formatted="false" name="error_register_invalid_username">کارن نوم باید یوازې توري (a–z)، شمېرې (0–9)، ډش (-)، انډرسکور (_) او ټکي (.) ولري.</string>
-    <string formatted="false" name="error_register_username_start_with">کارن نوم باید په ډش (-)، انډرسکور (_) یا ټکي (.) پیل نه شي.</string>
-    <string formatted="false" name="error_register_invalid_email_format">د برېښنالیک بڼه ناسمه ده</string>
     <string formatted="false" name="error_register_empty_password">د پټنوم ځای تش دی</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">پټنوم باید لږ تر لږه 6 توري ولري</string>
-    <string formatted="false" name="error_register_passwords_mismatch">پټنومونه سره سمون نه خوري</string>
-    <string formatted="false" name="error_register_empty_confirm_password">د پټنوم د تایید ځای تش دی</string>
-    <string formatted="false" name="error_register_username_already_exists">دا کارن نوم دمخه شته</string>
-    <string formatted="false" name="error_register_email_exists">دا برېښنالیک پته دمخه شته</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروژه شته.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">په ځای</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">په دې یې بدل کړئ</string>
     <string formatted="false" name="brick_web_request">ویب غوښتنه ولېږئ</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">او ځواب په دې کې وساتئ</string>
     <string formatted="false" name="web_request_warning_title">ویب ته لاسرسی ورکړئ؟</string>
     <string formatted="false" name="web_request_warning_message">د لاسرسي له ورکولو مخکې ډېر پام وکړئ، ځکه چې لینک ښايي ستاسو شخصي معلومات، لکه ستاسو دقیق جغرافیایي ځای یا هر هغه متن چې تاسو لیکلی، بدنیتو کسانو یا خلکو ته ښکاره کړي. د دې لپاره چې پوه شئ ولې دا ډېر خطرناک کېدای شي، زموږ &lt;a href=%1s&gt;ویکي&lt;/a&gt; وګورئ.</string>

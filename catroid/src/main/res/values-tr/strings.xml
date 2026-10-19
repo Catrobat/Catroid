@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Seçimi kaldır</string>
     <string formatted="false" name="skip">atla</string>
     <string formatted="false" name="warning">Uyarı</string>
-    <string formatted="false" name="error">Hata</string>
     <string formatted="false" name="loading">Yükleniyor…</string>
-    <string formatted="false" name="please_wait">Lütfen bekleyin</string>
     <string formatted="false" name="search_hint">Ara…</string>
     <string formatted="false" name="backpack_add">Sırt çantasına ekle</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">İndirdiğiniz proje arka planda sesinizi dinliyor ve internete veri gönderiyor. Bu zararsız olabilir ve projenin amaçlanan işleyişi için gerekli olabilir. Yine de proje çalışırken söylediklerinizin güvenli olduğundan emin olun. Şüpheniz varsa lütfen indirilen projeyi silin. Projenin zararlı olduğundan eminseniz, projeyi Catrobat topluluk platformundaki sayfasında da bildirebilirsiniz.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API anahtarını buraya girin</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Giriş verileri kontrol ediliyor…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google giriş verileri aktarılıyor…</string>
-    <string formatted="false" name="loading_google_login">Sunucumuzda Google ile giriş tamamlandı…</string>
     <string formatted="false" name="logout_successful">Çıkış başarılı</string>
     <string formatted="false" name="degrees">derece</string>
     <string formatted="false" name="background">Arka plan</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Yeni proje</string>
     <string formatted="false" name="main_menu_programs">Projeler</string>
     <string formatted="false" name="main_menu_help">Yardım</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Projeyi yükle</string>
     <string formatted="false" name="main_menu_play">Projeyi oynat</string>
     <string formatted="false" name="main_menu_rate_app">Bizi değerlendirin!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Geçerli bölüm (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Giriş yap</string>
     <string formatted="false" name="username">Kullanıcı adı</string>
     <string formatted="false" name="password">Şifre</string>
     <string formatted="false" name="reset_password">Şifreyi sıfırla</string>
-    <string formatted="false" name="new_user_registered">Yeni hesap oluşturuldu</string>
-    <string formatted="false" name="user_logged_in">Giriş başarılı</string>
-    <string formatted="false" name="register_error">Giriş bilgileri geçersiz</string>
     <string formatted="false" name="register_terms">Kaydolarak şunları kabul etmiş olursunuz:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Kullanım ve Hizmet Koşulları</string>
     <string formatted="false" name="login">Giriş yap</string>
     <string formatted="false" name="register">Kaydol</string>
-    <string formatted="false" name="password_confirm">Şifreyi onayla</string>
-    <string formatted="false" name="accountName">E-posta</string>
-    <string formatted="false" name="signin_thanks">Kayıt olduğunuz için teşekkür ederiz!</string>
-    <string formatted="false" name="signin_choose_username">Lütfen kullanıcı adınızı seçin:</string>
-    <string formatted="false" name="signin_choose_username_empty">Lütfen bir kullanıcı adı girin.</string>
-    <string formatted="false" name="signin_choose_username_hint">Kullanıcı adınız gerçek adınız ya da bir e-posta adresi olmamalıdır.</string>
-    <string formatted="false" name="oauth_username_taken">Bu adı başka biri kullanıyor. Lütfen farklı bir ad seçin!</string>
     <string formatted="false" name="show_password">Şifreyi göster</string>
     <string formatted="false" name="sign_in_error">Giriş sırasında bir sorun oluştu.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google ile giriş hatası. Durum: %s</string>
-    <string formatted="false" name="error_session_expired">Oturumun süresi doldu, lütfen giriş yapın.</string>
     <string formatted="false" name="error_register_empty_username">Kullanıcı adı boş</string>
-    <string formatted="false" name="error_register_username_as_email">E-posta adresi kullanıcı adı olarak kullanılamaz</string>
     <string formatted="false" name="error_register_invalid_username">Kullanıcı adı yalnızca harf (a–z), rakam (0–9), tire (-), alt çizgi (_) ve nokta (.) içermelidir.</string>
-    <string formatted="false" name="error_register_username_start_with">Kullanıcı adı tire (-), alt çizgi (_) veya nokta (.) ile başlamamalıdır.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Geçersiz e-posta biçimi</string>
     <string formatted="false" name="error_register_empty_password">Şifre alanı boş</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Şifre en az 6 karakter olmalıdır</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Şifreler eşleşmiyor</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Şifre onay alanı boş</string>
-    <string formatted="false" name="error_register_username_already_exists">Bu kullanıcı adı zaten var</string>
-    <string formatted="false" name="error_register_email_exists">Bu e-posta adresi zaten kayıtlı</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proje zaten var.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">konum:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">yeni değer:</string>
     <string formatted="false" name="brick_web_request">Web isteği gönder:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ve cevabı şuna kaydet:</string>
     <string formatted="false" name="web_request_warning_title">Web erişimine izin verilsin mi?</string>
     <string formatted="false" name="web_request_warning_message">Erişime izin vermeden önce çok dikkatli olun: Bağlantı, tam coğrafi konumunuz veya girdiğiniz herhangi bir metin gibi kişisel bilgilerinizi kötü niyetli kişilere ya da herkese açık hâle getirebilir. Bunun neden son derece tehlikeli olabileceği hakkında daha fazla bilgi için &lt;a href=%1s&gt;wiki&lt;/a&gt; sayfamıza bakın.</string>

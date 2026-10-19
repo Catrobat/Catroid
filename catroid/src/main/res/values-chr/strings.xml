@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Deselect all</string>
     <string formatted="false" name="skip">skip</string>
     <string formatted="false" name="warning">Warning</string>
-    <string formatted="false" name="error">Error</string>
     <string formatted="false" name="loading">Loading…</string>
-    <string formatted="false" name="please_wait">Please wait</string>
     <string formatted="false" name="search_hint">Search</string>
     <string formatted="false" name="backpack_add">Add to backpack</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice in the background and also sends data to the internet. This may be harmless, and necessary for its intended behavior. However, please make sure that what you are saying while the project is running is safe. In case of doubt, please delete the downloaded project. You may also report the project on its page on the Catrobat community platform in case you are sure that it is harmful.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Checking login data…</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data…</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete…</string>
     <string formatted="false" name="logout_successful">Logout successful</string>
     <string formatted="false" name="degrees">degrees</string>
     <string formatted="false" name="background">Background</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">New project</string>
     <string formatted="false" name="main_menu_programs">Projects</string>
     <string formatted="false" name="main_menu_help">Help</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Rate us!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Sign in</string>
     <string formatted="false" name="username">Username</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">New account created</string>
-    <string formatted="false" name="user_logged_in">Login successful</string>
-    <string formatted="false" name="register_error">Login invalid</string>
     <string formatted="false" name="register_terms">By registering you agree to our</string>
     <string formatted="false" name="register_code_terms_of_use_text">Terms of use and service</string>
     <string formatted="false" name="login">Login</string>
     <string formatted="false" name="register">Register</string>
-    <string formatted="false" name="password_confirm">Confirm password</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Thank you for signing up!</string>
-    <string formatted="false" name="signin_choose_username">Please choose your username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string formatted="false" name="show_password">Show password</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Session expired, please log in.</string>
     <string formatted="false" name="error_register_empty_username">Empty username</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9), dashes (-), underscores (_), and periods (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or periods (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Invalid email format</string>
     <string formatted="false" name="error_register_empty_password">Password field is empty</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string formatted="false" name="error_register_username_already_exists">Username already exists</string>
-    <string formatted="false" name="error_register_email_exists">Email address already exists</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Project exists.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">with</string>
     <string formatted="false" name="brick_web_request">Send web request to</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">and store answer in</string>
     <string formatted="false" name="web_request_warning_title">Allow web access?</string>
     <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the link may expose your personal information, such as your precise geographical location or any text you have entered to malicious others or to the public. See our &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can be extremely dangerous.</string>

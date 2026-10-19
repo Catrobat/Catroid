@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Desautatu denak</string>
     <string formatted="false" name="skip">saltatu</string>
     <string formatted="false" name="warning">Abisua</string>
-    <string formatted="false" name="error">Errorea</string>
     <string formatted="false" name="loading">Kargatzen…</string>
-    <string formatted="false" name="please_wait">Itxaron, mesedez</string>
     <string formatted="false" name="search_hint">Bilatu</string>
     <string formatted="false" name="backpack_add">Gehitu motxilara</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Deskargatu duzun proiektuak zure ahotsa entzuten du atzeko planoan, eta datuak bidaltzen ditu Internetera. Baliteke kaltegabea izatea eta proiektuak behar bezala funtzionatzeko beharrezkoa izatea. Hala ere, ziurtatu proiektua exekutatzen ari den bitartean esaten duzuna segurua dela. Zalantzarik baduzu, ezabatu deskargatutako proiektua. Kaltegarria dela ziur bazaude, proiektua salatu dezakezu Catrobat komunitatearen plataformako bere orrian.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">txertatu API gakoa hemen</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Saioa hasteko datuak egiaztatzen…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google-ko saio-datuak trukatzen…</string>
-    <string formatted="false" name="loading_google_login">Gure zerbitzarian Google bidezko saio-hasiera osatu da…</string>
     <string formatted="false" name="logout_successful">Saioa behar bezala amaitu da</string>
     <string formatted="false" name="degrees">gradu</string>
     <string formatted="false" name="background">Atzeko planoa</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Proiektu berria</string>
     <string formatted="false" name="main_menu_programs">Proiektuak</string>
     <string formatted="false" name="main_menu_help">Laguntza</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Igo proiektua</string>
     <string formatted="false" name="main_menu_play">Abiarazi proiektua</string>
     <string formatted="false" name="main_menu_rate_app">Baloratu gaitzazu!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Uneko eszena (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Hasi saioa</string>
     <string formatted="false" name="username">Erabiltzaile-izena</string>
     <string formatted="false" name="password">Pasahitza</string>
     <string formatted="false" name="reset_password">Berrezarri pasahitza</string>
-    <string formatted="false" name="new_user_registered">Kontu berria sortu da</string>
-    <string formatted="false" name="user_logged_in">Saioa behar bezala hasi da</string>
-    <string formatted="false" name="register_error">Saio-hasiera baliogabea</string>
     <string formatted="false" name="register_terms">Erregistratzean, hau onartzen duzu:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Erabilera- eta zerbitzu-baldintzak</string>
     <string formatted="false" name="login">Hasi saioa</string>
     <string formatted="false" name="register">Erregistratu</string>
-    <string formatted="false" name="password_confirm">Berretsi pasahitza</string>
-    <string formatted="false" name="accountName">Helbide elektronikoa</string>
-    <string formatted="false" name="signin_thanks">Eskerrik asko erregistratzeagatik!</string>
-    <string formatted="false" name="signin_choose_username">Aukeratu zure erabiltzaile-izena:</string>
-    <string formatted="false" name="signin_choose_username_empty">Idatzi erabiltzaile-izen bat.</string>
-    <string formatted="false" name="signin_choose_username_hint">Erabiltzaile-izenak ez luke zure benetako izena izan behar, ezta helbide elektroniko bat ere.</string>
-    <string formatted="false" name="oauth_username_taken">Beste norbaitek erabiltzen du izen hori jada. Aukeratu beste bat!</string>
     <string formatted="false" name="show_password">Erakutsi pasahitza</string>
     <string formatted="false" name="sign_in_error">Zerbait gaizki joan da saioa hastean.</string>
     <string formatted="false" name="error_google_plus_sign_in">Errorea Google bidez saioa hastean. Egoera: %s</string>
-    <string formatted="false" name="error_session_expired">Saioa iraungi da. Hasi saioa berriro.</string>
     <string formatted="false" name="error_register_empty_username">Erabiltzaile-izena hutsik dago</string>
-    <string formatted="false" name="error_register_username_as_email">Helbide elektronikoa ezin da erabiltzaile-izen gisa erabili</string>
     <string formatted="false" name="error_register_invalid_username">Erabiltzaile-izenak letrak (a–z), zenbakiak (0–9), marratxoak (-), azpimarrak (_) eta puntuak (.) soilik izan ditzake.</string>
-    <string formatted="false" name="error_register_username_start_with">Erabiltzaile-izena ezin da marratxoz (-), azpimarraz (_) edo puntuz (.) hasi.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Helbide elektronikoaren formatua ez da baliozkoa</string>
     <string formatted="false" name="error_register_empty_password">Pasahitzaren eremua hutsik dago</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Pasahitzak gutxienez 6 karaktere izan behar ditu</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Pasahitzak ez datoz bat</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Pasahitza berresteko eremua hutsik dago</string>
-    <string formatted="false" name="error_register_username_already_exists">Erabiltzaile-izen hori badago jada</string>
-    <string formatted="false" name="error_register_email_exists">Helbide elektroniko hori badago jada</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proiektua badago jada.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">posizio honetan:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">balio honekin:</string>
     <string formatted="false" name="brick_web_request">Bidali web-eskaera hona:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">eta gorde erantzuna hemen:</string>
     <string formatted="false" name="web_request_warning_title">Web-sarbidea baimendu?</string>
     <string formatted="false" name="web_request_warning_message">Kontu handiz ibili sarbidea baimendu aurretik: estekak zure informazio pertsonala agerian utz dezake, adibidez zure kokapen geografiko zehatza edo idatzi duzun edozein testu, asmo txarreko beste batzuen edo jendaurrean. Ikusi gure &lt;a href=%1s&gt;wikia&lt;/a&gt; hau oso arriskutsua izan daitekeen jakiteko.</string>

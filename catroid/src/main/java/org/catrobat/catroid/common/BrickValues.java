@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -199,9 +199,9 @@ public final class BrickValues {
 
 	//Constants Web
 	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
-	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
-	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
-	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
+	public static final String LOOK_REQUEST = "https://catrobat.org/penguin";
+	public static final String BACKGROUND_REQUEST = "https://catrobat.org/HalloweenPortrait";
+	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrobat.org/HalloweenLandscape";
 
 	//Constant Instruments
 	public static final int DEFAULT_NOTE = 70;

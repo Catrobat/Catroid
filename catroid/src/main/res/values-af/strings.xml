@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Ontkies alles</string>
     <string formatted="false" name="skip">slaan oor</string>
     <string formatted="false" name="warning">Waarskuwing</string>
-    <string formatted="false" name="error">Fout</string>
     <string formatted="false" name="loading">Laai tans…</string>
-    <string formatted="false" name="please_wait">Wag asseblief</string>
     <string formatted="false" name="search_hint">Soek</string>
     <string formatted="false" name="backpack_add">Voeg by rugsak</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Die projek wat jy afgelaai het, luister in die agtergrond na jou stem en stuur ook data na die internet. Dit kan onskadelik wees en nodig om te werk soos bedoel. Maak egter seker dat wat jy sê terwyl die projek loop, veilig is. As jy twyfel, vee asseblief die afgelaaide projek uit. As jy seker is dat dit skadelik is, kan jy die projek ook op sy bladsy op die Catrobat-gemeenskapsplatform rapporteer.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">plaas API-sleutel hier</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kontroleer tans aanmelddata…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ruil tans Google-aanmelddata uit…</string>
-    <string formatted="false" name="loading_google_login">Google-aanmelding op ons bediener is voltooi…</string>
     <string formatted="false" name="logout_successful">Suksesvol afgemeld</string>
     <string formatted="false" name="degrees">grade</string>
     <string formatted="false" name="background">Agtergrond</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nuwe projek</string>
     <string formatted="false" name="main_menu_programs">Projekte</string>
     <string formatted="false" name="main_menu_help">Hulp</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Laai projek op</string>
     <string formatted="false" name="main_menu_play">Speel projek</string>
     <string formatted="false" name="main_menu_rate_app">Gradeer ons!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Huidige toneel (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Meld aan</string>
     <string formatted="false" name="username">Gebruikernaam</string>
     <string formatted="false" name="password">Wagwoord</string>
     <string formatted="false" name="reset_password">Stel wagwoord terug</string>
-    <string formatted="false" name="new_user_registered">Nuwe rekening geskep</string>
-    <string formatted="false" name="user_logged_in">Suksesvol aangemeld</string>
-    <string formatted="false" name="register_error">Ongeldige aanmelding</string>
     <string formatted="false" name="register_terms">Deur te registreer, stem jy in tot ons</string>
     <string formatted="false" name="register_code_terms_of_use_text">Gebruiksvoorwaardes</string>
     <string formatted="false" name="login">Meld aan</string>
     <string formatted="false" name="register">Registreer</string>
-    <string formatted="false" name="password_confirm">Bevestig wagwoord</string>
-    <string formatted="false" name="accountName">E-pos</string>
-    <string formatted="false" name="signin_thanks">Dankie dat jy aangesluit het!</string>
-    <string formatted="false" name="signin_choose_username">Kies asseblief jou gebruikernaam:</string>
-    <string formatted="false" name="signin_choose_username_empty">Voer asseblief ’n gebruikernaam in.</string>
-    <string formatted="false" name="signin_choose_username_hint">Die gebruikernaam moet nie jou regte naam of ’n e-posadres wees nie.</string>
-    <string formatted="false" name="oauth_username_taken">Iemand anders gebruik reeds hierdie naam. Kies asseblief ’n ander een!</string>
     <string formatted="false" name="show_password">Wys wagwoord</string>
     <string formatted="false" name="sign_in_error">Iets het verkeerd geloop tydens aanmelding.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google-aanmeldfout. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessie het verval, meld asseblief aan.</string>
     <string formatted="false" name="error_register_empty_username">Leë gebruikernaam</string>
-    <string formatted="false" name="error_register_username_as_email">’n E-posadres kan nie as gebruikernaam gebruik word nie</string>
     <string formatted="false" name="error_register_invalid_username">Die gebruikernaam mag net letters (a–z), syfers (0–9), koppeltekens (-), onderstrepe (_) en punte (.) bevat.</string>
-    <string formatted="false" name="error_register_username_start_with">Die gebruikernaam mag nie met koppeltekens (-), onderstrepe (_) of punte (.) begin nie.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ongeldige e-posformaat</string>
     <string formatted="false" name="error_register_empty_password">Wagwoordveld is leeg</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Die wagwoord moet minstens 6 karakters lank wees</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Wagwoorde stem nie ooreen nie</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Veld vir wagwoordbevestiging is leeg</string>
-    <string formatted="false" name="error_register_username_already_exists">Gebruikernaam bestaan reeds</string>
-    <string formatted="false" name="error_register_email_exists">E-posadres bestaan reeds</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projek bestaan.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">op posisie</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">met</string>
     <string formatted="false" name="brick_web_request">Stuur webversoek na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">en stoor antwoord in</string>
     <string formatted="false" name="web_request_warning_title">Laat webtoegang toe?</string>
     <string formatted="false" name="web_request_warning_message">Wees baie versigtig voordat jy toegang toelaat, want die skakel kan jou persoonlike inligting, soos jou presiese geografiese ligging of enige teks wat jy ingetik het, aan kwaadwillige mense of aan die publiek blootstel. Kyk na ons &lt;a href=%1s&gt;wiki&lt;/a&gt; vir meer inligting oor waarom dit uiters gevaarlik kan wees.</string>

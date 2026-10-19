@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Hiq të gjitha zgjedhjet</string>
     <string formatted="false" name="skip">kapërce</string>
     <string formatted="false" name="warning">Paralajmërim</string>
-    <string formatted="false" name="error">Gabim</string>
     <string formatted="false" name="loading">Po ngarkohet…</string>
-    <string formatted="false" name="please_wait">Të lutem prit</string>
     <string formatted="false" name="search_hint">Kërko</string>
     <string formatted="false" name="backpack_add">Shto në çantë</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projekti që shkarkove dëgjon zërin tënd në sfond dhe dërgon gjithashtu të dhëna në internet. Kjo mund të jetë e padëmshme dhe e nevojshme për funksionimin e tij. Megjithatë, sigurohu që ajo që thua ndërsa projekti po ekzekutohet është e sigurt. Në rast dyshimi, fshije projektin e shkarkuar. Nëse je i sigurt që projekti është i dëmshëm, mund ta raportosh edhe në faqen e tij në platformën e komunitetit Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">vendos çelësin API këtu</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Po kontrollohen të dhënat e hyrjes…</string>
-    <string formatted="false" name="loading_google_exchange_code">Po shkëmbehen të dhënat e hyrjes me Google…</string>
-    <string formatted="false" name="loading_google_login">Hyrja me Google në serverin tonë përfundoi…</string>
     <string formatted="false" name="logout_successful">Dalja u krye me sukses</string>
     <string formatted="false" name="degrees">gradë</string>
     <string formatted="false" name="background">Sfondi</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Projekt i ri</string>
     <string formatted="false" name="main_menu_programs">Projektet</string>
     <string formatted="false" name="main_menu_help">Ndihmë</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Ngarko projektin</string>
     <string formatted="false" name="main_menu_play">Luaj projektin</string>
     <string formatted="false" name="main_menu_rate_app">Na vlerëso!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Episodi aktual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Hyr</string>
     <string formatted="false" name="username">Emri i përdoruesit</string>
     <string formatted="false" name="password">Fjalëkalimi</string>
     <string formatted="false" name="reset_password">Rivendos fjalëkalimin</string>
-    <string formatted="false" name="new_user_registered">Llogaria e re u krijua</string>
-    <string formatted="false" name="user_logged_in">Hyrja u krye me sukses</string>
-    <string formatted="false" name="register_error">Hyrja e pavlefshme</string>
     <string formatted="false" name="register_terms">Duke u regjistruar, pranon</string>
     <string formatted="false" name="register_code_terms_of_use_text">Kushtet e përdorimit dhe të shërbimit</string>
     <string formatted="false" name="login">Hyr</string>
     <string formatted="false" name="register">Regjistrohu</string>
-    <string formatted="false" name="password_confirm">Konfirmo fjalëkalimin</string>
-    <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">Faleminderit që u regjistrove!</string>
-    <string formatted="false" name="signin_choose_username">Zgjidh emrin tënd të përdoruesit:</string>
-    <string formatted="false" name="signin_choose_username_empty">Shkruaj një emër përdoruesi.</string>
-    <string formatted="false" name="signin_choose_username_hint">Emri i përdoruesit nuk duhet të jetë emri yt i vërtetë dhe as një adresë email.</string>
-    <string formatted="false" name="oauth_username_taken">Dikush tjetër e përdor tashmë këtë emër. Zgjidh një tjetër!</string>
     <string formatted="false" name="show_password">Shfaq fjalëkalimin</string>
     <string formatted="false" name="sign_in_error">Diçka shkoi keq gjatë hyrjes.</string>
     <string formatted="false" name="error_google_plus_sign_in">Gabim gjatë hyrjes me Google. Statusi: %s</string>
-    <string formatted="false" name="error_session_expired">Sesioni skadoi, hyr përsëri.</string>
     <string formatted="false" name="error_register_empty_username">Emri i përdoruesit është bosh</string>
-    <string formatted="false" name="error_register_username_as_email">Adresa email nuk mund të përdoret si emër përdoruesi</string>
     <string formatted="false" name="error_register_invalid_username">Emri i përdoruesit duhet të përmbajë vetëm shkronja (a–z), numra (0–9), viza (-), nënvija (_) dhe pika (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Emri i përdoruesit nuk duhet të fillojë me vizë (-), nënvijë (_) ose pikë (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Format i pavlefshëm email-i</string>
     <string formatted="false" name="error_register_empty_password">Fusha e fjalëkalimit është bosh</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Fjalëkalimi duhet të ketë të paktën 6 karaktere</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Fjalëkalimet nuk përputhen</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Fusha e konfirmimit të fjalëkalimit është bosh</string>
-    <string formatted="false" name="error_register_username_already_exists">Ky emër përdoruesi ekziston tashmë</string>
-    <string formatted="false" name="error_register_email_exists">Kjo adresë email ekziston tashmë</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekti ekziston.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">në pozicionin</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">me</string>
     <string formatted="false" name="brick_web_request">Dërgo kërkesë në internet te</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">dhe ruaj përgjigjen te</string>
     <string formatted="false" name="web_request_warning_title">Të lejohet qasja në internet?</string>
     <string formatted="false" name="web_request_warning_message">Ki shumë kujdes para se të lejosh qasjen, sepse lidhja mund t\'u zbulojë të dhënat e tua personale, si vendndodhjen tënde të saktë gjeografike ose çdo tekst që ke shkruar, personave keqdashës ose publikut. Shiko &lt;a href=%1s&gt;wikin&lt;/a&gt; tonë për më shumë informacion se pse kjo mund të jetë jashtëzakonisht e rrezikshme.</string>

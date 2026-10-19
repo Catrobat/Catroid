@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Cire zaɓin duka</string>
     <string formatted="false" name="skip">tsallake</string>
     <string formatted="false" name="warning">Gargaɗi</string>
-    <string formatted="false" name="error">Kuskure</string>
     <string formatted="false" name="loading">Ana lodawa…</string>
-    <string formatted="false" name="please_wait">Da fatan za a jira</string>
     <string formatted="false" name="search_hint">Bincika</string>
     <string formatted="false" name="backpack_add">Saka a jakar baya</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Shirin da kuka sauke yana sauraron muryarku a ɓoye kuma yana aika bayanai zuwa intanet. Wannan na iya zama ba shi da lahani, kuma yana iya zama dole don aikinsa. Amma, da fatan ku tabbatar cewa abin da kuke faɗi yayin da shirin ke gudana ba shi da haɗari. Idan kuna da shakka, da fatan ku goge shirin da kuka sauke. Kuna iya kuma kai rahoton shirin a shafinsa na dandalin al\'ummar Catrobat idan kun tabbata cewa yana da lahani.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">saka maɓallin API a nan</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Ana duba bayanan shiga…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ana musayar bayanan shiga na Google…</string>
-    <string formatted="false" name="loading_google_login">An kammala shiga da Google a sabar mu…</string>
     <string formatted="false" name="logout_successful">An fita cikin nasara</string>
     <string formatted="false" name="degrees">digiri</string>
     <string formatted="false" name="background">Bango</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Sabon shiri</string>
     <string formatted="false" name="main_menu_programs">Shirye-shirye</string>
     <string formatted="false" name="main_menu_help">Taimako</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Ɗora shiri</string>
     <string formatted="false" name="main_menu_play">Kunna shiri</string>
     <string formatted="false" name="main_menu_rate_app">Ku ba mu maki!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Sashe na yanzu (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Shiga</string>
     <string formatted="false" name="username">Sunan mai amfani</string>
     <string formatted="false" name="password">Kalmar sirri</string>
     <string formatted="false" name="reset_password">Sake saita kalmar sirri</string>
-    <string formatted="false" name="new_user_registered">An ƙirƙiri sabon asusu</string>
-    <string formatted="false" name="user_logged_in">An shiga cikin nasara</string>
-    <string formatted="false" name="register_error">Bayanan shiga ba daidai ba ne</string>
     <string formatted="false" name="register_terms">Ta hanyar yin rajista kun amince da</string>
     <string formatted="false" name="register_code_terms_of_use_text">Sharuɗɗan amfani da sabis</string>
     <string formatted="false" name="login">Shiga</string>
     <string formatted="false" name="register">Yi rajista</string>
-    <string formatted="false" name="password_confirm">Tabbatar da kalmar sirri</string>
-    <string formatted="false" name="accountName">Imel</string>
-    <string formatted="false" name="signin_thanks">Mun gode da yin rajista!</string>
-    <string formatted="false" name="signin_choose_username">Da fatan ku zaɓi sunan mai amfani:</string>
-    <string formatted="false" name="signin_choose_username_empty">Da fatan ku shigar da sunan mai amfani.</string>
-    <string formatted="false" name="signin_choose_username_hint">Kada sunan mai amfani ya zama ainihin sunanku ko adireshin imel.</string>
-    <string formatted="false" name="oauth_username_taken">Wani yana amfani da wannan suna tuni. Da fatan ku zaɓi wani daban!</string>
     <string formatted="false" name="show_password">Nuna kalmar sirri</string>
     <string formatted="false" name="sign_in_error">Wani abu ya faru ba daidai ba yayin shiga.</string>
     <string formatted="false" name="error_google_plus_sign_in">Kuskuren shiga da Google. Matsayi: %s</string>
-    <string formatted="false" name="error_session_expired">Zaman ya ƙare, da fatan ku sake shiga.</string>
     <string formatted="false" name="error_register_empty_username">Sunan mai amfani babu komai</string>
-    <string formatted="false" name="error_register_username_as_email">Ba za a iya amfani da adireshin imel a matsayin sunan mai amfani ba</string>
     <string formatted="false" name="error_register_invalid_username">Sunan mai amfani ya kamata ya ƙunshi haruffa (a–z), lambobi (0–9), layukan haɗi (-), layukan ƙasa (_), da ɗigo (.) kawai.</string>
-    <string formatted="false" name="error_register_username_start_with">Kada sunan mai amfani ya fara da layin haɗi (-), layin ƙasa (_), ko ɗigo (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Tsarin imel ba daidai ba ne</string>
     <string formatted="false" name="error_register_empty_password">Akwatin kalmar sirri babu komai</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Kalmar sirri ya kamata ta kasance aƙalla haruffa 6</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Kalmomin sirri ba su yi daidai ba</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Akwatin tabbatar da kalmar sirri babu komai</string>
-    <string formatted="false" name="error_register_username_already_exists">Sunan mai amfani ya riga ya wanzu</string>
-    <string formatted="false" name="error_register_email_exists">Adireshin imel ya riga ya wanzu</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Shirin ya wanzu.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">a matsayi</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">da</string>
     <string formatted="false" name="brick_web_request">Aika buƙatar yanar gizo zuwa</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">kuma ajiye amsa a</string>
     <string formatted="false" name="web_request_warning_title">A ba da damar shiga yanar gizo?</string>
     <string formatted="false" name="web_request_warning_message">Ku yi taka-tsantsan sosai kafin ba da dama, saboda mahaɗin na iya bayyana bayananku na sirri, kamar ainihin wurin da kuke ko duk wani rubutu da kuka shigar, ga mugaye ko ga jama\'a. Duba &lt;a href=%1s&gt;wiki&lt;/a&gt; ɗinmu don ƙarin bayani kan dalilin da ya sa wannan ke iya zama haɗari matuƙa.</string>

@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Seçimi ləğv et</string>
     <string formatted="false" name="skip">Ötür</string>
     <string formatted="false" name="warning">Xəbərdarlıq</string>
-    <string formatted="false" name="error">Xəta</string>
     <string formatted="false" name="loading">Yüklənir…</string>
-    <string formatted="false" name="please_wait">Zəhmət olmasa, gözləyin</string>
     <string formatted="false" name="search_hint">Axtar</string>
     <string formatted="false" name="backpack_add">Bel çantasına qoy</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Endirdiyiniz layihə arxa planda səsinizi dinləyir və internetə məlumat göndərir. Bu, zərərsiz və layihənin işləməsi üçün lazım ola bilər. Bununla belə, layihə işləyərkən dediklərinizin təhlükəsiz olduğuna əmin olun. Şübhəniz varsa, endirilmiş layihəni silin. Layihənin zərərli olduğuna əminsinizsə, onu Catrobat icma platformasındakı səhifəsində şikayət edə bilərsiniz.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API açarını bura daxil edin</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Giriş məlumatları yoxlanılır…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google giriş məlumatları mübadilə edilir…</string>
-    <string formatted="false" name="loading_google_login">Serverimizdə Google ilə giriş tamamlandı…</string>
     <string formatted="false" name="logout_successful">Hesabdan çıxış edildi</string>
     <string formatted="false" name="degrees">dərəcə</string>
     <string formatted="false" name="background">Arxa fon</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Yeni layihə</string>
     <string formatted="false" name="main_menu_programs">Layihələr</string>
     <string formatted="false" name="main_menu_help">Kömək</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Layihəni yüklə</string>
     <string formatted="false" name="main_menu_play">Layihəni başlat</string>
     <string formatted="false" name="main_menu_rate_app">Bizi qiymətləndirin!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Cari epizod (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Daxil ol</string>
     <string formatted="false" name="username">İstifadəçi adı</string>
     <string formatted="false" name="password">Şifrə</string>
     <string formatted="false" name="reset_password">Şifrəni sıfırla</string>
-    <string formatted="false" name="new_user_registered">Yeni hesab yaradıldı</string>
-    <string formatted="false" name="user_logged_in">Giriş uğurlu oldu</string>
-    <string formatted="false" name="register_error">Giriş məlumatları yanlışdır</string>
     <string formatted="false" name="register_terms">Qeydiyyatdan keçməklə bununla razılaşırsınız:</string>
     <string formatted="false" name="register_code_terms_of_use_text">İstifadə və xidmət şərtləri</string>
     <string formatted="false" name="login">Daxil ol</string>
     <string formatted="false" name="register">Qeydiyyatdan keç</string>
-    <string formatted="false" name="password_confirm">Şifrəni təsdiqləyin</string>
-    <string formatted="false" name="accountName">E-poçt</string>
-    <string formatted="false" name="signin_thanks">Qeydiyyatdan keçdiyiniz üçün təşəkkür edirik!</string>
-    <string formatted="false" name="signin_choose_username">Zəhmət olmasa, istifadəçi adınızı seçin:</string>
-    <string formatted="false" name="signin_choose_username_empty">Zəhmət olmasa, istifadəçi adı daxil edin.</string>
-    <string formatted="false" name="signin_choose_username_hint">İstifadəçi adı nə əsl adınız, nə də e-poçt ünvanı olmalıdır.</string>
-    <string formatted="false" name="oauth_username_taken">Bu ad artıq başqası tərəfindən istifadə olunur. Zəhmət olmasa, başqa ad seçin!</string>
     <string formatted="false" name="show_password">Şifrəni göstər</string>
     <string formatted="false" name="sign_in_error">Giriş zamanı xəta baş verdi.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google ilə giriş xətası. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessiyanın vaxtı bitib, zəhmət olmasa, yenidən daxil olun.</string>
     <string formatted="false" name="error_register_empty_username">İstifadəçi adı boşdur</string>
-    <string formatted="false" name="error_register_username_as_email">E-poçt ünvanı istifadəçi adı kimi istifadə edilə bilməz</string>
     <string formatted="false" name="error_register_invalid_username">İstifadəçi adında yalnız hərflər (a–z), rəqəmlər (0–9), defis (-), alt xətt (_) və nöqtə (.) ola bilər.</string>
-    <string formatted="false" name="error_register_username_start_with">İstifadəçi adı defis (-), alt xətt (_) və ya nöqtə (.) ilə başlamamalıdır.</string>
-    <string formatted="false" name="error_register_invalid_email_format">E-poçt formatı yanlışdır</string>
     <string formatted="false" name="error_register_empty_password">Şifrə sahəsi boşdur</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Şifrə ən azı 6 simvoldan ibarət olmalıdır</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Şifrələr uyğun gəlmir</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Şifrənin təsdiqi sahəsi boşdur</string>
-    <string formatted="false" name="error_register_username_already_exists">Bu istifadəçi adı artıq mövcuddur</string>
-    <string formatted="false" name="error_register_email_exists">Bu e-poçt ünvanı artıq mövcuddur</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Layihə mövcuddur.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">mövqe:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">yeni qiymət:</string>
     <string formatted="false" name="brick_web_request">Veb sorğu göndər:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">və cavabı bunda saxla:</string>
     <string formatted="false" name="web_request_warning_title">Veb girişinə icazə verilsin?</string>
     <string formatted="false" name="web_request_warning_message">İcazə verməzdən əvvəl çox diqqətli olun, çünki keçid şəxsi məlumatlarınızı, məsələn, dəqiq coğrafi yerinizi və ya daxil etdiyiniz istənilən mətni pis niyyətli insanlara və ya ictimaiyyətə aça bilər. Bunun nə üçün son dərəcə təhlükəli ola biləcəyi barədə ətraflı məlumat üçün &lt;a href=%1s&gt;vikimizə&lt;/a&gt; baxın.</string>

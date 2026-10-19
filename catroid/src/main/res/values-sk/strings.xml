@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Zrušiť výber</string>
     <string formatted="false" name="skip">preskočiť</string>
     <string formatted="false" name="warning">Upozornenie</string>
-    <string formatted="false" name="error">Chyba</string>
     <string formatted="false" name="loading">Načítava sa…</string>
-    <string formatted="false" name="please_wait">Čakajte, prosím</string>
     <string formatted="false" name="search_hint">Hľadať</string>
     <string formatted="false" name="backpack_add">Pridať do batohu</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projekt, ktorý ste stiahli, na pozadí počúva váš hlas a zároveň odosiela údaje na internet. Môže to byť neškodné a potrebné pre jeho zamýšľané fungovanie. Napriek tomu dbajte na to, aby to, čo hovoríte počas behu projektu, bolo bezpečné. V prípade pochybností stiahnutý projekt odstráňte. Ak ste si istí, že je škodlivý, môžete projekt nahlásiť aj na jeho stránke na komunitnej platforme Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">sem vložte kľúč API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kontrolujú sa prihlasovacie údaje…</string>
-    <string formatted="false" name="loading_google_exchange_code">Vymieňajú sa prihlasovacie údaje Google…</string>
-    <string formatted="false" name="loading_google_login">Prihlásenie cez Google na našom serveri je dokončené…</string>
     <string formatted="false" name="logout_successful">Odhlásenie bolo úspešné</string>
     <string formatted="false" name="degrees">stupňov</string>
     <string formatted="false" name="background">Pozadie</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nový projekt</string>
     <string formatted="false" name="main_menu_programs">Projekty</string>
     <string formatted="false" name="main_menu_help">Pomocník</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Nahrať projekt</string>
     <string formatted="false" name="main_menu_play">Prehrať projekt</string>
     <string formatted="false" name="main_menu_rate_app">Ohodnoťte nás!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuálna scéna (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Prihlásiť sa</string>
     <string formatted="false" name="username">Používateľské meno</string>
     <string formatted="false" name="password">Heslo</string>
     <string formatted="false" name="reset_password">Obnoviť heslo</string>
-    <string formatted="false" name="new_user_registered">Nový účet bol vytvorený</string>
-    <string formatted="false" name="user_logged_in">Prihlásenie bolo úspešné</string>
-    <string formatted="false" name="register_error">Neplatné prihlasovacie údaje</string>
     <string formatted="false" name="register_terms">Registráciou súhlasíte s našimi</string>
     <string formatted="false" name="register_code_terms_of_use_text">Podmienkami používania a služieb</string>
     <string formatted="false" name="login">Prihlásiť sa</string>
     <string formatted="false" name="register">Zaregistrovať sa</string>
-    <string formatted="false" name="password_confirm">Potvrdiť heslo</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Ďakujeme za registráciu!</string>
-    <string formatted="false" name="signin_choose_username">Zvoľte si používateľské meno:</string>
-    <string formatted="false" name="signin_choose_username_empty">Zadajte používateľské meno.</string>
-    <string formatted="false" name="signin_choose_username_hint">Používateľské meno by nemalo byť vaše skutočné meno ani e-mailová adresa.</string>
-    <string formatted="false" name="oauth_username_taken">Toto meno už používa niekto iný. Zvoľte iné!</string>
     <string formatted="false" name="show_password">Zobraziť heslo</string>
     <string formatted="false" name="sign_in_error">Pri prihlasovaní sa niečo pokazilo.</string>
     <string formatted="false" name="error_google_plus_sign_in">Chyba prihlásenia cez Google. Stav: %s</string>
-    <string formatted="false" name="error_session_expired">Relácia vypršala, prihláste sa.</string>
     <string formatted="false" name="error_register_empty_username">Prázdne používateľské meno</string>
-    <string formatted="false" name="error_register_username_as_email">E-mailovú adresu nie je možné použiť ako používateľské meno</string>
     <string formatted="false" name="error_register_invalid_username">Používateľské meno môže obsahovať len písmená (a – z), číslice (0 – 9), pomlčky (-), podčiarkovníky (_) a bodky (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Používateľské meno by sa nemalo začínať pomlčkou (-), podčiarkovníkom (_) ani bodkou (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Neplatný formát e-mailu</string>
     <string formatted="false" name="error_register_empty_password">Pole hesla je prázdne</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Heslo by malo mať aspoň 6 znakov</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Heslá sa nezhodujú</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Pole na potvrdenie hesla je prázdne</string>
-    <string formatted="false" name="error_register_username_already_exists">Používateľské meno už existuje</string>
-    <string formatted="false" name="error_register_email_exists">E-mailová adresa už existuje</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekt už existuje.</string>
@@ -1172,7 +1147,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na pozícii</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">hodnotou</string>
     <string formatted="false" name="brick_web_request">Pošli webovú požiadavku na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">a odpoveď ulož do</string>
     <string formatted="false" name="web_request_warning_title">Povoliť prístup na web?</string>
     <string formatted="false" name="web_request_warning_message">Pred povolením prístupu buďte veľmi opatrní, pretože odkaz môže zlomyseľným ľuďom alebo verejnosti prezradiť vaše osobné údaje, napríklad vašu presnú polohu alebo akýkoľvek text, ktorý ste zadali. Na našej &lt;a href=%1s&gt;wiki&lt;/a&gt; sa dozviete, prečo to môže byť veľmi nebezpečné.</string>

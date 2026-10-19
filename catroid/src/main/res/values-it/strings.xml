@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Deseleziona tutto</string>
     <string formatted="false" name="skip">salta</string>
     <string formatted="false" name="warning">Attenzione</string>
-    <string formatted="false" name="error">Errore</string>
     <string formatted="false" name="loading">Caricamento in corso…</string>
-    <string formatted="false" name="please_wait">Attendi</string>
     <string formatted="false" name="search_hint">Cerca</string>
     <string formatted="false" name="backpack_add">Aggiungi allo zaino</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Il progetto che hai scaricato ascolta la tua voce in background e invia anche dati a Internet. Questo può essere innocuo e necessario per il suo funzionamento. Tuttavia, assicurati che ciò che dici mentre il progetto è in esecuzione non sia rischioso. In caso di dubbi, elimina il progetto scaricato. Se sei sicuro che sia dannoso, puoi anche segnalare il progetto sulla sua pagina nella piattaforma della comunità di Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">inserisci qui la chiave API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Verifica dei dati di accesso…</string>
-    <string formatted="false" name="loading_google_exchange_code">Scambio dei dati di accesso Google…</string>
-    <string formatted="false" name="loading_google_login">Accesso con Google sul nostro server completato…</string>
     <string formatted="false" name="logout_successful">Disconnessione effettuata</string>
     <string formatted="false" name="degrees">gradi</string>
     <string formatted="false" name="background">Sfondo</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nuovo progetto</string>
     <string formatted="false" name="main_menu_programs">Progetti</string>
     <string formatted="false" name="main_menu_help">Aiuto</string>
-    <string formatted="false" name="main_menu_web">Comunità Catrobat</string>
     <string formatted="false" name="main_menu_upload">Carica il progetto</string>
     <string formatted="false" name="main_menu_play">Esegui il progetto</string>
     <string formatted="false" name="main_menu_rate_app">Valutaci!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Scena corrente (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Accedi</string>
     <string formatted="false" name="username">Nome utente</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">Ripristina la password</string>
-    <string formatted="false" name="new_user_registered">Nuovo account creato</string>
-    <string formatted="false" name="user_logged_in">Accesso riuscito</string>
-    <string formatted="false" name="register_error">Accesso non valido</string>
     <string formatted="false" name="register_terms">Registrandoti accetti le nostre</string>
     <string formatted="false" name="register_code_terms_of_use_text">Condizioni d\'uso e di servizio</string>
     <string formatted="false" name="login">Accedi</string>
     <string formatted="false" name="register">Registrati</string>
-    <string formatted="false" name="password_confirm">Conferma la password</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Grazie per esserti registrato!</string>
-    <string formatted="false" name="signin_choose_username">Scegli il tuo nome utente:</string>
-    <string formatted="false" name="signin_choose_username_empty">Inserisci un nome utente.</string>
-    <string formatted="false" name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome né un indirizzo e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Questo nome è già usato da qualcun altro. Scegline un altro!</string>
     <string formatted="false" name="show_password">Mostra la password</string>
     <string formatted="false" name="sign_in_error">Si è verificato un problema durante l\'accesso.</string>
     <string formatted="false" name="error_google_plus_sign_in">Errore di accesso con Google. Stato: %s</string>
-    <string formatted="false" name="error_session_expired">Sessione scaduta, accedi di nuovo.</string>
     <string formatted="false" name="error_register_empty_username">Nome utente vuoto</string>
-    <string formatted="false" name="error_register_username_as_email">Non puoi usare un indirizzo e-mail come nome utente</string>
     <string formatted="false" name="error_register_invalid_username">Il nome utente può contenere solo lettere (a–z), numeri (0–9), trattini (-), trattini bassi (_) e punti (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Il nome utente non può iniziare con trattini (-), trattini bassi (_) o punti (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Formato e-mail non valido</string>
     <string formatted="false" name="error_register_empty_password">Il campo della password è vuoto</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">La password deve contenere almeno 6 caratteri</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Le password non corrispondono</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Il campo di conferma della password è vuoto</string>
-    <string formatted="false" name="error_register_username_already_exists">Il nome utente esiste già</string>
-    <string formatted="false" name="error_register_email_exists">L\'indirizzo e-mail esiste già</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Il progetto esiste già.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">con</string>
     <string formatted="false" name="brick_web_request">Invia una richiesta web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">e memorizza la risposta in</string>
     <string formatted="false" name="web_request_warning_title">Consentire l\'accesso al web?</string>
     <string formatted="false" name="web_request_warning_message">Fai molta attenzione prima di consentire l\'accesso, perché il link potrebbe rivelare a malintenzionati o al pubblico le tue informazioni personali, come la tua posizione geografica precisa o qualsiasi testo che hai inserito. Consulta il nostro &lt;a href=%1s&gt;wiki&lt;/a&gt; per sapere perché questo può essere estremamente pericoloso.</string>

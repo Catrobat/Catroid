@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Alisin ang pagpili sa lahat</string>
     <string formatted="false" name="skip">laktawan</string>
     <string formatted="false" name="warning">Babala</string>
-    <string formatted="false" name="error">Error</string>
     <string formatted="false" name="loading">Naglo-load…</string>
-    <string formatted="false" name="please_wait">Pakihintay</string>
     <string formatted="false" name="search_hint">Maghanap</string>
     <string formatted="false" name="backpack_add">Idagdag sa backpack</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ang proyektong na-download mo ay nakikinig sa boses mo sa background at nagpapadala rin ng data sa internet. Maaaring hindi ito nakakapinsala at kailangan ito para gumana ang proyekto ayon sa layunin nito. Gayunman, siguraduhin mong ligtas ang mga sinasabi mo habang tumatakbo ang proyekto. Kung may pag-aalinlangan ka, i-delete ang na-download na proyekto. Maaari mo ring i-report ang proyekto sa page nito sa Catrobat community platform kung sigurado kang nakakapinsala ito.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">ilagay dito ang API key</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Sinusuri ang datos ng login…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ipinapalitan ang datos ng Google login…</string>
-    <string formatted="false" name="loading_google_login">Tapos na ang Google login sa aming server…</string>
     <string formatted="false" name="logout_successful">Matagumpay na naka-log out</string>
     <string formatted="false" name="degrees">digri</string>
     <string formatted="false" name="background">Background</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Bagong proyekto</string>
     <string formatted="false" name="main_menu_programs">Mga proyekto</string>
     <string formatted="false" name="main_menu_help">Tulong</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">I-upload ang proyekto</string>
     <string formatted="false" name="main_menu_play">I-play ang proyekto</string>
     <string formatted="false" name="main_menu_rate_app">I-rate kami!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Kasalukuyang eksena (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Mag-log in</string>
     <string formatted="false" name="username">Username</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">I-reset ang password</string>
-    <string formatted="false" name="new_user_registered">Nagawa ang bagong account</string>
-    <string formatted="false" name="user_logged_in">Matagumpay na naka-log in</string>
-    <string formatted="false" name="register_error">Hindi wasto ang login</string>
     <string formatted="false" name="register_terms">Sa pagpaparehistro, sumasang-ayon ka sa aming</string>
     <string formatted="false" name="register_code_terms_of_use_text">Mga Tuntunin ng Paggamit at Serbisyo</string>
     <string formatted="false" name="login">Mag-log in</string>
     <string formatted="false" name="register">Magparehistro</string>
-    <string formatted="false" name="password_confirm">Kumpirmahin ang password</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Salamat sa pagpaparehistro!</string>
-    <string formatted="false" name="signin_choose_username">Pumili ng iyong username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Maglagay ng username.</string>
-    <string formatted="false" name="signin_choose_username_hint">Hindi dapat ang tunay mong pangalan o isang email address ang username.</string>
-    <string formatted="false" name="oauth_username_taken">Ginagamit na ng iba ang pangalang ito. Pumili ng iba!</string>
     <string formatted="false" name="show_password">Ipakita ang password</string>
     <string formatted="false" name="sign_in_error">Nagkaproblema habang nagla-log in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Error sa Google sign-in. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Nag-expire na ang session. Mag-log in ulit.</string>
     <string formatted="false" name="error_register_empty_username">Walang username</string>
-    <string formatted="false" name="error_register_username_as_email">Hindi puwedeng gamitin ang email address bilang username</string>
     <string formatted="false" name="error_register_invalid_username">Mga titik (a–z), numero (0–9), gitling (-), underscore (_) at tuldok (.) lang ang dapat nasa username.</string>
-    <string formatted="false" name="error_register_username_start_with">Hindi dapat magsimula ang username sa gitling (-), underscore (_) o tuldok (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Hindi wasto ang format ng email</string>
     <string formatted="false" name="error_register_empty_password">Walang laman ang field ng password</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Dapat hindi bababa sa 6 na character ang password</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Hindi magkatugma ang mga password</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Walang laman ang field ng pagkumpirma ng password</string>
-    <string formatted="false" name="error_register_username_already_exists">May gumagamit na ng username na ito</string>
-    <string formatted="false" name="error_register_email_exists">May gumagamit na ng email address na ito</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">May proyekto nang ganito.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">sa posisyong</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ng</string>
     <string formatted="false" name="brick_web_request">Magpadala ng web request sa</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">at ilagay ang sagot sa</string>
     <string formatted="false" name="web_request_warning_title">Payagan ang access sa web?</string>
     <string formatted="false" name="web_request_warning_message">Mag-ingat nang husto bago payagan ang access, dahil maaaring mailantad ng link ang personal mong impormasyon, gaya ng eksaktong lokasyon mo o anumang tekstong inilagay mo, sa mga taong may masamang balak o sa publiko. Tingnan ang aming &lt;a href=%1s&gt;wiki&lt;/a&gt; para malaman kung bakit ito maaaring maging lubhang mapanganib.</string>

@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">Ondoa uteuzi wote</string>
     <string formatted="false" name="skip">ruka</string>
     <string formatted="false" name="warning">Onyo</string>
-    <string formatted="false" name="error">Hitilafu</string>
     <string formatted="false" name="loading">Inapakia…</string>
-    <string formatted="false" name="please_wait">Tafadhali subiri</string>
     <string formatted="false" name="search_hint">Tafuta</string>
     <string formatted="false" name="backpack_add">Ongeza kwenye mkoba</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Mradi uliopakua unasikiliza sauti yako chinichini na pia hutuma data kwenye intaneti. Huenda hili halina madhara na ni muhimu kwa jinsi mradi unavyotakiwa kufanya kazi. Hata hivyo, tafadhali hakikisha kwamba unachosema wakati mradi unaendeshwa ni salama. Ukiwa na shaka, tafadhali futa mradi uliopakua. Ukiwa na uhakika kwamba una madhara, unaweza pia kuripoti mradi huo kwenye ukurasa wake katika jukwaa la jumuiya ya Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">weka funguo ya API hapa</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Inakagua data ya kuingia…</string>
-    <string formatted="false" name="loading_google_exchange_code">Inabadilishana data ya kuingia ya Google…</string>
-    <string formatted="false" name="loading_google_login">Kuingia kwa Google kwenye seva yetu kumekamilika…</string>
     <string formatted="false" name="logout_successful">Umetoka kwa mafanikio</string>
     <string formatted="false" name="degrees">nyuzi</string>
     <string formatted="false" name="background">Mandharinyuma</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Mradi mpya</string>
     <string formatted="false" name="main_menu_programs">Miradi</string>
     <string formatted="false" name="main_menu_help">Msaada</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Pakia mradi</string>
     <string formatted="false" name="main_menu_play">Cheza mradi</string>
     <string formatted="false" name="main_menu_rate_app">Tupe alama!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Onyesho la sasa (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Ingia</string>
     <string formatted="false" name="username">Jina la mtumiaji</string>
     <string formatted="false" name="password">Nenosiri</string>
     <string formatted="false" name="reset_password">Weka upya nenosiri</string>
-    <string formatted="false" name="new_user_registered">Akaunti mpya imeundwa</string>
-    <string formatted="false" name="user_logged_in">Umeingia kwa mafanikio</string>
-    <string formatted="false" name="register_error">Data ya kuingia si sahihi</string>
     <string formatted="false" name="register_terms">Kwa kujisajili unakubali</string>
     <string formatted="false" name="register_code_terms_of_use_text">Masharti ya Matumizi na Huduma</string>
     <string formatted="false" name="login">Ingia</string>
     <string formatted="false" name="register">Jisajili</string>
-    <string formatted="false" name="password_confirm">Thibitisha nenosiri</string>
-    <string formatted="false" name="accountName">Barua pepe</string>
-    <string formatted="false" name="signin_thanks">Asante kwa kujisajili!</string>
-    <string formatted="false" name="signin_choose_username">Tafadhali chagua jina lako la mtumiaji:</string>
-    <string formatted="false" name="signin_choose_username_empty">Tafadhali andika jina la mtumiaji.</string>
-    <string formatted="false" name="signin_choose_username_hint">Jina la mtumiaji lisiwe jina lako halisi wala anwani ya barua pepe.</string>
-    <string formatted="false" name="oauth_username_taken">Mtu mwingine tayari anatumia jina hili. Tafadhali chagua jingine!</string>
     <string formatted="false" name="show_password">Onyesha nenosiri</string>
     <string formatted="false" name="sign_in_error">Kuna kitu kimeharibika wakati wa kuingia.</string>
     <string formatted="false" name="error_google_plus_sign_in">Hitilafu ya kuingia kwa Google. Hali: %s</string>
-    <string formatted="false" name="error_session_expired">Muda wa kipindi umeisha, tafadhali ingia.</string>
     <string formatted="false" name="error_register_empty_username">Jina la mtumiaji ni tupu</string>
-    <string formatted="false" name="error_register_username_as_email">Anwani ya barua pepe haiwezi kutumika kama jina la mtumiaji</string>
     <string formatted="false" name="error_register_invalid_username">Jina la mtumiaji linapaswa kuwa na herufi (a–z), nambari (0–9), vistari (-), mistari ya chini (_) na nukta (.) tu.</string>
-    <string formatted="false" name="error_register_username_start_with">Jina la mtumiaji halipaswi kuanza na kistari (-), mstari wa chini (_) au nukta (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Muundo wa barua pepe si sahihi</string>
     <string formatted="false" name="error_register_empty_password">Sehemu ya nenosiri ni tupu</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Nenosiri linapaswa kuwa na angalau herufi 6</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Manenosiri hayalingani</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Sehemu ya kuthibitisha nenosiri ni tupu</string>
-    <string formatted="false" name="error_register_username_already_exists">Jina la mtumiaji tayari lipo</string>
-    <string formatted="false" name="error_register_email_exists">Anwani ya barua pepe tayari ipo</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Mradi upo.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">katika nafasi</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">kwa</string>
     <string formatted="false" name="brick_web_request">Tuma ombi la mtandao kwa</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">na uhifadhi jibu katika</string>
     <string formatted="false" name="web_request_warning_title">Ruhusu ufikiaji wa mtandao?</string>
     <string formatted="false" name="web_request_warning_message">Kuwa makini sana kabla ya kuruhusu ufikiaji, kwa sababu kiungo kinaweza kufichua taarifa zako binafsi, kama vile mahali ulipo hasa au maandishi yoyote uliyoandika, kwa watu wenye nia mbaya au kwa umma. Angalia &lt;a href=%1s&gt;wiki&lt;/a&gt; yetu kwa maelezo zaidi kuhusu kwa nini hili linaweza kuwa hatari sana.</string>

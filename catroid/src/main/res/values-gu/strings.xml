@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">બધી પસંદગી દૂર કરો</string>
     <string formatted="false" name="skip">છોડો</string>
     <string formatted="false" name="warning">ચેતવણી</string>
-    <string formatted="false" name="error">ભૂલ</string>
     <string formatted="false" name="loading">લોડ થઈ રહ્યું છે…</string>
-    <string formatted="false" name="please_wait">કૃપા કરીને રાહ જુઓ</string>
     <string formatted="false" name="search_hint">શોધો</string>
     <string formatted="false" name="backpack_add">બૅકપૅકમાં ઉમેરો</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">તમે ડાઉનલોડ કરેલો પ્રોજેક્ટ પૃષ્ઠભૂમિમાં તમારો અવાજ સાંભળે છે અને ઇન્ટરનેટ પર ડેટા પણ મોકલે છે. આ હાનિકારક ન પણ હોય અને તેના હેતુસરના કામ માટે જરૂરી હોઈ શકે. તેમ છતાં, કૃપા કરીને ખાતરી કરો કે પ્રોજેક્ટ ચાલતો હોય ત્યારે તમે જે બોલો છો તે સુરક્ષિત છે. શંકા હોય તો, કૃપા કરીને ડાઉનલોડ કરેલો પ્રોજેક્ટ કાઢી નાખો. જો તમને ખાતરી હોય કે તે હાનિકારક છે, તો તમે Catrobat સમુદાય પ્લૅટફૉર્મ પર તેના પેજ પર પ્રોજેક્ટની જાણ પણ કરી શકો છો.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">અહીં API કી દાખલ કરો</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">લૉગ ઇન ડેટા તપાસી રહ્યાં છીએ…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google લૉગ ઇન ડેટાની આપ-લે થઈ રહી છે…</string>
-    <string formatted="false" name="loading_google_login">અમારા સર્વર પર Google લૉગ ઇન પૂર્ણ થયું…</string>
     <string formatted="false" name="logout_successful">સફળતાપૂર્વક લૉગ આઉટ થયું</string>
     <string formatted="false" name="degrees">ડિગ્રી</string>
     <string formatted="false" name="background">પૃષ્ઠભૂમિ</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">નવો પ્રોજેક્ટ</string>
     <string formatted="false" name="main_menu_programs">પ્રોજેક્ટ</string>
     <string formatted="false" name="main_menu_help">મદદ</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">પ્રોજેક્ટ અપલોડ કરો</string>
     <string formatted="false" name="main_menu_play">પ્રોજેક્ટ ચલાવો</string>
     <string formatted="false" name="main_menu_rate_app">અમને રેટ કરો!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">વર્તમાન દૃશ્ય (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">સાઇન ઇન કરો</string>
     <string formatted="false" name="username">યુઝરનેમ</string>
     <string formatted="false" name="password">પાસવર્ડ</string>
     <string formatted="false" name="reset_password">પાસવર્ડ રીસેટ કરો</string>
-    <string formatted="false" name="new_user_registered">નવું એકાઉન્ટ બનાવ્યું</string>
-    <string formatted="false" name="user_logged_in">સફળતાપૂર્વક લૉગ ઇન થયું</string>
-    <string formatted="false" name="register_error">લૉગ ઇન અમાન્ય છે</string>
     <string formatted="false" name="register_terms">નોંધણી કરીને તમે અમારી આ શરતો સાથે સંમત થાઓ છો:</string>
     <string formatted="false" name="register_code_terms_of_use_text">ઉપયોગ અને સેવાની શરતો</string>
     <string formatted="false" name="login">લૉગ ઇન કરો</string>
     <string formatted="false" name="register">નોંધણી કરો</string>
-    <string formatted="false" name="password_confirm">પાસવર્ડની પુષ્ટિ કરો</string>
-    <string formatted="false" name="accountName">ઈ-મેઇલ</string>
-    <string formatted="false" name="signin_thanks">સાઇન અપ કરવા બદલ આભાર!</string>
-    <string formatted="false" name="signin_choose_username">કૃપા કરીને તમારું યુઝરનેમ પસંદ કરો:</string>
-    <string formatted="false" name="signin_choose_username_empty">કૃપા કરીને યુઝરનેમ દાખલ કરો.</string>
-    <string formatted="false" name="signin_choose_username_hint">યુઝરનેમ તમારું સાચું નામ કે ઈ-મેઇલ સરનામું ન હોવું જોઈએ.</string>
-    <string formatted="false" name="oauth_username_taken">કોઈ બીજું આ નામ પહેલેથી વાપરે છે. કૃપા કરીને બીજું નામ પસંદ કરો!</string>
     <string formatted="false" name="show_password">પાસવર્ડ બતાવો</string>
     <string formatted="false" name="sign_in_error">સાઇન ઇન કરતી વખતે કંઈક ખોટું થયું.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google સાઇન-ઇનમાં ભૂલ. સ્થિતિ: %s</string>
-    <string formatted="false" name="error_session_expired">સત્ર સમાપ્ત થયું, કૃપા કરીને લૉગ ઇન કરો.</string>
     <string formatted="false" name="error_register_empty_username">યુઝરનેમ ખાલી છે</string>
-    <string formatted="false" name="error_register_username_as_email">ઈ-મેઇલ સરનામાનો યુઝરનેમ તરીકે ઉપયોગ કરી શકાતો નથી</string>
     <string formatted="false" name="error_register_invalid_username">યુઝરનેમમાં ફક્ત અક્ષરો (a–z), અંકો (0–9), ડૅશ (-), અન્ડરસ્કોર (_) અને પૂર્ણવિરામ (.) જ હોવા જોઈએ.</string>
-    <string formatted="false" name="error_register_username_start_with">યુઝરનેમ ડૅશ (-), અન્ડરસ્કોર (_) અથવા પૂર્ણવિરામ (.)થી શરૂ ન થવું જોઈએ.</string>
-    <string formatted="false" name="error_register_invalid_email_format">ઈ-મેઇલનું ફોર્મેટ અમાન્ય છે</string>
     <string formatted="false" name="error_register_empty_password">પાસવર્ડ ફીલ્ડ ખાલી છે</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">પાસવર્ડ ઓછામાં ઓછા 6 અક્ષરનો હોવો જોઈએ</string>
-    <string formatted="false" name="error_register_passwords_mismatch">પાસવર્ડ મેળ ખાતા નથી</string>
-    <string formatted="false" name="error_register_empty_confirm_password">પાસવર્ડની પુષ્ટિનું ફીલ્ડ ખાલી છે</string>
-    <string formatted="false" name="error_register_username_already_exists">યુઝરનેમ પહેલેથી અસ્તિત્વમાં છે</string>
-    <string formatted="false" name="error_register_email_exists">ઈ-મેઇલ સરનામું પહેલેથી અસ્તિત્વમાં છે</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">પ્રોજેક્ટ અસ્તિત્વમાં છે.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">સ્થાન:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">નવું મૂલ્ય:</string>
     <string formatted="false" name="brick_web_request">આ સરનામે વેબ વિનંતી મોકલો:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">અને જવાબ આમાં રાખો:</string>
     <string formatted="false" name="web_request_warning_title">વેબ ઍક્સેસની મંજૂરી આપવી છે?</string>
     <string formatted="false" name="web_request_warning_message">ઍક્સેસની મંજૂરી આપતા પહેલાં ખૂબ સાવચેત રહો, કારણ કે આ લિંક તમારી અંગત માહિતી, જેમ કે તમારું ચોક્કસ ભૌગોલિક સ્થાન અથવા તમે દાખલ કરેલું કોઈપણ ટેક્સ્ટ, ખરાબ ઇરાદાવાળા લોકો સામે અથવા જાહેરમાં ખુલ્લી પાડી શકે છે. આ શા માટે અત્યંત જોખમી હોઈ શકે તે વિશે વધુ માહિતી માટે અમારી &lt;a href=%1s&gt;વિકિ&lt;/a&gt; જુઓ.</string>

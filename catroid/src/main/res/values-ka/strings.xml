@@ -53,12 +53,10 @@
     <string formatted="false" name="deselect_all">მონიშვნის მოხსნა</string>
     <string formatted="false" name="skip">გამოტოვება</string>
     <string formatted="false" name="warning">გაფრთხილება</string>
-    <string formatted="false" name="error">შეცდომა</string>
     <string formatted="false" name="loading">იტვირთება…</string>
-    <string formatted="false" name="please_wait">გთხოვ, მოიცადე</string>
     <string formatted="false" name="search_hint">ძიება</string>
     <string formatted="false" name="backpack_add">ზურგჩანთაში ჩადება</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">შენ მიერ ჩამოტვირთული პროექტი ფონურ რეჟიმში გისმენს და მონაცემებს ინტერნეტშიც აგზავნის. ეს შეიძლება უვნებელი იყოს და პროექტის მუშაობისთვის იყოს საჭირო. მაინც დარწმუნდი, რომ ის, რასაც პროექტის მუშაობისას ამბობ, უსაფრთხოა. ეჭვის შემთხვევაში წაშალე ჩამოტვირთული პროექტი. თუ დარწმუნებული ხარ, რომ პროექტი მავნეა, შეგიძლია მის შესახებ შეატყობინო მის გვერდზე Catrobat-ის საზოგადოების პლატფორმაზე.</string>
     <!-- Replace Api dialog -->
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">აქ ჩასვი API გასაღები</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">შესვლის მონაცემების შემოწმება…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google-ის შესვლის მონაცემების გაცვლა…</string>
-    <string formatted="false" name="loading_google_login">Google-ით შესვლა ჩვენს სერვერზე დასრულდა…</string>
     <string formatted="false" name="logout_successful">გამოსვლა წარმატებით შესრულდა</string>
     <string formatted="false" name="degrees">გრადუსი</string>
     <string formatted="false" name="background">ფონი</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">ახალი პროექტი</string>
     <string formatted="false" name="main_menu_programs">პროექტები</string>
     <string formatted="false" name="main_menu_help">დახმარება</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">პროექტის ატვირთვა</string>
     <string formatted="false" name="main_menu_play">პროექტის გაშვება</string>
     <string formatted="false" name="main_menu_rate_app">შეგვაფასე!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">მიმდინარე ეპიზოდი (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">შესვლა</string>
     <string formatted="false" name="username">მომხმარებლის სახელი</string>
     <string formatted="false" name="password">პაროლი</string>
     <string formatted="false" name="reset_password">პაროლის აღდგენა</string>
-    <string formatted="false" name="new_user_registered">ახალი ანგარიში შეიქმნა</string>
-    <string formatted="false" name="user_logged_in">შესვლა წარმატებით შესრულდა</string>
-    <string formatted="false" name="register_error">შესვლის მონაცემები არასწორია</string>
     <string formatted="false" name="register_terms">რეგისტრაციით ეთანხმები ჩვენს</string>
     <string formatted="false" name="register_code_terms_of_use_text">გამოყენების წესებსა და პირობებს</string>
     <string formatted="false" name="login">შესვლა</string>
     <string formatted="false" name="register">რეგისტრაცია</string>
-    <string formatted="false" name="password_confirm">გაიმეორე პაროლი</string>
-    <string formatted="false" name="accountName">ელფოსტა</string>
-    <string formatted="false" name="signin_thanks">მადლობა რეგისტრაციისთვის!</string>
-    <string formatted="false" name="signin_choose_username">აირჩიე მომხმარებლის სახელი:</string>
-    <string formatted="false" name="signin_choose_username_empty">შეიყვანე მომხმარებლის სახელი.</string>
-    <string formatted="false" name="signin_choose_username_hint">მომხმარებლის სახელი არ უნდა იყოს შენი ნამდვილი სახელი ან ელფოსტის მისამართი.</string>
-    <string formatted="false" name="oauth_username_taken">ეს სახელი უკვე სხვას აქვს. აირჩიე სხვა!</string>
     <string formatted="false" name="show_password">პაროლის ჩვენება</string>
     <string formatted="false" name="sign_in_error">შესვლისას რაღაც შეცდომა მოხდა.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google-ით შესვლის შეცდომა. სტატუსი: %s</string>
-    <string formatted="false" name="error_session_expired">სესიის ვადა ამოიწურა, შედი ხელახლა.</string>
     <string formatted="false" name="error_register_empty_username">მომხმარებლის სახელი ცარიელია</string>
-    <string formatted="false" name="error_register_username_as_email">ელფოსტის მისამართს მომხმარებლის სახელად ვერ გამოიყენებ</string>
     <string formatted="false" name="error_register_invalid_username">მომხმარებლის სახელი უნდა შეიცავდეს მხოლოდ ლათინურ ასოებს (a–z), ციფრებს (0–9), დეფისებს (-), ქვედა ტირეებს (_) და წერტილებს (.).</string>
-    <string formatted="false" name="error_register_username_start_with">მომხმარებლის სახელი არ უნდა იწყებოდეს დეფისით (-), ქვედა ტირით (_) ან წერტილით (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">ელფოსტის არასწორი ფორმატი</string>
     <string formatted="false" name="error_register_empty_password">პაროლის ველი ცარიელია</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">პაროლი მინიმუმ 6 სიმბოლოსგან უნდა შედგებოდეს</string>
-    <string formatted="false" name="error_register_passwords_mismatch">პაროლები არ ემთხვევა</string>
-    <string formatted="false" name="error_register_empty_confirm_password">პაროლის გამეორების ველი ცარიელია</string>
-    <string formatted="false" name="error_register_username_already_exists">ეს მომხმარებლის სახელი უკვე არსებობს</string>
-    <string formatted="false" name="error_register_email_exists">ეს ელფოსტის მისამართი უკვე არსებობს</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">პროექტი უკვე არსებობს.</string>
@@ -1082,7 +1057,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">პოზიციაზე:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ამით:</string>
     <string formatted="false" name="brick_web_request">გაგზავნე ვებმოთხოვნა მისამართზე:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">და პასუხი შეინახე აქ:</string>
     <string formatted="false" name="web_request_warning_title">დავუშვა ინტერნეტზე წვდომა?</string>
     <string formatted="false" name="web_request_warning_message">წვდომის დაშვებამდე ძალიან ფრთხილად იყავი, რადგან ბმულმა შეიძლება შენი პირადი ინფორმაცია, მაგალითად, შენი ზუსტი მდებარეობა ან შენ მიერ შეყვანილი ნებისმიერი ტექსტი, ბოროტგანზრახულ ადამიანებს ან ყველას გაუმხილოს. დამატებითი ინფორმაცია იმის შესახებ, თუ რატომ შეიძლება იყოს ეს უკიდურესად საშიში, იხილე ჩვენს &lt;a href=%1s&gt;ვიკიში&lt;/a&gt;.</string>

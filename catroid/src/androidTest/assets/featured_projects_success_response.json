@@ -1,26 +1,69 @@
-[
-  {
-    "id": "58",
-    "project_id": "74758",
-    "project_url": "https://share.catrob.at/app/project/74758",
-    "name": "Palmina and the Pirates",
-    "author": "silverLining",
-    "featured_image": "https://share.catrob.at/resources/featured/featured_58.png"
-  },
-  {
-    "id": "45",
-    "project_id": "48404",
-    "project_url": "https://share.catrob.at/app/project/48404",
-    "name": "Magic and More",
-    "author": "silverLining",
-    "featured_image": "https://share.catrob.at/resources/featured/featured_45.png"
-  },
-  {
-    "id": "48",
-    "project_id": "53658",
-    "project_url": "https://share.catrob.at/app/project/53658",
-    "name": "CatWalk",
-    "author": "silverLining",
-    "featured_image": "https://share.catrob.at/resources/featured/featured_48.png"
-  }
-]
+{
+  "data": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "project_id": "f1e2d3c4-b5a6-7890-abcd-ef0987654321",
+      "project_url": "https://share.catrobat.org/app/project/f1e2d3c4-b5a6-7890-abcd-ef0987654321",
+      "name": "Palmina and the Pirates",
+      "author": "silverLining",
+      "featured_image": {
+        "thumb": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_a1b2-thumb@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_a1b2-thumb@2x.webp"
+        },
+        "card": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_a1b2-card@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_a1b2-card@2x.webp"
+        },
+        "detail": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_a1b2-detail@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_a1b2-detail@2x.webp"
+        }
+      }
+    },
+    {
+      "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "project_id": "e2d3c4b5-a6f7-8901-bcde-f09876543210",
+      "project_url": "https://share.catrobat.org/app/project/e2d3c4b5-a6f7-8901-bcde-f09876543210",
+      "name": "Magic and More",
+      "author": "silverLining",
+      "featured_image": {
+        "thumb": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_b2c3-thumb@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_b2c3-thumb@2x.webp"
+        },
+        "card": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_b2c3-card@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_b2c3-card@2x.webp"
+        },
+        "detail": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_b2c3-detail@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_b2c3-detail@2x.webp"
+        }
+      }
+    },
+    {
+      "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "project_id": "d3c4b5a6-f7e8-9012-cdef-098765432109",
+      "project_url": "https://share.catrobat.org/app/project/d3c4b5a6-f7e8-9012-cdef-098765432109",
+      "name": "CatWalk",
+      "author": "silverLining",
+      "featured_image": {
+        "thumb": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_c3d4-thumb@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_c3d4-thumb@2x.webp"
+        },
+        "card": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_c3d4-card@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_c3d4-card@2x.webp"
+        },
+        "detail": {
+          "webp_1x": "https://share.catrobat.org/resources/featured/featured_c3d4-detail@1x.webp",
+          "webp_2x": "https://share.catrobat.org/resources/featured/featured_c3d4-detail@2x.webp"
+        }
+      }
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false
+}
