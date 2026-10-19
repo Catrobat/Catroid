@@ -91,6 +91,7 @@ object LoginHelper {
      * case, and a slow or failing check only costs [SESSION_CHECK_TIMEOUT_MS].
      */
     @JvmStatic
+    @Suppress("TooGenericExceptionCaught") // any failure of the check must still load the page
     fun prepareWebSession(loginRepository: LoginRepository, isSharePage: Boolean, onReady: Runnable): Job =
         CoroutineScope(SupervisorJob() + ioDispatcher).launch {
             try {

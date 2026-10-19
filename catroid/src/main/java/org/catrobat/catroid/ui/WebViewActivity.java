@@ -48,7 +48,6 @@ import android.webkit.WebViewClient;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
