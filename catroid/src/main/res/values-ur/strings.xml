@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">اس مقام پر:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">اس سے:</string>
     <string formatted="false" name="brick_web_request">اس پتے پر ویب درخواست بھیجیں:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">اور جواب اس میں محفوظ کریں:</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ یہ لنک آپ کی ذاتی معلومات، جیسے آپ کا درست جغرافیائی محل وقوع یا آپ کا درج کیا ہوا کوئی بھی متن، بدنیت لوگوں یا عام لوگوں تک پہنچا سکتا ہے۔ یہ انتہائی خطرناک کیوں ہو سکتا ہے، اس کی مزید معلومات کے لیے ہماری &lt;a href=%1s&gt;وکی&lt;/a&gt; دیکھیں۔</string>

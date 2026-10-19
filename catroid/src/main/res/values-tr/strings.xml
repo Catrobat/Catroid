@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">konum:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">yeni değer:</string>
     <string formatted="false" name="brick_web_request">Web isteği gönder:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ve cevabı şuna kaydet:</string>
     <string formatted="false" name="web_request_warning_title">Web erişimine izin verilsin mi?</string>
     <string formatted="false" name="web_request_warning_message">Erişime izin vermeden önce çok dikkatli olun: Bağlantı, tam coğrafi konumunuz veya girdiğiniz herhangi bir metin gibi kişisel bilgilerinizi kötü niyetli kişilere ya da herkese açık hâle getirebilir. Bunun neden son derece tehlikeli olabileceği hakkında daha fazla bilgi için &lt;a href=%1s&gt;wiki&lt;/a&gt; sayfamıza bakın.</string>

@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">sa posisyong</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ng</string>
     <string formatted="false" name="brick_web_request">Magpadala ng web request sa</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">at ilagay ang sagot sa</string>
     <string formatted="false" name="web_request_warning_title">Payagan ang access sa web?</string>
     <string formatted="false" name="web_request_warning_message">Mag-ingat nang husto bago payagan ang access, dahil maaaring mailantad ng link ang personal mong impormasyon, gaya ng eksaktong lokasyon mo o anumang tekstong inilagay mo, sa mga taong may masamang balak o sa publiko. Tingnan ang aming &lt;a href=%1s&gt;wiki&lt;/a&gt; para malaman kung bakit ito maaaring maging lubhang mapanganib.</string>

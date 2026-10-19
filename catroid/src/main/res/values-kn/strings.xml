@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ಈ ಸ್ಥಾನದಲ್ಲಿ:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ಇದರೊಂದಿಗೆ:</string>
     <string formatted="false" name="brick_web_request">ಈ ವಿಳಾಸಕ್ಕೆ ವೆಬ್ ವಿನಂತಿ ಕಳುಹಿಸಿ:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ಮತ್ತು ಉತ್ತರವನ್ನು ಇದರಲ್ಲಿ ಉಳಿಸಿ:</string>
     <string formatted="false" name="web_request_warning_title">ವೆಬ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಬೇಕೇ?</string>
     <string formatted="false" name="web_request_warning_message">ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸುವ ಮೊದಲು ತುಂಬಾ ಜಾಗರೂಕರಾಗಿರಿ, ಏಕೆಂದರೆ ಈ ಲಿಂಕ್ ನಿಮ್ಮ ನಿಖರವಾದ ಭೌಗೋಳಿಕ ಸ್ಥಳ ಅಥವಾ ನೀವು ನಮೂದಿಸಿದ ಯಾವುದೇ ಪಠ್ಯದಂತಹ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ದುರುದ್ದೇಶಪೂರಿತ ಇತರರಿಗೆ ಅಥವಾ ಸಾರ್ವಜನಿಕರಿಗೆ ಬಹಿರಂಗಪಡಿಸಬಹುದು. ಇದು ಏಕೆ ಅತ್ಯಂತ ಅಪಾಯಕಾರಿಯಾಗಬಹುದು ಎಂಬುದರ ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ನಮ್ಮ &lt;a href=%1s&gt;ವಿಕಿ&lt;/a&gt; ನೋಡಿ.</string>

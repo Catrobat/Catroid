@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ezen a pozíción:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">erre:</string>
     <string formatted="false" name="brick_web_request">Küldj webes kérést ide:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">és a választ tárold ebben:</string>
     <string formatted="false" name="web_request_warning_title">Engedélyezed a webes hozzáférést?</string>
     <string formatted="false" name="web_request_warning_message">Nagyon gondold meg, mielőtt engedélyezed a hozzáférést, mert a hivatkozás rosszindulatú emberek vagy a nyilvánosság elé tárhatja a személyes adataidat, például a pontos földrajzi helyzetedet vagy bármilyen beírt szöveget. A &lt;a href=%1s&gt;wikinkben&lt;/a&gt; további információt találsz arról, miért lehet ez rendkívül veszélyes.</string>

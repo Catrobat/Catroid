@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">an Position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">durch</string>
     <string formatted="false" name="brick_web_request">Sende Webanfrage an</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">und speichere Antwort in</string>
     <string formatted="false" name="web_request_warning_title">Webzugriff erlauben?</string>
     <string formatted="false" name="web_request_warning_message">Sei sehr vorsichtig, bevor du den Zugriff erlaubst, denn der Link kann deine persönlichen Daten, zum Beispiel deinen genauen Standort oder Texte, die du eingegeben hast, an böswillige Personen oder an die Öffentlichkeit weitergeben. In unserem &lt;a href=%1s>Wiki&lt;/a&gt; erfährst du mehr darüber, warum das äußerst gefährlich sein kann.</string>

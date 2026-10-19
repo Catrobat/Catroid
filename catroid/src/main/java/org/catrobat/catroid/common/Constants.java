@@ -156,9 +156,9 @@ public final class Constants {
 	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
-	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrob.at/HuaweiAppGallery";
+	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrobat.org/HuaweiAppGallery";
 
-	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
+	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrobat.org/bot)";
 
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;
@@ -214,7 +214,7 @@ public final class Constants {
 	// Scratch Converter
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 
-	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
+	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrobat.org";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
 	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "wss://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
