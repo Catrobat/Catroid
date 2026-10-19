@@ -47,7 +47,7 @@ class WebConnectionTest {
     private lateinit var okHttpClient: OkHttpClient
 
     companion object {
-        private const val BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/"
+        private const val BASE_URL_TEST_HTTPS = "https://catroid-test.catrobat.org/pocketcode/"
     }
 
     @Before

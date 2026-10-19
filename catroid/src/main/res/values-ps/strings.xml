@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">هیله کوم لږ صبر وکړه</string>
     <string formatted="false" name="search_hint">لټون</string>
     <string formatted="false" name="backpack_add">په کڅوړه کې اضافه کړئ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې ستاسو غږ په شالید 
         کې اوري او انټرنیټ ته ډیټا هم لیږي. دا کیدای شي بې ضرر وي، او د
@@ -1135,7 +1135,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">په موقف کې</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">سره</string>
     <string formatted="false" name="brick_web_request">ته د ویب غوښتنلیک لیږل</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">او ځواب په کې ذخیره کړئ</string>
     <string formatted="false" name="web_request_warning_title">د ویب لاسرسي اجازه؟</string>
     <string formatted="false" name="web_request_warning_message">د لاسرسي اجازه ورکولو دمخه خورا محتاط اوسئ ، ځکه چې 

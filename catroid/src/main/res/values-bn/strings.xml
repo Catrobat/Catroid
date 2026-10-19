@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">অনুগ্রহ করে অপেক্ষা করুন</string>
     <string formatted="false" name="search_hint">অনুসন্ধান</string>
     <string formatted="false" name="backpack_add">ব্যাকপ্যাক যোগ করুন</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">আপনি যে প্রকল্পটি ডাউনলোড করেছেন তা আপনার ভয়েস শুনে
         ব্যাকগ্রাউন্ডে এবং ইন্টারনেটে ডেটা প্রেরণ করে। এটি নিরীহ এবং প্রয়োজনীয় হতে পারে
@@ -1111,7 +1111,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">অবস্থান</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">সাথে</string>
     <string formatted="false" name="brick_web_request">ওয়েব অনুরোধ পাঠান</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">এবং সঞ্চয় উত্তর</string>
     <string formatted="false" name="web_request_warning_title">ওয়েব অ্যাক্সেসের অনুমতি দেবেন?</string>
     <string formatted="false" name="web_request_warning_message">যেহেতু অ্যাক্সেসের অনুমতি দেওয়ার আগে খুব সাবধান হন

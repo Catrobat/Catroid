@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Lütfen bekleyin</string>
     <string formatted="false" name="search_hint">Ara…</string>
     <string formatted="false" name="backpack_add">Sırt çantasına ekle</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">İndirdiğiniz proje sesinizi dinler
          arka planda ve ayrıca internete veri gönderir. Bu zararsız ve gerekli olabilir
@@ -1111,7 +1111,7 @@ bekleyin</string>
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pozisyon</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ile</string>
     <string formatted="false" name="brick_web_request">Web isteği gönder</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ve yanıtı saklayın</string>
     <string formatted="false" name="web_request_warning_title">Web erişimine izin verilsin mi?</string>
     <string formatted="false" name="web_request_warning_message">Erişime izin vermeden önce çok dikkatli olun, çünkü bağlantısı kesin coğrafi konumunuz veya herhangi bir metin gibi kişisel bilgilerinizi açığa çıkarabilir

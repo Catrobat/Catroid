@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Sei pregato d\'attendere</string>
     <string formatted="false" name="search_hint">Cerca</string>
     <string formatted="false" name="backpack_add">Aggiungi allo zaino</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Il progetto che hai scaricato ascolta la tua voce
         in background e invia i dati attraverso Internet. Questo può essere innocuo e necessario
@@ -1139,7 +1139,7 @@ app
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">con</string>
     <string formatted="false" name="brick_web_request">Invia richiesta web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">e memorizza la risposta in</string>
     <string formatted="false" name="web_request_warning_title">Consentire l\'accesso al web?</string>
     <string formatted="false" name="web_request_warning_message">Fai molta attenzione prima di permettere l\'accesso, poiché il link

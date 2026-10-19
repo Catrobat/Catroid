@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">請稍候</string>
     <string formatted="false" name="search_hint">搜索…</string>
     <string formatted="false" name="backpack_add">放進背包</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">你下載的專案有在背景監聽並傳送資料到網際網路.
 這可能是專案原本預期的行為且無害的. 無論如何,請確認你執行專案時的談話內容是安全的. 
@@ -1090,7 +1090,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">的資料在位置</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">替換為</string>
     <string formatted="false" name="brick_web_request">發送網絡請求到</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">並將答案存儲在</string>
     <string formatted="false" name="web_request_warning_title">允許網絡訪問？</string>
     <string formatted="false" name="web_request_warning_message">在允許訪問之前要非常小心，因為

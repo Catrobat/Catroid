@@ -55,7 +55,7 @@ public class XmlHeader implements Serializable {
 	private String listeningLanguageTag = "";
 
 	//==============================================================================================
-	// mutable fields only used by Catroweb (share.catrob.at website) so far
+	// mutable fields only used by Catroweb (share.catrobat.org website) so far
 	//==============================================================================================
 	private String applicationBuildName = "";
 	private int applicationBuildNumber = 0;
@@ -75,7 +75,7 @@ public class XmlHeader implements Serializable {
 	// ***  CATROBAT REMIX SPECIFICATION REQUIREMENT ***
 	//
 	//  Keep in mind that the remixGrandparentsUrlString-field (respectively remixOf-XML-field)
-	//  (see below) is used by Catroweb's web application "share.catrob.at" only.
+	//  (see below) is used by Catroweb's web application "share.catrobat.org" only.
 	//  Once new Catrobat programs get uploaded, Catroweb automatically updates this XML-field
 	//  and sets the program as being remixed!
 	//  In order to do so, Catroweb takes the value from the url-XML-field (see above) and assigns

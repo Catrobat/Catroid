@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проєкт, який Ви завантажили слухає ваш голос
      у фоновому режимі, а також відправляє дані в інтернет. Це може бути корисним й обов\'язковим 
@@ -1229,7 +1229,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиції</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">на</string>
     <string formatted="false" name="brick_web_request">Надіслати вебзапит на</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">та зберегти відповідь в</string>
     <string formatted="false" name="web_request_warning_title">Дозволити доступ до вебсайту?</string>
     <string formatted="false" name="web_request_warning_message">Будьте дуже обережні, перш ніж дозволити доступ, оскільки

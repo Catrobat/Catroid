@@ -127,7 +127,7 @@ android {
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
-                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterHost: "share.catrobat.org",
                                  intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
